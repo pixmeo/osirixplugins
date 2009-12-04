@@ -12,16 +12,16 @@
      PURPOSE.
 =========================================================================*/
 
-#import "Interface.h"
-#import <ViewerController.h>
-#import "ROIList.h"
-#import "Chart.h"
-#import "Options.h"
-#import <DICOMExport.h>
-#import <DCMPix.h>
-#import "UserDefaults.h"
-#import "DicomSaveDialog.h"
-#import "Notifications.h"
+#import "RoiEnhancementInterface.h"
+#import <OsiriX Headers/ViewerController.h>
+#import "RoiEnhancementROIList.h"
+#import "RoiEnhancementChart.h"
+#import "RoiEnhancementOptions.h"
+#import <OsiriX Headers/DICOMExport.h>
+#import <OsiriX Headers/DCMPix.h>
+#import "RoiEnhancementUserDefaults.h"
+#import "RoiEnhancementDicomSaveDialog.h"
+#import "OsiriX Headers/Notifications.h"
 
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";
@@ -29,7 +29,7 @@ const NSString* FileTypeDICOM = @"dcm";
 const NSString* FileTypeCSV = @"csv";
 
 
-@implementation Interface
+@implementation RoiEnhancementInterface
 @synthesize viewer = _viewer;
 @synthesize roiList = _roiList;
 @synthesize chart = _chart;
@@ -44,7 +44,7 @@ const NSString* FileTypeCSV = @"csv";
 	[self window]; // triggers nib loading
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewerWillClose:) name:OsirixCloseViewerNotification object:viewer];
 	
-	_userDefaults = [[UserDefaults alloc] init];
+	_userDefaults = [[RoiEnhancementUserDefaults alloc] init];
 	[_options loadUserDefaults];
 
 	[_roiList loadViewerROIs];

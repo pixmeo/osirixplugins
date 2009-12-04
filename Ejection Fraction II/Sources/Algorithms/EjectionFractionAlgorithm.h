@@ -15,6 +15,7 @@ extern NSString* SystLength;
 @interface EjectionFractionAlgorithm : NSObject
 
 @property(readonly) NSArray* groupedRoiIds;
+@property(readonly) NSArray* roiIds;
 
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId;
 -(BOOL)typeForRoiId:(NSString*)roiId acceptsTag:(long)tag;

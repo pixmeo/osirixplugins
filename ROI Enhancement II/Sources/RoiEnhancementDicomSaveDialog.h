@@ -12,11 +12,19 @@
      PURPOSE.
 =========================================================================*/
 
+#import <Cocoa/Cocoa.h>
+@class RoiEnhancementInterface;
 
-#import <Foundation/Foundation.h>
-#import "Scheduler.h"
+@interface RoiEnhancementDicomSaveDialog : NSWindow {
+	IBOutlet RoiEnhancementInterface* _interface;
+	IBOutlet NSColorWell* _imageBackgroundColor;
+	IBOutlet NSButton* _saveButton;
+	IBOutlet NSButton* _cancelButton;
+}
 
-/** \brief Protocol for multithreading scheduling*/
-@protocol Schedulable 
--(void)performWorkUnits:(NSSet *)workUnits forScheduler:(Scheduler *)scheduler;
+-(IBAction)buttonClicked:(id)sender;
+
+-(NSColor*)imageBackgroundColor;
+-(void)setImageBackgroundColor:(NSColor*)imageBackgroundColor;
+
 @end

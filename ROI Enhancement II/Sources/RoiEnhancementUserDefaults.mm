@@ -12,10 +12,10 @@
      PURPOSE.
 =========================================================================*/
 
-#import "UserDefaults.h"
+#import "RoiEnhancementUserDefaults.h"
 
 
-@implementation UserDefaults
+@implementation RoiEnhancementUserDefaults
 
 -(id)init {
 	self = [super init];

@@ -20,6 +20,15 @@ NSString* SystLength = @"Systole length";
 	return NULL;
 }
 
+-(NSArray*)roiIds {
+	NSMutableArray* ret = [NSMutableArray arrayWithCapacity:8];
+	
+	for (NSArray* group in [self groupedRoiIds])
+		[ret addObjectsFromArray:group];
+	
+	return [[ret copy] autorelease];
+}
+
 -(NSUInteger)countOfNeededRois {
 	NSUInteger count = 0;
 

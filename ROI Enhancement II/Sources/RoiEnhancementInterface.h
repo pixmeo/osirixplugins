@@ -16,33 +16,33 @@
 
 #import <Cocoa/Cocoa.h>
 @class ViewerController;
-@class ROIList;
-@class Chart;
-@class Options;
-@class UserDefaults;
-@class DicomSaveDialog;
+@class RoiEnhancementROIList;
+@class RoiEnhancementChart;
+@class RoiEnhancementOptions;
+@class RoiEnhancementUserDefaults;
+@class RoiEnhancementDicomSaveDialog;
 
-@interface Interface : NSWindowController {
+@interface RoiEnhancementInterface : NSWindowController {
 	ViewerController* _viewer;
-	UserDefaults* _userDefaults;
-	IBOutlet ROIList* _roiList;
-	IBOutlet Chart* _chart;
-	IBOutlet Options* _options;
+	RoiEnhancementUserDefaults* _userDefaults;
+	IBOutlet RoiEnhancementROIList* _roiList;
+	IBOutlet RoiEnhancementChart* _chart;
+	IBOutlet RoiEnhancementOptions* _options;
 	IBOutlet NSButton* _csvSaveOptionsIncludeHeaders;
 	IBOutlet NSView* _dicomSaveOptions;
-		IBOutlet NSColorWell* _dicomSaveOptionsBackgroundColor;
-	IBOutlet DicomSaveDialog* _dicomSaveDialog;
+	IBOutlet NSColorWell* _dicomSaveOptionsBackgroundColor;
+	IBOutlet RoiEnhancementDicomSaveDialog* _dicomSaveDialog;
 	IBOutlet NSNumberFormatter* _decimalFormatter;
 	IBOutlet NSNumberFormatter* _floatFormatter;
 }
 
 @property(readonly) ViewerController* viewer;
-@property(readonly) ROIList* roiList;
-@property(readonly) Chart* chart;
-@property(readonly) Options* options;
+@property(readonly) RoiEnhancementROIList* roiList;
+@property(readonly) RoiEnhancementChart* chart;
+@property(readonly) RoiEnhancementOptions* options;
 @property(readonly) NSNumberFormatter* decimalFormatter;
 @property(readonly) NSNumberFormatter* floatFormatter;
-@property(readonly) UserDefaults* userDefaults;
+@property(readonly) RoiEnhancementUserDefaults* userDefaults;
 
 -(id)initForViewer:(ViewerController*)viewer;
 -(IBAction)saveDICOM:(id)sender;

@@ -12,19 +12,19 @@
      PURPOSE.
 =========================================================================*/
 
-#import "Chart.h"
-#import <DCMPix.h>
+#import "RoiEnhancementChart.h"
+#import <OsiriX Headers/DCMPix.h>
 #import <GRAxes.h>
 #import <GRLineDataSet.h>
-#import "AreaDataSet.h"
-#import "Interface.h"
-#import <ViewerController.h>
-#import "ROIList.h"
-#import <ROI.h>
-#import <DCMView.h>
-#import "Options.h"
+#import "RoiEnhancementAreaDataSet.h"
+#import "RoiEnhancementInterface.h"
+#import <OsiriX Headers/ViewerController.h>
+#import "RoiEnhancementROIList.h"
+#import <OsiriX Headers/ROI.h>
+#import <OsiriX Headers/DCMView.h>
+#import "RoiEnhancementOptions.h"
 
-@implementation Chart
+@implementation RoiEnhancementChart
 @synthesize xMin = _xMin, xMax = _xMax, drawsLegend = _drawsLegend, drawsBackground = _drawsBackground, stopDraw = _stopDraw;
 
 -(void)awakeFromNib {
@@ -68,11 +68,11 @@
 	return [dataSet autorelease];
 }
 
--(AreaDataSet*)createOwnedAreaDataSetFrom:(GRLineDataSet*)min to:(GRLineDataSet*)max {
-	return [[[AreaDataSet alloc] initWithOwnerChart:self min:min max:max] autorelease];
+-(RoiEnhancementAreaDataSet*)createOwnedAreaDataSetFrom:(GRLineDataSet*)min to:(GRLineDataSet*)max {
+	return [[[RoiEnhancementAreaDataSet alloc] initWithOwnerChart:self min:min max:max] autorelease];
 }
 
--(void)refresh:(ROIRec*)roiRec {
+-(void)refresh:(RoiEnhancementROIRec*)roiRec {
 	// Set the color of the plot
 	if (roiRec) {
 		RGBColor rgb = [[roiRec roi] rgbcolor];
@@ -128,7 +128,7 @@
 		return [[[_interface viewer] pixList] count];
 }
 
--(void)yValueForROIRec:(ROIRec*)roiRec element:(NSInteger)element min:(float*)min mean:(float*)mean max:(float*)max {
+-(void)yValueForROIRec:(RoiEnhancementROIRec*)roiRec element:(NSInteger)element min:(float*)min mean:(float*)mean max:(float*)max {
 	NSString *keyPix;
 	if ([[_interface options] xRangeMode] == XRange4thDimension)
 		keyPix = [NSString stringWithFormat: @"%X", [[_interface viewer] pixList: element]];
@@ -167,7 +167,7 @@
 }
 
 -(double)chart:(GRChartView*)chart yValueForDataSet:(GRDataSet*)dataSet element:(NSInteger)element {
-	ROISel roiSel; ROIRec* roiRec = [[_interface roiList] findRecordByDataSet:dataSet sel:&roiSel];
+	ROISel roiSel; RoiEnhancementROIRec* roiRec = [[_interface roiList] findRecordByDataSet:dataSet sel:&roiSel];
 	
 	float min = 0, mean = 0, max = 0;
 	[self yValueForROIRec:roiRec element:element min:&min mean:&mean max:&max];
@@ -224,12 +224,12 @@
 
 // areas
 
--(void)addAreaDataSet:(AreaDataSet*)dataSet {
+-(void)addAreaDataSet:(RoiEnhancementAreaDataSet*)dataSet {
 	[_areaDataSets addObject:[dataSet retain]];
 	[self setNeedsDisplay:YES];
 }
 
--(void)removeAreaDataSet:(AreaDataSet*)dataSet {
+-(void)removeAreaDataSet:(RoiEnhancementAreaDataSet*)dataSet {
 	[_areaDataSets removeObject:dataSet];
 	[dataSet release];
 }
@@ -321,7 +321,7 @@
 		[[NSColor blackColor] setStroke];
 		[NSBezierPath setDefaultLineWidth: 1];
 		for (unsigned i = 0; i < [[_interface roiList] countOfDisplayedROIs]; ++i) {
-			ROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
+			RoiEnhancementROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
 			
 			float min = 0, mean = 0, max = 0;
 			[self yValueForROIRec:roiRec element:value min:&min mean:&mean max:&max];
@@ -359,7 +359,7 @@
 	[attributes setObject:font forKey:NSFontAttributeName];
 	
 	for (unsigned i = 0; i < [[_interface roiList] countOfDisplayedROIs]; ++i) {
-		ROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
+		RoiEnhancementROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
 		NSSize size = [[[roiRec roi] name] sizeWithAttributes:attributes];
 		height += size.height;
 		if (size.width > textWidth)
@@ -388,7 +388,7 @@
 	
 	float h = 0;
 	for (unsigned i = 0; i < [[_interface roiList] countOfDisplayedROIs]; ++i) {
-		ROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
+		RoiEnhancementROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
 		NSSize size = [[[roiRec roi] name] sizeWithAttributes:attributes];
 		[[[roiRec roi] name] drawWithRect:NSMakeRect(legendRect.origin.x+padding+(textWidth-size.width), legendRect.origin.y+h+padding, textWidth, size.height) options:0 attributes:attributes];
 		[[roiRec meanDataSet] drawLegendSampleInRect:NSMakeRect(legendRect.origin.x+padding*2+textWidth, legendRect.origin.y+h+padding/2, sampleWidth, size.height)];
@@ -466,7 +466,7 @@
 	for (int x = _xMin; x <= _xMax; ++x) {
 		[csv appendFormat:@"\"%d\",", x];
 		for (unsigned i = 0; i < [[_interface roiList] countOfDisplayedROIs]; ++i) {
-			ROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
+			RoiEnhancementROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
 			if ([[_interface options] mean])
 				[csv appendFormat: @"\"%f\",", [self chart:self yValueForDataSet:[roiRec meanDataSet] element:x]];
 			if ([[_interface options] min] || [[_interface options] fill])

@@ -8,10 +8,19 @@
 
 #import "EjectionFractionResultsController.h"
 #import "EjectionFractionWorkflow.h"
+#import "EjectionFractionAlgorithm.h"
 #import <Nitrogen/N2ColumnLayout.h>
 #import <Nitrogen/N2ColumnDescriptor.h>
 #import <Nitrogen/NSTextView+N2.h>
+#import <Nitrogen/N2View.h>
+#import <Nitrogen/N2Window.h>
+#import <Nitrogen/NSImageView+N2.h>
 
+@interface EjectionFractionResultsController (Private)
+
+-(NSImage*)imageFromRois:(NSArray*)rois;
+
+@end
 
 @implementation EjectionFractionResultsController
 
@@ -68,6 +77,10 @@
 	[[self window] makeKeyAndOrderFront:self];
 	
 	return self;
+}
+
+-(NSImage*)imageFromRois:(NSArray*)rois {
+	return NULL;
 }
 
 @end

@@ -7,15 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5915EF06109F203A0024F610 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915EF05109F203A0024F610 /* Nitrogen.framework */; };
-		5915EF0A109F204B0024F610 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915EF09109F204B0024F610 /* OsiriX Headers.framework */; };
 		5950673010BE827C00846DA7 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 5950672F10BE827C00846DA7 /* Checkmark.png */; };
 		595F756D109F3B970024974D /* EjectionFractionWorkflow.h in Headers */ = {isa = PBXBuildFile; fileRef = 595F756B109F3B970024974D /* EjectionFractionWorkflow.h */; };
 		595F756E109F3B970024974D /* EjectionFractionWorkflow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595F756C109F3B970024974D /* EjectionFractionWorkflow.mm */; };
 		596DF1FA10B59936006351CD /* EjectionFractionWorkflow+OsiriX.h in Headers */ = {isa = PBXBuildFile; fileRef = 596DF1F810B59936006351CD /* EjectionFractionWorkflow+OsiriX.h */; };
 		596DF1FB10B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */; };
-		596F86C010C67A4D007D6C82 /* EjectionFractionResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 596F86BE10C67A4D007D6C82 /* EjectionFractionResultsController.h */; };
-		596F86C110C67A4D007D6C82 /* EjectionFractionResultsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 596F86BF10C67A4D007D6C82 /* EjectionFractionResultsController.mm */; };
 		5987F5D3103018A5006D39F5 /* Ejection_Fraction_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5987F5D2103018A5006D39F5 /* Ejection_Fraction_Prefix.pch */; };
 		5987F605103019B0006D39F5 /* EjectionFractionPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5987F603103019B0006D39F5 /* EjectionFractionPlugin.mm */; };
 		5987F606103019B0006D39F5 /* EjectionFractionPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 5987F604103019B0006D39F5 /* EjectionFractionPlugin.h */; };
@@ -25,6 +21,10 @@
 		59E8B2901046A19D00B83E7D /* EjectionFractionStepsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */; };
 		59E8B2911046A19D00B83E7D /* EjectionFractionStepsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */; };
 		59E8B2981046A1D100B83E7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59E8B2961046A1D100B83E7D /* InfoPlist.strings */; };
+		59F9AE2B10C9575F008A6EF1 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9AE2A10C9575F008A6EF1 /* Nitrogen.framework */; };
+		59F9AE5C10C9576A008A6EF1 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9AE5B10C9576A008A6EF1 /* OsiriX Headers.framework */; };
+		59F9AF7710C9584D008A6EF1 /* EjectionFractionResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */; };
+		59F9AF7810C9584D008A6EF1 /* EjectionFractionResultsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */; };
 		59FB4F3010A2D24400283D52 /* EjectionFractionAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FB4F2E10A2D24400283D52 /* EjectionFractionAlgorithm.h */; };
 		59FB4F4810A2D41700283D52 /* BiPlaneEjectionFractionAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FB4F4610A2D41700283D52 /* BiPlaneEjectionFractionAlgorithm.h */; };
 		59FB4F4910A2D41700283D52 /* BiPlaneEjectionFractionAlgorithm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FB4F4710A2D41700283D52 /* BiPlaneEjectionFractionAlgorithm.mm */; };
@@ -47,15 +47,11 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		5915EF05109F203A0024F610 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
-		5915EF09109F204B0024F610 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		5950672F10BE827C00846DA7 /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Checkmark.png; path = Resources/Checkmark.png; sourceTree = "<group>"; };
 		595F756B109F3B970024974D /* EjectionFractionWorkflow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionWorkflow.h; path = Sources/EjectionFractionWorkflow.h; sourceTree = "<group>"; };
 		595F756C109F3B970024974D /* EjectionFractionWorkflow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionWorkflow.mm; path = Sources/EjectionFractionWorkflow.mm; sourceTree = "<group>"; };
 		596DF1F810B59936006351CD /* EjectionFractionWorkflow+OsiriX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EjectionFractionWorkflow+OsiriX.h"; path = "Sources/EjectionFractionWorkflow+OsiriX.h"; sourceTree = "<group>"; };
 		596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "EjectionFractionWorkflow+OsiriX.mm"; path = "Sources/EjectionFractionWorkflow+OsiriX.mm"; sourceTree = "<group>"; };
-		596F86BE10C67A4D007D6C82 /* EjectionFractionResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EjectionFractionResultsController.h; sourceTree = "<group>"; };
-		596F86BF10C67A4D007D6C82 /* EjectionFractionResultsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EjectionFractionResultsController.mm; sourceTree = "<group>"; };
 		5987F5D2103018A5006D39F5 /* Ejection_Fraction_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ejection_Fraction_Prefix.pch; path = Sources/Ejection_Fraction_Prefix.pch; sourceTree = "<group>"; };
 		5987F5D8103018C4006D39F5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		5987F603103019B0006D39F5 /* EjectionFractionPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionPlugin.mm; path = Sources/EjectionFractionPlugin.mm; sourceTree = "<group>"; };
@@ -66,6 +62,10 @@
 		59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionStepsController.mm; path = Sources/EjectionFractionStepsController.mm; sourceTree = "<group>"; };
 		59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionStepsController.h; path = Sources/EjectionFractionStepsController.h; sourceTree = "<group>"; };
 		59E8B2971046A1D100B83E7D /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
+		59F9AE2A10C9575F008A6EF1 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../osirix/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
+		59F9AE5B10C9576A008A6EF1 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionResultsController.h; path = Sources/EjectionFractionResultsController.h; sourceTree = "<group>"; };
+		59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionResultsController.mm; path = Sources/EjectionFractionResultsController.mm; sourceTree = "<group>"; };
 		59FB4F2E10A2D24400283D52 /* EjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionAlgorithm.h; path = Sources/Algorithms/EjectionFractionAlgorithm.h; sourceTree = "<group>"; };
 		59FB4F4610A2D41700283D52 /* BiPlaneEjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BiPlaneEjectionFractionAlgorithm.h; path = Sources/Algorithms/BiPlaneEjectionFractionAlgorithm.h; sourceTree = "<group>"; };
 		59FB4F4710A2D41700283D52 /* BiPlaneEjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BiPlaneEjectionFractionAlgorithm.mm; path = Sources/Algorithms/BiPlaneEjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
@@ -90,8 +90,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5915EF06109F203A0024F610 /* Nitrogen.framework in Frameworks */,
-				5915EF0A109F204B0024F610 /* OsiriX Headers.framework in Frameworks */,
+				59F9AE2B10C9575F008A6EF1 /* Nitrogen.framework in Frameworks */,
+				59F9AE5C10C9576A008A6EF1 /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,8 +148,8 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5915EF05109F203A0024F610 /* Nitrogen.framework */,
-				5915EF09109F204B0024F610 /* OsiriX Headers.framework */,
+				59F9AE5B10C9576A008A6EF1 /* OsiriX Headers.framework */,
+				59F9AE2A10C9575F008A6EF1 /* Nitrogen.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -173,8 +173,8 @@
 				596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */,
 				59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */,
 				59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */,
-				596F86BE10C67A4D007D6C82 /* EjectionFractionResultsController.h */,
-				596F86BF10C67A4D007D6C82 /* EjectionFractionResultsController.mm */,
+				59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */,
+				59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */,
 				59FB4F1510A2D22400283D52 /* Algorithms */,
 			);
 			name = Sources;
@@ -226,7 +226,7 @@
 				59FB4F5C10A2D5AD00283D52 /* SimpsonEjectionFractionAlgorithm.h in Headers */,
 				59FB4F7810A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h in Headers */,
 				596DF1FA10B59936006351CD /* EjectionFractionWorkflow+OsiriX.h in Headers */,
-				596F86C010C67A4D007D6C82 /* EjectionFractionResultsController.h in Headers */,
+				59F9AF7710C9584D008A6EF1 /* EjectionFractionResultsController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +313,7 @@
 				59FB4F7910A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm in Sources */,
 				59D892A510B2945B00AAA0FE /* EjectionFractionAlgorithm.mm in Sources */,
 				596DF1FB10B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm in Sources */,
-				596F86C110C67A4D007D6C82 /* EjectionFractionResultsController.mm in Sources */,
+				59F9AF7810C9584D008A6EF1 /* EjectionFractionResultsController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,11 +346,15 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../nitrogen/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../nitrogen/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;

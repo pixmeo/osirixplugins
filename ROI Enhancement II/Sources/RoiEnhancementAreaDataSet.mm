@@ -12,15 +12,15 @@
      PURPOSE.
 =========================================================================*/
 
-#import "AreaDataSet.h"
+#import "RoiEnhancementAreaDataSet.h"
 #import <GRLineDataSet.h>
 #import <GRAxes.h>
-#import "Chart.h"
+#import "RoiEnhancementChart.h"
 
-@implementation AreaDataSet
+@implementation RoiEnhancementAreaDataSet
 @synthesize min = _min, max = _max, displayed = _displayed;
 
--(id)initWithOwnerChart:(Chart*)chart min:(GRLineDataSet*)min max:(GRLineDataSet*)max {
+-(id)initWithOwnerChart:(RoiEnhancementChart*)chart min:(GRLineDataSet*)min max:(GRLineDataSet*)max {
 	self = [super init];
 	_chart = chart;
 	_min = [min retain];

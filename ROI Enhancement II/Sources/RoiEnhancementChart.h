@@ -16,12 +16,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import <GRChartView.h>
-@class Interface, ROIRec;
+@class RoiEnhancementInterface, RoiEnhancementROIRec;
 @class GRLineDataSet;
-@class AreaDataSet;
+@class RoiEnhancementAreaDataSet;
 
-@interface Chart : GRChartView {
-	IBOutlet Interface* _interface;
+@interface RoiEnhancementChart : GRChartView {
+	IBOutlet RoiEnhancementInterface* _interface;
 	int _xMin, _xMax;
 	NSMutableArray* _areaDataSets;
 	BOOL _drawsBackground, _drawsLegend;
@@ -37,14 +37,14 @@
 @property BOOL drawsBackground, drawsLegend, stopDraw;
 
 -(GRLineDataSet*)createOwnedLineDataSet;
--(AreaDataSet*)createOwnedAreaDataSetFrom:(GRLineDataSet*)min to:(GRLineDataSet*)max;
--(void)refresh:(ROIRec*)dataSet;
+-(RoiEnhancementAreaDataSet*)createOwnedAreaDataSetFrom:(GRLineDataSet*)min to:(GRLineDataSet*)max;
+-(void)refresh:(RoiEnhancementROIRec*)dataSet;
 -(void)constrainXRangeFrom:(unsigned)from to:(unsigned)to;
 -(void)freeYRange;
 -(void)constrainYRangeFrom:(float)min;
 -(void)constrainYRangeFrom:(float)min to:(float)max;
--(void)addAreaDataSet:(AreaDataSet*)dataSet;
--(void)removeAreaDataSet:(AreaDataSet*)dataSet;
+-(void)addAreaDataSet:(RoiEnhancementAreaDataSet*)dataSet;
+-(void)removeAreaDataSet:(RoiEnhancementAreaDataSet*)dataSet;
 
 -(NSInteger)chart:(GRChartView*)chart numberOfElementsForDataSet:(GRDataSet*)dataSet;
 -(double)chart:(GRChartView*)chart yValueForDataSet:(GRDataSet*)dataSet element:(NSInteger)element;

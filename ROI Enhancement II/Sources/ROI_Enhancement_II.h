@@ -14,8 +14,7 @@
      PURPOSE.
 =========================================================================*/
 
-#import <Foundation/Foundation.h>
-#import <PluginFilter.h>
+#import <OsiriX Headers/PluginFilter.h>
 
 @interface ROI_Enhancement_II : PluginFilter {
 }

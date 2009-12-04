@@ -27,11 +27,11 @@ enum LegendPositionY {
 };
 
 #import <Cocoa/Cocoa.h>
-@class Interface;
-@class UserDefaults;
+@class RoiEnhancementInterface;
+@class RoiEnhancementUserDefaults;
 
-@interface Options : NSObject {
-	IBOutlet Interface* _interface;
+@interface RoiEnhancementOptions : NSObject {
+	IBOutlet RoiEnhancementInterface* _interface;
 	// curves
 	IBOutlet NSButton *_meanCurve, *_minCurve, *_maxCurve, *_minmaxFill;
 	// ranges

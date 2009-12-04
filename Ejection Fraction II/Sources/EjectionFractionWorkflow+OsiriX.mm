@@ -16,6 +16,7 @@
 #import <OsiriX Headers/DCMView.h>
 #import <OsiriX Headers/DicomSeries.h>
 #import <OsiriX Headers/ROI.h>
+#import <Nitrogen/NSDictionary+N2.h>
 
 NSString* EjectionFractionWorkflowExpectedROIChangedNotification = @"EjectionFractionWorkflowExpectedROIChangedNotification";
 NSString* EjectionFractionWorkflowROIAssignedNotification = @"EjectionFractionWorkflowROIAssignedNotification";
@@ -41,6 +42,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(roiChanged:) name:OsirixROIChangeNotification object:NULL];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(roiRemoved:) name:OsirixRemoveROINotification object:NULL];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dcmviewUpdateCurrentImage:) name:OsirixDCMUpdateCurrentImageNotification object:NULL];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateContextualMenu:) name:OsirixPopulatedContextualMenuNotification object:NULL];
 	
 	// by analyzing the currently visible ROIs, guess which algorithm couls be already applied
 	NSUInteger algorithmsCount = [[_plugin algorithms] count];
@@ -76,6 +78,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixROIChangeNotification object:NULL];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixRemoveROINotification object:NULL];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixDCMUpdateCurrentImageNotification object:NULL];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixPopulatedContextualMenuNotification object:NULL];
 	[_rois release]; _rois = NULL;
 }
 
@@ -119,6 +122,17 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 
 -(NSString*)idForRoi:(ROI*)roi {
 	return [_rois keyForObject:roi];
+}
+
+-(NSArray*)roisForIds:(NSArray*)roiIds {
+	NSMutableArray* rois = [NSMutableArray arrayWithCapacity:[roiIds count]];
+	
+	for (NSString* roiId in roiIds) {
+		ROI* roi = [self roiForId:roiId];
+		if (roi) [rois addObject:roi];
+	}
+	
+	return [[rois copy] autorelease];
 }
 
 -(void)updateResult {
@@ -174,6 +188,38 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 
 -(void)showDetails {
 	[[EjectionFractionResultsController alloc] initWithWorkflow:self];
+}
+
+-(void)populateContextualMenu:(NSNotification*)notif {
+	NSMenu* menu = [notif object];
+	ROI* roi = [[notif userInfo] objectForKey:[ROI className]];
+	
+	if (roi) {
+		NSMenu* submenu = [[NSMenu alloc] initWithTitle:@""];
+		
+		for (NSString* roiId in [_algorithm roiIds])
+			if ([_algorithm typeForRoiId:roiId acceptsTag:[roi type]]) {
+				NSMenuItem* temp = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Use as %@", roiId] action:@selector(menuAction_useAs:) keyEquivalent:@""];
+				[temp setTarget:self];
+				[temp setRepresentedObject:roi];
+				[temp setTag:(NSInteger)roiId];
+				[submenu addItem:temp];
+				[temp release];
+			}
+		
+		if ([submenu numberOfItems]) {
+			NSMenuItem* itemSubmenu = [[NSMenuItem alloc] initWithTitle:[NSString stringWithFormat:@"Ejection Fraction: %@", [_algorithm description]] action:NULL keyEquivalent:@""];
+			[itemSubmenu setSubmenu:submenu];
+			[menu addItem:itemSubmenu];
+			[itemSubmenu release];
+		}
+		
+		[submenu release];
+	}
+}
+
+-(void)menuAction_useAs:(NSMenuItem*)source {
+	
 }
 
 @end

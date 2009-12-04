@@ -12,10 +12,10 @@
      PURPOSE.
 =========================================================================*/
 
-#import "DicomSaveDialog.h"
+#import "RoiEnhancementDicomSaveDialog.h"
 
 
-@implementation DicomSaveDialog
+@implementation RoiEnhancementDicomSaveDialog
 
 -(void)awakeFromNib {
 	[self setDefaultButtonCell:[_saveButton cell]];

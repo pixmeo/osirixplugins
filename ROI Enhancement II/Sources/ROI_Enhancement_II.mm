@@ -13,7 +13,7 @@
 =========================================================================*/
 
 #import "ROI_Enhancement_II.h"
-#import "Interface.h"
+#import "RoiEnhancementInterface.h"
 
 @implementation ROI_Enhancement_II
 
@@ -37,7 +37,7 @@
 }
 
 -(long)filterImage:(NSString*)menuName {
-	[[[[Interface alloc] initForViewer:viewerController] window] makeKeyAndOrderFront:NULL];
+	[[[[RoiEnhancementInterface alloc] initForViewer:viewerController] window] makeKeyAndOrderFront:NULL];
 	return 0;
 }
 

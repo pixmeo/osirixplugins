@@ -14,7 +14,10 @@
 #import <Nitrogen/N2ColumnLayout.h>
 #import <Nitrogen/N2Resizer.h>
 #import <Nitrogen/N2Button.h>
+#import <Nitrogen/N2Step.h>
 #import <Nitrogen/N2ColumnDescriptor.h>
+#import <Nitrogen/N2Steps.h>
+#import <Nitrogen/N2View.h>
 
 @interface EjectionFractionStepsController (Private)
 -(void)algorithmSelected:(NSMenuItem*)selection;

@@ -15,7 +15,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface UserDefaults : NSObject {
+@interface RoiEnhancementUserDefaults : NSObject {
 	NSMutableDictionary* _dictionary;
 }
 

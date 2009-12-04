@@ -1,3 +1,5 @@
+#pragma once
+
 /*=========================================================================
   Program:   OsiriX
 
@@ -13,18 +15,10 @@
 =========================================================================*/
 
 #import <Cocoa/Cocoa.h>
-@class Interface;
 
-@interface DicomSaveDialog : NSWindow {
-	IBOutlet Interface* _interface;
-	IBOutlet NSColorWell* _imageBackgroundColor;
-	IBOutlet NSButton* _saveButton;
-	IBOutlet NSButton* _cancelButton;
+
+@interface RoiEnhancementSplitView : NSSplitView {
+	CGFloat rightSubviewWidth;
 }
-
--(IBAction)buttonClicked:(id)sender;
-
--(NSColor*)imageBackgroundColor;
--(void)setImageBackgroundColor:(NSColor*)imageBackgroundColor;
 
 @end

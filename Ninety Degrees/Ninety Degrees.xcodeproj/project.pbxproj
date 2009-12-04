@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5915E21E109ED6F90024F610 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915E21D109ED6F90024F610 /* OsiriX Headers.framework */; };
 		5915E320109ED77A0024F610 /* NinetyDegreesFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5915E31E109ED77A0024F610 /* NinetyDegreesFilter.h */; };
 		5915E321109ED77A0024F610 /* NinetyDegreesFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5915E31F109ED77A0024F610 /* NinetyDegreesFilter.mm */; };
 		5915E328109ED7A30024F610 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5915E326109ED7A30024F610 /* InfoPlist.strings */; };
 		5915EC3D109EEBCB0024F610 /* NinetyDegreesROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5915EC3B109EEBCB0024F610 /* NinetyDegreesROI.h */; };
 		5915EC3E109EEBCB0024F610 /* NinetyDegreesROI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5915EC3C109EEBCB0024F610 /* NinetyDegreesROI.mm */; };
-		5915ED9D109F02E90024F610 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5915ED9C109F02E90024F610 /* Nitrogen.framework */; };
 		5915EE63109F111E0024F610 /* NinetyDegrees.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5915EE62109F111E0024F610 /* NinetyDegrees.tiff */; };
 		595F85A810A05D570024974D /* NinetyDegreesDistanceROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 595F85A610A05D570024974D /* NinetyDegreesDistanceROI.h */; };
 		595F85A910A05D570024974D /* NinetyDegreesDistanceROI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595F85A710A05D570024974D /* NinetyDegreesDistanceROI.mm */; };
+		59F9B0C710C9587B008A6EF1 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9B0C610C9587B008A6EF1 /* OsiriX Headers.framework */; };
+		59F9B1B910C95880008A6EF1 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9B1B810C95880008A6EF1 /* Nitrogen.framework */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +24,6 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		5915E21D109ED6F90024F610 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		5915E31E109ED77A0024F610 /* NinetyDegreesFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinetyDegreesFilter.h; path = Sources/NinetyDegreesFilter.h; sourceTree = "<group>"; };
 		5915E31F109ED77A0024F610 /* NinetyDegreesFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NinetyDegreesFilter.mm; path = Sources/NinetyDegreesFilter.mm; sourceTree = "<group>"; };
 		5915E322109ED78B0024F610 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
@@ -32,10 +31,11 @@
 		5915E32A109ED8430024F610 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = Sources/Prefix.pch; sourceTree = "<group>"; };
 		5915EC3B109EEBCB0024F610 /* NinetyDegreesROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinetyDegreesROI.h; path = Sources/NinetyDegreesROI.h; sourceTree = "<group>"; };
 		5915EC3C109EEBCB0024F610 /* NinetyDegreesROI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NinetyDegreesROI.mm; path = Sources/NinetyDegreesROI.mm; sourceTree = "<group>"; };
-		5915ED9C109F02E90024F610 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
 		5915EE62109F111E0024F610 /* NinetyDegrees.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NinetyDegrees.tiff; path = Resources/NinetyDegrees.tiff; sourceTree = "<group>"; };
 		595F85A610A05D570024974D /* NinetyDegreesDistanceROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NinetyDegreesDistanceROI.h; path = Sources/NinetyDegreesDistanceROI.h; sourceTree = "<group>"; };
 		595F85A710A05D570024974D /* NinetyDegreesDistanceROI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = NinetyDegreesDistanceROI.mm; path = Sources/NinetyDegreesDistanceROI.mm; sourceTree = "<group>"; };
+		59F9B0C610C9587B008A6EF1 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		59F9B1B810C95880008A6EF1 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../osirix/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
 		AB5D36050680E57E00F4007A /* Ninety Degrees.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ninety Degrees.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -45,8 +45,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5915E21E109ED6F90024F610 /* OsiriX Headers.framework in Frameworks */,
-				5915ED9D109F02E90024F610 /* Nitrogen.framework in Frameworks */,
+				59F9B0C710C9587B008A6EF1 /* OsiriX Headers.framework in Frameworks */,
+				59F9B1B910C95880008A6EF1 /* Nitrogen.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +100,8 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5915ED9C109F02E90024F610 /* Nitrogen.framework */,
-				5915E21D109ED6F90024F610 /* OsiriX Headers.framework */,
+				59F9B1B810C95880008A6EF1 /* Nitrogen.framework */,
+				59F9B0C610C9587B008A6EF1 /* OsiriX Headers.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -243,9 +243,13 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../nitrogen/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -287,9 +291,13 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../nitrogen/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -325,9 +333,13 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../nitrogen/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = 90deg_Prefix.pch;

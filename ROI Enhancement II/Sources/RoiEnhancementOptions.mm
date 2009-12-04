@@ -12,17 +12,17 @@
      PURPOSE.
 =========================================================================*/
 
-#import "Options.h"
-#import "Chart.h"
-#import "Interface.h"
-#import "ROIList.h"
+#import "RoiEnhancementOptions.h"
+#import "RoiEnhancementChart.h"
+#import "RoiEnhancementInterface.h"
+#import "RoiEnhancementROIList.h"
 #import <GRAxes.h>
-#import "UserDefaults.h"
-#import <ViewerController.h>
-#import <DCMView.h>
-#import "Notifications.h"
+#import "RoiEnhancementUserDefaults.h"
+#import <OsiriX Headers/ViewerController.h>
+#import <OsiriX Headers/DCMView.h>
+#import <OsiriX Headers/Notifications.h>
 
-@implementation Options
+@implementation RoiEnhancementOptions
 
 -(void)awakeFromNib {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCurrentImage:) name:OsirixDCMUpdateCurrentImageNotification object:NULL];
@@ -216,7 +216,7 @@
 }
 
 -(IBAction)decorationsChanged:(id)sender {
-	Chart* chart = [_interface chart];
+	RoiEnhancementChart* chart = [_interface chart];
 	GRAxes* axes = [chart axes];
 	
 	if (!sender || sender == _xAxis) {

@@ -12,10 +12,10 @@
      PURPOSE.
 =========================================================================*/
 
-#import "SpecialSplitView.h"
+#import "RoiEnhancementSplitView.h"
 
 
-@implementation SpecialSplitView
+@implementation RoiEnhancementSplitView
 
 -(void)awakeFromNib {
 	[self setDelegate:self];

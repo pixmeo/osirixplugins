@@ -19,32 +19,32 @@ enum ROISel {
 };
 
 #import <Cocoa/Cocoa.h>
-@class Interface, ROIList;
+@class RoiEnhancementInterface, RoiEnhancementROIList;
 @class ROI;
-@class GRDataSet, GRLineDataSet, AreaDataSet;
+@class GRDataSet, GRLineDataSet, RoiEnhancementAreaDataSet;
 
-@interface ROIRec : NSObject {
-	ROIList* _roiList;
+@interface RoiEnhancementROIRec : NSObject {
+	RoiEnhancementROIList* _roiList;
 	ROI* _roi;
 	NSMenuItem* _menuItem;
 	GRLineDataSet *_minDataSet, *_meanDataSet, *_maxDataSet;
-	AreaDataSet *_minmaxDataSet;
+	RoiEnhancementAreaDataSet *_minmaxDataSet;
 	BOOL _displayed;
 }
 
 @property(readonly) ROI* roi;
 @property(readonly) NSMenuItem* menuItem;
 @property(readonly) GRLineDataSet *minDataSet, *meanDataSet, *maxDataSet;
-@property(readonly) AreaDataSet *minmaxDataSet;
+@property(readonly) RoiEnhancementAreaDataSet *minmaxDataSet;
 @property BOOL displayed;
 
--(id)init:(ROI*)roi forList:(ROIList*)_roiList;
+-(id)init:(ROI*)roi forList:(RoiEnhancementROIList*)_roiList;
 -(void)updateDisplayed;
 @end;
 
 
-@interface ROIList : NSObject {
-	IBOutlet Interface* _interface;
+@interface RoiEnhancementROIList : NSObject {
+	IBOutlet RoiEnhancementInterface* _interface;
 	IBOutlet NSButton* _button;
 	IBOutlet NSMenu* _menu;
 	IBOutlet NSMenuItem* _all;
@@ -55,17 +55,17 @@ enum ROISel {
 	BOOL _display_all, _display_selected, _display_checked;
 }
 
-@property(readonly) Interface* interface;
+@property(readonly) RoiEnhancementInterface* interface;
 
 -(void)awakeFromNib;
 -(void)loadViewerROIs;
 
 -(unsigned)countOfDisplayedROIs;
--(ROIRec*)displayedROIRec:(unsigned)index;
--(ROIRec*)findRecordByROI:(ROI*)roi;
--(ROIRec*)findRecordByMenuItem:(NSMenuItem*)menuItem;
--(ROIRec*)findRecordByDataSet:(GRDataSet*)dataSet sel:(ROISel*)sel;
--(ROIRec*)findRecordByDataSet:(GRDataSet*)dataSet;
+-(RoiEnhancementROIRec*)displayedROIRec:(unsigned)index;
+-(RoiEnhancementROIRec*)findRecordByROI:(ROI*)roi;
+-(RoiEnhancementROIRec*)findRecordByMenuItem:(NSMenuItem*)menuItem;
+-(RoiEnhancementROIRec*)findRecordByDataSet:(GRDataSet*)dataSet sel:(ROISel*)sel;
+-(RoiEnhancementROIRec*)findRecordByDataSet:(GRDataSet*)dataSet;
 
 -(void)roiChange:(NSNotification*)notification;
 -(void)removeROI:(NSNotification*)notification;

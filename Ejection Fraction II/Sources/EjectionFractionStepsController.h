@@ -6,7 +6,7 @@
 //  Copyright 2009 OsiriX Team. All rights reserved.
 //
 
-@class N2Steps, N2Step, EjectionFractionWorkflow, ROI, N2View, N2Resizer;
+@class N2Steps, N2Step, EjectionFractionWorkflow, ROI, N2View, N2Resizer, N2StepsView;
 
 @interface EjectionFractionStepsController : NSWindowController {
 	EjectionFractionWorkflow* _workflow;

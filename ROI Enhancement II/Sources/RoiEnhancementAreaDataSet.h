@@ -15,10 +15,20 @@
 =========================================================================*/
 
 #import <Cocoa/Cocoa.h>
+@class GRLineDataSet, GRChartView, RoiEnhancementChart;
 
-
-@interface SpecialSplitView : NSSplitView {
-	CGFloat rightSubviewWidth;
+@interface RoiEnhancementAreaDataSet : NSObject {
+	GRLineDataSet* _min;
+	GRLineDataSet* _max;
+	RoiEnhancementChart* _chart;
+	BOOL _displayed;
 }
+
+@property(readonly) GRLineDataSet* min;
+@property(readonly) GRLineDataSet* max;
+@property BOOL displayed;
+
+-(id)initWithOwnerChart:(RoiEnhancementChart*)chart min:(GRLineDataSet*)min max:(GRLineDataSet*)max;
+-(void)drawRect:(NSRect)dirtyRect;
 
 @end

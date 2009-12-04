@@ -12,22 +12,22 @@
      PURPOSE.
 =========================================================================*/
 
-#import "ROIList.h"
-#import <ROI.h>
-#import "Interface.h"
-#import "Chart.h"
-#import <ViewerController.h>
+#import "RoiEnhancementROIList.h"
+#import <OsiriX Headers/ROI.h>
+#import "RoiEnhancementInterface.h"
+#import "RoiEnhancementChart.h"
+#import <OsiriX Headers/ViewerController.h>
 #import <GRLineDataSet.h>
 #import <GRAreaDataSet.h>
-#import "Options.h"
-#import "Notifications.h"
+#import "RoiEnhancementOptions.h"
+#import <OsiriX Headers/Notifications.h>
 
-@implementation ROIRec
+@implementation RoiEnhancementROIRec
 @synthesize roi = _roi;
 @synthesize menuItem = _menuItem;
 @synthesize minDataSet = _minDataSet, meanDataSet = _meanDataSet, maxDataSet = _maxDataSet, minmaxDataSet = _minmaxDataSet;
 
--(id)init:(ROI*)roi forList:(ROIList*)roiList {
+-(id)init:(ROI*)roi forList:(RoiEnhancementROIList*)roiList {
 	self = [super init];
 	
 	_roiList = roiList;
@@ -90,7 +90,7 @@
 @end
 
 
-@implementation ROIList
+@implementation RoiEnhancementROIList
 @synthesize interface = _interface;
 
 -(void)awakeFromNib {
@@ -128,15 +128,15 @@
 -(unsigned)countOfDisplayedROIs {
 	unsigned count = 0;
 	for (unsigned i = 0; i < [_records count]; ++i)
-		if ([(ROIRec*)[_records objectAtIndex:i] displayed])
+		if ([(RoiEnhancementROIRec*)[_records objectAtIndex:i] displayed])
 			++count;
 	return count;
 }
 
--(ROIRec*)displayedROIRec:(unsigned)index {
+-(RoiEnhancementROIRec*)displayedROIRec:(unsigned)index {
 	unsigned count = 0;
 	for (unsigned i = 0; i < [_records count]; ++i) {
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		if ([roiRec displayed])
 			if (count++ == index)
 				return roiRec;
@@ -145,9 +145,9 @@
 	return NULL;
 }
 
--(ROIRec*)findRecordByROI:(ROI*)roi {
+-(RoiEnhancementROIRec*)findRecordByROI:(ROI*)roi {
 	for (unsigned i = 0; i < [_records count]; ++i) {
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		if ([roiRec roi] == roi)
 			return roiRec;
 	}
@@ -155,9 +155,9 @@
 	return NULL;
 }
 
--(ROIRec*)findRecordByMenuItem:(NSMenuItem*)menuItem {
+-(RoiEnhancementROIRec*)findRecordByMenuItem:(NSMenuItem*)menuItem {
 	for (unsigned i = 0; i < [_records count]; ++i) {
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		if ([roiRec menuItem] == menuItem)
 			return roiRec;
 	}
@@ -165,9 +165,9 @@
 	return NULL;
 }
 
--(ROIRec*)findRecordByDataSet:(GRDataSet*)dataSet sel:(ROISel*)sel {
+-(RoiEnhancementROIRec*)findRecordByDataSet:(GRDataSet*)dataSet sel:(ROISel*)sel {
 	for (unsigned i = 0; i < [_records count]; ++i) {
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		if ([roiRec minDataSet] == dataSet)
 			{ *sel = ROIMin; return roiRec; }
 		if ([roiRec meanDataSet] == dataSet)
@@ -180,7 +180,7 @@
 	return NULL;
 }
 
--(ROIRec*)findRecordByDataSet:(GRDataSet*)dataSet {
+-(RoiEnhancementROIRec*)findRecordByDataSet:(GRDataSet*)dataSet {
 	ROISel sel;
 	return [self findRecordByDataSet:dataSet sel:&sel];
 }
@@ -208,10 +208,10 @@
 	if (![roi roiArea])
 		return;
 	
-	ROIRec* roiRec = [self findRecordByROI:roi];
+	RoiEnhancementROIRec* roiRec = [self findRecordByROI:roi];
 	if (!roiRec) { // not in list
 		// create record, store it in the list, add its menu item to the menu
-		roiRec = [[[ROIRec alloc] init:roi forList:self] autorelease];
+		roiRec = [[[RoiEnhancementROIRec alloc] init:roi forList:self] autorelease];
 		[_menu addItem:[roiRec menuItem]];
 		[_records addObject:roiRec];
 		[[roiRec meanDataSet] setProperty:[roi name] forKey:GRDataSetLegendLabel];
@@ -239,7 +239,7 @@
 -(void)removeROI:(NSNotification*)notification {
 	ROI* roi = [notification object];
 
-	ROIRec* roiRec = [self findRecordByROI:roi];
+	RoiEnhancementROIRec* roiRec = [self findRecordByROI:roi];
 	// if it's not in our list, ignore it
 	if (!roiRec)
 		return;
@@ -271,7 +271,7 @@
 	[self setButtonTitle:[_all title]];
 	
 	for (unsigned i = 0; i < [_records count]; ++i) {
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		[roiRec setDisplayed:YES];
 	}
 }
@@ -287,7 +287,7 @@
 	[self setButtonTitle:[_selected title]];
 	
 	for (unsigned i = 0; i < [_records count]; ++i) {
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		[roiRec setDisplayed:[roiRec roi].ROImode == ROI_selected];
 	}
 }
@@ -302,9 +302,9 @@
 	[_checked setState:_display_checked = YES];
 	
 	unsigned displayedCount = 0;
-	ROIRec* firstDisplayed = NULL;
+	RoiEnhancementROIRec* firstDisplayed = NULL;
 	for (unsigned i = 0; i < [_records count]; ++i){
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		
 		BOOL displayed = [roiRec displayed];
 		[roiRec setDisplayed:displayed];
@@ -324,14 +324,14 @@
 }
 
 -(void)roiMenuItemSelected:(id)sender {
-	ROIRec* roiRec = [self findRecordByMenuItem:sender];
+	RoiEnhancementROIRec* roiRec = [self findRecordByMenuItem:sender];
 	[roiRec setDisplayed:![roiRec displayed]];
 	[self displayCheckedROIs];
 }
 
 -(void)changedMin:(BOOL)min mean:(BOOL)mean max:(BOOL)max fill:(BOOL)fill {
 	for (unsigned i = 0; i < [_records count]; ++i){
-		ROIRec* roiRec = [_records objectAtIndex:i];
+		RoiEnhancementROIRec* roiRec = [_records objectAtIndex:i];
 		[roiRec updateDisplayed];
 	}
 }
