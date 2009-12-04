@@ -1,0 +1,326 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84C2E264102864CC00C38AF1 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C2E263102864CC00C38AF1 /* OsiriX.framework */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB01B9BC067FAC0500CDDB0F /* WebKit.framework */; };
+		CE4EAB9F1037E5AA00DA0EFB /* DICOMExport.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EAB9E1037E5AA00DA0EFB /* DICOMExport.h */; };
+		CE4EABC31037E79900DA0EFB /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EABC21037E79900DA0EFB /* browserController.h */; };
+		CE4EABCA1037E7A500DA0EFB /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EABC91037E7A500DA0EFB /* DCMPix.h */; };
+		CE4EABCF1037E7B500DA0EFB /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EABCE1037E7B500DA0EFB /* PluginFilter.h */; };
+		CE4EAC121037E91800DA0EFB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE4EAC101037E91800DA0EFB /* InfoPlist.strings */; };
+		CE797E1E1037DA7D00C2C7D2 /* FloatDICOMExport.h in Headers */ = {isa = PBXBuildFile; fileRef = CE797E1C1037DA7D00C2C7D2 /* FloatDICOMExport.h */; };
+		CE797E1F1037DA7D00C2C7D2 /* FloatDICOMExport.m in Sources */ = {isa = PBXBuildFile; fileRef = CE797E1D1037DA7D00C2C7D2 /* FloatDICOMExport.m */; };
+		CE797E211037DA9900C2C7D2 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CE797E201037DA9900C2C7D2 /* Prefix.pch */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		84C2E263102864CC00C38AF1 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix/build/Deployment Universal 64-bit/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB01B9BC067FAC0500CDDB0F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		AB1411F40677B3BE004B0074 /* FloatDICOMExport.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FloatDICOMExport.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE4EAB9E1037E5AA00DA0EFB /* DICOMExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DICOMExport.h; path = ../../osirix/DICOMExport.h; sourceTree = SOURCE_ROOT; };
+		CE4EABC21037E79900DA0EFB /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = browserController.h; path = ../../osirix/browserController.h; sourceTree = SOURCE_ROOT; };
+		CE4EABC91037E7A500DA0EFB /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCMPix.h; path = ../../osirix/DCMPix.h; sourceTree = SOURCE_ROOT; };
+		CE4EABCE1037E7B500DA0EFB /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginFilter.h; path = ../../osirix/PluginFilter.h; sourceTree = SOURCE_ROOT; };
+		CE4EAC111037E91800DA0EFB /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
+		CE797E1C1037DA7D00C2C7D2 /* FloatDICOMExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatDICOMExport.h; sourceTree = "<group>"; };
+		CE797E1D1037DA7D00C2C7D2 /* FloatDICOMExport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatDICOMExport.m; sourceTree = "<group>"; };
+		CE797E201037DA9900C2C7D2 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
+				84C2E264102864CC00C38AF1 /* OsiriX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Invert */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				CE797E1C1037DA7D00C2C7D2 /* FloatDICOMExport.h */,
+				CE797E1D1037DA7D00C2C7D2 /* FloatDICOMExport.m */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = Invert;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				CE4EAC0F1037E91800DA0EFB /* English.lproj */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CE4EABF41037E84A00DA0EFB /* OsiriX Headers */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				84C2E263102864CC00C38AF1 /* OsiriX.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				AB01B9BC067FAC0500CDDB0F /* WebKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB1411F40677B3BE004B0074 /* FloatDICOMExport.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CE797E201037DA9900C2C7D2 /* Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		CE4EABF41037E84A00DA0EFB /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CE4EAB9E1037E5AA00DA0EFB /* DICOMExport.h */,
+				CE4EABC21037E79900DA0EFB /* browserController.h */,
+				CE4EABC91037E7A500DA0EFB /* DCMPix.h */,
+				CE4EABCE1037E7B500DA0EFB /* PluginFilter.h */,
+			);
+			name = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+		CE4EAC0F1037E91800DA0EFB /* English.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				CE4EAC101037E91800DA0EFB /* InfoPlist.strings */,
+			);
+			path = English.lproj;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE797E1E1037DA7D00C2C7D2 /* FloatDICOMExport.h in Headers */,
+				CE797E211037DA9900C2C7D2 /* Prefix.pch in Headers */,
+				CE4EAB9F1037E5AA00DA0EFB /* DICOMExport.h in Headers */,
+				CE4EABC31037E79900DA0EFB /* browserController.h in Headers */,
+				CE4EABCA1037E7A500DA0EFB /* DCMPix.h in Headers */,
+				CE4EABCF1037E7B500DA0EFB /* PluginFilter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* FloatDICOMExport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9AA408AC841E00D0C1EE /* Build configuration list for PBXNativeTarget "FloatDICOMExport" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FloatDICOMExport;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB1411F40677B3BE004B0074 /* FloatDICOMExport.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9AA808AC841E00D0C1EE /* Build configuration list for PBXProject "FloatDICOMExport" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Invert */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* FloatDICOMExport */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE4EAC121037E91800DA0EFB /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE797E1F1037DA7D00C2C7D2 /* FloatDICOMExport.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CE4EAC101037E91800DA0EFB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE4EAC111037E91800DA0EFB /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9AA508AC841E00D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix/build/Deployment Universal 64-bit\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = FloatDICOMExport;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9AA908AC841E00D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9AA408AC841E00D0C1EE /* Build configuration list for PBXNativeTarget "FloatDICOMExport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9AA508AC841E00D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9AA808AC841E00D0C1EE /* Build configuration list for PBXProject "FloatDICOMExport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9AA908AC841E00D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

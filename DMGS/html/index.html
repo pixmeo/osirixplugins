@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<link href="./style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
+		<h1>DMGS Plugin</h1>
+		<div id="text">
+		<p><span class="title">Description:</span> DMGS is a OSX 10.5 OsiriX 3 plugin written to make easier study backups of OsiriX DICOM files. It doesn't backup neither commentaries nor reports, nor ROIs,... only the selected contents of the DATABASE.noindex folder.</p>
+<p>DMGS works on the current selection in the browser window of OsiriX. It can be found in the plugin menu, or be added to the toolbar and used from there.</p>
+<p>DMGS mimics the CD burner tool of OsiriX, where with a shift clic in the first control panel, the tool produces a compressed .dmg file instead of burning a CD.</p>
+<p>While backing up a DICOM study, it is obviously more convenient to deal with one big .dmg or zipped file than with many images. The file system also prefers this packaging for all data migration. So, I used to select a study, create a .dmg out of it with OsiriX CD burning tool, and finally put this study into a folder named in reference to the day of the study. In the long run it became quite repetitive and boring. That's why I wrote DMGS.</p>
+<p>Now, I select many studies from the browser of OsiriX, I call DMGS and keep on working with OsiriX doing other things. After a while, I look at the contents of the DMGS folder to see that it contains date subfolders. The complete encapsulation tree of DMGS could be sumarized like this:</p>
+<p>DMGS/</p>
+<p>	YYYY-MM-DD/</p>
+<p>		studyUID.dmg</p>
+<p>		studyUID/</p>
+<p>			DICOMDIR</p>
+<p>                        DICOM/</p>
+<p>				seriesID/</p>
+<p>					dicomFile</p>
+<p></p>
+<p></p>
+<p>All the files in this structure were copied from OsiriX. The whole structure can be moved or trashed without affecting OsiriX. The interesting files in it are the studyUID.dmg (one per study) which are classified by date. Date and StudyUID are usefull index information.</p>
+<p></p>
+<p>Next to the studyUID.dmg, there is the folder containing every items used to create studyUID.dmg. This redundant information is left there for debugging purposes. For instance, if the folder exists but not the .dmg, one deduces that something went wrong. Or if looking at the console, one sees that dcmmkdir throwed errors about a particular studyUID, one can look at the contents of it and try to find what went wrong. DMGS starts a new process for each DMGS. So, even if one studyUID.dmg got errors, this doesn't affect the following ones.</p>
+<p></p>
+<p>If I see that everything went OK, I throw everything but the .dmgs to the trash and keep a well-organized compressed backup of the selected studies.</p>
+<p></p>
+<p>The .dmgs are images of valid DICOM CD. In fact, when one opens a .dmg while OsiriX is active (preferences to add studies from CD automatically), the studies inside the .dmg are added to the browser list. Kind of neat, and quite fast because in each .dmg there is only ONE study. So we are not adding to OsiriX more than that one study that we want to see again.</p>
+<p></p>
+<p>One more thing, DMGS folder can be placed in any volume which can be accessed by the Macintosh. To change the default "/DMGS" path:</p>
+<p>- find DMGS plugin</p>
+<p>- right clic it and choose "show contents..."</p>
+<p>- find in it Contents/info.plist</p>
+<p>- edit the string corresponding to the key DMGS with the new path to DMGS folder</p>
+<p>- save info.plist</p>
+<p>- that's it</p>
+	</body>
+</html>

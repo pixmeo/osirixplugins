@@ -1,0 +1,50 @@
+{
+    IBClasses = (
+        {
+            CLASS = AccessoryFileArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {addOrDelete = id; endSheet = id; }; 
+            CLASS = CaseImageArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_imageImportPanel" = NSPanel; "_window" = id; tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {controlAction = id; create = id; send = id; }; 
+            CLASS = MIRCCaseController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {mircController = MIRCController; tableView = id; }; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {
+            ACTIONS = {
+                chooseFolder = id; 
+                closeMIRCSettings = id; 
+                connectToMIRC = id; 
+                controlAction = id; 
+                createCase = id; 
+                endLoginPanel = id; 
+                openMIRCSettings = id; 
+                selectCurrentImage = id; 
+            }; 
+            CLASS = MIRCController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_loginPanel" = id; "_mircSettings" = id; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = MIRCFileTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = ThanksController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }
+    ); 
+    IBVersion = 1; 
+}

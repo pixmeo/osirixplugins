@@ -1,0 +1,637 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49AE048680CD000E48DA /* NM_Segmentation_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* NM_Segmentation_Prefix.pch */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		ABA48A650680BB600089EB4F /* NMSegmentationFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* NMSegmentationFilter.h */; };
+		ABA48A670680BB690089EB4F /* NMSegmentationFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* NMSegmentationFilter.mm */; };
+		D37B180B0DA28BAE00DE9462 /* NMRegionGrowingController.h in Headers */ = {isa = PBXBuildFile; fileRef = D37B18090DA28BAE00DE9462 /* NMRegionGrowingController.h */; };
+		D37B180C0DA28BAE00DE9462 /* NMRegionGrowingController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D37B180A0DA28BAE00DE9462 /* NMRegionGrowingController.mm */; };
+		D37B183D0DA36E4D00DE9462 /* ITKRegionGrowing3D.h in Headers */ = {isa = PBXBuildFile; fileRef = D37B183B0DA36E4D00DE9462 /* ITKRegionGrowing3D.h */; };
+		D37B183E0DA36E4D00DE9462 /* ITKRegionGrowing3D.mm in Sources */ = {isa = PBXBuildFile; fileRef = D37B183C0DA36E4D00DE9462 /* ITKRegionGrowing3D.mm */; };
+		EE1836840FCB21E800B4DCBE /* Project_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1836830FCB21E800B4DCBE /* Project_defs.h */; };
+		EE183E2D0FCB394600B4DCBE /* ITKImageWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = EE183E2B0FCB394600B4DCBE /* ITKImageWrapper.h */; };
+		EE183E2E0FCB394600B4DCBE /* ITKImageWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE183E2C0FCB394600B4DCBE /* ITKImageWrapper.mm */; };
+		EE1DABF60FF2D2720064C511 /* itkGradientThresholdImageFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = EE1DABF40FF2D2720064C511 /* itkGradientThresholdImageFunction.h */; };
+		EE1DABF70FF2D2720064C511 /* itkGradientThresholdImageFunction.cxx in Sources */ = {isa = PBXBuildFile; fileRef = EE1DABF50FF2D2720064C511 /* itkGradientThresholdImageFunction.cxx */; };
+		EE5139B60FD43E9A00C98968 /* NMRegionGrowingWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE5139B50FD43E9900C98968 /* NMRegionGrowingWindow.xib */; };
+		EE7CF3AB0FD47A020095578A /* libITKAlgorithms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF38B0FD47A020095578A /* libITKAlgorithms.a */; };
+		EE7CF3AC0FD47A030095578A /* libITKBasicFilters.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF38C0FD47A020095578A /* libITKBasicFilters.a */; };
+		EE7CF3AD0FD47A030095578A /* libITKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF38D0FD47A020095578A /* libITKCommon.a */; };
+		EE7CF3AE0FD47A030095578A /* libITKDICOMParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF38E0FD47A020095578A /* libITKDICOMParser.a */; };
+		EE7CF3AF0FD47A030095578A /* libITKEXPAT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF38F0FD47A020095578A /* libITKEXPAT.a */; };
+		EE7CF3B00FD47A030095578A /* libITKFEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3900FD47A020095578A /* libITKFEM.a */; };
+		EE7CF3B10FD47A030095578A /* libitkgdcm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3910FD47A020095578A /* libitkgdcm.a */; };
+		EE7CF3B20FD47A030095578A /* libITKIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3920FD47A020095578A /* libITKIO.a */; };
+		EE7CF3B30FD47A030095578A /* libITKIOReview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3930FD47A020095578A /* libITKIOReview.a */; };
+		EE7CF3B40FD47A030095578A /* libitkjpeg8.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3940FD47A020095578A /* libitkjpeg8.a */; };
+		EE7CF3B50FD47A030095578A /* libitkjpeg12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3950FD47A020095578A /* libitkjpeg12.a */; };
+		EE7CF3B60FD47A030095578A /* libitkjpeg16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3960FD47A020095578A /* libitkjpeg16.a */; };
+		EE7CF3B70FD47A030095578A /* libITKMetaIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3970FD47A020095578A /* libITKMetaIO.a */; };
+		EE7CF3B80FD47A030095578A /* libitkNetlibSlatec.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3980FD47A020095578A /* libitkNetlibSlatec.a */; };
+		EE7CF3B90FD47A030095578A /* libITKniftiio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3990FD47A020095578A /* libITKniftiio.a */; };
+		EE7CF3BA0FD47A030095578A /* libITKNrrdIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF39A0FD47A020095578A /* libITKNrrdIO.a */; };
+		EE7CF3BB0FD47A030095578A /* libITKNumerics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF39B0FD47A020095578A /* libITKNumerics.a */; };
+		EE7CF3BC0FD47A030095578A /* libitkopenjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF39C0FD47A020095578A /* libitkopenjpeg.a */; };
+		EE7CF3BD0FD47A030095578A /* libitkpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF39D0FD47A020095578A /* libitkpng.a */; };
+		EE7CF3BE0FD47A030095578A /* libITKQuadEdgeMesh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF39E0FD47A020095578A /* libITKQuadEdgeMesh.a */; };
+		EE7CF3BF0FD47A030095578A /* libITKSpatialObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF39F0FD47A020095578A /* libITKSpatialObject.a */; };
+		EE7CF3C00FD47A030095578A /* libITKStatistics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A00FD47A020095578A /* libITKStatistics.a */; };
+		EE7CF3C10FD47A030095578A /* libitktestlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A10FD47A020095578A /* libitktestlib.a */; };
+		EE7CF3C20FD47A030095578A /* libitktiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A20FD47A020095578A /* libitktiff.a */; };
+		EE7CF3C30FD47A030095578A /* libitkv3p_netlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A30FD47A020095578A /* libitkv3p_netlib.a */; };
+		EE7CF3C40FD47A030095578A /* libitkvcl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A40FD47A020095578A /* libitkvcl.a */; };
+		EE7CF3C50FD47A030095578A /* libitkvnl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A50FD47A020095578A /* libitkvnl.a */; };
+		EE7CF3C60FD47A030095578A /* libitkvnl_algo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A60FD47A020095578A /* libitkvnl_algo.a */; };
+		EE7CF3C70FD47A030095578A /* libitkvnl_inst.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A70FD47A020095578A /* libitkvnl_inst.a */; };
+		EE7CF3C80FD47A030095578A /* libitkzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A80FD47A020095578A /* libitkzlib.a */; };
+		EE7CF3C90FD47A030095578A /* libITKznz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3A90FD47A020095578A /* libITKznz.a */; };
+		EE7CF3CA0FD47A030095578A /* libnmITKsys.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7CF3AA0FD47A020095578A /* libnmITKsys.a */; };
+		EEF72BB71009310200677FC7 /* itkConnectedGradientThresholdImageFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = EEF72BB61009310200677FC7 /* itkConnectedGradientThresholdImageFilter.h */; };
+		EEF72BB91009317E00677FC7 /* itkConnectedGradientThresholdImageFilter.cxx in Sources */ = {isa = PBXBuildFile; fileRef = EEF72BB81009317E00677FC7 /* itkConnectedGradientThresholdImageFilter.cxx */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* NM_Segmentation_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NM_Segmentation_Prefix.pch; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* NMSegmentation.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NMSegmentation.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA48A640680BB600089EB4F /* NMSegmentationFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NMSegmentationFilter.h; sourceTree = "<group>"; };
+		ABA48A660680BB690089EB4F /* NMSegmentationFilter.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = NMSegmentationFilter.mm; sourceTree = "<group>"; };
+		D37B18090DA28BAE00DE9462 /* NMRegionGrowingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NMRegionGrowingController.h; sourceTree = "<group>"; };
+		D37B180A0DA28BAE00DE9462 /* NMRegionGrowingController.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = NMRegionGrowingController.mm; sourceTree = "<group>"; };
+		D37B183B0DA36E4D00DE9462 /* ITKRegionGrowing3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITKRegionGrowing3D.h; sourceTree = "<group>"; };
+		D37B183C0DA36E4D00DE9462 /* ITKRegionGrowing3D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ITKRegionGrowing3D.mm; sourceTree = "<group>"; };
+		EE1836830FCB21E800B4DCBE /* Project_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project_defs.h; sourceTree = "<group>"; };
+		EE183E2B0FCB394600B4DCBE /* ITKImageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITKImageWrapper.h; sourceTree = "<group>"; };
+		EE183E2C0FCB394600B4DCBE /* ITKImageWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ITKImageWrapper.mm; sourceTree = "<group>"; };
+		EE1DABF40FF2D2720064C511 /* itkGradientThresholdImageFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itkGradientThresholdImageFunction.h; sourceTree = "<group>"; };
+		EE1DABF50FF2D2720064C511 /* itkGradientThresholdImageFunction.cxx */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = itkGradientThresholdImageFunction.cxx; sourceTree = "<group>"; };
+		EE5139B50FD43E9900C98968 /* NMRegionGrowingWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NMRegionGrowingWindow.xib; sourceTree = "<group>"; };
+		EE7CF38B0FD47A020095578A /* libITKAlgorithms.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKAlgorithms.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKAlgorithms.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF38C0FD47A020095578A /* libITKBasicFilters.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKBasicFilters.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKBasicFilters.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF38D0FD47A020095578A /* libITKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKCommon.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKCommon.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF38E0FD47A020095578A /* libITKDICOMParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKDICOMParser.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKDICOMParser.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF38F0FD47A020095578A /* libITKEXPAT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKEXPAT.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKEXPAT.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3900FD47A020095578A /* libITKFEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKFEM.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKFEM.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3910FD47A020095578A /* libitkgdcm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkgdcm.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkgdcm.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3920FD47A020095578A /* libITKIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKIO.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKIO.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3930FD47A020095578A /* libITKIOReview.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKIOReview.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKIOReview.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3940FD47A020095578A /* libitkjpeg8.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkjpeg8.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkjpeg8.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3950FD47A020095578A /* libitkjpeg12.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkjpeg12.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkjpeg12.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3960FD47A020095578A /* libitkjpeg16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkjpeg16.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkjpeg16.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3970FD47A020095578A /* libITKMetaIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKMetaIO.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKMetaIO.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3980FD47A020095578A /* libitkNetlibSlatec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkNetlibSlatec.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkNetlibSlatec.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3990FD47A020095578A /* libITKniftiio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKniftiio.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKniftiio.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF39A0FD47A020095578A /* libITKNrrdIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKNrrdIO.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKNrrdIO.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF39B0FD47A020095578A /* libITKNumerics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKNumerics.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKNumerics.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF39C0FD47A020095578A /* libitkopenjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkopenjpeg.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkopenjpeg.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF39D0FD47A020095578A /* libitkpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkpng.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkpng.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF39E0FD47A020095578A /* libITKQuadEdgeMesh.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKQuadEdgeMesh.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKQuadEdgeMesh.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF39F0FD47A020095578A /* libITKSpatialObject.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKSpatialObject.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKSpatialObject.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A00FD47A020095578A /* libITKStatistics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKStatistics.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKStatistics.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A10FD47A020095578A /* libitktestlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitktestlib.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitktestlib.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A20FD47A020095578A /* libitktiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitktiff.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitktiff.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A30FD47A020095578A /* libitkv3p_netlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkv3p_netlib.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkv3p_netlib.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A40FD47A020095578A /* libitkvcl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvcl.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkvcl.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A50FD47A020095578A /* libitkvnl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkvnl.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A60FD47A020095578A /* libitkvnl_algo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl_algo.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkvnl_algo.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A70FD47A020095578A /* libitkvnl_inst.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl_inst.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkvnl_inst.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A80FD47A020095578A /* libitkzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkzlib.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libitkzlib.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3A90FD47A020095578A /* libITKznz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKznz.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libITKznz.a"; sourceTree = SOURCE_ROOT; };
+		EE7CF3AA0FD47A020095578A /* libnmITKsys.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libnmITKsys.a; path = "../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin/libnmITKsys.a"; sourceTree = SOURCE_ROOT; };
+		EEF72BB61009310200677FC7 /* itkConnectedGradientThresholdImageFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itkConnectedGradientThresholdImageFilter.h; sourceTree = "<group>"; };
+		EEF72BB81009317E00677FC7 /* itkConnectedGradientThresholdImageFilter.cxx */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = itkConnectedGradientThresholdImageFilter.cxx; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				EE7CF3AB0FD47A020095578A /* libITKAlgorithms.a in Frameworks */,
+				EE7CF3AC0FD47A030095578A /* libITKBasicFilters.a in Frameworks */,
+				EE7CF3AD0FD47A030095578A /* libITKCommon.a in Frameworks */,
+				EE7CF3AE0FD47A030095578A /* libITKDICOMParser.a in Frameworks */,
+				EE7CF3AF0FD47A030095578A /* libITKEXPAT.a in Frameworks */,
+				EE7CF3B00FD47A030095578A /* libITKFEM.a in Frameworks */,
+				EE7CF3B10FD47A030095578A /* libitkgdcm.a in Frameworks */,
+				EE7CF3B20FD47A030095578A /* libITKIO.a in Frameworks */,
+				EE7CF3B30FD47A030095578A /* libITKIOReview.a in Frameworks */,
+				EE7CF3B40FD47A030095578A /* libitkjpeg8.a in Frameworks */,
+				EE7CF3B50FD47A030095578A /* libitkjpeg12.a in Frameworks */,
+				EE7CF3B60FD47A030095578A /* libitkjpeg16.a in Frameworks */,
+				EE7CF3B70FD47A030095578A /* libITKMetaIO.a in Frameworks */,
+				EE7CF3B80FD47A030095578A /* libitkNetlibSlatec.a in Frameworks */,
+				EE7CF3B90FD47A030095578A /* libITKniftiio.a in Frameworks */,
+				EE7CF3BA0FD47A030095578A /* libITKNrrdIO.a in Frameworks */,
+				EE7CF3BB0FD47A030095578A /* libITKNumerics.a in Frameworks */,
+				EE7CF3BC0FD47A030095578A /* libitkopenjpeg.a in Frameworks */,
+				EE7CF3BD0FD47A030095578A /* libitkpng.a in Frameworks */,
+				EE7CF3BE0FD47A030095578A /* libITKQuadEdgeMesh.a in Frameworks */,
+				EE7CF3BF0FD47A030095578A /* libITKSpatialObject.a in Frameworks */,
+				EE7CF3C00FD47A030095578A /* libITKStatistics.a in Frameworks */,
+				EE7CF3C10FD47A030095578A /* libitktestlib.a in Frameworks */,
+				EE7CF3C20FD47A030095578A /* libitktiff.a in Frameworks */,
+				EE7CF3C30FD47A030095578A /* libitkv3p_netlib.a in Frameworks */,
+				EE7CF3C40FD47A030095578A /* libitkvcl.a in Frameworks */,
+				EE7CF3C50FD47A030095578A /* libitkvnl.a in Frameworks */,
+				EE7CF3C60FD47A030095578A /* libitkvnl_algo.a in Frameworks */,
+				EE7CF3C70FD47A030095578A /* libitkvnl_inst.a in Frameworks */,
+				EE7CF3C80FD47A030095578A /* libitkzlib.a in Frameworks */,
+				EE7CF3C90FD47A030095578A /* libITKznz.a in Frameworks */,
+				EE7CF3CA0FD47A030095578A /* libnmITKsys.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* NM_Segmentation */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = NM_Segmentation;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				EE18363B0FCB1F8900B4DCBE /* Static Libraries */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				32C88E010371C26100C91783 /* Other Sources */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				EE5139B50FD43E9900C98968 /* NMRegionGrowingWindow.xib */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				AB2C26750677B0C400A08910 /* NM_SegmentationFilter */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* NMSegmentation.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* NM_Segmentation_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* NM_SegmentationFilter */ = {
+			isa = PBXGroup;
+			children = (
+				ABA48A640680BB600089EB4F /* NMSegmentationFilter.h */,
+				ABA48A660680BB690089EB4F /* NMSegmentationFilter.mm */,
+				D37B18090DA28BAE00DE9462 /* NMRegionGrowingController.h */,
+				D37B180A0DA28BAE00DE9462 /* NMRegionGrowingController.mm */,
+				D37B183B0DA36E4D00DE9462 /* ITKRegionGrowing3D.h */,
+				D37B183C0DA36E4D00DE9462 /* ITKRegionGrowing3D.mm */,
+				EE183E2B0FCB394600B4DCBE /* ITKImageWrapper.h */,
+				EE183E2C0FCB394600B4DCBE /* ITKImageWrapper.mm */,
+				EE1836830FCB21E800B4DCBE /* Project_defs.h */,
+				EE1DABF40FF2D2720064C511 /* itkGradientThresholdImageFunction.h */,
+				EE1DABF50FF2D2720064C511 /* itkGradientThresholdImageFunction.cxx */,
+				EEF72BB61009310200677FC7 /* itkConnectedGradientThresholdImageFilter.h */,
+				EEF72BB81009317E00677FC7 /* itkConnectedGradientThresholdImageFilter.cxx */,
+			);
+			name = NM_SegmentationFilter;
+			sourceTree = "<group>";
+		};
+		EE18363B0FCB1F8900B4DCBE /* Static Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				EE18363C0FCB1F9300B4DCBE /* ITK */,
+			);
+			name = "Static Libraries";
+			sourceTree = "<group>";
+		};
+		EE18363C0FCB1F9300B4DCBE /* ITK */ = {
+			isa = PBXGroup;
+			children = (
+				EE7CF38B0FD47A020095578A /* libITKAlgorithms.a */,
+				EE7CF38C0FD47A020095578A /* libITKBasicFilters.a */,
+				EE7CF38D0FD47A020095578A /* libITKCommon.a */,
+				EE7CF38E0FD47A020095578A /* libITKDICOMParser.a */,
+				EE7CF38F0FD47A020095578A /* libITKEXPAT.a */,
+				EE7CF3900FD47A020095578A /* libITKFEM.a */,
+				EE7CF3910FD47A020095578A /* libitkgdcm.a */,
+				EE7CF3920FD47A020095578A /* libITKIO.a */,
+				EE7CF3930FD47A020095578A /* libITKIOReview.a */,
+				EE7CF3940FD47A020095578A /* libitkjpeg8.a */,
+				EE7CF3950FD47A020095578A /* libitkjpeg12.a */,
+				EE7CF3960FD47A020095578A /* libitkjpeg16.a */,
+				EE7CF3970FD47A020095578A /* libITKMetaIO.a */,
+				EE7CF3980FD47A020095578A /* libitkNetlibSlatec.a */,
+				EE7CF3990FD47A020095578A /* libITKniftiio.a */,
+				EE7CF39A0FD47A020095578A /* libITKNrrdIO.a */,
+				EE7CF39B0FD47A020095578A /* libITKNumerics.a */,
+				EE7CF39C0FD47A020095578A /* libitkopenjpeg.a */,
+				EE7CF39D0FD47A020095578A /* libitkpng.a */,
+				EE7CF39E0FD47A020095578A /* libITKQuadEdgeMesh.a */,
+				EE7CF39F0FD47A020095578A /* libITKSpatialObject.a */,
+				EE7CF3A00FD47A020095578A /* libITKStatistics.a */,
+				EE7CF3A10FD47A020095578A /* libitktestlib.a */,
+				EE7CF3A20FD47A020095578A /* libitktiff.a */,
+				EE7CF3A30FD47A020095578A /* libitkv3p_netlib.a */,
+				EE7CF3A40FD47A020095578A /* libitkvcl.a */,
+				EE7CF3A50FD47A020095578A /* libitkvnl.a */,
+				EE7CF3A60FD47A020095578A /* libitkvnl_algo.a */,
+				EE7CF3A70FD47A020095578A /* libitkvnl_inst.a */,
+				EE7CF3A80FD47A020095578A /* libitkzlib.a */,
+				EE7CF3A90FD47A020095578A /* libITKznz.a */,
+				EE7CF3AA0FD47A020095578A /* libnmITKsys.a */,
+			);
+			name = ITK;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* NM_Segmentation_Prefix.pch in Headers */,
+				ABA48A650680BB600089EB4F /* NMSegmentationFilter.h in Headers */,
+				D37B180B0DA28BAE00DE9462 /* NMRegionGrowingController.h in Headers */,
+				D37B183D0DA36E4D00DE9462 /* ITKRegionGrowing3D.h in Headers */,
+				EE1836840FCB21E800B4DCBE /* Project_defs.h in Headers */,
+				EE183E2D0FCB394600B4DCBE /* ITKImageWrapper.h in Headers */,
+				EE1DABF60FF2D2720064C511 /* itkGradientThresholdImageFunction.h in Headers */,
+				EEF72BB71009310200677FC7 /* itkConnectedGradientThresholdImageFilter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* NMSegmentation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "NMSegmentation" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+				EE3E882E0FD5C10D004EF78B /* Set Symbolic Link */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NMSegmentation;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* NMSegmentation.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "NMSegmentation" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* NM_Segmentation */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* NMSegmentation */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				EE5139B60FD43E9A00C98968 /* NMRegionGrowingWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EE3E882E0FD5C10D004EF78B /* Set Symbolic Link */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Symbolic Link";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Removing the symbolic link from ~/Library/Application Support/Osirix/Plugins/for the current product\"\n\nrm ~/Library/Application\\ Support/Osirix/Plugins/$FULL_PRODUCT_NAME\n\necho \"Setting the symbolic link for current project settings\"\n\nln -s $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME ~/Library/Application\\ Support/Osirix/Plugins/$FULL_PRODUCT_NAME";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABA48A670680BB690089EB4F /* NMSegmentationFilter.mm in Sources */,
+				D37B180C0DA28BAE00DE9462 /* NMRegionGrowingController.mm in Sources */,
+				D37B183E0DA36E4D00DE9462 /* ITKRegionGrowing3D.mm in Sources */,
+				EE183E2E0FCB394600B4DCBE /* ITKImageWrapper.mm in Sources */,
+				EE1DABF70FF2D2720064C511 /* itkGradientThresholdImageFunction.cxx in Sources */,
+				EEF72BB91009317E00677FC7 /* itkConnectedGradientThresholdImageFilter.cxx in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				BUNDLE_LOADER = "osirix/build/Deployment Universal 64-bit/OsiriX.app/Contents/MacOS/OsiriX";
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NM_Segmentation_Prefix.pch;
+				GCC_VERSION = 4.2;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ITK180/Utilities;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = (
+					ITK180/bin,
+					Binaries/VTKLibs,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../osirix/InsightToolkit-3.12.0/bin\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin\"";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "-DDEBUG";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = NMSegmentation;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "ITK180 ITK180/Code ITK180/Utilities/vxl/vcl ITK180/Utilities/vxl/core ITK180/Utilities/expat ITK180/Code/Utilities/NrrdIO ITK180/Code/Utilities/MetaIO ITK180/Code/Utilities ITK180/Code/SpatialObject ITK180/Code/Review ITK180/Code/Numerics/Statistics ITK180/Code/Numerics/FEM ITK180/Numerics ITK180/Code/IO ITK180/Code/Common ITK180/Code/BasicFilters ITK180/Code/Algorithms osirix";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc7400,
+				);
+				BUNDLE_LOADER = "osirix/build/Deployment Universal 64-bit/OsiriX.app/Contents/MacOS/OsiriX";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NM_Segmentation_Prefix.pch;
+				GCC_UNROLL_LOOPS = YES;
+				GCC_VERSION = 4.2;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = ITK180/Utilities;
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					ITK180/bin,
+					Binaries/VTKLibs,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../osirix/InsightToolkit-3.12.0/bin\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin\"";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = NMSegmentation;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "ITK180 ITK180/Code ITK180/Utilities/vxl/vcl ITK180/Utilities/vxl/core ITK180/Utilities/expat ITK180/Code/Utilities/NrrdIO ITK180/Code/Utilities/MetaIO ITK180/Code/Utilities ITK180/Code/SpatialObject ITK180/Code/Review ITK180/Code/Numerics/Statistics ITK180/Code/Numerics/FEM ITK180/Numerics ITK180/Code/IO ITK180/Code/Common ITK180/Code/BasicFilters ITK180/Code/Algorithms osirix";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9308AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc7400,
+					i386,
+					x86_64,
+				);
+				BUNDLE_LOADER = "osirix/build/Deployment Universal 64-bit/OsiriX.app/Contents/MacOS/OsiriX";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NM_Segmentation_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					ITK180/bin,
+					Binaries/VTKLibs,
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../osirix/InsightToolkit-3.12.0/bin\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../Osirix_Plugin_Libs/NM_InsightToolkit-3.14.0/bin\"";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = NM_Segmentation;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "ITK180 ITK180/Code osirix ITK180/Utilities/vxl/vcl ITK180/Utilities/vxl/core ITK180/Utilities/expat ITK180/Code/Utilities/NrrdIO ITK180/Code/Utilities/MetaIO ITK180/Code/Utilities ITK180/Code/SpatialObject ITK180/Code/Review ITK180/Code/Numerics/Statistics ITK180/Code/Numerics/FEM ITK180/Numerics ITK180/Code/IO ITK180/Code/Common ITK180/Code/BasicFilters ITK180/Code/Algorithms";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.5;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = "non-global";
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = macosx10.5;
+			};
+			name = Deployment;
+		};
+		CE6A9A9708AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = macosx10.5;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "NMSegmentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+				CE6A9A9308AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "NMSegmentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+				CE6A9A9708AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

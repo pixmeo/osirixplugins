@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>UPPER ORIENTATION</string>
+	<array>
+		<array>
+			<string>%%@</string>
+			<string>string</string>
+			<string>imageMO</string>
+			<string>valueForKeyPath:</string>
+			<string>series.study.name</string>
+		</array>
+	</array>
+	<array>
+		<array>
+			<string>%%d-%%m-%%Y</string>
+			<string>date</string>
+			<string>imageMO</string>
+			<string>valueForKeyPath:</string>
+			<string>series.study.dateOfBirth</string>
+		</array>
+	</array>
+	<array/>
+	<array/>
+	<string>LEFT ORIENTATION</string>
+	<array/>
+	<array/>
+	<array>
+		<array>
+			<string>WL/WW %%4.0f</string>
+			<string>floatValue</string>
+			<string>view</string>
+			<string>windowWidth</string>
+			<string></string>
+		</array>
+		<array>
+			<string>/%%4.0f</string>
+			<string>floatValue</string>
+			<string>view</string>
+			<string>windowLevel</string>
+			<string></string>
+		</array>
+	</array>
+	<string>Gemeinschaftskhs. Bonn</string>
+	<string>LOWER ORIENTATION</string>
+	<array>
+		<array>
+			<string>%%@</string>
+			<string>string</string>
+			<string>imageMO</string>
+			<string>valueForKeyPath:</string>
+			<string>series.study.comment</string>
+		</array>
+	</array>
+	<array>
+		<array>
+			<string>%%d-%%m-%%Y</string>
+			<string>date</string>
+			<string>imageMO</string>
+			<string>valueForKeyPath:</string>
+			<string>series.study.date</string>
+		</array>
+	</array>
+	<array/>
+	<array/>
+	<string>RIGHT ORIENTATION</string>
+	<array/>
+	<array/>
+	<array>
+		<array>
+			<string>%%d</string>
+			<string>intValue</string>
+			<string>view</string>
+			<string>image</string>
+			<string></string>
+		</array>
+		<array>
+			<string>/%%d</string>
+			<string>intValue</string>
+			<string>view</string>
+			<string>pixCount</string>
+			<string></string>
+		</array>
+	</array>
+	<array>
+		<array>
+			<string>%%H:%%M:%%S</string>
+			<string>date</string>
+			<string>imageMO</string>
+			<string>valueForKeyPath:</string>
+			<string>series.study.date</string>
+		</array>
+	</array>
+	<array/>
+</array>
+</plist>

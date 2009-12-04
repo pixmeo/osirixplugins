@@ -1,0 +1,657 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 44;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49AE048680CD000E48DA /* PetSpectFusion_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* PetSpectFusion_Prefix.pch */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		ABA48A650680BB600089EB4F /* PetSpectFusion.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* PetSpectFusion.h */; };
+		ABA48A670680BB690089EB4F /* PetSpectFusion.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* PetSpectFusion.mm */; };
+		D37B180B0DA28BAE00DE9462 /* PSFSettingsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = D37B18090DA28BAE00DE9462 /* PSFSettingsWindowController.h */; };
+		D37B180C0DA28BAE00DE9462 /* PSFSettingsWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D37B180A0DA28BAE00DE9462 /* PSFSettingsWindowController.mm */; };
+		EE28DB3A0FBB584F009D0A5D /* RegUpdate.h in Headers */ = {isa = PBXBuildFile; fileRef = EE28DB380FBB584F009D0A5D /* RegUpdate.h */; };
+		EE28DB3B0FBB584F009D0A5D /* RegUpdate.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE28DB390FBB584F009D0A5D /* RegUpdate.mm */; };
+		EE28DB460FBB5A5B009D0A5D /* PSFSettingsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE28DB450FBB5A5B009D0A5D /* PSFSettingsWindow.xib */; };
+		EE451F0B0F8A48F4009C27DC /* ITKVersorTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = EE451F090F8A48F4009C27DC /* ITKVersorTransform.h */; };
+		EE451F0C0F8A48F4009C27DC /* ITKVersorTransform.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE451F0A0F8A48F4009C27DC /* ITKVersorTransform.mm */; };
+		EE451F0F0F8A5642009C27DC /* Typedefs.h in Headers */ = {isa = PBXBuildFile; fileRef = EE451F0E0F8A5642009C27DC /* Typedefs.h */; };
+		EE655819100B73A200784099 /* libITKAlgorithms.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6557FA100B73A200784099 /* libITKAlgorithms.a */; };
+		EE65581A100B73A200784099 /* libITKBasicFilters.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6557FB100B73A200784099 /* libITKBasicFilters.a */; };
+		EE65581B100B73A200784099 /* libITKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6557FC100B73A200784099 /* libITKCommon.a */; };
+		EE65581C100B73A200784099 /* libITKDICOMParser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6557FD100B73A200784099 /* libITKDICOMParser.a */; };
+		EE65581D100B73A200784099 /* libITKEXPAT.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6557FE100B73A200784099 /* libITKEXPAT.a */; };
+		EE65581E100B73A200784099 /* libITKFEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE6557FF100B73A200784099 /* libITKFEM.a */; };
+		EE65581F100B73A200784099 /* libitkgdcm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655800100B73A200784099 /* libitkgdcm.a */; };
+		EE655820100B73A200784099 /* libITKIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655801100B73A200784099 /* libITKIO.a */; };
+		EE655821100B73A200784099 /* libITKIOReview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655802100B73A200784099 /* libITKIOReview.a */; };
+		EE655822100B73A200784099 /* libitkjpeg8.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655803100B73A200784099 /* libitkjpeg8.a */; };
+		EE655823100B73A200784099 /* libitkjpeg12.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655804100B73A200784099 /* libitkjpeg12.a */; };
+		EE655824100B73A200784099 /* libitkjpeg16.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655805100B73A200784099 /* libitkjpeg16.a */; };
+		EE655825100B73A200784099 /* libITKMetaIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655806100B73A200784099 /* libITKMetaIO.a */; };
+		EE655826100B73A200784099 /* libITKniftiio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655807100B73A200784099 /* libITKniftiio.a */; };
+		EE655827100B73A200784099 /* libITKNrrdIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655808100B73A200784099 /* libITKNrrdIO.a */; };
+		EE655828100B73A200784099 /* libITKNumerics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655809100B73A200784099 /* libITKNumerics.a */; };
+		EE655829100B73A200784099 /* libitkopenjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65580A100B73A200784099 /* libitkopenjpeg.a */; };
+		EE65582A100B73A200784099 /* libitkpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65580B100B73A200784099 /* libitkpng.a */; };
+		EE65582B100B73A200784099 /* libITKQuadEdgeMesh.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65580C100B73A200784099 /* libITKQuadEdgeMesh.a */; };
+		EE65582C100B73A200784099 /* libITKSpatialObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65580D100B73A200784099 /* libITKSpatialObject.a */; };
+		EE65582D100B73A200784099 /* libITKStatistics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65580E100B73A200784099 /* libITKStatistics.a */; };
+		EE65582E100B73A200784099 /* libitktestlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE65580F100B73A200784099 /* libitktestlib.a */; };
+		EE65582F100B73A200784099 /* libitktiff.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655810100B73A200784099 /* libitktiff.a */; };
+		EE655830100B73A200784099 /* libitkv3p_netlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655811100B73A200784099 /* libitkv3p_netlib.a */; };
+		EE655831100B73A200784099 /* libitkvcl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655812100B73A200784099 /* libitkvcl.a */; };
+		EE655832100B73A200784099 /* libitkvnl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655813100B73A200784099 /* libitkvnl.a */; };
+		EE655833100B73A200784099 /* libitkvnl_algo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655814100B73A200784099 /* libitkvnl_algo.a */; };
+		EE655834100B73A200784099 /* libitkvnl_inst.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655815100B73A200784099 /* libitkvnl_inst.a */; };
+		EE655835100B73A200784099 /* libitkzlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655816100B73A200784099 /* libitkzlib.a */; };
+		EE655836100B73A200784099 /* libITKznz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655817100B73A200784099 /* libITKznz.a */; };
+		EE655837100B73A200784099 /* libpsfITKsys.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE655818100B73A200784099 /* libpsfITKsys.a */; };
+		EE79CE510FA4E0A3002086FB /* ITKImageWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = EE79CE4F0FA4E0A3002086FB /* ITKImageWrapper.h */; };
+		EE79CE520FA4E0A3002086FB /* ITKImageWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE79CE500FA4E0A3002086FB /* ITKImageWrapper.mm */; };
+		EE9806FF0F9F3C6900AC0988 /* Project_defs.h in Headers */ = {isa = PBXBuildFile; fileRef = EE9806FE0F9F3C6900AC0988 /* Project_defs.h */; };
+		EEF144D10FA0EE5F0047E74F /* Registration.mm in Sources */ = {isa = PBXBuildFile; fileRef = EEF144D00FA0EE5F0047E74F /* Registration.mm */; };
+		EEF144D30FA0EE6D0047E74F /* Registration.h in Headers */ = {isa = PBXBuildFile; fileRef = EEF144D20FA0EE6D0047E74F /* Registration.h */; };
+		EEF145080FA0F0BA0047E74F /* RegObserver.mm in Sources */ = {isa = PBXBuildFile; fileRef = EEF145070FA0F0BA0047E74F /* RegObserver.mm */; };
+		EEF1450A0FA0F0CC0047E74F /* RegObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = EEF145090FA0F0CC0047E74F /* RegObserver.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* PetSpectFusion_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PetSpectFusion_Prefix.pch; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* PetSpectFusion.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PetSpectFusion.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA48A640680BB600089EB4F /* PetSpectFusion.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PetSpectFusion.h; sourceTree = "<group>"; };
+		ABA48A660680BB690089EB4F /* PetSpectFusion.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = PetSpectFusion.mm; sourceTree = "<group>"; };
+		D37B18090DA28BAE00DE9462 /* PSFSettingsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSFSettingsWindowController.h; sourceTree = "<group>"; };
+		D37B180A0DA28BAE00DE9462 /* PSFSettingsWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSFSettingsWindowController.mm; sourceTree = "<group>"; };
+		EE1E1EB30FAB25740028557C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		EE1E1EC20FAB25F80028557C /* OsiriX.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = OsiriX.app; path = "../osirix/osirix/build/Deployment Universal 64-bit/OsiriX.app"; sourceTree = SOURCE_ROOT; };
+		EE28DB380FBB584F009D0A5D /* RegUpdate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegUpdate.h; sourceTree = "<group>"; };
+		EE28DB390FBB584F009D0A5D /* RegUpdate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RegUpdate.mm; sourceTree = "<group>"; };
+		EE28DB450FBB5A5B009D0A5D /* PSFSettingsWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PSFSettingsWindow.xib; sourceTree = "<group>"; };
+		EE451F090F8A48F4009C27DC /* ITKVersorTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITKVersorTransform.h; sourceTree = "<group>"; };
+		EE451F0A0F8A48F4009C27DC /* ITKVersorTransform.mm */ = {isa = PBXFileReference; comments = "-I ./ITK180 -I ./ITK180/Code -I ./ITK180/Code/Algorithms -I ./ITK180/Code/BasicFilters -I ./ITK180/Code/Common -I ./ITK180/Code/Numerics -I ./ITK180/Code/IO -I ./ITK180/Code/Numerics/FEM -I ./ITK180/Code/Numerics/Statistics -I ./ITK180/Code/SpatialObject -I ./ITK180/Code/Utilities/MetaIO -I ./ITK180/Code/Utilities/expat -I ./ITK180/Code/Utilities/NrrdIO -I ./ITK180/Code/Utilities/DICOMParser -I ./ITK180/Utilities -I ./ITK180/Utilities/vxl/vcl -I ./ITK180/Utilities/vxl/core"; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ITKVersorTransform.mm; sourceTree = "<group>"; };
+		EE451F0E0F8A5642009C27DC /* Typedefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Typedefs.h; sourceTree = "<group>"; };
+		EE6557FA100B73A200784099 /* libITKAlgorithms.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKAlgorithms.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKAlgorithms.a"; sourceTree = SOURCE_ROOT; };
+		EE6557FB100B73A200784099 /* libITKBasicFilters.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKBasicFilters.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKBasicFilters.a"; sourceTree = SOURCE_ROOT; };
+		EE6557FC100B73A200784099 /* libITKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKCommon.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKCommon.a"; sourceTree = SOURCE_ROOT; };
+		EE6557FD100B73A200784099 /* libITKDICOMParser.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKDICOMParser.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKDICOMParser.a"; sourceTree = SOURCE_ROOT; };
+		EE6557FE100B73A200784099 /* libITKEXPAT.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKEXPAT.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKEXPAT.a"; sourceTree = SOURCE_ROOT; };
+		EE6557FF100B73A200784099 /* libITKFEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKFEM.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKFEM.a"; sourceTree = SOURCE_ROOT; };
+		EE655800100B73A200784099 /* libitkgdcm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkgdcm.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkgdcm.a"; sourceTree = SOURCE_ROOT; };
+		EE655801100B73A200784099 /* libITKIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKIO.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKIO.a"; sourceTree = SOURCE_ROOT; };
+		EE655802100B73A200784099 /* libITKIOReview.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKIOReview.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKIOReview.a"; sourceTree = SOURCE_ROOT; };
+		EE655803100B73A200784099 /* libitkjpeg8.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkjpeg8.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkjpeg8.a"; sourceTree = SOURCE_ROOT; };
+		EE655804100B73A200784099 /* libitkjpeg12.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkjpeg12.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkjpeg12.a"; sourceTree = SOURCE_ROOT; };
+		EE655805100B73A200784099 /* libitkjpeg16.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkjpeg16.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkjpeg16.a"; sourceTree = SOURCE_ROOT; };
+		EE655806100B73A200784099 /* libITKMetaIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKMetaIO.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKMetaIO.a"; sourceTree = SOURCE_ROOT; };
+		EE655807100B73A200784099 /* libITKniftiio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKniftiio.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKniftiio.a"; sourceTree = SOURCE_ROOT; };
+		EE655808100B73A200784099 /* libITKNrrdIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKNrrdIO.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKNrrdIO.a"; sourceTree = SOURCE_ROOT; };
+		EE655809100B73A200784099 /* libITKNumerics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKNumerics.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKNumerics.a"; sourceTree = SOURCE_ROOT; };
+		EE65580A100B73A200784099 /* libitkopenjpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkopenjpeg.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkopenjpeg.a"; sourceTree = SOURCE_ROOT; };
+		EE65580B100B73A200784099 /* libitkpng.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkpng.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkpng.a"; sourceTree = SOURCE_ROOT; };
+		EE65580C100B73A200784099 /* libITKQuadEdgeMesh.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKQuadEdgeMesh.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKQuadEdgeMesh.a"; sourceTree = SOURCE_ROOT; };
+		EE65580D100B73A200784099 /* libITKSpatialObject.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKSpatialObject.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKSpatialObject.a"; sourceTree = SOURCE_ROOT; };
+		EE65580E100B73A200784099 /* libITKStatistics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKStatistics.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKStatistics.a"; sourceTree = SOURCE_ROOT; };
+		EE65580F100B73A200784099 /* libitktestlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitktestlib.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitktestlib.a"; sourceTree = SOURCE_ROOT; };
+		EE655810100B73A200784099 /* libitktiff.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitktiff.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitktiff.a"; sourceTree = SOURCE_ROOT; };
+		EE655811100B73A200784099 /* libitkv3p_netlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkv3p_netlib.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkv3p_netlib.a"; sourceTree = SOURCE_ROOT; };
+		EE655812100B73A200784099 /* libitkvcl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvcl.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkvcl.a"; sourceTree = SOURCE_ROOT; };
+		EE655813100B73A200784099 /* libitkvnl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkvnl.a"; sourceTree = SOURCE_ROOT; };
+		EE655814100B73A200784099 /* libitkvnl_algo.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl_algo.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkvnl_algo.a"; sourceTree = SOURCE_ROOT; };
+		EE655815100B73A200784099 /* libitkvnl_inst.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl_inst.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkvnl_inst.a"; sourceTree = SOURCE_ROOT; };
+		EE655816100B73A200784099 /* libitkzlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkzlib.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libitkzlib.a"; sourceTree = SOURCE_ROOT; };
+		EE655817100B73A200784099 /* libITKznz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKznz.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libITKznz.a"; sourceTree = SOURCE_ROOT; };
+		EE655818100B73A200784099 /* libpsfITKsys.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpsfITKsys.a; path = "../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin/libpsfITKsys.a"; sourceTree = SOURCE_ROOT; };
+		EE79CE4F0FA4E0A3002086FB /* ITKImageWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITKImageWrapper.h; sourceTree = "<group>"; };
+		EE79CE500FA4E0A3002086FB /* ITKImageWrapper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ITKImageWrapper.mm; sourceTree = "<group>"; };
+		EE9806FE0F9F3C6900AC0988 /* Project_defs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project_defs.h; sourceTree = "<group>"; };
+		EEF144D00FA0EE5F0047E74F /* Registration.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Registration.mm; sourceTree = "<group>"; };
+		EEF144D20FA0EE6D0047E74F /* Registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Registration.h; sourceTree = "<group>"; };
+		EEF145070FA0F0BA0047E74F /* RegObserver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RegObserver.mm; sourceTree = "<group>"; };
+		EEF145090FA0F0CC0047E74F /* RegObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegObserver.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				EE655819100B73A200784099 /* libITKAlgorithms.a in Frameworks */,
+				EE65581A100B73A200784099 /* libITKBasicFilters.a in Frameworks */,
+				EE65581B100B73A200784099 /* libITKCommon.a in Frameworks */,
+				EE65581C100B73A200784099 /* libITKDICOMParser.a in Frameworks */,
+				EE65581D100B73A200784099 /* libITKEXPAT.a in Frameworks */,
+				EE65581E100B73A200784099 /* libITKFEM.a in Frameworks */,
+				EE65581F100B73A200784099 /* libitkgdcm.a in Frameworks */,
+				EE655820100B73A200784099 /* libITKIO.a in Frameworks */,
+				EE655821100B73A200784099 /* libITKIOReview.a in Frameworks */,
+				EE655822100B73A200784099 /* libitkjpeg8.a in Frameworks */,
+				EE655823100B73A200784099 /* libitkjpeg12.a in Frameworks */,
+				EE655824100B73A200784099 /* libitkjpeg16.a in Frameworks */,
+				EE655825100B73A200784099 /* libITKMetaIO.a in Frameworks */,
+				EE655826100B73A200784099 /* libITKniftiio.a in Frameworks */,
+				EE655827100B73A200784099 /* libITKNrrdIO.a in Frameworks */,
+				EE655828100B73A200784099 /* libITKNumerics.a in Frameworks */,
+				EE655829100B73A200784099 /* libitkopenjpeg.a in Frameworks */,
+				EE65582A100B73A200784099 /* libitkpng.a in Frameworks */,
+				EE65582B100B73A200784099 /* libITKQuadEdgeMesh.a in Frameworks */,
+				EE65582C100B73A200784099 /* libITKSpatialObject.a in Frameworks */,
+				EE65582D100B73A200784099 /* libITKStatistics.a in Frameworks */,
+				EE65582E100B73A200784099 /* libitktestlib.a in Frameworks */,
+				EE65582F100B73A200784099 /* libitktiff.a in Frameworks */,
+				EE655830100B73A200784099 /* libitkv3p_netlib.a in Frameworks */,
+				EE655831100B73A200784099 /* libitkvcl.a in Frameworks */,
+				EE655832100B73A200784099 /* libitkvnl.a in Frameworks */,
+				EE655833100B73A200784099 /* libitkvnl_algo.a in Frameworks */,
+				EE655834100B73A200784099 /* libitkvnl_inst.a in Frameworks */,
+				EE655835100B73A200784099 /* libitkzlib.a in Frameworks */,
+				EE655836100B73A200784099 /* libITKznz.a in Frameworks */,
+				EE655837100B73A200784099 /* libpsfITKsys.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* NM_Segmentation */ = {
+			isa = PBXGroup;
+			children = (
+				EE1E1EC20FAB25F80028557C /* OsiriX.app */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+				EE1E1EB30FAB25740028557C /* Cocoa.framework */,
+			);
+			name = NM_Segmentation;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				EEE125EF0F973F69005F8B68 /* Statically Linked Libraries */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EE28DB450FBB5A5B009D0A5D /* PSFSettingsWindow.xib */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				AB2C26750677B0C400A08910 /* PetSpectFusion */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* PetSpectFusion.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* PetSpectFusion_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* PetSpectFusion */ = {
+			isa = PBXGroup;
+			children = (
+				EE28DB380FBB584F009D0A5D /* RegUpdate.h */,
+				EE28DB390FBB584F009D0A5D /* RegUpdate.mm */,
+				EEF145090FA0F0CC0047E74F /* RegObserver.h */,
+				EEF145070FA0F0BA0047E74F /* RegObserver.mm */,
+				EEF144D20FA0EE6D0047E74F /* Registration.h */,
+				EEF144D00FA0EE5F0047E74F /* Registration.mm */,
+				ABA48A640680BB600089EB4F /* PetSpectFusion.h */,
+				ABA48A660680BB690089EB4F /* PetSpectFusion.mm */,
+				D37B18090DA28BAE00DE9462 /* PSFSettingsWindowController.h */,
+				D37B180A0DA28BAE00DE9462 /* PSFSettingsWindowController.mm */,
+				EE451F090F8A48F4009C27DC /* ITKVersorTransform.h */,
+				EE451F0A0F8A48F4009C27DC /* ITKVersorTransform.mm */,
+				EE451F0E0F8A5642009C27DC /* Typedefs.h */,
+				EE9806FE0F9F3C6900AC0988 /* Project_defs.h */,
+				EE79CE4F0FA4E0A3002086FB /* ITKImageWrapper.h */,
+				EE79CE500FA4E0A3002086FB /* ITKImageWrapper.mm */,
+			);
+			name = PetSpectFusion;
+			sourceTree = "<group>";
+		};
+		EE28DAF80FBB570C009D0A5D /* ITK */ = {
+			isa = PBXGroup;
+			children = (
+				EE6557FA100B73A200784099 /* libITKAlgorithms.a */,
+				EE6557FB100B73A200784099 /* libITKBasicFilters.a */,
+				EE6557FC100B73A200784099 /* libITKCommon.a */,
+				EE6557FD100B73A200784099 /* libITKDICOMParser.a */,
+				EE6557FE100B73A200784099 /* libITKEXPAT.a */,
+				EE6557FF100B73A200784099 /* libITKFEM.a */,
+				EE655800100B73A200784099 /* libitkgdcm.a */,
+				EE655801100B73A200784099 /* libITKIO.a */,
+				EE655802100B73A200784099 /* libITKIOReview.a */,
+				EE655803100B73A200784099 /* libitkjpeg8.a */,
+				EE655804100B73A200784099 /* libitkjpeg12.a */,
+				EE655805100B73A200784099 /* libitkjpeg16.a */,
+				EE655806100B73A200784099 /* libITKMetaIO.a */,
+				EE655807100B73A200784099 /* libITKniftiio.a */,
+				EE655808100B73A200784099 /* libITKNrrdIO.a */,
+				EE655809100B73A200784099 /* libITKNumerics.a */,
+				EE65580A100B73A200784099 /* libitkopenjpeg.a */,
+				EE65580B100B73A200784099 /* libitkpng.a */,
+				EE65580C100B73A200784099 /* libITKQuadEdgeMesh.a */,
+				EE65580D100B73A200784099 /* libITKSpatialObject.a */,
+				EE65580E100B73A200784099 /* libITKStatistics.a */,
+				EE65580F100B73A200784099 /* libitktestlib.a */,
+				EE655810100B73A200784099 /* libitktiff.a */,
+				EE655811100B73A200784099 /* libitkv3p_netlib.a */,
+				EE655812100B73A200784099 /* libitkvcl.a */,
+				EE655813100B73A200784099 /* libitkvnl.a */,
+				EE655814100B73A200784099 /* libitkvnl_algo.a */,
+				EE655815100B73A200784099 /* libitkvnl_inst.a */,
+				EE655816100B73A200784099 /* libitkzlib.a */,
+				EE655817100B73A200784099 /* libITKznz.a */,
+				EE655818100B73A200784099 /* libpsfITKsys.a */,
+			);
+			name = ITK;
+			sourceTree = "<group>";
+		};
+		EEE125EF0F973F69005F8B68 /* Statically Linked Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				EE28DAF80FBB570C009D0A5D /* ITK */,
+			);
+			name = "Statically Linked Libraries";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* PetSpectFusion_Prefix.pch in Headers */,
+				ABA48A650680BB600089EB4F /* PetSpectFusion.h in Headers */,
+				D37B180B0DA28BAE00DE9462 /* PSFSettingsWindowController.h in Headers */,
+				EE451F0B0F8A48F4009C27DC /* ITKVersorTransform.h in Headers */,
+				EE451F0F0F8A5642009C27DC /* Typedefs.h in Headers */,
+				EE9806FF0F9F3C6900AC0988 /* Project_defs.h in Headers */,
+				EEF144D30FA0EE6D0047E74F /* Registration.h in Headers */,
+				EEF1450A0FA0F0CC0047E74F /* RegObserver.h in Headers */,
+				EE79CE510FA4E0A3002086FB /* ITKImageWrapper.h in Headers */,
+				EE28DB3A0FBB584F009D0A5D /* RegUpdate.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* PetSpectFusion_Plugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "PetSpectFusion_Plugin" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+				EE28D3980FBAEFFA009D0A5D /* Set Symbolic Link  */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PetSpectFusion_Plugin;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* PetSpectFusion.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "PetSpectFusion_Plugin" */;
+			compatibilityVersion = "Xcode 3.0";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* NM_Segmentation */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* PetSpectFusion_Plugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				EE28DB460FBB5A5B009D0A5D /* PSFSettingsWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EE28D3980FBAEFFA009D0A5D /* Set Symbolic Link  */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Symbolic Link ";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Removing the symbolic link from ~/Library/Application Support/Osirix/Plugins/for the current product\"\n\nrm ~/Library/Application\\ Support/Osirix/Plugins/$FULL_PRODUCT_NAME\n\necho \"Setting the symbolic link for current project settings\"\n\nln -s $TARGET_BUILD_DIR/$FULL_PRODUCT_NAME ~/Library/Application\\ Support/Osirix/Plugins/$FULL_PRODUCT_NAME\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABA48A670680BB690089EB4F /* PetSpectFusion.mm in Sources */,
+				D37B180C0DA28BAE00DE9462 /* PSFSettingsWindowController.mm in Sources */,
+				EE451F0C0F8A48F4009C27DC /* ITKVersorTransform.mm in Sources */,
+				EEF144D10FA0EE5F0047E74F /* Registration.mm in Sources */,
+				EEF145080FA0F0BA0047E74F /* RegObserver.mm in Sources */,
+				EE79CE520FA4E0A3002086FB /* ITKImageWrapper.mm in Sources */,
+				EE28DB3B0FBB584F009D0A5D /* RegUpdate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc7400,
+				);
+				BUNDLE_LOADER = "osirix/build/Deployment Universal 64-bit/OsiriX.app/Contents/MacOS/OsiriX";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PetSpectFusion_Prefix.pch;
+				GCC_UNROLL_LOOPS = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = (
+					ITK180/bin,
+					Binaries/VTKLibs,
+					"\"$(SRCROOT)/../../../../Desktop/InsightToolkit-3.12.0/bin\"",
+					"\"$(SRCROOT)/../../../../Desktop/InsightToolkit-3.12.0_Debug/bin\"",
+					"\"$(SRCROOT)/../osirix/InsightToolkit-3.12.0/bin\"",
+					"\"$(SRCROOT)/../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin\"",
+				);
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "-DDEBUG";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PetSpectFusion;
+				SECTORDER_FLAGS = "";
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
+				USER_HEADER_SEARCH_PATHS = "ITK180/Code/Common ITK180/Utilities/vxl/core ITK180/Utilities/vxl/vcl ITK180/Utilities/expat ITK180/Code/Utilities ITK180/Code/Utilities/MetaIO ITK180/Code/SpatialObject ITK180/Code/Utilities/NrrdIO ITK180/Code/Numerics/Statistics ITK180/Code/Numerics/FEM ITK180/Code/IO ITK180/Code/Numerics ITK180 ITK180/Code/Algorithms ITK180/Code ITK180/Code/BasicFilters osirix ITK180/Code/Review";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc7400,
+				);
+				BUNDLE_LOADER = "osirix/build/Deployment Universal 64-bit/OsiriX.app/Contents/MacOS/OsiriX";
+				COPY_PHASE_STRIP = YES;
+				DEPLOYMENT_POSTPROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PetSpectFusion_Prefix.pch;
+				GCC_UNROLL_LOOPS = YES;
+				GCC_VERSION = 4.2;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					ITK180/bin,
+					Binaries/VTKLibs,
+					"\"$(SRCROOT)/../../../../Desktop/InsightToolkit-3.12.0/bin\"",
+					"\"$(SRCROOT)/../../../../Desktop/InsightToolkit-3.12.0_Debug/bin\"",
+					"\"$(SRCROOT)/../osirix/InsightToolkit-3.12.0/bin\"",
+					"\"$(SRCROOT)/../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin\"",
+				);
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = PetSpectFusion;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = debugging;
+				USER_HEADER_SEARCH_PATHS = "ITK180/Code/Review ITK180/Utilities/vxl/core ITK180/Utilities/vxl/vcl ITK180/Utilities/expat ITK180/Code/Utilities ITK180/Code/Utilities/MetaIO ITK180/Code/SpatialObject ITK180/Code/Utilities/NrrdIO ITK180/Code/Numerics/Statistics ITK180/Code/Numerics/FEM ITK180/Code/IO ITK180/Code/Numerics ITK180/Code/Common ITK180 ITK180/Code/Algorithms ITK180/Code ITK180/Code/BasicFilters osirix";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9308AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc7400,
+				);
+				BUNDLE_LOADER = "osirix/build/Deployment\\ Universal\\ 64-bit/OsiriX.app/Contents/MacOS/OsiriX";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NM_Segmentation_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../Desktop\"",
+					"\"$(SRCROOT)/../osirix/osirix/ITK180/bin\"",
+					"\"$(SRCROOT)/../osirix/osirix/build/Deployment Universal 64-bit/OsiriX.framework\"",
+					"\"$(SRCROOT)/../../../../Desktop/InsightToolkit-3.12.0/bin\"",
+					"\"$(SRCROOT)/../../../../Desktop/InsightToolkit-3.12.0_Debug/bin\"",
+					"\"$(SRCROOT)/../osirix/InsightToolkit-3.12.0/bin\"",
+					"\"$(SRCROOT)/../Osirix_Plugin_Libs/PSF_InsightToolkit-3.12.0/bin\"",
+				);
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = NM_Segmentation;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.2;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				USER_HEADER_SEARCH_PATHS = "";
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Deployment;
+		};
+		CE6A9A9708AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "PetSpectFusion_Plugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+				CE6A9A9308AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "PetSpectFusion_Plugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+				CE6A9A9708AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

@@ -1,0 +1,331 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		CE49C7770C8C1DAC004A31FB /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C76C0C8C1DAC004A31FB /* Scheduler.h */; };
+		CE49C7780C8C1DAC004A31FB /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C76D0C8C1DAC004A31FB /* MyPoint.h */; };
+		CE49C7790C8C1DAC004A31FB /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C76E0C8C1DAC004A31FB /* PluginFilter.h */; };
+		CE49C77A0C8C1DAC004A31FB /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C76F0C8C1DAC004A31FB /* DCMView.h */; };
+		CE49C77B0C8C1DAC004A31FB /* OSIWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7700C8C1DAC004A31FB /* OSIWindowController.h */; };
+		CE49C77C0C8C1DAC004A31FB /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7710C8C1DAC004A31FB /* DCMPix.h */; };
+		CE49C77D0C8C1DAC004A31FB /* StaticScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7720C8C1DAC004A31FB /* StaticScheduler.h */; };
+		CE49C77E0C8C1DAC004A31FB /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7730C8C1DAC004A31FB /* ROI.h */; };
+		CE49C77F0C8C1DAC004A31FB /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7740C8C1DAC004A31FB /* dicomFile.h */; };
+		CE49C7800C8C1DAC004A31FB /* Schedulable.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7750C8C1DAC004A31FB /* Schedulable.h */; };
+		CE49C7810C8C1DAC004A31FB /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7760C8C1DAC004A31FB /* ViewerController.h */; };
+		CE49C7850C8C1DBE004A31FB /* xmlrpcFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE49C7830C8C1DBE004A31FB /* xmlrpcFilter.m */; };
+		CE49C7860C8C1DBE004A31FB /* xmlrpcFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7840C8C1DBE004A31FB /* xmlrpcFilter.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		69BACD860BCF663F008362D2 /* xmlrpc.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = xmlrpc.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE49C76C0C8C1DAC004A31FB /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
+		CE49C76D0C8C1DAC004A31FB /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
+		CE49C76E0C8C1DAC004A31FB /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		CE49C76F0C8C1DAC004A31FB /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		CE49C7700C8C1DAC004A31FB /* OSIWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIWindowController.h; sourceTree = "<group>"; };
+		CE49C7710C8C1DAC004A31FB /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		CE49C7720C8C1DAC004A31FB /* StaticScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticScheduler.h; sourceTree = "<group>"; };
+		CE49C7730C8C1DAC004A31FB /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		CE49C7740C8C1DAC004A31FB /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		CE49C7750C8C1DAC004A31FB /* Schedulable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Schedulable.h; sourceTree = "<group>"; };
+		CE49C7760C8C1DAC004A31FB /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		CE49C7830C8C1DBE004A31FB /* xmlrpcFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xmlrpcFilter.m; sourceTree = "<group>"; };
+		CE49C7840C8C1DBE004A31FB /* xmlrpcFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrpcFilter.h; sourceTree = "<group>"; };
+		CE49C7930C8C2096004A31FB /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = browserController.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Duplicate */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = Duplicate;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CE49C7830C8C1DBE004A31FB /* xmlrpcFilter.m */,
+				CE49C7840C8C1DBE004A31FB /* xmlrpcFilter.h */,
+				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				69BACD860BCF663F008362D2 /* xmlrpc.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CE49C7930C8C2096004A31FB /* browserController.h */,
+				CE49C76C0C8C1DAC004A31FB /* Scheduler.h */,
+				CE49C76D0C8C1DAC004A31FB /* MyPoint.h */,
+				CE49C76E0C8C1DAC004A31FB /* PluginFilter.h */,
+				CE49C76F0C8C1DAC004A31FB /* DCMView.h */,
+				CE49C7700C8C1DAC004A31FB /* OSIWindowController.h */,
+				CE49C7710C8C1DAC004A31FB /* DCMPix.h */,
+				CE49C7720C8C1DAC004A31FB /* StaticScheduler.h */,
+				CE49C7730C8C1DAC004A31FB /* ROI.h */,
+				CE49C7740C8C1DAC004A31FB /* dicomFile.h */,
+				CE49C7750C8C1DAC004A31FB /* Schedulable.h */,
+				CE49C7760C8C1DAC004A31FB /* ViewerController.h */,
+			);
+			path = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE49C7770C8C1DAC004A31FB /* Scheduler.h in Headers */,
+				CE49C7780C8C1DAC004A31FB /* MyPoint.h in Headers */,
+				CE49C7790C8C1DAC004A31FB /* PluginFilter.h in Headers */,
+				CE49C77A0C8C1DAC004A31FB /* DCMView.h in Headers */,
+				CE49C77B0C8C1DAC004A31FB /* OSIWindowController.h in Headers */,
+				CE49C77C0C8C1DAC004A31FB /* DCMPix.h in Headers */,
+				CE49C77D0C8C1DAC004A31FB /* StaticScheduler.h in Headers */,
+				CE49C77E0C8C1DAC004A31FB /* ROI.h in Headers */,
+				CE49C77F0C8C1DAC004A31FB /* dicomFile.h in Headers */,
+				CE49C7800C8C1DAC004A31FB /* Schedulable.h in Headers */,
+				CE49C7810C8C1DAC004A31FB /* ViewerController.h in Headers */,
+				CE49C7860C8C1DBE004A31FB /* xmlrpcFilter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* xmlrpc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "xmlrpc" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = xmlrpc;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = 69BACD860BCF663F008362D2 /* xmlrpc.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "xmlrpc" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Duplicate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* xmlrpc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE49C7850C8C1DBE004A31FB /* xmlrpcFilter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = xmlrpc;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "xmlrpc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "xmlrpc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

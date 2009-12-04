@@ -1,0 +1,36 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = MeteringView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {
+                addAudioTrack = id; 
+                addVideoTrack = id; 
+                browseCaptureFile = id; 
+                close = id; 
+                doChannelSettings = id; 
+                recordPause = id; 
+                removeChannel = id; 
+                restoreSettings = id; 
+                saveSettings = id; 
+                setVideoPreviewFrameRate = id; 
+                setVideoPreviewQuality = id; 
+                stop = id; 
+            }; 
+            CLASS = WhackedTVController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                mAddAudioButton = NSButton; 
+                mAddVideoButton = NSButton; 
+                mBrowseButton = NSButton; 
+                mCaptureToField = NSTextField; 
+                mRecordPauseButton = NSButton; 
+                mStopButton = NSButton; 
+                mTableView = NSTableView; 
+                mWhackedWindow = NSWindow; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,14 @@
+{
+    IBClasses = (
+        {
+            CLASS = DCMJpegImportFilter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {outlineView = NSOutlineView; window = NSWindow; }; 
+            SUPERCLASS = PluginFilter; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = PluginFilter; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

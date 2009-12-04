@@ -1,0 +1,27 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = OpenGLController; LANGUAGE = ObjC; SUPERCLASS = NSWindowController; }, 
+        {
+            CLASS = ResultsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {roiName = NSTextField; view = ResultsView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = ResultsView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {
+                changeBlending = id; 
+                changeLighting = id; 
+                setPoints = id; 
+                setSolid = id; 
+                setWireframe = id; 
+                toggleFullScreen = id; 
+            }; 
+            CLASS = kGLView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSOpenGLView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

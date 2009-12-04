@@ -1,0 +1,511 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 44;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49AE048680CD000E48DA /* Duplicate_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Duplicate_Prefix.pch */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		A9885CAD0D7559FF00A851BE /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = A9885C970D7559FF00A851BE /* PluginFilter.h */; };
+		A9885CB90D755A9000A851BE /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = A9885CB80D755A9000A851BE /* browserController.h */; };
+		A9E30B6E0D7717A7005F6675 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E30B6D0D7717A7005F6675 /* ROI.h */; };
+		A9E30B700D7717B3005F6675 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E30B6F0D7717B3005F6675 /* dicomFile.h */; };
+		A9E30B730D7717BF005F6675 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E30B710D7717BF005F6675 /* DCMPix.h */; };
+		A9E30B740D7717BF005F6675 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E30B720D7717BF005F6675 /* DCMView.h */; };
+		A9E30B760D7717CC005F6675 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = A9E30B750D7717CC005F6675 /* ViewerController.h */; };
+		A9E30B890D77182A005F6675 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49B7048680CD000E48DA /* Info.plist */; };
+		ABA48A650680BB600089EB4F /* VoiceClipFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* VoiceClipFilter.h */; };
+		ABA48A670680BB690089EB4F /* VoiceClipFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* VoiceClipFilter.mm */; };
+		BF1C41000B027C6A001CBFEA /* DCAudioFileRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = BF1C40FE0B027C6A001CBFEA /* DCAudioFileRecorder.h */; };
+		BF1C41010B027C6A001CBFEA /* DCAudioFileRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF1C40FF0B027C6A001CBFEA /* DCAudioFileRecorder.cpp */; };
+		BF1C41040B0283E7001CBFEA /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C41020B0283E7001CBFEA /* CoreAudio.framework */; };
+		BF1C41050B0283E7001CBFEA /* CoreAudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C41030B0283E7001CBFEA /* CoreAudioKit.framework */; };
+		BF1C418C0B029267001CBFEA /* VoiceClip.nib in Resources */ = {isa = PBXBuildFile; fileRef = BF1C418A0B029267001CBFEA /* VoiceClip.nib */; };
+		BF1C41DF0B029BCE001CBFEA /* VoiceClipController.h in Headers */ = {isa = PBXBuildFile; fileRef = BF1C41DD0B029BCE001CBFEA /* VoiceClipController.h */; };
+		BF1C41E00B029BCE001CBFEA /* VoiceClipController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF1C41DE0B029BCE001CBFEA /* VoiceClipController.mm */; };
+		BF5D42140B03CEA6001E7B41 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF5D42130B03CEA6001E7B41 /* QTKit.framework */; };
+		BFE72D6E0B0543A6009A98A8 /* Capture_Record_off.tif in Resources */ = {isa = PBXBuildFile; fileRef = BFE72D6C0B0543A6009A98A8 /* Capture_Record_off.tif */; };
+		BFE72D6F0B0543A6009A98A8 /* Capture_Record_on.tif in Resources */ = {isa = PBXBuildFile; fileRef = BFE72D6D0B0543A6009A98A8 /* Capture_Record_on.tif */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* Duplicate_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Duplicate_Prefix.pch; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9885C970D7559FF00A851BE /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		A9885CB80D755A9000A851BE /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = browserController.h; sourceTree = "<group>"; };
+		A9E30B6D0D7717A7005F6675 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		A9E30B6F0D7717B3005F6675 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		A9E30B710D7717BF005F6675 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		A9E30B720D7717BF005F6675 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		A9E30B750D7717CC005F6675 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* VoiceClip.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoiceClip.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA48A640680BB600089EB4F /* VoiceClipFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VoiceClipFilter.h; sourceTree = "<group>"; };
+		ABA48A660680BB690089EB4F /* VoiceClipFilter.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = VoiceClipFilter.mm; sourceTree = "<group>"; };
+		BF1C40FE0B027C6A001CBFEA /* DCAudioFileRecorder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCAudioFileRecorder.h; sourceTree = "<group>"; };
+		BF1C40FF0B027C6A001CBFEA /* DCAudioFileRecorder.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = DCAudioFileRecorder.cpp; sourceTree = "<group>"; };
+		BF1C41020B0283E7001CBFEA /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
+		BF1C41030B0283E7001CBFEA /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/CoreAudioKit.framework; sourceTree = "<absolute>"; };
+		BF1C418B0B029267001CBFEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/VoiceClip.nib; sourceTree = "<group>"; };
+		BF1C41DD0B029BCE001CBFEA /* VoiceClipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceClipController.h; sourceTree = "<group>"; };
+		BF1C41DE0B029BCE001CBFEA /* VoiceClipController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VoiceClipController.mm; sourceTree = "<group>"; };
+		BF5D42130B03CEA6001E7B41 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		BFE72D6C0B0543A6009A98A8 /* Capture_Record_off.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Capture_Record_off.tif; sourceTree = "<group>"; };
+		BFE72D6D0B0543A6009A98A8 /* Capture_Record_on.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Capture_Record_on.tif; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				BF1C41040B0283E7001CBFEA /* CoreAudio.framework in Frameworks */,
+				BF1C41050B0283E7001CBFEA /* CoreAudioKit.framework in Frameworks */,
+				BF5D42140B03CEA6001E7B41 /* QTKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Duplicate */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+				BF1C418A0B029267001CBFEA /* VoiceClip.nib */,
+			);
+			name = Duplicate;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				BF5D42130B03CEA6001E7B41 /* QTKit.framework */,
+				BF1C41020B0283E7001CBFEA /* CoreAudio.framework */,
+				BF1C41030B0283E7001CBFEA /* CoreAudioKit.framework */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BFE72D6C0B0543A6009A98A8 /* Capture_Record_off.tif */,
+				BFE72D6D0B0543A6009A98A8 /* Capture_Record_on.tif */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
+				AB2C26750677B0C400A08910 /* DuplicateFilter */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* VoiceClip.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* Duplicate_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* DuplicateFilter */ = {
+			isa = PBXGroup;
+			children = (
+				BF5D41CC0B03C548001E7B41 /* Play */,
+				BF5D41C90B03C534001E7B41 /* Record */,
+				ABA48A640680BB600089EB4F /* VoiceClipFilter.h */,
+				ABA48A660680BB690089EB4F /* VoiceClipFilter.mm */,
+				BF1C41DD0B029BCE001CBFEA /* VoiceClipController.h */,
+				BF1C41DE0B029BCE001CBFEA /* VoiceClipController.mm */,
+			);
+			name = DuplicateFilter;
+			sourceTree = "<group>";
+		};
+		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				A9885CB80D755A9000A851BE /* browserController.h */,
+				A9885C970D7559FF00A851BE /* PluginFilter.h */,
+				A9E30B6D0D7717A7005F6675 /* ROI.h */,
+				A9E30B6F0D7717B3005F6675 /* dicomFile.h */,
+				A9E30B710D7717BF005F6675 /* DCMPix.h */,
+				A9E30B720D7717BF005F6675 /* DCMView.h */,
+				A9E30B750D7717CC005F6675 /* ViewerController.h */,
+			);
+			path = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+		BF5D41C90B03C534001E7B41 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				BF1C40FE0B027C6A001CBFEA /* DCAudioFileRecorder.h */,
+				BF1C40FF0B027C6A001CBFEA /* DCAudioFileRecorder.cpp */,
+			);
+			name = Record;
+			sourceTree = "<group>";
+		};
+		BF5D41CC0B03C548001E7B41 /* Play */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Play;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* Duplicate_Prefix.pch in Headers */,
+				ABA48A650680BB600089EB4F /* VoiceClipFilter.h in Headers */,
+				BF1C41000B027C6A001CBFEA /* DCAudioFileRecorder.h in Headers */,
+				BF1C41DF0B029BCE001CBFEA /* VoiceClipController.h in Headers */,
+				A9885CAD0D7559FF00A851BE /* PluginFilter.h in Headers */,
+				A9885CB90D755A9000A851BE /* browserController.h in Headers */,
+				A9E30B6E0D7717A7005F6675 /* ROI.h in Headers */,
+				A9E30B700D7717B3005F6675 /* dicomFile.h in Headers */,
+				A9E30B730D7717BF005F6675 /* DCMPix.h in Headers */,
+				A9E30B740D7717BF005F6675 /* DCMView.h in Headers */,
+				A9E30B760D7717CC005F6675 /* ViewerController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* VoiceClip */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "VoiceClip" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoiceClip;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* VoiceClip.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "VoiceClip" */;
+			compatibilityVersion = "Xcode 3.0";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Duplicate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* VoiceClip */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				BF1C418C0B029267001CBFEA /* VoiceClip.nib in Resources */,
+				BFE72D6E0B0543A6009A98A8 /* Capture_Record_off.tif in Resources */,
+				BFE72D6F0B0543A6009A98A8 /* Capture_Record_on.tif in Resources */,
+				A9E30B890D77182A005F6675 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABA48A670680BB690089EB4F /* VoiceClipFilter.mm in Sources */,
+				BF1C41010B027C6A001CBFEA /* DCAudioFileRecorder.cpp in Sources */,
+				BF1C41E00B029BCE001CBFEA /* VoiceClipController.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		BF1C418A0B029267001CBFEA /* VoiceClip.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF1C418B0B029267001CBFEA /* English */,
+			);
+			name = VoiceClip.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"/System/Library/Frameworks\"";
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Duplicate_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = VoiceClip;
+				SECTORDER_FLAGS = "";
+				STRIP_STYLE = all;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"/System/Library/Frameworks\"";
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Duplicate_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = VoiceClip;
+				SECTORDER_FLAGS = "";
+				STRIP_STYLE = all;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9308AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"/System/Library/Frameworks\"";
+				GCC_ALTIVEC_EXTENSIONS = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Duplicate_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = VoiceClip;
+				SECTORDER_FLAGS = "";
+				STRIP_STYLE = all;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Deployment;
+		};
+		CE6A9A9708AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "VoiceClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+				CE6A9A9308AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "VoiceClip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+				CE6A9A9708AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

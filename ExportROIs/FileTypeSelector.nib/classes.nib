@@ -1,0 +1,12 @@
+{
+    IBClasses = (
+        {
+            CLASS = FileTypeSelector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {addPanel = id; csvRadio = id; matrix = id; xmlRadio = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

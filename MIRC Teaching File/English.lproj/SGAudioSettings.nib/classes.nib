@@ -1,0 +1,77 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = MeteringView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = NSOpaqueGrayRulerView; LANGUAGE = ObjC; SUPERCLASS = NSRulerView; }, 
+        {CLASS = NSOpaqueView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {
+                addFXUnit = id; 
+                closeFXPanel = id; 
+                closePanel = id; 
+                removeFXUnit = id; 
+                selectOutputFormat = id; 
+                selectPreviewDevice = id; 
+                selectPreviewDeviceFormat = id; 
+                selectPreviewOutput = id; 
+                selectRecordDevice = id; 
+                selectRecordDeviceFormat = id; 
+                selectRecordInput = id; 
+                setPreviewFlags = id; 
+                setPreviewMasterGain = id; 
+                setRecordMasterGain = id; 
+                showFXPanel = id; 
+                showPanel = id; 
+                toggleHardwarePlaythru = id; 
+                togglePlayWhileRecording = id; 
+                toggleUseHardwareGainControls = id; 
+                updateHardwarePlaythruButton = id; 
+                updateOutputControls = id; 
+                updateOutputFormatText = id; 
+                updatePlayWhileRecordingButton = id; 
+                updatePreviewDeviceFormatPopUp = id; 
+                updatePreviewDeviceMasterGainSlider = id; 
+                updatePreviewDeviceOutputPopUp = id; 
+                updatePreviewDevicesPopUp = id; 
+                updatePreviewFlagsPopUp = id; 
+                updateRecordDeviceChannelsBox = id; 
+                updateRecordDeviceFormatPopUp = id; 
+                updateRecordDeviceInputPopUp = id; 
+                updateRecordDeviceMasterGainSlider = id; 
+                updateRecordDevicesPopUp = id; 
+                updateUseHardwareGainControls = id; 
+            }; 
+            CLASS = SGAudioSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                mAddFXButton = NSPopUpButton; 
+                mFXContainerView = NSOpaqueGrayRulerView; 
+                mFXPanel = NSPanel; 
+                mFXPanelButton = NSButton; 
+                mFXScrollView = NSScrollView; 
+                mHardPlaythruEnabledButton = NSButton; 
+                mOutputFormatButton = NSButton; 
+                mOutputFormatText = NSTextField; 
+                mPrevDeviceFormatPopUp = NSPopUpButton; 
+                mPrevDeviceOutputsPopUp = NSPopUpButton; 
+                mPrevDevicesPopUp = NSPopUpButton; 
+                mPrevMasterGainSlider = NSSlider; 
+                mPrevMasterGainText = NSTextField; 
+                mPreviewFlagsPopUp = NSPopUpButton; 
+                mPreviewWhileRecordingButton = NSButton; 
+                mRecDeviceChannelsContainerView = NSOpaqueGrayRulerView; 
+                mRecDeviceChannelsScrollView = NSScrollView; 
+                mRecDeviceFormatPopUp = NSPopUpButton; 
+                mRecDeviceInputsPopUp = NSPopUpButton; 
+                mRecDevicesPopUp = NSPopUpButton; 
+                mRecMasterGainSlider = NSSlider; 
+                mRecMasterGainText = NSTextField; 
+                mRemoveFXButton = NSButton; 
+                mSettingsPanel = NSPanel; 
+                mUseHardwareGainButton = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

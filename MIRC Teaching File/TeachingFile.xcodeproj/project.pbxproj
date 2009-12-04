@@ -1,0 +1,978 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7E11258008A7FDB10037819D /* MIRCCaseController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E11257E08A7FDB10037819D /* MIRCCaseController.h */; };
+		7E11258108A7FDB10037819D /* MIRCCaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E11257F08A7FDB10037819D /* MIRCCaseController.m */; };
+		7E12D51408BE6D93002BA10A /* MIRCTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E12D51208BE6D93002BA10A /* MIRCTextField.h */; };
+		7E12D51508BE6D93002BA10A /* MIRCTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12D51308BE6D93002BA10A /* MIRCTextField.m */; };
+		7E12D52908BE70EB002BA10A /* MIRCForm.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E12D52708BE70EB002BA10A /* MIRCForm.h */; };
+		7E12D52A08BE70EB002BA10A /* MIRCForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E12D52808BE70EB002BA10A /* MIRCForm.m */; };
+		7E279F3908C3960400CA67AB /* MIRCWebView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E279F3708C3960400CA67AB /* MIRCWebView.nib */; };
+		7E279F5708C3991F00CA67AB /* MIRCWebController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E279F5508C3991F00CA67AB /* MIRCWebController.h */; };
+		7E279F5808C3991F00CA67AB /* MIRCWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E279F5608C3991F00CA67AB /* MIRCWebController.m */; };
+		7E28F10C08AD14FF00C8E99F /* MIRCFileTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E28F10A08AD14FF00C8E99F /* MIRCFileTableView.h */; };
+		7E28F10D08AD14FF00C8E99F /* MIRCFileTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E28F10B08AD14FF00C8E99F /* MIRCFileTableView.m */; };
+		7E28F11A08AD5A5300C8E99F /* MIRCPatient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E28F11808AD5A5300C8E99F /* MIRCPatient.h */; };
+		7E28F11B08AD5A5300C8E99F /* MIRCPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E28F11908AD5A5300C8E99F /* MIRCPatient.m */; };
+		7E2C55DA08AA9CC1005AC3B8 /* MIRCXMLEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E2C55D808AA9CC1005AC3B8 /* MIRCXMLEditor.nib */; };
+		7E2C55DF08AA9CDC005AC3B8 /* MIRCXMLController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E2C55DD08AA9CDC005AC3B8 /* MIRCXMLController.h */; };
+		7E2C55E008AA9CDC005AC3B8 /* MIRCXMLController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E2C55DE08AA9CDC005AC3B8 /* MIRCXMLController.m */; };
+		7E5427A008C0F66D00DDE31C /* MIRCTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E54279E08C0F66D00DDE31C /* MIRCTextView.h */; };
+		7E5427A108C0F66D00DDE31C /* MIRCTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E54279F08C0F66D00DDE31C /* MIRCTextView.m */; };
+		7E5427D808C101F400DDE31C /* DeviceChannelStrip.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E5427D608C101F400DDE31C /* DeviceChannelStrip.nib */; };
+		7E5427DD08C1020800DDE31C /* MIRCVideoRecord.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E5427D908C1020800DDE31C /* MIRCVideoRecord.nib */; };
+		7E5427DE08C1020800DDE31C /* SGAudioSettings.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E5427DB08C1020800DDE31C /* SGAudioSettings.nib */; };
+		7E5427FC08C1047900DDE31C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5427FB08C1047900DDE31C /* OpenGL.framework */; };
+		7E54280008C104A300DDE31C /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5427FF08C104A300DDE31C /* QuickTime.framework */; };
+		7E54280D08C1050C00DDE31C /* WhackedDebugMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427E008C1024F00DDE31C /* WhackedDebugMacros.h */; };
+		7E54281208C1055000DDE31C /* MeteringView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427AC08C101B300DDE31C /* MeteringView.h */; };
+		7E54281308C1055000DDE31C /* MeteringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427AD08C101B300DDE31C /* MeteringView.m */; };
+		7E54281508C1058D00DDE31C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E54281408C1058D00DDE31C /* AudioToolbox.framework */; };
+		7E5428EF08C1097A00DDE31C /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5428EE08C1097A00DDE31C /* CoreAudio.framework */; };
+		7E5428F308C109B200DDE31C /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E5428F208C109B200DDE31C /* AudioUnit.framework */; };
+		7E54291108C10A6000DDE31C /* WhackedTV_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 7E54291008C10A6000DDE31C /* WhackedTV_Prefix.pch */; };
+		7E54291208C10A8500DDE31C /* NSOpaqueGrayRulerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427BC08C101B300DDE31C /* NSOpaqueGrayRulerView.h */; };
+		7E54291308C10A8600DDE31C /* NSOpaqueGrayRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427BD08C101B300DDE31C /* NSOpaqueGrayRulerView.m */; };
+		7E54292408C10FB600DDE31C /* SampleCIView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427AF08C101B300DDE31C /* SampleCIView.h */; };
+		7E54292508C10FB600DDE31C /* SampleCIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427B008C101B300DDE31C /* SampleCIView.m */; };
+		7E54292808C10FB800DDE31C /* SGAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427B308C101B300DDE31C /* SGAudio.h */; };
+		7E54292908C10FB800DDE31C /* SGAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427B408C101B300DDE31C /* SGAudio.mm */; };
+		7E54292A08C10FB900DDE31C /* SGChan.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427B508C101B300DDE31C /* SGChan.h */; };
+		7E54292B08C10FBA00DDE31C /* SGChan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427B608C101B300DDE31C /* SGChan.mm */; };
+		7E54292C08C10FBC00DDE31C /* SGVideo.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427B708C101B300DDE31C /* SGVideo.h */; };
+		7E54292D08C10FBC00DDE31C /* SGVideo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427B808C101B300DDE31C /* SGVideo.mm */; };
+		7E54293508C110A100DDE31C /* SGAudioSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427B908C101B300DDE31C /* SGAudioSettings.h */; };
+		7E54293608C110A400DDE31C /* SGAudioSettings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427BA08C101B300DDE31C /* SGAudioSettings.mm */; };
+		7E54293708C1117700DDE31C /* SeqGrab.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427B108C101B300DDE31C /* SeqGrab.h */; };
+		7E54293808C1117800DDE31C /* SeqGrab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427B208C101B300DDE31C /* SeqGrab.mm */; };
+		7E54293908C1118700DDE31C /* DeviceChannelStrip.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427A808C101B300DDE31C /* DeviceChannelStrip.h */; };
+		7E54293A08C1118800DDE31C /* DeviceChannelStrip.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427A908C101B300DDE31C /* DeviceChannelStrip.mm */; };
+		7E54293B08C1118900DDE31C /* HorizontalMeteringView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427AA08C101B300DDE31C /* HorizontalMeteringView.h */; };
+		7E54293C08C1118A00DDE31C /* HorizontalMeteringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427AB08C101B300DDE31C /* HorizontalMeteringView.m */; };
+		7E54293D08C111AB00DDE31C /* WhackedTVController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E5427BE08C101B300DDE31C /* WhackedTVController.h */; };
+		7E54293E08C111AE00DDE31C /* WhackedTVController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E5427BF08C101B300DDE31C /* WhackedTVController.m */; };
+		7E72147808C4EA4100C3883D /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E72147708C4EA4100C3883D /* AddressBook.framework */; };
+		7E7AD80108C50FE300592302 /* MIRC Video Setting.data in Resources */ = {isa = PBXBuildFile; fileRef = 7E7AD80008C50FE300592302 /* MIRC Video Setting.data */; };
+		7E91D62908CDF68B00B94DD2 /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E91D62808CDF68B00B94DD2 /* browserController.h */; };
+		7E91D79508CE0E8000B94DD2 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E91D79408CE0E8000B94DD2 /* OsiriX.framework */; };
+		8D5B49AE048680CD000E48DA /* Invert_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Invert_Prefix.pch */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		AB01B8F0067FA69F00CDDB0F /* MIRCController.h in Headers */ = {isa = PBXBuildFile; fileRef = AB01B8EE067FA69F00CDDB0F /* MIRCController.h */; };
+		AB01B8F1067FA69F00CDDB0F /* MIRCController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB01B8EF067FA69F00CDDB0F /* MIRCController.m */; };
+		AB01B8F3067FA6D000CDDB0F /* MIRC.nib in Resources */ = {isa = PBXBuildFile; fileRef = AB01B8F2067FA6CF00CDDB0F /* MIRC.nib */; };
+		AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB01B9BC067FAC0500CDDB0F /* WebKit.framework */; };
+		AB2C25D90677AEEA00A08910 /* MIRCFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = AB2C25D70677AEEA00A08910 /* MIRCFilter.h */; };
+		AB2C25DA0677AEEA00A08910 /* MIRCFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2C25D80677AEEA00A08910 /* MIRCFilter.m */; };
+		ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB76339067FB2A8000912C1 /* DCMPix.h */; };
+		ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633B067FB2A8000912C1 /* dicomFile.h */; };
+		ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633C067FB2A8000912C1 /* MyPoint.h */; };
+		ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633D067FB2A8000912C1 /* PluginFilter.h */; };
+		ABB76345067FB2A8000912C1 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633E067FB2A8000912C1 /* ROI.h */; };
+		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
+		BF215EB508B588FC00A25AE8 /* MIRCAnswer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF215EB308B588FC00A25AE8 /* MIRCAnswer.h */; };
+		BF215EB608B588FC00A25AE8 /* MIRCAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF215EB408B588FC00A25AE8 /* MIRCAnswer.m */; };
+		BF3E771F08BC1B42004224AA /* ImageAndTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3E771E08BC1B42004224AA /* ImageAndTextCell.h */; };
+		BF3E772408BC1B5F004224AA /* MIRCImageCell.h in Headers */ = {isa = PBXBuildFile; fileRef = BF3E772208BC1B5F004224AA /* MIRCImageCell.h */; };
+		BF3E772508BC1B5F004224AA /* MIRCImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E772308BC1B5F004224AA /* MIRCImageCell.m */; };
+		BF47A81008C407D600D36F4F /* TheMIRCdocumentSchema.htm in Resources */ = {isa = PBXBuildFile; fileRef = BF47A80F08C407D600D36F4F /* TheMIRCdocumentSchema.htm */; };
+		BF4B47540B83739D0096D325 /* TeachingFile.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = BF4B47530B83739D0096D325 /* TeachingFile.xcdatamodel */; };
+		BF6AB8D008C2B00800B4D496 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF6AB8CF08C2B00800B4D496 /* QTKit.framework */; };
+		BF6DB1A40B8E4B5900DDA353 /* QuestionArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = BF6DB1A20B8E4B5900DDA353 /* QuestionArrayController.h */; };
+		BF6DB1A50B8E4B5900DDA353 /* QuestionArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF6DB1A30B8E4B5900DDA353 /* QuestionArrayController.m */; };
+		BFA289730B850C9F00E5991A /* WindowLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BFA289720B850C9F00E5991A /* WindowLayoutManager.h */; };
+		BFA2899A0B85125200E5991A /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = BFA289990B85125200E5991A /* DCMView.h */; };
+		BFB1E3C108BD673300805411 /* MIRCImage.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB1E3BF08BD673300805411 /* MIRCImage.h */; };
+		BFB1E3C208BD673300805411 /* MIRCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB1E3C008BD673300805411 /* MIRCImage.m */; };
+		BFB1E3D208BD73A200805411 /* MIRCImageWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB1E3D008BD73A200805411 /* MIRCImageWindowController.h */; };
+		BFB1E3D308BD73A200805411 /* MIRCImageWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB1E3D108BD73A200805411 /* MIRCImageWindowController.m */; };
+		BFB1E3DD08BD75CF00805411 /* MIRCImages.nib in Resources */ = {isa = PBXBuildFile; fileRef = BFB1E3DB08BD75CF00805411 /* MIRCImages.nib */; };
+		BFBFDBC108C5677C0062CE9A /* MIRCXMLEditor.h in Headers */ = {isa = PBXBuildFile; fileRef = BFBFDBBF08C5677C0062CE9A /* MIRCXMLEditor.h */; };
+		BFBFDBC208C5677C0062CE9A /* MIRCXMLEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFDBC008C5677C0062CE9A /* MIRCXMLEditor.m */; };
+		BFBFDBC608C5686C0062CE9A /* MIRCXMLTextEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = BFBFDBC408C5686C0062CE9A /* MIRCXMLTextEditor.nib */; };
+		BFDF59BB0B972E7F00FA7ACA /* dcm4che.jar in Resources */ = {isa = PBXBuildFile; fileRef = BFDF59B50B972E7F00FA7ACA /* dcm4che.jar */; };
+		BFDF59BC0B972E7F00FA7ACA /* dicom.jar in Resources */ = {isa = PBXBuildFile; fileRef = BFDF59B60B972E7F00FA7ACA /* dicom.jar */; };
+		BFDF59BD0B972E7F00FA7ACA /* fs.jar in Resources */ = {isa = PBXBuildFile; fileRef = BFDF59B70B972E7F00FA7ACA /* fs.jar */; };
+		BFDF59BE0B972E7F00FA7ACA /* getopt.jar in Resources */ = {isa = PBXBuildFile; fileRef = BFDF59B80B972E7F00FA7ACA /* getopt.jar */; };
+		BFDF59BF0B972E7F00FA7ACA /* log4j.jar in Resources */ = {isa = PBXBuildFile; fileRef = BFDF59B90B972E7F00FA7ACA /* log4j.jar */; };
+		BFDF59C00B972E7F00FA7ACA /* rsnautil.jar in Resources */ = {isa = PBXBuildFile; fileRef = BFDF59BA0B972E7F00FA7ACA /* rsnautil.jar */; };
+		BFDF59C50B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = BFDF59C30B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.h */; };
+		BFDF59C60B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = BFDF59C40B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.m */; };
+		BFE286C808A1C44E00A6675E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFE286C708A1C44E00A6675E /* QuartzCore.framework */; };
+		BFE9EF5408AAEED700D2BF08 /* MIRCAuthor.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE9EF5208AAEED700D2BF08 /* MIRCAuthor.h */; };
+		BFE9EF5508AAEED700D2BF08 /* MIRCAuthor.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE9EF5308AAEED700D2BF08 /* MIRCAuthor.m */; };
+		BFE9EF6308AAF91200D2BF08 /* MIRCAuthorController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE9EF6108AAF91200D2BF08 /* MIRCAuthorController.h */; };
+		BFE9EF6408AAF91200D2BF08 /* MIRCAuthorController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE9EF6208AAF91200D2BF08 /* MIRCAuthorController.m */; };
+		BFF57D5D0B83ADBA008B4FF2 /* CaseImageArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF57D5B0B83ADBA008B4FF2 /* CaseImageArrayController.h */; };
+		BFF57D5E0B83ADBA008B4FF2 /* CaseImageArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF57D5C0B83ADBA008B4FF2 /* CaseImageArrayController.m */; };
+		BFF57D630B83ADD2008B4FF2 /* AccessoryFileArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF57D610B83ADD2008B4FF2 /* AccessoryFileArrayController.h */; };
+		BFF57D640B83ADD2008B4FF2 /* AccessoryFileArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF57D620B83ADD2008B4FF2 /* AccessoryFileArrayController.m */; };
+		BFFC059708AEE5E500804446 /* MIRCThumbnail.h in Headers */ = {isa = PBXBuildFile; fileRef = BFFC059508AEE5E500804446 /* MIRCThumbnail.h */; };
+		BFFC059808AEE5E500804446 /* MIRCThumbnail.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC059608AEE5E500804446 /* MIRCThumbnail.m */; };
+		BFFC059D08AEE5F800804446 /* MIRCQuiz.h in Headers */ = {isa = PBXBuildFile; fileRef = BFFC059B08AEE5F800804446 /* MIRCQuiz.h */; };
+		BFFC059E08AEE5F800804446 /* MIRCQuiz.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC059C08AEE5F800804446 /* MIRCQuiz.m */; };
+		BFFC05A308AEE61200804446 /* MIRCQuestion.h in Headers */ = {isa = PBXBuildFile; fileRef = BFFC05A108AEE61200804446 /* MIRCQuestion.h */; };
+		BFFC05A408AEE61200804446 /* MIRCQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFC05A208AEE61200804446 /* MIRCQuestion.m */; };
+		BFFF310C08B828A7008D1E82 /* MIRCQuestionWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFFF310A08B828A7008D1E82 /* MIRCQuestionWindowController.h */; };
+		BFFF310D08B828A7008D1E82 /* MIRCQuestionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFF310B08B828A7008D1E82 /* MIRCQuestionWindowController.m */; };
+		BFFF311208B828BF008D1E82 /* MIRCAnswerArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFFF311008B828BF008D1E82 /* MIRCAnswerArrayController.h */; };
+		BFFF311308B828BF008D1E82 /* MIRCAnswerArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFF311108B828BF008D1E82 /* MIRCAnswerArrayController.m */; };
+		BFFF311C08B82B09008D1E82 /* MIRCQuestion.nib in Resources */ = {isa = PBXBuildFile; fileRef = BFFF311A08B82B09008D1E82 /* MIRCQuestion.nib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* Invert_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Invert_Prefix.pch; sourceTree = "<group>"; };
+		7E11257E08A7FDB10037819D /* MIRCCaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCCaseController.h; sourceTree = "<group>"; };
+		7E11257F08A7FDB10037819D /* MIRCCaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCCaseController.m; sourceTree = "<group>"; };
+		7E12D51208BE6D93002BA10A /* MIRCTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCTextField.h; sourceTree = "<group>"; };
+		7E12D51308BE6D93002BA10A /* MIRCTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCTextField.m; sourceTree = "<group>"; };
+		7E12D52708BE70EB002BA10A /* MIRCForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCForm.h; sourceTree = "<group>"; };
+		7E12D52808BE70EB002BA10A /* MIRCForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCForm.m; sourceTree = "<group>"; };
+		7E279F3808C3960400CA67AB /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MIRCWebView.nib; sourceTree = "<group>"; };
+		7E279F5508C3991F00CA67AB /* MIRCWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCWebController.h; sourceTree = "<group>"; };
+		7E279F5608C3991F00CA67AB /* MIRCWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCWebController.m; sourceTree = "<group>"; };
+		7E28F10A08AD14FF00C8E99F /* MIRCFileTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MIRCFileTableView.h; sourceTree = "<group>"; };
+		7E28F10B08AD14FF00C8E99F /* MIRCFileTableView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MIRCFileTableView.m; sourceTree = "<group>"; };
+		7E28F11808AD5A5300C8E99F /* MIRCPatient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCPatient.h; sourceTree = "<group>"; };
+		7E28F11908AD5A5300C8E99F /* MIRCPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCPatient.m; sourceTree = "<group>"; };
+		7E2C55D908AA9CC1005AC3B8 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MIRCXMLEditor.nib; sourceTree = "<group>"; };
+		7E2C55DD08AA9CDC005AC3B8 /* MIRCXMLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCXMLController.h; sourceTree = "<group>"; };
+		7E2C55DE08AA9CDC005AC3B8 /* MIRCXMLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCXMLController.m; sourceTree = "<group>"; };
+		7E54279E08C0F66D00DDE31C /* MIRCTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCTextView.h; sourceTree = "<group>"; };
+		7E54279F08C0F66D00DDE31C /* MIRCTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCTextView.m; sourceTree = "<group>"; };
+		7E5427A808C101B300DDE31C /* DeviceChannelStrip.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DeviceChannelStrip.h; sourceTree = "<group>"; };
+		7E5427A908C101B300DDE31C /* DeviceChannelStrip.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = DeviceChannelStrip.mm; sourceTree = "<group>"; };
+		7E5427AA08C101B300DDE31C /* HorizontalMeteringView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HorizontalMeteringView.h; sourceTree = "<group>"; };
+		7E5427AB08C101B300DDE31C /* HorizontalMeteringView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HorizontalMeteringView.m; sourceTree = "<group>"; };
+		7E5427AC08C101B300DDE31C /* MeteringView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MeteringView.h; sourceTree = "<group>"; };
+		7E5427AD08C101B300DDE31C /* MeteringView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MeteringView.m; sourceTree = "<group>"; };
+		7E5427AF08C101B300DDE31C /* SampleCIView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SampleCIView.h; sourceTree = "<group>"; };
+		7E5427B008C101B300DDE31C /* SampleCIView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SampleCIView.m; sourceTree = "<group>"; };
+		7E5427B108C101B300DDE31C /* SeqGrab.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SeqGrab.h; sourceTree = "<group>"; };
+		7E5427B208C101B300DDE31C /* SeqGrab.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = SeqGrab.mm; sourceTree = "<group>"; };
+		7E5427B308C101B300DDE31C /* SGAudio.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SGAudio.h; sourceTree = "<group>"; };
+		7E5427B408C101B300DDE31C /* SGAudio.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = SGAudio.mm; sourceTree = "<group>"; };
+		7E5427B508C101B300DDE31C /* SGChan.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SGChan.h; sourceTree = "<group>"; };
+		7E5427B608C101B300DDE31C /* SGChan.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = SGChan.mm; sourceTree = "<group>"; };
+		7E5427B708C101B300DDE31C /* SGVideo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SGVideo.h; sourceTree = "<group>"; };
+		7E5427B808C101B300DDE31C /* SGVideo.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = SGVideo.mm; sourceTree = "<group>"; };
+		7E5427B908C101B300DDE31C /* SGAudioSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SGAudioSettings.h; sourceTree = "<group>"; };
+		7E5427BA08C101B300DDE31C /* SGAudioSettings.mm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.objcpp; path = SGAudioSettings.mm; sourceTree = "<group>"; };
+		7E5427BC08C101B300DDE31C /* NSOpaqueGrayRulerView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSOpaqueGrayRulerView.h; sourceTree = "<group>"; };
+		7E5427BD08C101B300DDE31C /* NSOpaqueGrayRulerView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSOpaqueGrayRulerView.m; sourceTree = "<group>"; };
+		7E5427BE08C101B300DDE31C /* WhackedTVController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WhackedTVController.h; sourceTree = "<group>"; };
+		7E5427BF08C101B300DDE31C /* WhackedTVController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = WhackedTVController.m; sourceTree = "<group>"; };
+		7E5427D708C101F400DDE31C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DeviceChannelStrip.nib; sourceTree = "<group>"; };
+		7E5427DA08C1020800DDE31C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MIRCVideoRecord.nib; sourceTree = "<group>"; };
+		7E5427DC08C1020800DDE31C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SGAudioSettings.nib; sourceTree = "<group>"; };
+		7E5427E008C1024F00DDE31C /* WhackedDebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WhackedDebugMacros.h; sourceTree = "<group>"; };
+		7E5427FB08C1047900DDE31C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = ../../../../../../../System/Library/Frameworks/OpenGL.framework; sourceTree = "<group>"; };
+		7E5427FF08C104A300DDE31C /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = ../../../../../../../System/Library/Frameworks/QuickTime.framework; sourceTree = "<group>"; };
+		7E54281408C1058D00DDE31C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = ../../../../../../../System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<group>"; };
+		7E5428EE08C1097A00DDE31C /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = ../../../../../../../System/Library/Frameworks/CoreAudio.framework; sourceTree = "<group>"; };
+		7E5428F208C109B200DDE31C /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = /System/Library/Frameworks/AudioUnit.framework; sourceTree = "<absolute>"; };
+		7E54291008C10A6000DDE31C /* WhackedTV_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = WhackedTV_Prefix.pch; sourceTree = "<group>"; };
+		7E72147708C4EA4100C3883D /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
+		7E7AD80008C50FE300592302 /* MIRC Video Setting.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MIRC Video Setting.data"; sourceTree = "<group>"; };
+		7E91D62808CDF68B00B94DD2 /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = browserController.h; sourceTree = "<group>"; };
+		7E91D79408CE0E8000B94DD2 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB01B8EE067FA69F00CDDB0F /* MIRCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCController.h; sourceTree = "<group>"; };
+		AB01B8EF067FA69F00CDDB0F /* MIRCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCController.m; sourceTree = "<group>"; };
+		AB01B8F2067FA6CF00CDDB0F /* MIRC.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MIRC.nib; sourceTree = "<group>"; };
+		AB01B9BC067FAC0500CDDB0F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		AB1411F40677B3BE004B0074 /* MIRC.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MIRC.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB2C25D70677AEEA00A08910 /* MIRCFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCFilter.h; sourceTree = "<group>"; };
+		AB2C25D80677AEEA00A08910 /* MIRCFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCFilter.m; sourceTree = "<group>"; };
+		ABB76339067FB2A8000912C1 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		ABB7633B067FB2A8000912C1 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		ABB7633C067FB2A8000912C1 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
+		ABB7633D067FB2A8000912C1 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		ABB7633E067FB2A8000912C1 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		BF028D780B988F700078CEAC /* qtData.data */ = {isa = PBXFileReference; lastKnownFileType = file; path = qtData.data; sourceTree = "<group>"; };
+		BF215EB308B588FC00A25AE8 /* MIRCAnswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCAnswer.h; sourceTree = "<group>"; };
+		BF215EB408B588FC00A25AE8 /* MIRCAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCAnswer.m; sourceTree = "<group>"; };
+		BF3E771E08BC1B42004224AA /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
+		BF3E772208BC1B5F004224AA /* MIRCImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCImageCell.h; sourceTree = "<group>"; };
+		BF3E772308BC1B5F004224AA /* MIRCImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCImageCell.m; sourceTree = "<group>"; };
+		BF47A80F08C407D600D36F4F /* TheMIRCdocumentSchema.htm */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; path = TheMIRCdocumentSchema.htm; sourceTree = "<group>"; };
+		BF4B47530B83739D0096D325 /* TeachingFile.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = TeachingFile.xcdatamodel; sourceTree = "<group>"; };
+		BF6AB8CF08C2B00800B4D496 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		BF6DB1A20B8E4B5900DDA353 /* QuestionArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionArrayController.h; sourceTree = "<group>"; };
+		BF6DB1A30B8E4B5900DDA353 /* QuestionArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionArrayController.m; sourceTree = "<group>"; };
+		BF91DC2E0BA1BBFB008C2D32 /* FAWebPostQuery.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FAWebPostQuery.h; sourceTree = "<group>"; };
+		BF91DC2F0BA1BBFB008C2D32 /* FAWebPostQuery.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FAWebPostQuery.m; sourceTree = "<group>"; };
+		BFA289720B850C9F00E5991A /* WindowLayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WindowLayoutManager.h; path = ../../osirix/WindowLayoutManager.h; sourceTree = SOURCE_ROOT; };
+		BFA289990B85125200E5991A /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		BFB1E3BF08BD673300805411 /* MIRCImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCImage.h; sourceTree = "<group>"; };
+		BFB1E3C008BD673300805411 /* MIRCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCImage.m; sourceTree = "<group>"; };
+		BFB1E3D008BD73A200805411 /* MIRCImageWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCImageWindowController.h; sourceTree = "<group>"; };
+		BFB1E3D108BD73A200805411 /* MIRCImageWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCImageWindowController.m; sourceTree = "<group>"; };
+		BFB1E3DC08BD75CF00805411 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MIRCImages.nib; sourceTree = "<group>"; };
+		BFBFDBBF08C5677C0062CE9A /* MIRCXMLEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCXMLEditor.h; sourceTree = "<group>"; };
+		BFBFDBC008C5677C0062CE9A /* MIRCXMLEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCXMLEditor.m; sourceTree = "<group>"; };
+		BFBFDBC508C5686C0062CE9A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MIRCXMLTextEditor.nib; sourceTree = "<group>"; };
+		BFDF59B50B972E7F00FA7ACA /* dcm4che.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = dcm4che.jar; sourceTree = "<group>"; };
+		BFDF59B60B972E7F00FA7ACA /* dicom.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = dicom.jar; sourceTree = "<group>"; };
+		BFDF59B70B972E7F00FA7ACA /* fs.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = fs.jar; sourceTree = "<group>"; };
+		BFDF59B80B972E7F00FA7ACA /* getopt.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = getopt.jar; sourceTree = "<group>"; };
+		BFDF59B90B972E7F00FA7ACA /* log4j.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = log4j.jar; sourceTree = "<group>"; };
+		BFDF59BA0B972E7F00FA7ACA /* rsnautil.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; path = rsnautil.jar; sourceTree = "<group>"; };
+		BFDF59C30B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataToMIRCXMLConverter.h; sourceTree = "<group>"; };
+		BFDF59C40B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataToMIRCXMLConverter.m; sourceTree = "<group>"; };
+		BFE286C708A1C44E00A6675E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		BFE9EF5208AAEED700D2BF08 /* MIRCAuthor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCAuthor.h; sourceTree = "<group>"; };
+		BFE9EF5308AAEED700D2BF08 /* MIRCAuthor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCAuthor.m; sourceTree = "<group>"; };
+		BFE9EF6108AAF91200D2BF08 /* MIRCAuthorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCAuthorController.h; sourceTree = "<group>"; };
+		BFE9EF6208AAF91200D2BF08 /* MIRCAuthorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCAuthorController.m; sourceTree = "<group>"; };
+		BFF57D5B0B83ADBA008B4FF2 /* CaseImageArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseImageArrayController.h; sourceTree = "<group>"; };
+		BFF57D5C0B83ADBA008B4FF2 /* CaseImageArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseImageArrayController.m; sourceTree = "<group>"; };
+		BFF57D610B83ADD2008B4FF2 /* AccessoryFileArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccessoryFileArrayController.h; sourceTree = "<group>"; };
+		BFF57D620B83ADD2008B4FF2 /* AccessoryFileArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccessoryFileArrayController.m; sourceTree = "<group>"; };
+		BFFC059508AEE5E500804446 /* MIRCThumbnail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCThumbnail.h; sourceTree = "<group>"; };
+		BFFC059608AEE5E500804446 /* MIRCThumbnail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCThumbnail.m; sourceTree = "<group>"; };
+		BFFC059B08AEE5F800804446 /* MIRCQuiz.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCQuiz.h; sourceTree = "<group>"; };
+		BFFC059C08AEE5F800804446 /* MIRCQuiz.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCQuiz.m; sourceTree = "<group>"; };
+		BFFC05A108AEE61200804446 /* MIRCQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCQuestion.h; sourceTree = "<group>"; };
+		BFFC05A208AEE61200804446 /* MIRCQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCQuestion.m; sourceTree = "<group>"; };
+		BFFF310A08B828A7008D1E82 /* MIRCQuestionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCQuestionWindowController.h; sourceTree = "<group>"; };
+		BFFF310B08B828A7008D1E82 /* MIRCQuestionWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCQuestionWindowController.m; sourceTree = "<group>"; };
+		BFFF311008B828BF008D1E82 /* MIRCAnswerArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIRCAnswerArrayController.h; sourceTree = "<group>"; };
+		BFFF311108B828BF008D1E82 /* MIRCAnswerArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MIRCAnswerArrayController.m; sourceTree = "<group>"; };
+		BFFF311B08B82B09008D1E82 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MIRCQuestion.nib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
+				BFE286C808A1C44E00A6675E /* QuartzCore.framework in Frameworks */,
+				7E5427FC08C1047900DDE31C /* OpenGL.framework in Frameworks */,
+				7E54280008C104A300DDE31C /* QuickTime.framework in Frameworks */,
+				7E54281508C1058D00DDE31C /* AudioToolbox.framework in Frameworks */,
+				7E5428EF08C1097A00DDE31C /* CoreAudio.framework in Frameworks */,
+				7E5428F308C109B200DDE31C /* AudioUnit.framework in Frameworks */,
+				BF6AB8D008C2B00800B4D496 /* QTKit.framework in Frameworks */,
+				7E72147808C4EA4100C3883D /* AddressBook.framework in Frameworks */,
+				7E91D79508CE0E8000B94DD2 /* OsiriX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Invert */ = {
+			isa = PBXGroup;
+			children = (
+				BF4B475A0B8373AA0096D325 /* Models */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = Invert;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BF028D780B988F700078CEAC /* qtData.data */,
+				BFDF59B50B972E7F00FA7ACA /* dcm4che.jar */,
+				BFDF59B60B972E7F00FA7ACA /* dicom.jar */,
+				BFDF59B70B972E7F00FA7ACA /* fs.jar */,
+				BFDF59B80B972E7F00FA7ACA /* getopt.jar */,
+				BFDF59B90B972E7F00FA7ACA /* log4j.jar */,
+				BFDF59BA0B972E7F00FA7ACA /* rsnautil.jar */,
+				7E7AD80008C50FE300592302 /* MIRC Video Setting.data */,
+				BF47A80F08C407D600D36F4F /* TheMIRCdocumentSchema.htm */,
+				7E5427D908C1020800DDE31C /* MIRCVideoRecord.nib */,
+				7E5427DB08C1020800DDE31C /* SGAudioSettings.nib */,
+				7E5427D608C101F400DDE31C /* DeviceChannelStrip.nib */,
+				AB01B8F2067FA6CF00CDDB0F /* MIRC.nib */,
+				7E2C55D808AA9CC1005AC3B8 /* MIRCXMLEditor.nib */,
+				BFFF311A08B82B09008D1E82 /* MIRCQuestion.nib */,
+				BFB1E3DB08BD75CF00805411 /* MIRCImages.nib */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				7E279F3708C3960400CA67AB /* MIRCWebView.nib */,
+				BFBFDBC408C5686C0062CE9A /* MIRCXMLTextEditor.nib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BF91DC2D0BA1BBD6008C2D32 /* HTTP */,
+				BFA2897E0B850E8400E5991A /* OsiriX Header referenced */,
+				7E5427A708C1015C00DDE31C /*  Making Movies */,
+				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
+				AB2C26750677B0C400A08910 /* TF Filter */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7E91D79408CE0E8000B94DD2 /* OsiriX.framework */,
+				7E72147708C4EA4100C3883D /* AddressBook.framework */,
+				BF6AB8CF08C2B00800B4D496 /* QTKit.framework */,
+				7E5428F208C109B200DDE31C /* AudioUnit.framework */,
+				7E5428EE08C1097A00DDE31C /* CoreAudio.framework */,
+				7E54281408C1058D00DDE31C /* AudioToolbox.framework */,
+				7E5427FF08C104A300DDE31C /* QuickTime.framework */,
+				7E5427FB08C1047900DDE31C /* OpenGL.framework */,
+				BFE286C708A1C44E00A6675E /* QuartzCore.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				AB01B9BC067FAC0500CDDB0F /* WebKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB1411F40677B3BE004B0074 /* MIRC.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* Invert_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		7E5427A708C1015C00DDE31C /*  Making Movies */ = {
+			isa = PBXGroup;
+			children = (
+				7E54291008C10A6000DDE31C /* WhackedTV_Prefix.pch */,
+				7E5427E008C1024F00DDE31C /* WhackedDebugMacros.h */,
+				7E5427A808C101B300DDE31C /* DeviceChannelStrip.h */,
+				7E5427A908C101B300DDE31C /* DeviceChannelStrip.mm */,
+				7E5427AA08C101B300DDE31C /* HorizontalMeteringView.h */,
+				7E5427AB08C101B300DDE31C /* HorizontalMeteringView.m */,
+				7E5427AC08C101B300DDE31C /* MeteringView.h */,
+				7E5427AD08C101B300DDE31C /* MeteringView.m */,
+				7E5427AE08C101B300DDE31C /* SeqGrab */,
+				7E5427B908C101B300DDE31C /* SGAudioSettings.h */,
+				7E5427BA08C101B300DDE31C /* SGAudioSettings.mm */,
+				7E5427BB08C101B300DDE31C /* Utility */,
+				7E5427BE08C101B300DDE31C /* WhackedTVController.h */,
+				7E5427BF08C101B300DDE31C /* WhackedTVController.m */,
+			);
+			name = " Making Movies";
+			sourceTree = "<group>";
+		};
+		7E5427AE08C101B300DDE31C /* SeqGrab */ = {
+			isa = PBXGroup;
+			children = (
+				7E5427AF08C101B300DDE31C /* SampleCIView.h */,
+				7E5427B008C101B300DDE31C /* SampleCIView.m */,
+				7E5427B108C101B300DDE31C /* SeqGrab.h */,
+				7E5427B208C101B300DDE31C /* SeqGrab.mm */,
+				7E5427B308C101B300DDE31C /* SGAudio.h */,
+				7E5427B408C101B300DDE31C /* SGAudio.mm */,
+				7E5427B508C101B300DDE31C /* SGChan.h */,
+				7E5427B608C101B300DDE31C /* SGChan.mm */,
+				7E5427B708C101B300DDE31C /* SGVideo.h */,
+				7E5427B808C101B300DDE31C /* SGVideo.mm */,
+			);
+			path = SeqGrab;
+			sourceTree = "<group>";
+		};
+		7E5427BB08C101B300DDE31C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				7E5427BC08C101B300DDE31C /* NSOpaqueGrayRulerView.h */,
+				7E5427BD08C101B300DDE31C /* NSOpaqueGrayRulerView.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		7E5DDD9208BA66570076C75F /* XML Classes */ = {
+			isa = PBXGroup;
+			children = (
+				BFFC05A108AEE61200804446 /* MIRCQuestion.h */,
+				BFFC05A208AEE61200804446 /* MIRCQuestion.m */,
+				BF215EB308B588FC00A25AE8 /* MIRCAnswer.h */,
+				BF215EB408B588FC00A25AE8 /* MIRCAnswer.m */,
+				BFFC059B08AEE5F800804446 /* MIRCQuiz.h */,
+				BFFC059C08AEE5F800804446 /* MIRCQuiz.m */,
+				7E28F11808AD5A5300C8E99F /* MIRCPatient.h */,
+				7E28F11908AD5A5300C8E99F /* MIRCPatient.m */,
+				BFE9EF5208AAEED700D2BF08 /* MIRCAuthor.h */,
+				BFE9EF5308AAEED700D2BF08 /* MIRCAuthor.m */,
+				BFB1E3C008BD673300805411 /* MIRCImage.m */,
+				BFB1E3BF08BD673300805411 /* MIRCImage.h */,
+			);
+			name = "XML Classes";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* TF Filter */ = {
+			isa = PBXGroup;
+			children = (
+				BFF57D580B83AD6B008B4FF2 /* XML Creation */,
+				7E5DDD9208BA66570076C75F /* XML Classes */,
+				BFF57D330B83AC30008B4FF2 /* Case */,
+				AB2C25D70677AEEA00A08910 /* MIRCFilter.h */,
+				AB2C25D80677AEEA00A08910 /* MIRCFilter.m */,
+				AB01B8EE067FA69F00CDDB0F /* MIRCController.h */,
+				AB01B8EF067FA69F00CDDB0F /* MIRCController.m */,
+				7E28F10A08AD14FF00C8E99F /* MIRCFileTableView.h */,
+				7E28F10B08AD14FF00C8E99F /* MIRCFileTableView.m */,
+				BFFC059508AEE5E500804446 /* MIRCThumbnail.h */,
+				BFFC059608AEE5E500804446 /* MIRCThumbnail.m */,
+				BF3E772208BC1B5F004224AA /* MIRCImageCell.h */,
+				BF3E772308BC1B5F004224AA /* MIRCImageCell.m */,
+				BFB1E3D008BD73A200805411 /* MIRCImageWindowController.h */,
+				BFB1E3D108BD73A200805411 /* MIRCImageWindowController.m */,
+				7E12D51208BE6D93002BA10A /* MIRCTextField.h */,
+				7E12D51308BE6D93002BA10A /* MIRCTextField.m */,
+				7E12D52708BE70EB002BA10A /* MIRCForm.h */,
+				7E12D52808BE70EB002BA10A /* MIRCForm.m */,
+				7E54279E08C0F66D00DDE31C /* MIRCTextView.h */,
+				7E54279F08C0F66D00DDE31C /* MIRCTextView.m */,
+				7E279F5508C3991F00CA67AB /* MIRCWebController.h */,
+				7E279F5608C3991F00CA67AB /* MIRCWebController.m */,
+			);
+			name = "TF Filter";
+			sourceTree = "<group>";
+		};
+		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				BFA289990B85125200E5991A /* DCMView.h */,
+				BFA289720B850C9F00E5991A /* WindowLayoutManager.h */,
+				7E91D62808CDF68B00B94DD2 /* browserController.h */,
+				BF3E771E08BC1B42004224AA /* ImageAndTextCell.h */,
+				ABB7633D067FB2A8000912C1 /* PluginFilter.h */,
+				ABB76339067FB2A8000912C1 /* DCMPix.h */,
+				ABB7633B067FB2A8000912C1 /* dicomFile.h */,
+				ABB7633C067FB2A8000912C1 /* MyPoint.h */,
+				ABB7633E067FB2A8000912C1 /* ROI.h */,
+				ABB7633F067FB2A8000912C1 /* ViewerController.h */,
+			);
+			path = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+		BF4B475A0B8373AA0096D325 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BF4B47530B83739D0096D325 /* TeachingFile.xcdatamodel */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		BF91DC2D0BA1BBD6008C2D32 /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				BF91DC2E0BA1BBFB008C2D32 /* FAWebPostQuery.h */,
+				BF91DC2F0BA1BBFB008C2D32 /* FAWebPostQuery.m */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
+		BFA2897E0B850E8400E5991A /* OsiriX Header referenced */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "OsiriX Header referenced";
+			sourceTree = "<group>";
+		};
+		BFF57D330B83AC30008B4FF2 /* Case */ = {
+			isa = PBXGroup;
+			children = (
+				7E11257E08A7FDB10037819D /* MIRCCaseController.h */,
+				7E11257F08A7FDB10037819D /* MIRCCaseController.m */,
+				BFF57D5B0B83ADBA008B4FF2 /* CaseImageArrayController.h */,
+				BFF57D5C0B83ADBA008B4FF2 /* CaseImageArrayController.m */,
+				BFF57D610B83ADD2008B4FF2 /* AccessoryFileArrayController.h */,
+				BFF57D620B83ADD2008B4FF2 /* AccessoryFileArrayController.m */,
+			);
+			name = Case;
+			sourceTree = "<group>";
+		};
+		BFF57D580B83AD6B008B4FF2 /* XML Creation */ = {
+			isa = PBXGroup;
+			children = (
+				7E2C55DD08AA9CDC005AC3B8 /* MIRCXMLController.h */,
+				7E2C55DE08AA9CDC005AC3B8 /* MIRCXMLController.m */,
+				BFE9EF6108AAF91200D2BF08 /* MIRCAuthorController.h */,
+				BFE9EF6208AAF91200D2BF08 /* MIRCAuthorController.m */,
+				BFBFDBBF08C5677C0062CE9A /* MIRCXMLEditor.h */,
+				BFBFDBC008C5677C0062CE9A /* MIRCXMLEditor.m */,
+				BF6DB1A20B8E4B5900DDA353 /* QuestionArrayController.h */,
+				BF6DB1A30B8E4B5900DDA353 /* QuestionArrayController.m */,
+				BFFF310A08B828A7008D1E82 /* MIRCQuestionWindowController.h */,
+				BFFF310B08B828A7008D1E82 /* MIRCQuestionWindowController.m */,
+				BFFF311008B828BF008D1E82 /* MIRCAnswerArrayController.h */,
+				BFFF311108B828BF008D1E82 /* MIRCAnswerArrayController.m */,
+				BFDF59C30B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.h */,
+				BFDF59C40B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.m */,
+			);
+			name = "XML Creation";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* Invert_Prefix.pch in Headers */,
+				AB2C25D90677AEEA00A08910 /* MIRCFilter.h in Headers */,
+				AB01B8F0067FA69F00CDDB0F /* MIRCController.h in Headers */,
+				ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */,
+				ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */,
+				ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */,
+				ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */,
+				ABB76345067FB2A8000912C1 /* ROI.h in Headers */,
+				ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */,
+				7E11258008A7FDB10037819D /* MIRCCaseController.h in Headers */,
+				7E2C55DF08AA9CDC005AC3B8 /* MIRCXMLController.h in Headers */,
+				BFE9EF5408AAEED700D2BF08 /* MIRCAuthor.h in Headers */,
+				BFE9EF6308AAF91200D2BF08 /* MIRCAuthorController.h in Headers */,
+				7E28F10C08AD14FF00C8E99F /* MIRCFileTableView.h in Headers */,
+				7E28F11A08AD5A5300C8E99F /* MIRCPatient.h in Headers */,
+				BFFC059708AEE5E500804446 /* MIRCThumbnail.h in Headers */,
+				BFFC059D08AEE5F800804446 /* MIRCQuiz.h in Headers */,
+				BFFC05A308AEE61200804446 /* MIRCQuestion.h in Headers */,
+				BF215EB508B588FC00A25AE8 /* MIRCAnswer.h in Headers */,
+				BFFF310C08B828A7008D1E82 /* MIRCQuestionWindowController.h in Headers */,
+				BFFF311208B828BF008D1E82 /* MIRCAnswerArrayController.h in Headers */,
+				BF3E771F08BC1B42004224AA /* ImageAndTextCell.h in Headers */,
+				BF3E772408BC1B5F004224AA /* MIRCImageCell.h in Headers */,
+				BFB1E3C108BD673300805411 /* MIRCImage.h in Headers */,
+				BFB1E3D208BD73A200805411 /* MIRCImageWindowController.h in Headers */,
+				7E12D51408BE6D93002BA10A /* MIRCTextField.h in Headers */,
+				7E12D52908BE70EB002BA10A /* MIRCForm.h in Headers */,
+				7E5427A008C0F66D00DDE31C /* MIRCTextView.h in Headers */,
+				7E54280D08C1050C00DDE31C /* WhackedDebugMacros.h in Headers */,
+				7E54281208C1055000DDE31C /* MeteringView.h in Headers */,
+				7E54291108C10A6000DDE31C /* WhackedTV_Prefix.pch in Headers */,
+				7E54291208C10A8500DDE31C /* NSOpaqueGrayRulerView.h in Headers */,
+				7E54292408C10FB600DDE31C /* SampleCIView.h in Headers */,
+				7E54292808C10FB800DDE31C /* SGAudio.h in Headers */,
+				7E54292A08C10FB900DDE31C /* SGChan.h in Headers */,
+				7E54292C08C10FBC00DDE31C /* SGVideo.h in Headers */,
+				7E54293508C110A100DDE31C /* SGAudioSettings.h in Headers */,
+				7E54293708C1117700DDE31C /* SeqGrab.h in Headers */,
+				7E54293908C1118700DDE31C /* DeviceChannelStrip.h in Headers */,
+				7E54293B08C1118900DDE31C /* HorizontalMeteringView.h in Headers */,
+				7E54293D08C111AB00DDE31C /* WhackedTVController.h in Headers */,
+				7E279F5708C3991F00CA67AB /* MIRCWebController.h in Headers */,
+				BFBFDBC108C5677C0062CE9A /* MIRCXMLEditor.h in Headers */,
+				7E91D62908CDF68B00B94DD2 /* browserController.h in Headers */,
+				BFF57D5D0B83ADBA008B4FF2 /* CaseImageArrayController.h in Headers */,
+				BFF57D630B83ADD2008B4FF2 /* AccessoryFileArrayController.h in Headers */,
+				BFA289730B850C9F00E5991A /* WindowLayoutManager.h in Headers */,
+				BFA2899A0B85125200E5991A /* DCMView.h in Headers */,
+				BF6DB1A40B8E4B5900DDA353 /* QuestionArrayController.h in Headers */,
+				BFDF59C50B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* MIRC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7EBE4B4D0891832E00FC1C36 /* Build configuration list for PBXNativeTarget "MIRC" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MIRC;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB1411F40677B3BE004B0074 /* MIRC.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 7EBE4B510891832E00FC1C36 /* Build configuration list for PBXProject "TeachingFile" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Invert */;
+			projectDirPath = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* MIRC */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFDF59BB0B972E7F00FA7ACA /* dcm4che.jar in Resources */,
+				BFDF59BC0B972E7F00FA7ACA /* dicom.jar in Resources */,
+				BFDF59BD0B972E7F00FA7ACA /* fs.jar in Resources */,
+				BFDF59BE0B972E7F00FA7ACA /* getopt.jar in Resources */,
+				BFDF59BF0B972E7F00FA7ACA /* log4j.jar in Resources */,
+				BFDF59C00B972E7F00FA7ACA /* rsnautil.jar in Resources */,
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				AB01B8F3067FA6D000CDDB0F /* MIRC.nib in Resources */,
+				7E2C55DA08AA9CC1005AC3B8 /* MIRCXMLEditor.nib in Resources */,
+				BFFF311C08B82B09008D1E82 /* MIRCQuestion.nib in Resources */,
+				BFB1E3DD08BD75CF00805411 /* MIRCImages.nib in Resources */,
+				7E5427D808C101F400DDE31C /* DeviceChannelStrip.nib in Resources */,
+				7E5427DD08C1020800DDE31C /* MIRCVideoRecord.nib in Resources */,
+				7E5427DE08C1020800DDE31C /* SGAudioSettings.nib in Resources */,
+				7E279F3908C3960400CA67AB /* MIRCWebView.nib in Resources */,
+				BF47A81008C407D600D36F4F /* TheMIRCdocumentSchema.htm in Resources */,
+				7E7AD80108C50FE300592302 /* MIRC Video Setting.data in Resources */,
+				BFBFDBC608C5686C0062CE9A /* MIRCXMLTextEditor.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB2C25DA0677AEEA00A08910 /* MIRCFilter.m in Sources */,
+				AB01B8F1067FA69F00CDDB0F /* MIRCController.m in Sources */,
+				7E11258108A7FDB10037819D /* MIRCCaseController.m in Sources */,
+				7E2C55E008AA9CDC005AC3B8 /* MIRCXMLController.m in Sources */,
+				BFE9EF5508AAEED700D2BF08 /* MIRCAuthor.m in Sources */,
+				BFE9EF6408AAF91200D2BF08 /* MIRCAuthorController.m in Sources */,
+				7E28F10D08AD14FF00C8E99F /* MIRCFileTableView.m in Sources */,
+				7E28F11B08AD5A5300C8E99F /* MIRCPatient.m in Sources */,
+				BFFC059808AEE5E500804446 /* MIRCThumbnail.m in Sources */,
+				BFFC059E08AEE5F800804446 /* MIRCQuiz.m in Sources */,
+				BFFC05A408AEE61200804446 /* MIRCQuestion.m in Sources */,
+				BF215EB608B588FC00A25AE8 /* MIRCAnswer.m in Sources */,
+				BFFF310D08B828A7008D1E82 /* MIRCQuestionWindowController.m in Sources */,
+				BFFF311308B828BF008D1E82 /* MIRCAnswerArrayController.m in Sources */,
+				BF3E772508BC1B5F004224AA /* MIRCImageCell.m in Sources */,
+				BFB1E3C208BD673300805411 /* MIRCImage.m in Sources */,
+				BFB1E3D308BD73A200805411 /* MIRCImageWindowController.m in Sources */,
+				7E12D51508BE6D93002BA10A /* MIRCTextField.m in Sources */,
+				7E12D52A08BE70EB002BA10A /* MIRCForm.m in Sources */,
+				7E5427A108C0F66D00DDE31C /* MIRCTextView.m in Sources */,
+				7E54281308C1055000DDE31C /* MeteringView.m in Sources */,
+				7E54291308C10A8600DDE31C /* NSOpaqueGrayRulerView.m in Sources */,
+				7E54292508C10FB600DDE31C /* SampleCIView.m in Sources */,
+				7E54292908C10FB800DDE31C /* SGAudio.mm in Sources */,
+				7E54292B08C10FBA00DDE31C /* SGChan.mm in Sources */,
+				7E54292D08C10FBC00DDE31C /* SGVideo.mm in Sources */,
+				7E54293608C110A400DDE31C /* SGAudioSettings.mm in Sources */,
+				7E54293808C1117800DDE31C /* SeqGrab.mm in Sources */,
+				7E54293A08C1118800DDE31C /* DeviceChannelStrip.mm in Sources */,
+				7E54293C08C1118A00DDE31C /* HorizontalMeteringView.m in Sources */,
+				7E54293E08C111AE00DDE31C /* WhackedTVController.m in Sources */,
+				7E279F5808C3991F00CA67AB /* MIRCWebController.m in Sources */,
+				BFBFDBC208C5677C0062CE9A /* MIRCXMLEditor.m in Sources */,
+				BF4B47540B83739D0096D325 /* TeachingFile.xcdatamodel in Sources */,
+				BFF57D5E0B83ADBA008B4FF2 /* CaseImageArrayController.m in Sources */,
+				BFF57D640B83ADD2008B4FF2 /* AccessoryFileArrayController.m in Sources */,
+				BF6DB1A50B8E4B5900DDA353 /* QuestionArrayController.m in Sources */,
+				BFDF59C60B972F1400FA7ACA /* CoreDataToMIRCXMLConverter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7E279F3708C3960400CA67AB /* MIRCWebView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E279F3808C3960400CA67AB /* English */,
+			);
+			name = MIRCWebView.nib;
+			sourceTree = "<group>";
+		};
+		7E2C55D808AA9CC1005AC3B8 /* MIRCXMLEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E2C55D908AA9CC1005AC3B8 /* English */,
+			);
+			name = MIRCXMLEditor.nib;
+			sourceTree = "<group>";
+		};
+		7E5427D608C101F400DDE31C /* DeviceChannelStrip.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E5427D708C101F400DDE31C /* English */,
+			);
+			name = DeviceChannelStrip.nib;
+			sourceTree = "<group>";
+		};
+		7E5427D908C1020800DDE31C /* MIRCVideoRecord.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E5427DA08C1020800DDE31C /* English */,
+			);
+			name = MIRCVideoRecord.nib;
+			sourceTree = "<group>";
+		};
+		7E5427DB08C1020800DDE31C /* SGAudioSettings.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7E5427DC08C1020800DDE31C /* English */,
+			);
+			name = SGAudioSettings.nib;
+			sourceTree = "<group>";
+		};
+		BFB1E3DB08BD75CF00805411 /* MIRCImages.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFB1E3DC08BD75CF00805411 /* English */,
+			);
+			name = MIRCImages.nib;
+			sourceTree = "<group>";
+		};
+		BFBFDBC408C5686C0062CE9A /* MIRCXMLTextEditor.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFBFDBC508C5686C0062CE9A /* English */,
+			);
+			name = MIRCXMLTextEditor.nib;
+			sourceTree = "<group>";
+		};
+		BFFF311A08B82B09008D1E82 /* MIRCQuestion.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFFF311B08B82B09008D1E82 /* English */,
+			);
+			name = MIRCQuestion.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7EBE4B4E0891832E00FC1C36 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/Development\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Invert_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MIRC;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		7EBE4B4F0891832E00FC1C36 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/Development\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Invert_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MIRC;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		7EBE4B500891832E00FC1C36 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/../../build/Development\"";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Invert_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = YES;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = MIRC;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		7EBE4B520891832E00FC1C36 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		7EBE4B530891832E00FC1C36 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		7EBE4B540891832E00FC1C36 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7EBE4B4D0891832E00FC1C36 /* Build configuration list for PBXNativeTarget "MIRC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EBE4B4E0891832E00FC1C36 /* Development */,
+				7EBE4B4F0891832E00FC1C36 /* Deployment */,
+				7EBE4B500891832E00FC1C36 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		7EBE4B510891832E00FC1C36 /* Build configuration list for PBXProject "TeachingFile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7EBE4B520891832E00FC1C36 /* Development */,
+				7EBE4B530891832E00FC1C36 /* Deployment */,
+				7EBE4B540891832E00FC1C36 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

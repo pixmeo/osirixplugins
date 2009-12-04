@@ -1,0 +1,26 @@
+Quick Help for Plugins using ITK (by Brian Jensen)
+
+(This is for ITK and VTK that are present in the OsiriX source code)
+
+In order to compile your plugin you will need to create the following symbolic links in the plug-in source directory:
+ITK180 -> $(OSIRIX_SRC)/ITK180
+Binaries -> $(OSIRIX_SRC)/Binaries
+VTKHeaders -> $(OSIRIX_SRC)/VTKHeaders
+
+You will need to specify extra build settings for every file that uses ITK or VTK, as it is a real pain to include the itk and vtk headers globally.
+To do this, you need to right click on the file in Xcode / select Get Info / Select the Build Tab, and add the following compiler directives
+
+-I ./ITK180 -I ./ITK180/Code -I ./ITK180/Code/Algorithms -I ./ITK180/Code/BasicFilters -I ./ITK180/Code/Common -I ./ITK180/Code/Numerics -I ./ITK180/Code/IO -I ./ITK180/Code/Numerics/FEM -I ./ITK180/Code/Numerics/Statistics -I ./ITK180/Code/SpatialObject -I ./ITK180/Code/Utilities/MetaIO -I ./ITK180/Code/Utilities/expat -I ./ITK180/Code/Utilities/NrrdIO -I ./ITK180/Code/Utilities/DICOMParser -I ./ITK180/Utilities -I ./ITK180/Utilities/vxl/vcl -I ./ITK180/Utilities/vxl/core -I ./VTKHeaders
+
+You will also need to specify the library paths in the gobal build settings.  To do this navigate to search paths section of the build settings. In entry Library Search Paths add two new entries
+
+Binaries/VTKLibs
+ITK180/bin
+
+In every file that users ITK headers, you should also redefine the objective c keyword id, for example:
+
+#define id Id
+	#include "itkImage.h"
+	#include "itkImportImageFilter.h"
+#undef id
+

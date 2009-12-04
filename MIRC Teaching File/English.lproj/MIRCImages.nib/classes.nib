@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = MIRCForm; LANGUAGE = ObjC; SUPERCLASS = NSForm; }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = MIRCImageWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {imageArrayController = id; nodeController = id; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = MIRCTextField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Ejection Fraction</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>ToolbarIcon</key>
+	<string>Test</string>
+	<key>allowToolbarIcon</key>
+	<string>YES</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSPrincipalClass</key>
+	<string>EjectionFractionPlugin</string>
+	<key>MenuTitles</key>
+	<array>
+		<string>Ejection Fraction</string>
+	</array>
+	<key>pluginType</key>
+	<string>roiTool</string>
+</dict>
+</plist>

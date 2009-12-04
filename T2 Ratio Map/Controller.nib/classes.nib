@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {compute = id; }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                K = NSTextField; 
+                factorText = NSTextField; 
+                mode = NSMatrix; 
+                resultView = Graph; 
+                thresholdSetText = NSTextField; 
+                thresholdText = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = Graph; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}

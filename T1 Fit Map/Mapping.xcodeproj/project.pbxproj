@@ -1,0 +1,352 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB76339067FB2A8000912C1 /* DCMPix.h */; };
+		ABB76341067FB2A8000912C1 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633A067FB2A8000912C1 /* DCMView.h */; };
+		ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633B067FB2A8000912C1 /* dicomFile.h */; };
+		ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633C067FB2A8000912C1 /* MyPoint.h */; };
+		ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633D067FB2A8000912C1 /* PluginFilter.h */; };
+		ABB76345067FB2A8000912C1 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633E067FB2A8000912C1 /* ROI.h */; };
+		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
+		CE21B4390CC76F3A0007EE08 /* ControllerT1Fit.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE21B4380CC76F3A0007EE08 /* ControllerT1Fit.xib */; };
+		CE6E2B2806CAC1FA00BC7907 /* Atom.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE6E2B2706CAC1FA00BC7907 /* Atom.tif */; };
+		CEC5F1DE06BEACF3008FA1E6 /* T1-T2 Mapping.pch in Resources */ = {isa = PBXBuildFile; fileRef = CEC5F1DD06BEACF3008FA1E6 /* T1-T2 Mapping.pch */; };
+		CEC5F1E106BEACFB008FA1E6 /* Mapping.h in Headers */ = {isa = PBXBuildFile; fileRef = CEC5F1DF06BEACFB008FA1E6 /* Mapping.h */; };
+		CEC5F1E206BEACFB008FA1E6 /* Mapping.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC5F1E006BEACFB008FA1E6 /* Mapping.m */; };
+		CEC5F1FA06BEAE0B008FA1E6 /* Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = CEC5F1F806BEAE0B008FA1E6 /* Controller.h */; };
+		CEC5F1FB06BEAE0B008FA1E6 /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC5F1F906BEAE0B008FA1E6 /* Controller.m */; };
+		CEC5FE8F06BFEA02008FA1E6 /* Graph.h in Headers */ = {isa = PBXBuildFile; fileRef = CEC5FE8D06BFEA02008FA1E6 /* Graph.h */; };
+		CEC5FE9006BFEA02008FA1E6 /* Graph.m in Sources */ = {isa = PBXBuildFile; fileRef = CEC5FE8E06BFEA02008FA1E6 /* Graph.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* T1 Fit Map.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "T1 Fit Map.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB76339067FB2A8000912C1 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		ABB7633A067FB2A8000912C1 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		ABB7633B067FB2A8000912C1 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		ABB7633C067FB2A8000912C1 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
+		ABB7633D067FB2A8000912C1 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		ABB7633E067FB2A8000912C1 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		CE21B4380CC76F3A0007EE08 /* ControllerT1Fit.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControllerT1Fit.xib; sourceTree = "<group>"; };
+		CE6E2B2706CAC1FA00BC7907 /* Atom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Atom.tif; sourceTree = "<group>"; };
+		CEC5F1DD06BEACF3008FA1E6 /* T1-T2 Mapping.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "T1-T2 Mapping.pch"; sourceTree = "<group>"; };
+		CEC5F1DF06BEACFB008FA1E6 /* Mapping.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Mapping.h; sourceTree = "<group>"; };
+		CEC5F1E006BEACFB008FA1E6 /* Mapping.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Mapping.m; sourceTree = "<group>"; };
+		CEC5F1F806BEAE0B008FA1E6 /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		CEC5F1F906BEAE0B008FA1E6 /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		CEC5FE8D06BFEA02008FA1E6 /* Graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graph.h; sourceTree = "<group>"; };
+		CEC5FE8E06BFEA02008FA1E6 /* Graph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graph.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = Mapping;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE21B4380CC76F3A0007EE08 /* ControllerT1Fit.xib */,
+				CE6E2B2706CAC1FA00BC7907 /* Atom.tif */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
+				AB2C26750677B0C400A08910 /* MappingFilter */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* T1 Fit Map.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CEC5F1DD06BEACF3008FA1E6 /* T1-T2 Mapping.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* MappingFilter */ = {
+			isa = PBXGroup;
+			children = (
+				CEC5F1DF06BEACFB008FA1E6 /* Mapping.h */,
+				CEC5F1E006BEACFB008FA1E6 /* Mapping.m */,
+				CEC5F1F806BEAE0B008FA1E6 /* Controller.h */,
+				CEC5F1F906BEAE0B008FA1E6 /* Controller.m */,
+				CEC5FE8D06BFEA02008FA1E6 /* Graph.h */,
+				CEC5FE8E06BFEA02008FA1E6 /* Graph.m */,
+			);
+			name = MappingFilter;
+			sourceTree = "<group>";
+		};
+		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				ABB7633D067FB2A8000912C1 /* PluginFilter.h */,
+				ABB76339067FB2A8000912C1 /* DCMPix.h */,
+				ABB7633A067FB2A8000912C1 /* DCMView.h */,
+				ABB7633B067FB2A8000912C1 /* dicomFile.h */,
+				ABB7633C067FB2A8000912C1 /* MyPoint.h */,
+				ABB7633E067FB2A8000912C1 /* ROI.h */,
+				ABB7633F067FB2A8000912C1 /* ViewerController.h */,
+			);
+			path = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */,
+				ABB76341067FB2A8000912C1 /* DCMView.h in Headers */,
+				ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */,
+				ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */,
+				ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */,
+				ABB76345067FB2A8000912C1 /* ROI.h in Headers */,
+				ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */,
+				CEC5F1E106BEACFB008FA1E6 /* Mapping.h in Headers */,
+				CEC5F1FA06BEAE0B008FA1E6 /* Controller.h in Headers */,
+				CEC5FE8F06BFEA02008FA1E6 /* Graph.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* T1 Fit Map */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9B7108AC848D00D0C1EE /* Build configuration list for PBXNativeTarget "T1 Fit Map" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "T1 Fit Map";
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* T1 Fit Map.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9B7508AC848D00D0C1EE /* Build configuration list for PBXProject "Mapping" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Mapping */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* T1 Fit Map */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				CEC5F1DE06BEACF3008FA1E6 /* T1-T2 Mapping.pch in Resources */,
+				CE6E2B2806CAC1FA00BC7907 /* Atom.tif in Resources */,
+				CE21B4390CC76F3A0007EE08 /* ControllerT1Fit.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEC5F1E206BEACFB008FA1E6 /* Mapping.m in Sources */,
+				CEC5F1FB06BEAE0B008FA1E6 /* Controller.m in Sources */,
+				CEC5FE9006BFEA02008FA1E6 /* Graph.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9B7208AC848D00D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "T1-T2 Mapping.pch";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "T1 Fit Map";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9B7608AC848D00D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9B7108AC848D00D0C1EE /* Build configuration list for PBXNativeTarget "T1 Fit Map" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9B7208AC848D00D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9B7508AC848D00D0C1EE /* Build configuration list for PBXProject "Mapping" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9B7608AC848D00D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

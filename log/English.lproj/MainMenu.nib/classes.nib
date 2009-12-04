@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {openLog = id; openLogURL = id; }; 
+            CLASS = logWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {resultField = NSTextView; state = NSTextField; urlString = NSTextField; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

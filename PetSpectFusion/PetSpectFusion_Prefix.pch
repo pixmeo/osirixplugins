@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'PetSpectFusion' target in the 'PetSpectFusion_Plugin' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <AppKit/AppKit.h>
+#endif

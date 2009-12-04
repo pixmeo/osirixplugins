@@ -1,0 +1,381 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 44;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		698777DE0DD0788500D8D738 /* VolumeGeneratorFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 698777DC0DD0788500D8D738 /* VolumeGeneratorFilter.h */; };
+		698777DF0DD0788600D8D738 /* VolumeGeneratorFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 698777DD0DD0788500D8D738 /* VolumeGeneratorFilter.m */; };
+		698777E10DD078CD00D8D738 /* VolumeGenerator.pch in Headers */ = {isa = PBXBuildFile; fileRef = 698777E00DD078CD00D8D738 /* VolumeGenerator.pch */; };
+		69BE1F080DFABBD000A78CED /* VolumeGeneratorController.h in Headers */ = {isa = PBXBuildFile; fileRef = 69BE1F060DFABBD000A78CED /* VolumeGeneratorController.h */; };
+		69BE1F090DFABBD000A78CED /* VolumeGeneratorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BE1F070DFABBD000A78CED /* VolumeGeneratorController.m */; };
+		69C5C8110DD9AF2A00CA88B1 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C5C8100DD9AF2A00CA88B1 /* OsiriX.framework */; };
+		69E5FC320E07B02000CDC0D9 /* VolumeGeneratorController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69E5FC310E07B02000CDC0D9 /* VolumeGeneratorController.xib */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		CE325CC00DD5C42200A53DB5 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB00DD5C42200A53DB5 /* AppController.h */; };
+		CE325CC10DD5C42200A53DB5 /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB10DD5C42200A53DB5 /* browserController.h */; };
+		CE325CC20DD5C42200A53DB5 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB20DD5C42200A53DB5 /* DCMPix.h */; };
+		CE325CC30DD5C42200A53DB5 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB30DD5C42200A53DB5 /* DCMView.h */; };
+		CE325CC40DD5C42200A53DB5 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB40DD5C42200A53DB5 /* dicomFile.h */; };
+		CE325CC50DD5C42200A53DB5 /* DicomImage.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB50DD5C42200A53DB5 /* DicomImage.h */; };
+		CE325CC60DD5C42200A53DB5 /* DicomSeries.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB60DD5C42200A53DB5 /* DicomSeries.h */; };
+		CE325CC70DD5C42200A53DB5 /* DicomStudy.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB70DD5C42200A53DB5 /* DicomStudy.h */; };
+		CE325CC80DD5C42200A53DB5 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB80DD5C42200A53DB5 /* MyPoint.h */; };
+		CE325CC90DD5C42200A53DB5 /* OSIWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CB90DD5C42200A53DB5 /* OSIWindowController.h */; };
+		CE325CCA0DD5C42200A53DB5 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CBA0DD5C42200A53DB5 /* PluginFilter.h */; };
+		CE325CCB0DD5C42200A53DB5 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CBB0DD5C42200A53DB5 /* ROI.h */; };
+		CE325CCC0DD5C42200A53DB5 /* Schedulable.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CBC0DD5C42200A53DB5 /* Schedulable.h */; };
+		CE325CCD0DD5C42200A53DB5 /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CBD0DD5C42200A53DB5 /* Scheduler.h */; };
+		CE325CCE0DD5C42200A53DB5 /* StaticScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CBE0DD5C42200A53DB5 /* StaticScheduler.h */; };
+		CE325CCF0DD5C42200A53DB5 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE325CBF0DD5C42200A53DB5 /* ViewerController.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CEF1FDC30DD56D71001F577C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		698777DC0DD0788500D8D738 /* VolumeGeneratorFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VolumeGeneratorFilter.h; sourceTree = "<group>"; };
+		698777DD0DD0788500D8D738 /* VolumeGeneratorFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeGeneratorFilter.m; sourceTree = "<group>"; };
+		698777E00DD078CD00D8D738 /* VolumeGenerator.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = VolumeGenerator.pch; sourceTree = "<group>"; };
+		698777EA0DD0794C00D8D738 /* VolumeGenerator.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VolumeGenerator.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		69BE1EFD0DFAB7DD00A78CED /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/VolumeGeneratorController.xib; sourceTree = "<group>"; };
+		69BE1F060DFABBD000A78CED /* VolumeGeneratorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VolumeGeneratorController.h; sourceTree = "<group>"; };
+		69BE1F070DFABBD000A78CED /* VolumeGeneratorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VolumeGeneratorController.m; sourceTree = "<group>"; };
+		69C5C8100DD9AF2A00CA88B1 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE325CB00DD5C42200A53DB5 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		CE325CB10DD5C42200A53DB5 /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = browserController.h; sourceTree = "<group>"; };
+		CE325CB20DD5C42200A53DB5 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		CE325CB30DD5C42200A53DB5 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		CE325CB40DD5C42200A53DB5 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		CE325CB50DD5C42200A53DB5 /* DicomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DicomImage.h; sourceTree = "<group>"; };
+		CE325CB60DD5C42200A53DB5 /* DicomSeries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DicomSeries.h; sourceTree = "<group>"; };
+		CE325CB70DD5C42200A53DB5 /* DicomStudy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DicomStudy.h; sourceTree = "<group>"; };
+		CE325CB80DD5C42200A53DB5 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
+		CE325CB90DD5C42200A53DB5 /* OSIWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIWindowController.h; sourceTree = "<group>"; };
+		CE325CBA0DD5C42200A53DB5 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		CE325CBB0DD5C42200A53DB5 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		CE325CBC0DD5C42200A53DB5 /* Schedulable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Schedulable.h; sourceTree = "<group>"; };
+		CE325CBD0DD5C42200A53DB5 /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
+		CE325CBE0DD5C42200A53DB5 /* StaticScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticScheduler.h; sourceTree = "<group>"; };
+		CE325CBF0DD5C42200A53DB5 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				69C5C8110DD9AF2A00CA88B1 /* OsiriX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Duplicate */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = Duplicate;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				69C5C8100DD9AF2A00CA88B1 /* OsiriX.framework */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				69E5FC310E07B02000CDC0D9 /* VolumeGeneratorController.xib */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CE325CAF0DD5C42200A53DB5 /* OsiriX Headers */,
+				AB2C26750677B0C400A08910 /* VolumeGeneratorFilter */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				698777EA0DD0794C00D8D738 /* VolumeGenerator.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				698777E00DD078CD00D8D738 /* VolumeGenerator.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* VolumeGeneratorFilter */ = {
+			isa = PBXGroup;
+			children = (
+				69BE1F060DFABBD000A78CED /* VolumeGeneratorController.h */,
+				69BE1F070DFABBD000A78CED /* VolumeGeneratorController.m */,
+				698777DC0DD0788500D8D738 /* VolumeGeneratorFilter.h */,
+				698777DD0DD0788500D8D738 /* VolumeGeneratorFilter.m */,
+			);
+			name = VolumeGeneratorFilter;
+			sourceTree = "<group>";
+		};
+		CE325CAF0DD5C42200A53DB5 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				CE325CB00DD5C42200A53DB5 /* AppController.h */,
+				CE325CB10DD5C42200A53DB5 /* browserController.h */,
+				CE325CB20DD5C42200A53DB5 /* DCMPix.h */,
+				CE325CB30DD5C42200A53DB5 /* DCMView.h */,
+				CE325CB40DD5C42200A53DB5 /* dicomFile.h */,
+				CE325CB50DD5C42200A53DB5 /* DicomImage.h */,
+				CE325CB60DD5C42200A53DB5 /* DicomSeries.h */,
+				CE325CB70DD5C42200A53DB5 /* DicomStudy.h */,
+				CE325CB80DD5C42200A53DB5 /* MyPoint.h */,
+				CE325CB90DD5C42200A53DB5 /* OSIWindowController.h */,
+				CE325CBA0DD5C42200A53DB5 /* PluginFilter.h */,
+				CE325CBB0DD5C42200A53DB5 /* ROI.h */,
+				CE325CBC0DD5C42200A53DB5 /* Schedulable.h */,
+				CE325CBD0DD5C42200A53DB5 /* Scheduler.h */,
+				CE325CBE0DD5C42200A53DB5 /* StaticScheduler.h */,
+				CE325CBF0DD5C42200A53DB5 /* ViewerController.h */,
+			);
+			path = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				698777DE0DD0788500D8D738 /* VolumeGeneratorFilter.h in Headers */,
+				698777E10DD078CD00D8D738 /* VolumeGenerator.pch in Headers */,
+				CE325CC00DD5C42200A53DB5 /* AppController.h in Headers */,
+				CE325CC10DD5C42200A53DB5 /* browserController.h in Headers */,
+				CE325CC20DD5C42200A53DB5 /* DCMPix.h in Headers */,
+				CE325CC30DD5C42200A53DB5 /* DCMView.h in Headers */,
+				CE325CC40DD5C42200A53DB5 /* dicomFile.h in Headers */,
+				CE325CC50DD5C42200A53DB5 /* DicomImage.h in Headers */,
+				CE325CC60DD5C42200A53DB5 /* DicomSeries.h in Headers */,
+				CE325CC70DD5C42200A53DB5 /* DicomStudy.h in Headers */,
+				CE325CC80DD5C42200A53DB5 /* MyPoint.h in Headers */,
+				CE325CC90DD5C42200A53DB5 /* OSIWindowController.h in Headers */,
+				CE325CCA0DD5C42200A53DB5 /* PluginFilter.h in Headers */,
+				CE325CCB0DD5C42200A53DB5 /* ROI.h in Headers */,
+				CE325CCC0DD5C42200A53DB5 /* Schedulable.h in Headers */,
+				CE325CCD0DD5C42200A53DB5 /* Scheduler.h in Headers */,
+				CE325CCE0DD5C42200A53DB5 /* StaticScheduler.h in Headers */,
+				CE325CCF0DD5C42200A53DB5 /* ViewerController.h in Headers */,
+				69BE1F080DFABBD000A78CED /* VolumeGeneratorController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* VolumeGenerator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "VolumeGenerator" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+				CEF1FDC30DD56D71001F577C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VolumeGenerator;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = 698777EA0DD0794C00D8D738 /* VolumeGenerator.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "VolumeGenerator" */;
+			compatibilityVersion = "Xcode 3.0";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Duplicate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* VolumeGenerator */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E5FC320E07B02000CDC0D9 /* VolumeGeneratorController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				698777DF0DD0788600D8D738 /* VolumeGeneratorFilter.m in Sources */,
+				69BE1F090DFABBD000A78CED /* VolumeGeneratorController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		69E5FC310E07B02000CDC0D9 /* VolumeGeneratorController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				69BE1EFD0DFAB7DD00A78CED /* English */,
+			);
+			name = VolumeGeneratorController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = VolumeGenerator.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = VolumeGenerator;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+			};
+			name = Development;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "VolumeGenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "VolumeGenerator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

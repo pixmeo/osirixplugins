@@ -1,0 +1,39 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = PluginFilter; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SSHFilter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                accessoryView = NSView; 
+                datePicker = NSDatePicker; 
+                patientIDField = id; 
+                patientNameField = id; 
+                studyDesciptionID = id; 
+            }; 
+            SUPERCLASS = PluginFilter; 
+        }, 
+        {
+            ACTIONS = {help = id; tunnelAction = id; }; 
+            CLASS = SSHWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_helpWindow" = id; taskController = NSArrayController; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {tunnelAction = id; }; 
+            CLASS = TaskController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

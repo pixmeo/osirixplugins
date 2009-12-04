@@ -1,0 +1,314 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4ABB75220F2EAD83001F2A1A /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB751A0F2EAD83001F2A1A /* browserController.h */; };
+		4ABB75230F2EAD83001F2A1A /* MutableArrayCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB751B0F2EAD83001F2A1A /* MutableArrayCategory.h */; };
+		4ABB75240F2EAD83001F2A1A /* OSIWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB751C0F2EAD83001F2A1A /* OSIWindowController.h */; };
+		4ABB75250F2EAD83001F2A1A /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB751D0F2EAD83001F2A1A /* PluginFilter.h */; };
+		4ABB75260F2EAD83001F2A1A /* Schedulable.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB751E0F2EAD83001F2A1A /* Schedulable.h */; };
+		4ABB75270F2EAD83001F2A1A /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB751F0F2EAD83001F2A1A /* Scheduler.h */; };
+		4ABB75280F2EAD83001F2A1A /* StaticScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB75200F2EAD83001F2A1A /* StaticScheduler.h */; };
+		4ABB75290F2EAD83001F2A1A /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ABB75210F2EAD83001F2A1A /* ViewerController.h */; };
+		4ADA64FD0F29F7D60007FBA4 /* DMGSFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4ADA64FB0F29F7D60007FBA4 /* DMGSFilter.h */; };
+		4ADA64FE0F29F7D60007FBA4 /* DMGSFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA64FC0F29F7D60007FBA4 /* DMGSFilter.m */; };
+		4ADA6BFF0F2A01410007FBA4 /* packagemaker.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4ADA6BFE0F2A01410007FBA4 /* packagemaker.icns */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		4ABB751A0F2EAD83001F2A1A /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = browserController.h; path = "OsiriX Headers/browserController.h"; sourceTree = "<group>"; };
+		4ABB751B0F2EAD83001F2A1A /* MutableArrayCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MutableArrayCategory.h; path = "OsiriX Headers/MutableArrayCategory.h"; sourceTree = "<group>"; };
+		4ABB751C0F2EAD83001F2A1A /* OSIWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSIWindowController.h; path = "OsiriX Headers/OSIWindowController.h"; sourceTree = "<group>"; };
+		4ABB751D0F2EAD83001F2A1A /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PluginFilter.h; path = "OsiriX Headers/PluginFilter.h"; sourceTree = "<group>"; };
+		4ABB751E0F2EAD83001F2A1A /* Schedulable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Schedulable.h; path = "OsiriX Headers/Schedulable.h"; sourceTree = "<group>"; };
+		4ABB751F0F2EAD83001F2A1A /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scheduler.h; path = "OsiriX Headers/Scheduler.h"; sourceTree = "<group>"; };
+		4ABB75200F2EAD83001F2A1A /* StaticScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StaticScheduler.h; path = "OsiriX Headers/StaticScheduler.h"; sourceTree = "<group>"; };
+		4ABB75210F2EAD83001F2A1A /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewerController.h; path = "OsiriX Headers/ViewerController.h"; sourceTree = "<group>"; };
+		4ADA64FB0F29F7D60007FBA4 /* DMGSFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMGSFilter.h; sourceTree = "<group>"; };
+		4ADA64FC0F29F7D60007FBA4 /* DMGSFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMGSFilter.m; sourceTree = "<group>"; };
+		4ADA6BFE0F2A01410007FBA4 /* packagemaker.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = packagemaker.icns; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* DMGS.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DMGS.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* EpsonCD */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = EpsonCD;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4ADA6BFE0F2A01410007FBA4 /* packagemaker.icns */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4ABB75190F2EAD68001F2A1A /* OsiriX Headers */,
+				AB2C26750677B0C400A08910 /* DMGSFilter */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* DMGS.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4ABB75190F2EAD68001F2A1A /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				4ABB751A0F2EAD83001F2A1A /* browserController.h */,
+				4ABB751B0F2EAD83001F2A1A /* MutableArrayCategory.h */,
+				4ABB751C0F2EAD83001F2A1A /* OSIWindowController.h */,
+				4ABB751D0F2EAD83001F2A1A /* PluginFilter.h */,
+				4ABB751E0F2EAD83001F2A1A /* Schedulable.h */,
+				4ABB751F0F2EAD83001F2A1A /* Scheduler.h */,
+				4ABB75200F2EAD83001F2A1A /* StaticScheduler.h */,
+				4ABB75210F2EAD83001F2A1A /* ViewerController.h */,
+			);
+			name = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* DMGSFilter */ = {
+			isa = PBXGroup;
+			children = (
+				4ADA64FB0F29F7D60007FBA4 /* DMGSFilter.h */,
+				4ADA64FC0F29F7D60007FBA4 /* DMGSFilter.m */,
+			);
+			name = DMGSFilter;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4ADA64FD0F29F7D60007FBA4 /* DMGSFilter.h in Headers */,
+				4ABB75220F2EAD83001F2A1A /* browserController.h in Headers */,
+				4ABB75230F2EAD83001F2A1A /* MutableArrayCategory.h in Headers */,
+				4ABB75240F2EAD83001F2A1A /* OSIWindowController.h in Headers */,
+				4ABB75250F2EAD83001F2A1A /* PluginFilter.h in Headers */,
+				4ABB75260F2EAD83001F2A1A /* Schedulable.h in Headers */,
+				4ABB75270F2EAD83001F2A1A /* Scheduler.h in Headers */,
+				4ABB75280F2EAD83001F2A1A /* StaticScheduler.h in Headers */,
+				4ABB75290F2EAD83001F2A1A /* ViewerController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* DMGS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DMGS" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DMGS;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* DMGS.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DMGS" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* EpsonCD */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* DMGS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				4ADA6BFF0F2A01410007FBA4 /* packagemaker.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4ADA64FE0F29F7D60007FBA4 /* DMGSFilter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9308AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = DMGS;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Default;
+		};
+		CE6A9A9708AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DMGS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9308AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DMGS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9708AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

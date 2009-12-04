@@ -1,0 +1,744 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		4FD28EFE0AA0C79A00BD1D71 /* Unzip GSL */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4FD28EFF0AA0C7B800BD1D71 /* Build configuration list for PBXAggregateTarget "Unzip GSL" */;
+			buildPhases = (
+				4FD28EFD0AA0C79A00BD1D71 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Unzip GSL";
+			productName = "Unzip GSL";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		4F0D53D20A7E2797000B8134 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F0D53D10A7E2797000B8134 /* ROI.h */; };
+		4F0D53EB0A7E29E1000B8134 /* MPRController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F0D53EA0A7E29E1000B8134 /* MPRController.h */; };
+		4F0D54130A7E2A4C000B8134 /* Window3DController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F0D54120A7E2A4C000B8134 /* Window3DController.h */; };
+		4F0D54180A7E2A68000B8134 /* OpacityTransferView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F0D54170A7E2A68000B8134 /* OpacityTransferView.h */; };
+		4F0D541A0A7E2A79000B8134 /* NSFullScreenWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F0D54190A7E2A79000B8134 /* NSFullScreenWindow.h */; };
+		4F4853920AA0ACE70084BF19 /* AppControllerFiltersMenu.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F4853900AA0ACE70084BF19 /* AppControllerFiltersMenu.h */; };
+		4F4853930AA0ACE70084BF19 /* AppControllerFiltersMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F4853910AA0ACE70084BF19 /* AppControllerFiltersMenu.m */; };
+		4F9962130A7539FF0037B354 /* SeriesView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9962120A7539FF0037B354 /* SeriesView.h */; };
+		4F9962150A753A220037B354 /* StudyView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9962140A753A220037B354 /* StudyView.h */; };
+		4F9962310A753BAF0037B354 /* Schedulable.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9962300A753BAF0037B354 /* Schedulable.h */; };
+		4F9962390A753BD60037B354 /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9962380A753BD60037B354 /* Scheduler.h */; };
+		4F99623C0A753BED0037B354 /* StaticScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F99623B0A753BED0037B354 /* StaticScheduler.h */; };
+		4F9962760A7543280037B354 /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9962750A7543280037B354 /* AppController.h */; };
+		4F9963390A7547A90037B354 /* AlignController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F995C0D0A752FA10037B354 /* AlignController.m */; };
+		4F9963740A754D0D0037B354 /* AlignController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F995C0C0A752FA10037B354 /* AlignController.h */; };
+		4F9963F70A75526C0037B354 /* AlignDCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F9962060A7539CA0037B354 /* AlignDCMView.h */; };
+		4F9963FD0A7552780037B354 /* AlignDCMView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9962070A7539CA0037B354 /* AlignDCMView.m */; };
+		4FBE329D0A94F62E002BA80D /* ColorTransferView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F0D54150A7E2A5E000B8134 /* ColorTransferView.h */; };
+		4FD28E150AA0BE1200BD1D71 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD28E140AA0BE1200BD1D71 /* DCMPix.h */; };
+		4FD28E530AA0C1D000BD1D71 /* libgls.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FD28E520AA0C1D000BD1D71 /* libgls.a */; };
+		8D5B49AE048680CD000E48DA /* Align_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Align_Prefix.pch */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		ABA48A650680BB600089EB4F /* AlignFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* AlignFilter.h */; };
+		ABA48A670680BB690089EB4F /* AlignFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* AlignFilter.m */; };
+		ABB76341067FB2A8000912C1 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633A067FB2A8000912C1 /* DCMView.h */; };
+		ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633B067FB2A8000912C1 /* dicomFile.h */; };
+		ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633C067FB2A8000912C1 /* MyPoint.h */; };
+		ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633D067FB2A8000912C1 /* PluginFilter.h */; };
+		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* Align_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Align_Prefix.pch; sourceTree = "<group>"; };
+		4F0D53D10A7E2797000B8134 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		4F0D53EA0A7E29E1000B8134 /* MPRController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MPRController.h; sourceTree = "<group>"; };
+		4F0D54120A7E2A4C000B8134 /* Window3DController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Window3DController.h; sourceTree = "<group>"; };
+		4F0D54150A7E2A5E000B8134 /* ColorTransferView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ColorTransferView.h; sourceTree = "<group>"; };
+		4F0D54170A7E2A68000B8134 /* OpacityTransferView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OpacityTransferView.h; sourceTree = "<group>"; };
+		4F0D54190A7E2A79000B8134 /* NSFullScreenWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSFullScreenWindow.h; sourceTree = "<group>"; };
+		4F4853900AA0ACE70084BF19 /* AppControllerFiltersMenu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppControllerFiltersMenu.h; sourceTree = "<group>"; };
+		4F4853910AA0ACE70084BF19 /* AppControllerFiltersMenu.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppControllerFiltersMenu.m; sourceTree = "<group>"; };
+		4F995C0C0A752FA10037B354 /* AlignController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlignController.h; sourceTree = "<group>"; };
+		4F995C0D0A752FA10037B354 /* AlignController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlignController.m; sourceTree = "<group>"; };
+		4F9962060A7539CA0037B354 /* AlignDCMView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AlignDCMView.h; sourceTree = "<group>"; };
+		4F9962070A7539CA0037B354 /* AlignDCMView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AlignDCMView.m; sourceTree = "<group>"; };
+		4F9962120A7539FF0037B354 /* SeriesView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SeriesView.h; sourceTree = "<group>"; };
+		4F9962140A753A220037B354 /* StudyView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StudyView.h; sourceTree = "<group>"; };
+		4F9962300A753BAF0037B354 /* Schedulable.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Schedulable.h; sourceTree = "<group>"; };
+		4F9962380A753BD60037B354 /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
+		4F99623B0A753BED0037B354 /* StaticScheduler.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = StaticScheduler.h; sourceTree = "<group>"; };
+		4F9962750A7543280037B354 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		4FD28E140AA0BE1200BD1D71 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		4FD28E520AA0C1D000BD1D71 /* libgls.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgls.a; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* Align.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Align.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA48A640680BB600089EB4F /* AlignFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AlignFilter.h; sourceTree = "<group>"; };
+		ABA48A660680BB690089EB4F /* AlignFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AlignFilter.m; sourceTree = "<group>"; };
+		ABB7633A067FB2A8000912C1 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		ABB7633B067FB2A8000912C1 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		ABB7633C067FB2A8000912C1 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
+		ABB7633D067FB2A8000912C1 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				4FD28E530AA0C1D000BD1D71 /* libgls.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Align */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = Align;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
+				AB2C26750677B0C400A08910 /* AlignFilter */,
+				4F2818FD0A83FE54001F7186 /* gsl-1.8 */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* Align.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* Align_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		4F2818FD0A83FE54001F7186 /* gsl-1.8 */ = {
+			isa = PBXGroup;
+			children = (
+				4FD28E520AA0C1D000BD1D71 /* libgls.a */,
+			);
+			path = "gsl-1.8";
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* AlignFilter */ = {
+			isa = PBXGroup;
+			children = (
+				4F4853900AA0ACE70084BF19 /* AppControllerFiltersMenu.h */,
+				4F4853910AA0ACE70084BF19 /* AppControllerFiltersMenu.m */,
+				4F9962060A7539CA0037B354 /* AlignDCMView.h */,
+				4F9962070A7539CA0037B354 /* AlignDCMView.m */,
+				4F995C0C0A752FA10037B354 /* AlignController.h */,
+				4F995C0D0A752FA10037B354 /* AlignController.m */,
+				ABA48A640680BB600089EB4F /* AlignFilter.h */,
+				ABA48A660680BB690089EB4F /* AlignFilter.m */,
+			);
+			name = AlignFilter;
+			sourceTree = "<group>";
+		};
+		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				4F0D54150A7E2A5E000B8134 /* ColorTransferView.h */,
+				ABB7633D067FB2A8000912C1 /* PluginFilter.h */,
+				4FD28E140AA0BE1200BD1D71 /* DCMPix.h */,
+				ABB7633A067FB2A8000912C1 /* DCMView.h */,
+				ABB7633B067FB2A8000912C1 /* dicomFile.h */,
+				ABB7633C067FB2A8000912C1 /* MyPoint.h */,
+				ABB7633F067FB2A8000912C1 /* ViewerController.h */,
+				4F0D53EA0A7E29E1000B8134 /* MPRController.h */,
+				4F0D54190A7E2A79000B8134 /* NSFullScreenWindow.h */,
+				4F0D54170A7E2A68000B8134 /* OpacityTransferView.h */,
+				4F0D53D10A7E2797000B8134 /* ROI.h */,
+				4F9962120A7539FF0037B354 /* SeriesView.h */,
+				4F9962140A753A220037B354 /* StudyView.h */,
+				4F9962300A753BAF0037B354 /* Schedulable.h */,
+				4F9962380A753BD60037B354 /* Scheduler.h */,
+				4F99623B0A753BED0037B354 /* StaticScheduler.h */,
+				4F0D54120A7E2A4C000B8134 /* Window3DController.h */,
+				4F9962750A7543280037B354 /* AppController.h */,
+			);
+			path = "OsiriX Headers";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* Align_Prefix.pch in Headers */,
+				ABB76341067FB2A8000912C1 /* DCMView.h in Headers */,
+				ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */,
+				ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */,
+				ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */,
+				ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */,
+				ABA48A650680BB600089EB4F /* AlignFilter.h in Headers */,
+				4F9962130A7539FF0037B354 /* SeriesView.h in Headers */,
+				4F9962150A753A220037B354 /* StudyView.h in Headers */,
+				4F9962310A753BAF0037B354 /* Schedulable.h in Headers */,
+				4F9962390A753BD60037B354 /* Scheduler.h in Headers */,
+				4F99623C0A753BED0037B354 /* StaticScheduler.h in Headers */,
+				4F9962760A7543280037B354 /* AppController.h in Headers */,
+				4F9963740A754D0D0037B354 /* AlignController.h in Headers */,
+				4F9963F70A75526C0037B354 /* AlignDCMView.h in Headers */,
+				4F0D53D20A7E2797000B8134 /* ROI.h in Headers */,
+				4F0D53EB0A7E29E1000B8134 /* MPRController.h in Headers */,
+				4F0D54130A7E2A4C000B8134 /* Window3DController.h in Headers */,
+				4F0D54180A7E2A68000B8134 /* OpacityTransferView.h in Headers */,
+				4F0D541A0A7E2A79000B8134 /* NSFullScreenWindow.h in Headers */,
+				4FBE329D0A94F62E002BA80D /* ColorTransferView.h in Headers */,
+				4F4853920AA0ACE70084BF19 /* AppControllerFiltersMenu.h in Headers */,
+				4FD28E150AA0BE1200BD1D71 /* DCMPix.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* Align */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Align" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Align;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* Align.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Align" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* Align */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* Align */,
+				4FD28EFE0AA0C79A00BD1D71 /* Unzip GSL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4FD28EFD0AA0C79A00BD1D71 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT/gsl-1.8\"\nunzip -uo libgls.zip\n\nexit 0\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABA48A670680BB690089EB4F /* AlignFilter.m in Sources */,
+				4F9963390A7547A90037B354 /* AlignController.m in Sources */,
+				4F9963FD0A7552780037B354 /* AlignDCMView.m in Sources */,
+				4F4853930AA0ACE70084BF19 /* AppControllerFiltersMenu.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4FD28F000AA0C7B800BD1D71 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Unzip GSL";
+			};
+			name = Development;
+		};
+		4FD28F010AA0C7B800BD1D71 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				PRODUCT_NAME = "Unzip GSL";
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		4FD28F020AA0C7B800BD1D71 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Unzip GSL";
+			};
+			name = Default;
+		};
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Align_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(HEADER_SEARCH_PATHS_QUOTED_1)",
+					"$(HEADER_SEARCH_PATHS_QUOTED_2)",
+				);
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/gsl-1.8\"";
+				HEADER_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/OsiriX Headers\"";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/gsl-1.8\"";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Align;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Align_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(HEADER_SEARCH_PATHS_QUOTED_1)",
+				);
+				HEADER_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/gsl-1.8\"";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_6)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_7)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_8)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_9)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_10)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_11)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_12)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_13)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_14)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_15)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_16)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_17)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_18)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_19)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_20)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_21)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_22)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_23)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_24)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_25)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_26)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_27)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_28)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_29)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_30)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_31)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_32)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_33)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_34)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_35)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_36)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_37)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_38)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_39)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_40)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_41)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_42)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_43)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/gsl-1.8/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/gsl-1.8/eigen/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/gsl-1.8/err/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/gsl-1.8/fft/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/gsl-1.8/fit/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/gsl-1.8/histogram/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/gsl-1.8/ieee-utils/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_16 = "\"$(SRCROOT)/gsl-1.8/integration/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_17 = "\"$(SRCROOT)/gsl-1.8/interpolation/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_18 = "\"$(SRCROOT)/gsl-1.8/linalg/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_19 = "\"$(SRCROOT)/gsl-1.8/matrix/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/gsl-1.8/block/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_20 = "\"$(SRCROOT)/gsl-1.8/min/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_21 = "\"$(SRCROOT)/gsl-1.8/monte/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_22 = "\"$(SRCROOT)/gsl-1.8/multifit/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_23 = "\"$(SRCROOT)/gsl-1.8/multimin/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_24 = "\"$(SRCROOT)/gsl-1.8/multiroots/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_25 = "\"$(SRCROOT)/gsl-1.8/ntuple/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_26 = "\"$(SRCROOT)/gsl-1.8/ode-initval/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_27 = "\"$(SRCROOT)/gsl-1.8/permutation/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_28 = "\"$(SRCROOT)/gsl-1.8/poly/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_29 = "\"$(SRCROOT)/gsl-1.8/qrng/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/gsl-1.8/cdf/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_30 = "\"$(SRCROOT)/gsl-1.8/randist/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_31 = "\"$(SRCROOT)/gsl-1.8/rng/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_32 = "\"$(SRCROOT)/gsl-1.8/roots/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_33 = "\"$(SRCROOT)/gsl-1.8/siman/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_34 = "\"$(SRCROOT)/gsl-1.8/sort/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_35 = "\"$(SRCROOT)/gsl-1.8/specfunc/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_36 = "\"$(SRCROOT)/gsl-1.8/statistics/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_37 = "\"$(SRCROOT)/gsl-1.8/sum/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_38 = "\"$(SRCROOT)/gsl-1.8/sys/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_39 = "\"$(SRCROOT)/gsl-1.8/test/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/gsl-1.8/cheb/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_40 = "\"$(SRCROOT)/gsl-1.8/utils/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_41 = "\"$(SRCROOT)/gsl-1.8/vector/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_42 = "\"$(SRCROOT)/gsl-1.8/wavelet/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_43 = "\"$(SRCROOT)/gsl-1.8\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/gsl-1.8/combination/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/gsl-1.8/complex/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/gsl-1.8/deriv/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/gsl-1.8/dht/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/gsl-1.8/diff/.libs\"";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Align;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/gsl-1.8\"";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9308AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Align_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_4)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_5)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_6)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_7)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_8)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_9)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_10)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_11)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_12)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_13)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_14)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_15)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_16)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_17)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_18)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_19)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_20)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_21)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_22)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_23)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_24)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_25)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_26)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_27)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_28)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_29)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_30)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_31)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_32)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_33)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_34)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_35)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_36)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_37)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_38)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_39)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_40)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_41)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_42)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_43)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_44)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_45)",
+				);
+				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/gsl-1.8/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/gsl-1.8/dht/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_11 = "\"$(SRCROOT)/gsl-1.8/diff/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_12 = "\"$(SRCROOT)/gsl-1.8/eigen/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_13 = "\"$(SRCROOT)/gsl-1.8/err/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_14 = "\"$(SRCROOT)/gsl-1.8/fft/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_15 = "\"$(SRCROOT)/gsl-1.8/fit/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_16 = "\"$(SRCROOT)/gsl-1.8/histogram/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_17 = "\"$(SRCROOT)/gsl-1.8/ieee-utils/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_18 = "\"$(SRCROOT)/gsl-1.8/integration/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_19 = "\"$(SRCROOT)/gsl-1.8/interpolation/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/gsl-1.8/blas/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_20 = "\"$(SRCROOT)/gsl-1.8/linalg/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_21 = "\"$(SRCROOT)/gsl-1.8/matrix/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_22 = "\"$(SRCROOT)/gsl-1.8/min/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_23 = "\"$(SRCROOT)/gsl-1.8/monte/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_24 = "\"$(SRCROOT)/gsl-1.8/multifit/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_25 = "\"$(SRCROOT)/gsl-1.8/multimin/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_26 = "\"$(SRCROOT)/gsl-1.8/multiroots/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_27 = "\"$(SRCROOT)/gsl-1.8/ntuple/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_28 = "\"$(SRCROOT)/gsl-1.8/ode-initval/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_29 = "\"$(SRCROOT)/gsl-1.8/permutation/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_3 = "\"$(SRCROOT)/gsl-1.8/block/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_30 = "\"$(SRCROOT)/gsl-1.8/poly/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_31 = "\"$(SRCROOT)/gsl-1.8/qrng/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_32 = "\"$(SRCROOT)/gsl-1.8/randist/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_33 = "\"$(SRCROOT)/gsl-1.8/rng/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_34 = "\"$(SRCROOT)/gsl-1.8/roots/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_35 = "\"$(SRCROOT)/gsl-1.8/siman/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_36 = "\"$(SRCROOT)/gsl-1.8/sort/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_37 = "\"$(SRCROOT)/gsl-1.8/specfunc/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_38 = "\"$(SRCROOT)/gsl-1.8/statistics/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_39 = "\"$(SRCROOT)/gsl-1.8/sum/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_4 = "\"$(SRCROOT)/gsl-1.8/cblas/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_40 = "\"$(SRCROOT)/gsl-1.8/sys/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_41 = "\"$(SRCROOT)/gsl-1.8/test/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_42 = "\"$(SRCROOT)/gsl-1.8/utils/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_43 = "\"$(SRCROOT)/gsl-1.8/vector/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_44 = "\"$(SRCROOT)/gsl-1.8/wavelet/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_45 = "\"$(SRCROOT)/gsl-1.8\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_5 = "\"$(SRCROOT)/gsl-1.8/cdf/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_6 = "\"$(SRCROOT)/gsl-1.8/cheb/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/gsl-1.8/combination/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/gsl-1.8/complex/.libs\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/gsl-1.8/deriv/.libs\"";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Align;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		CE6A9A9708AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4FD28EFF0AA0C7B800BD1D71 /* Build configuration list for PBXAggregateTarget "Unzip GSL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FD28F000AA0C7B800BD1D71 /* Development */,
+				4FD28F010AA0C7B800BD1D71 /* Deployment */,
+				4FD28F020AA0C7B800BD1D71 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Align" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+				CE6A9A9308AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Align" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+				CE6A9A9708AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

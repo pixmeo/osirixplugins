@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the '90deg' target in the '90deg' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <AppKit/AppKit.h>
+#endif

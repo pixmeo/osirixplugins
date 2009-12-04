@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'NM_Segmentation' target in the 'NM_Segmentation' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <AppKit/AppKit.h>
+#endif

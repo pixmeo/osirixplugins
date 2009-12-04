@@ -1,0 +1,46 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                setChannelGain = id; 
+                setChannelLabel = id; 
+                setChannelMaxGain = id; 
+                toggleChannelEnabled = id; 
+                toggleChannelMuted = id; 
+                toggleChannelSoloed = id; 
+            }; 
+            CLASS = DeviceChannelStrip; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                mEnableButton = NSButton; 
+                mGainSlider = NSSlider; 
+                mGainText = NSTextField; 
+                mLabelPopUp = NSPopUpButton; 
+                mMeteringView = HorizontalMeteringView; 
+                mMuteButton = NSButton; 
+                mSoloButton = NSButton; 
+                mStripView = NSView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = DeviceChannelStripView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                mEnableButton = NSButton; 
+                mGainSlider = NSSlider; 
+                mGainText = NSTextField; 
+                mLabelPopUp = NSPopUpButton; 
+                mMeteringView = MeteringView; 
+                mMuteButton = NSButton; 
+                mSoloButton = NSButton; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = HorizontalMeteringView; LANGUAGE = ObjC; SUPERCLASS = MeteringView; }, 
+        {CLASS = MeteringView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = NSOpaqueView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}

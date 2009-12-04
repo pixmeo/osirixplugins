@@ -1,0 +1,29 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                cleanAll = id; 
+                cleanQueue = id; 
+                connectToServer = id; 
+                disableServer = id; 
+                enableServer = id; 
+            }; 
+            CLASS = ClusteringController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                activateButton = NSButton; 
+                clusterTab = NSTabView; 
+                clustersTabView = NSTableView; 
+                createForm = NSForm; 
+                createTabView = NSTabView; 
+                ipTextField = NSTextField; 
+                joinButton = NSButton; 
+                progressConnection = NSProgressIndicator; 
+                serverToolsBox = NSBox; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

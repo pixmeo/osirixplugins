@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>01@level1/ item01</key>
+	<dict/>
+	<key>02@level1/ item02</key>
+	<dict>
+		<key>01@level2 of item02 / item01</key>
+		<dict/>
+		<key>02@level2 of item02 / item02</key>
+		<dict>
+			<key>01@level3 of item0202 / item01</key>
+			<string></string>
+		</dict>
+	</dict>
+	<key>03@level1/ item03</key>
+	<dict/>
+	<key>04@?</key>
+	<dict/>
+</dict>
+</plist>

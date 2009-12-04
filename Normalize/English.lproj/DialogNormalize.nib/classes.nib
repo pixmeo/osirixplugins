@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {endDialog = id; setFactor = id; setNormalize = id; }; 
+            CLASS = NormalizeROIFilter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                factorValue = NSTextField; 
+                meanValue = NSTextField; 
+                normValue = NSTextField; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = PluginFilter; 
+        }, 
+        {CLASS = PluginFilter; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,92 @@
+FORMAT PLIST FOR ANNOTATION LAYOUT
+==================================
+
+The window is divided in 9 zones which are always adjusted to the current size of it. WindowAnchoredAnnotation is relative to the window, not to the contents of the viewer. That is, one can translate imageView, scale it, rotate it without affecting the annotation. Character type and size is defined for the whole layout. It remains without changes when the contents is zoomed.
+
+fig. 1 window zones
++---------------------------------+
+|01		00		11|
+|02				12|
+|03				13|
+|04				14|
+|				  |
+|				  |
+|05		20		15|
+|				  |
+|				  |
+|06				16|
+|07				17|
+|08				18|
+|09		10		19|
++---------------------------------+
+
+The layout dictionary contains one array of the 21 line entries.
+
+Each line is made of 0 or more items. The item may be a simple string
+for static text in the layout, or dynamic text. In this later case, the
+item itself is an array made of 5 ordered strings:
+
+- format (standard objective-c notation... % needs to be written %%)
+- type (string,date,boolValue,floatValue,intValue)
+- informator (view,imageMO,windowController,ROI,DCMPix,dicomObject)
+- method (for example in the case of an imageMO informator @"valueForKeyPath:")
+- parameter (for example @"series.id")
+
+
+!!!! TYPE NUMBERS, there is a limit in that the informator needs to return an object of the class NSNumber (an object that can be pointed at, not directly a float, long, int, ...)
+ONLY SOLUTION FOR NOW... TO IMPLEMENT CORRESPONDING PROXY METHODS IN CATEGORIES...
+(DCMViewCategoryNumberProxy
+,ViewerControllerCategoryNumberProxy
+,DCMPixCategoryNumberProxy)
+
+
+fig.2 xml of the layout
+	<array>								//line with 2 dynamic items
+		<array>
+			<string>%%Y-%%m-%%d</string>
+			<string>date</string>
+			<string>imageMO</string>
+			<string>valueForKeyPath:</string>
+			<string>series.study.dateOfBirth</string>
+		</array>
+		<array>
+			<string> (%%@)</string>
+			<string>string</string>
+			<string>view</string>
+			<string>yearOld</string>
+			<string></string>
+		</array>
+	</array>
+	<array>								//line with 1 dynamic item
+		<array>
+			<string>%%@</string>				//format
+			<string>string</string>				//type
+			<string>imageMO</string>			//informator
+			<string>valueForKeyPath:</string>		//method
+			<string>series.study.patientID</string>		//parameter
+		</array>
+	</array>
+	<array>
+		<array>
+			<string>%%@</string>
+			<string>string</string>
+			<string>view</string>
+			<string>patientSex</string>
+			<string></string>
+		</array>
+	</array>
+	<array/>							//empty line
+	<string>tiempo</string>						//line with 1 static item
+	<array>
+
+
+...
+
+Formats
+-------
+In a future version, some more formats will be added... for instance
+
+range [2 unsigned int --- location   length]
+point [2 float --- x   y ]
+size [2 float --- width  height]
+rect [4 float --- point.x   point.y   size.width   size.height]

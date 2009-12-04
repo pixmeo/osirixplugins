@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {endDialog = id; }; 
+            CLASS = OrthogonalReslicePlugin; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                direction = NSMatrix; 
+                newWindow = NSButton; 
+                squarePixels = NSButton; 
+                window = NSWindow; 
+                xResolution = NSTextField; 
+                yResolution = NSTextField; 
+            }; 
+            SUPERCLASS = PluginFilter; 
+        }, 
+        {CLASS = PluginFilter; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

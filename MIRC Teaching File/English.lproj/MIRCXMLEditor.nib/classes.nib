@@ -1,0 +1,70 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = MIRCAuthorController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSArrayController; 
+        }, 
+        {CLASS = MIRCTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {
+            ACTIONS = {
+                captureDiscussion = id; 
+                captureHistory = id; 
+                chooseRefDoc = id; 
+                imageAction = id; 
+                quizAction = id; 
+                save = id; 
+            }; 
+            CLASS = MIRCXMLController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                authorController = MIRCAuthorController; 
+                discussionMovieView = id; 
+                historyMovieView = QTMovieView; 
+                questionArrayController = NSArrayController; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            ACTIONS = {
+                add = id; 
+                addScaled = id; 
+                copy = id; 
+                cut = id; 
+                delete = id; 
+                gotoBeginning = id; 
+                gotoEnd = id; 
+                gotoNextSelectionPoint = id; 
+                gotoPosterFrame = id; 
+                gotoPreviousSelectionPoint = id; 
+                paste = id; 
+                pause = id; 
+                play = id; 
+                replace = id; 
+                selectAll = id; 
+                selectNone = id; 
+                stepBackward = id; 
+                stepForward = id; 
+                trim = id; 
+            }; 
+            CLASS = QTMovieView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {modifyQuestion = id; quizAction = id; }; 
+            CLASS = QuestionArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_controller" = id; "_window" = NSWindow; }; 
+            SUPERCLASS = NSArrayController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

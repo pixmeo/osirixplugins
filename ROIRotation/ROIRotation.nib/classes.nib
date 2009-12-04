@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = PluginFilter; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {endDialog = id; setAngleToRoi = id; }; 
+            CLASS = ROIRotationFilter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                angleCir = NSSlider; 
+                angleField = NSTextField; 
+                angleField2 = id; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = PluginFilter; 
+        }
+    ); 
+    IBVersion = 1; 
+}

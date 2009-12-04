@@ -1,0 +1,554 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		596DB8150FAF0BD400FEE841 /* SpecialSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 596DB8110FAF0BD400FEE841 /* SpecialSplitView.h */; };
+		596DB8160FAF0BD400FEE841 /* SpecialSplitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 596DB8120FAF0BD400FEE841 /* SpecialSplitView.mm */; };
+		597131A20FA6F7E100FA0701 /* Interface.h in Headers */ = {isa = PBXBuildFile; fileRef = 597131960FA6F7E100FA0701 /* Interface.h */; };
+		597131A30FA6F7E100FA0701 /* ROI_Enhancement_II.h in Headers */ = {isa = PBXBuildFile; fileRef = 597131970FA6F7E100FA0701 /* ROI_Enhancement_II.h */; };
+		597131A40FA6F7E100FA0701 /* ROI_Enhancement_II.mm in Sources */ = {isa = PBXBuildFile; fileRef = 597131980FA6F7E100FA0701 /* ROI_Enhancement_II.mm */; };
+		597131A60FA6F7E100FA0701 /* Interface.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971319A0FA6F7E100FA0701 /* Interface.mm */; };
+		597131A80FA6F7E100FA0701 /* Options.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971319C0FA6F7E100FA0701 /* Options.h */; };
+		597131A90FA6F7E100FA0701 /* Chart.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971319D0FA6F7E100FA0701 /* Chart.h */; };
+		597131AA0FA6F7E100FA0701 /* Options.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971319E0FA6F7E100FA0701 /* Options.mm */; };
+		597131AC0FA6F7E100FA0701 /* Chart.mm in Sources */ = {isa = PBXBuildFile; fileRef = 597131A00FA6F7E100FA0701 /* Chart.mm */; };
+		597715720FA97FAF003CBDE8 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = 597715670FA97FAF003CBDE8 /* DCMPix.h */; };
+		597715730FA97FAF003CBDE8 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = 597715680FA97FAF003CBDE8 /* DCMView.h */; };
+		597715740FA97FAF003CBDE8 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 597715690FA97FAF003CBDE8 /* dicomFile.h */; };
+		597715750FA97FAF003CBDE8 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 5977156A0FA97FAF003CBDE8 /* MyPoint.h */; };
+		597715760FA97FAF003CBDE8 /* OSIWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5977156B0FA97FAF003CBDE8 /* OSIWindowController.h */; };
+		597715770FA97FAF003CBDE8 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 5977156C0FA97FAF003CBDE8 /* PluginFilter.h */; };
+		597715780FA97FAF003CBDE8 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 5977156D0FA97FAF003CBDE8 /* ROI.h */; };
+		597715790FA97FAF003CBDE8 /* Schedulable.h in Headers */ = {isa = PBXBuildFile; fileRef = 5977156E0FA97FAF003CBDE8 /* Schedulable.h */; };
+		5977157A0FA97FAF003CBDE8 /* Scheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 5977156F0FA97FAF003CBDE8 /* Scheduler.h */; };
+		5977157B0FA97FAF003CBDE8 /* StaticScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 597715700FA97FAF003CBDE8 /* StaticScheduler.h */; };
+		5977157C0FA97FAF003CBDE8 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 597715710FA97FAF003CBDE8 /* ViewerController.h */; };
+		597715800FA97FE3003CBDE8 /* Interface.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5977157F0FA97FE3003CBDE8 /* Interface.xib */; };
+		597816040FB9520800774713 /* DicomSaveDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 597816020FB9520800774713 /* DicomSaveDialog.mm */; };
+		597816050FB9520800774713 /* DicomSaveDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 597816030FB9520800774713 /* DicomSaveDialog.h */; };
+		598960770F9EFBE200BEFEE4 /* GRAreaDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 5989606F0F9EFBE200BEFEE4 /* GRAreaDataSet.h */; };
+		598960780F9EFBE200BEFEE4 /* GRAxes.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960700F9EFBE200BEFEE4 /* GRAxes.h */; };
+		598960790F9EFBE200BEFEE4 /* GRChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960710F9EFBE200BEFEE4 /* GRChartView.h */; };
+		5989607A0F9EFBE200BEFEE4 /* GRColumnDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960720F9EFBE200BEFEE4 /* GRColumnDataSet.h */; };
+		5989607B0F9EFBE200BEFEE4 /* GRDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960730F9EFBE200BEFEE4 /* GRDataSet.h */; };
+		5989607C0F9EFBE200BEFEE4 /* GRLineDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960740F9EFBE200BEFEE4 /* GRLineDataSet.h */; };
+		5989607D0F9EFBE200BEFEE4 /* GRPieDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960750F9EFBE200BEFEE4 /* GRPieDataSet.h */; };
+		5989607E0F9EFBE200BEFEE4 /* GRXYDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */; };
+		598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598960820F9EFC5E00BEFEE4 /* GraphKit.framework */; };
+		59C2B96B0FF0F0D100B50385 /* Notifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C2B96A0FF0F0D100B50385 /* Notifications.h */; };
+		59C72B360FCD88CC00430BD9 /* ROIList.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59C72B340FCD88CC00430BD9 /* ROIList.mm */; };
+		59C72B370FCD88CC00430BD9 /* ROIList.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C72B350FCD88CC00430BD9 /* ROIList.h */; };
+		59C72CEF0FCD905300430BD9 /* ROI_Enhancement_II.pch in Headers */ = {isa = PBXBuildFile; fileRef = 59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */; };
+		59D64E7C0FAF36D60021E211 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59D64E7A0FAF36D60021E211 /* InfoPlist.strings */; };
+		59D655E00FB195730021E211 /* UserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D655DE0FB195730021E211 /* UserDefaults.h */; };
+		59D655E10FB195730021E211 /* UserDefaults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59D655DF0FB195730021E211 /* UserDefaults.mm */; };
+		59D656C60FB1C8020021E211 /* DICOMExport.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D656C50FB1C8020021E211 /* DICOMExport.h */; };
+		59E53C1A0FAF17E1004AE16E /* AreaDataSet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E53C180FAF17E1004AE16E /* AreaDataSet.mm */; };
+		59E53C1B0FAF17E1004AE16E /* AreaDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E53C190FAF17E1004AE16E /* AreaDataSet.h */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		596DB8110FAF0BD400FEE841 /* SpecialSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpecialSplitView.h; sourceTree = "<group>"; };
+		596DB8120FAF0BD400FEE841 /* SpecialSplitView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpecialSplitView.mm; sourceTree = "<group>"; };
+		597131960FA6F7E100FA0701 /* Interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Interface.h; path = Sources/Interface.h; sourceTree = "<group>"; };
+		597131970FA6F7E100FA0701 /* ROI_Enhancement_II.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROI_Enhancement_II.h; path = Sources/ROI_Enhancement_II.h; sourceTree = "<group>"; };
+		597131980FA6F7E100FA0701 /* ROI_Enhancement_II.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ROI_Enhancement_II.mm; path = Sources/ROI_Enhancement_II.mm; sourceTree = "<group>"; };
+		5971319A0FA6F7E100FA0701 /* Interface.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Interface.mm; path = Sources/Interface.mm; sourceTree = "<group>"; };
+		5971319C0FA6F7E100FA0701 /* Options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Options.h; path = Sources/Options.h; sourceTree = "<group>"; };
+		5971319D0FA6F7E100FA0701 /* Chart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Chart.h; path = Sources/Chart.h; sourceTree = "<group>"; };
+		5971319E0FA6F7E100FA0701 /* Options.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Options.mm; path = Sources/Options.mm; sourceTree = "<group>"; };
+		597131A00FA6F7E100FA0701 /* Chart.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Chart.mm; path = Sources/Chart.mm; sourceTree = "<group>"; };
+		597715670FA97FAF003CBDE8 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
+		597715680FA97FAF003CBDE8 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
+		597715690FA97FAF003CBDE8 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
+		5977156A0FA97FAF003CBDE8 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
+		5977156B0FA97FAF003CBDE8 /* OSIWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIWindowController.h; sourceTree = "<group>"; };
+		5977156C0FA97FAF003CBDE8 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
+		5977156D0FA97FAF003CBDE8 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
+		5977156E0FA97FAF003CBDE8 /* Schedulable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Schedulable.h; sourceTree = "<group>"; };
+		5977156F0FA97FAF003CBDE8 /* Scheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scheduler.h; sourceTree = "<group>"; };
+		597715700FA97FAF003CBDE8 /* StaticScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticScheduler.h; sourceTree = "<group>"; };
+		597715710FA97FAF003CBDE8 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		5977157D0FA97FD3003CBDE8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		5977157F0FA97FE3003CBDE8 /* Interface.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Interface.xib; path = Resources/Interface.xib; sourceTree = "<group>"; };
+		597816020FB9520800774713 /* DicomSaveDialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DicomSaveDialog.mm; path = Sources/DicomSaveDialog.mm; sourceTree = "<group>"; };
+		597816030FB9520800774713 /* DicomSaveDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DicomSaveDialog.h; path = Sources/DicomSaveDialog.h; sourceTree = "<group>"; };
+		5989606F0F9EFBE200BEFEE4 /* GRAreaDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRAreaDataSet.h; sourceTree = "<group>"; };
+		598960700F9EFBE200BEFEE4 /* GRAxes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRAxes.h; sourceTree = "<group>"; };
+		598960710F9EFBE200BEFEE4 /* GRChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRChartView.h; sourceTree = "<group>"; };
+		598960720F9EFBE200BEFEE4 /* GRColumnDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRColumnDataSet.h; sourceTree = "<group>"; };
+		598960730F9EFBE200BEFEE4 /* GRDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDataSet.h; sourceTree = "<group>"; };
+		598960740F9EFBE200BEFEE4 /* GRLineDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRLineDataSet.h; sourceTree = "<group>"; };
+		598960750F9EFBE200BEFEE4 /* GRPieDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRPieDataSet.h; sourceTree = "<group>"; };
+		598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRXYDataSet.h; sourceTree = "<group>"; };
+		598960820F9EFC5E00BEFEE4 /* GraphKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GraphKit.framework; path = /System/Library/PrivateFrameworks/GraphKit.framework; sourceTree = "<absolute>"; };
+		59C2B96A0FF0F0D100B50385 /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notifications.h; path = ../../osirix/Notifications.h; sourceTree = SOURCE_ROOT; };
+		59C72B340FCD88CC00430BD9 /* ROIList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ROIList.mm; path = Sources/ROIList.mm; sourceTree = "<group>"; };
+		59C72B350FCD88CC00430BD9 /* ROIList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROIList.h; path = Sources/ROIList.h; sourceTree = "<group>"; };
+		59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROI_Enhancement_II.pch; path = Sources/ROI_Enhancement_II.pch; sourceTree = "<group>"; };
+		59D64E7B0FAF36D60021E211 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		59D655DE0FB195730021E211 /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Sources/UserDefaults.h; sourceTree = "<group>"; };
+		59D655DF0FB195730021E211 /* UserDefaults.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = UserDefaults.mm; path = Sources/UserDefaults.mm; sourceTree = "<group>"; };
+		59D656C50FB1C8020021E211 /* DICOMExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DICOMExport.h; sourceTree = "<group>"; };
+		59E53C180FAF17E1004AE16E /* AreaDataSet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AreaDataSet.mm; path = Sources/AreaDataSet.mm; sourceTree = "<group>"; };
+		59E53C190FAF17E1004AE16E /* AreaDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AreaDataSet.h; path = Sources/AreaDataSet.h; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* ROI-Enhancement.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ROI-Enhancement.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* ROI */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = ROI;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5977157D0FA97FD3003CBDE8 /* Info.plist */,
+				59D64E7A0FAF36D60021E211 /* InfoPlist.strings */,
+				5977157F0FA97FE3003CBDE8 /* Interface.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				597131970FA6F7E100FA0701 /* ROI_Enhancement_II.h */,
+				597131980FA6F7E100FA0701 /* ROI_Enhancement_II.mm */,
+				597131960FA6F7E100FA0701 /* Interface.h */,
+				5971319A0FA6F7E100FA0701 /* Interface.mm */,
+				5971319D0FA6F7E100FA0701 /* Chart.h */,
+				597131A00FA6F7E100FA0701 /* Chart.mm */,
+				59E53C190FAF17E1004AE16E /* AreaDataSet.h */,
+				59E53C180FAF17E1004AE16E /* AreaDataSet.mm */,
+				59C72B340FCD88CC00430BD9 /* ROIList.mm */,
+				59C72B350FCD88CC00430BD9 /* ROIList.h */,
+				5971319C0FA6F7E100FA0701 /* Options.h */,
+				5971319E0FA6F7E100FA0701 /* Options.mm */,
+				59D655DE0FB195730021E211 /* UserDefaults.h */,
+				59D655DF0FB195730021E211 /* UserDefaults.mm */,
+				597816030FB9520800774713 /* DicomSaveDialog.h */,
+				597816020FB9520800774713 /* DicomSaveDialog.mm */,
+				596DB80E0FAF0BD400FEE841 /* Views */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				598960820F9EFC5E00BEFEE4 /* GraphKit.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* ROI-Enhancement.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */,
+				5989607F0F9EFC0200BEFEE4 /* External */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		596DB80E0FAF0BD400FEE841 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				596DB8110FAF0BD400FEE841 /* SpecialSplitView.h */,
+				596DB8120FAF0BD400FEE841 /* SpecialSplitView.mm */,
+			);
+			name = Views;
+			path = Sources/Views;
+			sourceTree = "<group>";
+		};
+		597715660FA97FAF003CBDE8 /* OsiriX Headers */ = {
+			isa = PBXGroup;
+			children = (
+				59D656C50FB1C8020021E211 /* DICOMExport.h */,
+				597715670FA97FAF003CBDE8 /* DCMPix.h */,
+				597715680FA97FAF003CBDE8 /* DCMView.h */,
+				59C2B96A0FF0F0D100B50385 /* Notifications.h */,
+				597715690FA97FAF003CBDE8 /* dicomFile.h */,
+				5977156A0FA97FAF003CBDE8 /* MyPoint.h */,
+				5977156B0FA97FAF003CBDE8 /* OSIWindowController.h */,
+				5977156C0FA97FAF003CBDE8 /* PluginFilter.h */,
+				5977156D0FA97FAF003CBDE8 /* ROI.h */,
+				5977156E0FA97FAF003CBDE8 /* Schedulable.h */,
+				5977156F0FA97FAF003CBDE8 /* Scheduler.h */,
+				597715700FA97FAF003CBDE8 /* StaticScheduler.h */,
+				597715710FA97FAF003CBDE8 /* ViewerController.h */,
+			);
+			name = "OsiriX Headers";
+			path = "Frameworks/OsiriX Headers";
+			sourceTree = "<group>";
+		};
+		5989606E0F9EFBE200BEFEE4 /* GraphKit Headers */ = {
+			isa = PBXGroup;
+			children = (
+				5989606F0F9EFBE200BEFEE4 /* GRAreaDataSet.h */,
+				598960700F9EFBE200BEFEE4 /* GRAxes.h */,
+				598960710F9EFBE200BEFEE4 /* GRChartView.h */,
+				598960720F9EFBE200BEFEE4 /* GRColumnDataSet.h */,
+				598960730F9EFBE200BEFEE4 /* GRDataSet.h */,
+				598960740F9EFBE200BEFEE4 /* GRLineDataSet.h */,
+				598960750F9EFBE200BEFEE4 /* GRPieDataSet.h */,
+				598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */,
+			);
+			name = "GraphKit Headers";
+			path = Frameworks/GraphKit/Headers;
+			sourceTree = "<group>";
+		};
+		5989607F0F9EFC0200BEFEE4 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				597715660FA97FAF003CBDE8 /* OsiriX Headers */,
+				5989606E0F9EFBE200BEFEE4 /* GraphKit Headers */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				598960770F9EFBE200BEFEE4 /* GRAreaDataSet.h in Headers */,
+				598960780F9EFBE200BEFEE4 /* GRAxes.h in Headers */,
+				598960790F9EFBE200BEFEE4 /* GRChartView.h in Headers */,
+				5989607A0F9EFBE200BEFEE4 /* GRColumnDataSet.h in Headers */,
+				5989607B0F9EFBE200BEFEE4 /* GRDataSet.h in Headers */,
+				5989607C0F9EFBE200BEFEE4 /* GRLineDataSet.h in Headers */,
+				5989607D0F9EFBE200BEFEE4 /* GRPieDataSet.h in Headers */,
+				5989607E0F9EFBE200BEFEE4 /* GRXYDataSet.h in Headers */,
+				597131A20FA6F7E100FA0701 /* Interface.h in Headers */,
+				597131A30FA6F7E100FA0701 /* ROI_Enhancement_II.h in Headers */,
+				597131A80FA6F7E100FA0701 /* Options.h in Headers */,
+				597131A90FA6F7E100FA0701 /* Chart.h in Headers */,
+				597715720FA97FAF003CBDE8 /* DCMPix.h in Headers */,
+				597715730FA97FAF003CBDE8 /* DCMView.h in Headers */,
+				597715740FA97FAF003CBDE8 /* dicomFile.h in Headers */,
+				597715750FA97FAF003CBDE8 /* MyPoint.h in Headers */,
+				597715760FA97FAF003CBDE8 /* OSIWindowController.h in Headers */,
+				597715770FA97FAF003CBDE8 /* PluginFilter.h in Headers */,
+				597715780FA97FAF003CBDE8 /* ROI.h in Headers */,
+				597715790FA97FAF003CBDE8 /* Schedulable.h in Headers */,
+				5977157A0FA97FAF003CBDE8 /* Scheduler.h in Headers */,
+				5977157B0FA97FAF003CBDE8 /* StaticScheduler.h in Headers */,
+				5977157C0FA97FAF003CBDE8 /* ViewerController.h in Headers */,
+				596DB8150FAF0BD400FEE841 /* SpecialSplitView.h in Headers */,
+				59E53C1B0FAF17E1004AE16E /* AreaDataSet.h in Headers */,
+				59D655E00FB195730021E211 /* UserDefaults.h in Headers */,
+				59D656C60FB1C8020021E211 /* DICOMExport.h in Headers */,
+				597816050FB9520800774713 /* DicomSaveDialog.h in Headers */,
+				59C72B370FCD88CC00430BD9 /* ROIList.h in Headers */,
+				59C72CEF0FCD905300430BD9 /* ROI_Enhancement_II.pch in Headers */,
+				59C2B96B0FF0F0D100B50385 /* Notifications.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* ROI Enhancement II */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "ROI Enhancement II" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ROI Enhancement II";
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* ROI-Enhancement.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ROI Enhancement II" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* ROI */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* ROI Enhancement II */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				597715800FA97FE3003CBDE8 /* Interface.xib in Resources */,
+				59D64E7C0FAF36D60021E211 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				597131A40FA6F7E100FA0701 /* ROI_Enhancement_II.mm in Sources */,
+				597131A60FA6F7E100FA0701 /* Interface.mm in Sources */,
+				597131AA0FA6F7E100FA0701 /* Options.mm in Sources */,
+				597131AC0FA6F7E100FA0701 /* Chart.mm in Sources */,
+				596DB8160FAF0BD400FEE841 /* SpecialSplitView.mm in Sources */,
+				59E53C1A0FAF17E1004AE16E /* AreaDataSet.mm in Sources */,
+				59D655E10FB195730021E211 /* UserDefaults.mm in Sources */,
+				597816040FB9520800774713 /* DicomSaveDialog.mm in Sources */,
+				59C72B360FCD88CC00430BD9 /* ROIList.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		59D64E7A0FAF36D60021E211 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				59D64E7B0FAF36D60021E211 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		ABF52CF80FC189810094B252 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Deployment;
+		};
+		ABF52CF90FC189810094B252 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				EXECUTABLE_EXTENSION = osirixplugin;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/ROI_Enhancement_II.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "ROI-Enhancement";
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+				COPY_PHASE_STRIP = YES;
+				EXECUTABLE_EXTENSION = osirixplugin;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/ROI_Enhancement_II.pch;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = "ROI-Enhancement";
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Development;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "ROI Enhancement II" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				ABF52CF90FC189810094B252 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ROI Enhancement II" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				ABF52CF80FC189810094B252 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
