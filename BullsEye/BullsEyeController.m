@@ -53,7 +53,7 @@ const NSString* FileTypeCSV = @"csv";
 {
 	if( [[NSUserDefaults standardUserDefaults] objectForKey: @"presetsBullsEyeList"] == nil)
 	{
-		NSDictionary *dict1, *dict2, *dict3, *dict4;
+		NSDictionary *dict1, *dict2, *dict3, *dict4, *dict5;
 		NSMutableArray *list = [NSMutableArray array];
 		
 		dict1 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 0], @"score", @"normal", @"state", [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]], @"color", nil];
@@ -69,10 +69,11 @@ const NSString* FileTypeCSV = @"csv";
 		[list addObject: [NSDictionary dictionaryWithObjectsAndKeys: [NSArray arrayWithObjects: dict1, dict2, dict3, dict4, nil], @"array", @"Enhancement", @"name", nil]];
 		
 		dict1 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 0], @"score", @"normal", @"state", [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]], @"color", nil];
-		dict2 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 1], @"score", @"artefact", @"state", [NSArchiver archivedDataWithRootObject: [NSColor yellowColor]], @"color", nil];
-		dict3 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 2], @"score", @"physiologic", @"state", [NSArchiver archivedDataWithRootObject: [NSColor orangeColor]], @"color", nil];
-		dict4 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 3], @"score", @"pathologic", @"state", [NSArchiver archivedDataWithRootObject: [NSColor redColor]], @"color", nil];
-		[list addObject: [NSDictionary dictionaryWithObjectsAndKeys: [NSArray arrayWithObjects: dict1, dict2, dict3, dict4, nil], @"array", @"Perfusion", @"name", nil]];
+		dict2 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 0], @"score", @"artefact", @"state", [NSArchiver archivedDataWithRootObject: [NSColor yellowColor]], @"color", nil];
+		dict3 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 1], @"score", @"<25%", @"state", [NSArchiver archivedDataWithRootObject: [NSColor orangeColor]], @"color", nil];
+		dict4 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 2], @"score", @"25%-75%", @"state", [NSArchiver archivedDataWithRootObject: [NSColor redColor]], @"color", nil];
+		dict5 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 3], @"score", @">75%", @"state", [NSArchiver archivedDataWithRootObject: [NSColor redColor]], @"color", nil];
+		[list addObject: [NSDictionary dictionaryWithObjectsAndKeys: [NSArray arrayWithObjects: dict1, dict2, dict3, dict4, dict5, nil], @"array", @"Perfusion", @"name", nil]];
 		
 		dict1 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 0], @"score", @"normal", @"state", [NSArchiver archivedDataWithRootObject: [NSColor whiteColor]], @"color", nil];
 		dict2 = [NSMutableDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithInt: 1], @"score", @"hypotrophic", @"state", [NSArchiver archivedDataWithRootObject: [NSColor yellowColor]], @"color", nil];
