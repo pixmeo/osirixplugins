@@ -159,7 +159,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	else [_rois removeObjectForKey:roiId];
 	
 	[roi setName:roiId];
-	[self roiChanged:[NSNotification notificationWithName:OsirixROIChangeNotification object:roi]];
+	[self updateResult];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowROIAssignedNotification object:self userInfo:[NSDictionary dictionaryWithObject:roiId forKey:EjectionFractionWorkflowROIIdInfo]];
 }
@@ -182,7 +182,6 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	if (roiId) {
 		[self setRoi:NULL forId:roiId];
 		[self selectOrOpenViewerForRoiWithId:roiId];
-		[self updateResult];
 	}
 }
 
@@ -219,7 +218,15 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 }
 
 -(void)menuAction_useAs:(NSMenuItem*)source {
-	
+	ROI* roi = [source representedObject];
+	NSString* roiId = (NSString*)[source tag];
+	[[self roiForId:roiId] setName:NULL];
+	[self setRoi:NULL forId:[roi name]];
+	[self setRoi:roi forId:roiId];
+}
+
+-(CGFloat)computeAndOutputDiastoleVolume:(CGFloat&)diasVol systoleVolume:(CGFloat&)systVol {
+	return [[self algorithm] compute:_rois diastoleVolume:diasVol systoleVolume:systVol];
 }
 
 @end

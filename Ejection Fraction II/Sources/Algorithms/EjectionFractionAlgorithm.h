@@ -15,15 +15,20 @@ extern NSString* SystLength;
 @interface EjectionFractionAlgorithm : NSObject
 
 @property(readonly) NSArray* groupedRoiIds;
+@property(readonly) NSArray* pairedRoiIds;
 @property(readonly) NSArray* roiIds;
+-(NSArray*)roiIdsGroupContainingRoiId:(NSString*)roiId;
 
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId;
 -(BOOL)typeForRoiId:(NSString*)roiId acceptsTag:(long)tag;
 -(NSUInteger)countOfNeededRois;
 
 -(CGFloat)compute:(NSDictionary*)rois;
+-(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume;
 -(CGFloat)ejectionFractionWithDiastoleVolume:(CGFloat)diasVol systoleVolume:(CGFloat)sysVol;
 
 -(BOOL)needsRoiWithId:(NSString*)roi tag:(long)tag;
+
+-(NSImage*)image;
 
 @end

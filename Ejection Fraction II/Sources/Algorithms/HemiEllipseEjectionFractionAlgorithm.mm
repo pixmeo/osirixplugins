@@ -23,6 +23,10 @@ NSString* SystShort = @"Systole short axis diameter";
 	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasShort, DiasLength, NULL], [NSArray arrayWithObjects: SystShort, SystLength, NULL], NULL];
 }
 
+-(NSArray*)pairedRoiIds {
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasShort, SystShort, NULL], NULL];
+}
+
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId {
 	if ([roiId isEqualToString:DiasShort] ||
 		[roiId isEqualToString:SystShort])
@@ -35,11 +39,11 @@ NSString* SystShort = @"Systole short axis diameter";
 	return (shortAxisArea * length * 5) / 6;
 }
 
--(CGFloat)compute:(NSDictionary*)rois {
-	return [self ejectionFractionWithDiastoleVolume:[self volumeWithShortAxisArea:[[rois objectForKey:DiasShort] roiArea]
-																		   length:[[rois objectForKey:DiasLength] MesureLength:NULL]]
-									  systoleVolume:[self volumeWithShortAxisArea:[[rois objectForKey:SystShort] roiArea]
-																		   length:[[rois objectForKey:SystLength] MesureLength:NULL]]];
+-(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume {
+	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithShortAxisArea:[[rois objectForKey:DiasShort] roiArea]
+																							  length:[[rois objectForKey:DiasLength] MesureLength:NULL]])
+									  systoleVolume: (systoleVolume = [self volumeWithShortAxisArea:[[rois objectForKey:SystShort] roiArea]
+																							 length:[[rois objectForKey:SystLength] MesureLength:NULL]]) ];
 }
 
 @end

@@ -30,5 +30,6 @@ enum EjectionFractionROIType {
 -(ROI*)roiForId:(NSString*)roiId;
 -(NSArray*)roisForIds:(NSArray*)roiIds;
 -(void)showDetails;
+-(CGFloat)computeAndOutputDiastoleVolume:(CGFloat&)diasVol systoleVolume:(CGFloat&)systVol;
 
 @end

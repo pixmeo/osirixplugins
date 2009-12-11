@@ -25,6 +25,10 @@ NSString* SystPapi = @"Systole middle short axis";
 	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasMitral, DiasPapi, DiasLength, NULL], [NSArray arrayWithObjects: SystMitral, SystPapi, SystLength, NULL], NULL];
 }
 
+-(NSArray*)pairedRoiIds {
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasMitral, SystMitral, NULL], [NSArray arrayWithObjects: DiasPapi, SystPapi, NULL], NULL];
+}
+
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId {
 	if ([roiId isEqualToString:DiasMitral] ||
 		[roiId isEqualToString:SystMitral] ||
@@ -39,13 +43,15 @@ NSString* SystPapi = @"Systole middle short axis";
 	return (mitralArea + papiArea * 2 / 3) * length / 2;
 }
 
--(CGFloat)compute:(NSDictionary*)rois {
-	return [self ejectionFractionWithDiastoleVolume:[self volumeWithMitralArea:[[rois objectForKey:DiasMitral] roiArea]
-																	  papiArea:[[rois objectForKey:DiasPapi] roiArea]
-																		length:[[rois objectForKey:DiasLength] MesureLength:NULL]]
-									  systoleVolume:[self volumeWithMitralArea:[[rois objectForKey:SystMitral] roiArea]
-																	  papiArea:[[rois objectForKey:SystPapi] roiArea]
-																		length:[[rois objectForKey:SystLength] MesureLength:NULL]]];
+
+
+-(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume {
+	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithMitralArea:[[rois objectForKey:DiasMitral] roiArea]
+																						 papiArea:[[rois objectForKey:DiasPapi] roiArea]
+																						   length:[[rois objectForKey:DiasLength] MesureLength:NULL]])
+									  systoleVolume: (systoleVolume = [self volumeWithMitralArea:[[rois objectForKey:SystMitral] roiArea]
+																						papiArea:[[rois objectForKey:SystPapi] roiArea]
+																						  length:[[rois objectForKey:SystLength] MesureLength:NULL]]) ];
 }
 
 @end

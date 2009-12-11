@@ -20,13 +20,17 @@
 	return [NSArray arrayWithObjects: [NSArray arrayWithObject:DiasLength], [NSArray arrayWithObject:SystLength], NULL];
 }
 
+-(NSArray*)pairedRoiIds {
+	return [NSArray arrayWithObjects: NULL];
+}
+
 -(CGFloat)volumeWithLength:(CGFloat)length {
 	return powf(length, 3) * 7 / (length + 2.4);
 }
 
--(CGFloat)compute:(NSDictionary*)rois {
-	return [self ejectionFractionWithDiastoleVolume:[self volumeWithLength:[[rois objectForKey:DiasLength] MesureLength:NULL]]
-									  systoleVolume:[self volumeWithLength:[[rois objectForKey:SystLength] MesureLength:NULL]]];
+-(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume {
+	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithLength:[[rois objectForKey:DiasLength] MesureLength:NULL]])
+									  systoleVolume: (systoleVolume = [self volumeWithLength:[[rois objectForKey:SystLength] MesureLength:NULL]]) ];
 }
 
 @end

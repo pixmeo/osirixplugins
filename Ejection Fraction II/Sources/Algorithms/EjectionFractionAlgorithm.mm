@@ -15,8 +15,17 @@ NSString* SystLength = @"Systole length";
 
 @implementation EjectionFractionAlgorithm
 
+-(NSImage*)image {
+	return [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[self description] ofType:@"png"]] autorelease];
+}
+
 -(NSArray*)groupedRoiIds {
-	[NSException raise:NSGenericException format:@"EjectionFractionAlgorithm subclass must implement method neededRoiIds"];
+	[NSException raise:NSGenericException format:@"EjectionFractionAlgorithm subclass must implement method groupedRoiIds"];
+	return NULL;
+}
+
+-(NSArray*)pairedRoiIds {
+	[NSException raise:NSGenericException format:@"EjectionFractionAlgorithm subclass must implement method pairedRoiIds"];
 	return NULL;
 }
 
@@ -27,6 +36,13 @@ NSString* SystLength = @"Systole length";
 		[ret addObjectsFromArray:group];
 	
 	return [[ret copy] autorelease];
+}
+
+-(NSArray*)roiIdsGroupContainingRoiId:(NSString*)roiId {
+	for (NSArray* group in [self groupedRoiIds])
+		if ([group containsObject:roiId])
+			return group;
+	return NULL;
 }
 
 -(NSUInteger)countOfNeededRois {
@@ -62,7 +78,12 @@ NSString* SystLength = @"Systole length";
 }
 
 -(CGFloat)compute:(NSDictionary*)rois {
-	[NSException raise:NSGenericException format:@"EjectionFractionAlgorithm subclass must implement method process:"];
+	CGFloat dV, sV;
+	return [self compute:rois diastoleVolume:dV systoleVolume:sV];
+}
+
+-(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume {
+	[NSException raise:NSGenericException format:@"EjectionFractionAlgorithm subclass must implement method compute:diastoleVolume:systoleVolume"];
 	return 0;
 }
 

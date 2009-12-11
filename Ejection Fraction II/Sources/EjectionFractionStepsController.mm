@@ -15,7 +15,7 @@
 #import <Nitrogen/N2Resizer.h>
 #import <Nitrogen/N2Button.h>
 #import <Nitrogen/N2Step.h>
-#import <Nitrogen/N2ColumnDescriptor.h>
+#import <Nitrogen/N2CellDescriptor.h>
 #import <Nitrogen/N2Steps.h>
 #import <Nitrogen/N2View.h>
 
@@ -64,7 +64,7 @@
 	[_stepsView setControlSize:NSSmallControlSize];
 	
 	[_viewROIsList setForeColor:[NSColor whiteColor]];
-	NSArray* columnDescriptors = [NSArray arrayWithObjects: [N2ColumnDescriptor descriptor], NULL]; // , [N2ColumnDescriptor descriptor]
+	NSArray* columnDescriptors = [NSArray arrayWithObject:[[N2CellDescriptor descriptor] widthConstraints:N2MakeMinMax([_viewROIsList frame].size.width)]]; // , [N2CellDescriptor descriptor]
 	N2ColumnLayout* layout = [[[N2ColumnLayout alloc] initForView:_viewROIsList columnDescriptors:columnDescriptors controlSize:NSMiniControlSize] autorelease];
 	[layout setForcesSuperviewHeight:YES];
 	[layout setMargin:NSZeroRect];
@@ -113,10 +113,6 @@
 	[_workflow setAlgorithm:[selection representedObject]];
 }
 
-NSString* NSRectString(const NSRect& r) {
-	return [NSString stringWithFormat:@"[%f,%f,%f,%f]", r.origin.x, r.origin.y, r.size.width, r.size.height];
-}
-
 -(void)setSelectedAlgorithm:(EjectionFractionAlgorithm*)algorithm {
 	for (NSMenuItem* item in [[_viewAlgorithmChoice menu] itemArray])
 		if ([item representedObject]  == algorithm) {
@@ -127,13 +123,13 @@ NSString* NSRectString(const NSRect& r) {
 	[_viewROIsText setStringValue:[NSString stringWithFormat:_viewROIsTextFormat, [algorithm description]]];
 	
 	[[_viewROIsList layout] setEnabled:NO];
-	[(N2ColumnLayout*)[_viewROIsList layout] removeAllLines];
+	[(N2ColumnLayout*)[_viewROIsList layout] removeAllRows];
 	for (int i = 0; i < 2; ++i) {
 		NSTextView* sect = [[[NSTextView alloc] initWithFrame:NSZeroRect] autorelease];
 		[sect setString:[NSString stringWithFormat:@"%@:", !i? Dias : Syst ]];
 		[sect setSelectable:NO];
 		[sect setFont:[NSFont labelFontOfSize:[NSFont systemFontSizeForControlSize:NSMiniControlSize]]];
-		[(N2ColumnLayout*)[_viewROIsList layout] appendLine:[NSArray arrayWithObject:sect]]; // image
+		[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObject:sect]]; // image
 		NSArray* groups = [algorithm groupedRoiIds];
 		for (NSString* roiId in [groups objectAtIndex:i]) {
 			NSString* title = [[roiId substringFromIndex:[roiId rangeOfString:@" "].location+1] capitalizedString];
@@ -157,7 +153,7 @@ NSString* NSRectString(const NSRect& r) {
 			if ([_workflow roiForId:roiId])
 				[button setImage:_checkmarkImage];
 			
-			[(N2ColumnLayout*)[_viewROIsList layout] appendLine:[NSArray arrayWithObject:button]]; // image
+			[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObject:button]]; // image
 		}
 	}
 	
@@ -169,7 +165,7 @@ NSString* NSRectString(const NSRect& r) {
 }
 
 -(void)setResult:(CGFloat)ef {
-	[_viewResultText setStringValue:[NSString stringWithFormat:_viewResultTextFormat, ef]];
+	[_viewResultText setStringValue:[NSString stringWithFormat:_viewResultTextFormat, ef*100]];
 	[_stepResult setActive: ef > 0];
 }
 
