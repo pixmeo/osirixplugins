@@ -69,15 +69,15 @@
 		NSMutableArray* views = [NSMutableArray arrayWithCapacity:0];
 		
 		NSImageView* viewDias = [NSImageView createWithImage:[imagesDias objectAtIndex:i]];
-		[viewDias setFrameSize:NSMakeSize(128)];
+		[viewDias setImageScaling:NSImageScaleProportionallyUpOrDown];
 		[views addObject:viewDias];
 		
 		NSImageView* viewSyst = [NSImageView createWithImage:[imagesSyst objectAtIndex:i]];
-		[viewSyst setFrameSize:NSMakeSize(128)];
+		[viewSyst setImageScaling:NSImageScaleProportionallyUpOrDown];
 		[views addObject:viewSyst];
 		
 		NSImageView* viewComp = [NSImageView createWithImage:[imagesComp objectAtIndex:i]];
-		[viewComp setFrameSize:NSMakeSize(128)];
+		[viewComp setImageScaling:NSImageScaleProportionallyUpOrDown];
 		[views addObject:viewComp];
 		
 		[bodyLayout appendRow:views];
@@ -94,15 +94,20 @@
 	
 	// header
 	
+	NSManagedObject* infoData = [[[workflow roiForId:[[[workflow algorithm] roiIds] objectAtIndex:0]] pix] imageObj];
+	
+	if ([infoData valueForKeyPath:@"series.study.patientID"])
 	[infoLayout appendRow:[NSArray arrayWithObjects:
-							  [NSTextView labelWithText:@"Patient ID:" alignment:NSRightTextAlignment],
-							  [NSTextView labelWithText:@"TESTTESTTEST"], NULL]];
+								[NSTextView labelWithText:@"Patient ID:" alignment:NSRightTextAlignment],
+								[NSTextView labelWithText:[infoData valueForKeyPath:@"series.study.patientID"]], NULL]];
+	if ([infoData valueForKeyPath:@"series.study.name"])
 	[infoLayout appendRow:[NSArray arrayWithObjects:
-							  [NSTextView labelWithText:@"Name:" alignment:NSRightTextAlignment],
-							  [NSTextView labelWithText:@"Aless Aless Aless\nAless"], NULL]];
-	[infoLayout appendRow:[NSArray arrayWithObjects:
-							  [NSTextView labelWithText:@"Date of Birth:" alignment:NSRightTextAlignment],
-							  [NSTextView labelWithText:@"12/05/1981"], NULL]];
+								[NSTextView labelWithText:@"Name:" alignment:NSRightTextAlignment],
+								[NSTextView labelWithText:[infoData valueForKeyPath:@"series.study.name"]], NULL]];
+	if ([infoData valueForKeyPath:@"series.study.dateOfBirth"])
+		[infoLayout appendRow:[NSArray arrayWithObjects:
+								[NSTextView labelWithText:@"Date of Birth:" alignment:NSRightTextAlignment],
+								[NSTextView labelWithText:[[infoData valueForKeyPath:@"series.study.dateOfBirth"] descriptionWithCalendarFormat:[[NSUserDefaults standardUserDefaults] stringForKey: NSShortDateFormatString] timeZone:0L locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]], NULL]];
 	
 	// algorithm description image
 	
@@ -129,10 +134,17 @@
 	
 	// done
 	
-	[contentLayout appendRow:[NSArray arrayWithObjects: body, [[N2CellDescriptor descriptorWithView:info] widthConstraints:N2MakeMinMax([info frame].size.width)], NULL]];
-
-	[[self window] makeKeyAndOrderFront:self];
+	[infoLayout setEnabled:NO];
 	
+	[contentLayout appendRow:[NSArray arrayWithObjects: body, [[N2CellDescriptor descriptorWithView:info] widthConstraints:N2MakeMinMax([info frame].size.width)], NULL]];
+	
+	[[self window] makeKeyAndOrderFront:self];
+
+	[contentLayout setForcesSuperviewWidth:NO];
+	[contentLayout setForcesSuperviewHeight:NO];
+	[bodyLayout setForcesSuperviewWidth:NO];
+//	[bodyLayout setForcesSuperviewHeight:NO];
+
 	return self;
 }
 

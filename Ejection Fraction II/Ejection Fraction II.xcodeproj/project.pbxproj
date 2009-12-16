@@ -18,11 +18,11 @@
 		598E525810442462005BCDC7 /* EjectionFractionSteps.xib in Resources */ = {isa = PBXBuildFile; fileRef = 598E525710442462005BCDC7 /* EjectionFractionSteps.xib */; };
 		59D6010A10BEAE990024DC67 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 59D6010910BEAE990024DC67 /* Arrow.png */; };
 		59D892A510B2945B00AAA0FE /* EjectionFractionAlgorithm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59D892A410B2945B00AAA0FE /* EjectionFractionAlgorithm.mm */; };
+		59E603A910D918BB009C862D /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E603A810D918BB009C862D /* Nitrogen.framework */; };
+		59E603DC10D918D5009C862D /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E603DB10D918D5009C862D /* OsiriX Headers.framework */; };
 		59E8B2901046A19D00B83E7D /* EjectionFractionStepsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */; };
 		59E8B2911046A19D00B83E7D /* EjectionFractionStepsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */; };
 		59E8B2981046A1D100B83E7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59E8B2961046A1D100B83E7D /* InfoPlist.strings */; };
-		59F9AE2B10C9575F008A6EF1 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9AE2A10C9575F008A6EF1 /* Nitrogen.framework */; };
-		59F9AE5C10C9576A008A6EF1 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9AE5B10C9576A008A6EF1 /* OsiriX Headers.framework */; };
 		59F9AF7710C9584D008A6EF1 /* EjectionFractionResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */; };
 		59F9AF7810C9584D008A6EF1 /* EjectionFractionResultsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */; };
 		59FB4F3010A2D24400283D52 /* EjectionFractionAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FB4F2E10A2D24400283D52 /* EjectionFractionAlgorithm.h */; };
@@ -43,6 +43,86 @@
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		59E601DC10D917A5009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601D510D917A5009C862D /* Nitrogen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Nitrogen.framework */;
+			remoteInfo = Nitrogen;
+		};
+		59E6022A10D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABA71D3F06726B1800335A62 /* OsiriX.app */;
+			remoteInfo = OsiriX;
+		};
+		59E6022C10D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEC70A1E10A5C845008935EA /* OsiriX Lite.app */;
+			remoteInfo = "OsiriX Lite";
+		};
+		59E6022E10D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 844719AF0FD8EF50003BFDF8 /* OsiriX.framework */;
+			remoteInfo = "DCM Framework";
+		};
+		59E6023010D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CE9CED810C75BD8C00752D4B /* libDCM StaticLibrary.a */;
+			remoteInfo = "DCM StaticLibrary";
+		};
+		59E6023210D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB724FF60ADE6ECB00A212A0 /* Decompress */;
+			remoteInfo = Decompress;
+		};
+		59E6023410D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEDF6DD00B46FE99008B45B8 /* DICOMPrint */;
+			remoteInfo = DICOMPrint;
+		};
+		59E6023610D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEDAAECA0C7B486A00809161 /* 32-bit shell.app */;
+			remoteInfo = "32-bit shell";
+		};
+		59E6023810D917B7009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AB0F3A2C1046BD2B004129DD /* OsiriX Headers.framework */;
+			remoteInfo = "OsiriX Headers";
+		};
+		59E6023A10D917CB009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601D510D917A5009C862D /* Nitrogen.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Nitrogen */;
+			remoteInfo = Nitrogen;
+		};
+		59E6023C10D917D0009C862D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AB0F3A2B1046BD2B004129DD /* OsiriX Headers */;
+			remoteInfo = "OsiriX Headers";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -59,11 +139,13 @@
 		598E525710442462005BCDC7 /* EjectionFractionSteps.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EjectionFractionSteps.xib; path = Resources/EjectionFractionSteps.xib; sourceTree = "<group>"; };
 		59D6010910BEAE990024DC67 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Arrow.png; path = Resources/Arrow.png; sourceTree = "<group>"; };
 		59D892A410B2945B00AAA0FE /* EjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionAlgorithm.mm; path = Sources/Algorithms/EjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
+		59E601D510D917A5009C862D /* Nitrogen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nitrogen.xcodeproj; path = ../_externals/nitrogen/Nitrogen.xcodeproj; sourceTree = SOURCE_ROOT; };
+		59E601DE10D917B6009C862D /* OsiriX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OsiriX.xcodeproj; path = ../_externals/osirix/OsiriX.xcodeproj; sourceTree = SOURCE_ROOT; };
+		59E603A810D918BB009C862D /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../_externals/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
+		59E603DB10D918D5009C862D /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../_externals/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionStepsController.mm; path = Sources/EjectionFractionStepsController.mm; sourceTree = "<group>"; };
 		59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionStepsController.h; path = Sources/EjectionFractionStepsController.h; sourceTree = "<group>"; };
 		59E8B2971046A1D100B83E7D /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
-		59F9AE2A10C9575F008A6EF1 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../osirix/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
-		59F9AE5B10C9576A008A6EF1 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionResultsController.h; path = Sources/EjectionFractionResultsController.h; sourceTree = "<group>"; };
 		59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionResultsController.mm; path = Sources/EjectionFractionResultsController.mm; sourceTree = "<group>"; };
 		59FB4F2E10A2D24400283D52 /* EjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionAlgorithm.h; path = Sources/Algorithms/EjectionFractionAlgorithm.h; sourceTree = "<group>"; };
@@ -90,8 +172,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				59F9AE2B10C9575F008A6EF1 /* Nitrogen.framework in Frameworks */,
-				59F9AE5C10C9576A008A6EF1 /* OsiriX Headers.framework in Frameworks */,
+				59E603A910D918BB009C862D /* Nitrogen.framework in Frameworks */,
+				59E603DC10D918D5009C862D /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,8 +195,13 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				59E601D510D917A5009C862D /* Nitrogen.xcodeproj */,
+				59E603A810D918BB009C862D /* Nitrogen.framework */,
+				59E601DE10D917B6009C862D /* OsiriX.xcodeproj */,
+				59E603DB10D918D5009C862D /* OsiriX Headers.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -133,25 +220,6 @@
 				59E8B2951046A1D100B83E7D /* English.lproj */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
-				089C167FFE841241C02AAC07 /* AppKit.framework */,
-				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				59F9AE5B10C9576A008A6EF1 /* OsiriX Headers.framework */,
-				59F9AE2A10C9575F008A6EF1 /* Nitrogen.framework */,
-			);
-			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
@@ -178,6 +246,29 @@
 				59FB4F1510A2D22400283D52 /* Algorithms */,
 			);
 			name = Sources;
+			sourceTree = "<group>";
+		};
+		59E601D610D917A5009C862D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59E601DD10D917A5009C862D /* Nitrogen.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		59E601DF10D917B6009C862D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59E6022B10D917B7009C862D /* OsiriX.app */,
+				59E6022D10D917B7009C862D /* OsiriX Lite.app */,
+				59E6022F10D917B7009C862D /* OsiriX.framework */,
+				59E6023110D917B7009C862D /* libDCM StaticLibrary.a */,
+				59E6023310D917B7009C862D /* Decompress */,
+				59E6023510D917B7009C862D /* DICOMPrint */,
+				59E6023710D917B7009C862D /* 32-bit shell.app */,
+				59E6023910D917B7009C862D /* OsiriX Headers.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		59E8B2951046A1D100B83E7D /* English.lproj */ = {
@@ -246,6 +337,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				59E6023B10D917CB009C862D /* PBXTargetDependency */,
+				59E6023D10D917D0009C862D /* PBXTargetDependency */,
 			);
 			name = "Ejection Fraction II";
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -263,12 +356,88 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* EjectionFractionII */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 59E601D610D917A5009C862D /* Products */;
+					ProjectRef = 59E601D510D917A5009C862D /* Nitrogen.xcodeproj */;
+				},
+				{
+					ProductGroup = 59E601DF10D917B6009C862D /* Products */;
+					ProjectRef = 59E601DE10D917B6009C862D /* OsiriX.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Ejection Fraction II */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		59E601DD10D917A5009C862D /* Nitrogen.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nitrogen.framework;
+			remoteRef = 59E601DC10D917A5009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6022B10D917B7009C862D /* OsiriX.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OsiriX.app;
+			remoteRef = 59E6022A10D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6022D10D917B7009C862D /* OsiriX Lite.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "OsiriX Lite.app";
+			remoteRef = 59E6022C10D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6022F10D917B7009C862D /* OsiriX.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OsiriX.framework;
+			remoteRef = 59E6022E10D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6023110D917B7009C862D /* libDCM StaticLibrary.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libDCM StaticLibrary.a";
+			remoteRef = 59E6023010D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6023310D917B7009C862D /* Decompress */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = Decompress;
+			remoteRef = 59E6023210D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6023510D917B7009C862D /* DICOMPrint */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = DICOMPrint;
+			remoteRef = 59E6023410D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6023710D917B7009C862D /* 32-bit shell.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "32-bit shell.app";
+			remoteRef = 59E6023610D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59E6023910D917B7009C862D /* OsiriX Headers.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = "OsiriX Headers.framework";
+			remoteRef = 59E6023810D917B7009C862D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D5B49AF048680CD000E48DA /* Resources */ = {
@@ -319,6 +488,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		59E6023B10D917CB009C862D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nitrogen;
+			targetProxy = 59E6023A10D917CB009C862D /* PBXContainerItemProxy */;
+		};
+		59E6023D10D917D0009C862D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OsiriX Headers";
+			targetProxy = 59E6023C10D917D0009C862D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		59E8B2961046A1D100B83E7D /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -348,6 +530,8 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_8)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../nitrogen/build/Release\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../osirix/build/Development\"";
@@ -355,6 +539,8 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../_externals/nitrogen/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../_externals/osirix/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
