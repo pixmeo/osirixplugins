@@ -13,5 +13,6 @@
 @interface EjectionFractionResultsController : NSWindowController
 
 -(id)initWithWorkflow:(EjectionFractionWorkflow*)workflow;
+-(IBAction)print:(id)sender;
 
 @end

@@ -108,10 +108,11 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 		[[view window] makeKeyAndOrderFront:self];
 		[viewer selectROI:roi deselectingOther:YES];
 	} else {
-		ViewerController* viewer = [[NSApp makeWindowsPerform:@selector(frontmostViewerControllerFinder) inOrder:YES] windowController];
 		NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
 		[self setExpectedRoiId:roiId];
-		[viewer setROIToolTag:[[roiTypes objectAtIndex:0] longValue]];
+		for (ViewerController* viewer in [ViewerController getDisplayed2DViewers])
+			[viewer setROIToolTag:[[roiTypes objectAtIndex:0] longValue]];
+		ViewerController* viewer = [[NSApp makeWindowsPerform:@selector(frontmostViewerControllerFinder) inOrder:YES] windowController];
 		[[viewer window] makeKeyAndOrderFront:self];
 	}
 }

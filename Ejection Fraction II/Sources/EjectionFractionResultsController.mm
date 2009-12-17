@@ -10,6 +10,7 @@
 #import "EjectionFractionWorkflow.h"
 #import "EjectionFractionWorkflow+OsiriX.h"
 #import "EjectionFractionAlgorithm.h"
+#import "EjectionFractionImage.h"
 #import <Nitrogen/N2ColumnLayout.h>
 #import <Nitrogen/N2CellDescriptor.h>
 #import <Nitrogen/NSTextView+N2.h>
@@ -33,12 +34,15 @@
 @implementation EjectionFractionResultsController
 
 -(id)initWithWorkflow:(EjectionFractionWorkflow*)workflow {
-	self = [super initWithWindow:[[N2Window alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:YES]];
-	[[self window] setTitle:@"Ejection Fraction: Results"];
+	self = [super initWithWindowNibName:@"EjectionFractionResults"];
+	
+	//self = [super initWithWindow:[[N2Window alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:YES]];
+	//[[self window] setTitle:@"Ejection Fraction: Results"];
 	
 	N2ColumnLayout* contentLayout = [[N2ColumnLayout alloc] initForView:[[self window] contentView] columnDescriptors:[NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], [N2CellDescriptor descriptor], NULL] controlSize:NSRegularControlSize];
 	[contentLayout setForcesSuperviewWidth:YES];
 	[contentLayout setForcesSuperviewHeight:YES];
+	[contentLayout setSeparation:NSMakeSize([contentLayout margin].size.width/2, [contentLayout separation].height)];
 	
 	// body
 	NSMutableArray* imagesDias = [NSMutableArray arrayWithCapacity:4];
@@ -46,9 +50,9 @@
 	NSMutableArray* imagesComp = [NSMutableArray arrayWithCapacity:4];
 	// create images
 	for (NSArray* group in [[workflow algorithm] pairedRoiIds]) {
-		[imagesDias addObject:[self imageFromPic:[[[workflow roiForId:[group objectAtIndex:0]] curView] curDCM] includingRois:[workflow roisForIds:[[workflow algorithm] roiIdsGroupContainingRoiId:[group objectAtIndex:0]]]]];
-		[imagesSyst addObject:[self imageFromPic:[[[workflow roiForId:[group objectAtIndex:1]] curView] curDCM] includingRois:[workflow roisForIds:[[workflow algorithm] roiIdsGroupContainingRoiId:[group objectAtIndex:1]]]]];
-		[imagesComp addObject:[self imageFromRois:[workflow roisForIds:group]]];
+		[imagesDias addObject:[EjectionFractionImage imageWithObjects:[[workflow roisForIds:[[workflow algorithm] roiIdsGroupContainingRoiId:[group objectAtIndex:0]]] arrayByAddingObject:[[[workflow roiForId:[group objectAtIndex:0]] curView] curDCM]]]];
+		[imagesSyst addObject:[EjectionFractionImage imageWithObjects:[[workflow roisForIds:[[workflow algorithm] roiIdsGroupContainingRoiId:[group objectAtIndex:1]]] arrayByAddingObject:[[[workflow roiForId:[group objectAtIndex:1]] curView] curDCM]]]];
+		[imagesComp addObject:[EjectionFractionImage imageWithObjects:[workflow roisForIds:group]]];
 	}
 	
 	// count images
@@ -68,16 +72,18 @@
 	for (NSUInteger i = 0; i < imagesCount; ++i) {
 		NSMutableArray* views = [NSMutableArray arrayWithCapacity:0];
 		
-		NSImageView* viewDias = [NSImageView createWithImage:[imagesDias objectAtIndex:i]];
-		[viewDias setImageScaling:NSImageScaleProportionallyUpOrDown];
+		NSImageView* viewDias = [N2ImageView createWithImage:[imagesDias objectAtIndex:i]];
+//		[viewDias setImageScaling:NSImageScaleProportionallyUpOrDown];
 		[views addObject:viewDias];
 		
-		NSImageView* viewSyst = [NSImageView createWithImage:[imagesSyst objectAtIndex:i]];
-		[viewSyst setImageScaling:NSImageScaleProportionallyUpOrDown];
+		NSImageView* viewSyst = [N2ImageView createWithImage:[imagesSyst objectAtIndex:i]];
+		[viewSyst setFrameSize:[viewDias frame].size];
+//		[viewSyst setImageScaling:NSImageScaleProportionallyUpOrDown];
 		[views addObject:viewSyst];
 		
-		NSImageView* viewComp = [NSImageView createWithImage:[imagesComp objectAtIndex:i]];
-		[viewComp setImageScaling:NSImageScaleProportionallyUpOrDown];
+		NSImageView* viewComp = [N2ImageView createWithImage:[imagesComp objectAtIndex:i]];
+//		[viewComp setImageScaling:NSImageScaleProportionallyUpOrDown];
+		[viewComp setFrameSize:[viewDias frame].size];
 		[views addObject:viewComp];
 		
 		[bodyLayout appendRow:views];
@@ -95,27 +101,29 @@
 	// header
 	
 	NSManagedObject* infoData = [[[workflow roiForId:[[[workflow algorithm] roiIds] objectAtIndex:0]] pix] imageObj];
+	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	
 	if ([infoData valueForKeyPath:@"series.study.patientID"])
-	[infoLayout appendRow:[NSArray arrayWithObjects:
+		[infoLayout appendRow:[NSArray arrayWithObjects:
 								[NSTextView labelWithText:@"Patient ID:" alignment:NSRightTextAlignment],
 								[NSTextView labelWithText:[infoData valueForKeyPath:@"series.study.patientID"]], NULL]];
 	if ([infoData valueForKeyPath:@"series.study.name"])
-	[infoLayout appendRow:[NSArray arrayWithObjects:
+		[infoLayout appendRow:[NSArray arrayWithObjects:
 								[NSTextView labelWithText:@"Name:" alignment:NSRightTextAlignment],
 								[NSTextView labelWithText:[infoData valueForKeyPath:@"series.study.name"]], NULL]];
 	if ([infoData valueForKeyPath:@"series.study.dateOfBirth"])
 		[infoLayout appendRow:[NSArray arrayWithObjects:
 								[NSTextView labelWithText:@"Date of Birth:" alignment:NSRightTextAlignment],
-								[NSTextView labelWithText:[[infoData valueForKeyPath:@"series.study.dateOfBirth"] descriptionWithCalendarFormat:[[NSUserDefaults standardUserDefaults] stringForKey: NSShortDateFormatString] timeZone:0L locale:[[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]], NULL]];
+							   [NSTextView labelWithText:[dateFormatter stringFromDate:[infoData valueForKeyPath:@"series.study.dateOfBirth"]]], NULL]];
 	
 	// algorithm description image
 	
 	NSImage* image = [[workflow algorithm] image];
 	if (image) {
-		NSImageView* algorithmView = [NSImageView createWithImage:image];
-		[algorithmView setFrameSize:[algorithmView frame].size+NSMakeSize(0,20)]; // view is 20 pixels higher so we have an extra 10 pixels on top and under the view
-		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:algorithmView] colSpan:2]]];
+		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(10)] autorelease]] colSpan:2]]];
+		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[NSImageView createWithImage:image]] colSpan:2]]];
+		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(10)] autorelease]] colSpan:2]]];
 	}
 	
 	// result
@@ -148,73 +156,8 @@
 	return self;
 }
 
--(void)drawRoi:(ROI*)roi onImage:(NSImage*)image withColor:(NSColor*)color usingTransform:(NSAffineTransform*)transform {
-	NSBezierPath* path = [NSBezierPath bezierPath];
-	NSMutableArray* points = [roi splinePoints];
-	[path moveToPoint:[[points objectAtIndex:0] point]];
-	//[points removeObjectAtIndex:0];
-	for (MyPoint* p in points)
-		[path lineToPoint:[p point]];
-	[path closePath];
-	[path transformUsingAffineTransform:transform];
-	
-	[image lockFocus];
-	
-	[color set];
-	NSSize size = [transform transformSize:[image size]];
-	[path setLineWidth:(size.width+size.height)/128];
-	[path stroke];
-	
-	[image unlockFocus];
-}
-
--(void)drawRoi:(ROI*)roi onImage:(NSImage*)image withColor:(NSColor*)color {
-	NSAffineTransform* transform = [NSAffineTransform transform];
-	[transform scaleXBy:1 yBy:-1];
-	[transform translateXBy:0 yBy:-[image size].height];
-	[self drawRoi:roi onImage:image withColor:color usingTransform:transform];
-}
-
--(NSImage*)imageFromPic:(DCMPix*)dcm includingRois:(NSArray*)rois {
-	if (!dcm) return NULL;
-	
-	NSImage* image = [dcm image];
-
-	for (ROI* roi in rois)
-		[self drawRoi:roi onImage:image withColor:[NSColor redColor]];
-	
-	return image;
-}
-
--(NSImage*)imageFromRois:(NSArray*)rois {
-	NSMutableArray* points = [NSMutableArray arrayWithCapacity:0];
-	for (ROI* roi in rois)
-		[points addObjectsFromArray:[roi splinePoints]];
-	N2MinMax x = N2MakeMinMax([[points objectAtIndex:0] x]);
-	N2MinMax y = N2MakeMinMax([[points objectAtIndex:0] y]);
-	for (MyPoint* p in points) {
-		N2ExtendMinMax(x, p.x);
-		N2ExtendMinMax(y, p.y);
-	}
-	
-	NSRect space = NSMakeRect(x.min, y.min, x.max-x.min, y.max-y.min), squareSpace;
-	squareSpace.size = NSMakeSize(std::max(space.size.width, space.size.height));
-	squareSpace.origin = space.origin - (squareSpace.size-space.size)/2;
-	squareSpace = NSInsetRect(squareSpace, -squareSpace.size.width/100, -squareSpace.size.height/100);
-	
-	NSSize size = NSMakeSize(256);
-	NSImage* image = [[NSImage alloc] initWithSize:size];
-	
-	NSAffineTransform* transform = [NSAffineTransform transform];
-	[transform scaleXBy:1 yBy:-1];
-	[transform translateXBy:0 yBy:-[image size].height];
-	[transform translateXBy:-squareSpace.origin.x*size.width/squareSpace.size.width yBy:-squareSpace.origin.y*size.height/squareSpace.size.height];
-	[transform scaleXBy:size.width/squareSpace.size.width yBy:size.height/squareSpace.size.height];
-	
-	for (ROI* roi in rois)
-		[self drawRoi:roi onImage:image withColor:[NSColor redColor] usingTransform:transform];
-			
-	return [image autorelease];
+-(IBAction)print:(id)sender {
+	[[NSPrintOperation printOperationWithView:[[self window] contentView]] runOperation];
 }
 
 @end
