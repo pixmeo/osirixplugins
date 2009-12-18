@@ -10,6 +10,7 @@
 #import "EjectionFractionWorkflow.h"
 #import "EjectionFractionWorkflow+OsiriX.h"
 #import "EjectionFractionAlgorithm.h"
+#import "EjectionFractionDicomSaveDialog.h"
 #import "EjectionFractionImage.h"
 #import <Nitrogen/N2ColumnLayout.h>
 #import <Nitrogen/N2CellDescriptor.h>
@@ -23,6 +24,11 @@
 #import <OsiriX Headers/DCMView.h>
 #import <OsiriX Headers/MyPoint.h>
 #import <OsiriX Headers/DCMPix.h>
+#import <OsiriX Headers/DICOMExport.h>
+
+const NSString* FileTypePDF = @"pdf";
+const NSString* FileTypeTIFF = @"tiff";
+const NSString* FileTypeDICOM = @"dcm";
 
 @interface EjectionFractionResultsController (Private)
 
@@ -32,9 +38,11 @@
 @end
 
 @implementation EjectionFractionResultsController
+@synthesize workflow = _workflow;
 
 -(id)initWithWorkflow:(EjectionFractionWorkflow*)workflow {
 	self = [super initWithWindowNibName:@"EjectionFractionResults"];
+	[self setWorkflow:workflow];
 	
 	//self = [super initWithWindow:[[N2Window alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:YES]];
 	//[[self window] setTitle:@"Ejection Fraction: Results"];
@@ -156,8 +164,112 @@
 	return self;
 }
 
+-(void)dealloc {
+	[self setWorkflow:NULL];
+	[super dealloc];
+}
+
 -(IBAction)print:(id)sender {
-	[[NSPrintOperation printOperationWithView:[[self window] contentView]] runOperation];
+	NSPrintInfo* info = [[[NSPrintInfo alloc] initWithDictionary:[NSDictionary dictionaryWithObjectsAndKeys: NULL]] autorelease];
+	
+	NSSize size = [[[self window] contentView] frame].size;
+
+	if (size.height > size.width) {
+		[info setOrientation:NSPortraitOrientation];
+		[info setVerticalPagination:NSFitPagination];
+	} else {
+		[info setOrientation:NSLandscapeOrientation];
+		[info setHorizontalPagination:NSFitPagination];
+	}
+	
+	[[NSPrintOperation printOperationWithView:[[self window] contentView] printInfo:info] runOperation];
+}
+
+-(void)saveAs:(NSString*)format accessoryView:(NSView*)accessoryView {
+	NSSavePanel* panel = [NSSavePanel savePanel];
+	[panel setRequiredFileType:format];
+	if (accessoryView)
+		[panel setAccessoryView:accessoryView];
+	[panel beginSheetForDirectory:NULL file:NULL modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
+}
+
+-(void)dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename {
+	NSBitmapImageRep* bitmapImageRep = [[[self window] contentView] bitmapImageRepForCachingDisplayInRect:[[[self window] contentView] bounds]];
+	[[[self window] contentView] cacheDisplayInRect:[[[self window] contentView] bounds] toBitmapImageRep:bitmapImageRep];
+	NSInteger bytesPerPixel = [bitmapImageRep bitsPerPixel]/8;
+	CGFloat backgroundRGBA[4]; [[backgroundColor colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]] getComponents:backgroundRGBA];
+	
+	// convert RGBA to RGB - alpha values are considered when mixing the background color with the actual pixel color
+	NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep size].width*[bitmapImageRep size].height*3];
+	for (int y = 0; y < [bitmapImageRep size].height; ++y) {
+		unsigned char* rowStart = [bitmapImageRep bitmapData]+[bitmapImageRep bytesPerRow]*y;
+		for (int x = 0; x < [bitmapImageRep size].width; ++x) {
+			unsigned char rgba[4]; memcpy(rgba, rowStart+bytesPerPixel*x, 4);
+			float ratio = float(rgba[3])/255;
+			rgba[0] = ratio*rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
+			rgba[1] = ratio*rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
+			rgba[2] = ratio*rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
+			[bitmapRGBData appendBytes:rgba length:3];
+		}
+	}
+	
+	DICOMExport* dicomExport = [[DICOMExport alloc] init];
+	[dicomExport setSourceFile:[[[[_workflow roiForId:[[[_workflow algorithm] pairedRoiIds] objectAtIndex:0]] curView] curDCM] srcFile]];
+	[dicomExport setSeriesDescription:seriesDescription];
+	[dicomExport setSeriesNumber:35466];
+	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
+	[dicomExport writeDCMFile:filename];
+	[dicomExport release];
+}
+
+-(IBAction)saveDICOM:(id)sender {
+//	[_dicomSaveDialog setImageBackgroundColor:[_userDefaults color:@"dicom.color.background" otherwise:[_dicomSaveDialog imageBackgroundColor]]];
+	[NSApp beginSheet:_dicomSaveDialog modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveDicomSheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+
+-(IBAction)saveAsPDF:(id)sender {
+	[self saveAs:FileTypePDF accessoryView:NULL];
+}
+
+-(IBAction)saveAsTIFF:(id)sender {
+	[self saveAs:FileTypeTIFF accessoryView:NULL];
+}
+
+-(IBAction)saveAsDICOM:(id)sender {
+//	[_dicomSaveOptionsBackgroundColor setColor:[_userDefaults color:@"dicom.color.background" otherwise:[_dicomSaveOptionsBackgroundColor color]]];
+	[self saveAs:FileTypeDICOM accessoryView:_dicomSaveOptions];
+}
+
+-(void)saveDicomSheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)contextInfo {
+	if (code == NSOKButton) {
+//		[_userDefaults setColor:[_dicomSaveDialog imageBackgroundColor] forKey:@"dicom.color.background"];
+		[self dicomSave:[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultNameForChart"] backgroundColor:[_dicomSaveDialog imageBackgroundColor] toFile:NULL];
+	}
+}
+
+-(void)saveAsPanelDidEnd:(NSSavePanel*)panel returnCode:(int)code contextInfo:(void*)format {
+    NSError* error = 0;
+	
+	if (code == NSOKButton)
+		if (format == FileTypePDF) {
+			[[[[self window] contentView] dataWithPDFInsideRect:[[[self window] contentView] bounds]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
+			
+		} else if (format == FileTypeTIFF) {
+			NSBitmapImageRep* bitmapImageRep = [[[self window] contentView] bitmapImageRepForCachingDisplayInRect:[[[self window] contentView] bounds]];
+			[[[self window] contentView] cacheDisplayInRect:[[[self window] contentView] bounds] toBitmapImageRep:bitmapImageRep];
+			NSImage* image = [[NSImage alloc] initWithSize:[bitmapImageRep size]];
+			[image addRepresentation:bitmapImageRep];
+			[[image TIFFRepresentation] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
+			[image release];
+			
+		} else { // dicom
+//			[_userDefaults setColor:[_dicomSaveOptionsBackgroundColor color] forKey:@"dicom.color.background"];
+			unsigned lastSlash = [[panel filename] rangeOfString:@"/" options:NSBackwardsSearch].location+1;
+			[self dicomSave:[[panel filename] substringWithRange: NSMakeRange(lastSlash, [[panel filename] rangeOfString:@"." options:NSBackwardsSearch].location-lastSlash)] backgroundColor:[_dicomSaveOptionsBackgroundColor color] toFile:[panel filename]];
+		}
+	
+	if (error)
+		[[NSAlert alertWithError:error] beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
 }
 
 @end

@@ -8,11 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class EjectionFractionWorkflow;
+@class EjectionFractionWorkflow, EjectionFractionDicomSaveDialog;
 
-@interface EjectionFractionResultsController : NSWindowController
+@interface EjectionFractionResultsController : NSWindowController {
+	IBOutlet NSView* _dicomSaveOptions;
+	IBOutlet NSColorWell* _dicomSaveOptionsBackgroundColor;
+	IBOutlet EjectionFractionDicomSaveDialog* _dicomSaveDialog;
+	EjectionFractionWorkflow* _workflow;
+}
+
+@property(retain) EjectionFractionWorkflow* workflow;
 
 -(id)initWithWorkflow:(EjectionFractionWorkflow*)workflow;
 -(IBAction)print:(id)sender;
+-(IBAction)saveDICOM:(id)sender;
+-(IBAction)saveAsPDF:(id)sender;
+-(IBAction)saveAsTIFF:(id)sender;
+-(IBAction)saveAsDICOM:(id)sender;
 
 @end
