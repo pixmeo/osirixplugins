@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10C540</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
 		<string key="IBDocument.AppKitVersion">1038.25</string>
 		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1807,7 +1807,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSWindowRect">{{196, 227}, {425, 132}}</string>
 				<int key="NSWTFlags">1946157056</int>
 				<string key="NSWindowTitle">Window</string>
-				<string key="NSWindowClass">DicomSaveDialog</string>
+				<string key="NSWindowClass">RoiEnhancementDicomSaveDialog</string>
 				<nil key="NSViewClass"/>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="882748064">
@@ -4130,9 +4130,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>{{1, 913}, {148, 14}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{1250, 359}, {600, 486}}</string>
+					<string>{{-787, 287}, {600, 486}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{1250, 359}, {600, 486}}</string>
+					<string>{{-787, 287}, {600, 486}}</string>
 					<integer value="1"/>
 					<integer value="1"/>
 					<integer value="1"/>
@@ -4140,9 +4140,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>{200, 200}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{234, 559}, {425, 132}}</string>
+					<string>{{117, 559}, {425, 132}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{234, 559}, {425, 132}}</string>
+					<string>{{117, 559}, {425, 132}}</string>
 					<integer value="0"/>
 					<boolean value="NO"/>
 					<boolean value="NO"/>
@@ -4216,47 +4216,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">Chart</string>
-					<string key="superclassName">GRChartView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_interface</string>
-						<string key="NS.object.0">Interface</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Sources/Chart.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">DicomSaveDialog</string>
-					<string key="superclassName">NSWindow</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">buttonClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_cancelButton</string>
-							<string>_imageBackgroundColor</string>
-							<string>_interface</string>
-							<string>_saveButton</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
-							<string>NSColorWell</string>
-							<string>Interface</string>
-							<string>NSButton</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Sources/DicomSaveDialog.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">GRChartView</string>
 					<string key="superclassName">NSView</string>
 					<object class="NSMutableDictionary" key="outlets">
@@ -4286,7 +4245,48 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">Interface</string>
+					<string key="className">RoiEnhancementChart</string>
+					<string key="superclassName">GRChartView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">_interface</string>
+						<string key="NS.object.0">RoiEnhancementInterface</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Sources/RoiEnhancementChart.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">RoiEnhancementDicomSaveDialog</string>
+					<string key="superclassName">NSWindow</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">buttonClicked:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>_cancelButton</string>
+							<string>_imageBackgroundColor</string>
+							<string>_interface</string>
+							<string>_saveButton</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSButton</string>
+							<string>NSColorWell</string>
+							<string>RoiEnhancementInterface</string>
+							<string>NSButton</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Sources/RoiEnhancementDicomSaveDialog.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">RoiEnhancementInterface</string>
 					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4323,24 +4323,24 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>Chart</string>
+							<string>RoiEnhancementChart</string>
 							<string>NSButton</string>
 							<string>NSNumberFormatter</string>
-							<string>DicomSaveDialog</string>
+							<string>RoiEnhancementDicomSaveDialog</string>
 							<string>NSView</string>
 							<string>NSColorWell</string>
 							<string>NSNumberFormatter</string>
-							<string>Options</string>
-							<string>ROIList</string>
+							<string>RoiEnhancementOptions</string>
+							<string>RoiEnhancementROIList</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Sources/Interface.h</string>
+						<string key="minorKey">Sources/RoiEnhancementInterface.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">Options</string>
+					<string key="className">RoiEnhancementOptions</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4407,7 +4407,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>NSColorWell</string>
 							<string>NSCell</string>
 							<string>NSButton</string>
-							<string>Interface</string>
+							<string>RoiEnhancementInterface</string>
 							<string>NSCell</string>
 							<string>NSMatrix</string>
 							<string>NSButton</string>
@@ -4442,11 +4442,11 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Sources/Options.h</string>
+						<string key="minorKey">Sources/RoiEnhancementOptions.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">ROIList</string>
+					<string key="className">RoiEnhancementROIList</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4480,7 +4480,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>NSMenuItem</string>
 							<string>NSButton</string>
 							<string>NSMenuItem</string>
-							<string>Interface</string>
+							<string>RoiEnhancementInterface</string>
 							<string>NSMenu</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
@@ -4488,15 +4488,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Sources/ROIList.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SpecialSplitView</string>
-					<string key="superclassName">NSSplitView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Sources/Views/SpecialSplitView.h</string>
+						<string key="minorKey">Sources/RoiEnhancementROIList.h</string>
 					</object>
 				</object>
 			</object>
@@ -4631,6 +4623,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="786174220">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSMenu.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSMenu</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">OsiriX Headers.framework/Headers/MenuDictionary.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -4902,6 +4901,20 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">OsiriX Headers.framework/Headers/KFSplitView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">OsiriX Headers.framework/Headers/ViewerController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">NSPanel</string>
 					<string key="superclassName">NSWindow</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4938,14 +4951,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSResponder.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSSplitView</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSSplitView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
