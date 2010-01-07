@@ -31,9 +31,10 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 @implementation EjectionFractionWorkflow (OsiriX)
 
 -(void)loadRoisFromViewer:(ViewerController*)viewer {
-	for (ROI* roi in [[viewer imageView] curRoiList])
-		if ([_algorithm needsRoiWithId:[roi name] tag:[roi type]])
-			[self setRoi:roi forId:[roi name]];	
+	for (NSArray* rois in [[viewer imageView] dcmRoiList])
+		for (ROI* roi in rois)
+			if ([_algorithm needsRoiWithId:[roi name] tag:[roi type]])
+				[self setRoi:roi forId:[roi name]];	
 }
 
 -(void)initOsiriX {
@@ -50,10 +51,11 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	for (NSUInteger i = 0; i < algorithmsCount; ++i)
 		algorithmsROIsCounts[i] = 0;
 	for (ViewerController* viewer in [ViewerController getDisplayed2DViewers])
-		for (ROI* roi in [[viewer imageView] curRoiList])
-			for (NSUInteger i = 0; i < algorithmsCount; ++i)
-				if ([[[_plugin algorithms] objectAtIndex:i] needsRoiWithId:[roi name] tag:[roi type]])
-					++algorithmsROIsCounts[i];
+		for (NSArray* rois in [[viewer imageView] dcmRoiList])
+			for (ROI* roi in rois)
+				for (NSUInteger i = 0; i < algorithmsCount; ++i)
+					if ([[[_plugin algorithms] objectAtIndex:i] needsRoiWithId:[roi name] tag:[roi type]])
+						++algorithmsROIsCounts[i];
 	CGFloat algorithmRatios[algorithmsCount];
 	for (NSUInteger i = 0; i < algorithmsCount; ++i)
 		algorithmRatios[i] = 1.*algorithmsROIsCounts[i]/[[[_plugin algorithms] objectAtIndex:i] countOfNeededRois];
@@ -62,7 +64,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 		if (algorithmRatios[i] > algorithmRatios[algorithmIndex])
 			algorithmIndex = i;
 	
-	[_steps setSelectedAlgorithm:[[_plugin algorithms] objectAtIndex:algorithmIndex]];
+	[self setAlgorithm:[[_plugin algorithms] objectAtIndex:algorithmIndex]];
 	
 	// use the available ROIs for the algorithm
 	for (ViewerController* viewer in [ViewerController getDisplayed2DViewers])
@@ -99,6 +101,17 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowExpectedROIChangedNotification object:self];
 }
 
+-(short)pixIndexForRoi:(ROI*)roi {
+//	DCMPix* pix = [roi pix];
+	NSArray* dcmRoiList = [[roi curView] dcmRoiList];
+	for (NSUInteger i = 0; i < [dcmRoiList count]; ++i)
+		for (ROI* roii in [dcmRoiList objectAtIndex:i])
+			if (roii == roi)
+				return i;
+	[NSException raise:NSGenericException format:@"Couldn't find ROI in list"];
+	return -1;
+}
+
 -(void)selectOrOpenViewerForRoiWithId:(NSString*)roiId {
 	ROI* roi = [self roiForId:roiId];
 	
@@ -106,6 +119,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 		DCMView* view = [roi curView];
 		ViewerController* viewer = [[view window] windowController];
 		[[view window] makeKeyAndOrderFront:self];
+		[viewer setImageIndex:[self pixIndexForRoi:roi]];
 		[viewer selectROI:roi deselectingOther:YES];
 	} else {
 		NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
@@ -160,6 +174,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	else [_rois removeObjectForKey:roiId];
 	
 	[roi setName:roiId];
+	[roi setNSColor:[_algorithm colorForRoiId:roiId]];
 	[self updateResult];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowROIAssignedNotification object:self userInfo:[NSDictionary dictionaryWithObject:roiId forKey:EjectionFractionWorkflowROIIdInfo]];

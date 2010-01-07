@@ -9,6 +9,7 @@
 #import "EjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
 #import <OsiriX Headers/DCMView.h>
+#import "EjectionFractionPlugin.h"
 
 NSString* DiasLength = @"Diastole length";
 NSString* SystLength = @"Systole length";
@@ -52,6 +53,14 @@ NSString* SystLength = @"Systole length";
 		count += [group count];
 	
 	return count;
+}
+
+-(NSColor*)colorForRoiId:(NSString*)roiId {
+	NSArray* groups = [self groupedRoiIds];
+	for (NSUInteger i = 0; i < [groups count]; ++i)
+		if ([[groups objectAtIndex:i] containsObject:roiId])
+			return i==0 ? [EjectionFractionPlugin diasColor] : [EjectionFractionPlugin systColor];
+	return [NSColor blackColor];
 }
 
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId {

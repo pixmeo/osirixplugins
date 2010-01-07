@@ -48,6 +48,8 @@
 	NSSize size = [self size];
 	[self lockFocus];
 	
+	NSRectFillUsingOperation(NSMakeRect(NSZeroPoint, size), NSCompositeClear);
+
 	NSAffineTransform* transform = [NSAffineTransform transform];
 	[transform scaleXBy:1 yBy:-1];
 	[transform translateXBy:0 yBy:-size.height];
@@ -72,8 +74,6 @@
 		contentRect.size = NSMakeSize(std::max(space.size.width, space.size.height));
 		contentRect.origin = space.origin - (contentRect.size-space.size)/2;
 		contentRect = NSInsetRect(contentRect, -contentRect.size.width/100, -contentRect.size.height/100);
-		
-		NSRectFillUsingOperation(NSMakeRect(NSZeroPoint, size), NSCompositeClear);
 	}
 	
 	[transform translateXBy:-contentRect.origin.x*size.width/contentRect.size.width yBy:-contentRect.origin.y*size.height/contentRect.size.height];
@@ -89,7 +89,7 @@
 		[path closePath];
 		[path transformUsingAffineTransform:transform];
 		
-		[[NSColor redColor] set];
+		[[roi NSColor] setStroke];
 		[path setLineWidth:(contentRect.size.width+contentRect.size.height)/320];
 		[path stroke];
 	}
@@ -101,6 +101,16 @@
 -(void)setSize:(NSSize)size {
 	[super setSize:size];
 	[self paintImageWithPic:_pix rois:_rois];
+}
+
+-(NSSize)optimalSize {
+	return n2::ceil([_pix size]);
+}
+
+-(NSSize)optimalSizeForWidth:(CGFloat)width {
+	NSSize imageSize = [_pix size];
+	if (width == CGFLOAT_MAX) width = imageSize.width;
+	return n2::ceil(NSMakeSize(width, width/imageSize.width*imageSize.height));
 }
 
 @end

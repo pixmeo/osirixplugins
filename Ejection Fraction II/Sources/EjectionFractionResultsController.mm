@@ -40,6 +40,33 @@ const NSString* FileTypeDICOM = @"dcm";
 @implementation EjectionFractionResultsController
 @synthesize workflow = _workflow;
 
+-(NSArray*)roisAndPixForId:(NSString*)roiId {
+	ROI* roi = [_workflow roiForId:roiId];
+	DCMView* view = [roi curView];
+	
+	// find slice roilist containing roi
+	NSArray* sliceRois = NULL;
+	for (NSArray* irois in [view dcmRoiList])
+		if ([irois containsObject:roi]) {
+			sliceRois = irois;
+			break;
+		}
+	if (!sliceRois) [NSException raise:NSGenericException format:@"Couldn't find ROI in list"];
+	
+	// find rois that are in slice roilist and in algorithm roigroup
+	NSMutableArray* roisAndPix = [NSMutableArray arrayWithCapacity:4];
+	for (roiId in [[_workflow algorithm] roiIdsGroupContainingRoiId:roiId]) {
+		roi = [_workflow roiForId:roiId];
+		if ([sliceRois containsObject:roi])
+			[roisAndPix addObject:roi];
+	}
+	
+	// add pix
+	[roisAndPix addObject:[[view dcmPixList] objectAtIndex:[[view dcmRoiList] indexOfObject:sliceRois]]];
+	
+	return roisAndPix;
+}
+
 -(id)initWithWorkflow:(EjectionFractionWorkflow*)workflow {
 	self = [super initWithWindowNibName:@"EjectionFractionResults"];
 	[self setWorkflow:workflow];
@@ -58,8 +85,8 @@ const NSString* FileTypeDICOM = @"dcm";
 	NSMutableArray* imagesComp = [NSMutableArray arrayWithCapacity:4];
 	// create images
 	for (NSArray* group in [[workflow algorithm] pairedRoiIds]) {
-		[imagesDias addObject:[EjectionFractionImage imageWithObjects:[[workflow roisForIds:[[workflow algorithm] roiIdsGroupContainingRoiId:[group objectAtIndex:0]]] arrayByAddingObject:[[[workflow roiForId:[group objectAtIndex:0]] curView] curDCM]]]];
-		[imagesSyst addObject:[EjectionFractionImage imageWithObjects:[[workflow roisForIds:[[workflow algorithm] roiIdsGroupContainingRoiId:[group objectAtIndex:1]]] arrayByAddingObject:[[[workflow roiForId:[group objectAtIndex:1]] curView] curDCM]]]];
+		[imagesDias addObject:[EjectionFractionImage imageWithObjects:[self roisAndPixForId:[group objectAtIndex:0]]]];
+		[imagesSyst addObject:[EjectionFractionImage imageWithObjects:[self roisAndPixForId:[group objectAtIndex:1]]]];
 		[imagesComp addObject:[EjectionFractionImage imageWithObjects:[workflow roisForIds:group]]];
 	}
 	

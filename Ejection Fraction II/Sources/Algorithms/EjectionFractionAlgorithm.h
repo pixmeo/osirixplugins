@@ -19,6 +19,7 @@ extern NSString* SystLength;
 @property(readonly) NSArray* roiIds;
 -(NSArray*)roiIdsGroupContainingRoiId:(NSString*)roiId;
 
+-(NSColor*)colorForRoiId:(NSString*)roiId;
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId;
 -(BOOL)typeForRoiId:(NSString*)roiId acceptsTag:(long)tag;
 -(NSUInteger)countOfNeededRois;
