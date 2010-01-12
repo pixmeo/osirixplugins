@@ -35,6 +35,13 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workflowRoiAssigned:) name:EjectionFractionWorkflowROIAssignedNotification object:workflow];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workflowExpectedRoiChanged:) name:EjectionFractionWorkflowExpectedROIChangedNotification object:workflow];
 	
+	// place at viewer window upper right corner
+	NSRect frame = [[self window] frame];
+	NSRect screen = [[[[[ViewerController getDisplayed2DViewers] objectAtIndex:0] window] screen] frame];
+	frame.origin.x = screen.origin.x+screen.size.width-frame.size.width;
+	frame.origin.y = screen.origin.y+screen.size.height-frame.size.height;
+	[[self window] setFrame:frame display:YES];	
+	
 	return self;
 }
 

@@ -118,7 +118,7 @@ const NSString* FileTypeDICOM = @"dcm";
 		
 		NSImageView* viewComp = [N2ImageView createWithImage:[imagesComp objectAtIndex:i]];
 //		[viewComp setImageScaling:NSImageScaleProportionallyUpOrDown];
-		[viewComp setFrameSize:[viewDias frame].size];
+		[viewComp setFrameSize:NSMakeSize([[viewComp image] size].width*[viewDias frame].size.height/[[viewComp image] size].height, [viewDias frame].size.height)];
 		[views addObject:viewComp];
 		
 		[bodyLayout appendRow:views];
@@ -181,12 +181,20 @@ const NSString* FileTypeDICOM = @"dcm";
 	
 	[contentLayout appendRow:[NSArray arrayWithObjects: body, [[N2CellDescriptor descriptorWithView:info] widthConstraints:N2MakeMinMax([info frame].size.width)], NULL]];
 	
-	[[self window] makeKeyAndOrderFront:self];
-
 	[contentLayout setForcesSuperviewWidth:NO];
 	[contentLayout setForcesSuperviewHeight:NO];
 	[bodyLayout setForcesSuperviewWidth:NO];
-//	[bodyLayout setForcesSuperviewHeight:NO];
+	
+	// place at viewer window upper right corner
+	NSRect frame = [[self window] frame];
+	NSRect screen = [[[[workflow steps] window] screen] frame];
+	frame.origin = screen.origin;
+	NSSize optimalSize = [[[self window] contentView] optimalSizeForWidth:screen.size.width];
+	optimalSize.width = screen.size.width;
+	frame.size = [NSWindow frameRectForContentRect:NSMakeRect(NSZeroPoint, optimalSize) styleMask:[[[workflow steps] window] styleMask]].size;
+	[[self window] setFrame:frame display:YES];
+	
+	[[self window] makeKeyAndOrderFront:self];
 
 	return self;
 }

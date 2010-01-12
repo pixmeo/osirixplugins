@@ -24,9 +24,12 @@
 -(id)initWithObjects:(NSArray*)objects {
 	NSMutableArray* rois = [NSMutableArray arrayWithCapacity:[objects count]];
 	for (id o in objects)
-		if ([o isKindOfClass:[DCMPix class]])
-			[self setPix:[o image]];
-		else [rois addObject:o];
+		if ([o isKindOfClass:[DCMPix class]]) {
+			[o baseAddr]; // make sure baseAddr is valid
+			NSImage* image = [o image];
+		//	[image setSize:[image size]*NSMakeSize([o pixelSpacingX], [o pixelSpacingY])];
+			[self setPix:image];
+		} else [rois addObject:o];
 	[self setRois:rois];
 	
 	self = [self initWithSize: _pix? [_pix size] : NSMakeSize(128)];
@@ -44,6 +47,29 @@
 	return YES;
 }
 
+-(NSRect)optimalRoiRect {
+	NSMutableArray* points = [NSMutableArray arrayWithCapacity:0];
+	for (ROI* roi in _rois)
+		[points addObjectsFromArray:[roi splinePoints]];
+	
+	N2MinMax x = N2MakeMinMax([[points objectAtIndex:0] x]);
+	N2MinMax y = N2MakeMinMax([[points objectAtIndex:0] y]);
+	for (MyPoint* p in points) {
+		N2ExtendMinMax(x, p.x);
+		N2ExtendMinMax(y, p.y);
+	}
+	
+	NSRect space = NSMakeRect(x.min, y.min, x.max-x.min, y.max-y.min);
+	
+	NSRect contentRect;
+	contentRect.size = NSMakeSize(std::max(space.size.width, space.size.height));
+	contentRect.origin = space.origin - (contentRect.size-space.size)/2;
+	
+	contentRect = NSInsetRect(contentRect, -contentRect.size.width/100, -contentRect.size.height/100);
+	
+	return contentRect;
+}
+
 -(void)paintImageWithPic:(NSImage*)pic rois:(NSArray*)rois {
 	NSSize size = [self size];
 	[self lockFocus];
@@ -59,21 +85,7 @@
 		contentRect.size = [pic size];
 		[pic drawInRect:NSMakeRect(NSZeroPoint, size) fromRect:NSMakeRect(NSZeroPoint, contentRect.size) operation:NSCompositeCopy fraction:1];
 	} else {
-		NSMutableArray* points = [NSMutableArray arrayWithCapacity:0];
-		for (ROI* roi in rois)
-			[points addObjectsFromArray:[roi splinePoints]];
-		
-		N2MinMax x = N2MakeMinMax([[points objectAtIndex:0] x]);
-		N2MinMax y = N2MakeMinMax([[points objectAtIndex:0] y]);
-		for (MyPoint* p in points) {
-			N2ExtendMinMax(x, p.x);
-			N2ExtendMinMax(y, p.y);
-		}
-		
-		NSRect space = NSMakeRect(x.min, y.min, x.max-x.min, y.max-y.min);
-		contentRect.size = NSMakeSize(std::max(space.size.width, space.size.height));
-		contentRect.origin = space.origin - (contentRect.size-space.size)/2;
-		contentRect = NSInsetRect(contentRect, -contentRect.size.width/100, -contentRect.size.height/100);
+		contentRect = [self optimalRoiRect];
 	}
 	
 	[transform translateXBy:-contentRect.origin.x*size.width/contentRect.size.width yBy:-contentRect.origin.y*size.height/contentRect.size.height];
@@ -104,11 +116,11 @@
 }
 
 -(NSSize)optimalSize {
-	return n2::ceil([_pix size]);
+	return n2::ceil(_pix? [_pix size] : [self optimalRoiRect].size);
 }
 
 -(NSSize)optimalSizeForWidth:(CGFloat)width {
-	NSSize imageSize = [_pix size];
+	NSSize imageSize = _pix? [_pix size] : [self optimalRoiRect].size;
 	if (width == CGFLOAT_MAX) width = imageSize.width;
 	return n2::ceil(NSMakeSize(width, width/imageSize.width*imageSize.height));
 }
