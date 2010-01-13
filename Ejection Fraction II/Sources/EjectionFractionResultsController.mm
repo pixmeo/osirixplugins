@@ -185,13 +185,14 @@ const NSString* FileTypeDICOM = @"dcm";
 	[contentLayout setForcesSuperviewHeight:NO];
 	[bodyLayout setForcesSuperviewWidth:NO];
 	
-	// place at viewer window upper right corner
+	// place window
 	NSRect frame = [[self window] frame];
-	NSRect screen = [[[[workflow steps] window] screen] frame];
-	frame.origin = screen.origin;
-	NSSize optimalSize = [[[self window] contentView] optimalSizeForWidth:screen.size.width];
-	optimalSize.width = screen.size.width;
-	frame.size = [NSWindow frameRectForContentRect:NSMakeRect(NSZeroPoint, optimalSize) styleMask:[[[workflow steps] window] styleMask]].size;
+	NSRect screen = [[[[workflow steps] window] screen] visibleFrame];
+	if (frame.size.width > screen.size.width) {
+		NSSize optimalSize = [[[self window] contentView] optimalSizeForWidth:screen.size.width];
+		frame.size = [[self window] frameRectForContentRect:NSMakeRect(NSZeroPoint, optimalSize)].size;
+	}
+	frame.origin = screen.origin+(screen.size-frame.size)/2;
 	[[self window] setFrame:frame display:YES];
 	
 	[[self window] makeKeyAndOrderFront:self];
@@ -225,7 +226,7 @@ const NSString* FileTypeDICOM = @"dcm";
 	[panel setRequiredFileType:format];
 	if (accessoryView)
 		[panel setAccessoryView:accessoryView];
-	[panel beginSheetForDirectory:NULL file:NULL modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
+	[panel beginSheetForDirectory:NULL file:[[_workflow algorithm] description] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
 }
 
 -(void)dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename {
@@ -285,7 +286,7 @@ const NSString* FileTypeDICOM = @"dcm";
 -(void)saveAsPanelDidEnd:(NSSavePanel*)panel returnCode:(int)code contextInfo:(void*)format {
     NSError* error = 0;
 	
-	if (code == NSOKButton)
+	if (code == NSOKButton) {
 		if (format == FileTypePDF) {
 			[[[[self window] contentView] dataWithPDFInsideRect:[[[self window] contentView] bounds]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
 			
@@ -302,6 +303,10 @@ const NSString* FileTypeDICOM = @"dcm";
 			unsigned lastSlash = [[panel filename] rangeOfString:@"/" options:NSBackwardsSearch].location+1;
 			[self dicomSave:[[panel filename] substringWithRange: NSMakeRange(lastSlash, [[panel filename] rangeOfString:@"." options:NSBackwardsSearch].location-lastSlash)] backgroundColor:[_dicomSaveOptionsBackgroundColor color] toFile:[panel filename]];
 		}
+		
+		if (format == FileTypePDF || format == FileTypeTIFF)
+			[[NSWorkspace sharedWorkspace] openFile:[panel filename]];
+	}
 	
 	if (error)
 		[[NSAlert alertWithError:error] beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];

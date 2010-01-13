@@ -101,7 +101,10 @@
 		[path closePath];
 		[path transformUsingAffineTransform:transform];
 		
-		[[roi NSColor] setStroke];
+		RGBColor rgb = [roi rgbcolor];
+		NSColor* color = [NSColor colorWithDeviceRed:float(rgb.red)/0xffff green:float(rgb.green)/0xffff blue:float(rgb.blue)/0xffff alpha:1];
+		NSLog(@"Color: %@", color);
+		[color setStroke];
 		[path setLineWidth:(contentRect.size.width+contentRect.size.height)/320];
 		[path stroke];
 	}

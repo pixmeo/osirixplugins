@@ -24,7 +24,7 @@ NSString* SystShort = @"Systole short axis diameter";
 }
 
 -(NSArray*)pairedRoiIds {
-	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasShort, SystShort, NULL], NULL];
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasShort, SystShort, NULL], [NSArray arrayWithObjects: DiasLength, SystLength, NULL], NULL];
 }
 
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId {
