@@ -152,6 +152,9 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 
 -(void)updateResult {
 	@try {
+		NSArray* roiIds = [_algorithm roiIds];
+		if ([[self roisForIds:roiIds] count] < [roiIds count])
+			[NSException raise:NSGenericException format:@"All needed ROIs must be defined"];
 		[_steps setResult:[_algorithm compute:_rois]];
 	} @catch (NSException* e) {
 		[_steps setResult:0];

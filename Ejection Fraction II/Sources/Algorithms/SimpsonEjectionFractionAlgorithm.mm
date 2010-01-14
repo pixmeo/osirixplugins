@@ -26,7 +26,7 @@ NSString* SystPapi = @"Systole middle short axis";
 }
 
 -(NSArray*)pairedRoiIds {
-	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasMitral, SystMitral, NULL], [NSArray arrayWithObjects: DiasPapi, SystPapi, NULL], NULL];
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasMitral, SystMitral, NULL], [NSArray arrayWithObjects: DiasPapi, SystPapi, NULL], [NSArray arrayWithObjects: DiasLength, SystLength, NULL], NULL];
 }
 
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId {
