@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="510"/>
-			<integer value="5"/>
+			<integer value="511"/>
+			<integer value="61"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -31,7 +31,7 @@
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">Interface</string>
+				<string key="NSClassName">RoiEnhancementInterface</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -367,7 +367,7 @@
 									<int key="NSvFlags">274</int>
 									<string key="NSFrameSize">{439, 486}</string>
 									<reference key="NSSuperview" ref="898102055"/>
-									<string key="NSClassName">Chart</string>
+									<string key="NSClassName">RoiEnhancementChart</string>
 								</object>
 								<object class="NSCustomView" id="35673902">
 									<reference key="NSNextResponder" ref="898102055"/>
@@ -1641,10 +1641,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSMaxSize">{2000, 2049}</string>
 			</object>
 			<object class="NSCustomObject" id="307361785">
-				<string key="NSClassName">ROIList</string>
+				<string key="NSClassName">RoiEnhancementROIList</string>
 			</object>
 			<object class="NSCustomObject" id="176789550">
-				<string key="NSClassName">Options</string>
+				<string key="NSClassName">RoiEnhancementOptions</string>
 			</object>
 			<object class="NSNumberFormatter" id="229753399">
 				<object class="NSMutableDictionary" key="NS.attributes">
@@ -2786,6 +2786,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="572804082"/>
 					</object>
 					<int key="connectionID">636</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_seriesName</string>
+						<reference key="source" ref="61950243"/>
+						<reference key="destination" ref="605134046"/>
+					</object>
+					<int key="connectionID">637</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4210,7 +4218,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">636</int>
+			<int key="maxID">637</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4271,6 +4279,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>_imageBackgroundColor</string>
 							<string>_interface</string>
 							<string>_saveButton</string>
+							<string>_seriesName</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4278,6 +4287,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string>NSColorWell</string>
 							<string>RoiEnhancementInterface</string>
 							<string>NSButton</string>
+							<string>NSTextField</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

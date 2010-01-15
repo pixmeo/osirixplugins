@@ -19,6 +19,7 @@
 #import "RoiEnhancementOptions.h"
 #import <OsiriX Headers/DICOMExport.h>
 #import <OsiriX Headers/DCMPix.h>
+#import <OsiriX Headers/DCMView.h>
 #import "RoiEnhancementUserDefaults.h"
 #import "RoiEnhancementDicomSaveDialog.h"
 #import "OsiriX Headers/Notifications.h"
@@ -92,11 +93,16 @@ const NSString* FileTypeCSV = @"csv";
 	[panel setRequiredFileType:format];
 	if (accessoryView)
 		[panel setAccessoryView:accessoryView];
-	[panel beginSheetForDirectory:NULL file:NULL modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
+	
+	NSManagedObject* infoData = [[[_viewer imageView] curDCM] imageObj];
+	NSString* filename = [NSString stringWithFormat:@"%@ ROI Enhancement", [infoData valueForKeyPath:@"series.study.name"]];
+	
+	[panel beginSheetForDirectory:NULL file:filename modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
 }
 
 -(IBAction)saveDICOM:(id)sender {
 	[_dicomSaveDialog setImageBackgroundColor:[_userDefaults color:@"dicom.color.background" otherwise:[_dicomSaveDialog imageBackgroundColor]]];
+	[_dicomSaveDialog setSeriesName:@"ROI Enhancement"];
 	[NSApp beginSheet:_dicomSaveDialog modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveDicomSheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 
@@ -131,9 +137,10 @@ const NSString* FileTypeCSV = @"csv";
 		for (int x = 0; x < [bitmapImageRep size].width; ++x) {
 			unsigned char rgba[4]; memcpy(rgba, rowStart+bytesPerPixel*x, 4);
 			float ratio = float(rgba[3])/255;
-			rgba[0] = ratio*rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
-			rgba[1] = ratio*rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
-			rgba[2] = ratio*rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
+			// rgba[0], [1] and [2] are premultiplied by [3]
+			rgba[0] = rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
+			rgba[1] = rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
+			rgba[2] = rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
 			[bitmapRGBData appendBytes:rgba length:3];
 		}
 	}
@@ -150,7 +157,7 @@ const NSString* FileTypeCSV = @"csv";
 -(void)saveDicomSheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)contextInfo {
 	if (code == NSOKButton) {
 		[_userDefaults setColor:[_dicomSaveDialog imageBackgroundColor] forKey:@"dicom.color.background"];
-		[self dicomSave:[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultNameForChart"] backgroundColor:[_dicomSaveDialog imageBackgroundColor] toFile:NULL];
+		[self dicomSave:[_dicomSaveDialog seriesName] backgroundColor:[_dicomSaveDialog imageBackgroundColor] toFile:NULL];
 	}
 }
 

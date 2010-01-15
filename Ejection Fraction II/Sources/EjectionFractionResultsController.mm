@@ -226,7 +226,11 @@ const NSString* FileTypeDICOM = @"dcm";
 	[panel setRequiredFileType:format];
 	if (accessoryView)
 		[panel setAccessoryView:accessoryView];
-	[panel beginSheetForDirectory:NULL file:[[_workflow algorithm] description] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
+
+	NSManagedObject* infoData = [[[_workflow roiForId:[[[_workflow algorithm] roiIds] objectAtIndex:0]] pix] imageObj];
+	NSString* filename = [NSString stringWithFormat:@"%@ EF %@", [infoData valueForKeyPath:@"series.study.name"], [[_workflow algorithm] description]];
+
+	[panel beginSheetForDirectory:NULL file:filename modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
 }
 
 -(void)dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename {
@@ -242,15 +246,16 @@ const NSString* FileTypeDICOM = @"dcm";
 		for (int x = 0; x < [bitmapImageRep size].width; ++x) {
 			unsigned char rgba[4]; memcpy(rgba, rowStart+bytesPerPixel*x, 4);
 			float ratio = float(rgba[3])/255;
-			rgba[0] = ratio*rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
-			rgba[1] = ratio*rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
-			rgba[2] = ratio*rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
+			// rgba[0], [1] and [2] are premultiplied by [3]
+			rgba[0] = rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
+			rgba[1] = rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
+			rgba[2] = rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
 			[bitmapRGBData appendBytes:rgba length:3];
 		}
 	}
 	
 	DICOMExport* dicomExport = [[DICOMExport alloc] init];
-	[dicomExport setSourceFile:[[[[_workflow roiForId:[[[_workflow algorithm] pairedRoiIds] objectAtIndex:0]] curView] curDCM] srcFile]];
+	[dicomExport setSourceFile:[[[[_workflow roiForId:[[[_workflow algorithm] roiIds] objectAtIndex:0]] curView] curDCM] srcFile]];
 	[dicomExport setSeriesDescription:seriesDescription];
 	[dicomExport setSeriesNumber:35466];
 	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
@@ -260,6 +265,7 @@ const NSString* FileTypeDICOM = @"dcm";
 
 -(IBAction)saveDICOM:(id)sender {
 //	[_dicomSaveDialog setImageBackgroundColor:[_userDefaults color:@"dicom.color.background" otherwise:[_dicomSaveDialog imageBackgroundColor]]];
+	[_dicomSaveDialog setSeriesName:[[_workflow algorithm] description]];
 	[NSApp beginSheet:_dicomSaveDialog modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveDicomSheetDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 
@@ -279,7 +285,7 @@ const NSString* FileTypeDICOM = @"dcm";
 -(void)saveDicomSheetDidEnd:(NSWindow*)sheet returnCode:(int)code contextInfo:(void*)contextInfo {
 	if (code == NSOKButton) {
 //		[_userDefaults setColor:[_dicomSaveDialog imageBackgroundColor] forKey:@"dicom.color.background"];
-		[self dicomSave:[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultNameForChart"] backgroundColor:[_dicomSaveDialog imageBackgroundColor] toFile:NULL];
+		[self dicomSave:[_dicomSaveDialog seriesName] backgroundColor:[_dicomSaveDialog imageBackgroundColor] toFile:NULL];
 	}
 }
 

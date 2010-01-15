@@ -13,11 +13,12 @@
 	IBOutlet NSColorWell* _imageBackgroundColor;
 	IBOutlet NSButton* _saveButton;
 	IBOutlet NSButton* _cancelButton;
+	IBOutlet NSTextField* _seriesName;
 }
 
--(IBAction)buttonClicked:(id)sender;
+@property(assign) NSColor* imageBackgroundColor;
+@property(assign) NSString* seriesName;
 
--(NSColor*)imageBackgroundColor;
--(void)setImageBackgroundColor:(NSColor*)imageBackgroundColor;
+-(IBAction)buttonClicked:(id)sender;
 
 @end

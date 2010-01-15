@@ -47,6 +47,7 @@
 	[m putDCMPix:dcm name:@"dcm"];
 	[m evalString:@"r = test(dcm)"];
 	DCMPix* r = [m getDCMPix:@"r"];
+	[NSThread sleepForTimeInterval:5];
 	[m release];
 	
 	// import result to browser
@@ -82,8 +83,14 @@
 -(void)timerTask:(NSTimer*)timer {
 	if ([_series count] && [_lock tryLock]) {
 		for (NSManagedObject* series in _series) {
-			ViewerController* viewer = [[BrowserController currentBrowser] loadSeries:series :NULL :NO keyImagesOnly:NO];
-			[viewer showWindow:self];
+			BOOL shown = NO;
+			for (NSManagedObject* s in [ViewerController getDisplayedSeries])
+				if (s == series)
+					shown = YES;
+			if (!shown) {
+				ViewerController* viewer = [[BrowserController currentBrowser] loadSeries:series :NULL :NO keyImagesOnly:NO];
+				[viewer showWindow:self];
+			}
 		}
 		
 		[_series removeAllObjects];

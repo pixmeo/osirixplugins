@@ -71,11 +71,11 @@
 	[_stepsView setControlSize:NSSmallControlSize];
 	
 	[_viewROIsList setForeColor:[NSColor whiteColor]];
-	NSArray* columnDescriptors = [NSArray arrayWithObject:[[N2CellDescriptor descriptor] widthConstraints:N2MakeMinMax([_viewROIsList frame].size.width)]]; // , [N2CellDescriptor descriptor]
+	NSArray* columnDescriptors = [NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], [[[N2CellDescriptor descriptor] alignment:N2Left] invasivity:1], NULL]; // , [N2CellDescriptor descriptor]
 	N2ColumnLayout* layout = [[[N2ColumnLayout alloc] initForView:_viewROIsList columnDescriptors:columnDescriptors controlSize:NSMiniControlSize] autorelease];
 	[layout setForcesSuperviewHeight:YES];
 	[layout setMargin:NSZeroRect];
-	[layout setSeparation:NSMakeSize(0,1)];
+	[layout setSeparation:NSMakeSize(2,1)];
 
 	[_steps addObject: _stepAlgorithm = [[[N2Step alloc] initWithTitle:@"Algorithm" enclosedView:_viewAlgorithm] autorelease]];
 	[_stepAlgorithm setShouldStayVisibleWhenInactive:YES];
@@ -135,8 +135,11 @@
 		NSTextView* sect = [[[NSTextView alloc] initWithFrame:NSZeroRect] autorelease];
 		[sect setString:[NSString stringWithFormat:@"%@:", !i? Dias : Syst ]];
 		[sect setSelectable:NO];
+		[sect setAlignment:NSRightTextAlignment range:NSMakeRange(0, [[sect string] length])];
 		[sect setFont:[NSFont labelFontOfSize:[NSFont systemFontSizeForControlSize:NSMiniControlSize]]];
-		[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObject:sect]]; // image
+		NSColorWell* colr = [[[NSColorWell alloc] initWithSize:NSMakeSize(32,12)] autorelease];
+		[colr setColor: !i? [EjectionFractionPlugin diasColor] : [EjectionFractionPlugin systColor]];
+		[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObjects: sect, colr, NULL]]; // image
 		NSArray* groups = [algorithm groupedRoiIds];
 		for (NSString* roiId in [groups objectAtIndex:i]) {
 			NSString* title = [[roiId substringFromIndex:[roiId rangeOfString:@" "].location+1] capitalizedString];
@@ -160,7 +163,7 @@
 			if ([_workflow roiForId:roiId])
 				[button setImage:_checkmarkImage];
 			
-			[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObject:button]]; // image
+			[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:button] colSpan:2]]]; // image
 		}
 	}
 	

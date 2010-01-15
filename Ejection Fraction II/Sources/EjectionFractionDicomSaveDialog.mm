@@ -29,4 +29,12 @@
 	[_imageBackgroundColor setColor:imageBackgroundColor];
 }
 
+-(NSString*)seriesName {
+	return [_seriesName stringValue];
+}
+
+-(void)setSeriesName:(NSString*)name {
+	[_seriesName setStringValue:name];
+}
+
 @end
