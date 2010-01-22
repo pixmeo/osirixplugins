@@ -23,7 +23,7 @@ NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkf
 @synthesize algorithms = _algorithms;
 
 /*-(void)n2test {
-	NSLog(@"n2test n2test n2test n2test n2test n2test n2test n2test n2test n2test n2test");
+	DLog(@"n2test n2test n2test n2test n2test n2test n2test n2test n2test n2test n2test");
 	N2Window* window = [[N2Window alloc] initWithContentRect:NSMakeRect(0, 0, 400, 300) styleMask:NSTitledWindowMask|NSClosableWindowMask|NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
 	N2LayoutManager* layout = [[[N2LayoutManager alloc] initWithControlSize:NSRegularControlSize] autorelease];
 //	[layout setForcesSuperviewSize:YES];
@@ -47,7 +47,7 @@ NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkf
 	
 	[layout recalculate:[window contentView]];
 	[window makeKeyAndOrderFront:self];
-	NSLog(@"Ok");
+	DLog(@"Ok");
 }*/
 
 -(void)addAlgorithm:(EjectionFractionAlgorithm*)algorithm {
@@ -74,7 +74,7 @@ NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkf
 //	EjectionFractionWorkflow* w = [[EjectionFractionWorkflow alloc] initWithPlugin:self viewer:NULL];
 //	[[w steps] showWindow:self];
 //	[controller showWindow:NULL];
-//	NSLog(@"controller window [%f, %f, %f, %f]", [[controller window] frame].origin.x, [[controller window] frame].origin.y, [[controller window] frame].size.width, [[controller window] frame].size.height);
+//	DLog(@"controller window [%f, %f, %f, %f]", [[controller window] frame].origin.x, [[controller window] frame].origin.y, [[controller window] frame].size.width, [[controller window] frame].size.height);
 }
 
 -(void)dealloc {

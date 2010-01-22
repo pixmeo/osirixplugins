@@ -17,6 +17,7 @@
 #import <OsiriX Headers/DicomSeries.h>
 #import <OsiriX Headers/ROI.h>
 #import <Nitrogen/NSDictionary+N2.h>
+#import <Nitrogen/N2Debug.h>
 
 NSString* EjectionFractionWorkflowExpectedROIChangedNotification = @"EjectionFractionWorkflowExpectedROIChangedNotification";
 NSString* EjectionFractionWorkflowROIAssignedNotification = @"EjectionFractionWorkflowROIAssignedNotification";
@@ -76,6 +77,9 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 }
 
 -(void)deallocOsiriX {
+//	while ([_rois count])
+//		[self setRoi:NULL forId:[[_rois allKeys] objectAtIndex:0]];
+	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixAddROINotification object:NULL];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixROIChangeNotification object:NULL];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixRemoveROINotification object:NULL];
@@ -90,6 +94,8 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 			return [NSArray arrayWithObjects: [NSNumber numberWithLong:tCPolygon], [NSNumber numberWithLong:tOPolygon], [NSNumber numberWithLong:tPencil], NULL];
 		case EjectionFractionROILength:
 			return [NSArray arrayWithObject:[NSNumber numberWithLong:tMesure]];
+		case EjectionFractionROIAreaOrLength:
+			return [[self roiTypesForType:EjectionFractionROILength] arrayByAddingObjectsFromArray:[self roiTypesForType:EjectionFractionROIArea]];
 		default:
 			return NULL;
 	}
@@ -124,14 +130,16 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	} else {
 		NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
 		[self setExpectedRoiId:roiId];
-		for (ViewerController* viewer in [ViewerController getDisplayed2DViewers])
+		for (ViewerController* viewer in [ViewerController getDisplayed2DViewers]) @try {
 			[viewer setROIToolTag:[[roiTypes objectAtIndex:0] longValue]];
+		} @catch (NSException* e) { // a fix since version 3.7b8++ solves this exception, but we want to be retro-compatible
+		}
 		ViewerController* viewer = [[NSApp makeWindowsPerform:@selector(frontmostViewerControllerFinder) inOrder:YES] windowController];
 		[[viewer window] makeKeyAndOrderFront:self];
 	}
 }
 
--(ROI*)roiForId:(NSString*)roiId {
+-(ROI*)roiForId:(NSString*)roiId { 
 	return [_rois objectForKey:roiId];
 }
 
@@ -167,17 +175,26 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 		[self updateResult];
 }
 
+extern float ROIColorR, ROIColorG, ROIColorB; // declared in ROI.m
+
 -(void)setRoi:(ROI*)roi forId:(NSString*)roiId {
-	if (roi == [self roiForId:roiId]) return;
+	ROI* prevRoi = [self roiForId:roiId];
 	
-	NSLog(@"Setting %@ as %@", [roi name], roiId);
+	if (prevRoi) {
+		if (roi == prevRoi) return;
+		[prevRoi setName:NULL];
+		RGBColor color = {[[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorR"], [[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorG"], [[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorB"]};
+		[prevRoi setColor:color globally:NO];
+	}
+	
+	DLog(@"Setting %@ as %@", [roi name], roiId);
 	
 	if (roi)
 		[_rois setObject:roi forKey:roiId];
 	else [_rois removeObjectForKey:roiId];
 	
 	[roi setName:roiId];
-	[roi setNSColor:[_algorithm colorForRoiId:roiId]];
+	[roi setNSColor:[_algorithm colorForRoiId:roiId] globally:NO];
 	[self updateResult];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowROIAssignedNotification object:self userInfo:[NSDictionary dictionaryWithObject:roiId forKey:EjectionFractionWorkflowROIIdInfo]];

@@ -10,6 +10,7 @@
 #import "EjectionFractionWorkflow.h"
 #import <OsiriX Headers/DCMView.h>
 #import "EjectionFractionPlugin.h"
+#import <algorithm>
 
 NSString* DiasLength = @"Diastole length";
 NSString* SystLength = @"Systole length";
@@ -98,6 +99,12 @@ NSString* SystLength = @"Systole length";
 
 -(CGFloat)ejectionFractionWithDiastoleVolume:(CGFloat)diasVol systoleVolume:(CGFloat)sysVol {
 	return (diasVol-sysVol)/diasVol;
+}
+
+-(CGFloat)roiArea:(ROI*)roi { // if roi is tMesure return area of circle with diameter [roi length]
+	if ([roi type] == tMesure)
+		return pi*std::pow([roi MesureLength:NULL]/2, 2);
+	return [roi roiArea];
 }
 
 @end

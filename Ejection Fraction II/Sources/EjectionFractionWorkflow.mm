@@ -9,6 +9,7 @@
 #import "EjectionFractionWorkflow.h"
 #import "EjectionFractionWorkflow+OsiriX.h"
 #import "EjectionFractionStepsController.h"
+#import <Nitrogen/N2Debug.h>
 
 NSString* Dias = @"Diastole";
 NSString* Syst = @"Systole";
@@ -31,7 +32,7 @@ NSString* Syst = @"Systole";
 }
 
 -(void)dealloc {
-	NSLog(@"%X [EjectionFractionWorkflow dealloc]", self);
+	DLog(@"%X [EjectionFractionWorkflow dealloc]", self);
 	[self deallocOsiriX];
 //	[self setViewer:NULL];
 	if (_steps) [_steps close];

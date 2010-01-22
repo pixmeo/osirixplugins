@@ -31,5 +31,6 @@ extern NSString* SystLength;
 -(BOOL)needsRoiWithId:(NSString*)roi tag:(long)tag;
 
 -(NSImage*)image;
+-(CGFloat)roiArea:(ROI*)roi;
 
 @end

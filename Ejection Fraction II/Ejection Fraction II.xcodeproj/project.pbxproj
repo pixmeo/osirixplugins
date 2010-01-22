@@ -27,7 +27,6 @@
 		59E60F5A10DB6CA1009C862D /* EjectionFractionImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E60F5810DB6CA1009C862D /* EjectionFractionImage.mm */; };
 		59E8B2901046A19D00B83E7D /* EjectionFractionStepsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */; };
 		59E8B2911046A19D00B83E7D /* EjectionFractionStepsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */; };
-		59E8B2981046A1D100B83E7D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59E8B2961046A1D100B83E7D /* InfoPlist.strings */; };
 		59F9AF7710C9584D008A6EF1 /* EjectionFractionResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */; };
 		59F9AF7810C9584D008A6EF1 /* EjectionFractionResultsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */; };
 		59FB4F3010A2D24400283D52 /* EjectionFractionAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FB4F2E10A2D24400283D52 /* EjectionFractionAlgorithm.h */; };
@@ -73,7 +72,6 @@
 		59E60F5810DB6CA1009C862D /* EjectionFractionImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionImage.mm; path = Sources/EjectionFractionImage.mm; sourceTree = "<group>"; };
 		59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionStepsController.mm; path = Sources/EjectionFractionStepsController.mm; sourceTree = "<group>"; };
 		59E8B28F1046A19D00B83E7D /* EjectionFractionStepsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionStepsController.h; path = Sources/EjectionFractionStepsController.h; sourceTree = "<group>"; };
-		59E8B2971046A1D100B83E7D /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		59F9AF7510C9584D008A6EF1 /* EjectionFractionResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionResultsController.h; path = Sources/EjectionFractionResultsController.h; sourceTree = "<group>"; };
 		59F9AF7610C9584D008A6EF1 /* EjectionFractionResultsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionResultsController.mm; path = Sources/EjectionFractionResultsController.mm; sourceTree = "<group>"; };
 		59FB4F2E10A2D24400283D52 /* EjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionAlgorithm.h; path = Sources/Algorithms/EjectionFractionAlgorithm.h; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				5987F5D8103018C4006D39F5 /* Info.plist */,
 				59D6010910BEAE990024DC67 /* Arrow.png */,
 				5950672F10BE827C00846DA7 /* Checkmark.png */,
-				59E8B2951046A1D100B83E7D /* English.lproj */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -177,15 +174,6 @@
 				59FB4F1510A2D22400283D52 /* Algorithms */,
 			);
 			name = Sources;
-			sourceTree = "<group>";
-		};
-		59E8B2951046A1D100B83E7D /* English.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				59E8B2961046A1D100B83E7D /* InfoPlist.strings */,
-			);
-			name = English.lproj;
-			path = Resources/English.lproj;
 			sourceTree = "<group>";
 		};
 		59FB4F1510A2D22400283D52 /* Algorithms */ = {
@@ -277,7 +265,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				598E525810442462005BCDC7 /* EjectionFractionSteps.xib in Resources */,
-				59E8B2981046A1D100B83E7D /* InfoPlist.strings in Resources */,
 				59FB4F9210A2ECFD00283D52 /* Monoplane.png in Resources */,
 				59FB4F9310A2ECFD00283D52 /* Simpson.png in Resources */,
 				59FB4F9510A2ED0100283D52 /* Hemi-ellipse.png in Resources */,
@@ -323,17 +310,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		59E8B2961046A1D100B83E7D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				59E8B2971046A1D100B83E7D /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -341,7 +317,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = NO;
-				DEBUG = YES;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

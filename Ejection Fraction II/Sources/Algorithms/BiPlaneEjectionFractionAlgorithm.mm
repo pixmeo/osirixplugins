@@ -22,7 +22,7 @@ NSString* SystVerLong = @"Systole vertical long axis area";
 }
 
 -(NSArray*)groupedRoiIds {
-	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasHorLong, DiasVerLong, DiasLength, NULL], [NSArray arrayWithObjects: SystHorLong, SystVerLong, SystLength, NULL], NULL];
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasLength, DiasHorLong, DiasVerLong, NULL], [NSArray arrayWithObjects: SystLength, SystHorLong, SystVerLong, NULL], NULL];
 }
 
 -(NSArray*)pairedRoiIds {

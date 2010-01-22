@@ -74,12 +74,6 @@ const NSString* FileTypeDICOM = @"dcm";
 	//self = [super initWithWindow:[[N2Window alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:YES]];
 	//[[self window] setTitle:@"Ejection Fraction: Results"];
 	
-	N2ColumnLayout* contentLayout = [[N2ColumnLayout alloc] initForView:[[self window] contentView] columnDescriptors:[NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], [N2CellDescriptor descriptor], NULL] controlSize:NSRegularControlSize];
-	[contentLayout setForcesSuperviewWidth:YES];
-	[contentLayout setForcesSuperviewHeight:YES];
-	[contentLayout setSeparation:NSMakeSize([contentLayout margin].size.width/2, [contentLayout separation].height)];
-	
-	// body
 	NSMutableArray* imagesDias = [NSMutableArray arrayWithCapacity:4];
 	NSMutableArray* imagesSyst = [NSMutableArray arrayWithCapacity:4];
 	NSMutableArray* imagesComp = [NSMutableArray arrayWithCapacity:4];
@@ -93,17 +87,8 @@ const NSString* FileTypeDICOM = @"dcm";
 	// count images
 	NSUInteger imagesCount = [imagesDias count];
 	
-	NSMutableArray* columnDescriptors = [NSMutableArray arrayWithCapacity:4];
-	for (NSUInteger i = 0; i < [[[workflow algorithm] groupedRoiIds] count]+1; ++i)
-		[columnDescriptors addObject:[N2CellDescriptor descriptor]];
+	NSMutableArray* imageViewRows = [NSMutableArray arrayWithCapacity:imagesCount];
 	
-	N2View* body = [[N2View alloc] initWithSize:NSZeroSize];
-	N2ColumnLayout* bodyLayout = [[N2ColumnLayout alloc] initForView:body columnDescriptors:columnDescriptors controlSize:NSSmallControlSize];
-	[bodyLayout setMargin:NSZeroRect];
-	[bodyLayout setSeparation:NSMakeSize(5)];
-	[bodyLayout setForcesSuperviewHeight:YES];
-	[bodyLayout setForcesSuperviewWidth:YES];
-		
 	for (NSUInteger i = 0; i < imagesCount; ++i) {
 		NSMutableArray* views = [NSMutableArray arrayWithCapacity:0];
 		
@@ -121,7 +106,7 @@ const NSString* FileTypeDICOM = @"dcm";
 		[viewComp setFrameSize:NSMakeSize([[viewComp image] size].width*[viewDias frame].size.height/[[viewComp image] size].height, [viewDias frame].size.height)];
 		[views addObject:viewComp];
 		
-		[bodyLayout appendRow:views];
+		[imageViewRows addObject:views];
 	}
 	
 	// info
@@ -129,9 +114,9 @@ const NSString* FileTypeDICOM = @"dcm";
 	N2View* info = [[N2View alloc] initWithSize:NSZeroSize];
 	N2ColumnLayout* infoLayout = [[N2ColumnLayout alloc] initForView:info columnDescriptors:[NSArray arrayWithObjects:[N2CellDescriptor descriptor], [N2CellDescriptor descriptor], NULL] controlSize:NSSmallControlSize];
 	[infoLayout setMargin:NSZeroRect];
-//	[infoLayout setSeparation:NSMakeSize(0)];
 	[infoLayout setForcesSuperviewHeight:YES];
 	[infoLayout setForcesSuperviewWidth:YES];
+	[infoLayout setEnabled:NO];
 	
 	// header
 	
@@ -152,11 +137,12 @@ const NSString* FileTypeDICOM = @"dcm";
 								[NSTextView labelWithText:@"Date of Birth:" alignment:NSRightTextAlignment],
 							   [NSTextView labelWithText:[dateFormatter stringFromDate:[infoData valueForKeyPath:@"series.study.dateOfBirth"]]], NULL]];
 	
+
 	// algorithm description image
 	
+	[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(10)] autorelease]] colSpan:2]]];
 	NSImage* image = [[workflow algorithm] image];
 	if (image) {
-		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(10)] autorelease]] colSpan:2]]];
 		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[NSImageView createWithImage:image]] colSpan:2]]];
 		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(10)] autorelease]] colSpan:2]]];
 	}
@@ -175,15 +161,51 @@ const NSString* FileTypeDICOM = @"dcm";
 							  [NSTextView labelWithText:@"Ejection fraction:" alignment:NSRightTextAlignment],
 							  [NSTextView labelWithText:[NSString stringWithFormat:@"%.1f %%", ejectionFraction*100]], NULL]];
 	
+	[infoLayout performSelector:@selector(layOutImpl)];
+	
 	// done
 	
-	[infoLayout setEnabled:NO];
+	NSUInteger colsCount = 1;
+	if (imagesCount) ++colsCount;
+	NSMutableArray* colDescriptors = [NSMutableArray arrayWithCapacity:colsCount];
+	for (NSUInteger i = 0; i < colsCount; ++i) [colDescriptors addObject:[N2CellDescriptor descriptor]];
 	
-	[contentLayout appendRow:[NSArray arrayWithObjects: body, [[N2CellDescriptor descriptorWithView:info] widthConstraints:N2MakeMinMax([info frame].size.width)], NULL]];
+	N2ColumnLayout* contentLayout = [[N2ColumnLayout alloc] initForView:[[self window] contentView] columnDescriptors:colDescriptors controlSize:NSRegularControlSize];
+	[contentLayout setForcesSuperviewWidth:YES];
+	[contentLayout setForcesSuperviewHeight:YES];
+
+	switch (imagesCount) {
+		case 0: {
+			[contentLayout appendRow:[NSArray arrayWithObject:info]];
+		} break;
+		case 1: {
+			[contentLayout setSeparation:NSMakeSize(5)];
+			[contentLayout appendRow:[NSArray arrayWithObjects: [[imageViewRows objectAtIndex:0] objectAtIndex:0], [[imageViewRows objectAtIndex:0] objectAtIndex:1], NULL]];
+			[contentLayout appendRow:[NSArray arrayWithObjects: [[imageViewRows objectAtIndex:0] objectAtIndex:2], info, NULL]];
+		} break;
+		default: {
+			[contentLayout setSeparation:NSMakeSize([contentLayout margin].size.width/2, [contentLayout separation].height)];
+
+			colDescriptors = [NSMutableArray arrayWithCapacity:3];
+			for (NSUInteger i = 0; i < [[[workflow algorithm] groupedRoiIds] count]+1; ++i)
+				[colDescriptors addObject:[N2CellDescriptor descriptor]];
+			N2View* body = [[N2View alloc] initWithSize:NSZeroSize];
+			N2ColumnLayout* bodyLayout = [[N2ColumnLayout alloc] initForView:body columnDescriptors:colDescriptors controlSize:NSSmallControlSize];
+			[bodyLayout setMargin:NSZeroRect];
+			[bodyLayout setSeparation:NSMakeSize(5)];
+			[bodyLayout setForcesSuperviewHeight:YES];
+			[bodyLayout setForcesSuperviewWidth:YES];
+			
+			for (NSArray* views in imageViewRows)
+				[bodyLayout appendRow:[NSArray arrayWithObjects: [views objectAtIndex:0], [views objectAtIndex:1], [views objectAtIndex:2], NULL]];
+			
+			[contentLayout appendRow:[NSArray arrayWithObjects: body, [[N2CellDescriptor descriptorWithView:info] widthConstraints:N2MakeMinMax([info frame].size.width)], NULL]];
+			[bodyLayout setForcesSuperviewWidth:NO];
+		}
+	}
 	
 	[contentLayout setForcesSuperviewWidth:NO];
 	[contentLayout setForcesSuperviewHeight:NO];
-	[bodyLayout setForcesSuperviewWidth:NO];
 	
 	// place window
 	NSRect frame = [[self window] frame];

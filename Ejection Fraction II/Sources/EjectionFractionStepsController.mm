@@ -18,6 +18,7 @@
 #import <Nitrogen/N2CellDescriptor.h>
 #import <Nitrogen/N2Steps.h>
 #import <Nitrogen/N2View.h>
+#import <Nitrogen/N2Debug.h>
 
 @interface EjectionFractionStepsController (Private)
 -(void)algorithmSelected:(NSMenuItem*)selection;
@@ -71,7 +72,13 @@
 	[_stepsView setControlSize:NSSmallControlSize];
 	
 	[_viewROIsList setForeColor:[NSColor whiteColor]];
+<<<<<<< .mine
+	N2CellDescriptor* invasiveColDesc = [[N2CellDescriptor descriptor] alignment:N2Left];
+	if ([invasiveColDesc respondsToSelector:@selector(setInvasivity:)]) [invasiveColDesc setInvasivity:1];
+	NSArray* columnDescriptors = [NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], invasiveColDesc, NULL]; // , [N2CellDescriptor descriptor]
+=======
 	NSArray* columnDescriptors = [NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], [[N2CellDescriptor descriptor] alignment:N2Left], NULL]; // , [N2CellDescriptor descriptor]
+>>>>>>> .r22
 	N2ColumnLayout* layout = [[[N2ColumnLayout alloc] initForView:_viewROIsList columnDescriptors:columnDescriptors controlSize:NSMiniControlSize] autorelease];
 	[layout setForcesSuperviewHeight:YES];
 	[layout setMargin:NSZeroRect];
@@ -93,7 +100,7 @@
 
 -(void)dealloc {
 	[_stepROIsResizer release];
-	NSLog(@"%X [EjectionFractionStepsController dealloc]", self);
+	DLog(@"%X [EjectionFractionStepsController dealloc]", self);
 	[_viewROIsTextFormat release];
 	[_viewResultTextFormat release];
 //	[_activeSteps release];
@@ -137,8 +144,10 @@
 		[sect setSelectable:NO];
 		[sect setAlignment:NSRightTextAlignment range:NSMakeRange(0, [[sect string] length])];
 		[sect setFont:[NSFont labelFontOfSize:[NSFont systemFontSizeForControlSize:NSMiniControlSize]]];
-		NSColorWell* colr = [[[NSColorWell alloc] initWithSize:NSMakeSize(32,12)] autorelease];
+		NSColorWell* colr = [[[NSColorWell alloc] initWithSize:NSMakeSize(32,10)] autorelease];
 		[colr setColor: !i? [EjectionFractionPlugin diasColor] : [EjectionFractionPlugin systColor]];
+		[colr setBordered:NO];
+		[colr setHidden:YES]; /// TODO: show this control and handle it
 		[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObjects: sect, colr, NULL]]; // image
 		NSArray* groups = [algorithm groupedRoiIds];
 		for (NSString* roiId in [groups objectAtIndex:i]) {
@@ -214,7 +223,7 @@
 }
 
 -(void)roiButtonClicked:(N2Button*)source {
-//	NSLog(@"EjectionFraction - ROI button clicked: %@, %d", [source representedObject], [[_workflow algorithm] typeForRoiId:[source representedObject]]);
+//	DLog(@"EjectionFraction - ROI button clicked: %@, %d", [source representedObject], [[_workflow algorithm] typeForRoiId:[source representedObject]]);
 	[_workflow selectOrOpenViewerForRoiWithId:[source representedObject]];
 }
 

@@ -10,8 +10,8 @@
 #import "EjectionFractionWorkflow.h"
 #import <OsiriX Headers/ROI.h>
 
-NSString* DiasShort = @"Diastole short axis diameter";
-NSString* SystShort = @"Systole short axis diameter";
+NSString* DiasShort = @"Diastole short axis area/diameter";
+NSString* SystShort = @"Systole short axis area/diameter";
 
 @implementation HemiEllipseEjectionFractionAlgorithm
 
@@ -20,7 +20,7 @@ NSString* SystShort = @"Systole short axis diameter";
 }
 
 -(NSArray*)groupedRoiIds {
-	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasShort, DiasLength, NULL], [NSArray arrayWithObjects: SystShort, SystLength, NULL], NULL];
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasLength, DiasShort, NULL], [NSArray arrayWithObjects: SystLength, SystShort, NULL], NULL];
 }
 
 -(NSArray*)pairedRoiIds {
@@ -30,7 +30,7 @@ NSString* SystShort = @"Systole short axis diameter";
 -(EjectionFractionROIType)typeForRoiId:(NSString*)roiId {
 	if ([roiId isEqualToString:DiasShort] ||
 		[roiId isEqualToString:SystShort])
-			return EjectionFractionROIArea;
+			return EjectionFractionROIAreaOrLength;
 		
 	return [super typeForRoiId:roiId];
 }
@@ -40,9 +40,9 @@ NSString* SystShort = @"Systole short axis diameter";
 }
 
 -(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume {
-	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithShortAxisArea:[[rois objectForKey:DiasShort] roiArea]
+	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithShortAxisArea:[self roiArea:[rois objectForKey:DiasShort]]
 																							  length:[[rois objectForKey:DiasLength] MesureLength:NULL]])
-									  systoleVolume: (systoleVolume = [self volumeWithShortAxisArea:[[rois objectForKey:SystShort] roiArea]
+									  systoleVolume: (systoleVolume = [self volumeWithShortAxisArea:[self roiArea:[rois objectForKey:SystShort]]
 																							 length:[[rois objectForKey:SystLength] MesureLength:NULL]]) ];
 }
 

@@ -11,8 +11,8 @@
 #import <OsiriX Headers/ROI.h>
 #import <OsiriX Headers/DCMView.h>
 
-NSString* DiasLong = @"Diastole long axis";
-NSString* SystLong = @"Systole long axis";
+NSString* DiasLong = @"Diastole long axis area";
+NSString* SystLong = @"Systole long axis area";
 
 @implementation MonoPlaneEjectionFractionAlgorithm
 
@@ -21,7 +21,7 @@ NSString* SystLong = @"Systole long axis";
 }
 
 -(NSArray*)groupedRoiIds {
-	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasLong, DiasLength, NULL], [NSArray arrayWithObjects: SystLong, SystLength, NULL], NULL];
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasLength, DiasLong, NULL], [NSArray arrayWithObjects: SystLength, SystLong, NULL], NULL];
 }
 
 -(NSArray*)pairedRoiIds {

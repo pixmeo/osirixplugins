@@ -16,7 +16,8 @@ extern NSString* EjectionFractionWorkflowROIIdInfo;
 enum EjectionFractionROIType {
 	EjectionFractionROIAny = 0,
 	EjectionFractionROIArea,
-	EjectionFractionROILength
+	EjectionFractionROILength,
+	EjectionFractionROIAreaOrLength
 };
 
 @class ROI;

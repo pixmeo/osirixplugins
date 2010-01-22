@@ -10,10 +10,10 @@
 #import "EjectionFractionWorkflow.h"
 #import <OsiriX Headers/ROI.h>
 
-NSString* DiasMitral = @"Diastole base short axis";
-NSString* SystMitral = @"Systole base short axis";
-NSString* DiasPapi = @"Diastole middle short axis";
-NSString* SystPapi = @"Systole middle short axis";
+NSString* DiasMitral = @"Diastole base short axis area/diameter";
+NSString* SystMitral = @"Systole base short axis area/diameter";
+NSString* DiasPapi = @"Diastole middle short axis area/diameter";
+NSString* SystPapi = @"Systole middle short axis area/diameter";
 
 @implementation SimpsonEjectionFractionAlgorithm
 
@@ -22,7 +22,7 @@ NSString* SystPapi = @"Systole middle short axis";
 }
 
 -(NSArray*)groupedRoiIds {
-	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasMitral, DiasPapi, DiasLength, NULL], [NSArray arrayWithObjects: SystMitral, SystPapi, SystLength, NULL], NULL];
+	return [NSArray arrayWithObjects: [NSArray arrayWithObjects: DiasLength, DiasMitral, DiasPapi, NULL], [NSArray arrayWithObjects: SystLength, SystMitral, SystPapi, NULL], NULL];
 }
 
 -(NSArray*)pairedRoiIds {
@@ -34,7 +34,7 @@ NSString* SystPapi = @"Systole middle short axis";
 		[roiId isEqualToString:SystMitral] ||
 		[roiId isEqualToString:DiasPapi] ||
 		[roiId isEqualToString:SystPapi])
-		return EjectionFractionROIArea;
+		return EjectionFractionROIAreaOrLength;
 		
 	return [super typeForRoiId:roiId];
 }
@@ -46,11 +46,11 @@ NSString* SystPapi = @"Systole middle short axis";
 
 
 -(CGFloat)compute:(NSDictionary*)rois diastoleVolume:(CGFloat&)diastoleVolume systoleVolume:(CGFloat&)systoleVolume {
-	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithMitralArea:[[rois objectForKey:DiasMitral] roiArea]
-																						 papiArea:[[rois objectForKey:DiasPapi] roiArea]
+	return [self ejectionFractionWithDiastoleVolume: (diastoleVolume = [self volumeWithMitralArea:[self roiArea:[rois objectForKey:DiasMitral]]
+																						 papiArea:[self roiArea:[rois objectForKey:DiasPapi]]
 																						   length:[[rois objectForKey:DiasLength] MesureLength:NULL]])
-									  systoleVolume: (systoleVolume = [self volumeWithMitralArea:[[rois objectForKey:SystMitral] roiArea]
-																						papiArea:[[rois objectForKey:SystPapi] roiArea]
+									  systoleVolume: (systoleVolume = [self volumeWithMitralArea:[self roiArea:[rois objectForKey:SystMitral]]
+																						papiArea:[self roiArea:[rois objectForKey:SystPapi]]
 																						  length:[[rois objectForKey:SystLength] MesureLength:NULL]]) ];
 }
 
