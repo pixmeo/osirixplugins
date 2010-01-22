@@ -72,13 +72,9 @@
 	[_stepsView setControlSize:NSSmallControlSize];
 	
 	[_viewROIsList setForeColor:[NSColor whiteColor]];
-<<<<<<< .mine
 	N2CellDescriptor* invasiveColDesc = [[N2CellDescriptor descriptor] alignment:N2Left];
 	if ([invasiveColDesc respondsToSelector:@selector(setInvasivity:)]) [invasiveColDesc setInvasivity:1];
 	NSArray* columnDescriptors = [NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], invasiveColDesc, NULL]; // , [N2CellDescriptor descriptor]
-=======
-	NSArray* columnDescriptors = [NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], [[N2CellDescriptor descriptor] alignment:N2Left], NULL]; // , [N2CellDescriptor descriptor]
->>>>>>> .r22
 	N2ColumnLayout* layout = [[[N2ColumnLayout alloc] initForView:_viewROIsList columnDescriptors:columnDescriptors controlSize:NSMiniControlSize] autorelease];
 	[layout setForcesSuperviewHeight:YES];
 	[layout setMargin:NSZeroRect];
