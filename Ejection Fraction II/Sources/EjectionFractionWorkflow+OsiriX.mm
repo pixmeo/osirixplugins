@@ -80,11 +80,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 //	while ([_rois count])
 //		[self setRoi:NULL forId:[[_rois allKeys] objectAtIndex:0]];
 	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixAddROINotification object:NULL];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixROIChangeNotification object:NULL];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixRemoveROINotification object:NULL];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixDCMUpdateCurrentImageNotification object:NULL];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixPopulatedContextualMenuNotification object:NULL];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_rois release]; _rois = NULL;
 }
 

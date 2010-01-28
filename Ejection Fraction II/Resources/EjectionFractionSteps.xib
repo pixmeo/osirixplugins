@@ -12,10 +12,10 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2"/>
-			<integer value="62"/>
-			<integer value="40"/>
 			<integer value="9"/>
+			<integer value="62"/>
+			<integer value="2"/>
+			<integer value="40"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -70,6 +70,30 @@
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="NSButton" id="219098859">
+						<reference key="NSNextResponder" ref="525427761"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{155, -4}, {25, 25}}</string>
+						<reference key="NSSuperview" ref="525427761"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="590646312">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">134479872</int>
+							<string key="NSContents"/>
+							<object class="NSFont" key="NSSupport" id="22">
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">9</double>
+								<int key="NSfFlags">3614</int>
+							</object>
+							<reference key="NSControlView" ref="219098859"/>
+							<int key="NSButtonFlags">-2038415105</int>
+							<int key="NSButtonFlags2">161</int>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
 					<object class="NSTextField" id="126235973">
 						<reference key="NSNextResponder" ref="525427761"/>
 						<int key="NSvFlags">268</int>
@@ -80,11 +104,7 @@
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272891904</int>
 							<string key="NSContents">Select an ejection fraction algorithm:</string>
-							<object class="NSFont" key="NSSupport" id="22">
-								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">9</double>
-								<int key="NSfFlags">3614</int>
-							</object>
+							<reference key="NSSupport" ref="22"/>
 							<reference key="NSControlView" ref="126235973"/>
 							<object class="NSColor" key="NSBackgroundColor" id="652395996">
 								<int key="NSColorSpace">6</int>
@@ -104,7 +124,7 @@
 					<object class="NSPopUpButton" id="806026099">
 						<reference key="NSNextResponder" ref="525427761"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{19, 1}, {142, 15}}</string>
+						<string key="NSFrame">{{2, 1}, {146, 15}}</string>
 						<reference key="NSSuperview" ref="525427761"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="35582043">
@@ -114,6 +134,7 @@
 							<reference key="NSControlView" ref="806026099"/>
 							<int key="NSButtonFlags">109199615</int>
 							<int key="NSButtonFlags2">129</int>
+							<reference key="NSAlternateImage" ref="22"/>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">400</int>
@@ -231,13 +252,8 @@
 								<int key="NSfFlags">16</int>
 							</object>
 							<reference key="NSControlView" ref="150030573"/>
-							<int key="NSButtonFlags">-2038021889</int>
+							<int key="NSButtonFlags">-2038152961</int>
 							<int key="NSButtonFlags2">45</int>
-							<object class="NSFont" key="NSAlternateImage">
-								<string key="NSName">LucidaGrande</string>
-								<double key="NSSize">9</double>
-								<int key="NSfFlags">16</int>
-							</object>
 							<string key="NSAlternateContents"/>
 							<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
 							<int key="NSPeriodicDelay">200</int>
@@ -441,6 +457,7 @@
 							<reference ref="806026099"/>
 							<reference ref="126235973"/>
 							<reference ref="651220905"/>
+							<reference ref="219098859"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Algorithm</string>
@@ -580,6 +597,20 @@
 						<reference key="object" ref="984685084"/>
 						<reference key="parent" ref="150030573"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">75</int>
+						<reference key="object" ref="219098859"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="590646312"/>
+						</object>
+						<reference key="parent" ref="525427761"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">76</int>
+						<reference key="object" ref="590646312"/>
+						<reference key="parent" ref="219098859"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -597,12 +628,14 @@
 					<string>1.windowTemplate.hasMinSize</string>
 					<string>1.windowTemplate.maxSize</string>
 					<string>1.windowTemplate.minSize</string>
+					<string>10.CustomClassName</string>
 					<string>10.IBPluginDependency</string>
 					<string>15.IBPluginDependency</string>
 					<string>15.ImportedFromIB2</string>
 					<string>16.IBPluginDependency</string>
 					<string>2.CustomClassName</string>
 					<string>2.IBPluginDependency</string>
+					<string>21.CustomClassName</string>
 					<string>21.IBPluginDependency</string>
 					<string>22.IBEditorWindowLastContentRect</string>
 					<string>22.IBPluginDependency</string>
@@ -627,6 +660,8 @@
 					<string>67.IBPluginDependency</string>
 					<string>68.CustomClassName</string>
 					<string>68.IBPluginDependency</string>
+					<string>75.IBPluginDependency</string>
+					<string>76.IBPluginDependency</string>
 					<string>9.IBEditorWindowLastContentRect</string>
 					<string>9.IBPluginDependency</string>
 					<string>9.ImportedFromIB2</string>
@@ -644,12 +679,14 @@
 					<boolean value="YES"/>
 					<string>{200, 600}</string>
 					<string>{200, 40}</string>
+					<string>N2PopUpButton</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>N2StepsView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>N2PopUpButtonCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{-782, 819}, {142, 4}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -674,7 +711,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>N2ButtonCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{-793, 899}, {180, 32}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{-237, 774}, {180, 32}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 				</object>
@@ -695,7 +734,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">74</int>
+			<int key="maxID">76</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -752,6 +791,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Nitrogen.framework/Headers/N2ButtonCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">N2PopUpButton</string>
+					<string key="superclassName">NSPopUpButton</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">Nitrogen.framework/Headers/N2PopUpButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -947,14 +994,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">OsiriX Headers.framework/Headers/MenuDictionary.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSMenuItemCell</string>
-					<string key="superclassName">NSButtonCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSMenuItemCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1251,14 +1290,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSPopUpButtonCell</string>
-					<string key="superclassName">NSMenuItemCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSPopUpButtonCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSResponder</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
@@ -1342,6 +1373,13 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSWindowScripting.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSWindow</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">Nitrogen.framework/Headers/N2Window.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

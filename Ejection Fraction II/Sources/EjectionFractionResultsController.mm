@@ -184,18 +184,23 @@ const NSString* FileTypeDICOM = @"dcm";
 	[contentLayout setForcesSuperviewWidth:NO];
 	[contentLayout setForcesSuperviewHeight:NO];
 	
-	
-	// place window
+	// set window size
 	NSRect frame = [window frame];
 	NSRect screen = [[[[workflow steps] window] screen] visibleFrame];
 	if (frame.size.width > screen.size.width || frame.size.height >= screen.size.height) {
 		if (frame.size.width > screen.size.width)
 			frame.size.width = screen.size.width;
-		++frame.size.width;
-		do {
-			--frame.size.width;
+		NSUInteger step = std::max(frame.size.width/10, CGFloat(1));
+		frame.size.width += step;
+		do { // decrease window width until its height fits in the screen
+			frame.size.width -= step;
 			NSSize optimalSize = [contentLayout optimalSizeForWidth:[window contentSizeForFrameSize:frame.size].width];
 			frame.size = [window frameSizeForContentSize:optimalSize];
+			if (frame.size.height <= screen.size.height && step > 1) {
+				frame.size.width += step;
+				step = std::max(std::floor(step/10), 1.);
+				frame.size.height = screen.size.height+1;
+			}
 		} while (frame.size.height > screen.size.height && frame.size.width > 20);
 	}
 	
@@ -203,7 +208,6 @@ const NSString* FileTypeDICOM = @"dcm";
 	[window setFrame:frame display:YES];
 	
 	[window makeKeyAndOrderFront:self];
-
 	return self;
 }
 
