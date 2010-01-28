@@ -1,50 +1,56 @@
 //
-//  EjectionFractionImage.mm
+//  EjectionFractionImageView.mm
 //  Ejection Fraction II
 //
 //  Created by Alessandro Volz on 17.12.09.
 //  Copyright 2009 OsiriX Team. All rights reserved.
 //
 
-#import "EjectionFractionImage.h"
+#import "EjectionFractionImageView.h"
 #import <OsiriX Headers/DCMPix.h>
 #import <OsiriX Headers/ROI.h>
+#import <OsiriX Headers/Notifications.h>
 #import <OsiriX Headers/MyPoint.h>
 #import <Nitrogen/N2Operators.h>
 #import <Nitrogen/N2MinMax.h>
+#import <Nitrogen/NSView+N2.h>
 
 
-@implementation EjectionFractionImage
+@implementation EjectionFractionImageView
 @synthesize rois = _rois, pix = _pix;
 
-+(id)imageWithObjects:(NSArray*)objects {
-	return [[(EjectionFractionImage*)[self alloc] initWithObjects:objects] autorelease];
++(EjectionFractionImageView*)viewWithObjects:(NSArray*)objects {
+	return [[(EjectionFractionImageView*)[self alloc] initWithObjects:objects] autorelease];
 }
 
 -(id)initWithObjects:(NSArray*)objects {
 	NSMutableArray* rois = [NSMutableArray arrayWithCapacity:[objects count]];
 	for (id o in objects)
 		if ([o isKindOfClass:[DCMPix class]]) {
-			[o baseAddr]; // make sure baseAddr is valid
-			NSImage* image = [o image];
-		//	[image setSize:[image size]*NSMakeSize([o pixelSpacingX], [o pixelSpacingY])];
-			[self setPix:image];
+			[o baseAddr]; // make sure [o baseAddr] is valid, or [o image] will crash in older versions of OsiriX
+			[self setPix:[o image]];
 		} else [rois addObject:o];
 	[self setRois:rois];
 	
-	self = [self initWithSize: _pix? [_pix size] : NSMakeSize(128)];
+	for (ROI* roi in rois)
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(roiChanged:) name:OsirixROIChangeNotification object:roi];
 	
-	return self;
+	return [self initWithSize: _pix? [_pix size] : NSMakeSize(128)];
 }
 
 -(void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self setRois:NULL];
 	[self setPix:NULL];
 	[super dealloc];
 }
 
--(BOOL)isLogicallyResizable {
-	return YES;
+-(BOOL)isOpaque {
+	return NO;
+}
+
+-(void)roiChanged:(NSNotification*)n {
+	[self setNeedsDisplay:YES];
 }
 
 -(NSRect)optimalRoiRect {
@@ -70,7 +76,7 @@
 	return contentRect;
 }
 
--(void)paintImageWithPic:(NSImage*)pic rois:(NSArray*)rois {
+/*-(void)paintImageWithPic:(NSImage*)pic rois:(NSArray*)rois {
 	NSSize size = [self size];
 	[self lockFocus];
 	
@@ -110,12 +116,7 @@
 	
 	[self unlockFocus];
 	return;
-}
-
--(void)setSize:(NSSize)size {
-	[super setSize:size];
-	[self paintImageWithPic:_pix rois:_rois];
-}
+}*/
 
 -(NSSize)optimalSize {
 	return n2::ceil(_pix? [_pix size] : [self optimalRoiRect].size);
@@ -125,6 +126,58 @@
 	NSSize imageSize = _pix? [_pix size] : [self optimalRoiRect].size;
 	if (width == CGFLOAT_MAX) width = imageSize.width;
 	return n2::ceil(NSMakeSize(width, width/imageSize.width*imageSize.height));
+}
+
+-(void)setFrame:(NSRect)frameRect {
+	[super setFrame:frameRect];
+	[self setNeedsDisplay:YES];
+}
+
+-(void)drawRect:(NSRect)dirtyRect {
+	NSRect bounds = [self bounds];
+	[NSGraphicsContext saveGraphicsState];
+	
+	NSRect contentRect;
+	if (_pix)
+		contentRect = NSMakeRect(NSZeroPoint, [_pix size]);
+	else contentRect = [self optimalRoiRect];
+	
+	NSRect contentBoundsRect = NSZeroRect;
+	CGFloat scaleFactor;
+	if (bounds.size.width/bounds.size.height > contentRect.size.width/contentRect.size.height) {
+		scaleFactor = bounds.size.height/contentRect.size.height;
+		contentBoundsRect.size = NSMakeSize(contentRect.size.width*scaleFactor, bounds.size.height);
+		contentBoundsRect.origin = NSMakePoint((bounds.size.width-contentBoundsRect.size.width)/2, 0);
+	} else {
+		scaleFactor = bounds.size.width/contentRect.size.width;
+		contentBoundsRect.size = NSMakeSize(bounds.size.width, contentRect.size.height*scaleFactor);
+		contentBoundsRect.origin = NSMakePoint(0, (bounds.size.height-contentBoundsRect.size.height)/2);
+	}
+	
+	if (_pix)
+		[_pix drawInRect:contentBoundsRect fromRect:contentRect operation:NSCompositeCopy fraction:1];
+
+	NSAffineTransform* transform = [NSAffineTransform transform];
+	[transform scaleXBy:1 yBy:-1];
+	[transform translateXBy:0 yBy:-bounds.size.height];
+
+	for (ROI* roi in _rois) {
+		NSBezierPath* path = [NSBezierPath bezierPath];
+		NSMutableArray* points = [roi splinePoints];
+		
+		[path moveToPoint:([[points objectAtIndex:0] point]-contentRect.origin)*scaleFactor+contentBoundsRect.origin];
+		for (MyPoint* p in points)
+			[path lineToPoint:([p point]-contentRect.origin)*scaleFactor+contentBoundsRect.origin];
+		[path transformUsingAffineTransform:transform];
+		
+		RGBColor rgb = [roi rgbcolor];
+		NSColor* color = [NSColor colorWithDeviceRed:float(rgb.red)/0xffff green:float(rgb.green)/0xffff blue:float(rgb.blue)/0xffff alpha:1];
+		[color setStroke];
+		[path setLineWidth:3];
+		[path stroke];
+	}
+	
+	[NSGraphicsContext restoreGraphicsState];
 }
 
 @end

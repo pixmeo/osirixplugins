@@ -22,7 +22,7 @@ enum EjectionFractionROIType {
 
 @class ROI;
 
-@interface EjectionFractionWorkflow (OsiriX) 
+@interface EjectionFractionWorkflow (OsiriX)
 
 +(NSArray*)roiTypesForType:(EjectionFractionROIType)roiType;
 -(void)initOsiriX;

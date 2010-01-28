@@ -195,9 +195,10 @@ extern float ROIColorR, ROIColorG, ROIColorB; // declared in ROI.m
 	
 	[roi setName:roiId];
 	[roi setNSColor:[_algorithm colorForRoiId:roiId] globally:NO];
-	[self updateResult];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowROIAssignedNotification object:self userInfo:[NSDictionary dictionaryWithObject:roiId forKey:EjectionFractionWorkflowROIIdInfo]];
+
+	[self updateResult];
 }
 
 -(void)roiAdded:(NSNotification*)notification {

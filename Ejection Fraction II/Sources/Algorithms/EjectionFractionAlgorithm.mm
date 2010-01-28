@@ -16,6 +16,7 @@ NSString* DiasLength = @"Diastole length";
 NSString* SystLength = @"Systole length";
 
 @implementation EjectionFractionAlgorithm
+@synthesize workflow = _workflow;
 
 -(NSImage*)image {
 	return [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[self description] ofType:@"png"]] autorelease];
@@ -60,7 +61,7 @@ NSString* SystLength = @"Systole length";
 	NSArray* groups = [self groupedRoiIds];
 	for (NSUInteger i = 0; i < [groups count]; ++i)
 		if ([[groups objectAtIndex:i] containsObject:roiId])
-			return i==0 ? [EjectionFractionPlugin diasColor] : [EjectionFractionPlugin systColor];
+			return i==0 ? [_workflow diasColor] : [_workflow systColor];
 	return [NSColor blackColor];
 }
 

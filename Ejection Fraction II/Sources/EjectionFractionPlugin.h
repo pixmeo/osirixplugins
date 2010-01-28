@@ -19,9 +19,6 @@ extern NSString* EjectionFractionAlgorithmRemovedNotification;
 
 @property(readonly) NSArray* algorithms;
 
-+(NSColor*)diasColor;
-+(NSColor*)systColor;
-
 -(void)addAlgorithm:(EjectionFractionAlgorithm*)algorithm;
 -(void)removeAlgorithm:(EjectionFractionAlgorithm*)algorithm;	
 

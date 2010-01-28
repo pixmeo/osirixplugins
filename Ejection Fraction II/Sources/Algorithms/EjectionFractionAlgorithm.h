@@ -12,7 +12,11 @@
 extern NSString* DiasLength;
 extern NSString* SystLength;
 
-@interface EjectionFractionAlgorithm : NSObject
+@interface EjectionFractionAlgorithm : NSObject {
+	EjectionFractionWorkflow* _workflow;
+}
+
+@property(assign) EjectionFractionWorkflow* workflow;
 
 @property(readonly) NSArray* groupedRoiIds;
 @property(readonly) NSArray* pairedRoiIds;

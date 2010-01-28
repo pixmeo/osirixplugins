@@ -29,6 +29,9 @@ extern NSString* Syst;
 @property(retain) EjectionFractionStepsController* steps;
 @property(retain) EjectionFractionAlgorithm* algorithm;
 @property(retain) NSString* expectedRoiId;
+@property(retain) NSColor* diasColor;
+@property(retain) NSColor* systColor;
+@property(readonly) NSDictionary* rois;
 
 -(id)initWithPlugin:(EjectionFractionPlugin*)plugin viewer:(ViewerController*)viewer;
 

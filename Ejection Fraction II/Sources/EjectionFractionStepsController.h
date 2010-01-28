@@ -6,7 +6,7 @@
 //  Copyright 2009 OsiriX Team. All rights reserved.
 //
 
-@class N2Steps, N2Step, EjectionFractionWorkflow, ROI, N2View, N2Resizer, N2StepsView;
+@class N2Steps, N2Step, EjectionFractionWorkflow, ROI, N2View, N2Resizer, N2StepsView, N2ColorWell;
 
 @interface EjectionFractionStepsController : NSWindowController {
 	EjectionFractionWorkflow* _workflow;
@@ -35,6 +35,9 @@
 	
 	NSImage* _checkmarkImage;
 	NSImage* _arrowImage;
+	
+	N2ColorWell* _diastoleColorWell;
+	N2ColorWell* _systoleColorWell;
 	
 //	NSMutableArray* _activeSteps;
 }

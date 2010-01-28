@@ -8,8 +8,10 @@
 
 #import "EjectionFractionWorkflow.h"
 #import "EjectionFractionWorkflow+OsiriX.h"
+#import "EjectionFractionAlgorithm.h"
 #import "EjectionFractionStepsController.h"
 #import <Nitrogen/N2Debug.h>
+#import <Nitrogen/N2UserDefaults.h>
 
 NSString* Dias = @"Diastole";
 NSString* Syst = @"Systole";
@@ -41,9 +43,46 @@ NSString* Syst = @"Systole";
 }
 
 -(void)setAlgorithm:(EjectionFractionAlgorithm*)algorithm {
-	if (_algorithm) [algorithm release];
+	[_algorithm setWorkflow:NULL];
+	[_algorithm release];
+	
 	_algorithm = [algorithm retain];
-	[_steps setSelectedAlgorithm:algorithm];
+	
+	[_algorithm setWorkflow:self];
+	[_steps setSelectedAlgorithm:_algorithm];
+}
+
+-(NSDictionary*)rois {
+	return _rois;
+}
+
+static NSColor* DiasColor = NULL;
+static NSColor* SystColor = NULL;
+const static NSString* const DiasColorUserDefaultsKey = @"EjectionFractionDiastoleColor";
+const static NSString* const SystColorUserDefaultsKey = @"EjectionFractionSystoleColor";
+
+-(NSColor*)diasColor {
+	if (!DiasColor)
+		DiasColor = [[[N2UserDefaults defaultsForObject:self] colorForKey:DiasColorUserDefaultsKey default:[NSColor redColor]] retain];
+	return DiasColor;
+}
+
+-(void)setDiasColor:(NSColor*)color {
+	[DiasColor release];
+	DiasColor = [color retain];
+	[[N2UserDefaults defaultsForObject:self] setColor:DiasColor forKey:DiasColorUserDefaultsKey];
+}
+
+-(NSColor*)systColor {
+	if (!SystColor)
+		SystColor = [[[N2UserDefaults defaultsForObject:self] colorForKey:SystColorUserDefaultsKey default:[NSColor blueColor]] retain];
+	return SystColor;
+}
+
+-(void)setSystColor:(NSColor*)color {
+	[SystColor release];
+	SystColor = [color retain];
+	[[N2UserDefaults defaultsForObject:self] setColor:SystColor forKey:SystColorUserDefaultsKey];
 }
 
 @end

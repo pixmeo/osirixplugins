@@ -1,5 +1,5 @@
 //
-//  EjectionFractionImage.h
+//  EjectionFractionImageView.h
 //  Ejection Fraction II
 //
 //  Created by Alessandro Volz on 17.12.09.
@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface EjectionFractionImage : NSImage {
+@interface EjectionFractionImageView : NSView {
 	NSArray* _rois;
 	NSImage* _pix;
 }
@@ -17,7 +17,7 @@
 @property(retain) NSArray* rois;
 @property(retain) NSImage* pix;
 
-+(id)imageWithObjects:(NSArray*)objects;
++(EjectionFractionImageView*)viewWithObjects:(NSArray*)objects;
 -(id)initWithObjects:(NSArray*)objects;
 
 @end

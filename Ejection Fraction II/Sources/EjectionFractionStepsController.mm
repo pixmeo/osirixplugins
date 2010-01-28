@@ -18,7 +18,10 @@
 #import <Nitrogen/N2CellDescriptor.h>
 #import <Nitrogen/N2Steps.h>
 #import <Nitrogen/N2View.h>
+#import <Nitrogen/NSButton+N2.h>
 #import <Nitrogen/N2Debug.h>
+#import <OsiriX Headers/Notifications.h>
+#import <Nitrogen/N2ColorWell.h>
 
 @interface EjectionFractionStepsController (Private)
 -(void)algorithmSelected:(NSMenuItem*)selection;
@@ -35,6 +38,15 @@
 	[[self window] setDelegate:self];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workflowRoiAssigned:) name:EjectionFractionWorkflowROIAssignedNotification object:workflow];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(workflowExpectedRoiChanged:) name:EjectionFractionWorkflowExpectedROIChangedNotification object:workflow];
+	
+	_diastoleColorWell = [[N2ColorWell alloc] initWithSize:NSZeroSize];
+	[_diastoleColorWell setColor:[_workflow diasColor]];
+	[_diastoleColorWell addObserver:self forKeyPath:@"color" options:NSKeyValueObservingOptionNew context:NULL];
+	[_diastoleColorWell setFrame:NSMakeRect(0, 0, 80, [_diastoleColorWell optimalSize].height)];
+	_systoleColorWell = [[N2ColorWell alloc] initWithSize:NSZeroSize];
+	[_systoleColorWell setColor:[_workflow systColor]];
+	[_systoleColorWell addObserver:self forKeyPath:@"color" options:NSKeyValueObservingOptionNew context:NULL];
+	[_systoleColorWell setFrame:NSMakeRect(0, 0, 80, [_systoleColorWell optimalSize].height)];
 	
 	// place at viewer window upper right corner
 	NSRect frame = [[self window] frame];
@@ -72,7 +84,7 @@
 	[_stepsView setControlSize:NSSmallControlSize];
 	
 	[_viewROIsList setForeColor:[NSColor whiteColor]];
-	N2CellDescriptor* invasiveColDesc = [[N2CellDescriptor descriptor] alignment:N2Left];
+	N2CellDescriptor* invasiveColDesc = [[[N2CellDescriptor descriptor] alignment:N2Left] filled:YES];
 	if ([invasiveColDesc respondsToSelector:@selector(setInvasivity:)]) [invasiveColDesc setInvasivity:1];
 	NSArray* columnDescriptors = [NSArray arrayWithObjects: [[N2CellDescriptor descriptor] alignment:N2Right], invasiveColDesc, NULL]; // , [N2CellDescriptor descriptor]
 	N2ColumnLayout* layout = [[[N2ColumnLayout alloc] initForView:_viewROIsList columnDescriptors:columnDescriptors controlSize:NSMiniControlSize] autorelease];
@@ -95,6 +107,10 @@
 }
 
 -(void)dealloc {
+	[_diastoleColorWell removeObserver:self forKeyPath:@"color"];
+	[_diastoleColorWell release];
+	[_systoleColorWell removeObserver:self forKeyPath:@"color"];
+	[_systoleColorWell release];
 	[_stepROIsResizer release];
 	DLog(@"%X [EjectionFractionStepsController dealloc]", self);
 	[_viewROIsTextFormat release];
@@ -125,7 +141,7 @@
 
 -(void)setSelectedAlgorithm:(EjectionFractionAlgorithm*)algorithm {
 	for (NSMenuItem* item in [[_viewAlgorithmChoice menu] itemArray])
-		if ([item representedObject]  == algorithm) {
+		if ([item representedObject] == algorithm) {
 			[_viewAlgorithmChoice selectItem:item];
 			break;
 		}
@@ -140,11 +156,8 @@
 		[sect setSelectable:NO];
 		[sect setAlignment:NSRightTextAlignment range:NSMakeRange(0, [[sect string] length])];
 		[sect setFont:[NSFont labelFontOfSize:[NSFont systemFontSizeForControlSize:NSMiniControlSize]]];
-		NSColorWell* colr = [[[NSColorWell alloc] initWithSize:NSMakeSize(32,10)] autorelease];
-		[colr setColor: !i? [EjectionFractionPlugin diasColor] : [EjectionFractionPlugin systColor]];
-		[colr setBordered:NO];
-		[colr setHidden:YES]; /// TODO: show this control and handle it
-		[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObjects: sect, colr, NULL]]; // image
+		// [colr setHidden:YES]; /// TODO: show this control and handle it
+		[(N2ColumnLayout*)[_viewROIsList layout] appendRow:[NSArray arrayWithObjects: sect, !i? _diastoleColorWell : _systoleColorWell, NULL]]; // image
 		NSArray* groups = [algorithm groupedRoiIds];
 		for (NSString* roiId in [groups objectAtIndex:i]) {
 			NSString* title = [[roiId substringFromIndex:[roiId rangeOfString:@" "].location+1] capitalizedString];
@@ -178,6 +191,24 @@
 	[_stepAlgorithm setDone:YES];
 	[_steps setCurrentStep:_stepROIs];
 }
+
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+	if ([object isKindOfClass:[N2ColorWell class]] && [keyPath isEqualToString:@"color"]) {
+		NSColor* color = [object color];
+		if (object == _diastoleColorWell)
+			[_workflow setDiasColor:color];
+		else [_workflow setSystColor:color];
+		for (NSString* roiId in [_workflow rois]) {
+			ROI* roi = [[_workflow rois] objectForKey:roiId];
+			color = [[_workflow algorithm] colorForRoiId:roiId];
+			if (!roi || !color) continue;
+			[roi setNSColor:color globally:NO];
+			[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:roi];
+		}
+	} else
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+}
+
 
 -(void)setResult:(CGFloat)ef {
 	[_viewResultText setStringValue:[NSString stringWithFormat:_viewResultTextFormat, ef*100]];

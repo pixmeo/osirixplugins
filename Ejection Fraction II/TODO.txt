@@ -1,6 +1,2 @@
 
-- permettre le choix des couleurs pr systole et diastole, stocker dans préférences
-- export PDF vectoriel pour les ROI
-	c'est un peu complexe, mais faisable: pour l'instant les ROI sont dessinés dans le NSImage, nous voulons donc les dessiner dans NSImageView
-        Une solution intermediaire serait de les dessiner dans un NSImage, mais avec un resolution plus elevee, de 300 DPI au lieu 72 DPI.
 - meilleurs dessins

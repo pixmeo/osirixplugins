@@ -133,12 +133,4 @@ NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkf
 	return 0;
 }
 
-+(NSColor*)diasColor {
-	return [NSColor redColor];
-}
-
-+(NSColor*)systColor {
-	return [NSColor blueColor];
-}
-
 @end
