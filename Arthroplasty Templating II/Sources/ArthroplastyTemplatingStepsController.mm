@@ -8,6 +8,7 @@
 #import "ArthroplastyTemplatingStepsController.h"
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplatingPlugin.h"
+#import "ArthroplastyTemplatingUserDefaults.h"
 #import <OsiriX Headers/SendController.h>
 #import <OsiriX Headers/BrowserController.h>
 #import <Nitrogen/Nitrogen.h>
@@ -18,6 +19,7 @@
 
 #define kInvalidAngle 666
 #define kInvalidMagnification 0
+const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
 @interface ArthroplastyTemplatingStepsController (Private)
 -(void)adjustStemToCup:(unsigned)index;
@@ -79,6 +81,8 @@
 	[_plannersNameTextField setBackgroundColor:[[self window] backgroundColor]];
 	[_magnificationCustomFactor setFloatValue:1.15];
 //	[self updateInfo];
+	
+	[_plannersNameTextField setStringValue:[[[_plugin templatesWindowController] userDefaults] object:PlannersNameUserDefaultKey otherwise:NSFullUserName()]];
 }
 
 - (void)dealloc {
@@ -308,9 +312,8 @@
 
 	if (roi == _cupLayer && [[[_cupLayer points] objectAtIndex:0] point] != NSZeroPoint)
 		if (!_cupRotated && [[_cupLayer points] count] >= 6) {
-			NSRect drawingFrameRect = [[_viewerController imageView] drawingFrameRect];
 			_cupRotated = YES;
-			if ([[[_cupLayer points] objectAtIndex:4] point].x < drawingFrameRect.origin.x+drawingFrameRect.size.width/2) // TODO: find the real threshold
+			if ([[[_cupLayer points] objectAtIndex:4] point].x < [[[_viewerController imageView] curDCM] pwidth]/2)
 				[_cupLayer rotate:45 :[[[_cupLayer points] objectAtIndex:4] point]];
 			else [_cupLayer rotate:-45 :[[[_cupLayer points] objectAtIndex:4] point]];
 			[_cupLayer rotate:_horizontalAngle/pi*180 :[[[_cupLayer points] objectAtIndex:4] point]];
@@ -501,12 +504,18 @@
 			[_femurRoi setROIMode:ROI_selected];
 			[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_femurRoi userInfo:NULL];
 		}
-	} else if (step == _stepCup)
+	} else if (step == _stepCup) {
 		showTemplates = [[_plugin templatesWindowController] setFilter:@"Cup"];
-	else if (step == _stepStem) {
+		NSPoint pt = NSZeroPoint;
+		for (MyPoint* p in [_femurRoi points])
+			pt += [p point];
+		pt /= [[_femurRoi points] count];
+		[[_plugin templatesWindowController] setFlipTemplatesHorizontally:(pt.x > [[[_viewerController imageView] curDCM] pwidth]/2)];
+	} else if (step == _stepStem) {
 		if (_stemLayer)
 			[_stemLayer setGroupID:0];
 		showTemplates = [[_plugin templatesWindowController] setFilter:@"Stem"];
+		[[_plugin templatesWindowController] setFlipTemplatesHorizontally:([_cupLayer pointAtIndex:4].x > [[[_viewerController imageView] curDCM] pwidth]/2)];
 	} else if (step == _stepPlacement)
 		[self adjustStemToCup];
 	else if (step == _stepSave)
@@ -702,6 +711,8 @@
 		[_viewerController bringToFrontROI:_stemLayer];
 	}
 	else if (step == _stepSave) {
+		[[[_plugin templatesWindowController] userDefaults] setObject:[_plannersNameTextField stringValue] forKey:PlannersNameUserDefaultKey];
+		
 		if (_planningDate) [_planningDate release];
 		_planningDate = [[NSDate date] retain];
 		[self updateInfo];
@@ -728,6 +739,10 @@
 		// send to PACS
 		if ([_sendToPACSButton state]==NSOnState)
 			_imageToSendName = [name retain];
+		else {
+			[_imageToSendName release];
+			_imageToSendName = NULL;
+		}
 	}
 }
 
@@ -882,7 +897,9 @@
 
 // dicom was added to database, send it to PACS
 -(void)sendToPACS:(NSNotification*)notification {
-	if (_sendToPACSButton && _imageToSendName) {
+	if ([_sendToPACSButton state] && _imageToSendName) {
+		[_sendToPACSButton setState:NSOffState];
+		
 //		NSLog(@"send to PACS");
 		NSManagedObject *study = [[[_viewerController fileList:0] objectAtIndex:[[_viewerController imageView] curImage]] valueForKeyPath:@"series.study"];
 		NSArray	*seriesArray = [[study valueForKey:@"series"] allObjects];
@@ -958,16 +975,31 @@
 }
 
 - (void)createInfoBox {
-	if (_infoBox) return;
-	_infoBox = [[ROI alloc] initWithType:tText :[[_viewerController imageView] pixelSpacingX] :[[_viewerController imageView] pixelSpacingY] :[[_viewerController imageView] origin]];
-	[_infoBox setROIRect:NSMakeRect([[[_viewerController imageView] curDCM] pwidth]/2, [[[_viewerController imageView] curDCM] pheight]/2, 0.0, 0.0)];
-	[[_viewerController imageView] roiSet:_infoBox];
-	[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:_infoBox];
-	[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_infoBox userInfo:NULL];
+	if (_femurRoi && [[_femurRoi points] count] > 0 && [_femurRoi pointAtIndex:0] != NSZeroPoint)
+		if (_infoBox)
+			return;
+		else {
+			NSPoint pt = NSZeroPoint;
+			for (MyPoint* p in [_femurRoi points])
+				pt += [p point];
+			pt /= [[_femurRoi points] count];
+			BOOL left = pt.x < [[[_viewerController imageView] curDCM] pwidth]/2;
+			_infoBox = [[ROI alloc] initWithType:tText :[[_viewerController imageView] pixelSpacingX] :[[_viewerController imageView] pixelSpacingY] :[[_viewerController imageView] origin]];
+			[_infoBox setROIRect:NSMakeRect([[[_viewerController imageView] curDCM] pwidth]/4*(left?3:1), [[[_viewerController imageView] curDCM] pheight]/3*2, 0.0, 0.0)];
+			[[_viewerController imageView] roiSet:_infoBox];
+			[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:_infoBox];
+			[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_infoBox userInfo:NULL];
+			[_infoBox release];
+		}
+	else
+		if (_infoBox)
+			[self removeRoiFromViewer:_infoBox];
 }
 
 -(void)updateInfo {
 	[self createInfoBox];
+	if (!_infoBox) return;
+	
 	NSMutableString* str = [[NSMutableString alloc] initWithCapacity:512];
 	
 	[str appendString:@"OsiriX Arthroplasty Templating"];
@@ -980,13 +1012,13 @@
 			[str appendFormat:@"\tFinal: %.2f cm\n", _legInequalityValue];
 		if (_originalLegInequality && _legInequality) {
 			CGFloat change = -(_originalLegInequalityValue - _legInequalityValue);
-			[str appendFormat:@"\tChange: %.2f cm\n", change];
-			[_verticalOffsetTextField setStringValue:[NSString stringWithFormat:@"Vertical offset: %.2f cm", change]];
+			[str appendFormat:@"\tVariation: %.2f cm\n", change];
+			[_verticalOffsetTextField setStringValue:[NSString stringWithFormat:@"Vertical offset variation: %.2f cm", change]];
 		}
 		
 		if (_horizontalAxis && _femurLandmarkOriginal && _femurLandmarkAxis) {
-			[str appendFormat:@"\tLateral offset: %.2f cm\n", _lateralOffsetValue];
-			[_horizontalOffsetTextField setStringValue:[NSString stringWithFormat:@"Lateral offset: %.2f cm", _lateralOffsetValue]];
+			[str appendFormat:@"Lateral offset variation: %.2f cm\n", _lateralOffsetValue];
+			[_horizontalOffsetTextField setStringValue:[NSString stringWithFormat:@"Lateral offset variation: %.2f cm", _lateralOffsetValue]];
 		}
 	}
 	
@@ -1002,7 +1034,6 @@
 		[str appendFormat:@"\nStem: %@\n", [_stemTemplate name]];
 		[str appendFormat:@"\tManufacturer: %@\n", [_stemTemplate manufacturer]];
 		[str appendFormat:@"\tSize: %@\n", [_stemTemplate size]];
-		[str appendFormat:@"\tRotation: %.2f°\n", _stemAngle];
 		[str appendFormat:@"\tReference: %@\n", [_stemTemplate referenceNumber]];
 	}
 

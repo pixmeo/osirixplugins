@@ -33,5 +33,7 @@
 -(NSRect)rect:(NSString*)key otherwise:(NSRect)otherwise;
 -(void)setRect:(NSRect)value forKey:(NSString*)key;
 +(NSRect)NSRectFromData:(NSData*)data otherwise:(NSRect)otherwise;
+-(void)setObject:(id)value forKey:(NSString*)key;
+-(id)object:(NSString*)key otherwise:(id)otherwise;
 
 @end

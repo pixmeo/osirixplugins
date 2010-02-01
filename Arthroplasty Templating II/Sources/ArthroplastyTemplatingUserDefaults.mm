@@ -121,4 +121,17 @@
 	return temp;
 }
 
+-(void)setObject:(id)value forKey:(NSString*)key {
+	[_dictionary setValue:[NSArchiver archivedDataWithRootObject:value] forKey:key];
+	[self save];
+}
+
+-(id)object:(NSString*)key otherwise:(id)otherwise {
+	NSData* value = [_dictionary valueForKey:key];
+	if (value)
+		return [NSUnarchiver unarchiveObjectWithData:value];
+	return otherwise;	
+}
+
+
 @end

@@ -206,7 +206,7 @@
 	if ([_familiesTableView selectedRow] == -1) return NULL;
 	PDFPage* page = [_pdfView currentPage];
 	NSRect pageBox = [_pdfView convertRect:[page boundsForBox:kPDFDisplayBoxMediaBox] fromPage:page];
-	pageBox.size = NSRoundSize(pageBox.size);
+	pageBox.size = n2::round(pageBox.size);
 	return [self templateImage:templat entirePageSizePixels:pageBox.size];
 }
 
@@ -229,6 +229,13 @@
 		_flipTemplatesHorizontally = YES;
 	else _flipTemplatesHorizontally = NO;
 	[_pdfView setNeedsDisplay:YES];
+}
+
+-(void)setFlipTemplatesHorizontally:(BOOL)flag {
+	if (flag != _flipTemplatesHorizontally) {
+		[_flipTemplatesHorizontallyButton setState:flag];
+		[self flipLeftRight:_flipTemplatesHorizontallyButton];
+	}
 }
 
 #pragma mark Drag n Drop

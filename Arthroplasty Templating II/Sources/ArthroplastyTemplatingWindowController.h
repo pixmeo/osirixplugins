@@ -34,7 +34,7 @@
 	NSDictionary* _presets;
 }
 
-@property(readonly) BOOL flipTemplatesHorizontally;
+@property BOOL flipTemplatesHorizontally;
 @property(readonly) ArthroplastyTemplatingUserDefaults* userDefaults;
 @property(readonly) ArthroplastyTemplatingPlugin* plugin;
 
