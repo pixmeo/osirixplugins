@@ -11,6 +11,8 @@
 		592C9FD00FDFBA3D00EB256B /* com.osirix.arthroplastytemplating.plist in Resources */ = {isa = PBXBuildFile; fileRef = 592C9FCF0FDFBA3D00EB256B /* com.osirix.arthroplastytemplating.plist */; };
 		595252810FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5952527F0FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.mm */; };
 		595252820FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */; };
+		595B975811172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h in Headers */ = {isa = PBXBuildFile; fileRef = 595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */; };
+		595B975911172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */; };
 		595F99E410A18B9C0024974D /* Zimmer Templates in Resources */ = {isa = PBXBuildFile; fileRef = 595F93FE10A18B9A0024974D /* Zimmer Templates */; };
 		598E1E2B0FFB3E0200BC313C /* ArthroplastyTemplate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E2A0FFB3E0200BC313C /* ArthroplastyTemplate.mm */; };
 		598E1E2D0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E2C0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm */; };
@@ -72,6 +74,8 @@
 		592C9FCF0FDFBA3D00EB256B /* com.osirix.arthroplastytemplating.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = com.osirix.arthroplastytemplating.plist; sourceTree = "<group>"; };
 		5952527F0FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingUserDefaults.mm; sourceTree = "<group>"; };
 		595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingUserDefaults.h; sourceTree = "<group>"; };
+		595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBitmapImageRep+ArthroplastyTemplating.h"; sourceTree = "<group>"; };
+		595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSBitmapImageRep+ArthroplastyTemplating.mm"; sourceTree = "<group>"; };
 		595F93FE10A18B9A0024974D /* Zimmer Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Zimmer Templates"; path = "../../../../Documents/Zimmer Templates"; sourceTree = SOURCE_ROOT; };
 		598E1E2A0FFB3E0200BC313C /* ArthroplastyTemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplate.mm; sourceTree = "<group>"; };
 		598E1E2C0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingPlugin.mm; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 				5995728F0FDD3E2B007C151F /* SelectablePDFView.mm */,
 				595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */,
 				5952527F0FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.mm */,
+				595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */,
+				595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -269,6 +275,7 @@
 				59F6A15F105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.h in Headers */,
 				59F6A17110564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.h in Headers */,
 				59F6A17610564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h in Headers */,
+				595B975811172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,6 +385,7 @@
 				59F6A160105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.mm in Sources */,
 				59F6A17210564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm in Sources */,
 				59F6A17710564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm in Sources */,
+				595B975911172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

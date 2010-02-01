@@ -20,6 +20,7 @@
 #import "ArthroplastyTemplatingWindowController+Color.h"
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplatingWindowController+OsiriX.h"
+#import "NSBitmapImageRep+ArthroplastyTemplating.h"
 
 @implementation ArthroplastyTemplatingWindowController
 @synthesize flipTemplatesHorizontally = _flipTemplatesHorizontally, userDefaults = _userDefaults, plugin = _plugin;
@@ -171,7 +172,7 @@
 	}
 	
 	// remove whitespace
-	N2Image* temp = [image crop:[image boundingBoxSkippingColor:[NSColor colorWithCalibratedRed:0 green:0 blue:0 alpha:0]]];
+	N2Image* temp = [image crop:[image boundingBoxSkippingColor:[NSColor whiteColor]]];
 	[image release];
 	image = temp;
 	
@@ -180,7 +181,7 @@
 
 	NSBitmapImageRep* bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
 	size = [image size]; int s = size.width*size.height;
-	[bitmap ATMask:.01];
+	[bitmap detectAndApplyBorderTransparency:8];
 	if (color)
 //#pragma omp parallel for default(shared)
 		for (int i = 0; i < s; ++i) {
@@ -238,7 +239,7 @@
 	}
 }
 
-#pragma mark Drag n Drop
+#pragma mark Drag&Drop
 
 -(void)addTemplate:(ArthroplastyTemplate*)templat toPasteboard:(NSPasteboard*)pboard {
 	[pboard declareTypes:[NSArray arrayWithObjects:pasteBoardOsiriXPlugin, @"ArthroplastyTemplate*", NULL] owner:self];
