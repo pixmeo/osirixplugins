@@ -23,14 +23,13 @@
 #import "NSBitmapImageRep+ArthroplastyTemplating.h"
 
 @implementation ArthroplastyTemplatingWindowController
-@synthesize flipTemplatesHorizontally = _flipTemplatesHorizontally, userDefaults = _userDefaults, plugin = _plugin;
+@synthesize userDefaults = _userDefaults, plugin = _plugin;
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin {
 	self = [self initWithWindowNibName:@"ArthroplastyTemplatingWindow"];
 	_plugin = plugin;
 	
 	_viewDirection = ArthroplastyTemplateAnteriorPosteriorDirection;
-	_flipTemplatesHorizontally = NO;
 	
 	_userDefaults = [[ArthroplastyTemplatingUserDefaults alloc] init];
 	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
@@ -84,11 +83,12 @@
 			[_sizes removeAllItems];
 			ArthroplastyTemplateFamily* family = [self selectedFamily];
 			float diffs[[[family templates] count]];
-			for (unsigned i = 0; i < [[family templates] count]; ++i) {
-				NSString* size = [(ArthroplastyTemplate*)[[family templates] objectAtIndex: i] size];
+			for (NSUInteger fti = 0; fti < [[family templates] count]; ++fti) {
+				ArthroplastyTemplate* ft = [[family templates] objectAtIndex:fti];
+				NSString* size = [ft size];
 				[_sizes addItemWithTitle:size];
 				float currentSize = [size floatValue];
-				diffs[i] = fabsf(selectedSize-currentSize);
+				diffs[fti] = fabsf(selectedSize-currentSize);
 			}
 			
 			unsigned index = 0;
@@ -171,32 +171,23 @@
 		image = [temp retain];
 	}
 	
-	// remove whitespace
-	N2Image* temp = [image crop:[image boundingBoxSkippingColor:[NSColor whiteColor]]];
-	[image release];
-	image = temp;
-	
-	if (_flipTemplatesHorizontally)
+	if ([self mustFlipHorizontally])
 		[image flipImageHorizontally];
 
+	N2Image* temp = [[N2Image alloc] initWithSize:[image size] inches:[image inchSize] portion:[image portion]];
 	NSBitmapImageRep* bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
-	size = [image size]; int s = size.width*size.height;
+
 	[bitmap detectAndApplyBorderTransparency:8];
 	if (color)
-//#pragma omp parallel for default(shared)
-		for (int i = 0; i < s; ++i) {
-			unsigned x = i%(int)size.width, y = i/(int)size.width;
-			NSColor* c = [bitmap colorAtX:x y:y];
-			[bitmap setColor:[color colorWithAlphaComponent:[c alphaComponent]] atX:x y:y];
-		}
+		[bitmap setColor:color];
 
-	temp = [[[N2Image alloc] initWithSize:size inches:[image inchSize] portion:[image portion]] autorelease];
 	[temp addRepresentation:bitmap];
 	[bitmap release];
 	
+	[image release];
 	image = temp;
 
-	return image;
+	return [image autorelease];
 }
 
 -(N2Image*)templateImage:(ArthroplastyTemplate*)templat entirePageSizePixels:(NSSize)size {
@@ -225,18 +216,24 @@
 
 #pragma mark Flip Left/Right
 
--(IBAction)flipLeftRight:(id)sender {
-	if ([sender state]==NSOnState)
-		_flipTemplatesHorizontally = YES;
-	else _flipTemplatesHorizontally = NO;
+-(IBAction)setSideAction:(id)sender; {
 	[_pdfView setNeedsDisplay:YES];
 }
 
--(void)setFlipTemplatesHorizontally:(BOOL)flag {
-	if (flag != _flipTemplatesHorizontally) {
-		[_flipTemplatesHorizontallyButton setState:flag];
-		[self flipLeftRight:_flipTemplatesHorizontallyButton];
+-(ATSide)side {
+	return ATSide([_sideControl selectedSegment]);
+}
+
+-(void)setSide:(ATSide)side {
+	if (side != [self side]) {
+		[_sideControl setSelectedSegment:side];
+		[self setSideAction:_sideControl];
 	}
+}
+
+-(BOOL)mustFlipHorizontally {
+	NSLog(@"mfh if %d != %d", [self side], [[self currentTemplate] side]);
+	return [self side] != [[self currentTemplate] side];
 }
 
 #pragma mark Drag&Drop
@@ -263,7 +260,7 @@
 	NSPoint o = NSMakePoint(size)/2;
 	if ([templat origin:&o forDirection:_viewDirection]) { // origin in inches
 		o = [image convertPointFromPageInches:o];
-		if (_flipTemplatesHorizontally)
+		if ([self mustFlipHorizontally])
 			o.x = size.width-o.x;
 	}
 
@@ -273,9 +270,9 @@
 -(ROI*)createROIFromTemplate:(ArthroplastyTemplate*)templat inViewer:(ViewerController*)destination centeredAt:(NSPoint)p {
 	N2Image* image = [self templateImage:templat entirePageSizePixels:NSMakeSize(0,1800)]; // TODO: N -> adapted size
 	
-	CGFloat magnification = [[_plugin windowControllerForViewer:destination] magnification];
-	if (!magnification) magnification = 1;
-	float pixSpacing = (1.0 / [image resolution] * 25.4) * magnification; // image is in 72 dpi, we work in milimeters
+//	CGFloat magnification = [[_plugin windowControllerForViewer:destination] magnification];
+//	if (!magnification) magnification = 1;
+	float pixSpacing = (1.0 / [image resolution] * 25.4); // image is in 72 dpi, we work in milimeters
 	
 	ROI* newLayer = [destination addLayerRoiToCurrentSliceWithImage:image referenceFilePath:[templat path] layerPixelSpacingX:pixSpacing layerPixelSpacingY:pixSpacing];
 	
@@ -290,7 +287,7 @@
 	NSPoint o;
 	if ([templat origin:&o forDirection:_viewDirection]) { // origin in inches
 		o = [image convertPointFromPageInches:o];
-		if (_flipTemplatesHorizontally)
+		if ([self mustFlipHorizontally])
 			o.x = imageSize.width-o.x;
 		imageCenter = o;
 		imageCenter.y = imageSize.height-imageCenter.y;
@@ -303,7 +300,7 @@
 	[[newLayer points] addObject:[MyPoint point:layerCenter]]; // center
 
 	[newLayer setROIMode:ROI_selected]; // in order to make the roiMove method possible
-	[newLayer rotate:[templat rotation]/pi*180 :layerCenter];
+	[newLayer rotate:[templat rotation]/pi*180*([self mustFlipHorizontally]?-1:1) :layerCenter];
 
 	[[newLayer points] addObject:[MyPoint point:layerCenter+NSMakePoint(1,0)]]; // rotation reference
 	
@@ -312,7 +309,7 @@
 	for (NSValue* value in points) {
 		NSPoint point = [value pointValue];
 		point = [image convertPointFromPageInches:point];
-		if (_flipTemplatesHorizontally)
+		if ([self mustFlipHorizontally])
 			point.x = imageSize.width-point.x;
 		point.y = imageSize.height-point.y;
 		point = point/imageSize*layerSize;
@@ -390,7 +387,7 @@
 
 -(void)pdfViewDocumentDidChange:(NSNotification*)notification {
 	BOOL enable = [_pdfView document] != NULL;
-	[_flipTemplatesHorizontallyButton setEnabled:enable];
+	[_sideControl setEnabled:enable];
 	[_sizes setEnabled:enable];
 }
 

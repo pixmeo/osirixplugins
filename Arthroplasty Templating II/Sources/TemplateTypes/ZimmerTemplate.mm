@@ -174,7 +174,18 @@
 }
 
 -(CGFloat)rotation {
-	return 0;
+	NSString* rotationString = [_properties objectForKey:@"AP_HEAD_ROTATION_RADS"];
+	return rotationString? [rotationString floatValue] : 0;
+}
+
+-(ATSide)side {
+	NSString* orientation = [_properties objectForKey:@"ORIENTATION"];
+	if (!orientation || ([orientation compare:@"RIGHT" options:NSCaseInsensitiveSearch+NSLiteralSearch] == NSOrderedSame))
+		return ATRightSide;
+	if ([orientation compare:@"LEFT" options:NSCaseInsensitiveSearch+NSLiteralSearch] == NSOrderedSame)
+		return ATLeftSide;
+	[NSException raise:NSGenericException format:@"Invalid ORIENTATION value in template data file"];
+	return ATRightSide;
 }
 
 @end

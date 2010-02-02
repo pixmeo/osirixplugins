@@ -29,7 +29,7 @@
 	// calibration
 	IBOutlet NSButton *_magnificationRadioCustom, *_magnificationRadioCalibrate;
 	IBOutlet NSTextField *_magnificationCustomFactor, *_magnificationCalibrateLength;
-	CGFloat _magnification;
+	CGFloat _appliedMagnification;
 	// axes
 	float _horizontalAngle, _femurAngle;
 	// cup
@@ -61,7 +61,7 @@
 
 
 @property(readonly) ViewerController* viewerController;
-@property(readonly) CGFloat magnification;
+//@property(readonly) CGFloat magnification;
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin viewerController:(ViewerController*)viewerController;
 

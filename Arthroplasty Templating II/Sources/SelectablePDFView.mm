@@ -23,7 +23,7 @@ NSString* SelectablePDFViewDocumentDidChangeNotification = @"SelectablePDFViewDo
 
 -(NSPoint)convertPointTo01:(NSPoint)point forPage:(PDFPage*)page {
 	NSRect box = [page boundsForBox:kPDFDisplayBoxMediaBox];
-	return NSMakePoint([_controller flipTemplatesHorizontally]? 1-point.x/box.size.width : point.x/box.size.width, point.y/box.size.height);
+	return NSMakePoint([_controller mustFlipHorizontally]? 1-point.x/box.size.width : point.x/box.size.width, point.y/box.size.height);
 }
 
 -(NSPoint)convertPointFrom01:(NSPoint)point forPage:(PDFPage*)page {
@@ -108,7 +108,7 @@ NSString* SelectablePDFViewDocumentDidChangeNotification = @"SelectablePDFViewDo
 	[context saveGraphicsState];
 	NSRect box = [page boundsForBox:kPDFDisplayBoxMediaBox];
 
-	if ([_controller flipTemplatesHorizontally]) {
+	if ([_controller mustFlipHorizontally]) {
 		NSAffineTransform* transform = [NSAffineTransform transform];
 		[transform translateXBy:box.size.width yBy:0];
 		[transform scaleXBy:-1 yBy:1];

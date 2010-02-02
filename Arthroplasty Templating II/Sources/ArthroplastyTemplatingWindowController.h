@@ -13,6 +13,7 @@
 @class ArthroplastyTemplateFamily, ArthroplastyTemplatingPlugin;
 #import "ArthroplastyTemplatingUserDefaults.h"
 
+
 @interface ArthroplastyTemplatingWindowController : NSWindowController {
 	NSMutableArray* _templates;
 	ArthroplastyTemplatingPlugin* _plugin;
@@ -27,14 +28,13 @@
 	IBOutlet NSSegmentedControl* _viewDirectionControl;
 	IBOutlet NSSearchField* _searchField;
 	ArthroplastyTemplateViewDirection _viewDirection;
-	BOOL _flipTemplatesHorizontally;
-	IBOutlet NSButton* _flipTemplatesHorizontallyButton;
+	IBOutlet NSSegmentedControl* _sideControl;
 	
 	ArthroplastyTemplatingUserDefaults* _userDefaults;
 	NSDictionary* _presets;
 }
 
-@property BOOL flipTemplatesHorizontally;
+@property(readonly) BOOL mustFlipHorizontally;
 @property(readonly) ArthroplastyTemplatingUserDefaults* userDefaults;
 @property(readonly) ArthroplastyTemplatingPlugin* plugin;
 
@@ -45,7 +45,9 @@
 
 -(void)setFamily:(id)sender;
 -(IBAction)setViewDirection:(id)sender;
--(IBAction)flipLeftRight:(id)sender;
+
+-(IBAction)setSideAction:(id)sender;
+-(void)setSide:(ATSide)side;
 
 -(ROI*)createROIFromTemplate:(ArthroplastyTemplate*)templat inViewer:(ViewerController*)destination centeredAt:(NSPoint)p;
 -(void)dragTemplate:(ArthroplastyTemplate*)templat startedByEvent:(NSEvent*)event onView:(NSView*)view;

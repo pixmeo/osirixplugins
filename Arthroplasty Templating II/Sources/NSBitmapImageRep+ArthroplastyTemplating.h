@@ -12,5 +12,6 @@
 @interface NSBitmapImageRep (ArthroplastyTemplating)
 
 -(void)detectAndApplyBorderTransparency:(uint8)alphaThreshold;
+-(void)setColor:(NSColor*)color;
 
 @end

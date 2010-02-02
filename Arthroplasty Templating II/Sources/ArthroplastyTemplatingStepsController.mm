@@ -11,6 +11,9 @@
 #import "ArthroplastyTemplatingUserDefaults.h"
 #import <OsiriX Headers/SendController.h>
 #import <OsiriX Headers/BrowserController.h>
+#import <OsiriX Headers/ViewerController.h>
+#import <OsiriX Headers/DCMPix.h>
+#import <OsiriX Headers/DCMView.h>
 #import <Nitrogen/Nitrogen.h>
 #import <OsiriX Headers/Notifications.h>
 #import "ArthroplastyTemplateFamily.h"
@@ -25,7 +28,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 -(void)adjustStemToCup:(unsigned)index;
 @end
 @implementation ArthroplastyTemplatingStepsController
-@synthesize viewerController = _viewerController, magnification = _magnification;
+@synthesize viewerController = _viewerController;
 
 
 #pragma mark Initialization
@@ -34,6 +37,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	self = [self initWithWindowNibName:@"ArthroplastyTemplatingSteps"];
 	_plugin = [plugin retain];
 	_viewerController = [viewerController retain];
+	_appliedMagnification = 1;
 	
 	_knownRois = [[NSMutableSet alloc] initWithCapacity:16];
 	
@@ -76,7 +80,6 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	[_magnificationRadioCustom setAttributedTitle:[[[NSAttributedString alloc] initWithString:[_magnificationRadioCustom title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [_magnificationRadioCustom font], NSFontAttributeName, NULL]] autorelease]];
 	[_magnificationRadioCalibrate setAttributedTitle:[[[NSAttributedString alloc] initWithString:[_magnificationRadioCalibrate title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [_magnificationRadioCalibrate font], NSFontAttributeName, NULL]] autorelease]];
 	[_magnificationCustomFactor setBackgroundColor:[[self window] backgroundColor]];
-	[_magnificationCustomFactor setFloatValue:_magnification];
 	[_magnificationCalibrateLength setBackgroundColor:[[self window] backgroundColor]];
 	[_plannersNameTextField setBackgroundColor:[[self window] backgroundColor]];
 	[_magnificationCustomFactor setFloatValue:1.15];
@@ -218,9 +221,9 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	if ([[*axis points] count]) [[*axis points] removeAllObjects];
 	[*axis setPoints:[NSArray arrayWithObjects:[MyPoint point:pointFrom], [MyPoint point:pointTo], NULL]];
-	*value = [*axis MesureLength:NULL]/_magnification*NSSign((pointTo-pointFrom).y);
+	*value = [*axis MesureLength:NULL]*NSSign((pointTo-pointFrom).y);
 	
-	[*axis setName:[NSString stringWithFormat:@"%@: %.3f cm", name, *value]];
+	[*axis setName:name];
 //	[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_legInequality userInfo:NULL];
 }
 
@@ -250,7 +253,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	BOOL wasKnown = [_knownRois containsObject:roi];
 	if (!wasKnown) [_knownRois addObject:roi];
 	
-	// if is _infoBoxRoi then return (we already know about it) // TODO: verify
+	// if is _infoBoxRoi then return (we already know about it)
 	if (roi == _infoBox) return;	
 	
 	// step dependant
@@ -510,12 +513,12 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		for (MyPoint* p in [_femurRoi points])
 			pt += [p point];
 		pt /= [[_femurRoi points] count];
-		[[_plugin templatesWindowController] setFlipTemplatesHorizontally:(pt.x > [[[_viewerController imageView] curDCM] pwidth]/2)];
+		[[_plugin templatesWindowController] setSide: (pt.x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSide : ATRightSide ];
 	} else if (step == _stepStem) {
 		if (_stemLayer)
 			[_stemLayer setGroupID:0];
 		showTemplates = [[_plugin templatesWindowController] setFilter:@"Stem"];
-		[[_plugin templatesWindowController] setFlipTemplatesHorizontally:([_cupLayer pointAtIndex:4].x > [[[_viewerController imageView] curDCM] pwidth]/2)];
+		[[_plugin templatesWindowController] setSide: ([_cupLayer pointAtIndex:4].x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSide : ATRightSide ];
 	} else if (step == _stepPlacement)
 		[self adjustStemToCup];
 	else if (step == _stepSave)
@@ -631,6 +634,26 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
 -(void)steps:(N2Steps*)steps validateStep:(N2Step*)step {
 	if (step == _stepCalibration) {
+		if ([_magnificationRadioCalibrate state]) {
+			if (!_magnificationLine || [[_magnificationLine points] count] != 2) return;
+			NSLog(@"_magnificationCalibrateLength %f", [_magnificationCalibrateLength floatValue]);
+			[_magnificationCustomFactor setFloatValue:[_magnificationLine MesureLength:NULL]/[_magnificationCalibrateLength floatValue]];
+		}
+		CGFloat magnificationValue = [_magnificationCustomFactor floatValue];
+		CGFloat factor = 1.*_appliedMagnification/magnificationValue;
+		
+//		[view setPixelSpacingX:[view pixelSpacingX]*factor]
+		for (DCMPix* p in [_viewerController pixList]) {
+			[p setPixelSpacingX:[p pixelSpacingX]*factor];
+			[p setPixelSpacingY:[p pixelSpacingY]*factor];
+		}
+		for (ROI* r in [_viewerController roiList]) {
+		//	[r setPixelSpacingX:[r pixelSpacingX]*factor];
+		//	[r setPixelSpacingY:[r pixelSpacingY]*factor];
+			[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:r];
+		}
+		
+		_appliedMagnification = magnificationValue;
 	}
 	else if(step == _stepAxes) {
 	}
@@ -641,7 +664,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			[self removeRoiFromViewer:_femurLayer];
 			
 		_femurLayer = [_viewerController createLayerROIFromROI:_femurRoi];
-		[_femurLayer roiMove:NSMakePoint(-10,10)]; // when the layer is created it is shifted, but we don't want this so we move it back // TODO: pas possible de faire [x setOrigin:[x origin]] ?
+		[_femurLayer roiMove:NSMakePoint(-10,10)]; // when the layer is created it is shifted, but we don't want this so we move it back
 		[_femurLayer setOpacity:1];
 		[_femurLayer setDisplayTextualData:NO];
 		
@@ -936,15 +959,6 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 #pragma mark Result
 
 -(void)computeValues {
-	// magnification
-	_magnification = kInvalidMagnification;
-	if ([_magnificationRadioCalibrate state]) {
-		if (!_magnificationLine || [[_magnificationLine points] count] != 2) return;
-		NSLog(@"_magnificationCalibrateLength %f", [_magnificationCalibrateLength floatValue]);
-		[_magnificationCustomFactor setFloatValue:[_magnificationLine MesureLength:NULL]/[_magnificationCalibrateLength floatValue]];
-	}
-	_magnification = [_magnificationCustomFactor floatValue];
-
 	// horizontal angle
 	_horizontalAngle = kInvalidAngle;
 	if (_horizontalAxis && [[_horizontalAxis points] count] == 2)

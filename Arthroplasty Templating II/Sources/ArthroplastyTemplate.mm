@@ -83,4 +83,8 @@
 	return 0;
 }
 
+-(ATSide)side {
+	return ATRightSide;
+}
+
 @end

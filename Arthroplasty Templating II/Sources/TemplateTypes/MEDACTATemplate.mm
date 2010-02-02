@@ -11,16 +11,11 @@
 @implementation MEDACTATemplate
 
 +(NSArray*)bundledTemplates {
-	return [self templatesAtPath:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"MEDACTA Templates"] usingClass:[MEDACTATemplate class]];
+	return [self templatesAtPath:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"MEDACTA Templates"] usingClass:[self class]];
 }
 
 +(NSArray*)templatesAtPath:(NSString*)path {
-	return [ZimmerTemplate templatesAtPath:path usingClass:[MEDACTATemplate class]];
-}
-
--(CGFloat)rotation {
-	NSString* rotationString = [_properties objectForKey:@"AP_HEAD_ROTATION_RADS"];
-	return rotationString? [rotationString floatValue] : 0;
+	return [ZimmerTemplate templatesAtPath:path usingClass:[self class]];
 }
 
 @end

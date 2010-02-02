@@ -21,7 +21,9 @@
 	NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:path];
 	while (NSString* sub = [e nextObject])
 		if ([sub hasSuffix:@"Templates"])
-			[_templates addObjectsFromArray:[MEDACTATemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
+			if ([sub rangeOfString:@"Zimmer"].location != NSNotFound)
+				[_templates addObjectsFromArray:[ZimmerTemplate templatesAtPath:[path stringByAppendingPathComponent:sub] usingClass:[ZimmerTemplate class]]];
+			else [_templates addObjectsFromArray:[MEDACTATemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
 	
 	// fill _families from _templates
 	for (unsigned i = 0; i < [_templates count]; ++i) {
@@ -45,7 +47,6 @@
 	
 	//	[_familiesArrayController rearrangeObjects];
 	[_familiesTableView reloadData];
-	[self setFamily:_familiesTableView];
 }
 
 -(ArthroplastyTemplate*)templateAtPath:(NSString*)path {

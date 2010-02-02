@@ -77,6 +77,7 @@
 		595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBitmapImageRep+ArthroplastyTemplating.h"; sourceTree = "<group>"; };
 		595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSBitmapImageRep+ArthroplastyTemplating.mm"; sourceTree = "<group>"; };
 		595F93FE10A18B9A0024974D /* Zimmer Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Zimmer Templates"; path = "../../../../Documents/Zimmer Templates"; sourceTree = SOURCE_ROOT; };
+		5969FE0011187FDE006C9938 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		598E1E2A0FFB3E0200BC313C /* ArthroplastyTemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplate.mm; sourceTree = "<group>"; };
 		598E1E2C0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingPlugin.mm; sourceTree = "<group>"; };
 		598E1E2E0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingTableView.mm; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 		089C166AFE841209C02AAC07 /* XRayTemplatesPlugin */ = {
 			isa = PBXGroup;
 			children = (
+				5969FE0011187FDE006C9938 /* TODO.txt */,
 				59D94E6C0FCE807D00509EEC /* Arthroplasty_Templating_Prefix.pch */,
 				59D94E580FCE807D00509EEC /* Sources */,
 				59D94E910FCE81BD00509EEC /* Resources */,
@@ -362,7 +364,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
-			shellScript = "#/usr/bin/perl\n\nuse strict;\nuse subs qw(process);\n\nmy $path = \"$ENV{TARGET_BUILD_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}\";\n\nsub process {\n\tmy ($path) = @_;\n\treturn if $path =~ /\\/(?:\\.|\\.\\.)$/;\n\tunlink $path if -f $path && $path !~ /\\.(?:pdf|txt)$/i;\n\tif (-d $path) {\n\t\topendir(DIR, $path);\n\t\tprocess \"$path/$_\" foreach readdir(DIR);\n\t\tclosedir(DIR);\n\t}\n}\n\nopendir(RESOURCES, $path);\nforeach (readdir(RESOURCES)) {\n\tmy $resource = \"$path/$_\";\n\tnext unless -d $resource && $resource =~ /templates/i;\n\tprocess $resource;\n}\n\nclosedir(RESOURCES);\n\nexit 0;\n";
+			shellScript = "#/usr/bin/perl\n\nuse strict;\nuse subs qw(process);\n\nmy $path = \"$ENV{TARGET_BUILD_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}\";\n\nsub process {\n\tmy ($path) = @_;\n\treturn if $path =~ /\\/(?:\\.|\\.\\.)$/;\n\tunlink $path if -f $path && $path !~ /\\.(?:pdf|txt)$/i;\n\tunlink $path if -f $path && $path =~ /readme/i;\n\n\tif (-d $path) {\n\t\topendir(DIR, $path);\n\t\tprocess \"$path/$_\" foreach readdir(DIR);\n\t\tclosedir(DIR);\n\t}\n}\n\nopendir(RESOURCES, $path);\nforeach (readdir(RESOURCES)) {\n\tmy $resource = \"$path/$_\";\n\tnext unless -d $resource && $resource =~ /templates/i;\n\tprocess $resource;\n}\n\nclosedir(RESOURCES);\n\nexit 0;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
