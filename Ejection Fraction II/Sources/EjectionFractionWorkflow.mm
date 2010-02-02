@@ -33,9 +33,18 @@ NSString* Syst = @"Systole";
 	return self;
 }
 
+-(id)retain {
+	return [super retain];
+}
+
+-(void)release {
+	[super release];
+}
+
 -(void)dealloc {
 	DLog(@"%X [EjectionFractionWorkflow dealloc]", self);
 	[self deallocOsiriX];
+	[self setAlgorithm:NULL];
 //	[self setViewer:NULL];
 	if (_steps) [_steps close];
 	[self setSteps:NULL];
@@ -50,6 +59,8 @@ NSString* Syst = @"Systole";
 	
 	[_algorithm setWorkflow:self];
 	[_steps setSelectedAlgorithm:_algorithm];
+	
+	[_steps setResult:[_algorithm compute:_rois]];
 }
 
 -(NSDictionary*)rois {

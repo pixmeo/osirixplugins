@@ -71,6 +71,8 @@ const NSString* FileTypeDICOM = @"dcm";
 	self = [super initWithWindowNibName:@"EjectionFractionResults"];
 	[self setWorkflow:workflow];
 	
+	[[self window] setDelegate:self];
+	
 	//self = [super initWithWindow:[[N2Window alloc] initWithContentRect:NSZeroRect styleMask:NSTitledWindowMask|NSResizableWindowMask|NSClosableWindowMask|NSTexturedBackgroundWindowMask backing:NSBackingStoreBuffered defer:YES]];
 	//[[self window] setTitle:@"Ejection Fraction: Results"];
 	
@@ -123,7 +125,7 @@ const NSString* FileTypeDICOM = @"dcm";
 	[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(0)] autorelease]] colSpan:2]]];
 	NSImage* image = [[workflow algorithm] image];
 	if (image) {
-		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[NSImageView createWithImage:image]] colSpan:2]]];
+		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[N2ImageView createWithImage:image]] colSpan:2]]];
 		[infoLayout appendRow:[NSArray arrayWithObject:[[N2CellDescriptor descriptorWithView:[[[NSView alloc] initWithSize:NSMakeSize(0)] autorelease]] colSpan:2]]];
 	}
 	
@@ -141,7 +143,8 @@ const NSString* FileTypeDICOM = @"dcm";
 							  [NSTextView labelWithText:@"Ejection fraction:" alignment:NSRightTextAlignment],
 							  [NSTextView labelWithText:[NSString stringWithFormat:@"%.1f %%", ejectionFraction*100]], NULL]];
 	
-	[infoLayout performSelector:@selector(layOutImpl)];
+	[infoLayout setEnabled:YES];
+//	[infoLayout layOut];
 	
 	// done
 	
@@ -211,7 +214,14 @@ const NSString* FileTypeDICOM = @"dcm";
 	return self;
 }
 
+-(void)windowWillClose:(NSNotification*)notification {
+//	NSLog(@"results windowWillClose, rc = %d, win rc = %d", [self retainCount], [[self window] retainCount]);
+	NSLog(@"results controller window will close, my rc is %d", [self retainCount]);
+	[self release]; // TODO: this is UNSAFE, [NSWindow dealloc] should release the controller? the problem is, NSWindow's retain count is huge, so it won't be released
+}
+
 -(void)dealloc {
+	NSLog(@"results controller dealloc");
 	[self setWorkflow:NULL];
 	[super dealloc];
 }

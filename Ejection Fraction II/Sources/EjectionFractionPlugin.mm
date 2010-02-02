@@ -15,6 +15,7 @@
 #import "HemiEllipseEjectionFractionAlgorithm.h"
 #import "SimpsonEjectionFractionAlgorithm.h"
 #import "TeichholzEjectionFractionAlgorithm.h"
+#import <Nitrogen/N2Debug.h>
 
 NSString* EjectionFractionAlgorithmAddedNotification = @"EjectionFractionWorkflowAlgorithmAddedNotification";
 NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkflowAlgorithmRemovedNotification";
@@ -97,14 +98,19 @@ NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkf
 
 -(void)stepsWindowWillClose:(NSNotification*)notification {
 	NSWindow* win = [notification object];
+	DLog(@"EjectionFractionPlugin notified of Steps window close");
 	
 	EjectionFractionWorkflow* workflow = NULL;
 	for (EjectionFractionWorkflow* wf in _wfs)
 		if ([[wf steps] window] == win)
 			workflow = wf;
+	int rc = [workflow retainCount];
+	DLog(@"Workflow is %@, rc = %d", workflow, rc);
 	
 	[workflow setSteps:NULL];
 	[self removeWorkflow:workflow];
+
+	if (rc > 1) DLog(@"Workflow rc = %d", [workflow retainCount]);
 }
 
 //-(void)viewerWillClose:(NSNotification*)notification {
