@@ -190,7 +190,7 @@ const NSString* FileTypeDICOM = @"dcm";
 	if (frame.size.width > screen.size.width || frame.size.height >= screen.size.height) {
 		if (frame.size.width > screen.size.width)
 			frame.size.width = screen.size.width;
-		NSUInteger step = std::max(frame.size.width/10, CGFloat(1));
+		NSUInteger step = std::max(NSUInteger(frame.size.width/10), NSUInteger(1));
 		frame.size.width += step;
 		do { // decrease window width until its height fits in the screen
 			frame.size.width -= step;
@@ -198,7 +198,7 @@ const NSString* FileTypeDICOM = @"dcm";
 			frame.size = [window frameSizeForContentSize:optimalSize];
 			if (frame.size.height <= screen.size.height && step > 1) {
 				frame.size.width += step;
-				step = std::max(std::floor(step/10), 1.);
+				step = std::max(step/10, NSUInteger(1));
 				frame.size.height = screen.size.height+1;
 			}
 		} while (frame.size.height > screen.size.height && frame.size.width > 20);

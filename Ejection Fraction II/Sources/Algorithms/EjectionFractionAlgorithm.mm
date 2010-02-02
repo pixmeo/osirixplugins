@@ -19,7 +19,7 @@ NSString* SystLength = @"Systole length";
 @synthesize workflow = _workflow;
 
 -(NSImage*)image {
-	return [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[self description] ofType:@"png"]] autorelease];
+	return [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"%@-Preview", [self description]] ofType:@"pdf"]] autorelease];
 }
 
 -(NSArray*)groupedRoiIds {

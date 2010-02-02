@@ -1,0 +1,5 @@
+- cd to this dir
+- executing tex2pdf.sh will create a bunch of files, including *-crop.pdf
+    - you need a working LaTeX distribution to be installed on your machine
+- *.ai files use *-crop.pdf files for the formulas
+    - export these to PDF (Save as copy, PDF, uncheck all in first tab)
