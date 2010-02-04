@@ -12,7 +12,6 @@
 	NSMutableDictionary* _properties;
 }
 
-+(NSArray*)bundledTemplates;
 +(NSArray*)templatesAtPath:(NSString*)path usingClass:(Class)classs;
 -(id)initFromFileAtPath:(NSString*)path;
 

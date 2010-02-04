@@ -13,7 +13,6 @@
 		595252820FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */; };
 		595B975811172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h in Headers */ = {isa = PBXBuildFile; fileRef = 595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */; };
 		595B975911172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */; };
-		595F99E410A18B9C0024974D /* Zimmer Templates in Resources */ = {isa = PBXBuildFile; fileRef = 595F93FE10A18B9A0024974D /* Zimmer Templates */; };
 		598E1E2B0FFB3E0200BC313C /* ArthroplastyTemplate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E2A0FFB3E0200BC313C /* ArthroplastyTemplate.mm */; };
 		598E1E2D0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E2C0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm */; };
 		598E1E2F0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E2E0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm */; };
@@ -76,7 +75,6 @@
 		595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingUserDefaults.h; sourceTree = "<group>"; };
 		595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBitmapImageRep+ArthroplastyTemplating.h"; sourceTree = "<group>"; };
 		595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSBitmapImageRep+ArthroplastyTemplating.mm"; sourceTree = "<group>"; };
-		595F93FE10A18B9A0024974D /* Zimmer Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Zimmer Templates"; path = "../../../../Documents/Zimmer Templates"; sourceTree = SOURCE_ROOT; };
 		5969FE0011187FDE006C9938 /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		598E1E2A0FFB3E0200BC313C /* ArthroplastyTemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplate.mm; sourceTree = "<group>"; };
 		598E1E2C0FFB3E0800BC313C /* ArthroplastyTemplatingPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingPlugin.mm; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 				59D951DA0FCE826400509EEC /* Info.plist */,
 				59D951EF0FCE82DB00509EEC /* ArthroplastyTemplating.tiff */,
 				59D951D40FCE823400509EEC /* InfoPlist.strings */,
-				595F93FE10A18B9A0024974D /* Zimmer Templates */,
 				59F523CD1055235F009B6D89 /* MEDACTA Templates */,
 			);
 			path = Resources;
@@ -290,6 +287,7 @@
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
+				597B7075111B0BC900933C30 /* Copy Templates from Home */,
 				59F510221054F3FA009B6D89 /* Clean Templates Directories */,
 				59A6368710428D88003F4069 /* Copy Frameworks */,
 				8D5B49B1048680CD000E48DA /* Sources */,
@@ -334,7 +332,6 @@
 				592C9FD00FDFBA3D00EB256B /* com.osirix.arthroplastytemplating.plist in Resources */,
 				59A642381042E5DB003F4069 /* ArthroplastyTemplatingSteps.xib in Resources */,
 				59F523FD1055235F009B6D89 /* MEDACTA Templates in Resources */,
-				595F99E410A18B9C0024974D /* Zimmer Templates in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +348,20 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		597B7075111B0BC900933C30 /* Copy Templates from Home */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Templates from Home";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/perl;
+			shellScript = "#!/usr/bin/perl\n\nuse strict;\n\nmy $source = \"$ENV{HOME}/Library/Development/Arthroplasty Templating/Templates\";\nmy $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n\nopendir(TEMPLATES, $source);\nforeach (readdir(TEMPLATES)) {\n\tif ($_ !~ /^\\./i) {\n\t\tmy @args = (\"cp\", \"-Rfp\", \"$source/$_\", $target);\n\t\tsystem(@args);\n\t}\n}\n\nclosedir(TEMPLATES);\n\nexit 0;";
+		};
 		59F510221054F3FA009B6D89 /* Clean Templates Directories */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

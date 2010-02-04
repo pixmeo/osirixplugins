@@ -232,7 +232,7 @@
 }
 
 -(BOOL)mustFlipHorizontally {
-	NSLog(@"mfh if %d != %d", [self side], [[self currentTemplate] side]);
+	//NSLog(@"mfh if %d != %d", [self side], [[self currentTemplate] side]);
 	return [self side] != [[self currentTemplate] side];
 }
 
@@ -297,16 +297,26 @@
 	NSPoint layerSize = [[layerPoints objectAtIndex:2] point] - [[layerPoints objectAtIndex:0] point];
 	
 	NSPoint layerCenter = imageCenter/imageSize*layerSize;
-	[[newLayer points] addObject:[MyPoint point:layerCenter]]; // center
+	[[newLayer points] addObject:[MyPoint point:layerCenter]]; // center, index 4
 
 	[newLayer setROIMode:ROI_selected]; // in order to make the roiMove method possible
 	[newLayer rotate:[templat rotation]/pi*180*([self mustFlipHorizontally]?-1:1) :layerCenter];
 
-	[[newLayer points] addObject:[MyPoint point:layerCenter+NSMakePoint(1,0)]]; // rotation reference
+	[[newLayer points] addObject:[MyPoint point:layerCenter+NSMakePoint(1,0)]]; // rotation reference, index 5
 	
-	// stem magnets
-	NSArray* points = [templat rotationPointsForDirection:_viewDirection];
-	for (NSValue* value in points) {
+	// stem-cup magnets, indexes 6, 7, 8, 9, 10 for S, M, L, XL, XXL
+	for (NSValue* value in [templat headRotationPointsForDirection:_viewDirection]) {
+		NSPoint point = [value pointValue];
+		point = [image convertPointFromPageInches:point];
+		if ([self mustFlipHorizontally])
+			point.x = imageSize.width-point.x;
+		point.y = imageSize.height-point.y;
+		point = point/imageSize*layerSize;
+		[[newLayer points] addObject:[MyPoint point:point]];
+	}
+	
+	// proximal-distal magnets, indexes 11, 12, 13, 14 for A, A2, B, B2; currently only A and A2 seem to be used
+	for (NSValue* value in [templat matingPointsForDirection:_viewDirection]) {
 		NSPoint point = [value pointValue];
 		point = [image convertPointFromPageInches:point];
 		if ([self mustFlipHorizontally])

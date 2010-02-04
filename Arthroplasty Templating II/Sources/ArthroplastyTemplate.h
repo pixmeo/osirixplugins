@@ -40,6 +40,7 @@ typedef enum {
 -(NSString*)pdfPathForDirection:(ArthroplastyTemplateViewDirection)direction;
 -(BOOL)origin:(NSPoint*)point forDirection:(ArthroplastyTemplateViewDirection)direction;
 -(NSArray*)textualData;
--(NSArray*)rotationPointsForDirection:(ArthroplastyTemplateViewDirection)direction;
+-(NSArray*)headRotationPointsForDirection:(ArthroplastyTemplateViewDirection)direction;
+-(NSArray*)matingPointsForDirection:(ArthroplastyTemplateViewDirection)direction;
 
 @end

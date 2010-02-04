@@ -10,24 +10,25 @@
 
 @implementation ZimmerTemplate
 
-+(NSArray*)templatesAtPath:(NSString*)path usingClass:(Class)classs {
-	NSMutableArray* templates = [NSMutableArray array];
-	
-	BOOL isDirectory, exists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];
-	if (exists)
-		if (isDirectory) {
-			NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:path];
-			NSString* sub; while (sub = [e nextObject])
-				[templates addObjectsFromArray:[ZimmerTemplate templatesAtPath:[path stringByAppendingPathComponent:sub] usingClass:classs]];
-		} else
-			if ([[path pathExtension] isEqualToString:@"txt"])
-				[templates addObject:[[[classs alloc] initFromFileAtPath:path] autorelease]];
-	
-	return templates;
+id First(id a, id b) {
+	return a? a : b;
 }
 
-+(NSArray*)bundledTemplates {
-	return [self templatesAtPath:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"Zimmer Templates"] usingClass:[ZimmerTemplate class]];
++(NSArray*)templatesAtPath:(NSString*)dirpath usingClass:(Class)classs {
+	NSMutableArray* templates = [NSMutableArray array];
+	
+	BOOL isDirectory, exists = [[NSFileManager defaultManager] fileExistsAtPath:dirpath isDirectory:&isDirectory];
+	if (exists && isDirectory) {
+		NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:dirpath];
+		NSString* sub; while (sub = [e nextObject]) {
+			NSString* subpath = [dirpath stringByAppendingPathComponent:sub];
+			[[NSFileManager defaultManager] fileExistsAtPath:subpath isDirectory:&isDirectory];
+			if (!isDirectory && [subpath rangeOfString:@".disabled/"].location == NSNotFound && [[subpath pathExtension] isEqualToString:@"txt"])
+				[templates addObject:[[[classs alloc] initFromFileAtPath:subpath] autorelease]];
+		}
+	}
+	
+	return templates;
 }
 
 +(NSDictionary*)propertiesFromInfoFileAtPath:(NSString*)path {
@@ -101,7 +102,7 @@
 	return YES;
 }
 
--(NSArray*)rotationPointsForDirection:(ArthroplastyTemplateViewDirection)direction {
+-(NSArray*)headRotationPointsForDirection:(ArthroplastyTemplateViewDirection)direction {
 	NSMutableArray* points = [NSMutableArray arrayWithCapacity:5];
 	NSString* prefix = [NSString stringWithFormat:@"%@_HEAD_ROTATION_POINT_", [self prefixForDirection:direction]];
 	
@@ -111,6 +112,31 @@
 		NSString* sx = [_properties objectForKey:[NSString stringWithFormat:@"%@%d_X", prefix, i]];
 		NSString* sy = [_properties objectForKey:[NSString stringWithFormat:@"%@%d_Y", prefix, i]];
 		NSPoint point = {0,0};
+		if ([sx length] && [sy length])
+			point = NSMakePoint([sx floatValue], [sy floatValue])/25.4;
+		[points addObject:[NSValue valueWithPoint:point+origin]];
+	}
+	
+	return points;
+}
+
+-(NSArray*)matingPointsForDirection:(ArthroplastyTemplateViewDirection)direction {
+	NSMutableArray* points = [NSMutableArray arrayWithCapacity:5];
+	NSString* prefix = [NSString stringWithFormat:@"%@_MATING_POINT_", [self prefixForDirection:direction]];
+	
+	NSPoint origin; [self origin:&origin forDirection:direction];
+	
+	for (unsigned i = 0; i < 4; ++i) {
+		NSString* ki = NULL;
+		switch (i) {
+			case 0: ki = @"A"; break;
+			case 1: ki = @"A2"; break;
+			case 2: ki = @"B"; break;
+			case 3: ki = @"B2"; break;
+		}
+		NSPoint point = {0,0};
+		NSString* sx = [_properties objectForKey:[NSString stringWithFormat:@"%@%@_X", prefix, ki]];
+		NSString* sy = [_properties objectForKey:[NSString stringWithFormat:@"%@%@_Y", prefix, ki]];
 		if ([sx length] && [sy length])
 			point = NSMakePoint([sx floatValue], [sy floatValue])/25.4;
 		[points addObject:[NSValue valueWithPoint:point+origin]];
@@ -138,7 +164,7 @@
 }
 
 -(NSString*)manufacturer {
-	return [_properties objectForKey:@"IMPLANT_MANUFACTURER"];
+	return First([_properties objectForKey:@"IMPLANT_MANUFACTURER"], [_properties objectForKey:@"DESIGN_OWNERSHIP"]);
 }
 
 -(NSString*)modularity {
@@ -146,7 +172,7 @@
 }
 
 -(NSString*)name {
-	return [_properties objectForKey:@"PRODUCT_FAMILY_NAME"];
+	return First([_properties objectForKey:@"COMPONENT_FAMILY_NAME"], [_properties objectForKey:@"PRODUCT_FAMILY_NAME"]);
 }
 
 -(NSString*)placement {

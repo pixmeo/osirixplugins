@@ -300,7 +300,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			if (!_stemLayer && [roi type] == tLayerROI) {
 				_stemLayer = roi;
 				_stemTemplate = [[_plugin templatesWindowController] templateAtPath:[roi layerReferenceFilePath]];
-				NSArray* points = [_stemTemplate rotationPointsForDirection:ArthroplastyTemplateAnteriorPosteriorDirection];
+				NSArray* points = [_stemTemplate headRotationPointsForDirection:ArthroplastyTemplateAnteriorPosteriorDirection];
 				for (int i = 0; i < [_neckSizePopUpButton numberOfItems]; ++i)
 					[[_neckSizePopUpButton itemAtIndex:i] setEnabled:(i+1 <= (int)[points count])];
 			}

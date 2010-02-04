@@ -11,7 +11,6 @@
 @interface MEDACTATemplate : ZimmerTemplate {
 }
 
-+(NSArray*)bundledTemplates;
 +(NSArray*)templatesAtPath:(NSString*)path;
 
 @end
