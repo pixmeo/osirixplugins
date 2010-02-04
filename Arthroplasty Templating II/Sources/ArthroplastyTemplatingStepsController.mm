@@ -221,7 +221,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	if ([[*axis points] count]) [[*axis points] removeAllObjects];
 	[*axis setPoints:[NSArray arrayWithObjects:[MyPoint point:pointFrom], [MyPoint point:pointTo], NULL]];
-	*value = [*axis MesureLength:NULL]*NSSign((pointTo-pointFrom).y);
+	*value = [*axis MesureLength:NULL]*NSSign((pointTo-pointFrom).y)*(-1);
 	
 	[*axis setName:name];
 //	[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_legInequality userInfo:NULL];
@@ -234,7 +234,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (_horizontalAxis && _femurLandmarkOriginal && _femurLandmarkAxis) {
 		NSVector horizontalDir = NSMakeVector([[[_horizontalAxis points] objectAtIndex:0] point], [[[_horizontalAxis points] objectAtIndex:1] point]);
 		NSLine horizontalAxis = NSMakeLine([[[_horizontalAxis points] objectAtIndex:0] point], horizontalDir);
-		_lateralOffsetValue = [_horizontalAxis Length:horizontalAxis*NSMakeLine([[[_femurLandmarkOriginal points] objectAtIndex:0] point], !horizontalDir) :horizontalAxis*NSMakeLine([[[_femurLandmarkAxis points] objectAtIndex:0] point], !horizontalDir)];
+		_lateralOffsetValue = std::abs([_horizontalAxis Length:horizontalAxis*NSMakeLine([[[_femurLandmarkOriginal points] objectAtIndex:0] point], !horizontalDir) :horizontalAxis*NSMakeLine([[[_femurLandmarkAxis points] objectAtIndex:0] point], !horizontalDir)]);
 	}
 	
 //	NSVector horizontalVector = NSMakeVector([[[_horizontalAxis points] objectAtIndex:0] point], [[[_horizontalAxis points] objectAtIndex:1] point]);
@@ -1025,7 +1025,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		if (_legInequality)
 			[str appendFormat:@"\tFinal: %.2f cm\n", _legInequalityValue];
 		if (_originalLegInequality && _legInequality) {
-			CGFloat change = -(_originalLegInequalityValue - _legInequalityValue);
+			CGFloat change = std::abs(_originalLegInequalityValue - _legInequalityValue);
 			[str appendFormat:@"\tVariation: %.2f cm\n", change];
 			[_verticalOffsetTextField setStringValue:[NSString stringWithFormat:@"Vertical offset variation: %.2f cm", change]];
 		}
