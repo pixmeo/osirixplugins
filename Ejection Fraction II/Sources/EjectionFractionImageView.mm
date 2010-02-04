@@ -8,6 +8,7 @@
 
 #import "EjectionFractionImageView.h"
 #import <OsiriX Headers/DCMPix.h>
+#import <OsiriX Headers/DCMView.h>
 #import <OsiriX Headers/ROI.h>
 #import <OsiriX Headers/Notifications.h>
 #import <OsiriX Headers/MyPoint.h>
@@ -168,6 +169,10 @@
 		[path moveToPoint:([[points objectAtIndex:0] point]-contentRect.origin)*scaleFactor+contentBoundsRect.origin];
 		for (MyPoint* p in points)
 			[path lineToPoint:([p point]-contentRect.origin)*scaleFactor+contentBoundsRect.origin];
+
+		if(roi.type != tOPolygon)
+			[path closePath];
+		
 		[path transformUsingAffineTransform:transform];
 		
 		RGBColor rgb = [roi rgbcolor];
