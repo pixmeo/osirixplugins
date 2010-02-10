@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>allowToolbarIcon</key>
+	<string>YES</string>
+	<key>ToolbarIcon</key>
+	<string>PDF2DICOM.icns</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -15,10 +19,10 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>1.6</string>
 	<key>MenuTitles</key>
 	<array>
-		<string>Convert PDF to DICOM</string>
+		<string>PDF to DICOM</string>
 	</array>
 	<key>NSMainNibFile</key>
 	<string>ConversionInfo</string>
