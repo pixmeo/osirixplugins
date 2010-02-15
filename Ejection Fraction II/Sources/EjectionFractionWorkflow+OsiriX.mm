@@ -16,8 +16,8 @@
 #import <OsiriX Headers/DCMView.h>
 #import <OsiriX Headers/DicomSeries.h>
 #import <OsiriX Headers/ROI.h>
-#import <Nitrogen/NSDictionary+N2.h>
-#import <Nitrogen/N2Debug.h>
+#import <OsiriX Headers/NSDictionary+N2.h>
+#import <OsiriX Headers/N2Debug.h>
 
 NSString* EjectionFractionWorkflowExpectedROIChangedNotification = @"EjectionFractionWorkflowExpectedROIChangedNotification";
 NSString* EjectionFractionWorkflowROIAssignedNotification = @"EjectionFractionWorkflowROIAssignedNotification";

@@ -10,18 +10,18 @@
 #import "EjectionFractionStepsController.h"
 #import "EjectionFractionWorkflow.h"
 #import "EjectionFractionWorkflow+OsiriX.h"
-#import <Nitrogen/N2Operators.h>
-#import <Nitrogen/N2ColumnLayout.h>
-#import <Nitrogen/N2Resizer.h>
-#import <Nitrogen/N2Button.h>
-#import <Nitrogen/N2Step.h>
-#import <Nitrogen/N2CellDescriptor.h>
-#import <Nitrogen/N2Steps.h>
-#import <Nitrogen/N2View.h>
-#import <Nitrogen/NSButton+N2.h>
-#import <Nitrogen/N2Debug.h>
+#import <OsiriX Headers/N2Operators.h>
+#import <OsiriX Headers/N2ColumnLayout.h>
+#import <OsiriX Headers/N2Resizer.h>
+#import <OsiriX Headers/N2Button.h>
+#import <OsiriX Headers/N2Step.h>
+#import <OsiriX Headers/N2CellDescriptor.h>
+#import <OsiriX Headers/N2Steps.h>
+#import <OsiriX Headers/N2View.h>
+#import <OsiriX Headers/NSButton+N2.h>
+#import <OsiriX Headers/N2Debug.h>
 #import <OsiriX Headers/Notifications.h>
-#import <Nitrogen/N2ColorWell.h>
+#import <OsiriX Headers/N2ColorWell.h>
 
 @interface EjectionFractionStepsController (Private)
 -(void)algorithmSelected:(NSMenuItem*)selection;

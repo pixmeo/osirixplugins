@@ -12,14 +12,14 @@
 #import "EjectionFractionAlgorithm.h"
 #import "EjectionFractionDicomSaveDialog.h"
 #import "EjectionFractionImageView.h"
-#import <Nitrogen/N2ColumnLayout.h>
-#import <Nitrogen/N2CellDescriptor.h>
-#import <Nitrogen/NSTextView+N2.h>
-#import <Nitrogen/N2View.h>
-#import <Nitrogen/N2MinMax.h>
-#import <Nitrogen/N2Window.h>
-#import <Nitrogen/NSImageView+N2.h>
-#import <Nitrogen/N2Operators.h>
+#import <OsiriX Headers/N2ColumnLayout.h>
+#import <OsiriX Headers/N2CellDescriptor.h>
+#import <OsiriX Headers/NSTextView+N2.h>
+#import <OsiriX Headers/N2View.h>
+#import <OsiriX Headers/N2MinMax.h>
+#import <OsiriX Headers/N2Window.h>
+#import <OsiriX Headers/NSImageView+N2.h>
+#import <OsiriX Headers/N2Operators.h>
 #import <OsiriX Headers/ROI.h>
 #import <OsiriX Headers/DCMView.h>
 #import <OsiriX Headers/MyPoint.h>

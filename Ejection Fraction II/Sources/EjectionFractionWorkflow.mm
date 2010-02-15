@@ -10,8 +10,8 @@
 #import "EjectionFractionWorkflow+OsiriX.h"
 #import "EjectionFractionAlgorithm.h"
 #import "EjectionFractionStepsController.h"
-#import <Nitrogen/N2Debug.h>
-#import <Nitrogen/N2UserDefaults.h>
+#import <OsiriX Headers/N2Debug.h>
+#import <OsiriX Headers/N2UserDefaults.h>
 
 NSString* Dias = @"Diastole";
 NSString* Syst = @"Systole";
