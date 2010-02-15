@@ -51,7 +51,8 @@
 				i = [curPix pwidth] * [curPix pheight];
 				while( i-- > 0)
 				{
-					*dstImage = *srcImage2++ * *srcImage++ / [curPix fullww];
+					//*dstImage = (*srcImage2++ - 2046) * (*srcImage++ - 2046) / [curPix fullww];
+					*dstImage = (*srcImage2++) * (*srcImage++) / [curPix fullww];
 					
 					if( curMax < *dstImage) curMax = *dstImage;
 					
