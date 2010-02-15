@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>OsiriX: Ejection Fraction</title>
+        <link href="help.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="top">
+            <div id="title">OsiriX: Ejection Fraction</div>
+            <div id="version">2.0</div>
+        </div>
+        <div id="content">
+            <img style="float:left" src="screenshot.png" />
+            <p>The user interface is split in three parts: algorithm choice, ROI tracking and results.</p>
+            <h1>Algorithms</h1>
+            <p>The algorithm determines how the cardiac volume is computed from the ROIs you specify. The following algorithms are currently available: <ul>
+                <li>Monoplane
+                    <p>The cardiac volume is computed as the volume of an ellipsoid of which you specify the long axis area and length.</p>
+                </li>
+                <li>Biplane
+                    <p>The cardiac volume is computed as the volume of an ellipsoid of which you specify the horizontal long axis area, vertical long axis area and length.</p>
+                </li>
+                <li>Hemi-ellipse
+                    <p>The cardiac volume is computed as the volume of a half-ellipsoid half-cylinder of which you specify the short axis area and length.</p>
+                </li>
+                <li>Simpson
+                    <p>The cardiac volume is computed as the volume of a half-ellipsoid half-cylinder of which you specify the base short axis area, middle short axis area and length.</p>
+                </li>
+                <li>Teichholz
+                    <p>The cardiac volume is computed from the specified length.</p>
+                </li>
+            </ul></p>
+            <h1>ROIs<img style="float:right" src="buttons.png" /></h1>
+            <p>Once you have selected the algorithm, the interface shows you a list of ROIs required by the algorithm you picked.</p>
+            <p>When a ROI is recognized as one from which the diastole or systole volumes are computed, the plugin sets it to be drawn in the color linked to either systole or diastole. You can pick your preferred colors by clicking on the color buttons.</p>
+            <p>By clicking on the ROI buttons, the ideal ROI tool is selected and the interface waits for you to create a ROI. This is shown on the interface as an arrow shown on the left side of the button.</p>
+            <p>When you create a new ROI, this new ROI is automatically used for the role described by the button. An assigned role is shown on the interface as a check mark on the left side of the button. On the viewer, the ROI </p>
+            <p>If you wish to assign a role to an already existing ROI, right-click on it and select the role on the Enection Fraction submenu.</p>
+            <h1>Results</h1>
+            <p>Once all ROIs have been specified, the resulting ejection fraction value is shown on the window. If you want to obtain a more detailed view on the result, click on the Details button.</p>
+            <p><img src="results.png" /></p>
+            <p>The export and print buttons allow you to save the image as a DICOM file (or node), a TIFF, a PDF. Notice that the obtained image will have the same size as the window at the moment you do the export.</p>
+        </div>
+    </body>
+</html>

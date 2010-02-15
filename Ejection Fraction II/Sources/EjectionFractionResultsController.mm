@@ -25,6 +25,7 @@
 #import <OsiriX Headers/MyPoint.h>
 #import <OsiriX Headers/DCMPix.h>
 #import <OsiriX Headers/DICOMExport.h>
+#import "EjectionFractionZoomView.h"
 
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";
@@ -144,7 +145,8 @@ const NSString* FileTypeDICOM = @"dcm";
 							  [NSTextView labelWithText:[NSString stringWithFormat:@"%.1f %%", ejectionFraction*100]], NULL]];
 	
 	[infoLayout setEnabled:YES];
-//	[infoLayout layOut];
+	[infoLayout layOut];
+	[infoLayout setEnabled:NO];
 	
 	// done
 	
@@ -175,7 +177,7 @@ const NSString* FileTypeDICOM = @"dcm";
 		} break;
 		case 1: {
 			[contentLayout appendRow:[NSArray arrayWithObjects: [[imageViewRows objectAtIndex:0] objectAtIndex:0], [[imageViewRows objectAtIndex:0] objectAtIndex:1], NULL]];
-			[contentLayout appendRow:[NSArray arrayWithObjects: [[N2CellDescriptor descriptorWithView:[[imageViewRows objectAtIndex:0] objectAtIndex:2]] alignment:N2Top], [[[N2CellDescriptor descriptorWithView:info] alignment:0] filled:NO], NULL]];
+			[contentLayout appendRow:[NSArray arrayWithObjects: [[N2CellDescriptor descriptorWithView:[[imageViewRows objectAtIndex:0] objectAtIndex:2]] alignment:N2Top], [[[N2CellDescriptor descriptorWithView:[EjectionFractionZoomView zoomWithView:info]] alignment:0] filled:YES], NULL]];
 		} break;
 		default: {
 			for (NSArray* views in imageViewRows)

@@ -278,4 +278,9 @@
  
  */
 
+-(IBAction)help:(id)source {
+	NSString* path = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"help/help.html"];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+}
+
 @end

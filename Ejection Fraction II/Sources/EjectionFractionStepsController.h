@@ -45,6 +45,8 @@
 @property(readonly) N2Step* stepResult;
 @property(readonly) N2StepsView* stepsView;
 
+-(IBAction)help:(id)source;
+
 -(id)initWithWorkflow:(EjectionFractionWorkflow*)plugin;
 
 -(void)setSelectedAlgorithm:(EjectionFractionAlgorithm*)algorithm;

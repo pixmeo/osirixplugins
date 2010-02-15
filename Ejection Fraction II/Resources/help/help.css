@@ -1,0 +1,70 @@
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font: 12px sans-serif;
+}
+
+div#top {
+    position: relative;
+    right: 0px;
+    left: 0px;
+    top: 0px;
+    height: 36px;
+    background-color: black;
+    background-image: url('top.png');
+    background-repeat: repeat-x;
+    font: 20px sans-serif;
+    line-height: 36px;
+    color: white;
+}
+
+div#top div {
+    display: inline;
+    position: absolute;
+}
+
+div#top div#title {
+    left: 10px;
+}
+
+div#top div#version {
+    right: 10px;
+}
+
+div#content {
+    margin: 10px;
+}
+
+div#content img {
+    border: none;
+}
+
+div#content h1 {
+    font-size: 13px;
+    font-weight: bold;
+    margin: 5px 0 5px 0;
+}
+
+div#content p {
+    margin: 3px 0 0 0;
+}
+
+div#content ul {
+    list-style: disc inside;
+    margin: 0;
+}
+
+div#content ul li {
+    margin: 3px 0 0 0;
+}
+
+div#content ul li p {
+    margin: 3px 0 0 0;
+}
