@@ -82,7 +82,7 @@
 				i = [curPix pwidth] * [curPix pheight];
 				while( i-- > 0)
 				{
-					*dstImage++ *= factor;
+					//*dstImage++ *= factor;
 				}
 			}
 			

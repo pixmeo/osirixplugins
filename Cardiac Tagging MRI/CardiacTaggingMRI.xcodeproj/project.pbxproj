@@ -9,13 +9,7 @@
 /* Begin PBXBuildFile section */
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB76339067FB2A8000912C1 /* DCMPix.h */; };
-		ABB76341067FB2A8000912C1 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633A067FB2A8000912C1 /* DCMView.h */; };
-		ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633B067FB2A8000912C1 /* dicomFile.h */; };
-		ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633C067FB2A8000912C1 /* MyPoint.h */; };
-		ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633D067FB2A8000912C1 /* PluginFilter.h */; };
-		ABB76345067FB2A8000912C1 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633E067FB2A8000912C1 /* ROI.h */; };
-		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
+		AB125D2A11299C5C002D63E2 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB125D2911299C5C002D63E2 /* OsiriX Headers.framework */; };
 		ABDA6A480A50FE9300223368 /* CardiacTaggingMRIFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDA6A460A50FE9300223368 /* CardiacTaggingMRIFilter.m */; };
 		ABDA6A490A50FE9300223368 /* CardiacTaggingMRIFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABDA6A470A50FE9300223368 /* CardiacTaggingMRIFilter.h */; };
 		ABDA6A4B0A50FE9D00223368 /* CardiacTaggingMRI_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = ABDA6A4A0A50FE9D00223368 /* CardiacTaggingMRI_Prefix.pch */; };
@@ -29,15 +23,8 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A97AA1760CDB7980009E54B7 /* Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy.plist"; sourceTree = "<group>"; };
+		AB125D2911299C5C002D63E2 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		AB94F8DF0682170900733F34 /* CardiacTaggingMRI.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardiacTaggingMRI.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABB76339067FB2A8000912C1 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
-		ABB7633A067FB2A8000912C1 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
-		ABB7633B067FB2A8000912C1 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
-		ABB7633C067FB2A8000912C1 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
-		ABB7633D067FB2A8000912C1 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
-		ABB7633E067FB2A8000912C1 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
-		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
 		ABDA6A460A50FE9300223368 /* CardiacTaggingMRIFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CardiacTaggingMRIFilter.m; sourceTree = "<group>"; };
 		ABDA6A470A50FE9300223368 /* CardiacTaggingMRIFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CardiacTaggingMRIFilter.h; sourceTree = "<group>"; };
 		ABDA6A4A0A50FE9D00223368 /* CardiacTaggingMRI_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CardiacTaggingMRI_Prefix.pch; sourceTree = "<group>"; };
@@ -52,6 +39,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				CE25C4BE07BD5CFA00AFB3EA /* Accelerate.framework in Frameworks */,
+				AB125D2A11299C5C002D63E2 /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +73,6 @@
 				ABDA6B430A51091900223368 /* CardiacMRI.tif */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
-				A97AA1760CDB7980009E54B7 /* Info copy.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -95,7 +82,6 @@
 			children = (
 				ABDA6A460A50FE9300223368 /* CardiacTaggingMRIFilter.m */,
 				ABDA6A470A50FE9300223368 /* CardiacTaggingMRIFilter.h */,
-				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -103,6 +89,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AB125D2911299C5C002D63E2 /* OsiriX Headers.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				CE25C4BD07BD5CFA00AFB3EA /* Accelerate.framework */,
 			);
@@ -134,20 +121,6 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
-		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
-			isa = PBXGroup;
-			children = (
-				ABB7633D067FB2A8000912C1 /* PluginFilter.h */,
-				ABB76339067FB2A8000912C1 /* DCMPix.h */,
-				ABB7633A067FB2A8000912C1 /* DCMView.h */,
-				ABB7633B067FB2A8000912C1 /* dicomFile.h */,
-				ABB7633C067FB2A8000912C1 /* MyPoint.h */,
-				ABB7633E067FB2A8000912C1 /* ROI.h */,
-				ABB7633F067FB2A8000912C1 /* ViewerController.h */,
-			);
-			path = "OsiriX Headers";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -155,13 +128,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */,
-				ABB76341067FB2A8000912C1 /* DCMView.h in Headers */,
-				ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */,
-				ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */,
-				ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */,
-				ABB76345067FB2A8000912C1 /* ROI.h in Headers */,
-				ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */,
 				ABDA6A490A50FE9300223368 /* CardiacTaggingMRIFilter.h in Headers */,
 				ABDA6A4B0A50FE9D00223368 /* CardiacTaggingMRI_Prefix.pch in Headers */,
 			);
@@ -257,7 +223,10 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
