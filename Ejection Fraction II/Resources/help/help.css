@@ -46,25 +46,38 @@ div#content img {
     border: none;
 }
 
+img.left {
+    float: left;
+    margin-right: 10px;
+}
+
+img.right {
+    float: right;
+    margin-left: 10px;
+}
+
 div#content h1 {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
-    margin: 5px 0 5px 0;
+    margin: 8px 0 8px 0;
 }
 
 div#content p {
-    margin: 3px 0 0 0;
+    margin: 5px 0 0 0;
 }
 
 div#content ul {
     list-style: disc inside;
     margin: 0;
+    padding: 0;
 }
 
 div#content ul li {
-    margin: 3px 0 0 0;
+    padding: 5px 0 0 0;
+    font-weight: bold;
 }
 
 div#content ul li p {
-    margin: 3px 0 0 0;
+    font-weight: normal;
 }
+
