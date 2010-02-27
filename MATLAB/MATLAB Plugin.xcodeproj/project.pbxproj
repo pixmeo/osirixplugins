@@ -17,13 +17,11 @@
 		5965126C10DF78F50042E0C7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5965083410DF5FE60042E0C7 /* InfoPlist.strings */; };
 		5965126D10DF78F50042E0C7 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5965110A10DF722E0042E0C7 /* Icon.png */; };
 		5965127110DF78F50042E0C7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		5965127210DF78F50042E0C7 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5986F66110DB889300D28EFB /* Nitrogen.framework */; };
 		5965127310DF78F50042E0C7 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5986F69210DB88A300D28EFB /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5965128610DF79480042E0C7 /* MATLABPluginUnsupported.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5965115210DF77340042E0C7 /* MATLABPluginUnsupported.mm */; };
 		59651AB710DFAC690042E0C7 /* MATLAB.h in Headers */ = {isa = PBXBuildFile; fileRef = 59651AB510DFAC690042E0C7 /* MATLAB.h */; };
 		59651AB810DFAC690042E0C7 /* MATLAB.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59651AB610DFAC690042E0C7 /* MATLAB.mm */; };
 		59651ADD10DFC0B90042E0C7 /* MATLAB in Resources */ = {isa = PBXBuildFile; fileRef = 59651ADA10DFC0B90042E0C7 /* MATLAB */; };
-		5986F66210DB889300D28EFB /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5986F66110DB889300D28EFB /* Nitrogen.framework */; };
 		5986F69310DB88A300D28EFB /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5986F69210DB88A300D28EFB /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -53,7 +51,6 @@
 		59651AB510DFAC690042E0C7 /* MATLAB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MATLAB.h; path = Sources/MATLAB.h; sourceTree = "<group>"; };
 		59651AB610DFAC690042E0C7 /* MATLAB.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MATLAB.mm; path = Sources/MATLAB.mm; sourceTree = "<group>"; };
 		59651ADA10DFC0B90042E0C7 /* MATLAB */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MATLAB; path = Resources/MATLAB; sourceTree = "<group>"; };
-		5986F66110DB889300D28EFB /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../osirix/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
 		5986F69210DB88A300D28EFB /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		AB5D36050680E57E00F4007A /* MATLAB.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MATLAB.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -64,7 +61,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5965127110DF78F50042E0C7 /* Cocoa.framework in Frameworks */,
-				5965127210DF78F50042E0C7 /* Nitrogen.framework in Frameworks */,
 				5965127310DF78F50042E0C7 /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,7 +70,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5986F66210DB889300D28EFB /* Nitrogen.framework in Frameworks */,
 				5986F69310DB88A300D28EFB /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				5986F69210DB88A300D28EFB /* OsiriX Headers.framework */,
-				5986F66110DB889300D28EFB /* Nitrogen.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,

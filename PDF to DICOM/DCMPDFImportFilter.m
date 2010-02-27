@@ -98,6 +98,7 @@
 			patientSex = [dcmObject attributeValueWithName:@"PatientsSex"];
 			accessionNumber = [dcmObject attributeValueWithName:@"AccessionNumber"];
 			patientsBirthDate = [dcmObject attributeValueWithName:@"PatientsBirthDate"];
+			
 			referringPhysiciansName = [dcmObject attributeValueWithName:@"ReferringPhysiciansName"];
 		}
 		
@@ -106,33 +107,39 @@
 			[pdf increaseLengthBy:1];
 		// create DICOM OBJECT
 		DCMObject *dcmObject = [DCMObject encapsulatedPDF:pdf];
+		
+		if( charSet)
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: charSet] forName:@"SpecificCharacterSet"];
+		
 		[dcmObject setAttributeValues:[NSArray arrayWithObject: studyUID] forName:@"StudyInstanceUID"];
 		[dcmObject setAttributeValues:[NSArray arrayWithObject: [[path lastPathComponent] stringByDeletingPathExtension]] forName:@"SeriesDescription"];
+		
 		if (patientName)
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:patientName] forName:@"PatientsName"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: patientName] forName:@"PatientsName"];
 		else
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:@""] forName:@"PatientsName"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: @""] forName:@"PatientsName"];
+			
 		if (patientID)
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:patientID] forName:@"PatientID"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: patientID] forName:@"PatientID"];
 		else
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:@"0"] forName:@"PatientID"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: @"0"] forName:@"PatientID"];
 		
 		if (patientsBirthDate)
 			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: patientsBirthDate] forName:@"PatientsBirthDate"];
 		
 		if (accessionNumber)
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:accessionNumber] forName:@"AccessionNumber"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: accessionNumber] forName:@"AccessionNumber"];
 		
 		if( referringPhysiciansName)
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:referringPhysiciansName] forName:@"ReferringPhysiciansName"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: referringPhysiciansName] forName:@"ReferringPhysiciansName"];
 		
 		if (patientSex)
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:patientSex] forName:@"PatientsSex"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: patientSex] forName:@"PatientsSex"];
 		else
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:@""] forName:@"PatientsSex"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: @""] forName:@"PatientsSex"];
 			
 		if (patientsBirthDate)
-			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject:patientsBirthDate] forName:@"PatientsBirthDate"];
+			[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: patientsBirthDate] forName:@"PatientsBirthDate"];
 			
 		[dcmObject setAttributeValues:[NSMutableArray arrayWithObject: [[path lastPathComponent] stringByDeletingPathExtension]] forName:@"DocumentTitle"];
 			
