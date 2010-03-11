@@ -14,7 +14,12 @@
 #import <OsiriX Headers/ViewerController.h>
 #import <OsiriX Headers/DCMPix.h>
 #import <OsiriX Headers/DCMView.h>
-#import <Nitrogen/Nitrogen.h>
+#import <OsiriX Headers/N2Step.h>
+#import <OsiriX Headers/N2Steps.h>
+#import <OsiriX Headers/N2StepsView.h>
+#import <OsiriX Headers/N2Panel.h>
+#import <OsiriX Headers/NSBitmapImageRep+N2.h>
+#import <OsiriX Headers/N2Operators.h>
 #import <OsiriX Headers/Notifications.h>
 #import "ArthroplastyTemplateFamily.h"
 // #include "vImage/Convolution.h"
@@ -107,6 +112,10 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
+}
+
+-(NSString*)windowFrameAutosaveName {
+	return @"Arthroplasty Templating";
 }
 
 #pragma mark Windows

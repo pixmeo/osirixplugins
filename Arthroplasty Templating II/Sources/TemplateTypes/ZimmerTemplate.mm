@@ -6,7 +6,8 @@
 //
 
 #import "ZimmerTemplate.h"
-#import <Nitrogen/Nitrogen.h>
+#import <OsiriX Headers/NSString+N2.h>
+#import <OsiriX Headers/N2Operators.h>
 
 @implementation ZimmerTemplate
 

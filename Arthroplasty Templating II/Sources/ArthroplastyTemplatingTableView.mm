@@ -6,7 +6,7 @@
 
 #import "ArthroplastyTemplatingTableView.h"
 #import "ArthroplastyTemplatingWindowController+Templates.h"
-#import <Nitrogen/Nitrogen.h>
+#import <OsiriX Headers/NSImage+N2.h>
 
 @implementation ArthroplastyTemplatingTableView
 

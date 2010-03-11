@@ -11,7 +11,8 @@
 #import <OsiriX Headers/ViewerController.h>
 #import <OsiriX Headers/ROI.h>
 #import <OsiriX Headers/DCMView.h>
-#import <Nitrogen/Nitrogen.h>
+#import <OsiriX Headers/NSImage+N2.h>
+#import <OsiriX Headers/N2Operators.h>
 #import "ArthroplastyTemplateFamily.h"
 #import "ArthroplastyTemplatingPlugin.h"
 #include <cmath>
@@ -58,6 +59,10 @@
 	[_presets release];
 	[_userDefaults release];
 	[super dealloc];
+}
+
+-(NSString*)windowFrameAutosaveName {
+	return @"ArthroplastyTemplatingWindow";
 }
 
 -(void)windowWillClose:(NSNotification *)aNotification {
