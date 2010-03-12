@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8416A24D10B6A08700EB0BD0 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8416A24C10B6A08700EB0BD0 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		84C2E21B10285C9600C38AF1 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 84C2E21A10285C9600C38AF1 /* Prefix.pch */; };
 		84C2E21F10285CDB00C38AF1 /* BullsEye.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C2E21D10285CDB00C38AF1 /* BullsEye.h */; };
 		84C2E22010285CDB00C38AF1 /* BullsEye.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2E21E10285CDB00C38AF1 /* BullsEye.m */; };
@@ -26,6 +25,7 @@
 		CE5CC4CE10B489D9006A5B6D /* BullsEyeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5CC4CC10B489D9006A5B6D /* BullsEyeController.xib */; };
 		CE5CC4D410B48A3E006A5B6D /* BullsEyeView.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5CC4D210B48A3E006A5B6D /* BullsEyeView.h */; };
 		CE5CC4D510B48A3E006A5B6D /* BullsEyeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5CC4D310B48A3E006A5B6D /* BullsEyeView.m */; };
+		CE6C9A551141CBC40037D648 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6C9A541141CBC40037D648 /* OsiriX Headers.framework */; };
 		CE9B95F210B5F04D002451B0 /* Perfusion.pdf in Resources */ = {isa = PBXBuildFile; fileRef = CE9B95F110B5F04D002451B0 /* Perfusion.pdf */; };
 /* End PBXBuildFile section */
 
@@ -34,7 +34,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		8416A24C10B6A08700EB0BD0 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		84C2E21A10285C9600C38AF1 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		84C2E21D10285CDB00C38AF1 /* BullsEye.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BullsEye.h; sourceTree = "<group>"; };
 		84C2E21E10285CDB00C38AF1 /* BullsEye.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BullsEye.m; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		CE5CC4CD10B489D9006A5B6D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BullsEyeController.xib; sourceTree = "<group>"; };
 		CE5CC4D210B48A3E006A5B6D /* BullsEyeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BullsEyeView.h; sourceTree = "<group>"; };
 		CE5CC4D310B48A3E006A5B6D /* BullsEyeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BullsEyeView.m; sourceTree = "<group>"; };
+		CE6C9A541141CBC40037D648 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		CE9B95F110B5F04D002451B0 /* Perfusion.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Perfusion.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +63,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
-				8416A24D10B6A08700EB0BD0 /* OsiriX Headers.framework in Frameworks */,
+				CE6C9A551141CBC40037D648 /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +125,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8416A24C10B6A08700EB0BD0 /* OsiriX Headers.framework */,
+				CE6C9A541141CBC40037D648 /* OsiriX Headers.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -286,6 +286,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../osirix/build/Deployment Universal 64-bit\"",
 					"\"$(SRCROOT)/../../osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
