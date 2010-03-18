@@ -2,7 +2,7 @@
 //  HelloWorldFilter.h
 //  HelloWorld
 //
-//  Copyright (c) 2008 Joris. All rights reserved.
+//  Copyright (c) 2008 Joris Heuberger. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -13,5 +13,7 @@
 }
 
 - (long) filterImage:(NSString*) menuName;
+
+- (void) loopTroughImages;
 
 @end

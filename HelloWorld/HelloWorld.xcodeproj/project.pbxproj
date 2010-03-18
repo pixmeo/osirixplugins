@@ -341,6 +341,7 @@
 					ppc64,
 					x86_64,
 				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
