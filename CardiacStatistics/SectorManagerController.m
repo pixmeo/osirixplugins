@@ -15,7 +15,8 @@ PURPOSE.
 
 
 #import "SectorManagerController.h"
-#import <OsiriX Headers/Notifications.h>
+#import "Notifications.h"
+
 #import "CardiacStatisticsFilter.h"
 
 @implementation SectorManagerController
@@ -184,7 +185,7 @@ PURPOSE.
 	
 	float rmedian = [self GetMedianValueinRoi: [curRoiList objectAtIndex:row] : curPix];
 	
-	float thresh = [[inputThreshold stringValue] floatValue] ;;
+	float thresh = [[inputThreshold stringValue] floatValue] ;
 	float rpcntoverT = [self GetPercentAboveThreshinRoi:[curRoiList objectAtIndex:row] : curPix: thresh];
 	
 	if( [[tableColumn identifier] isEqualToString:@"Index"])
@@ -283,14 +284,21 @@ PURPOSE.
 	[identifiers addObject: @"Index"];
 	[identifiers addObject: @"Name"];
 	[identifiers addObject: @"Mean"];
+	[identifiers addObject: @"Median"];
 	[identifiers addObject: @"Min"];
 	[identifiers addObject: @"Max"];
 	[identifiers addObject: @"Stdev"];
 	[identifiers addObject: @"Area"];
+	[identifiers addObject: @"Pcnt>T"];
 	[identifiers addObject: @"Npix"];
 	
 	for (NSString *s in identifiers) 
 	{
+		if([s isEqualToString: @"Pcnt>T"])
+			s=[NSString stringWithFormat:@"%@%@",
+			   NSLocalizedString(@"Pcnt>", nil),
+			   [inputThreshold stringValue]];
+		
 		if( [[tableView tableColumnWithIdentifier: s ] isHidden] == NO)
 			fprintf(handle, "%s\t",[s UTF8String]);
 	}

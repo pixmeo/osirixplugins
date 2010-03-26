@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <OsiriX Headers/PluginFilter.h>
+#import "PluginFilter.h"
 
 #import "SectorManagerController.h"
 

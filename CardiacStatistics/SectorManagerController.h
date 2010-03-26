@@ -15,11 +15,10 @@ PURPOSE.
 
 
 #import <Cocoa/Cocoa.h>
-
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/DCMPix.h>
-#import <OsiriX Headers/ROI.h>
-#import <OsiriX Headers/ViewerController.h>
+#import "DCMView.h"
+#import "DCMPix.h"
+#import "ROI.h"
+#import "ViewerController.h"
 
 #import "CardiacStatisticsFilter.h"
 

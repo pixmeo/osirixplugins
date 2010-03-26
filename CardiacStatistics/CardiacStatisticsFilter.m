@@ -42,6 +42,9 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 
 - (IBAction)endMyDialog:(id)sender
 {
+	//just in case mouse was tracked
+	[self stopTrackingMouse];
+	
 	[mywindow orderOut:sender];
     
     [NSApp endSheet:mywindow returnCode:[sender tag]];
@@ -77,9 +80,9 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 	//retrieve number of segments from input
 	int nSegment = [[SectorNumberField stringValue] intValue] ;
 	
-	if (nSegment<4) {
-		NSRunCriticalAlertPanel(NSLocalizedString(@"Segment",nil),NSLocalizedString(@"Min segments number is 4.",nil), NSLocalizedString(@"OK",nil), nil,nil);
-		nSegment = 4;
+	if (nSegment<2) {
+		NSRunCriticalAlertPanel(NSLocalizedString(@"Segment",nil),NSLocalizedString(@"Min segments number is 2.",nil), NSLocalizedString(@"OK",nil), nil,nil);
+		nSegment = 2;
 		[SectorNumberField setStringValue: [[NSNumber numberWithInt:nSegment] stringValue]];
 		
 	}
@@ -107,14 +110,22 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 	}
 	
 	
-	myEpiRoi = [self FindRoiByName:epiName];
+	//myEpiRoi = [self FindRoiByName:epiName];
+	NSArray *epiRois = [viewerController roisWithName:epiName];
+	if ([epiRois count] > 0) {
+		myEpiRoi = [epiRois objectAtIndex: 0];
+	}
 	if(myEpiRoi == nil)
 	{
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Segment",nil),NSLocalizedString(@"Epi not found on the image.",nil), NSLocalizedString(@"OK",nil), nil,nil);
 		return;
 	}
 	
-	myEndoRoi = [self FindRoiByName:endoName];
+	//myEndoRoi = [self FindRoiByName:endoName];
+	NSArray *endoRois = [viewerController roisWithName:endoName];
+	if ([endoRois count] > 0) {
+		myEndoRoi = [endoRois objectAtIndex: 0];
+	}
 	if(myEndoRoi == nil)
 	{
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Segment",nil),NSLocalizedString(@"Endo not found on the image.",nil), NSLocalizedString(@"OK",nil), nil,nil);
@@ -123,7 +134,11 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 	
 	/// at this point both Rois found ///
 	
-	SegmentSep = [self FindRoiByName:separatorName];
+	//SegmentSep = [self FindRoiByName:separatorName];
+	NSArray *sepRois = [viewerController roisWithName:separatorName];
+	if ([sepRois count] > 0) {
+		SegmentSep = [sepRois objectAtIndex: 0];
+	}
 	if(SegmentSep == nil)
 	{
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Segment",nil),NSLocalizedString(@"RV/LV not found on the image.",nil), NSLocalizedString(@"OK",nil), nil,nil);
@@ -176,7 +191,7 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 			//set its name
 			[tempROI setName: [NSString stringWithFormat:@"%@%d%@%d",
 							   NSLocalizedString(@"Sector", nil),
-							   Segi+1,
+							   nSegment-Segi,
 							   NSLocalizedString(@"_", nil),
 							   lay+1]];
 			// this is how I mark the sectors(so that their names are modifiable)
@@ -557,9 +572,13 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 	//get angle
 	angle= (atan2(by,bx)-atan2(ay,ax))/ deg2rad;
 	
+	
 	//make sure to output angle between -180 and 180¡
 	if(fabs(angle)>180)
 		angle =  ((angle < 0) ? 1 : -1)*(180-fmod(fabs(angle), 180));
+	
+	//make sure to output angle between 0 and 360¡
+	//	angle=fmod(fabs(angle), 360);
 	
 	return angle;
 }
@@ -585,19 +604,40 @@ static		NSString*				sectorIDComments=@"CardiacStatistics";
 	
 	[TextDisplayField setStringValue:(@"Click one EPI point") ];
 
-	ROI *myEpiROI = [self FindRoiByName:epiName];
+	//ROI *myEpiROI = [self FindRoiByName:epiName];
+	ROI *myEpiROI = nil;
+	
+	//NSArray *epiRois = [[viewerController draggedController] roisWithName:epiName];
+	NSArray *epiRois = [viewerController roisWithName:epiName];
+	if ([epiRois count] > 0) {
+		myEpiROI = [epiRois objectAtIndex: 0];
+	}
+	
+	
 	if(myEpiROI != nil)
 	{
 		clickCount=1;
 		
-		ROI *myEndoROI = [self FindRoiByName:endoName];
+		//ROI *myEndoROI = [self FindRoiByName:endoName];
+		ROI *myEndoROI = nil;
+		//NSArray *endoRois = [[viewerController seriesView] roisWithName:endoName];
+		NSArray *endoRois = [viewerController roisWithName:endoName];
+		if ([endoRois count] > 0) {
+			myEndoROI = [endoRois objectAtIndex: 0];
+		}
 		
 		if(myEndoROI != nil)
 		{
 			clickCount=2;
 			
 			
-			ROI *mySepROI = [self FindRoiByName:separatorName];
+			//ROI *mySepROI = [self FindRoiByName:separatorName];
+			ROI *mySepROI = nil;
+			//NSArray *sepRois = [[viewerController seriesView] roisWithName:separatorName];
+			NSArray *sepRois = [viewerController roisWithName:separatorName];
+			if ([sepRois count] > 0) {
+				mySepROI = [sepRois objectAtIndex: 0];
+			}
 			
 			if(mySepROI != nil)
 			{
