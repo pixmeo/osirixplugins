@@ -279,8 +279,7 @@
  */
 
 -(IBAction)help:(id)source {
-	NSString* path = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"help/help.html"];
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:path]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://osirix.svn.sourceforge.net/viewvc/osirix/Documentation/Guides/Plugins/EjectionFraction/index.html"]];
 }
 
 @end

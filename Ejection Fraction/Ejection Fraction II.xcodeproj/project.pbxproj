@@ -29,7 +29,6 @@
 		59D6010A10BEAE990024DC67 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 59D6010910BEAE990024DC67 /* Arrow.png */; };
 		59D892A510B2945B00AAA0FE /* EjectionFractionAlgorithm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59D892A410B2945B00AAA0FE /* EjectionFractionAlgorithm.mm */; };
 		59E60DCD10DA2C68009C862D /* EjectionFractionResults.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59E60DCC10DA2C68009C862D /* EjectionFractionResults.xib */; };
-		59E6186411298F3500D30102 /* help in Resources */ = {isa = PBXBuildFile; fileRef = 59E6185F11298F3500D30102 /* help */; };
 		59E6186B1129A70B00D30102 /* EjectionFractionZoomView.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E618691129A70B00D30102 /* EjectionFractionZoomView.h */; };
 		59E6186C1129A70B00D30102 /* EjectionFractionZoomView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E6186A1129A70B00D30102 /* EjectionFractionZoomView.mm */; };
 		59E8B2901046A19D00B83E7D /* EjectionFractionStepsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */; };
@@ -77,7 +76,6 @@
 		59D6010910BEAE990024DC67 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Arrow.png; path = Resources/Arrow.png; sourceTree = "<group>"; };
 		59D892A410B2945B00AAA0FE /* EjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionAlgorithm.mm; path = Sources/Algorithms/EjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
 		59E60DCC10DA2C68009C862D /* EjectionFractionResults.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EjectionFractionResults.xib; path = Resources/EjectionFractionResults.xib; sourceTree = "<group>"; };
-		59E6185F11298F3500D30102 /* help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = help; path = Resources/help; sourceTree = "<group>"; };
 		59E618691129A70B00D30102 /* EjectionFractionZoomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionZoomView.h; path = Sources/EjectionFractionZoomView.h; sourceTree = "<group>"; };
 		59E6186A1129A70B00D30102 /* EjectionFractionZoomView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionZoomView.mm; path = Sources/EjectionFractionZoomView.mm; sourceTree = "<group>"; };
 		59E8B28E1046A19D00B83E7D /* EjectionFractionStepsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionStepsController.mm; path = Sources/EjectionFractionStepsController.mm; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				59E6185F11298F3500D30102 /* help */,
 				5903B9C8111195E200F4358B /* Icon.png */,
 				5969FB1D11182E17006C9938 /* Biplane-Preview.pdf */,
 				5969FC1E11184417006C9938 /* Hemi-ellipse-Preview.pdf */,
@@ -282,7 +279,6 @@
 				5969FB1E11182E17006C9938 /* Biplane-Preview.pdf in Resources */,
 				5969FB2B111841FA006C9938 /* Simpson-Preview.pdf in Resources */,
 				5969FC1F11184417006C9938 /* Hemi-ellipse-Preview.pdf in Resources */,
-				59E6186411298F3500D30102 /* help in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
