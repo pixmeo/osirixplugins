@@ -8,7 +8,7 @@
 
 #import "NinetyDegreesROI.h"
 #import <OsiriX Headers/Notifications.h>
-#import <Nitrogen/N2Operators.h>
+#import <OsiriX Headers/N2Operators.h>
 
 
 @implementation NinetyDegreesROI

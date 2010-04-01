@@ -7,7 +7,7 @@
 //
 
 #import "NinetyDegreesDistanceROI.h"
-#import <Nitrogen/N2Operators.h>
+#import <OsiriX Headers/N2Operators.h>
 #import <OsiriX Headers/DCMView.h>
 #import <OsiriX Headers/Notifications.h>
 

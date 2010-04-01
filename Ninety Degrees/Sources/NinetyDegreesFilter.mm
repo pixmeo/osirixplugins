@@ -9,7 +9,7 @@
 #import "NinetyDegreesDistanceROI.h"
 #import <OsiriX Headers/Notifications.h>
 #import <OsiriX Headers/ROI.h>
-#import <Nitrogen/N2Operators.h>
+#import <OsiriX Headers/N2Operators.h>
 
 @implementation NinetyDegreesFilter
 
