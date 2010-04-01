@@ -1,0 +1,743 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		591202BB1137BEC7002D9163 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 591202B91137BEC7002D9163 /* Icon.png */; };
+		591202BF1137BED7002D9163 /* DiscPublishingFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 591202BD1137BED7002D9163 /* DiscPublishingFilter.h */; };
+		591202C01137BED7002D9163 /* DiscPublishingFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591202BE1137BED7002D9163 /* DiscPublishingFilter.mm */; };
+		5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */; };
+		5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */; };
+		5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041D1137C735002D9163 /* ThreadInfoCell.h */; };
+		5912042E1137C735002D9163 /* ThreadInfoCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912041E1137C735002D9163 /* ThreadInfoCell.mm */; };
+		5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041F1137C735002D9163 /* ThreadModalForWindowController.h */; };
+		591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204201137C735002D9163 /* ThreadModalForWindowController.mm */; };
+		591204311137C735002D9163 /* ThreadsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204211137C735002D9163 /* ThreadsManager.h */; };
+		591204321137C735002D9163 /* ThreadsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204221137C735002D9163 /* ThreadsManager.mm */; };
+		591204331137C735002D9163 /* ThreadsManagerThreadInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204231137C735002D9163 /* ThreadsManagerThreadInfo.h */; };
+		591204341137C735002D9163 /* ThreadsManagerThreadInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204241137C735002D9163 /* ThreadsManagerThreadInfo.mm */; };
+		591204351137C735002D9163 /* ThreadsScroller.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204251137C735002D9163 /* ThreadsScroller.h */; };
+		591204361137C735002D9163 /* ThreadsScroller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204261137C735002D9163 /* ThreadsScroller.mm */; };
+		591204371137C735002D9163 /* ThreadsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204271137C735002D9163 /* ThreadsTableView.h */; };
+		591204381137C735002D9163 /* ThreadsTableView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204281137C735002D9163 /* ThreadsTableView.mm */; };
+		591204391137C735002D9163 /* ThreadsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204291137C735002D9163 /* ThreadsWindowController.h */; };
+		5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912042A1137C735002D9163 /* ThreadsWindowController.mm */; };
+		5912044D1137C739002D9163 /* DiscPublisher+Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912043C1137C739002D9163 /* DiscPublisher+Constants.h */; };
+		5912044E1137C739002D9163 /* DiscPublisher+Constants.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */; };
+		5912044F1137C739002D9163 /* DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912043E1137C739002D9163 /* DiscPublisher.h */; };
+		591204501137C739002D9163 /* DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043F1137C739002D9163 /* DiscPublisher.mm */; };
+		591204511137C739002D9163 /* DiscPublisherJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204401137C739002D9163 /* DiscPublisherJob.h */; };
+		591204521137C739002D9163 /* DiscPublisherJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204411137C739002D9163 /* DiscPublisherJob.mm */; };
+		591204531137C739002D9163 /* DiscPublisherRobot.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204421137C739002D9163 /* DiscPublisherRobot.h */; };
+		591204541137C739002D9163 /* DiscPublisherRobot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204431137C739002D9163 /* DiscPublisherRobot.mm */; };
+		591204551137C739002D9163 /* DiscPublisherStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204441137C739002D9163 /* DiscPublisherStatus.h */; };
+		591204561137C739002D9163 /* DiscPublisherStatus.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204451137C739002D9163 /* DiscPublisherStatus.mm */; };
+		591204571137C739002D9163 /* NSFileManager+DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */; };
+		591204581137C739002D9163 /* NSFileManager+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */; };
+		591204591137C739002D9163 /* NSString+DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204491137C739002D9163 /* NSString+DiscPublisher.h */; };
+		5912045A1137C739002D9163 /* NSString+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */; };
+		5912045B1137C739002D9163 /* NSXMLNode+DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */; };
+		5912045C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */; };
+		591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */; };
+		591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */; };
+		591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204841137C836002D9163 /* ThreadModalForWindow.xib */; };
+		591204891137C836002D9163 /* ThreadsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204861137C836002D9163 /* ThreadsWindow.xib */; };
+		5912048C1137C84F002D9163 /* DiscPublishingPrefsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5912048A1137C84F002D9163 /* DiscPublishingPrefsView.xib */; };
+		591204AD1137C928002D9163 /* as_storage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591204A91137C928002D9163 /* as_storage.framework */; };
+		591204AE1137C928002D9163 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591204AA1137C928002D9163 /* JobManager.framework */; };
+		591204AF1137C928002D9163 /* JobProcessor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591204AB1137C928002D9163 /* JobProcessor.framework */; };
+		591204B01137C928002D9163 /* PTRobot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591204AC1137C928002D9163 /* PTRobot.framework */; };
+		591204D01137C958002D9163 /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 591204A91137C928002D9163 /* as_storage.framework */; };
+		591204D11137C958002D9163 /* JobManager.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 591204AA1137C928002D9163 /* JobManager.framework */; };
+		591204D21137C958002D9163 /* JobProcessor.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 591204AB1137C928002D9163 /* JobProcessor.framework */; };
+		591204D31137C958002D9163 /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 591204AC1137C928002D9163 /* PTRobot.framework */; };
+		5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */; };
+		59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */; };
+		59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022D113FE9A500875159 /* NSString+DiscPublishing.h */; };
+		59710232113FE9A500875159 /* NSString+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022E113FE9A500875159 /* NSString+DiscPublishing.mm */; };
+		59710236113FE9C800875159 /* AdaptiveBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710234113FE9C800875159 /* AdaptiveBox.h */; };
+		59710237113FE9C800875159 /* AdaptiveBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710235113FE9C800875159 /* AdaptiveBox.mm */; };
+		5971023A113FE9D500875159 /* DiscBurningOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710238113FE9D500875159 /* DiscBurningOptions.h */; };
+		5971023B113FE9D500875159 /* DiscBurningOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710239113FE9D500875159 /* DiscBurningOptions.mm */; };
+		59710242113FEA0E00875159 /* DiscPublishingFilesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */; };
+		59710243113FEA0E00875159 /* DiscPublishingFilesManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710241113FEA0E00875159 /* DiscPublishingFilesManager.mm */; };
+		5971024A113FEA1400875159 /* DiscPublishingPatientDisc.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710244113FEA1400875159 /* DiscPublishingPatientDisc.h */; };
+		5971024B113FEA1400875159 /* DiscPublishingPatientDisc.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710245113FEA1400875159 /* DiscPublishingPatientDisc.mm */; };
+		5971024C113FEA1400875159 /* DiscPublishingPrefsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710246113FEA1400875159 /* DiscPublishingPrefsViewController.h */; };
+		5971024D113FEA1400875159 /* DiscPublishingPrefsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710247113FEA1400875159 /* DiscPublishingPrefsViewController.mm */; };
+		5971024E113FEA1400875159 /* DiscPublishingUserDefaultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710248113FEA1400875159 /* DiscPublishingUserDefaultsController.h */; };
+		5971024F113FEA1400875159 /* DiscPublishingUserDefaultsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710249113FEA1400875159 /* DiscPublishingUserDefaultsController.mm */; };
+		597109E1113FF14D00875159 /* DicomCompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = 597109DF113FF14D00875159 /* DicomCompressor.h */; };
+		597109E2113FF14D00875159 /* DicomCompressor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 597109E0113FF14D00875159 /* DicomCompressor.mm */; };
+		598C9AE61153C4BA007B7524 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */; };
+		5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5994E8CE114690E6006E0DF7 /* OsiriX.framework */; };
+		5994EBBC114921F4006E0DF7 /* Warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 5994EBBB114921F4006E0DF7 /* Warning.png */; };
+		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		591204D41137C976002D9163 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				591204D01137C958002D9163 /* as_storage.framework in Copy Frameworks */,
+				591204D11137C958002D9163 /* JobManager.framework in Copy Frameworks */,
+				591204D21137C958002D9163 /* JobProcessor.framework in Copy Frameworks */,
+				591204D31137C958002D9163 /* PTRobot.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		591202B91137BEC7002D9163 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
+		591202BA1137BEC7002D9163 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		591202BD1137BED7002D9163 /* DiscPublishingFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingFilter.h; path = Classes/DiscPublishingFilter.h; sourceTree = "<group>"; };
+		591202BE1137BED7002D9163 /* DiscPublishingFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingFilter.mm; path = Classes/DiscPublishingFilter.mm; sourceTree = "<group>"; };
+		5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCancelButton.h; sourceTree = "<group>"; };
+		5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadInfoCancelButton.mm; sourceTree = "<group>"; };
+		5912041D1137C735002D9163 /* ThreadInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCell.h; sourceTree = "<group>"; };
+		5912041E1137C735002D9163 /* ThreadInfoCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadInfoCell.mm; sourceTree = "<group>"; };
+		5912041F1137C735002D9163 /* ThreadModalForWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadModalForWindowController.h; sourceTree = "<group>"; };
+		591204201137C735002D9163 /* ThreadModalForWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadModalForWindowController.mm; sourceTree = "<group>"; };
+		591204211137C735002D9163 /* ThreadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsManager.h; sourceTree = "<group>"; };
+		591204221137C735002D9163 /* ThreadsManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsManager.mm; sourceTree = "<group>"; };
+		591204231137C735002D9163 /* ThreadsManagerThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsManagerThreadInfo.h; sourceTree = "<group>"; };
+		591204241137C735002D9163 /* ThreadsManagerThreadInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsManagerThreadInfo.mm; sourceTree = "<group>"; };
+		591204251137C735002D9163 /* ThreadsScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsScroller.h; sourceTree = "<group>"; };
+		591204261137C735002D9163 /* ThreadsScroller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsScroller.mm; sourceTree = "<group>"; };
+		591204271137C735002D9163 /* ThreadsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsTableView.h; sourceTree = "<group>"; };
+		591204281137C735002D9163 /* ThreadsTableView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsTableView.mm; sourceTree = "<group>"; };
+		591204291137C735002D9163 /* ThreadsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsWindowController.h; sourceTree = "<group>"; };
+		5912042A1137C735002D9163 /* ThreadsWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsWindowController.mm; sourceTree = "<group>"; };
+		5912043C1137C739002D9163 /* DiscPublisher+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscPublisher+Constants.h"; sourceTree = "<group>"; };
+		5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "DiscPublisher+Constants.mm"; sourceTree = "<group>"; };
+		5912043E1137C739002D9163 /* DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisher.h; sourceTree = "<group>"; };
+		5912043F1137C739002D9163 /* DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisher.mm; sourceTree = "<group>"; };
+		591204401137C739002D9163 /* DiscPublisherJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisherJob.h; sourceTree = "<group>"; };
+		591204411137C739002D9163 /* DiscPublisherJob.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherJob.mm; sourceTree = "<group>"; };
+		591204421137C739002D9163 /* DiscPublisherRobot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisherRobot.h; sourceTree = "<group>"; };
+		591204431137C739002D9163 /* DiscPublisherRobot.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherRobot.mm; sourceTree = "<group>"; };
+		591204441137C739002D9163 /* DiscPublisherStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisherStatus.h; sourceTree = "<group>"; };
+		591204451137C739002D9163 /* DiscPublisherStatus.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherStatus.mm; sourceTree = "<group>"; };
+		591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DiscPublisher.h"; sourceTree = "<group>"; };
+		591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSFileManager+DiscPublisher.mm"; sourceTree = "<group>"; };
+		591204491137C739002D9163 /* NSString+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DiscPublisher.h"; sourceTree = "<group>"; };
+		5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+DiscPublisher.mm"; sourceTree = "<group>"; };
+		5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLNode+DiscPublisher.h"; sourceTree = "<group>"; };
+		5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSXMLNode+DiscPublisher.mm"; sourceTree = "<group>"; };
+		591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvertedNSStopProgressFreestandingTemplate.png; path = Resources/InvertedNSStopProgressFreestandingTemplate.png; sourceTree = "<group>"; };
+		591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvertedNSStopProgressFreestandingTemplatePressed.png; path = Resources/InvertedNSStopProgressFreestandingTemplatePressed.png; sourceTree = "<group>"; };
+		591204851137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadModalForWindow.xib; sourceTree = "<group>"; };
+		591204871137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadsWindow.xib; sourceTree = "<group>"; };
+		5912048B1137C84F002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/DiscPublishingPrefsView.xib; sourceTree = "<group>"; };
+		591204A91137C928002D9163 /* as_storage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = as_storage.framework; path = ../../../../Library/Development/DiscPublishing/Frameworks/as_storage.framework; sourceTree = SOURCE_ROOT; };
+		591204AA1137C928002D9163 /* JobManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobManager.framework; path = ../../../../Library/Development/DiscPublishing/Frameworks/JobManager.framework; sourceTree = SOURCE_ROOT; };
+		591204AB1137C928002D9163 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = ../../../../Library/Development/DiscPublishing/Frameworks/JobProcessor.framework; sourceTree = SOURCE_ROOT; };
+		591204AC1137C928002D9163 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = ../../../../Library/Development/DiscPublishing/Frameworks/PTRobot.framework; sourceTree = SOURCE_ROOT; };
+		5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+DiscPublishing.h"; path = "Classes/Extras/NSArray+DiscPublishing.h"; sourceTree = "<group>"; };
+		5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSArray+DiscPublishing.mm"; path = "Classes/Extras/NSArray+DiscPublishing.mm"; sourceTree = "<group>"; };
+		5971022D113FE9A500875159 /* NSString+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DiscPublishing.h"; path = "Classes/Extras/NSString+DiscPublishing.h"; sourceTree = "<group>"; };
+		5971022E113FE9A500875159 /* NSString+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+DiscPublishing.mm"; path = "Classes/Extras/NSString+DiscPublishing.mm"; sourceTree = "<group>"; };
+		59710234113FE9C800875159 /* AdaptiveBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdaptiveBox.h; sourceTree = "<group>"; };
+		59710235113FE9C800875159 /* AdaptiveBox.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AdaptiveBox.mm; sourceTree = "<group>"; };
+		59710238113FE9D500875159 /* DiscBurningOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscBurningOptions.h; path = Classes/DiscBurningOptions.h; sourceTree = "<group>"; };
+		59710239113FE9D500875159 /* DiscBurningOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscBurningOptions.mm; path = Classes/DiscBurningOptions.mm; sourceTree = "<group>"; };
+		59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingFilesManager.h; path = Classes/DiscPublishingFilesManager.h; sourceTree = "<group>"; };
+		59710241113FEA0E00875159 /* DiscPublishingFilesManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingFilesManager.mm; path = Classes/DiscPublishingFilesManager.mm; sourceTree = "<group>"; };
+		59710244113FEA1400875159 /* DiscPublishingPatientDisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingPatientDisc.h; path = Classes/DiscPublishingPatientDisc.h; sourceTree = "<group>"; };
+		59710245113FEA1400875159 /* DiscPublishingPatientDisc.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingPatientDisc.mm; path = Classes/DiscPublishingPatientDisc.mm; sourceTree = "<group>"; };
+		59710246113FEA1400875159 /* DiscPublishingPrefsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingPrefsViewController.h; path = Classes/DiscPublishingPrefsViewController.h; sourceTree = "<group>"; };
+		59710247113FEA1400875159 /* DiscPublishingPrefsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingPrefsViewController.mm; path = Classes/DiscPublishingPrefsViewController.mm; sourceTree = "<group>"; };
+		59710248113FEA1400875159 /* DiscPublishingUserDefaultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingUserDefaultsController.h; path = Classes/DiscPublishingUserDefaultsController.h; sourceTree = "<group>"; };
+		59710249113FEA1400875159 /* DiscPublishingUserDefaultsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingUserDefaultsController.mm; path = Classes/DiscPublishingUserDefaultsController.mm; sourceTree = "<group>"; };
+		597109DF113FF14D00875159 /* DicomCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DicomCompressor.h; path = Classes/DicomCompressor.h; sourceTree = "<group>"; };
+		597109E0113FF14D00875159 /* DicomCompressor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DicomCompressor.mm; path = Classes/DicomCompressor.mm; sourceTree = "<group>"; };
+		598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		5994E8CE114690E6006E0DF7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/osirix/build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
+		5994EBBB114921F4006E0DF7 /* Warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Warning.png; path = Resources/Warning.png; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				591204AD1137C928002D9163 /* as_storage.framework in Frameworks */,
+				591204AE1137C928002D9163 /* JobManager.framework in Frameworks */,
+				591204AF1137C928002D9163 /* JobProcessor.framework in Frameworks */,
+				591204B01137C928002D9163 /* PTRobot.framework in Frameworks */,
+				5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */,
+				598C9AE61153C4BA007B7524 /* OsiriX Headers.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* DiscPublishing */ = {
+			isa = PBXGroup;
+			children = (
+				591202BA1137BEC7002D9163 /* Info.plist */,
+				32DBCF630370AF2F00C91783 /* Prefix.pch */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = DiscPublishing;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */,
+				591204AA1137C928002D9163 /* JobManager.framework */,
+				591204AB1137C928002D9163 /* JobProcessor.framework */,
+				591204AC1137C928002D9163 /* PTRobot.framework */,
+				591204A91137C928002D9163 /* as_storage.framework */,
+				5994E8CE114690E6006E0DF7 /* OsiriX.framework */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5994EBBB114921F4006E0DF7 /* Warning.png */,
+				591202B91137BEC7002D9163 /* Icon.png */,
+				591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */,
+				591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */,
+				5912048A1137C84F002D9163 /* DiscPublishingPrefsView.xib */,
+				591204841137C836002D9163 /* ThreadModalForWindow.xib */,
+				591204861137C836002D9163 /* ThreadsWindow.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				591202BD1137BED7002D9163 /* DiscPublishingFilter.h */,
+				591202BE1137BED7002D9163 /* DiscPublishingFilter.mm */,
+				5971023D113FE9DC00875159 /* Future OsiriX Classes */,
+				59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */,
+				59710241113FEA0E00875159 /* DiscPublishingFilesManager.mm */,
+				59710244113FEA1400875159 /* DiscPublishingPatientDisc.h */,
+				59710245113FEA1400875159 /* DiscPublishingPatientDisc.mm */,
+				59710246113FEA1400875159 /* DiscPublishingPrefsViewController.h */,
+				59710247113FEA1400875159 /* DiscPublishingPrefsViewController.mm */,
+				59710248113FEA1400875159 /* DiscPublishingUserDefaultsController.h */,
+				59710249113FEA1400875159 /* DiscPublishingUserDefaultsController.mm */,
+				59710233113FE9C800875159 /* Generic Views */,
+				594B522B1138254300E786F5 /* Extras */,
+				5912043B1137C739002D9163 /* DiscPublisher */,
+				5912041A1137C735002D9163 /* Threads */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5912041A1137C735002D9163 /* Threads */ = {
+			isa = PBXGroup;
+			children = (
+				5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */,
+				5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */,
+				5912041D1137C735002D9163 /* ThreadInfoCell.h */,
+				5912041E1137C735002D9163 /* ThreadInfoCell.mm */,
+				5912041F1137C735002D9163 /* ThreadModalForWindowController.h */,
+				591204201137C735002D9163 /* ThreadModalForWindowController.mm */,
+				591204211137C735002D9163 /* ThreadsManager.h */,
+				591204221137C735002D9163 /* ThreadsManager.mm */,
+				591204231137C735002D9163 /* ThreadsManagerThreadInfo.h */,
+				591204241137C735002D9163 /* ThreadsManagerThreadInfo.mm */,
+				591204251137C735002D9163 /* ThreadsScroller.h */,
+				591204261137C735002D9163 /* ThreadsScroller.mm */,
+				591204271137C735002D9163 /* ThreadsTableView.h */,
+				591204281137C735002D9163 /* ThreadsTableView.mm */,
+				591204291137C735002D9163 /* ThreadsWindowController.h */,
+				5912042A1137C735002D9163 /* ThreadsWindowController.mm */,
+			);
+			name = Threads;
+			path = Classes/Threads;
+			sourceTree = "<group>";
+		};
+		5912043B1137C739002D9163 /* DiscPublisher */ = {
+			isa = PBXGroup;
+			children = (
+				5912043C1137C739002D9163 /* DiscPublisher+Constants.h */,
+				5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */,
+				5912043E1137C739002D9163 /* DiscPublisher.h */,
+				5912043F1137C739002D9163 /* DiscPublisher.mm */,
+				591204401137C739002D9163 /* DiscPublisherJob.h */,
+				591204411137C739002D9163 /* DiscPublisherJob.mm */,
+				591204421137C739002D9163 /* DiscPublisherRobot.h */,
+				591204431137C739002D9163 /* DiscPublisherRobot.mm */,
+				591204441137C739002D9163 /* DiscPublisherStatus.h */,
+				591204451137C739002D9163 /* DiscPublisherStatus.mm */,
+				591204461137C739002D9163 /* Extras */,
+			);
+			name = DiscPublisher;
+			path = Classes/DiscPublisher;
+			sourceTree = "<group>";
+		};
+		591204461137C739002D9163 /* Extras */ = {
+			isa = PBXGroup;
+			children = (
+				591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */,
+				591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */,
+				591204491137C739002D9163 /* NSString+DiscPublisher.h */,
+				5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */,
+				5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */,
+				5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */,
+			);
+			path = Extras;
+			sourceTree = "<group>";
+		};
+		594B522B1138254300E786F5 /* Extras */ = {
+			isa = PBXGroup;
+			children = (
+				5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */,
+				5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */,
+				5971022D113FE9A500875159 /* NSString+DiscPublishing.h */,
+				5971022E113FE9A500875159 /* NSString+DiscPublishing.mm */,
+			);
+			name = Extras;
+			sourceTree = "<group>";
+		};
+		59710233113FE9C800875159 /* Generic Views */ = {
+			isa = PBXGroup;
+			children = (
+				59710234113FE9C800875159 /* AdaptiveBox.h */,
+				59710235113FE9C800875159 /* AdaptiveBox.mm */,
+			);
+			name = "Generic Views";
+			path = "Classes/Generic Views";
+			sourceTree = "<group>";
+		};
+		5971023D113FE9DC00875159 /* Future OsiriX Classes */ = {
+			isa = PBXGroup;
+			children = (
+				59710238113FE9D500875159 /* DiscBurningOptions.h */,
+				59710239113FE9D500875159 /* DiscBurningOptions.mm */,
+				597109DF113FF14D00875159 /* DicomCompressor.h */,
+				597109E0113FF14D00875159 /* DicomCompressor.mm */,
+			);
+			name = "Future OsiriX Classes";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */,
+				591202BF1137BED7002D9163 /* DiscPublishingFilter.h in Headers */,
+				5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */,
+				5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */,
+				5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */,
+				591204311137C735002D9163 /* ThreadsManager.h in Headers */,
+				591204331137C735002D9163 /* ThreadsManagerThreadInfo.h in Headers */,
+				591204351137C735002D9163 /* ThreadsScroller.h in Headers */,
+				591204371137C735002D9163 /* ThreadsTableView.h in Headers */,
+				591204391137C735002D9163 /* ThreadsWindowController.h in Headers */,
+				5912044D1137C739002D9163 /* DiscPublisher+Constants.h in Headers */,
+				5912044F1137C739002D9163 /* DiscPublisher.h in Headers */,
+				591204511137C739002D9163 /* DiscPublisherJob.h in Headers */,
+				591204531137C739002D9163 /* DiscPublisherRobot.h in Headers */,
+				591204551137C739002D9163 /* DiscPublisherStatus.h in Headers */,
+				591204571137C739002D9163 /* NSFileManager+DiscPublisher.h in Headers */,
+				591204591137C739002D9163 /* NSString+DiscPublisher.h in Headers */,
+				5912045B1137C739002D9163 /* NSXMLNode+DiscPublisher.h in Headers */,
+				5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */,
+				59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */,
+				59710236113FE9C800875159 /* AdaptiveBox.h in Headers */,
+				5971023A113FE9D500875159 /* DiscBurningOptions.h in Headers */,
+				59710242113FEA0E00875159 /* DiscPublishingFilesManager.h in Headers */,
+				5971024A113FEA1400875159 /* DiscPublishingPatientDisc.h in Headers */,
+				5971024C113FEA1400875159 /* DiscPublishingPrefsViewController.h in Headers */,
+				5971024E113FEA1400875159 /* DiscPublishingUserDefaultsController.h in Headers */,
+				597109E1113FF14D00875159 /* DicomCompressor.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* DiscPublishing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DiscPublishing" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				591204D41137C976002D9163 /* Copy Frameworks */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+				59120CB91137DFB4002D9163 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DiscPublishing;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DiscPublishing" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* DiscPublishing */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* DiscPublishing */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				591202BB1137BEC7002D9163 /* Icon.png in Resources */,
+				591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */,
+				591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */,
+				591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */,
+				591204891137C836002D9163 /* ThreadsWindow.xib in Resources */,
+				5912048C1137C84F002D9163 /* DiscPublishingPrefsView.xib in Resources */,
+				5994EBBC114921F4006E0DF7 /* Warning.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		59120CB91137DFB4002D9163 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# fix paths from plugin binary to plugin frameworks\ninstall_name_tool -change @executable_path/../Frameworks/JobManager.framework/Versions/A/JobManager @loader_path/../Frameworks/JobManager.framework/Versions/A/JobManager $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor @loader_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage @loader_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage $TARGET_BUILD_DIR/$EXECUTABLE_PATH\n# fix paths from plugin JobManager framework to frameworks it depends on\ninstall_name_tool -change @executable_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor @loader_path/../../../JobProcessor.framework/Versions/A/JobProcessor $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobManager.framework/Versions/A/JobManager\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../../../PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobManager.framework/Versions/A/JobManager\n# fix paths from plugin JobProcessor framework to frameworks it depends on\ninstall_name_tool -change @executable_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage @loader_path/../../../AS_Storage.framework/Versions/A/AS_Storage $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobProcessor.framework/Versions/A/JobProcessor\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../../../PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobProcessor.framework/Versions/A/JobProcessor\n\nexit 0\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				591202C01137BED7002D9163 /* DiscPublishingFilter.mm in Sources */,
+				5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */,
+				5912042E1137C735002D9163 /* ThreadInfoCell.mm in Sources */,
+				591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */,
+				591204321137C735002D9163 /* ThreadsManager.mm in Sources */,
+				591204341137C735002D9163 /* ThreadsManagerThreadInfo.mm in Sources */,
+				591204361137C735002D9163 /* ThreadsScroller.mm in Sources */,
+				591204381137C735002D9163 /* ThreadsTableView.mm in Sources */,
+				5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */,
+				5912044E1137C739002D9163 /* DiscPublisher+Constants.mm in Sources */,
+				591204501137C739002D9163 /* DiscPublisher.mm in Sources */,
+				591204521137C739002D9163 /* DiscPublisherJob.mm in Sources */,
+				591204541137C739002D9163 /* DiscPublisherRobot.mm in Sources */,
+				591204561137C739002D9163 /* DiscPublisherStatus.mm in Sources */,
+				591204581137C739002D9163 /* NSFileManager+DiscPublisher.mm in Sources */,
+				5912045A1137C739002D9163 /* NSString+DiscPublisher.mm in Sources */,
+				5912045C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm in Sources */,
+				59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */,
+				59710232113FE9A500875159 /* NSString+DiscPublishing.mm in Sources */,
+				59710237113FE9C800875159 /* AdaptiveBox.mm in Sources */,
+				5971023B113FE9D500875159 /* DiscBurningOptions.mm in Sources */,
+				59710243113FEA0E00875159 /* DiscPublishingFilesManager.mm in Sources */,
+				5971024B113FEA1400875159 /* DiscPublishingPatientDisc.mm in Sources */,
+				5971024D113FEA1400875159 /* DiscPublishingPrefsViewController.mm in Sources */,
+				5971024F113FEA1400875159 /* DiscPublishingUserDefaultsController.mm in Sources */,
+				597109E2113FF14D00875159 /* DicomCompressor.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		591204841137C836002D9163 /* ThreadModalForWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				591204851137C836002D9163 /* English */,
+			);
+			name = ThreadModalForWindow.xib;
+			sourceTree = "<group>";
+		};
+		591204861137C836002D9163 /* ThreadsWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				591204871137C836002D9163 /* English */,
+			);
+			name = ThreadsWindow.xib;
+			sourceTree = "<group>";
+		};
+		5912048A1137C84F002D9163 /* DiscPublishingPrefsView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5912048B1137C84F002D9163 /* English */,
+			);
+			name = DiscPublishingPrefsView.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ONLY_ACTIVE_ARCH_PRE_XCODE_3_1)";
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH_PRE_XCODE_3_1 = "$(NATIVE_ARCH)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = DiscPublishing;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Resources/Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = DiscPublishing;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9308AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../../../Library/Development/DiscPublishing/Frameworks\"";
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DiscPublishing_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = DiscPublishing;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					ppc,
+					ppc64,
+					x86_64,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Deployment;
+		};
+		CE6A9A9708AC841300D0C1EE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DiscPublishing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+				CE6A9A9308AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DiscPublishing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+				CE6A9A9708AC841300D0C1EE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

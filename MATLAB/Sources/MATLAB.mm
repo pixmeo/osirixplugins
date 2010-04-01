@@ -28,6 +28,8 @@
 	if (!(_engine = engOpen("/Applications/MATLAB_R2008a/bin/matlab")))
 		[NSException raise:NSGenericException format:@"Can't start MATLAB engine"];
 	
+	// TODO: make /Applications/MATLAB_R2008a/ a variable, evtl autodetect anything matching MATLAB* in /Applications
+	
 	[self evalString:[NSString stringWithFormat:@"addpath('%@')", [MATLAB quote:path]]];
 	
 	return self;

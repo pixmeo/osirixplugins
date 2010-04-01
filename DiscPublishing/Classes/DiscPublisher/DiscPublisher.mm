@@ -1,0 +1,101 @@
+//
+//  DiscPublisher.mm
+//  Primiera
+//
+//  Created by Alessandro Volz on 2/9/10.
+//  Copyright 2010 OsiriX Team. All rights reserved.
+//
+
+#import "DiscPublisher.h"
+#import "DiscPublisherJob.h"
+#import "DiscPublisherStatus.h"
+#import "DiscPublisher+Constants.h"
+#import <PTRobot/PTRobot.h>
+#import <JobManager/PTJobManager.h>
+#import "NSFileManager+DiscPublisher.h"
+
+
+@implementation DiscPublisher
+
+@synthesize status = _status;
+
++(NSString*)baseDirPath {
+	NSString* path = [[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/DiscPublisher", [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]]];
+	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+	return path;
+}
+
++(NSString*)jobsDirPath {
+	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Jobs"];
+	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+	return path;
+}
+
++(NSString*)statusDirPath {
+	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Status"];
+	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+	return path;
+}
+
+-(id)init {
+	self = [super init];
+	
+	@try {
+		[DiscPublisher initializeJobManager];
+	} @catch (...) {
+		[DiscPublisher terminateJobManager];
+		@throw;
+	}
+
+	_jobs = [[NSMutableArray alloc] initWithCapacity:8];
+
+	char filePath[512];
+	UInt32 err = JM_GetStatusFile(filePath);
+	ConditionalDiscPublisherJMErrorException(err);
+	_status = [[DiscPublisherStatus alloc] initWithFileAtPath:[NSString stringWithUTF8String:filePath]];
+	
+	return self;
+}
+
+-(void)dealloc {
+	[DiscPublisher terminateJobManager];
+	[_status release];
+	[_jobs release];
+	
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark Wrapper methods for c functions
+
++(void)initializeJobManager {
+	UInt32 err = JM_Initialize((char*)[DiscPublisher baseDirPath].UTF8String,
+							   (char*)[[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey] UTF8String],
+							   (char*)[[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey] UTF8String],
+							   YES);
+	ConditionalDiscPublisherJMErrorException(err);
+}
+
++(void)terminateJobManager {
+	UInt32 err = JM_Terminate();
+	ConditionalDiscPublisherJMErrorException(err);
+}
+
+-(DiscPublisherJob*)createJob {
+	DiscPublisherJob* job = [[DiscPublisherJob alloc] initWithDiscPublisher:self];
+//	[_jobs addObject:job]; // TODO: remove completed jobs
+	return [job autorelease];
+}
+
+-(DiscPublisherJob*)createPrintOnlyJob {
+	DiscPublisherJob* job = [self createJob];
+	job.type = JP_JOB_PRINT_ONLY;
+	return job;
+}
+
+-(void)robot:(UInt32)robot systemAction:(UInt32)action {
+	UInt32 err = JM_RobotSystemAction(robot, action);
+	ConditionalDiscPublisherJMErrorException(err);
+}
+
+@end

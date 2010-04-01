@@ -8,7 +8,7 @@
 
 #import "MATLABPlugin.h"
 #import "MATLAB.h"
-#import <Nitrogen/NSPanel+N2.h>
+#import <OsiriX Headers/NSPanel+N2.h>
 #import <OsiriX Headers/ViewerController.h>
 #import <OsiriX Headers/DICOMExport.h>
 #import <OsiriX Headers/BrowserController.h>
