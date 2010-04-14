@@ -1,5 +1,5 @@
 //
-//  DiscPublishingFilter.h
+//  DiscPublishing.h
 //  DiscPublishing
 //
 //  Copyright (c) 2010 OsiriX. All rights reserved.
@@ -10,12 +10,17 @@
 
 @class DiscPublisher, DiscPublishingFilesManager;
 
-@interface DiscPublishingFilter : PluginFilter {
+@interface DiscPublishing : PluginFilter {
 	DiscPublisher* _discPublisher;
 	DiscPublishingFilesManager* _filesManager;
 }
 
 @property(readonly) DiscPublisher* discPublisher;
+
++(NSString*)baseDirPath;
++(NSString*)discCoverTemplatesDirPath;
+
++(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType;
 
 -(NSView*)prefsView;
 

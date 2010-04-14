@@ -185,7 +185,7 @@
 	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	[self.patientsLastReceiveTimes removeObjectForKey:patientUID];
 	
-	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[[[DiscPublishingUserDefaultsController sharedUserDefaultsController] patientModeBurnOptions] copy] autorelease]] autorelease];
+	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[[[DiscPublishingUserDefaultsController sharedUserDefaultsController] patientModeOptions] copy] autorelease]] autorelease];
 	
 	[files release];
 }

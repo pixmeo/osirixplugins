@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		591202BB1137BEC7002D9163 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 591202B91137BEC7002D9163 /* Icon.png */; };
-		591202BF1137BED7002D9163 /* DiscPublishingFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 591202BD1137BED7002D9163 /* DiscPublishingFilter.h */; };
-		591202C01137BED7002D9163 /* DiscPublishingFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591202BE1137BED7002D9163 /* DiscPublishingFilter.mm */; };
 		5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */; };
 		5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */; };
 		5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041D1137C735002D9163 /* ThreadInfoCell.h */; };
@@ -76,6 +73,11 @@
 		598C9AE61153C4BA007B7524 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */; };
 		5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5994E8CE114690E6006E0DF7 /* OsiriX.framework */; };
 		5994EBBC114921F4006E0DF7 /* Warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 5994EBBB114921F4006E0DF7 /* Warning.png */; };
+		59E37CC81173610300E84FE3 /* DiscPublishingOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */; };
+		59E37CC91173610300E84FE3 /* DiscPublishingOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */; };
+		59E37D39117457D900E84FE3 /* DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37D37117457D900E84FE3 /* DiscPublishing.h */; };
+		59E37D3A117457D900E84FE3 /* DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37D38117457D900E84FE3 /* DiscPublishing.mm */; };
+		59E37E73117466F700E84FE3 /* Standard.dcover in Resources */ = {isa = PBXBuildFile; fileRef = 59E37E70117466F700E84FE3 /* Standard.dcover */; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -102,10 +104,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
-		591202B91137BEC7002D9163 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
 		591202BA1137BEC7002D9163 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		591202BD1137BED7002D9163 /* DiscPublishingFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingFilter.h; path = Classes/DiscPublishingFilter.h; sourceTree = "<group>"; };
-		591202BE1137BED7002D9163 /* DiscPublishingFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingFilter.mm; path = Classes/DiscPublishingFilter.mm; sourceTree = "<group>"; };
 		5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCancelButton.h; sourceTree = "<group>"; };
 		5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadInfoCancelButton.mm; sourceTree = "<group>"; };
 		5912041D1137C735002D9163 /* ThreadInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCell.h; sourceTree = "<group>"; };
@@ -168,6 +167,11 @@
 		598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		5994E8CE114690E6006E0DF7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/osirix/build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
 		5994EBBB114921F4006E0DF7 /* Warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Warning.png; path = Resources/Warning.png; sourceTree = "<group>"; };
+		59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingOptions.h; path = Classes/DiscPublishingOptions.h; sourceTree = "<group>"; };
+		59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingOptions.mm; path = Classes/DiscPublishingOptions.mm; sourceTree = "<group>"; };
+		59E37D37117457D900E84FE3 /* DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishing.h; path = Classes/DiscPublishing.h; sourceTree = "<group>"; };
+		59E37D38117457D900E84FE3 /* DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishing.mm; path = Classes/DiscPublishing.mm; sourceTree = "<group>"; };
+		59E37E70117466F700E84FE3 /* Standard.dcover */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Standard.dcover; path = Resources/Standard.dcover; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -221,7 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				5994EBBB114921F4006E0DF7 /* Warning.png */,
-				591202B91137BEC7002D9163 /* Icon.png */,
+				59E37E70117466F700E84FE3 /* Standard.dcover */,
 				591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */,
 				591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */,
 				5912048A1137C84F002D9163 /* DiscPublishingPrefsView.xib */,
@@ -234,9 +238,11 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				591202BD1137BED7002D9163 /* DiscPublishingFilter.h */,
-				591202BE1137BED7002D9163 /* DiscPublishingFilter.mm */,
+				59E37D37117457D900E84FE3 /* DiscPublishing.h */,
+				59E37D38117457D900E84FE3 /* DiscPublishing.mm */,
 				5971023D113FE9DC00875159 /* Future OsiriX Classes */,
+				59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */,
+				59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */,
 				59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */,
 				59710241113FEA0E00875159 /* DiscPublishingFilesManager.mm */,
 				59710244113FEA1400875159 /* DiscPublishingPatientDisc.h */,
@@ -374,7 +380,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */,
-				591202BF1137BED7002D9163 /* DiscPublishingFilter.h in Headers */,
 				5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */,
 				5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */,
 				5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */,
@@ -400,6 +405,8 @@
 				5971024C113FEA1400875159 /* DiscPublishingPrefsViewController.h in Headers */,
 				5971024E113FEA1400875159 /* DiscPublishingUserDefaultsController.h in Headers */,
 				597109E1113FF14D00875159 /* DicomCompressor.h in Headers */,
+				59E37CC81173610300E84FE3 /* DiscPublishingOptions.h in Headers */,
+				59E37D39117457D900E84FE3 /* DiscPublishing.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,13 +457,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				591202BB1137BEC7002D9163 /* Icon.png in Resources */,
 				591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */,
 				591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */,
 				591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */,
 				591204891137C836002D9163 /* ThreadsWindow.xib in Resources */,
 				5912048C1137C84F002D9163 /* DiscPublishingPrefsView.xib in Resources */,
 				5994EBBC114921F4006E0DF7 /* Warning.png in Resources */,
+				59E37E73117466F700E84FE3 /* Standard.dcover in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,7 +500,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				591202C01137BED7002D9163 /* DiscPublishingFilter.mm in Sources */,
 				5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */,
 				5912042E1137C735002D9163 /* ThreadInfoCell.mm in Sources */,
 				591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */,
@@ -519,6 +525,8 @@
 				5971024D113FEA1400875159 /* DiscPublishingPrefsViewController.mm in Sources */,
 				5971024F113FEA1400875159 /* DiscPublishingUserDefaultsController.mm in Sources */,
 				597109E2113FF14D00875159 /* DicomCompressor.mm in Sources */,
+				59E37CC91173610300E84FE3 /* DiscPublishingOptions.mm in Sources */,
+				59E37D3A117457D900E84FE3 /* DiscPublishing.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

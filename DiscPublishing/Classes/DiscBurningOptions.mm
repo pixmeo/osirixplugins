@@ -25,7 +25,7 @@
 @synthesize zipEncryptPassword;
 
 -(id)copyWithZone:(NSZone*)zone {
-	DiscBurningOptions* copy = [[DiscBurningOptions allocWithZone:zone] init];
+	DiscBurningOptions* copy = [[[self class] allocWithZone:zone] init];
 	
 	copy.anonymize = self.anonymize;
 	copy.anonymizationTags = [self.anonymizationTags copyWithZone:zone];

@@ -20,21 +20,18 @@
 @synthesize status = _status;
 
 +(NSString*)baseDirPath {
-	NSString* path = [[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/DiscPublisher", [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]]];
-	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
-	return path;
+	NSString* path = [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:[self className]];
+	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
 }
 
 +(NSString*)jobsDirPath {
 	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Jobs"];
-	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
-	return path;
+	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
 }
 
 +(NSString*)statusDirPath {
 	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Status"];
-	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
-	return path;
+	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
 }
 
 -(id)init {

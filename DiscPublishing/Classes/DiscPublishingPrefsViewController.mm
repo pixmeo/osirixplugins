@@ -10,23 +10,41 @@
 #import "DiscPublishingUserDefaultsController.h"
 #import "DiscPublishingUserDefaultsController.h"
 #import "DiscBurningOptions.h"
+#import "DiscPublishing.h"
+#import <OsiriX Headers/N2Operators.h>
+
+
+@interface NSPathControl (DiscPublishing)
+-(NSRect)usedFrame;
+@end @implementation NSPathControl (DiscPublishing)
+
+-(NSRect)usedFrame {
+	return [self.cell rectOfPathComponentCell:[[self.cell pathComponentCells] lastObject] withFrame:self.frame inView:self];
+}
+
+@end
 
 
 @implementation DiscPublishingPrefsViewController
 
-@synthesize burnModeMatrix;
-@synthesize selectedModeOptionsBox;
-@synthesize patientModeOptions;
-@synthesize archivingModeOptions;
+@synthesize defaultsController;
 
 -(id)init {
-	return [super initWithNibName:@"DiscPublishingPrefsView" bundle:[NSBundle bundleForClass:[self class]]];
+	self = [super initWithNibName:@"DiscPublishingPrefsView" bundle:[NSBundle bundleForClass:[self class]]];
+	
+	defaultsController = [DiscPublishingUserDefaultsController sharedUserDefaultsController];
+	
+	return self;
 }
 
 -(void)awakeFromNib {
 	[super awakeFromNib];
 	
-	[[DiscPublishingUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:@"mode" options:NSKeyValueObservingOptionInitial context:NULL];
+	deltaFromPathControlBRToButtonTL = NSZeroSize+patientModeLabelTemplateEditButton.frame.origin - (patientModeLabelTemplatePathControl.frame.origin+patientModeLabelTemplatePathControl.frame.size);
+	
+	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingBurnModeDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
+	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
+	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
 	
 	NSImage* warningImage = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"Warning" ofType:@"png"]] autorelease];
 	[patientModeZipPasswordWarningView setImage:warningImage];
@@ -42,23 +60,21 @@
 }
 
 -(void)dealloc {
-	[[DiscPublishingUserDefaultsController sharedUserDefaultsController] removeObserver:self forKeyPath:@"mode"];
+	[defaultsController removeObserver:self forKeyPath:@"mode"];
 	[super dealloc];
 }
 
--(DiscPublishingUserDefaultsController*)defaultsController {
-	return [DiscPublishingUserDefaultsController sharedUserDefaultsController];
-}
-
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
-	if (obj == [DiscPublishingUserDefaultsController sharedUserDefaultsController]) {
-		if ([keyPath isEqual:@"mode"]) {
-			NSView* selectedModeView = NULL;
-			switch ([DiscPublishingUserDefaultsController sharedUserDefaultsController].mode) {
-				case BurnModeArchiving: selectedModeView = self.archivingModeOptions; break;
-				case BurnModePatient: selectedModeView = self.patientModeOptions; break;
-			} [self.selectedModeOptionsBox setContentView:selectedModeView];
-		}
+	if (obj == defaultsController) {
+		if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnModeDefaultsKey)])
+			switch (defaultsController.mode) {
+				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
+				case BurnModePatient: [burnModeOptionsBox setContentView:patientModeOptionsView]; break;
+			}
+		else if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)])
+			[patientModeLabelTemplateEditButton setFrameOrigin:RectBR([patientModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
+		else if ([keyPath isEqual:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)])
+			[archivingModeLabelTemplateEditButton setFrameOrigin:RectBR([archivingModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
 	}
 }
 
@@ -67,18 +83,18 @@
 	//[aopc beginSheetForWindow:self.window];
 }
 
+-(void)fileSelectionSheetDidEnd:(NSOpenPanel*)openPanel returnCode:(int)returnCode contextInfo:(void*)context {
+	NSString* key = (id)context;
+	if (returnCode == NSOKButton)
+		[self.defaultsController setValue:openPanel.URL.path forValuesKey:key];
+}
+
 -(void)showDirSelectionSheetForKey:(NSString*)key {
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
 	[openPanel setAllowsMultipleSelection:NO];
-	[openPanel beginSheetForDirectory:[self.defaultsController.defaults stringForKey:key] file:NULL types:NULL modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(dirSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
-}
-
--(void)dirSelectionSheetDidEnd:(NSOpenPanel*)openPanel returnCode:(int)returnCode contextInfo:(void*)context {
-	NSString* key = (id)context;
-	if (returnCode == NSOKButton)
-		[self.defaultsController.values setValue:openPanel.URL.path forKey:key];
+	[openPanel beginSheetForDirectory:[self.defaultsController.defaults stringForKey:key] file:NULL types:NULL modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
 
 -(IBAction)showPatientModeAuxiliaryDirSelectionSheet:(id)sender {
@@ -87,6 +103,54 @@
 
 -(IBAction)showArchivingModeAuxiliaryDirSelectionSheet:(id)sender {
 	[self showDirSelectionSheetForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
+}
+
+-(void)showFileSelectionSheetForKey:(NSString*)key fileTypes:(NSArray*)types defaultLocation:(NSString*)defaultLocation {
+	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel setAllowsMultipleSelection:NO];
+	[openPanel setTreatsFilePackagesAsDirectories:NO];
+	NSString* location = [self.defaultsController valueForValuesKey:key];
+	if (!location) location = defaultLocation;
+	[openPanel beginSheetForDirectory:location file:NULL types:types modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
+}
+
+-(void)showDiscCoverFileSelectionSheetForKey:(NSString*)key {
+	[self showFileSelectionSheetForKey:key fileTypes:[NSArray arrayWithObject:@"dcover"] defaultLocation:[DiscPublishing discCoverTemplatesDirPath]];
+}
+
+-(IBAction)showPatientModeDiscCoverFileSelectionSheet:(id)sender {
+	[self showDiscCoverFileSelectionSheetForKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+}
+
+-(IBAction)showArchivingModeDiscCoverFileSelectionSheet:(id)sender {
+	[self showDiscCoverFileSelectionSheetForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+}
+
+-(void)editDiscCoverFileWithKey:(NSString*)key {
+	NSString* location = [defaultsController valueForValuesKey:key];
+	
+	if (!location || ![[NSFileManager defaultManager] fileExistsAtPath:location]) {
+		location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:@"Template.dcover"];
+		if (![[NSFileManager defaultManager] fileExistsAtPath:location])
+			[[NSFileManager defaultManager] copyItemAtPath:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"] toPath:location error:NULL];
+		[defaultsController setValue:location forValuesKey:key];
+	}
+	
+	[[NSWorkspace sharedWorkspace] openFile:location];
+}
+
+-(IBAction)editPatientModeDiscCoverFile:(id)sender {
+	[self editDiscCoverFileWithKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+}
+
+-(IBAction)editArchivingModeDiscCoverFile:(id)sender {
+	[self editDiscCoverFileWithKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+}
+
+-(IBAction)mediaCapacityValueChanged:(id)sender {
+	// do nothing
 }
 
 @end
@@ -111,8 +175,6 @@
 @end
 
 
-@interface DiscPublishingIsValidPassword: NSValueTransformer
-@end
 @implementation DiscPublishingIsValidPassword
 
 +(Class)transformedValueClass {
@@ -123,8 +185,12 @@
 	return NO;
 }
 
++(BOOL)isValidPassword:(NSString*)value {
+	return value.length >= 8;	
+}
+
 -(id)transformedValue:(NSString*)value {
-    return [NSNumber numberWithBool: value.length >= 8];
+    return [NSNumber numberWithBool:[DiscPublishingIsValidPassword isValidPassword:value]];
 }
 
 @end
@@ -150,6 +216,25 @@
 @end
 
 
+@interface DiscCoverTemplatePathTransformer: NSValueTransformer
+@end
+@implementation DiscCoverTemplatePathTransformer
+
++(Class)transformedValueClass {
+	return [NSString class];
+}
+
++(BOOL)allowsReverseTransformation {
+	return NO;
+}
+
+-(id)transformedValue:(NSString*)value {
+	if (!value | ![[NSFileManager defaultManager] fileExistsAtPath:value])
+		return @"/Standard Disc Cover Template";
+	return value;
+}
+
+@end
 
 
 

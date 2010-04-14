@@ -10,13 +10,17 @@
 #import "DiscBurningOptions.h"
 #import "ThreadsManagerThreadInfo.h"
 #import "DiscPublishingUserDefaultsController.h"
+#import "DiscPublishingPrefsViewController.h"
+#import "DiscPublisher.h"
 #import "ThreadsManager.h"
 #import "NSFileManager+DiscPublisher.h"
 #import "DicomCompressor.h"
 #import <OsiriX Headers/QTExportHTMLSummary.h>
 #import <OsiriX Headers/DicomSeries.h>
+#import <OsiriX Headers/DicomStudy.h>
 #import <OsiriX/DCMObject.h>
 #import <OsiriX Headers/DicomImage.h>
+#import <OsiriX Headers/NSString+N2.h>
 #import <OsiriX Headers/BrowserController.h>
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
@@ -53,13 +57,13 @@
 	NSMutableArray* ret = [[NSMutableArray alloc] init];
 	
 	for (DicomImage* image in _files)
-		if ([[image valueForKeyPath:@"series.seriesDICOMUID"] isEqual: [series valueForKeyPath:@"seriesDICOMUID"]])
+		if ([image.series.seriesDICOMUID isEqual:series.seriesDICOMUID])
 			[ret addObject:image];
 	
 	return [ret autorelease];
 }
 
-+(NSArray*)selectSeries:(NSDictionary*)seriesSizes forDiscWithCapacity:(NSUInteger)mediaCapacity {
++(NSArray*)selectSeriesOfSizes:(NSDictionary*)seriesSizes forDiscWithCapacity:(NSUInteger)mediaCapacity {
 	// if all fits in a disk, return all
 	NSUInteger sum = 0;
 	for (NSValue* serieValue in seriesSizes)
@@ -89,13 +93,58 @@
 }
 
 +(void)copyOsirixLiteToPath:(NSString*)path {
-	// TODO: this
+	NSTask *unzipTask = [[NSTask alloc] init];
+	[unzipTask setLaunchPath: @"/usr/bin/unzip"];
+	[unzipTask setCurrentDirectoryPath:path];
+	[unzipTask setArguments:[NSArray arrayWithObjects: @"-o", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"OsiriX Lite.zip"], NULL]];
+	[unzipTask launch];
+	[unzipTask waitUntilExit];
+	[unzipTask release];
 }
 
 +(void)copyContentsOfDirectory:(NSString*)auxDir toPath:(NSString*)path {
-	// TODO: this
+	for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:auxDir error:NULL])
+		[[NSFileManager defaultManager] copyPath:[auxDir stringByAppendingPathComponent:subpath] toPath:[path stringByAppendingPathComponent:subpath] handler:NULL];
 }
 
++(NSString*)discNameForSeries:(NSArray*)series {
+	NSMutableArray* names = [NSMutableArray array];
+	for (DicomSeries* serie in series)
+		if (![names containsObject:serie.study.name])
+			[names addObject:serie.study.name];
+	
+	if (names.count == 1)
+		return [names objectAtIndex:0];
+	
+	return [NSString stringWithFormat:@"Archive %@", [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d-%H%M%S" timeZone:NULL locale:NULL]];
+}
+
++(NSString*)descriptionForSeries:(NSArray*)series {
+	return @"This is the description for the series in this disc.\nThis is a new line:\nAnd this new line is tabbed; this is not; this is not; this is not; neither is this.\nNew line.";
+}
+
++(void)generateDICOMDIRAtDirectory:(NSString*)root withDICOMFilesInDirectory:(NSString*)dicomPath {
+	if ([dicomPath hasPrefix:root]) {
+		NSUInteger index = root.length;
+		if ([dicomPath characterAtIndex:index] == '/')
+			++index;
+		dicomPath = [dicomPath substringFromIndex:index];
+	}
+	
+	NSTask* dcmmkdirTask = [[NSTask alloc] init];
+	[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
+	[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
+	[dcmmkdirTask setCurrentDirectoryPath:root];
+	[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+id", dicomPath, NULL]];		
+	[dcmmkdirTask launch];
+	[dcmmkdirTask waitUntilExit];
+	[dcmmkdirTask release];
+}
+
+-(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
+	// TODO; spawn write 
+}
+			
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	ThreadsManagerThreadInfo* threadInfo = [[ThreadsManager defaultManager] addThread:self name:[self name]];
@@ -164,61 +213,71 @@
 		[threadInfo setStatus:[NSString stringWithFormat:@"Preparing data for disc %d...", discNumber]];
 		
 		@try {
+			NSMutableArray* privateFiles = [NSMutableArray array];
+
 			NSString* discBaseDirPath = [[NSFileManager defaultManager] tmpFilePathInTmp];
 			[[NSFileManager defaultManager] confirmDirectoryAtPath:discBaseDirPath];
+	//		NSString* discBaseDirPath = [discTmpDirPath stringByAppendingPathComponent:@"DATA"];
+	//		[[NSFileManager defaultManager] confirmDirectoryAtPath:discBaseDirPath];
+	//		NSString* discFinalDirPath = [discTmpDirPath stringByAppendingPathComponent:@"FINAL"];
+	//		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
 			
-			NSUInteger mediaCapacityBytes = 0;
-			switch ([DiscPublishingUserDefaultsController sharedUserDefaultsController].media) {
-				case DISCTYPE_CD: mediaCapacityBytes = 700; break;
-				case DISCTYPE_DVD: mediaCapacityBytes = 4700; break;
-				case DISCTYPE_DVDDL: mediaCapacityBytes = 8500; break;
-				case DISCTYPE_BR: mediaCapacityBytes = 25000; break;
-				case DISCTYPE_BR_DL: mediaCapacityBytes = 50000; break;
-			} mediaCapacityBytes *= 1000000;
+			NSUInteger mediaCapacityBytes = [[DiscPublishingUserDefaultsController sharedUserDefaultsController] mediaCapacityBytes];
 			
 			if (_options.includeOsirixLite)
 				[DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
-				
 			if (_options.includeAuxiliaryDir)
 				[DiscPublishingPatientDisc copyContentsOfDirectory:_options.auxiliaryDirPath toPath:discBaseDirPath];
-			
 			mediaCapacityBytes -= [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
 				
-			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeries:seriesSizes forDiscWithCapacity:mediaCapacityBytes];
+			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:mediaCapacityBytes];
 			[seriesSizes removeObjectsForKeys:discSeriesValues];
+			NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];
+			for (NSValue* serieValue in discSeriesValues)
+				[discSeries addObject:(id)serieValue.pointerValue];
+			
+			NSString* discName = [DiscPublishingPatientDisc discNameForSeries:discSeries];
+			NSString* safeDiscName = [discName filenameString];
 			
 			// prepare patients dictionary for html generation
 			
 			NSMutableDictionary* htmlExportDic = [NSMutableDictionary dictionary];
-			for (NSValue* serieValue in discSeriesValues) {
-				DicomSeries* serie = (id)[serieValue pointerValue];
-				NSString* patient = [serie valueForKeyPath:@"study.name"];
-	
-				NSMutableArray* patientSeries = [htmlExportDic objectForKey:patient];
+			for (DicomSeries* serie in discSeries) {
+				NSMutableArray* patientSeries = [htmlExportDic objectForKey:serie.study.name];
 				if (!patientSeries) {
 					patientSeries = [NSMutableArray array];
-					[htmlExportDic setObject:patientSeries forKey:patient];
+					[htmlExportDic setObject:patientSeries forKey:serie.study.name];
 				}
 				
 				for (DicomImage* image in [serie sortedImages])
-					[patientSeries addObject:[image valueForKeyPath:@"series"]];
+					[patientSeries addObject:image.series];
 			}
 			
 			// move DICOM files
 			
 			NSString* dicomDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"DICOM"];
 			[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDiscBaseDirPath];
+			[privateFiles addObject:@"DICOM"];
 			
-			for (NSValue* serieValue in discSeriesValues)
-				[[NSFileManager defaultManager] movePath:[[DiscPublishingPatientDisc dirPathForSeries:(id)[serieValue pointerValue] inBaseDir:_tmpPath] stringByAppendingPathComponent:@"DICOM"] toPath:[DiscPublishingPatientDisc dirPathForSeries:(id)[serieValue pointerValue] inBaseDir:dicomDiscBaseDirPath] handler:NULL];
+			NSUInteger fileNumber = 0;
+			for (DicomSeries* serie in discSeries)
+				for (DicomImage* image in [serie sortedImages]) {
+					NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", fileNumber++]];
+					[[NSFileManager defaultManager] moveItemAtPath:image.pathString toPath:newPath error:NULL];
+					image.pathString = newPath;
+				}
+			
+			// generate DICOMDIR
+			[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:discBaseDirPath withDICOMFilesInDirectory:dicomDiscBaseDirPath];
+			[privateFiles addObject:@"DICOMDIR"];
 			
 			// move QTHTML files
 			
-			NSString* htmlqtDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"HTMLQT"];
+			NSString* htmlqtDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"HTML"];
 			[[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtDiscBaseDirPath];
+			[privateFiles addObject:@"HTML"];
 
-			for (NSValue* serieValue in discSeriesValues) {
-				DicomSeries* serie = (id)[serieValue pointerValue];
+			for (DicomSeries* serie in discSeries) {
 				NSString* serieHtmlQtBase = [[DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath] stringByAppendingPathComponent:@"HTMLQT"];
 				// in in this series htmlqt folder, remove the html-extra folder: it will be generated later
 				[[NSFileManager defaultManager] removeItemAtPath:[serieHtmlQtBase stringByAppendingPathComponent:@"html-extra"] error:NULL];
@@ -257,9 +316,9 @@
 								break;
 						}
 						
-						NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:[[serie valueForKeyPath:@"id"] intValue] inSeriesPaths:seriesPaths];
+						NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:serie.id.intValue inSeriesPaths:seriesPaths];
 						if (kind) {
-							[BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:[[serie valueForKeyPath:@"id"] intValue] kind:kind toSeriesPaths:seriesPaths];
+							[BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:serie.id.intValue kind:kind toSeriesPaths:seriesPaths];
 							NSLog(@"renaming %@ to %@", subpath, destinationFilename);
 						}
 					}
@@ -283,10 +342,53 @@
 			[htmlExport createHTMLfiles];
 			[htmlExport release];
 			
-			//TODO: consider zipEncrypt, passw, ..
- 
- 
- 
+			if (_options.zip) {
+				NSMutableArray* args = [NSMutableArray arrayWithObject:@"-r"];
+				if (_options.zipEncrypt && [DiscPublishingIsValidPassword isValidPassword:_options.zipEncryptPassword]) {
+					[args addObject:@"-eP"];
+					[args addObject:_options.zipEncryptPassword];
+				}
+				
+				[args addObject:[safeDiscName stringByAppendingPathExtension:@"zip"]];
+				[args addObjectsFromArray:privateFiles];
+				
+				NSTask* zipTask = [[NSTask alloc] init];
+				[zipTask setLaunchPath: @"/usr/bin/zip"];
+				[zipTask setCurrentDirectoryPath:discBaseDirPath];
+				[zipTask setArguments:args];
+				[zipTask launch];
+				[zipTask waitUntilExit]; 
+				[zipTask release];
+				
+				for (NSString* path in [discBaseDirPath stringsByAppendingPaths:privateFiles])
+					[[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
+			}
+			
+			// move data to ~/Library/Application Support/OsiriX/DiscPublishing/Discs/<safeDiscName>
+			
+			NSString* discsDir = [[DiscPublisher baseDirPath] stringByAppendingPathComponent:@"Discs"];
+			[[NSFileManager defaultManager] confirmDirectoryAtPath:discsDir];
+			
+			NSString* discDir = [discsDir stringByAppendingPathComponent:safeDiscName];
+			NSUInteger i = 0;
+			while ([[NSFileManager defaultManager] fileExistsAtPath:discDir])
+				discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, i]];
+			[[NSFileManager defaultManager] moveItemAtPath:discBaseDirPath toPath:discDir error:NULL];
+			
+			// save information dict
+			
+			NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
+								  safeDiscName, @"DiscName",
+								  _options, @"Options",
+								  [NSArray arrayWithObjects:
+									/* 1 */	discName,
+								   // TODO: date de NAISSANCE
+									/* 2 */	[DiscPublishingPatientDisc descriptionForSeries:discSeries], 
+									/* 3 */	[[NSDate date] descriptionWithCalendarFormat:@"%Y-%m-%d" timeZone:NULL locale:NULL], // TODO: date de l'EXAMEN, pas du jour
+								   NULL], @"MergeFields",
+								  NULL];
+			[self spawnDiscWrite:discDir info:info];
+			
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingPatientBurn main] error: %@", e);
 		}
@@ -374,6 +476,8 @@
 		[DicomCompressor compressFiles:[beforeDicomDirPath stringsByAppendingPaths:fileNames] toDirectory:dicomDirPath withOptions:execOptions];
 		[[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
 	}
+	
+	[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:dirPath withDICOMFilesInDirectory:dicomDirPath];
 	
 	NSLog(@"generating QTHTML");
 

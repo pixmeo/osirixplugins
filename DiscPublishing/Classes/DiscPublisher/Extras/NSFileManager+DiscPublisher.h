@@ -12,6 +12,7 @@
 @interface NSFileManager (DiscPublisher)
 
 -(NSString*)findSystemFolderOfType:(int)folderType forDomain:(int)domain;
+-(NSString*)userApplicationSupportFolderForApp;
 -(NSString*)tmpFilePathInDir:(NSString*)dirPath;
 -(NSString*)tmpFilePathInTmp;
 -(NSString*)confirmDirectoryAtPath:(NSString*)dirPath;

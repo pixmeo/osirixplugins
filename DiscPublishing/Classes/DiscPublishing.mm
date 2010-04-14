@@ -1,22 +1,23 @@
 //
-//  DiscPublishingFilter.m
+//  DiscPublishing.m
 //  DiscPublishing
 //
 //  Copyright (c) 2010 OsiriX. All rights reserved.
 //
 
-#import "DiscPublishingFilter.h"
+#import "DiscPublishing.h"
 #import "DiscPublishingPrefsViewController.h"
 #import "ThreadsWindowController.h"
 #import "DiscPublishingFilesManager.h"
 #import "ThreadsManagerThreadInfo.h"
 #import "ThreadsManager.h"
 #import "DiscPublisher.h"
+#import "NSFileManager+DiscPublisher.h"
 #import "DiscPublisherStatus.h"
 #import <QTKit/QTKit.h>
 
 
-@implementation DiscPublishingFilter
+@implementation DiscPublishing
 
 @synthesize discPublisher = _discPublisher;
 
@@ -76,6 +77,27 @@
 		}
 	
 	[pool release];
+}
+
++(NSString*)baseDirPath {
+	NSString* path = [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:[[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]];
+	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+}
+
++(NSString*)discCoverTemplatesDirPath {
+	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Disc Cover Templates"];
+	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+}
+
++(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType {
+	switch (mediaType) {
+		case DISCTYPE_CD: return 700*1000000; // 700 MB
+		case DISCTYPE_DVD: return 4.7*1000000000; // 4.7 GB
+		case DISCTYPE_DVDDL: return 8.5*1000000000; // 8.5 GB
+		case DISCTYPE_BR: return 25.0*1000000000; // 25 GB
+		case DISCTYPE_BR_DL: return 50.0*1000000000; // 50 GB
+		default: return 0;
+	}	
 }
 
 @end

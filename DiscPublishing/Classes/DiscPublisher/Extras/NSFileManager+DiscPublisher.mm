@@ -25,6 +25,13 @@
     return result;
 }
 
+-(NSString*)userApplicationSupportFolderForApp {
+	NSString* path = [[self findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]];
+	[self confirmDirectoryAtPath:path];
+	return path;
+
+}
+
 -(NSString*)tmpFilePathInDir:(NSString*)dirPath {
 	NSString* prefix = [NSString stringWithFormat:@"%@_%@_%u_%x_", [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey], [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d%H%M%S" timeZone:NULL locale:NULL], getpid(), [NSThread currentThread]];
 	char* path = tempnam(dirPath.UTF8String, prefix.UTF8String);
@@ -38,6 +45,10 @@
 }
 
 -(NSString*)confirmDirectoryAtPath:(NSString*)dirPath {
+	NSString* parentDirPath = [dirPath stringByDeletingLastPathComponent];
+	if (![dirPath isEqual:parentDirPath])
+		[self confirmDirectoryAtPath:parentDirPath];
+	
 	BOOL isDir, create = NO;
 	NSError* error = NULL;
 	
