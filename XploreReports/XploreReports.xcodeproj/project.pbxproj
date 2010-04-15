@@ -25,9 +25,9 @@
 		84DFC4B81176F43B00D3C162 /* XploreReportsClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XploreReportsClass.m; sourceTree = "<group>"; };
 		84DFC4BC1176F44500D3C162 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		84DFC4F41176FAD000D3C162 /* Icon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Icon.tiff; sourceTree = "<group>"; };
+		84DFC52C11770B1D00D3C162 /* XploreReports.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XploreReports.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
-		AB5D36050680E57E00F4007A /* XploreReports.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = XploreReports.bundle; path = /Users/admin/osirixplugins/XploreReports/build/Deployment/XploreReports.bundle; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +104,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				84DFC52C11770B1D00D3C162 /* XploreReports.osirixplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,7 +141,7 @@
 			name = XploreReports;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = Invert;
-			productReference = AB5D36050680E57E00F4007A /* XploreReports.bundle */;
+			productReference = 84DFC52C11770B1D00D3C162 /* XploreReports.osirixplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -227,7 +228,6 @@
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
