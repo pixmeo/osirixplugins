@@ -12,9 +12,9 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="84"/>
 			<integer value="1"/>
 			<integer value="51"/>
+			<integer value="84"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -45,13 +45,13 @@
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSTextField" id="428514458">
+					<object class="NSTextField" id="932885008">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{271, 228}, {45, 19}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="57812188">
+						<object class="NSTextFieldCell" key="NSCell" id="652263090">
 							<int key="NSCellFlags">-1804468671</int>
 							<int key="NSCellFlags2">138544128</int>
 							<real value="700" key="NSContents"/>
@@ -60,7 +60,7 @@
 								<double key="NSSize">11</double>
 								<int key="NSfFlags">3100</int>
 							</object>
-							<object class="NSNumberFormatter" key="NSFormatter" id="251696796">
+							<object class="NSNumberFormatter" key="NSFormatter" id="236944203">
 								<object class="NSMutableDictionary" key="NS.attributes">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="NSArray" key="dict.sortedKeys">
@@ -104,7 +104,7 @@
 										</object>
 									</object>
 								</object>
-								<object class="NSDecimalNumberPlaceholder" key="NS.min" id="654265317">
+								<object class="NSDecimalNumberPlaceholder" key="NS.min" id="900191752">
 									<int key="NS.exponent">0</int>
 									<int key="NS.length">0</int>
 									<bool key="NS.negative">YES</bool>
@@ -112,7 +112,7 @@
 									<int key="NS.mantissa.bo">1</int>
 									<bytes key="NS.mantissa">AAAAAAAAAAAAAAAAAAAAAA</bytes>
 								</object>
-								<reference key="NS.max" ref="654265317"/>
+								<reference key="NS.max" ref="900191752"/>
 								<object class="NSDecimalNumberHandler" key="NS.rounding">
 									<int key="NS.roundingmode">3</int>
 									<bool key="NS.raise.overflow">YES</bool>
@@ -125,7 +125,7 @@
 								<bool key="NS.localized">NO</bool>
 								<bool key="NS.allowsfloats">YES</bool>
 							</object>
-							<reference key="NSControlView" ref="428514458"/>
+							<reference key="NSControlView" ref="932885008"/>
 							<bool key="NSDrawsBackground">YES</bool>
 							<object class="NSColor" key="NSBackgroundColor" id="963992099">
 								<int key="NSColorSpace">6</int>
@@ -147,60 +147,60 @@
 							</object>
 						</object>
 					</object>
-					<object class="NSPopUpButton" id="669759216">
+					<object class="NSPopUpButton" id="890073078">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{321, 225}, {57, 22}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSPopUpButtonCell" key="NSCell" id="636159596">
+						<object class="NSPopUpButtonCell" key="NSCell" id="889338418">
 							<int key="NSCellFlags">-2076049856</int>
 							<int key="NSCellFlags2">133120</int>
 							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="669759216"/>
+							<reference key="NSControlView" ref="890073078"/>
 							<int key="NSButtonFlags">109199615</int>
 							<int key="NSButtonFlags2">129</int>
 							<string key="NSAlternateContents"/>
 							<string key="NSKeyEquivalent"/>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="191185868">
-								<reference key="NSMenu" ref="992178302"/>
+							<object class="NSMenuItem" key="NSMenuItem" id="724503507">
+								<reference key="NSMenu" ref="760788828"/>
 								<string key="NSTitle">GB</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
 								<int key="NSState">1</int>
-								<object class="NSCustomResource" key="NSOnImage" id="550434404">
+								<object class="NSCustomResource" key="NSOnImage" id="796274927">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">NSMenuCheckmark</string>
 								</object>
-								<object class="NSCustomResource" key="NSMixedImage" id="137262178">
+								<object class="NSCustomResource" key="NSMixedImage" id="294219526">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">NSMenuMixedState</string>
 								</object>
 								<string key="NSAction">_popUpItemAction:</string>
 								<int key="NSTag">1000000000</int>
-								<reference key="NSTarget" ref="636159596"/>
+								<reference key="NSTarget" ref="889338418"/>
 							</object>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
-							<object class="NSMenu" key="NSMenu" id="992178302">
+							<object class="NSMenu" key="NSMenu" id="760788828">
 								<string key="NSTitle">OtherViews</string>
 								<object class="NSMutableArray" key="NSMenuItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<object class="NSMenuItem" id="416905898">
-										<reference key="NSMenu" ref="992178302"/>
+									<object class="NSMenuItem" id="1044529420">
+										<reference key="NSMenu" ref="760788828"/>
 										<string key="NSTitle">MB</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">1000000</int>
-										<reference key="NSTarget" ref="636159596"/>
+										<reference key="NSTarget" ref="889338418"/>
 									</object>
-									<reference ref="191185868"/>
+									<reference ref="724503507"/>
 								</object>
 								<object class="NSFont" key="NSMenuFont" id="1071485897">
 									<string key="NSName">LucidaGrande</string>
@@ -239,8 +239,8 @@
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
 								<int key="NSState">1</int>
-								<reference key="NSOnImage" ref="550434404"/>
-								<reference key="NSMixedImage" ref="137262178"/>
+								<reference key="NSOnImage" ref="796274927"/>
+								<reference key="NSMixedImage" ref="294219526"/>
 								<string key="NSAction">_popUpItemAction:</string>
 								<reference key="NSTarget" ref="313905920"/>
 							</object>
@@ -256,8 +256,8 @@
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">1</int>
 										<reference key="NSTarget" ref="313905920"/>
@@ -268,8 +268,8 @@
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">2</int>
 										<reference key="NSTarget" ref="313905920"/>
@@ -279,8 +279,8 @@
 										<string key="NSTitle">Blu-ray Disc</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">3</int>
 										<reference key="NSTarget" ref="313905920"/>
@@ -290,8 +290,8 @@
 										<string key="NSTitle">Blu-ray Disc DL</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">4</int>
 										<reference key="NSTarget" ref="313905920"/>
@@ -542,18 +542,18 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="NSCellBackgroundColor" ref="781888867"/>
 						<reference key="NSFont" ref="1071485897"/>
 					</object>
-					<object class="NSTextField" id="597855775">
+					<object class="NSTextField" id="588359568">
 						<reference key="NSNextResponder" ref="1005"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{200, 230}, {66, 14}}</string>
 						<reference key="NSSuperview" ref="1005"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="871334784">
+						<object class="NSTextFieldCell" key="NSCell" id="879630441">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272761856</int>
 							<string key="NSContents">of capacity:</string>
 							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="597855775"/>
+							<reference key="NSControlView" ref="588359568"/>
 							<reference key="NSBackgroundColor" ref="9777482"/>
 							<object class="NSColor" key="NSTextColor" id="22542658">
 								<int key="NSColorSpace">6</int>
@@ -662,13 +662,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference key="NSTextColor" ref="22542658"/>
 						</object>
 					</object>
-					<object class="NSButton" id="586212284">
+					<object class="NSButton" id="385203488">
 						<reference key="NSNextResponder" ref="711400487"/>
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{439, 275}, {56, 15}}</string>
 						<reference key="NSSuperview" ref="711400487"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="795373563">
+						<object class="NSButtonCell" key="NSCell" id="626874399">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">134479872</int>
 							<string key="NSContents">Edit</string>
@@ -677,7 +677,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<double key="NSSize">9</double>
 								<int key="NSfFlags">3614</int>
 							</object>
-							<reference key="NSControlView" ref="586212284"/>
+							<reference key="NSControlView" ref="385203488"/>
 							<int key="NSButtonFlags">-2038152961</int>
 							<int key="NSButtonFlags2">163</int>
 							<string key="NSAlternateContents"/>
@@ -706,7 +706,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSPeriodicInterval">75</int>
 						</object>
 					</object>
-					<object class="NSPathControl" id="606768400">
+					<object class="NSPathControl" id="422266984">
 						<reference key="NSNextResponder" ref="711400487"/>
 						<int key="NSvFlags">266</int>
 						<object class="NSMutableSet" key="NSDragTypes">
@@ -720,7 +720,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{109, 272}, {317, 20}}</string>
 						<reference key="NSSuperview" ref="711400487"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSPathCell" key="NSCell" id="615334936">
+						<object class="NSPathCell" key="NSCell" id="694151671">
 							<int key="NSCellFlags">337772033</int>
 							<int key="NSCellFlags2">131072</int>
 							<object class="NSURL" key="NSContents">
@@ -728,7 +728,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<string key="NS.relative">file://localhost/Library/</string>
 							</object>
 							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="606768400"/>
+							<reference key="NSControlView" ref="422266984"/>
 							<object class="NSMutableArray" key="NSPathComponentCells">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSPathComponentCell">
@@ -757,7 +757,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								</object>
 							</object>
 							<int key="NSPathStyle">1</int>
-							<reference key="NSDelegate" ref="606768400"/>
+							<reference key="NSDelegate" ref="422266984"/>
 						</object>
 					</object>
 					<object class="NSPathControl" id="371130498">
@@ -851,18 +851,18 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							</object>
 						</object>
 					</object>
-					<object class="NSTextField" id="680303899">
+					<object class="NSTextField" id="903252095">
 						<reference key="NSNextResponder" ref="711400487"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 251}, {88, 14}}</string>
 						<reference key="NSSuperview" ref="711400487"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="656070401">
+						<object class="NSTextFieldCell" key="NSCell" id="1009210840">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">71435264</int>
 							<string key="NSContents">Anonymization:</string>
 							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="680303899"/>
+							<reference key="NSControlView" ref="903252095"/>
 							<reference key="NSBackgroundColor" ref="9777482"/>
 							<reference key="NSTextColor" ref="22542658"/>
 						</object>
@@ -1298,8 +1298,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
 								<int key="NSState">1</int>
-								<reference key="NSOnImage" ref="550434404"/>
-								<reference key="NSMixedImage" ref="137262178"/>
+								<reference key="NSOnImage" ref="796274927"/>
+								<reference key="NSMixedImage" ref="294219526"/>
 								<string key="NSAction">_popUpItemAction:</string>
 								<int key="NSTag">30</int>
 								<reference key="NSTarget" ref="159151842"/>
@@ -1315,8 +1315,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">10</int>
 										<reference key="NSTarget" ref="159151842"/>
@@ -1328,8 +1328,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">60</int>
 										<reference key="NSTarget" ref="159151842"/>
@@ -1340,8 +1340,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">120</int>
 										<reference key="NSTarget" ref="159151842"/>
@@ -1351,8 +1351,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSTitle">3 minutes</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">180</int>
 										<reference key="NSTarget" ref="159151842"/>
@@ -1362,8 +1362,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSTitle">5 minutes</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">300</int>
 										<reference key="NSTarget" ref="159151842"/>
@@ -1373,8 +1373,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 										<string key="NSTitle">10 minutes</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="550434404"/>
-										<reference key="NSMixedImage" ref="137262178"/>
+										<reference key="NSOnImage" ref="796274927"/>
+										<reference key="NSMixedImage" ref="294219526"/>
 										<string key="NSAction">_popUpItemAction:</string>
 										<int key="NSTag">600</int>
 										<reference key="NSTarget" ref="159151842"/>
@@ -1431,18 +1431,18 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSButton" id="546418354">
+					<object class="NSButton" id="34820550">
 						<reference key="NSNextResponder" ref="96340464"/>
 						<int key="NSvFlags">265</int>
 						<string key="NSFrame">{{439, 189}, {56, 15}}</string>
 						<reference key="NSSuperview" ref="96340464"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSButtonCell" key="NSCell" id="97413253">
+						<object class="NSButtonCell" key="NSCell" id="739975535">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">134479872</int>
 							<string key="NSContents">Edit</string>
 							<reference key="NSSupport" ref="22"/>
-							<reference key="NSControlView" ref="546418354"/>
+							<reference key="NSControlView" ref="34820550"/>
 							<int key="NSButtonFlags">-2038152961</int>
 							<int key="NSButtonFlags2">163</int>
 							<string key="NSAlternateContents"/>
@@ -1451,7 +1451,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSPeriodicInterval">75</int>
 						</object>
 					</object>
-					<object class="NSPathControl" id="332501248">
+					<object class="NSPathControl" id="854368359">
 						<reference key="NSNextResponder" ref="96340464"/>
 						<int key="NSvFlags">266</int>
 						<object class="NSMutableSet" key="NSDragTypes">
@@ -1465,7 +1465,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{109, 186}, {317, 20}}</string>
 						<reference key="NSSuperview" ref="96340464"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSPathCell" key="NSCell" id="413813164">
+						<object class="NSPathCell" key="NSCell" id="912974884">
 							<int key="NSCellFlags">337772033</int>
 							<int key="NSCellFlags2">131072</int>
 							<object class="NSURL" key="NSContents">
@@ -1473,7 +1473,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								<string key="NS.relative">file://localhost/Library/</string>
 							</object>
 							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="332501248"/>
+							<reference key="NSControlView" ref="854368359"/>
 							<object class="NSMutableArray" key="NSPathComponentCells">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSPathComponentCell">
@@ -1502,21 +1502,21 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 								</object>
 							</object>
 							<int key="NSPathStyle">1</int>
-							<reference key="NSDelegate" ref="332501248"/>
+							<reference key="NSDelegate" ref="854368359"/>
 						</object>
 					</object>
-					<object class="NSTextField" id="715967482">
+					<object class="NSTextField" id="349124151">
 						<reference key="NSNextResponder" ref="96340464"/>
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 190}, {88, 14}}</string>
 						<reference key="NSSuperview" ref="96340464"/>
 						<bool key="NSEnabled">YES</bool>
-						<object class="NSTextFieldCell" key="NSCell" id="145328347">
+						<object class="NSTextFieldCell" key="NSCell" id="178633234">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">71435264</int>
 							<string key="NSContents">Label template:</string>
 							<reference key="NSSupport" ref="26"/>
-							<reference key="NSControlView" ref="715967482"/>
+							<reference key="NSControlView" ref="349124151"/>
 							<reference key="NSBackgroundColor" ref="9777482"/>
 							<reference key="NSTextColor" ref="22542658"/>
 						</object>
@@ -1981,7 +1981,30 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<object class="NSUserDefaultsController" id="759237768">
 				<object class="NSMutableArray" key="NSDeclaredKeys">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>defaultsController.values.DiscPublishingBurnMediaCapacity</string>
+					<string>DiscPublishingPatientModeBurnDelay</string>
+					<string>DiscPublishingBurnMode</string>
+					<string>DiscPublishingBurnMediaType</string>
+					<string>DiscPublishingBurnMediaCapacity</string>
+					<string>DiscPublishingBurnMediaCapacityMeasureTag</string>
+					<string>DiscPublishingPatientModeDiscCoverTemplatePath</string>
+					<string>DiscPublishingPatientModeAnonymizeFlag</string>
+					<string>DiscPublishingPatientModeCompression</string>
+					<string>DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
+					<string>DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
+					<string>DiscPublishingPatientModeIncludeHTMLQTFlag</string>
+					<string>DiscPublishingPatientModeIncludeReportsFlag</string>
+					<string>DiscPublishingPatientModeZipFlag</string>
+					<string>DiscPublishingPatientModeZipEncryptFlag</string>
+					<string>DiscPublishingPatientModeZipEncryptPassword</string>
+					<string>DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+					<string>DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+					<string>DiscPublishingArchivingModeCompression</string>
+					<string>DiscPublishingArchivingModeDiscCoverTemplatePath</string>
+					<string>DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
+					<string>DiscPublishingArchivingModeIncludeReportsFlag</string>
+					<string>DiscPublishingArchivingModeZipFlag</string>
+					<string>DiscPublishingArchivingModeZipEncryptFlag</string>
+					<string>DiscPublishingArchivingModeZipEncryptPassword</string>
 				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
@@ -2022,38 +2045,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">101</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-						<reference key="source" ref="293106698"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="293106698"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">244</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-						<reference key="source" ref="682259344"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="682259344"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">245</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">showPatientModeAuxiliaryDirSelectionSheet:</string>
 						<reference key="source" ref="1001"/>
@@ -2068,450 +2059,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<reference key="destination" ref="389444165"/>
 					</object>
 					<int key="connectionID">289</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeCompression</string>
-						<reference key="source" ref="63017963"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="63017963"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeCompression</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeCompression</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">CompressionIsCompress</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">354</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: defaultsController.values.DiscPublishingBurnMode</string>
-						<reference key="source" ref="662026655"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="662026655"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedTag: defaultsController.values.DiscPublishingBurnMode</string>
-							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingBurnMode</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSAllowsEditingMultipleValuesSelection</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">355</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: defaultsController.values.DiscPublishingPatientModeBurnDelay</string>
-						<reference key="source" ref="463769414"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="463769414"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedTag: defaultsController.values.DiscPublishingPatientModeBurnDelay</string>
-							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeBurnDelay</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">358</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-						<reference key="source" ref="128347757"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="128347757"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">359</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
-						<reference key="source" ref="37246701"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="37246701"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">360</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeIncludeHTMLQTFlag</string>
-						<reference key="source" ref="879686499"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="879686499"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeIncludeHTMLQTFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeHTMLQTFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">361</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeIncludeReportsFlag</string>
-						<reference key="source" ref="419753828"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="419753828"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeIncludeReportsFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeReportsFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">362</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="905893642"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="905893642"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSConditionallySetsEnabled</string>
-								<boolean value="NO" key="NS.object.0"/>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">363</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="598626640"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="598626640"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">364</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="371130498"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="371130498"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">365</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: defaultsController.values.DiscPublishingPatientModeCompression</string>
-						<reference key="source" ref="191544009"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="191544009"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedTag: defaultsController.values.DiscPublishingPatientModeCompression</string>
-							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeCompression</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">367</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
-						<reference key="source" ref="63017963"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="63017963"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">368</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-						<reference key="source" ref="200675212"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="926423023">
-							<reference key="NSSource" ref="200675212"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">371</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeIncludeReportsFlag</string>
-						<reference key="source" ref="400153365"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="400153365"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeIncludeReportsFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeIncludeReportsFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">373</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="911650673"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="911650673"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">374</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="553951024"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="553951024"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">375</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="389444165"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="389444165"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">376</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: defaultsController.values.DiscPublishingArchivingModeCompression</string>
-						<reference key="source" ref="720107664"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="720107664"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedTag: defaultsController.values.DiscPublishingArchivingModeCompression</string>
-							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeCompression</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">378</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingArchivingModeCompression</string>
-						<reference key="source" ref="281460808"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="281460808"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingArchivingModeCompression</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeCompression</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">CompressionIsCompress</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">379</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
-						<reference key="source" ref="281460808"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="281460808"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">380</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-						<reference key="source" ref="242696252"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="864448829">
-							<reference key="NSSource" ref="242696252"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">383</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
-						<reference key="source" ref="389444165"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="389444165"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">385</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
-						<reference key="source" ref="371130498"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="371130498"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">386</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="11556916"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="264880505">
-							<reference key="NSSource" ref="11556916"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden: defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">416</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-						<reference key="source" ref="798957153"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="152576137">
-							<reference key="NSSource" ref="798957153"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden: defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">427</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-						<reference key="source" ref="29587341"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="415133707">
-							<reference key="NSSource" ref="29587341"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden: defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">430</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2546,476 +2093,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">436</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-						<reference key="source" ref="218006332"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="459211807">
-							<reference key="NSSource" ref="218006332"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden: defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSValueTransformerName</string>
-								<string key="NS.object.0">NSNegateBoolean</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">443</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeZipEncryptPassword</string>
-						<reference key="source" ref="200675212"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="200675212"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeZipEncryptPassword</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipEncryptPassword</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSConditionallySetsEditable</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSContinuouslyUpdatesValue</string>
-									<string>NSValidatesImmediately</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="YES"/>
-									<boolean value="YES"/>
-									<boolean value="YES"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">449</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeZipEncryptPassword</string>
-						<reference key="source" ref="242696252"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="242696252"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeZipEncryptPassword</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipEncryptPassword</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSConditionallySetsEditable</string>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSContinuouslyUpdatesValue</string>
-									<string>NSValidatesImmediately</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<boolean value="YES"/>
-									<boolean value="YES"/>
-									<boolean value="YES"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">450</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden2: defaultsController.values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
-						<reference key="source" ref="11556916"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="11556916"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden2: defaultsController.values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
-							<string key="NSBinding">hidden2</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<string>DiscPublishingIsValidDirPath</string>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="264880505"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">451</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden2: defaultsController.values.DiscPublishingPatientModeZipEncryptPassword</string>
-						<reference key="source" ref="218006332"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="600980507">
-							<reference key="NSSource" ref="218006332"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden2: defaultsController.values.DiscPublishingPatientModeZipEncryptPassword</string>
-							<string key="NSBinding">hidden2</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipEncryptPassword</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<string>DiscPublishingIsValidPassword</string>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="459211807"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">452</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden2: defaultsController.values.DiscPublishingArchivingModeZipEncryptPassword</string>
-						<reference key="source" ref="798957153"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="112435811">
-							<reference key="NSSource" ref="798957153"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden2: defaultsController.values.DiscPublishingArchivingModeZipEncryptPassword</string>
-							<string key="NSBinding">hidden2</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipEncryptPassword</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<string>DiscPublishingIsValidPassword</string>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="152576137"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">453</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden2: defaultsController.values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
-						<reference key="source" ref="29587341"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="29587341"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden2: defaultsController.values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
-							<string key="NSBinding">hidden2</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<string>DiscPublishingIsValidDirPath</string>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="415133707"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">454</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-						<reference key="source" ref="631386182"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="631386182"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipEncryptFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">459</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-						<reference key="source" ref="606494015"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="606494015"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">460</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-						<reference key="source" ref="631386182"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="631386182"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">462</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-						<reference key="source" ref="667961752"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="667961752"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipEncryptFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">468</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-						<reference key="source" ref="667961752"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="667961752"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">469</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-						<reference key="source" ref="317532303"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="317532303"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">470</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden3: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-						<reference key="source" ref="798957153"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="798957153"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden3: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<string key="NSBinding">hidden3</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<string>NSNegateBoolean</string>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="112435811"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">473</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden3: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-						<reference key="source" ref="218006332"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="218006332"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">hidden3: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<string key="NSBinding">hidden3</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<string>NSNegateBoolean</string>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="600980507"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">476</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled2: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-						<reference key="source" ref="200675212"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="200675212"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled2: defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<string key="NSBinding">enabled2</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeZipFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="926423023"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">478</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled2: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-						<reference key="source" ref="242696252"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="242696252"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled2: defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<string key="NSBinding">enabled2</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeZipFlag</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSMultipleValuesPlaceholder</string>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-									<integer value="-1"/>
-								</object>
-							</object>
-							<reference key="NSPreviousConnector" ref="864448829"/>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">480</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">archivingModeLabelTemplateEditButton</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="546418354"/>
+						<reference key="destination" ref="34820550"/>
 					</object>
 					<int key="connectionID">536</int>
 				</object>
@@ -3023,7 +2104,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">archivingModeLabelTemplatePathControl</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="332501248"/>
+						<reference key="destination" ref="854368359"/>
 					</object>
 					<int key="connectionID">537</int>
 				</object>
@@ -3031,7 +2112,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">patientModeLabelTemplateEditButton</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="586212284"/>
+						<reference key="destination" ref="385203488"/>
 					</object>
 					<int key="connectionID">538</int>
 				</object>
@@ -3039,7 +2120,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">patientModeLabelTemplatePathControl</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="606768400"/>
+						<reference key="destination" ref="422266984"/>
 					</object>
 					<int key="connectionID">539</int>
 				</object>
@@ -3047,7 +2128,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">showPatientModeDiscCoverFileSelectionSheet:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="606768400"/>
+						<reference key="destination" ref="422266984"/>
 					</object>
 					<int key="connectionID">544</int>
 				</object>
@@ -3055,7 +2136,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">showArchivingModeDiscCoverFileSelectionSheet:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="332501248"/>
+						<reference key="destination" ref="854368359"/>
 					</object>
 					<int key="connectionID">545</int>
 				</object>
@@ -3063,7 +2144,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">editPatientModeDiscCoverFile:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="586212284"/>
+						<reference key="destination" ref="385203488"/>
 					</object>
 					<int key="connectionID">546</int>
 				</object>
@@ -3071,7 +2152,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">editArchivingModeDiscCoverFile:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="546418354"/>
+						<reference key="destination" ref="34820550"/>
 					</object>
 					<int key="connectionID">547</int>
 				</object>
@@ -3103,7 +2184,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">mediaCapacityMeasurePopUpButton</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="669759216"/>
+						<reference key="destination" ref="890073078"/>
 					</object>
 					<int key="connectionID">557</int>
 				</object>
@@ -3111,7 +2192,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">mediaCapacityTextField</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="428514458"/>
+						<reference key="destination" ref="932885008"/>
 					</object>
 					<int key="connectionID">558</int>
 				</object>
@@ -3119,7 +2200,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">mediaCapacityValueChanged:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="428514458"/>
+						<reference key="destination" ref="932885008"/>
 					</object>
 					<int key="connectionID">560</int>
 				</object>
@@ -3127,7 +2208,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">mediaCapacityValueChanged:</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="669759216"/>
+						<reference key="destination" ref="890073078"/>
 					</object>
 					<int key="connectionID">561</int>
 				</object>
@@ -3141,15 +2222,183 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: defaultsController.values.DiscPublishingBurnMediaType</string>
+						<string key="label">value: values.DiscPublishingBurnMediaCapacity</string>
+						<reference key="source" ref="652263090"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="652263090"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingBurnMediaCapacity</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingBurnMediaCapacity</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">565</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
+						<reference key="source" ref="389444165"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="389444165"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">585</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="389444165"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="389444165"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">588</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="29587341"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="1024619729">
+							<reference key="NSSource" ref="29587341"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">593</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="911650673"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="911650673"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">599</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden2: values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
+						<reference key="source" ref="29587341"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="29587341"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden2: values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
+							<string key="NSBinding">hidden2</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeAuxiliaryDirectoryPathData</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>DiscPublishingIsValidDirPath</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="1024619729"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">600</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="553951024"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="553951024"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">603</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: values.DiscPublishingPatientModeBurnDelay</string>
+						<reference key="source" ref="463769414"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="463769414"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">selectedTag: values.DiscPublishingPatientModeBurnDelay</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeBurnDelay</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">611</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: values.DiscPublishingBurnMode</string>
+						<reference key="source" ref="662026655"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="662026655"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">selectedTag: values.DiscPublishingBurnMode</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">values.DiscPublishingBurnMode</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">614</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: values.DiscPublishingBurnMediaType</string>
 						<reference key="source" ref="881976817"/>
-						<reference key="destination" ref="1001"/>
+						<reference key="destination" ref="759237768"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="881976817"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedTag: defaultsController.values.DiscPublishingBurnMediaType</string>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">selectedTag: values.DiscPublishingBurnMediaType</string>
 							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingBurnMediaType</string>
+							<string key="NSKeyPath">values.DiscPublishingBurnMediaType</string>
 							<object class="NSDictionary" key="NSOptions">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="dict.sortedKeys">
@@ -3166,67 +2415,51 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">563</int>
+					<int key="connectionID">617</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.defaultsController.values.DiscPublishingBurnMediaCapacity</string>
-						<reference key="source" ref="57812188"/>
+						<string key="label">value: values.DiscPublishingBurnMediaCapacity</string>
+						<reference key="source" ref="932885008"/>
 						<reference key="destination" ref="759237768"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="57812188"/>
+							<reference key="NSSource" ref="932885008"/>
 							<reference key="NSDestination" ref="759237768"/>
-							<string key="NSLabel">value: values.defaultsController.values.DiscPublishingBurnMediaCapacity</string>
+							<string key="NSLabel">value: values.DiscPublishingBurnMediaCapacity</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.defaultsController.values.DiscPublishingBurnMediaCapacity</string>
+							<string key="NSKeyPath">values.DiscPublishingBurnMediaCapacity</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">565</int>
+					<int key="connectionID">621</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingBurnMediaCapacity</string>
-						<reference key="source" ref="428514458"/>
-						<reference key="destination" ref="1001"/>
+						<string key="label">selectedTag: values.DiscPublishingBurnMediaCapacityMeasureTag</string>
+						<reference key="source" ref="890073078"/>
+						<reference key="destination" ref="759237768"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="428514458"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingBurnMediaCapacity</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingBurnMediaCapacity</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">568</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedTag: defaultsController.values.DiscPublishingBurnMediaCapacityMeasureTag</string>
-						<reference key="source" ref="669759216"/>
-						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="669759216"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">selectedTag: defaultsController.values.DiscPublishingBurnMediaCapacityMeasureTag</string>
+							<reference key="NSSource" ref="890073078"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">selectedTag: values.DiscPublishingBurnMediaCapacityMeasureTag</string>
 							<string key="NSBinding">selectedTag</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingBurnMediaCapacityMeasureTag</string>
+							<string key="NSKeyPath">values.DiscPublishingBurnMediaCapacityMeasureTag</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">570</int>
+					<int key="connectionID">624</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingArchivingModeDiscCoverTemplatePath</string>
-						<reference key="source" ref="332501248"/>
-						<reference key="destination" ref="1001"/>
+						<string key="label">value: values.DiscPublishingPatientModeDiscCoverTemplatePath</string>
+						<reference key="source" ref="422266984"/>
+						<reference key="destination" ref="759237768"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="332501248"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingArchivingModeDiscCoverTemplatePath</string>
+							<reference key="NSSource" ref="422266984"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeDiscCoverTemplatePath</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingArchivingModeDiscCoverTemplatePath</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeDiscCoverTemplatePath</string>
 							<object class="NSDictionary" key="NSOptions">
 								<bool key="EncodedWithXMLCoder">YES</bool>
 								<object class="NSArray" key="dict.sortedKeys">
@@ -3243,48 +2476,167 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">578</int>
+					<int key="connectionID">627</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: defaultsController.values.DiscPublishingPatientModeDiscCoverTemplatePath</string>
-						<reference key="source" ref="606768400"/>
-						<reference key="destination" ref="1001"/>
+						<string key="label">value: values.DiscPublishingPatientModeAnonymizeFlag</string>
+						<reference key="source" ref="128347757"/>
+						<reference key="destination" ref="759237768"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="606768400"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">value: defaultsController.values.DiscPublishingPatientModeDiscCoverTemplatePath</string>
+							<reference key="NSSource" ref="128347757"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeAnonymizeFlag</string>
 							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeDiscCoverTemplatePath</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">630</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeAnonymizeFlag</string>
+						<reference key="source" ref="682259344"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="682259344"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">633</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeAnonymizeFlag</string>
+						<reference key="source" ref="293106698"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="293106698"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">636</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: values.DiscPublishingPatientModeCompression</string>
+						<reference key="source" ref="191544009"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="191544009"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">selectedTag: values.DiscPublishingPatientModeCompression</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeCompression</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">639</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
+						<reference key="source" ref="63017963"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="63017963"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeCompressJPEGNotJPEG2000</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">642</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeCompression</string>
+						<reference key="source" ref="63017963"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="63017963"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeCompression</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeCompression</string>
 							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSConditionallySetsEnabled</string>
-									<string>NSValueTransformerName</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<boolean value="NO"/>
-									<string>DiscCoverTemplatePathTransformer</string>
-								</object>
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">CompressionIsCompress</string>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">579</int>
+					<int key="connectionID">645</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
+						<string key="label">value: values.DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
+						<reference key="source" ref="37246701"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="37246701"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeOsirixLiteFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">649</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeIncludeHTMLQTFlag</string>
+						<reference key="source" ref="879686499"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="879686499"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeIncludeHTMLQTFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeHTMLQTFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">652</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeIncludeReportsFlag</string>
 						<reference key="source" ref="419753828"/>
-						<reference key="destination" ref="1001"/>
+						<reference key="destination" ref="759237768"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="419753828"/>
-							<reference key="NSDestination" ref="1001"/>
-							<string key="NSLabel">enabled: defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeIncludeReportsFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeReportsFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">655</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeAnonymizeFlag</string>
+						<reference key="source" ref="419753828"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="419753828"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeAnonymizeFlag</string>
 							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">defaultsController.values.DiscPublishingPatientModeAnonymizeFlag</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeAnonymizeFlag</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValueTransformerName</string>
 								<string key="NS.object.0">NSNegateBoolean</string>
@@ -3292,7 +2644,674 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">580</int>
+					<int key="connectionID">658</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeZipFlag</string>
+						<reference key="source" ref="606494015"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="606494015"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeZipFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">661</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.DiscPublishingPatientModeZipEncryptFlag</string>
+						<reference key="source" ref="218006332"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="722997330">
+							<reference key="NSSource" ref="218006332"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden: values.DiscPublishingPatientModeZipEncryptFlag</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipEncryptFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">668</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden2: values.DiscPublishingPatientModeZipEncryptPassword</string>
+						<reference key="source" ref="218006332"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="1051435827">
+							<reference key="NSSource" ref="218006332"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden2: values.DiscPublishingPatientModeZipEncryptPassword</string>
+							<string key="NSBinding">hidden2</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipEncryptPassword</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>DiscPublishingIsValidPassword</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="722997330"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">675</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeZipEncryptFlag</string>
+						<reference key="source" ref="631386182"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="631386182"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeZipEncryptFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipEncryptFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">679</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeZipFlag</string>
+						<reference key="source" ref="631386182"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="631386182"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeZipFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">682</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeZipEncryptPassword</string>
+						<reference key="source" ref="200675212"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="200675212"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeZipEncryptPassword</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipEncryptPassword</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSConditionallySetsEditable</string>
+									<string>NSConditionallySetsEnabled</string>
+									<string>NSContinuouslyUpdatesValue</string>
+									<string>NSValidatesImmediately</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="YES"/>
+									<boolean value="YES"/>
+									<boolean value="YES"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">686</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeZipEncryptFlag</string>
+						<reference key="source" ref="200675212"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="785053218">
+							<reference key="NSSource" ref="200675212"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeZipEncryptFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipEncryptFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">691</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="905893642"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="905893642"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSConditionallySetsEnabled</string>
+								<boolean value="NO" key="NS.object.0"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">695</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="11556916"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="1028612939">
+							<reference key="NSSource" ref="11556916"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">700</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden2: values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+						<reference key="source" ref="11556916"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="11556916"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden2: values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+							<string key="NSBinding">hidden2</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>DiscPublishingIsValidDirPath</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="1028612939"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">704</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="598626640"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="598626640"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">707</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+						<reference key="source" ref="371130498"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="371130498"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeAuxiliaryDirectoryPathData</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">710</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+						<reference key="source" ref="371130498"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="371130498"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">713</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedTag: values.DiscPublishingArchivingModeCompression</string>
+						<reference key="source" ref="720107664"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="720107664"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">selectedTag: values.DiscPublishingArchivingModeCompression</string>
+							<string key="NSBinding">selectedTag</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeCompression</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">716</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeDiscCoverTemplatePath</string>
+						<reference key="source" ref="854368359"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="854368359"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeDiscCoverTemplatePath</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeDiscCoverTemplatePath</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSConditionallySetsEnabled</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<string>DiscCoverTemplatePathTransformer</string>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">719</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
+						<reference key="source" ref="281460808"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="281460808"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeCompressJPEGNotJPEG2000</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">722</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingArchivingModeCompression</string>
+						<reference key="source" ref="281460808"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="281460808"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingArchivingModeCompression</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeCompression</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">CompressionIsCompress</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">725</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeIncludeReportsFlag</string>
+						<reference key="source" ref="400153365"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="400153365"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeIncludeReportsFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeIncludeReportsFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">730</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeZipFlag</string>
+						<reference key="source" ref="317532303"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="317532303"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeZipFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">733</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: values.DiscPublishingArchivingModeZipEncryptFlag</string>
+						<reference key="source" ref="798957153"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="526757038">
+							<reference key="NSSource" ref="798957153"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden: values.DiscPublishingArchivingModeZipEncryptFlag</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipEncryptFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValueTransformerName</string>
+								<string key="NS.object.0">NSNegateBoolean</string>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">740</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden2: values.DiscPublishingArchivingModeZipEncryptPassword</string>
+						<reference key="source" ref="798957153"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="660422681">
+							<reference key="NSSource" ref="798957153"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden2: values.DiscPublishingArchivingModeZipEncryptPassword</string>
+							<string key="NSBinding">hidden2</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipEncryptPassword</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>DiscPublishingIsValidPassword</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="526757038"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">747</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden3: values.DiscPublishingArchivingModeZipFlag</string>
+						<reference key="source" ref="798957153"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="798957153"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden3: values.DiscPublishingArchivingModeZipFlag</string>
+							<string key="NSBinding">hidden3</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>NSNegateBoolean</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="660422681"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">751</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden3: values.DiscPublishingPatientModeZipFlag</string>
+						<reference key="source" ref="218006332"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="218006332"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">hidden3: values.DiscPublishingPatientModeZipFlag</string>
+							<string key="NSBinding">hidden3</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+									<string>NSValueTransformerName</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<string>NSNegateBoolean</string>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="1051435827"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">754</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeZipEncryptFlag</string>
+						<reference key="source" ref="667961752"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="667961752"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeZipEncryptFlag</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipEncryptFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">757</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingArchivingModeZipFlag</string>
+						<reference key="source" ref="667961752"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="667961752"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingArchivingModeZipFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">760</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: values.DiscPublishingPatientModeZipFlag</string>
+						<reference key="source" ref="200675212"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="200675212"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled2: values.DiscPublishingPatientModeZipFlag</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">values.DiscPublishingPatientModeZipFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="785053218"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">763</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.DiscPublishingArchivingModeZipEncryptPassword</string>
+						<reference key="source" ref="242696252"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="242696252"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">value: values.DiscPublishingArchivingModeZipEncryptPassword</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipEncryptPassword</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSConditionallySetsEditable</string>
+									<string>NSConditionallySetsEnabled</string>
+									<string>NSContinuouslyUpdatesValue</string>
+									<string>NSValidatesImmediately</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="NO"/>
+									<boolean value="YES"/>
+									<boolean value="YES"/>
+									<boolean value="YES"/>
+								</object>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">766</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.DiscPublishingArchivingModeZipEncryptFlag</string>
+						<reference key="source" ref="242696252"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector" id="91776581">
+							<reference key="NSSource" ref="242696252"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled: values.DiscPublishingArchivingModeZipEncryptFlag</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipEncryptFlag</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">771</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled2: values.DiscPublishingArchivingModeZipFlag</string>
+						<reference key="source" ref="242696252"/>
+						<reference key="destination" ref="759237768"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="242696252"/>
+							<reference key="NSDestination" ref="759237768"/>
+							<string key="NSLabel">enabled2: values.DiscPublishingArchivingModeZipFlag</string>
+							<string key="NSBinding">enabled2</string>
+							<string key="NSKeyPath">values.DiscPublishingArchivingModeZipFlag</string>
+							<object class="NSDictionary" key="NSOptions">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="NSArray" key="dict.sortedKeys">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>NSMultipleValuesPlaceholder</string>
+									<string>NSNoSelectionPlaceholder</string>
+									<string>NSNotApplicablePlaceholder</string>
+									<string>NSNullPlaceholder</string>
+								</object>
+								<object class="NSMutableArray" key="dict.values">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+									<integer value="-1"/>
+								</object>
+							</object>
+							<reference key="NSPreviousConnector" ref="91776581"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">775</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3330,10 +3349,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="769592487"/>
 							<reference ref="662026655"/>
 							<reference ref="271391075"/>
-							<reference ref="597855775"/>
+							<reference ref="588359568"/>
 							<reference ref="881976817"/>
-							<reference ref="669759216"/>
-							<reference ref="428514458"/>
+							<reference ref="890073078"/>
+							<reference ref="932885008"/>
 							<reference ref="797638016"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -3392,7 +3411,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="463769414"/>
 							<reference ref="32530969"/>
 							<reference ref="644805225"/>
-							<reference ref="680303899"/>
+							<reference ref="903252095"/>
 							<reference ref="1039226251"/>
 							<reference ref="128347757"/>
 							<reference ref="37246701"/>
@@ -3411,8 +3430,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="63017963"/>
 							<reference ref="218006332"/>
 							<reference ref="11556916"/>
-							<reference ref="606768400"/>
-							<reference ref="586212284"/>
+							<reference ref="422266984"/>
+							<reference ref="385203488"/>
 							<reference ref="293106698"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -3596,10 +3615,10 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<reference ref="798957153"/>
 							<reference ref="29587341"/>
 							<reference ref="667961752"/>
-							<reference ref="715967482"/>
-							<reference ref="332501248"/>
+							<reference ref="349124151"/>
+							<reference ref="854368359"/>
 							<reference ref="389444165"/>
-							<reference ref="546418354"/>
+							<reference ref="34820550"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Archiving mode options</string>
@@ -4064,162 +4083,162 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">487</int>
-						<reference key="object" ref="680303899"/>
+						<reference key="object" ref="903252095"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="656070401"/>
+							<reference ref="1009210840"/>
 						</object>
 						<reference key="parent" ref="711400487"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">488</int>
-						<reference key="object" ref="656070401"/>
-						<reference key="parent" ref="680303899"/>
+						<reference key="object" ref="1009210840"/>
+						<reference key="parent" ref="903252095"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">500</int>
-						<reference key="object" ref="606768400"/>
+						<reference key="object" ref="422266984"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="615334936"/>
+							<reference ref="694151671"/>
 						</object>
 						<reference key="parent" ref="711400487"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">501</int>
-						<reference key="object" ref="615334936"/>
-						<reference key="parent" ref="606768400"/>
+						<reference key="object" ref="694151671"/>
+						<reference key="parent" ref="422266984"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">505</int>
-						<reference key="object" ref="715967482"/>
+						<reference key="object" ref="349124151"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="145328347"/>
+							<reference ref="178633234"/>
 						</object>
 						<reference key="parent" ref="96340464"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">506</int>
-						<reference key="object" ref="332501248"/>
+						<reference key="object" ref="854368359"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="413813164"/>
+							<reference ref="912974884"/>
 						</object>
 						<reference key="parent" ref="96340464"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">507</int>
-						<reference key="object" ref="413813164"/>
-						<reference key="parent" ref="332501248"/>
+						<reference key="object" ref="912974884"/>
+						<reference key="parent" ref="854368359"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">508</int>
-						<reference key="object" ref="145328347"/>
-						<reference key="parent" ref="715967482"/>
+						<reference key="object" ref="178633234"/>
+						<reference key="parent" ref="349124151"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">512</int>
-						<reference key="object" ref="428514458"/>
+						<reference key="object" ref="932885008"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="57812188"/>
+							<reference ref="652263090"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">513</int>
-						<reference key="object" ref="57812188"/>
+						<reference key="object" ref="652263090"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="251696796"/>
+							<reference ref="236944203"/>
 						</object>
-						<reference key="parent" ref="428514458"/>
+						<reference key="parent" ref="932885008"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">514</int>
-						<reference key="object" ref="251696796"/>
-						<reference key="parent" ref="57812188"/>
+						<reference key="object" ref="236944203"/>
+						<reference key="parent" ref="652263090"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">517</int>
-						<reference key="object" ref="597855775"/>
+						<reference key="object" ref="588359568"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="871334784"/>
+							<reference ref="879630441"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">518</int>
-						<reference key="object" ref="871334784"/>
-						<reference key="parent" ref="597855775"/>
+						<reference key="object" ref="879630441"/>
+						<reference key="parent" ref="588359568"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">519</int>
-						<reference key="object" ref="669759216"/>
+						<reference key="object" ref="890073078"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="636159596"/>
+							<reference ref="889338418"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">520</int>
-						<reference key="object" ref="636159596"/>
+						<reference key="object" ref="889338418"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="992178302"/>
+							<reference ref="760788828"/>
 						</object>
-						<reference key="parent" ref="669759216"/>
+						<reference key="parent" ref="890073078"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">521</int>
-						<reference key="object" ref="992178302"/>
+						<reference key="object" ref="760788828"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="191185868"/>
-							<reference ref="416905898"/>
+							<reference ref="724503507"/>
+							<reference ref="1044529420"/>
 						</object>
-						<reference key="parent" ref="636159596"/>
+						<reference key="parent" ref="889338418"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">527</int>
-						<reference key="object" ref="191185868"/>
-						<reference key="parent" ref="992178302"/>
+						<reference key="object" ref="724503507"/>
+						<reference key="parent" ref="760788828"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">528</int>
-						<reference key="object" ref="416905898"/>
-						<reference key="parent" ref="992178302"/>
+						<reference key="object" ref="1044529420"/>
+						<reference key="parent" ref="760788828"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">530</int>
-						<reference key="object" ref="586212284"/>
+						<reference key="object" ref="385203488"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="795373563"/>
+							<reference ref="626874399"/>
 						</object>
 						<reference key="parent" ref="711400487"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">531</int>
-						<reference key="object" ref="795373563"/>
-						<reference key="parent" ref="586212284"/>
+						<reference key="object" ref="626874399"/>
+						<reference key="parent" ref="385203488"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">533</int>
-						<reference key="object" ref="546418354"/>
+						<reference key="object" ref="34820550"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="97413253"/>
+							<reference ref="739975535"/>
 						</object>
 						<reference key="parent" ref="96340464"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">534</int>
-						<reference key="object" ref="97413253"/>
-						<reference key="parent" ref="546418354"/>
+						<reference key="object" ref="739975535"/>
+						<reference key="parent" ref="34820550"/>
 					</object>
 				</object>
 			</object>
@@ -4510,7 +4529,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{581, 41}, {515, 225}}</string>
+					<string>{{565, 20}, {515, 225}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
@@ -4530,7 +4549,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">580</int>
+			<int key="maxID">775</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4615,10 +4634,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="580413575">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/DiscPublishingUserDefaultsController.h</string>
+						<string key="minorKey">Classes/NSUserDefaultsController+DiscPublishing.h</string>
 					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSUserDefaultsController</string>
+					<reference key="sourceIdentifier" ref="580413575"/>
 				</object>
 			</object>
 			<object class="NSMutableArray" key="referencedPartialClassDescriptionsV3.2+">
@@ -5146,6 +5169,13 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSUserDefaultsController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSUserDefaultsController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">OsiriX Headers.framework/Headers/NSUserDefaultsController+OsiriX.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
