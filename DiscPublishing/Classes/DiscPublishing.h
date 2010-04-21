@@ -15,6 +15,8 @@
 	DiscPublishingFilesManager* _filesManager;
 }
 
++(DiscPublishing*)instance;
+
 @property(readonly) DiscPublisher* discPublisher;
 
 +(NSString*)baseDirPath;

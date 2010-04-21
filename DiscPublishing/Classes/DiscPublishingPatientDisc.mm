@@ -9,9 +9,10 @@
 #import "DiscPublishingPatientDisc.h"
 #import "DiscBurningOptions.h"
 #import "ThreadsManagerThreadInfo.h"
-#import "DiscPublishingUserDefaultsController.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublishingPrefsViewController.h"
 #import "DiscPublisher.h"
+#import "DiscPublisher+Constants.h"
 #import "ThreadsManager.h"
 #import "NSFileManager+DiscPublisher.h"
 #import "DicomCompressor.h"
@@ -24,8 +25,8 @@
 #import <OsiriX Headers/BrowserController.h>
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
-
-#include <iostream>
+#import "DiscPublishingJob.h"
+#import "DiscPublishing.h"
 
 
 @implementation DiscPublishingPatientDisc
@@ -96,7 +97,7 @@
 	NSTask *unzipTask = [[NSTask alloc] init];
 	[unzipTask setLaunchPath: @"/usr/bin/unzip"];
 	[unzipTask setCurrentDirectoryPath:path];
-	[unzipTask setArguments:[NSArray arrayWithObjects: @"-o", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"OsiriX Lite.zip"], NULL]];
+	[unzipTask setArguments:[NSArray arrayWithObjects: @"-o", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"OsiriX Launcher.zip"], NULL]];
 	[unzipTask launch];
 	[unzipTask waitUntilExit];
 	[unzipTask release];
@@ -120,7 +121,7 @@
 }
 
 +(NSString*)descriptionForSeries:(NSArray*)series {
-	return @"This is the description for the series in this disc.\nThis is a new line:\nAnd this new line is tabbed; this is not; this is not; this is not; neither is this.\nNew line.";
+	return @"This is the description for thecontent of this disc";
 }
 
 +(void)generateDICOMDIRAtDirectory:(NSString*)root withDICOMFilesInDirectory:(NSString*)dicomPath {
@@ -135,16 +136,48 @@
 	[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
 	[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
 	[dcmmkdirTask setCurrentDirectoryPath:root];
-	[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+id", dicomPath, NULL]];		
+	[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
 	[dcmmkdirTask launch];
 	[dcmmkdirTask waitUntilExit];
 	[dcmmkdirTask release];
 }
 
 -(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
-	// TODO; spawn write 
+	DiscPublishingJob* job = [[[DiscPublishing instance] discPublisher] createJobOfClass:[DiscPublishingJob class]];
+	job.root = discRootDirPath;
+	job.info = info;
+	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(discJobThread:) object:job];
+	[[thread autorelease] start];
 }
+
+-(void)discJobThread:(DiscPublishingJob*)job {
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	
+	NSThread* thread = [NSThread currentThread];
+	ThreadsManagerThreadInfo* threadInfo = [[ThreadsManager defaultManager] addThread:thread name:[NSString stringWithFormat:@"Publishing disc %@...", [job.info objectForKey:DiscPublishingJobInfoDiscNameKey]]];
+	
+	@try {
+		[threadInfo setStatus:@"Starting job..."];
+		[job start];
+		
+		while (YES) {
+			if (job.status.dwJobState == JOB_FAILED) {
+				// TODO: recover job, retry, whatever!!
+				[threadInfo setStatus:[NSString stringWithFormat:@"Job failed with error: %d", job.status.dwLastError]];
+			} else
+				[threadInfo setStatus:job.statusString];
 			
+			if (job.status.dwJobState == JOB_COMPLETED) break;
+			[NSThread sleepForTimeInterval:1];
+		}
+		
+	} @catch (NSException* e) {
+		NSLog(@"Job exception: %@", e);
+	}
+	
+	[pool release];
+}
+
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	ThreadsManagerThreadInfo* threadInfo = [[ThreadsManager defaultManager] addThread:self name:[self name]];
@@ -222,7 +255,7 @@
 	//		NSString* discFinalDirPath = [discTmpDirPath stringByAppendingPathComponent:@"FINAL"];
 	//		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
 			
-			NSUInteger mediaCapacityBytes = [[DiscPublishingUserDefaultsController sharedUserDefaultsController] mediaCapacityBytes];
+			NSUInteger mediaCapacityBytes = [[NSUserDefaultsController sharedUserDefaultsController] mediaCapacityBytes];
 			
 			if (_options.includeOsirixLite)
 				[DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
@@ -273,83 +306,86 @@
 			
 			// move QTHTML files
 			
-			NSString* htmlqtDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"HTML"];
-			[[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtDiscBaseDirPath];
-			[privateFiles addObject:@"HTML"];
+			if (_options.includeHTMLQT) {
+				NSString* htmlqtDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"HTML"];
+				[[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtDiscBaseDirPath];
+				[privateFiles addObject:@"HTML"];
 
-			for (DicomSeries* serie in discSeries) {
-				NSString* serieHtmlQtBase = [[DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath] stringByAppendingPathComponent:@"HTMLQT"];
-				// in in this series htmlqt folder, remove the html-extra folder: it will be generated later
-				[[NSFileManager defaultManager] removeItemAtPath:[serieHtmlQtBase stringByAppendingPathComponent:@"html-extra"] error:NULL];
-				// also remove all HTML files: they will be regenerated later, more complete
-				NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:serieHtmlQtBase];
-				NSMutableArray* files = [NSMutableArray array];
-				while (NSString* subpath = [e nextObject]) {
-					NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
-					BOOL isDir;
-					if ([[NSFileManager defaultManager] fileExistsAtPath:completePath isDirectory:&isDir] && !isDir && [completePath hasSuffix:@".html"])
-						[[NSFileManager defaultManager] removeItemAtPath:completePath error:NULL];
-					else if (!isDir)
-						[files addObject:subpath];
-				}
-				
-				// now that the folder has been cleaned, merge its contents
-					
-				for (NSString* subpath in files) {
-					NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
-					NSString* subDirPath = [subpath stringByDeletingLastPathComponent];
-					NSString* destinationDirPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subDirPath];
-					[[NSFileManager defaultManager] confirmDirectoryAtPath:destinationDirPath];
-					
-					NSString* destinationPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subpath];
-					// does such file already exist?
-					if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) { // yes, change the destination name
-						NSString* destinationFilename = [destinationPath lastPathComponent];
-						NSString* destinationDir = [destinationPath substringToIndex:destinationPath.length-destinationFilename.length];
-						NSString* destinationFilenameExt = [destinationFilename pathExtension];
-						NSString* destinationFilenamePre = [destinationFilename substringToIndex:destinationFilename.length-destinationFilenameExt.length-1];
-						
-						for (NSUInteger i = 0; ; ++i) {
-							destinationFilename = [NSString stringWithFormat:@"%@_%i.%@", destinationFilenamePre, i, destinationFilenameExt];
-							destinationPath = [destinationDir stringByAppendingPathComponent:destinationFilename];
-							if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
-								break;
-						}
-						
-						NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:serie.id.intValue inSeriesPaths:seriesPaths];
-						if (kind) {
-							[BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:serie.id.intValue kind:kind toSeriesPaths:seriesPaths];
-							NSLog(@"renaming %@ to %@", subpath, destinationFilename);
-						}
+				for (DicomSeries* serie in discSeries) {
+					NSString* serieHtmlQtBase = [[DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath] stringByAppendingPathComponent:@"HTMLQT"];
+					// in in this series htmlqt folder, remove the html-extra folder: it will be generated later
+					[[NSFileManager defaultManager] removeItemAtPath:[serieHtmlQtBase stringByAppendingPathComponent:@"html-extra"] error:NULL];
+					// also remove all HTML files: they will be regenerated later, more complete
+					NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:serieHtmlQtBase];
+					NSMutableArray* files = [NSMutableArray array];
+					while (NSString* subpath = [e nextObject]) {
+						NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
+						BOOL isDir;
+						if ([[NSFileManager defaultManager] fileExistsAtPath:completePath isDirectory:&isDir] && !isDir && [completePath hasSuffix:@".html"])
+							[[NSFileManager defaultManager] removeItemAtPath:completePath error:NULL];
+						else if (!isDir)
+							[files addObject:subpath];
 					}
 					
-					[[NSFileManager defaultManager] removeItemAtPath:destinationPath error:NULL];
-					[[NSFileManager defaultManager] moveItemAtPath:completePath toPath:destinationPath error:NULL];
+					// now that the folder has been cleaned, merge its contents
+						
+					for (NSString* subpath in files) {
+						NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
+						NSString* subDirPath = [subpath stringByDeletingLastPathComponent];
+						NSString* destinationDirPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subDirPath];
+						[[NSFileManager defaultManager] confirmDirectoryAtPath:destinationDirPath];
+						
+						NSString* destinationPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subpath];
+						// does such file already exist?
+						if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) { // yes, change the destination name
+							NSString* destinationFilename = [destinationPath lastPathComponent];
+							NSString* destinationDir = [destinationPath substringToIndex:destinationPath.length-destinationFilename.length];
+							NSString* destinationFilenameExt = [destinationFilename pathExtension];
+							NSString* destinationFilenamePre = [destinationFilename substringToIndex:destinationFilename.length-destinationFilenameExt.length-1];
+							
+							for (NSUInteger i = 0; ; ++i) {
+								destinationFilename = [NSString stringWithFormat:@"%@_%i.%@", destinationFilenamePre, i, destinationFilenameExt];
+								destinationPath = [destinationDir stringByAppendingPathComponent:destinationFilename];
+								if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+									break;
+							}
+							
+							NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:serie.id.intValue inSeriesPaths:seriesPaths];
+							if (kind) {
+								[BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:serie.id.intValue kind:kind toSeriesPaths:seriesPaths];
+								NSLog(@"renaming %@ to %@", subpath, destinationFilename);
+							}
+						}
+						
+						[[NSFileManager defaultManager] removeItemAtPath:destinationPath error:NULL];
+						[[NSFileManager defaultManager] moveItemAtPath:completePath toPath:destinationPath error:NULL];
+					}
+					
+					[[NSFileManager defaultManager] removeItemAtPath:serieHtmlQtBase error:NULL];
 				}
 				
-				[[NSFileManager defaultManager] removeItemAtPath:serieHtmlQtBase error:NULL];
+				// generate html
+				
+				for (NSString* k in htmlExportDic)
+					NSLog(@"%@ has %d images", k, [[htmlExportDic objectForKey:k] count]);
+				
+				QTExportHTMLSummary* htmlExport = [[QTExportHTMLSummary alloc] init];
+				[htmlExport setPatientsDictionary:htmlExportDic];
+				[htmlExport setPath:htmlqtDiscBaseDirPath];
+				[htmlExport setImagePathsDictionary:seriesPaths];
+				[htmlExport createHTMLfiles];
+				[htmlExport release];
 			}
-			
-			// generate html
-			
-			for (NSString* k in htmlExportDic)
-				NSLog(@"%@ has %d images", k, [[htmlExportDic objectForKey:k] count]);
-			
-			QTExportHTMLSummary* htmlExport = [[QTExportHTMLSummary alloc] init];
-			[htmlExport setPatientsDictionary:htmlExportDic];
-			[htmlExport setPath:htmlqtDiscBaseDirPath];
-			[htmlExport setImagePathsDictionary:seriesPaths];
-			[htmlExport createHTMLfiles];
-			[htmlExport release];
 			
 			if (_options.zip) {
 				NSMutableArray* args = [NSMutableArray arrayWithObject:@"-r"];
 				if (_options.zipEncrypt && [DiscPublishingIsValidPassword isValidPassword:_options.zipEncryptPassword]) {
 					[args addObject:@"-eP"];
 					[args addObject:_options.zipEncryptPassword];
-				}
+					[args addObject:@"encryptedDICOM.zip"];
+				} else 
+					[args addObject:@"DICOM.zip"];
 				
-				[args addObject:[safeDiscName stringByAppendingPathExtension:@"zip"]];
 				[args addObjectsFromArray:privateFiles];
 				
 				NSTask* zipTask = [[NSTask alloc] init];
@@ -366,26 +402,28 @@
 			
 			// move data to ~/Library/Application Support/OsiriX/DiscPublishing/Discs/<safeDiscName>
 			
-			NSString* discsDir = [[DiscPublisher baseDirPath] stringByAppendingPathComponent:@"Discs"];
+			NSString* discsDir = [[DiscPublishing baseDirPath] stringByAppendingPathComponent:@"Discs"];
 			[[NSFileManager defaultManager] confirmDirectoryAtPath:discsDir];
 			
 			NSString* discDir = [discsDir stringByAppendingPathComponent:safeDiscName];
 			NSUInteger i = 0;
 			while ([[NSFileManager defaultManager] fileExistsAtPath:discDir])
-				discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, i]];
+				discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, ++i]];
 			[[NSFileManager defaultManager] moveItemAtPath:discBaseDirPath toPath:discDir error:NULL];
 			
 			// save information dict
 			
+			NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+			[dateFormatter setDateFormat:[[NSUserDefaults standardUserDefaults] stringForKey:@"DBDateOfBirthFormat2"]];
 			NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
-								  safeDiscName, @"DiscName",
-								  _options, @"Options",
+								  safeDiscName, DiscPublishingJobInfoDiscNameKey,
+								  _options, DiscPublishingJobInfoOptionsKey,
 								  [NSArray arrayWithObjects:
 									/* 1 */	discName,
-								   // TODO: date de NAISSANCE
-									/* 2 */	[DiscPublishingPatientDisc descriptionForSeries:discSeries], 
-									/* 3 */	[[NSDate date] descriptionWithCalendarFormat:@"%Y-%m-%d" timeZone:NULL locale:NULL], // TODO: date de l'EXAMEN, pas du jour
-								   NULL], @"MergeFields",
+								    /* 2 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth],
+								    /* 3 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].date],
+								    /* 4 */	[dateFormatter stringFromDate:[NSDate date]],
+								   NULL], DiscPublishingJobInfoMergeValuesKey,
 								  NULL];
 			[self spawnDiscWrite:discDir info:info];
 			

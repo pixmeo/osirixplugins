@@ -9,8 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-@class DiscPublishingUserDefaultsController;
-
 @interface DiscPublishingPrefsViewController : NSViewController {
 	IBOutlet NSMatrix* burnModeMatrix;
 	IBOutlet NSBox* burnModeOptionsBox;
@@ -29,11 +27,8 @@
 	IBOutlet NSPathControl* patientModeLabelTemplatePathControl;
 	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
 	
-	DiscPublishingUserDefaultsController* defaultsController;
 	NSSize deltaFromPathControlBRToButtonTL;
 }
-
-@property(readonly) DiscPublishingUserDefaultsController* defaultsController;
 
 -(IBAction)showPatientModeAnonymizationOptionsSheet:(id)sender;
 

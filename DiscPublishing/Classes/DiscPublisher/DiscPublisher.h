@@ -24,6 +24,7 @@
 +(void)initializeJobManager;
 +(void)terminateJobManager;
 
+-(id)createJobOfClass:(Class)c; // c must inherit from DiscPublisherJob
 -(DiscPublisherJob*)createJob;
 -(DiscPublisherJob*)createPrintOnlyJob;
 

@@ -21,7 +21,14 @@
 
 @synthesize discPublisher = _discPublisher;
 
+static DiscPublishing* discPublishingInstance = NULL;
++(DiscPublishing*)instance {
+	return discPublishingInstance;
+}
+
 -(void)initPlugin {
+	discPublishingInstance = self;
+	
 	[QTMovie movie]; // this initializes the QT kit on the main thread
 	
 	NSWindow* window = [[NSWindow alloc] initWithContentRect:NSMakeRect(100, 100, 500, 300) styleMask:NSTitledWindowMask|NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
@@ -33,7 +40,6 @@
 	_filesManager = [[DiscPublishingFilesManager alloc] init];
 	
 	[[[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisher:) object:NULL] autorelease] start];
-
 }
 
 -(void)dealloc {

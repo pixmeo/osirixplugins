@@ -1,5 +1,5 @@
 //
-//  DiscPublishingUserDefaultsController.h
+//  NSUserDefaultsController+DiscPublishing.h
 //  DiscPublishing
 //
 //  Created by Alessandro Volz on 2/26/10.
@@ -16,13 +16,7 @@ enum BurnMode {
 	BurnModePatient = 1
 };
 
-@interface DiscPublishingUserDefaultsController : NSUserDefaultsController {
-	BurnMode mode;
-	UInt32 mediaType;
-	NSUInteger patientModeDelay;
-	DiscPublishingOptions* patientModeOptions;
-	DiscPublishingOptions* archivingModeOptions;
-}
+@interface NSUserDefaultsController (DiscPublishing)
 
 extern const NSString* const DiscPublishingBurnModeDefaultsKey;
 extern const NSString* const DiscPublishingBurnMediaTypeDefaultsKey;
@@ -52,27 +46,26 @@ extern const NSString* const DiscPublishingArchivingModeCompressJPEGNotJPEG2000D
 extern const NSString* const DiscPublishingArchivingModeZipEncryptFlagDefaultsKey;
 extern const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey;
 
-// these are readonly because in order for the bindings to work correctly the setters should generate KVO notifications
-@property(readonly) BurnMode mode;
-@property(readonly) UInt32 mediaType;
-@property(readonly) NSUInteger patientModeDelay;
-@property(readonly) DiscPublishingOptions* patientModeOptions;
-@property(readonly) DiscPublishingOptions* archivingModeOptions;
-
-+(DiscPublishingUserDefaultsController*)sharedUserDefaultsController;
-
-// often we need to compose the string constants declared earlier in this file with a values key path - these functions/methods make that easier
-extern NSString* valuesKeyPath(NSString* key);
--(id)valueForValuesKey:(NSString*)keyPath;
--(void)setValue:(id)value forValuesKey:(NSString*)keyPath;
+-(BurnMode)mode;
+-(UInt32)mediaType;
+-(NSUInteger)patientModeDelay;
+-(DiscPublishingOptions*)patientModeOptions;
+-(DiscPublishingOptions*)archivingModeOptions;
 
 -(CGFloat)mediaCapacityBytes;
 
 @end
 
+
 @interface NSObject (DiscPublishing)
 
--(void)bind:(NSString*)binding toObject:(id)observable withValuesKeyPath:(NSString*)keyPath options:(NSDictionary*)options;
+// we often need to compose the string constants declared earlier in this file with a values key path - these functions/methods make that easier
+extern NSString* valuesKeyPath(NSString* key);
+-(id)valueForValuesKey:(NSString*)keyPath;
+-(void)setValue:(id)value forValuesKey:(NSString*)keyPath;
+-(void)bind:(NSString*)binding toObject:(id)observable withValuesKey:(NSString*)key options:(NSDictionary*)options;
+-(void)addObserver:(NSObject*)observer forValuesKey:(NSString*)key options:(NSKeyValueObservingOptions)options context:(void*)context;
+-(void)removeObserver:(NSObject*)observer forValuesKey:(NSString*)key;
 
 @end;
 

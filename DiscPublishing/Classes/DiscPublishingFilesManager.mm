@@ -11,11 +11,12 @@
 #import <OsiriX Headers/Notifications.h>
 #import "ThreadsManager.h"
 #import "ThreadsManagerThreadInfo.h"
-#import "DiscPublishingUserDefaultsController.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import "NSArray+DiscPublishing.h"
 #import <OsiriX Headers/DicomImage.h>
 #import <OsiriX Headers/DicomStudy.h>
 #import "DiscPublishingPatientDisc.h"
+#import "DiscPublishingOptions.h"
 
 
 @interface DiscPublishingFilesManager (Private)
@@ -86,7 +87,7 @@
 				
 				// update thread status
 				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];
-				if ([DiscPublishingUserDefaultsController sharedUserDefaultsController].mode == BurnModeArchiving) {
+				if ([[NSUserDefaultsController sharedUserDefaultsController] mode] == BurnModeArchiving) {
 					threadInfo.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time];
 				} else {
 					threadInfo.status = [NSString stringWithFormat:@"Receiving images for %@, %@.", [[self namesForStudies:[self studiesForImages:_files]] componentsJoinedByCommasAndAnd], time];
@@ -160,7 +161,7 @@
 }
 
 -(void)spawnBurns {
-	NSTimeInterval burnDelay = [DiscPublishingUserDefaultsController sharedUserDefaultsController].patientModeDelay;
+	NSTimeInterval burnDelay = [[NSUserDefaultsController sharedUserDefaultsController] patientModeDelay];
 	NSMutableArray* patientsToBurn = [[NSMutableArray alloc] initWithCapacity:self.patientsLastReceiveTimes.count];
 	
 	for (NSString* patientUID in self.patientsLastReceiveTimes) {
@@ -185,7 +186,7 @@
 	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	[self.patientsLastReceiveTimes removeObjectForKey:patientUID];
 	
-	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[[[DiscPublishingUserDefaultsController sharedUserDefaultsController] patientModeOptions] copy] autorelease]] autorelease];
+	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] patientModeOptions]] autorelease];
 	
 	[files release];
 }

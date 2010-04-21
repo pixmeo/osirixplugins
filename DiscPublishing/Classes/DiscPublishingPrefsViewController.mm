@@ -7,8 +7,8 @@
 //
 
 #import "DiscPublishingPrefsViewController.h"
-#import "DiscPublishingUserDefaultsController.h"
-#import "DiscPublishingUserDefaultsController.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscBurningOptions.h"
 #import "DiscPublishing.h"
 #import <OsiriX Headers/N2Operators.h>
@@ -27,13 +27,8 @@
 
 @implementation DiscPublishingPrefsViewController
 
-@synthesize defaultsController;
-
 -(id)init {
 	self = [super initWithNibName:@"DiscPublishingPrefsView" bundle:[NSBundle bundleForClass:[self class]]];
-	
-	defaultsController = [DiscPublishingUserDefaultsController sharedUserDefaultsController];
-	
 	return self;
 }
 
@@ -42,6 +37,7 @@
 	
 	deltaFromPathControlBRToButtonTL = NSZeroSize+patientModeLabelTemplateEditButton.frame.origin - (patientModeLabelTemplatePathControl.frame.origin+patientModeLabelTemplatePathControl.frame.size);
 	
+	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingBurnModeDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
 	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
 	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
@@ -60,14 +56,15 @@
 }
 
 -(void)dealloc {
-	[defaultsController removeObserver:self forKeyPath:@"mode"];
+	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self];
 	[super dealloc];
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
+	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	if (obj == defaultsController) {
 		if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnModeDefaultsKey)])
-			switch (defaultsController.mode) {
+			switch ([[defaultsController valueForKeyPath:keyPath] intValue]) {
 				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
 				case BurnModePatient: [burnModeOptionsBox setContentView:patientModeOptionsView]; break;
 			}
@@ -85,8 +82,9 @@
 
 -(void)fileSelectionSheetDidEnd:(NSOpenPanel*)openPanel returnCode:(int)returnCode contextInfo:(void*)context {
 	NSString* key = (id)context;
-	if (returnCode == NSOKButton)
-		[self.defaultsController setValue:openPanel.URL.path forValuesKey:key];
+	if (returnCode == NSOKButton) {
+		[[NSUserDefaultsController sharedUserDefaultsController] setValue:openPanel.URL.path forValuesKey:key];
+	}
 }
 
 -(void)showDirSelectionSheetForKey:(NSString*)key {
@@ -94,7 +92,10 @@
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
 	[openPanel setAllowsMultipleSelection:NO];
-	[openPanel beginSheetForDirectory:[self.defaultsController.defaults stringForKey:key] file:NULL types:NULL modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
+	
+	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
+	
+	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:NULL modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
 
 -(IBAction)showPatientModeAuxiliaryDirSelectionSheet:(id)sender {
@@ -111,9 +112,11 @@
 	[openPanel setCanChooseDirectories:NO];
 	[openPanel setAllowsMultipleSelection:NO];
 	[openPanel setTreatsFilePackagesAsDirectories:NO];
-	NSString* location = [self.defaultsController valueForValuesKey:key];
+	
+	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
 	if (!location) location = defaultLocation;
-	[openPanel beginSheetForDirectory:location file:NULL types:types modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
+	
+	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:types modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
 
 -(void)showDiscCoverFileSelectionSheetForKey:(NSString*)key {
@@ -129,13 +132,13 @@
 }
 
 -(void)editDiscCoverFileWithKey:(NSString*)key {
-	NSString* location = [defaultsController valueForValuesKey:key];
+	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
 	
 	if (!location || ![[NSFileManager defaultManager] fileExistsAtPath:location]) {
 		location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:@"Template.dcover"];
 		if (![[NSFileManager defaultManager] fileExistsAtPath:location])
 			[[NSFileManager defaultManager] copyItemAtPath:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"] toPath:location error:NULL];
-		[defaultsController setValue:location forValuesKey:key];
+		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
 	[[NSWorkspace sharedWorkspace] openFile:location];

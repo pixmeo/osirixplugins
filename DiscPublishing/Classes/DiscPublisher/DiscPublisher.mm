@@ -78,10 +78,14 @@
 	ConditionalDiscPublisherJMErrorException(err);
 }
 
--(DiscPublisherJob*)createJob {
-	DiscPublisherJob* job = [[DiscPublisherJob alloc] initWithDiscPublisher:self];
-//	[_jobs addObject:job]; // TODO: remove completed jobs
+-(id)createJobOfClass:(Class)c {
+	id job = [[c alloc] initWithDiscPublisher:self];
+	//	[_jobs addObject:job]; // TODO: remove completed jobs
 	return [job autorelease];
+}
+
+-(DiscPublisherJob*)createJob {
+	return [self createJobOfClass:[DiscPublisherJob class]];
 }
 
 -(DiscPublisherJob*)createPrintOnlyJob {
