@@ -91,7 +91,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 		case EjectionFractionROILength:
 			return [NSArray arrayWithObject:[NSNumber numberWithLong:tMesure]];
 		case EjectionFractionROIAreaOrLength:
-			return [[self roiTypesForType:EjectionFractionROILength] arrayByAddingObjectsFromArray:[self roiTypesForType:EjectionFractionROIArea]];
+			return [[self roiTypesForType:EjectionFractionROIArea] arrayByAddingObjectsFromArray:[self roiTypesForType:EjectionFractionROILength]];
 		default:
 			return NULL;
 	}
