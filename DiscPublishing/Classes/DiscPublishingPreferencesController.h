@@ -1,15 +1,15 @@
 //
-//  DiscPublishingPrefsViewController.h
+//  DiscPublishingPreferencesController.h
 //  DiscPublishing
 //
-//  Created by Alessandro Volz on 2/26/10.
+//  Created by Alessandro Volz on 4/26/10.
 //  Copyright 2010 OsiriX Team. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <PreferencePanes/PreferencePanes.h>
 
 
-@interface DiscPublishingPrefsViewController : NSViewController {
+@interface DiscPublishingPreferencesController : NSPreferencePane {
 	IBOutlet NSMatrix* burnModeMatrix;
 	IBOutlet NSBox* burnModeOptionsBox;
 	IBOutlet NSTextField* mediaCapacityTextField;
@@ -44,9 +44,3 @@
 -(IBAction)mediaCapacityValueChanged:(id)sender;
 
 @end
-
-@interface DiscPublishingIsValidPassword : NSValueTransformer
-+(BOOL)isValidPassword:(NSString*)value;
-@end
-
-

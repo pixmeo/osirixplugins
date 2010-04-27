@@ -22,8 +22,4 @@
 +(NSString*)baseDirPath;
 +(NSString*)discCoverTemplatesDirPath;
 
-+(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType;
-
--(NSView*)prefsView;
-
 @end

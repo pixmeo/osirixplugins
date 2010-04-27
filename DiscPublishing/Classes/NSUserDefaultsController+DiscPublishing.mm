@@ -23,10 +23,10 @@
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
 	if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnMediaTypeDefaultsKey)]) {
-		CGFloat bytes = [DiscPublishing mediaCapacityBytesForMediaType:[defaults mediaType]];
+		CGFloat bytes = [NSUserDefaultsController mediaCapacityBytesForMediaType:[defaults mediaType]];
 		NSUInteger measure = bytes<1000000000? 1000000 : 1000000000;
-		[self setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
-		[self setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
+		[defaults setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
+		[defaults setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
 	} else if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeAnonymizeFlagDefaultsKey)]) {
 		if ([[defaults valueForValuesKey:keyPath] boolValue])
 			[defaults setValue:[NSNumber numberWithBool:NO] forValuesKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];	
@@ -86,7 +86,7 @@ const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey =
 
 static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 
-+(void)initialize {
++(void)initializeDiscPublishing {
 	NSLog(@"+[NSUserDefaultsController+DiscPublishing initialize]");
 	
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
@@ -193,6 +193,14 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	options.discCoverTemplatePath = [self.defaults stringForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
 	
 	return [options autorelease];
+}
+
++(BOOL)isValidDiscPublishingPassword:(NSString*)value {
+	return value.length >= 8;	
+}
+
++(NSString*)defaultDiscCoverPath {
+	return [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"];
 }
 
 @end

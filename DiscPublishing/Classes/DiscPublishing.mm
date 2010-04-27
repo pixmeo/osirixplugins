@@ -6,15 +6,16 @@
 //
 
 #import "DiscPublishing.h"
-#import "DiscPublishingPrefsViewController.h"
 #import "ThreadsWindowController.h"
 #import "DiscPublishingFilesManager.h"
 #import "ThreadsManagerThreadInfo.h"
 #import "ThreadsManager.h"
 #import "DiscPublisher.h"
 #import "NSFileManager+DiscPublisher.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublisherStatus.h"
 #import <QTKit/QTKit.h>
+#import <OsiriX Headers/PreferencesWindowController.h>
 
 
 @implementation DiscPublishing
@@ -30,10 +31,10 @@ static DiscPublishing* discPublishingInstance = NULL;
 	discPublishingInstance = self;
 	
 	[QTMovie movie]; // this initializes the QT kit on the main thread
+	[NSUserDefaultsController initializeDiscPublishing];
 	
-	NSWindow* window = [[NSWindow alloc] initWithContentRect:NSMakeRect(100, 100, 500, 300) styleMask:NSTitledWindowMask|NSResizableWindowMask backing:NSBackingStoreBuffered defer:NO];
-	[window setContentView:[self prefsView]];
-	[window orderFront:self];
+	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+	[PreferencesWindowController addPluginPaneWithResourceNamed:@"DiscPublishingPreferences" inBundle:bundle withTitle:NSLocalizedString(@"Disc Publishing", NULL) image:[[[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"Icon" ofType:@"png"]] autorelease]]; // TODO: icon
 	
 	[[ThreadsWindowController defaultController] window];
 	
@@ -45,10 +46,6 @@ static DiscPublishing* discPublishingInstance = NULL;
 -(void)dealloc {
 	[[_filesManager invalidate] release];
 	[super dealloc];
-}
-
--(NSView*)prefsView {
-	return [[[DiscPublishingPrefsViewController alloc] init] view];
 }
 
 -(long)filterImage:(NSString*)menuName {
@@ -93,17 +90,6 @@ static DiscPublishing* discPublishingInstance = NULL;
 +(NSString*)discCoverTemplatesDirPath {
 	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Disc Cover Templates"];
 	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
-}
-
-+(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType {
-	switch (mediaType) {
-		case DISCTYPE_CD: return 700*1000000; // 700 MB
-		case DISCTYPE_DVD: return 4.7*1000000000; // 4.7 GB
-		case DISCTYPE_DVDDL: return 8.5*1000000000; // 8.5 GB
-		case DISCTYPE_BR: return 25.0*1000000000; // 25 GB
-		case DISCTYPE_BR_DL: return 50.0*1000000000; // 50 GB
-		default: return 0;
-	}	
 }
 
 @end

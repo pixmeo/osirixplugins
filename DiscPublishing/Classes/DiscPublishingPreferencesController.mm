@@ -1,17 +1,19 @@
 //
-//  DiscPublishingPrefsViewController.mm
+//  DiscPublishingPreferencesController.mm
 //  DiscPublishing
 //
-//  Created by Alessandro Volz on 2/26/10.
+//  Created by Alessandro Volz on 4/26/10.
 //  Copyright 2010 OsiriX Team. All rights reserved.
 //
 
-#import "DiscPublishingPrefsViewController.h"
+#import "DiscPublishingPreferencesController.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscBurningOptions.h"
 #import "DiscPublishing.h"
 #import <OsiriX Headers/N2Operators.h>
+#import <OsiriX Headers/NSUserDefaultsController+OsiriX.h>
+#import <OsiriX Headers/PreferencesWindowController.h>
 
 
 @interface NSPathControl (DiscPublishing)
@@ -25,12 +27,7 @@
 @end
 
 
-@implementation DiscPublishingPrefsViewController
-
--(id)init {
-	self = [super initWithNibName:@"DiscPublishingPrefsView" bundle:[NSBundle bundleForClass:[self class]]];
-	return self;
-}
+@implementation DiscPublishingPreferencesController
 
 -(void)awakeFromNib {
 	[super awakeFromNib];
@@ -63,12 +60,14 @@
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	if (obj == defaultsController) {
-		if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnModeDefaultsKey)])
+		if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnModeDefaultsKey)]) {
 			switch ([[defaultsController valueForKeyPath:keyPath] intValue]) {
 				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
 				case BurnModePatient: [burnModeOptionsBox setContentView:patientModeOptionsView]; break;
 			}
-		else if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)])
+			
+			[self.mainView.window.windowController synchronizeSizeWithContent];
+		} else if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)])
 			[patientModeLabelTemplateEditButton setFrameOrigin:RectBR([patientModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
 		else if ([keyPath isEqual:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)])
 			[archivingModeLabelTemplateEditButton setFrameOrigin:RectBR([archivingModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
@@ -95,7 +94,7 @@
 	
 	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
 	
-	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:NULL modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
+	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:NULL modalForWindow:self.mainView.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
 
 -(IBAction)showPatientModeAuxiliaryDirSelectionSheet:(id)sender {
@@ -116,7 +115,7 @@
 	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
 	if (!location) location = defaultLocation;
 	
-	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:types modalForWindow:self.view.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
+	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:types modalForWindow:self.mainView.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
 
 -(void)showDiscCoverFileSelectionSheetForKey:(NSString*)key {
@@ -137,7 +136,7 @@
 	if (!location || ![[NSFileManager defaultManager] fileExistsAtPath:location]) {
 		location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:@"Template.dcover"];
 		if (![[NSFileManager defaultManager] fileExistsAtPath:location])
-			[[NSFileManager defaultManager] copyItemAtPath:[[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"] toPath:location error:NULL];
+			[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaultsController defaultDiscCoverPath] toPath:location error:NULL];
 		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
@@ -178,6 +177,8 @@
 @end
 
 
+@interface DiscPublishingIsValidPassword : NSValueTransformer
+@end
 @implementation DiscPublishingIsValidPassword
 
 +(Class)transformedValueClass {
@@ -188,12 +189,8 @@
 	return NO;
 }
 
-+(BOOL)isValidPassword:(NSString*)value {
-	return value.length >= 8;	
-}
-
 -(id)transformedValue:(NSString*)value {
-    return [NSNumber numberWithBool:[DiscPublishingIsValidPassword isValidPassword:value]];
+    return [NSNumber numberWithBool:[NSUserDefaultsController isValidDiscPublishingPassword:value]];
 }
 
 @end
@@ -238,46 +235,4 @@
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

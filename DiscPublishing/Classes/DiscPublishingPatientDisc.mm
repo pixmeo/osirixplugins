@@ -10,7 +10,6 @@
 #import "DiscBurningOptions.h"
 #import "ThreadsManagerThreadInfo.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
-#import "DiscPublishingPrefsViewController.h"
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
 #import "ThreadsManager.h"
@@ -379,7 +378,7 @@
 			
 			if (_options.zip) {
 				NSMutableArray* args = [NSMutableArray arrayWithObject:@"-r"];
-				if (_options.zipEncrypt && [DiscPublishingIsValidPassword isValidPassword:_options.zipEncryptPassword]) {
+				if (_options.zipEncrypt && [NSUserDefaultsController isValidDiscPublishingPassword:_options.zipEncryptPassword]) {
 					[args addObject:@"-eP"];
 					[args addObject:_options.zipEncryptPassword];
 					[args addObject:@"encryptedDICOM.zip"];

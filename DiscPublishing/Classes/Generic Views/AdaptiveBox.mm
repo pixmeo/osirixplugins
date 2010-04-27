@@ -16,27 +16,52 @@
 	idealContentSize = NSZeroSize;
 }
 
--(void)adaptWindowSizeToIdealSize {
+-(void)adaptContainersToIdealSize {
 	NSView* view = [self contentView];
 	NSSize contentSize = view.frame.size;
-	NSSize windowSizeDelta = idealContentSize - contentSize;
-	NSRect windowFrame = self.window.frame;
-	windowFrame.size += windowSizeDelta;
-	windowFrame.origin.y -= windowSizeDelta.height;
-	[self.window setFrame:windowFrame display:YES];
+	NSSize sizeDelta = idealContentSize - contentSize;
 	idealContentSize = NSZeroSize;
+	
+/*	NSMutableArray* animations = NULL;
+	if ([self.window.windowController respondsToSelector:@selector(animations)])
+		animations = [self.window.windowController valueForKey:@"animations"];*/
+	
+	for (NSView* parentView = [self superview]; parentView; parentView = [parentView superview]) {
+		if ([parentView isKindOfClass:[NSScrollView class]])
+			break;
+		NSRect pf = parentView.frame;
+		pf.size += sizeDelta;
+		pf.origin.y -= sizeDelta.height;
+/*		if (animations)
+			[animations addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+								       parentView, NSViewAnimationTargetKey,
+								       [NSValue valueWithRect:pf], NSViewAnimationEndFrameKey,
+								   NULL]];
+		else*/ [parentView setFrame:pf];
+	}
 }
 
 -(void)setContentView:(NSView*)view {
+	NSMutableArray* animations = NULL;
+	if ([self.window.windowController respondsToSelector:@selector(animations)])
+		animations = [self.window.windowController valueForKey:@"animations"];
 	idealContentSize = view.frame.size;
+	/*[animations addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+						   self.contentView, NSViewAnimationTargetKey,
+						   NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
+						   NULL]];*/
 	[super setContentView:view];
+	[animations addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+						   view, NSViewAnimationTargetKey,
+						   NSViewAnimationFadeInEffect, NSViewAnimationEffectKey,
+						   NULL]];
 	if (self.window)
-		[self adaptWindowSizeToIdealSize];
+		[self adaptContainersToIdealSize];
 }
 
 -(void)viewDidMoveToWindow {
 	if (!NSEqualSizes(idealContentSize, NSZeroSize))
-		[self adaptWindowSizeToIdealSize];
+		[self adaptContainersToIdealSize];
 	[super viewDidMoveToWindow];
 }
 

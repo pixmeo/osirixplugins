@@ -46,13 +46,19 @@ extern const NSString* const DiscPublishingArchivingModeCompressJPEGNotJPEG2000D
 extern const NSString* const DiscPublishingArchivingModeZipEncryptFlagDefaultsKey;
 extern const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey;
 
++(void)initializeDiscPublishing;
+
 -(BurnMode)mode;
 -(UInt32)mediaType;
 -(NSUInteger)patientModeDelay;
 -(DiscPublishingOptions*)patientModeOptions;
 -(DiscPublishingOptions*)archivingModeOptions;
 
++(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType;
 -(CGFloat)mediaCapacityBytes;
+
++(BOOL)isValidDiscPublishingPassword:(NSString*)password;
++(NSString*)defaultDiscCoverPath;
 
 @end
 
