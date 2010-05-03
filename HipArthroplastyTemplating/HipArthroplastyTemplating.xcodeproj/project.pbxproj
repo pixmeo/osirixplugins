@@ -36,7 +36,6 @@
 		59D94E860FCE807D00509EEC /* ArthroplastyTemplatingPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D94E6A0FCE807D00509EEC /* ArthroplastyTemplatingPlugin.h */; };
 		59D94E8B0FCE807D00509EEC /* ArthroplastyTemplatingTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D94E6F0FCE807D00509EEC /* ArthroplastyTemplatingTableView.h */; };
 		59D94E8D0FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D94E710FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h */; };
-		59D951D80FCE823400509EEC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59D951D40FCE823400509EEC /* InfoPlist.strings */; };
 		59F523FD1055235F009B6D89 /* MEDACTA Templates in Resources */ = {isa = PBXBuildFile; fileRef = 59F523CD1055235F009B6D89 /* MEDACTA Templates */; };
 		59F5247410554EAA009B6D89 /* MEDACTATemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F5247210554EAA009B6D89 /* MEDACTATemplate.h */; };
 		59F5247510554EAA009B6D89 /* MEDACTATemplate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F5247310554EAA009B6D89 /* MEDACTATemplate.mm */; };
@@ -98,7 +97,6 @@
 		59D94E6A0FCE807D00509EEC /* ArthroplastyTemplatingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingPlugin.h; sourceTree = "<group>"; };
 		59D94E6F0FCE807D00509EEC /* ArthroplastyTemplatingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingTableView.h; sourceTree = "<group>"; };
 		59D94E710FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingWindowController.h; sourceTree = "<group>"; };
-		59D951D50FCE823400509EEC /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		59D951DA0FCE826400509EEC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59F523CD1055235F009B6D89 /* MEDACTA Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "MEDACTA Templates"; sourceTree = "<group>"; };
 		59F5247210554EAA009B6D89 /* MEDACTATemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDACTATemplate.h; sourceTree = "<group>"; };
@@ -227,7 +225,6 @@
 				5912DF47118F26AB007F7D40 /* HipArthroplastyTemplatingSteps.xib */,
 				5912DF48118F26AB007F7D40 /* HipArthroplastyTemplatingWindow.xib */,
 				59D951DA0FCE826400509EEC /* Info.plist */,
-				59D951D40FCE823400509EEC /* InfoPlist.strings */,
 				59F523CD1055235F009B6D89 /* MEDACTA Templates */,
 			);
 			path = Resources;
@@ -322,7 +319,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59D951D80FCE823400509EEC /* InfoPlist.strings in Resources */,
 				59F523FD1055235F009B6D89 /* MEDACTA Templates in Resources */,
 				5912DF49118F26AB007F7D40 /* HipArthroplastyTemplatingSteps.xib in Resources */,
 				5912DF4A118F26AB007F7D40 /* HipArthroplastyTemplatingWindow.xib in Resources */,
@@ -399,18 +395,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		59D951D40FCE823400509EEC /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				59D951D50FCE823400509EEC /* English */,
-			);
-			name = InfoPlist.strings;
-			path = English.lproj;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
