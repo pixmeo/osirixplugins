@@ -52,7 +52,7 @@
 						   NULL]];*/
 	[super setContentView:view];
 	[animations addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						   view, NSViewAnimationTargetKey,
+						   self, NSViewAnimationTargetKey,
 						   NSViewAnimationFadeInEffect, NSViewAnimationEffectKey,
 						   NULL]];
 	if (self.window)

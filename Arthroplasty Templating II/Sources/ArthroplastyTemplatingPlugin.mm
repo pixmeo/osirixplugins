@@ -10,6 +10,7 @@
 #import "ArthroplastyTemplatingWindowController.h"
 #import <OsiriX Headers/BrowserController.h>
 #import <OsiriX Headers/Notifications.h>
+#import <OsiriX Headers/NSPanel+N2.h>
 
 
 @implementation ArthroplastyTemplatingPlugin
@@ -33,8 +34,8 @@
 }
 
 - (long)filterImage:(NSString*)menuName {
-	if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] intValue] < 5939) {
-		NSAlert* alert = [NSAlert alertWithMessageText:@"The OsiriX application you are running is out of date." defaultButton:@"Close" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"OsiriX 3.6 is necessary for this plugin to execute."];
+	if ([[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"] intValue] < 7052) {
+		NSAlert* alert = [NSAlert alertWithMessageText:@"The OsiriX application you are running is out of date." defaultButton:@"Close" alternateButton:NULL otherButton:NULL informativeTextWithFormat:@"OsiriX 3.7.1 is necessary for this plugin to execute."];
 		[alert beginSheetModalForWindow:[viewerController window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
 		return 0;
 	}
@@ -46,18 +47,30 @@
 		return 0;
 	}
 	
-	if ([[[viewerController roiList:0] objectAtIndex:0] count])
-		if (!NSRunAlertPanel(@"Arthroplasty Templating II", @"All the ROIs on this image will be removed.", @"OK", @"Cancel", NULL))
-			return 0;
-	
-	window = [[ArthroplastyTemplatingStepsController alloc] initWithPlugin:self viewerController:viewerController];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewerWillClose:) name:OsirixCloseViewerNotification object:viewerController];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:[window window]];
-	[_windows addObject:[window window]];
-	[window showWindow:self];
+	NSString* disclaimer = @"THE SOFTWARE IS PROVIDED AS IS. USE THE SOFTWARE AT YOUR OWN RISK. THE AUTHORS MAKE NO WARRANTIES AS TO PERFORMANCE OR FITNESS FOR A PARTICULAR PURPOSE, OR ANY OTHER WARRANTIES WHETHER EXPRESSED OR IMPLIED. NO ORAL OR WRITTEN COMMUNICATION FROM OR INFORMATION PROVIDED BY THE AUTHORS SHALL CREATE A WARRANTY. UNDER NO CIRCUMSTANCES SHALL THE AUTHORS BE LIABLE FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES RESULTING FROM THE USE, MISUSE, OR INABILITY TO USE THE SOFTWARE, EVEN IF THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THESE EXCLUSIONS AND LIMITATIONS MAY NOT APPLY IN ALL JURISDICTIONS. YOU MAY HAVE ADDITIONAL RIGHTS AND SOME OF THESE LIMITATIONS MAY NOT APPLY TO YOU.\n\nTHIS SOFTWARE IS NOT INTENDED FOR PRIMARY DIAGNOSTIC, ONLY FOR SCIENTIFIC USAGE.\n\nTHIS VERSION OF OSIRIX IS NOT CERTIFIED AS A MEDICAL DEVICE FOR PRIMARY DIAGNOSIS. THERE ARE NO CERTIFICATIONS. YOU CAN ONLY USE OSIRIX AS A REVIEWING AND SCIENTIFIC SOFTWARE, NOT FOR PRIMARY DIAGNOSTIC.\n\nAll calculations, measurements and images provided by this software are intended only for scientific research. Any other use is entirely at the discretion and risk of the user. If you do use this software for scientific research please give appropriate credit in publications. This software may not be redistributed, sold or commercially used in any other way without prior approval of the author.";
+	NSPanel* alert = [NSPanel alertWithTitle:@"Disclaimer" message:disclaimer defaultButton:@"Stop" alternateButton:@"Continue" icon:[NSImage imageNamed:@"ArthroplastyTemplating"]];
+	[NSApp beginSheet:alert modalForWindow:[viewerController window] modalDelegate:self didEndSelector:@selector(disclaimerDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 	
 	return 0;
 }
+
+-(void)disclaimerDidEnd:(NSPanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo {
+	[panel orderOut:self];
+	
+	if (returnCode == NSAlertDefaultReturn) // Stop
+		return;
+	
+	if ([[[viewerController roiList:0] objectAtIndex:0] count])
+		if (!NSRunAlertPanel(@"Arthroplasty Templating II", @"All the ROIs on this image will be removed.", @"OK", @"Cancel", NULL))
+			return;
+	
+	ArthroplastyTemplatingStepsController* controller = [[ArthroplastyTemplatingStepsController alloc] initWithPlugin:self viewerController:viewerController];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewerWillClose:) name:OsirixCloseViewerNotification object:viewerController];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:[controller window]];
+	[_windows addObject:[controller window]];
+	[controller showWindow:self];
+}
+
 
 -(void)windowWillClose:(NSNotification*)notification {
 	[_windows removeObject:[notification object]];

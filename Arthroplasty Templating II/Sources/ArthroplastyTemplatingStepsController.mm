@@ -325,16 +325,17 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (roi == _cupLayer && [[[_cupLayer points] objectAtIndex:0] point] != NSZeroPoint)
 		if (!_cupRotated && [[_cupLayer points] count] >= 6) {
 			_cupRotated = YES;
-			if ([[[_cupLayer points] objectAtIndex:4] point].x < [[[_viewerController imageView] curDCM] pwidth]/2)
+			if ([_cupLayer pointAtIndex:4].x < [[[_viewerController imageView] curDCM] pwidth]/2)
 				[_cupLayer rotate:45 :[[[_cupLayer points] objectAtIndex:4] point]];
-			else [_cupLayer rotate:-45 :[[[_cupLayer points] objectAtIndex:4] point]];
-			[_cupLayer rotate:_horizontalAngle/pi*180 :[[[_cupLayer points] objectAtIndex:4] point]];
+			else [_cupLayer rotate:-45 :[_cupLayer pointAtIndex:4]];
+			CGFloat sign = [_horizontalAxis pointAtIndex:0].x < [_horizontalAxis pointAtIndex:1].x? 1 : -1;
+			[_cupLayer rotate:sign*_horizontalAngle/pi*180 :[_cupLayer pointAtIndex:4]];
 		}
 	
 	if (roi == _stemLayer)
 		if (!_stemRotated && [[_stemLayer points] count] >= 6) {
 			_stemRotated = YES;
-			[_stemLayer rotate:(_femurAngle-pi/2)/pi*180 :[[[_stemLayer points] objectAtIndex:4] point]];
+			[_stemLayer rotate:(fabs(_femurAngle)-pi/2)/pi*180 :[[[_stemLayer points] objectAtIndex:4] point]];
 		}
 	
 	[self computeValues];
@@ -973,12 +974,14 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (_horizontalAxis && [[_horizontalAxis points] count] == 2)
 		_horizontalAngle = NSAngle([[[_horizontalAxis points] objectAtIndex:0] point], [[[_horizontalAxis points] objectAtIndex:1] point]);
 	
+	NSLog(@"_horizontalAngle is %f", _horizontalAngle);
+	
 	// femur angle
 	_femurAngle = kInvalidAngle;
 	if (_femurAxis && [[_femurAxis points] count] == 2)
 		_femurAngle = NSAngle([[[_femurAxis points] objectAtIndex:0] point], [[[_femurAxis points] objectAtIndex:1] point]);
 	else if (_horizontalAngle != kInvalidAngle)
-		_femurAngle = _horizontalAngle+pi/2;
+		_femurAngle = (_horizontalAngle+pi/2);
 	
 	// leg inequalty
 	
