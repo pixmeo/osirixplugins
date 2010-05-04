@@ -27,7 +27,7 @@
 @synthesize userDefaults = _userDefaults, plugin = _plugin;
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin {
-	self = [self initWithWindowNibName:@"ArthroplastyTemplatingWindow"];
+	self = [self initWithWindowNibName:@"HipArthroplastyTemplatingWindow"];
 	_plugin = plugin;
 	
 	_viewDirection = ArthroplastyTemplateAnteriorPosteriorDirection;

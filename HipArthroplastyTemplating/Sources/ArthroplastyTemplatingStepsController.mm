@@ -39,7 +39,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 #pragma mark Initialization
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin viewerController:(ViewerController*)viewerController {
-	self = [self initWithWindowNibName:@"ArthroplastyTemplatingSteps"];
+	self = [self initWithWindowNibName:@"HipArthroplastyTemplatingSteps"];
 	_plugin = [plugin retain];
 	_viewerController = [viewerController retain];
 	_appliedMagnification = 1;
@@ -93,10 +93,26 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	[_plannersNameTextField setStringValue:[[[_plugin templatesWindowController] userDefaults] object:PlannersNameUserDefaultKey otherwise:NSFullUserName()]];
 }
 
+-(void)applyMagnification:(CGFloat)magnificationValue {
+	CGFloat factor = 1.*_appliedMagnification/magnificationValue;
+	
+	for (DCMPix* p in [_viewerController pixList]) {
+		[p setPixelSpacingX:[p pixelSpacingX]*factor];
+		[p setPixelSpacingY:[p pixelSpacingY]*factor];
+	}
+	
+	_appliedMagnification = magnificationValue;
+	
+	for (ROI* r in [_viewerController roiList])
+		[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:r];
+}
+
 - (void)dealloc {
 	[self hideTemplatesPanel];
 	
 	[self resetSBSUpdatingView:NO];
+	
+	[self applyMagnification:1];
 	
 	[_stepCalibration release];
 	[_stepAxes release];
@@ -645,24 +661,11 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (step == _stepCalibration) {
 		if ([_magnificationRadioCalibrate state]) {
 			if (!_magnificationLine || [[_magnificationLine points] count] != 2) return;
-			NSLog(@"_magnificationCalibrateLength %f", [_magnificationCalibrateLength floatValue]);
+//			NSLog(@"_magnificationCalibrateLength %f", [_magnificationCalibrateLength floatValue]);
 			[_magnificationCustomFactor setFloatValue:[_magnificationLine MesureLength:NULL]/[_magnificationCalibrateLength floatValue]];
 		}
 		CGFloat magnificationValue = [_magnificationCustomFactor floatValue];
-		CGFloat factor = 1.*_appliedMagnification/magnificationValue;
-		
-//		[view setPixelSpacingX:[view pixelSpacingX]*factor]
-		for (DCMPix* p in [_viewerController pixList]) {
-			[p setPixelSpacingX:[p pixelSpacingX]*factor];
-			[p setPixelSpacingY:[p pixelSpacingY]*factor];
-		}
-		for (ROI* r in [_viewerController roiList]) {
-		//	[r setPixelSpacingX:[r pixelSpacingX]*factor];
-		//	[r setPixelSpacingY:[r pixelSpacingY]*factor];
-			[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:r];
-		}
-		
-		_appliedMagnification = magnificationValue;
+		[self applyMagnification:magnificationValue];
 	}
 	else if(step == _stepAxes) {
 	}
