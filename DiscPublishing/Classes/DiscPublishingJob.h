@@ -8,10 +8,6 @@
 
 #import "DiscPublisherJob.h"
 
-extern const NSString* const DiscPublishingJobInfoDiscNameKey;
-extern const NSString* const DiscPublishingJobInfoOptionsKey;
-extern const NSString* const DiscPublishingJobInfoMergeValuesKey;
-
 @interface DiscPublishingJob : DiscPublisherJob {
 	NSString* _root;
 	NSDictionary* _info;

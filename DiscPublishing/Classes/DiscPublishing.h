@@ -8,16 +8,13 @@
 #import <OsiriX Headers/PluginFilter.h>
 
 
-@class DiscPublisher, DiscPublishingFilesManager;
+@class DiscPublishingFilesManager;
 
 @interface DiscPublishing : PluginFilter {
-	DiscPublisher* _discPublisher;
 	DiscPublishingFilesManager* _filesManager;
 }
 
 +(DiscPublishing*)instance;
-
-@property(readonly) DiscPublisher* discPublisher;
 
 +(NSString*)baseDirPath;
 +(NSString*)discCoverTemplatesDirPath;

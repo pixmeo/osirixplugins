@@ -20,8 +20,6 @@
 
 @implementation DiscPublishing
 
-@synthesize discPublisher = _discPublisher;
-
 static DiscPublishing* discPublishingInstance = NULL;
 +(DiscPublishing*)instance {
 	return discPublishingInstance;
@@ -38,9 +36,9 @@ static DiscPublishing* discPublishingInstance = NULL;
 	
 	[[ThreadsWindowController defaultController] window];
 	
-	_filesManager = [[DiscPublishingFilesManager alloc] init];
+	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchAsync|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
 	
-	[[[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisher:) object:NULL] autorelease] start];
+	_filesManager = [[DiscPublishingFilesManager alloc] init];
 }
 
 -(void)dealloc {
@@ -50,36 +48,6 @@ static DiscPublishing* discPublishingInstance = NULL;
 
 -(long)filterImage:(NSString*)menuName {
 	return 0;
-}
-
--(void)initDiscPublisher:(id)obj {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	
-	NSThread* thread = [NSThread currentThread];
-	ThreadsManagerThreadInfo* threadInfo = [[ThreadsManager defaultManager] addThread:thread name:@"Initializing Disk Publisher..."];
-	[[ThreadsManager defaultManager] setSupportsCancel:YES forThread:thread];
-	
-	while (![thread isCancelled] && !_discPublisher)
-		@try {
-			_discPublisher = [[DiscPublisher alloc] init];
-			
-			for (NSNumber* robotId in self.discPublisher.status.robotIds)
-				[self.discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_IGNOREINKLOW];
-			
-			while (![thread isCancelled]) @try {
-				if ([self.discPublisher.status allRobotsAreIdle])
-					break;
-			} @catch (NSException* e) {
-				NSLog(@"[DiscPublishingFilter initDiscPublisher:] exception: %@", e);
-			} @finally {
-				[NSThread sleepForTimeInterval:0.5];
-			}
-		} @catch (NSException* e) {
-			[threadInfo setStatus:[NSString stringWithFormat:@"Initialization error %@, is any robot connected to the computer?", e]];
-			[NSThread sleepForTimeInterval:5];
-		}
-	
-	[pool release];
 }
 
 +(NSString*)baseDirPath {

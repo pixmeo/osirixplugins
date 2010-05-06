@@ -24,8 +24,9 @@
 #import <OsiriX Headers/BrowserController.h>
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
-#import "DiscPublishingJob.h"
+#import "DiscPublishingJob+Info.h"
 #import "DiscPublishing.h"
+#import "NSAppleEventDescriptor+N2.h"
 
 
 @implementation DiscPublishingPatientDisc
@@ -142,39 +143,29 @@
 }
 
 -(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
-	DiscPublishingJob* job = [[[DiscPublishing instance] discPublisher] createJobOfClass:[DiscPublishingJob class]];
-	job.root = discRootDirPath;
-	job.info = info;
-	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(discJobThread:) object:job];
-	[[thread autorelease] start];
-}
-
--(void)discJobThread:(DiscPublishingJob*)job {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	NSDictionary* errors = [NSDictionary dictionary];
 	
-	NSThread* thread = [NSThread currentThread];
-	ThreadsManagerThreadInfo* threadInfo = [[ThreadsManager defaultManager] addThread:thread name:[NSString stringWithFormat:@"Publishing disc %@...", [job.info objectForKey:DiscPublishingJobInfoDiscNameKey]]];
+	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
+	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
+	if (!appleScript)
+		[NSException raise:NSGenericException format:[errors description]];
 	
-	@try {
-		[threadInfo setStatus:@"Starting job..."];
-		[job start];
-		
-		while (YES) {
-			if (job.status.dwJobState == JOB_FAILED) {
-				// TODO: recover job, retry, whatever!!
-				[threadInfo setStatus:[NSString stringWithFormat:@"Job failed with error: %d", job.status.dwLastError]];
-			} else
-				[threadInfo setStatus:job.statusString];
-			
-			if (job.status.dwJobState == JOB_COMPLETED) break;
-			[NSThread sleepForTimeInterval:1];
-		}
-		
-	} @catch (NSException* e) {
-		NSLog(@"Job exception: %@", e);
-	}
+	ProcessSerialNumber psn = {0, kCurrentProcess};
+	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
 	
-	[pool release];
+	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"PublishDisc" lowercaseString]] forKeyword:keyASSubroutineName];
+	
+	NSAppleEventDescriptor* params = [NSAppleEventDescriptor listDescriptor];
+	[params insertDescriptor:[[info objectForKey:DiscPublishingJobInfoDiscNameKey] appleEventDescriptor] atIndex:1];
+	[params insertDescriptor:[discRootDirPath appleEventDescriptor] atIndex:2];
+	[params insertDescriptor:[info appleEventDescriptor] atIndex:3];
+	[event setParamDescriptor:params forKeyword:keyDirectObject];
+	
+	if (![appleScript executeAppleEvent:event error:&errors])
+		[NSException raise:NSGenericException format:[errors description]];
+	
+	[appleScript release];
 }
 
 -(void)main {
@@ -228,7 +219,7 @@
 		}
 	}
 	
-	NSLog(@"paths: %@", seriesPaths);
+//	NSLog(@"paths: %@", seriesPaths);
 
 	[threadInfo setStatus:@"Preparing report data..."];
 
@@ -417,6 +408,7 @@
 			NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
 								  safeDiscName, DiscPublishingJobInfoDiscNameKey,
 								  _options, DiscPublishingJobInfoOptionsKey,
+								  [NSNumber numberWithUnsignedInt:[[NSUserDefaultsController sharedUserDefaultsController] mediaType]], DiscPublishingJobInfoMediaTypeKey,
 								  [NSArray arrayWithObjects:
 									/* 1 */	discName,
 								    /* 2 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth],
@@ -427,14 +419,14 @@
 			[self spawnDiscWrite:discDir info:info];
 			
 		} @catch (NSException* e) {
-			NSLog(@"[DiscPublishingPatientBurn main] error: %@", e);
+			NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
 		}
 		
 		[NSThread sleepForTimeInterval:0.01];
 		[pool release];
 	}
 	
-	NSLog(@"paths: %@", seriesPaths);
+//	NSLog(@"paths: %@", seriesPaths);
 	
 	[seriesPaths release];
 	[seriesSizes release];
@@ -451,13 +443,13 @@
 	NSString* dirPath = [[NSFileManager defaultManager] tmpFilePathInDir:basePath];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dirPath];
 	
-	NSLog(@"dirPath is %@", dirPath);
+//	NSLog(@"dirPath is %@", dirPath);
 	
 	// copy files by considering anonymize
 	NSString* dicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM"];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 	
-	NSLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
+//	NSLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
 
 	NSMutableArray* fileNames = [NSMutableArray arrayWithCapacity:imagesIn.count];
 	for (NSUInteger i = 0; i < imagesIn.count; ++i) {
@@ -472,7 +464,7 @@
 		[fileNames addObject:[toFilePath lastPathComponent]];
 	}
 	
-	NSLog(@"importing %d images to context", fileNames.count);
+//	NSLog(@"importing %d images to context", fileNames.count);
 
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
@@ -480,13 +472,13 @@
 	
 	NSString* oldDirPath = dirPath;
 	dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
-	NSLog(@"moving %@ to %@", oldDirPath, dirPath);
+//	NSLog(@"moving %@ to %@", oldDirPath, dirPath);
 	[[NSFileManager defaultManager] moveItemAtPath:oldDirPath toPath:dirPath error:NULL];
 	for (DicomImage* image in images)
 		[image setPathString:[[image pathString] stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath]];
 	dicomDirPath = [dicomDirPath stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath];
 	
-	NSLog(@"decompressing");
+//	NSLog(@"decompressing");
 	
 	if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000)) {
 		NSString* beforeDicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM_before_decompression"];
@@ -496,7 +488,7 @@
 		[[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
 	}
 	
-	NSLog(@"compressing");
+//	NSLog(@"compressing");
 
 	if (options.compression == CompressionCompress) {
 		NSMutableDictionary* execOptions = [NSMutableDictionary dictionary];
@@ -516,7 +508,7 @@
 	
 	[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:dirPath withDICOMFilesInDirectory:dicomDirPath];
 	
-	NSLog(@"generating QTHTML");
+//	NSLog(@"generating QTHTML");
 
 	if (options.includeHTMLQT) {
 		NSString* htmlqtTmpPath = [dirPath stringByAppendingPathComponent:@"HTMLQT"];
@@ -525,7 +517,7 @@
 		[BrowserController exportQuicktime:sortedImages:htmlqtTmpPath:YES:NULL:seriesPaths];
 	}
 	
-	NSLog(@"done");
+//	NSLog(@"done");
 
 	return images;
 }

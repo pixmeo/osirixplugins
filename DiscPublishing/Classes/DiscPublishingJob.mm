@@ -7,17 +7,13 @@
 //
 
 #import "DiscPublishingJob.h"
-#import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublishingOptions.h"
 #import "CSV.h"
 #import "NSFileManager+DiscPublisher.h"
+#import "DiscPublishingJob+Info.h"
 
 
 @implementation DiscPublishingJob
-
-const NSString* const DiscPublishingJobInfoDiscNameKey = @"DiscName";
-const NSString* const DiscPublishingJobInfoOptionsKey = @"Options";
-const NSString* const DiscPublishingJobInfoMergeValuesKey = @"MergeValues";
 
 @synthesize root = _root;
 @synthesize info = _info;
@@ -55,7 +51,7 @@ const NSString* const DiscPublishingJobInfoMergeValuesKey = @"MergeValues";
 	
 	DiscPublishingOptions* options = [self.info objectForKey:DiscPublishingJobInfoOptionsKey];
 
-	self.discType = [[NSUserDefaultsController sharedUserDefaultsController] mediaType];
+	self.discType = [[self.info objectForKey:DiscPublishingJobInfoMediaTypeKey] unsignedIntValue];
 	self.volumeName = [self.info objectForKey:DiscPublishingJobInfoDiscNameKey];
 
 //	self.type = JP_JOB_PRINT_ONLY;

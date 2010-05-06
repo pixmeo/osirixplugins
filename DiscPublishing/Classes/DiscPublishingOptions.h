@@ -13,6 +13,8 @@
 	NSString* discCoverTemplatePath;
 }
 
+//extern NSString* const DiscPublishingOptionsDiscCoverTemplatePathArchivingKey;
+
 @property(retain) NSString* discCoverTemplatePath;
 
 @end

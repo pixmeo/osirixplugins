@@ -50,5 +50,49 @@
 	[super dealloc];
 }
 
+static NSString* const DiscBurningOptionsAnonymizeArchivingKey = @"anonymize";
+static NSString* const DiscBurningOptionsAnonymizationTagsArchivingKey = @"anonymizationTags";
+static NSString* const DiscBurningOptionsIncludeOsirixLiteArchivingKey = @"includeOsirixLite";
+static NSString* const DiscBurningOptionsIncludeHTMLQTArchivingKey = @"includeHTMLQT";
+static NSString* const DiscBurningOptionsIncludeReportsArchivingKey = @"includeReports";
+static NSString* const DiscBurningOptionsIncludeAuxiliaryDirArchivingKey = @"includeAuxiliaryDir";
+static NSString* const DiscBurningOptionsAuxiliaryDirPathArchivingKey = @"auxiliaryDirPath";
+static NSString* const DiscBurningOptionsCompressionArchivingKey = @"compression";
+static NSString* const DiscBurningOptionsCompressJPEGNotJPEG2000ArchivingKey = @"compressJPEGNotJPEG2000";
+static NSString* const DiscBurningOptionsZipArchivingKey = @"zip";
+static NSString* const DiscBurningOptionsZipEncryptArchivingKey = @"zipEncrypt";
+static NSString* const DiscBurningOptionsZipEncryptPasswordArchivingKey = @"zipEncryptPassword";
+
+-(void)encodeWithCoder:(NSCoder*)encoder {
+	[encoder encodeBool:self.anonymize forKey:DiscBurningOptionsAnonymizeArchivingKey];
+	[encoder encodeObject:self.anonymizationTags forKey:DiscBurningOptionsAnonymizationTagsArchivingKey];
+	[encoder encodeBool:self.includeOsirixLite forKey:DiscBurningOptionsIncludeOsirixLiteArchivingKey];
+	[encoder encodeBool:self.includeHTMLQT forKey:DiscBurningOptionsIncludeHTMLQTArchivingKey];
+	[encoder encodeBool:self.includeReports forKey:DiscBurningOptionsIncludeReportsArchivingKey];
+	[encoder encodeBool:self.includeAuxiliaryDir forKey:DiscBurningOptionsIncludeAuxiliaryDirArchivingKey];
+	[encoder encodeObject:self.auxiliaryDirPath forKey:DiscBurningOptionsAuxiliaryDirPathArchivingKey];
+	[encoder encodeInt:(int)self.compression forKey:DiscBurningOptionsCompressionArchivingKey];
+	[encoder encodeBool:self.compressJPEGNotJPEG2000 forKey:DiscBurningOptionsCompressJPEGNotJPEG2000ArchivingKey];
+	[encoder encodeBool:self.zip forKey:DiscBurningOptionsZipArchivingKey];
+	[encoder encodeBool:self.zipEncrypt forKey:DiscBurningOptionsZipEncryptArchivingKey];
+	[encoder encodeObject:self.zipEncryptPassword forKey:DiscBurningOptionsZipEncryptPasswordArchivingKey];
+}
+
+-(id)initWithCoder:(NSCoder*)decoder {
+	self = [super init];
+	self.anonymize = [decoder decodeBoolForKey:DiscBurningOptionsAnonymizeArchivingKey];
+	self.anonymizationTags = [decoder decodeObjectForKey:DiscBurningOptionsAnonymizationTagsArchivingKey];
+	self.includeOsirixLite = [decoder decodeBoolForKey:DiscBurningOptionsIncludeOsirixLiteArchivingKey];
+	self.includeHTMLQT = [decoder decodeBoolForKey:DiscBurningOptionsIncludeHTMLQTArchivingKey];
+	self.includeReports = [decoder decodeBoolForKey:DiscBurningOptionsIncludeReportsArchivingKey];
+	self.includeAuxiliaryDir = [decoder decodeBoolForKey:DiscBurningOptionsIncludeAuxiliaryDirArchivingKey];
+	self.auxiliaryDirPath = [decoder decodeObjectForKey:DiscBurningOptionsAuxiliaryDirPathArchivingKey];
+	self.compression = (Compression)[decoder decodeIntForKey:DiscBurningOptionsCompressionArchivingKey];
+	self.compressJPEGNotJPEG2000 = [decoder decodeBoolForKey:DiscBurningOptionsCompressJPEGNotJPEG2000ArchivingKey];
+	self.zip = [decoder decodeBoolForKey:DiscBurningOptionsZipArchivingKey];
+	self.zipEncrypt = [decoder decodeBoolForKey:DiscBurningOptionsZipEncryptArchivingKey];
+	self.zipEncryptPassword = [decoder decodeObjectForKey:DiscBurningOptionsZipEncryptPasswordArchivingKey];
+	return self;
+}
 
 @end

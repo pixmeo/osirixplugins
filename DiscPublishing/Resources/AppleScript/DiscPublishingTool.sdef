@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary>
+	<suite name="DiscPublishingTool Suite" code="DiPT" description="Classes for the DiscPublishingTool application.">
+
+		<class name="application" code="capp" description="DiscPublishingTool application scripting facilities.">
+			<cocoa class="NSApplication" />
+			<responds-to command="PublishDisc">
+                <cocoa method="publishDisc:" />
+            </responds-to>
+		</class>
+		
+		
+
+		<command name="PublishDisc" code="DiPTBurn" description="Publish a disc.">
+			<direct-parameter type="text" optional="yes" description="Name of the disc." />
+			<parameter name="root" type="text" optional="no" code="root" description="Path of disc data root.">
+				<cocoa key="root" />
+			</parameter> 
+			<parameter name="info" type="record" optional="yes" code="info" description="Info disctionary.">
+				<cocoa key="info" />
+			</parameter> 
+		</command>
+
+	</suite>
+
+</dictionary>

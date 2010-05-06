@@ -40,7 +40,7 @@
 }
 
 -(void)awakeFromNib {
-	[[self.tableView tableColumnWithIdentifier:@"all"] bind:@"value" toObject:self.manager.threadsController withKeyPath:@"arrangedObjects.self" options:NULL];
+	[[self.tableView tableColumnWithIdentifier:@"all"] bind:@"value" toObject:self.manager.threadsController withKeyPath:@"arrangedObjects" options:NULL];
 }
 
 -(NSString*)windowFrameAutosaveName {

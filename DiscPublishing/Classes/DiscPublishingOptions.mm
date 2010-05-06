@@ -11,6 +11,8 @@
 
 @implementation DiscPublishingOptions
 
+static NSString* const DiscPublishingOptionsDiscCoverTemplatePathArchivingKey = @"discCoverTemplatePath";
+
 @synthesize discCoverTemplatePath;
 
 -(id)copyWithZone:(NSZone*)zone {
@@ -24,6 +26,17 @@
 -(void)dealloc {
 	self.discCoverTemplatePath = NULL;
 	[super dealloc];
+}
+
+-(void)encodeWithCoder:(NSCoder*)encoder {
+	[super encodeWithCoder:encoder];
+	[encoder encodeObject:self.discCoverTemplatePath forKey:DiscPublishingOptionsDiscCoverTemplatePathArchivingKey];
+}
+
+-(id)initWithCoder:(NSCoder*)decoder {
+	self = [super initWithCoder:decoder];
+	self.discCoverTemplatePath = [decoder decodeObjectForKey:DiscPublishingOptionsDiscCoverTemplatePathArchivingKey];
+	return self;
 }
 
 @end

@@ -7,6 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5900F6591190668C001E899B /* DiscPublishingToolAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */; };
+		5900F65A11906698001E899B /* NSThread+DiscPublishingTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7BE11906000007B28E0 /* NSThread+DiscPublishingTool.mm */; };
+		5900F65B1190669E001E899B /* CSV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C51177177000E84FE3 /* CSV.mm */; };
+		5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C91177177900E84FE3 /* DiscPublishingJob.mm */; };
+		5900F65D119066AB001E899B /* DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043F1137C739002D9163 /* DiscPublisher.mm */; };
+		5900F65F119066BD001E899B /* NSFileManager+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */; };
+		5900F660119066C5001E899B /* NSString+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */; };
+		5900F661119066C9001E899B /* NSXMLNode+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */; };
+		5900F66211906723001E899B /* DiscPublisher+Constants.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */; };
+		5900F6631190672B001E899B /* DiscPublisherJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204411137C739002D9163 /* DiscPublisherJob.mm */; };
+		5900F66411906732001E899B /* DiscPublisherRobot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204431137C739002D9163 /* DiscPublisherRobot.mm */; };
+		5900F66511906736001E899B /* DiscPublisherStatus.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204451137C739002D9163 /* DiscPublisherStatus.mm */; };
+		5900F66A1190676E001E899B /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
+		5900F66D11906776001E899B /* JobProcessor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384251178868500E84FE3 /* JobProcessor.framework */; };
+		5900F6701190677F001E899B /* PTRobot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
+		5900F68011906784001E899B /* as_storage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
+		5900F7CA11906B1E001E899B /* DiscPublishingToolApplication.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5900F7C911906B1E001E899B /* DiscPublishingToolApplication.xib */; };
+		5900F7D01190701F001E899B /* DiscPublishingJob+Info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F7CF1190701F001E899B /* DiscPublishingJob+Info.mm */; };
+		5900F7D11190701F001E899B /* DiscPublishingJob+Info.h in Headers */ = {isa = PBXBuildFile; fileRef = 5900F7CE1190701F001E899B /* DiscPublishingJob+Info.h */; };
+		5900F7D21190701F001E899B /* DiscPublishingJob+Info.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F7CF1190701F001E899B /* DiscPublishingJob+Info.mm */; };
+		5900F90F11916356001E899B /* JobManager.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
+		5900F91011916356001E899B /* JobProcessor.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384251178868500E84FE3 /* JobProcessor.framework */; };
+		5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
+		5900F91211916356001E899B /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
+		5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F97711917BBD001E899B /* NSApplication+Scripting.mm */; };
 		5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */; };
 		5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */; };
 		5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041D1137C735002D9163 /* ThreadInfoCell.h */; };
@@ -23,26 +48,13 @@
 		591204381137C735002D9163 /* ThreadsTableView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204281137C735002D9163 /* ThreadsTableView.mm */; };
 		591204391137C735002D9163 /* ThreadsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204291137C735002D9163 /* ThreadsWindowController.h */; };
 		5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912042A1137C735002D9163 /* ThreadsWindowController.mm */; };
-		5912044D1137C739002D9163 /* DiscPublisher+Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912043C1137C739002D9163 /* DiscPublisher+Constants.h */; };
-		5912044E1137C739002D9163 /* DiscPublisher+Constants.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */; };
-		5912044F1137C739002D9163 /* DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912043E1137C739002D9163 /* DiscPublisher.h */; };
-		591204501137C739002D9163 /* DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043F1137C739002D9163 /* DiscPublisher.mm */; };
-		591204511137C739002D9163 /* DiscPublisherJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204401137C739002D9163 /* DiscPublisherJob.h */; };
-		591204521137C739002D9163 /* DiscPublisherJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204411137C739002D9163 /* DiscPublisherJob.mm */; };
-		591204531137C739002D9163 /* DiscPublisherRobot.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204421137C739002D9163 /* DiscPublisherRobot.h */; };
-		591204541137C739002D9163 /* DiscPublisherRobot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204431137C739002D9163 /* DiscPublisherRobot.mm */; };
-		591204551137C739002D9163 /* DiscPublisherStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204441137C739002D9163 /* DiscPublisherStatus.h */; };
-		591204561137C739002D9163 /* DiscPublisherStatus.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204451137C739002D9163 /* DiscPublisherStatus.mm */; };
-		591204571137C739002D9163 /* NSFileManager+DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */; };
-		591204581137C739002D9163 /* NSFileManager+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */; };
-		591204591137C739002D9163 /* NSString+DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204491137C739002D9163 /* NSString+DiscPublisher.h */; };
-		5912045A1137C739002D9163 /* NSString+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */; };
-		5912045B1137C739002D9163 /* NSXMLNode+DiscPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */; };
-		5912045C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */; };
 		591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */; };
 		591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */; };
 		591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204841137C836002D9163 /* ThreadModalForWindow.xib */; };
 		591204891137C836002D9163 /* ThreadsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204861137C836002D9163 /* ThreadsWindow.xib */; };
+		595547AA1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */; };
+		595547AB1191B52300A3DF03 /* NSAppleEventDescriptor+N2.h in Headers */ = {isa = PBXBuildFile; fileRef = 595547A81191B52300A3DF03 /* NSAppleEventDescriptor+N2.h */; };
+		595547AC1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */; };
 		5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */; };
 		59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */; };
 		59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022D113FE9A500875159 /* NSString+DiscPublishing.h */; };
@@ -67,8 +79,17 @@
 		59BDFB9C1185B7DF007F1F2C /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */; };
 		59BDFBC01185BB75007F1F2C /* DiscPublishingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59BDFBBE1185BB75007F1F2C /* DiscPublishingPreferences.xib */; };
 		59BDFBC51185BE46007F1F2C /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		59BDFBEA1185C1B9007F1F2C /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59BDFC271185C496007F1F2C /* DiscPublishingPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 59BDFB901185B794007F1F2C /* DiscPublishingPreferences.prefPane */; };
+		59C7EA471191D06C00FCE244 /* DiscPublishingTool.app in Resources */ = {isa = PBXBuildFile; fileRef = 5900F64B11906667001E899B /* DiscPublishingTool.app */; };
+		59C7EAA21192A21600FCE244 /* NSFileManager+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */; };
+		59C7EAA31192A21B00FCE244 /* NSString+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */; };
+		59C7EAA41192A21F00FCE244 /* NSXMLNode+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */; };
+		59C7EBAF1192BA3D00FCE244 /* DiscPublishingOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */; };
+		59C7EBB01192BA4B00FCE244 /* DiscBurningOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710239113FE9D500875159 /* DiscBurningOptions.mm */; };
+		59C7EF8D11930C6F00FCE244 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */; };
+		59C7EFC511930C8400FCE244 /* Nitrogen.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */; };
+		59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */; };
+		59C7F02011930E6E00FCE244 /* DiscPublishingTool.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */; };
 		59E37CC81173610300E84FE3 /* DiscPublishingOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */; };
 		59E37CC91173610300E84FE3 /* DiscPublishingOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */; };
 		59E37D39117457D900E84FE3 /* DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37D37117457D900E84FE3 /* DiscPublishing.h */; };
@@ -77,17 +98,9 @@
 		59E381C61177177000E84FE3 /* CSV.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C41177177000E84FE3 /* CSV.h */; };
 		59E381C71177177000E84FE3 /* CSV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C51177177000E84FE3 /* CSV.mm */; };
 		59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C81177177900E84FE3 /* DiscPublishingJob.h */; };
-		59E381CB1177177900E84FE3 /* DiscPublishingJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C91177177900E84FE3 /* DiscPublishingJob.mm */; };
-		59E384271178868500E84FE3 /* as_storage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
-		59E384281178868500E84FE3 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
-		59E384291178868600E84FE3 /* JobProcessor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384251178868500E84FE3 /* JobProcessor.framework */; };
-		59E3842A1178868600E84FE3 /* PTRobot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
-		59E3842D1178868C00E84FE3 /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
 		59E3842E1178868C00E84FE3 /* JobManager.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
-		59E3842F1178868C00E84FE3 /* JobProcessor.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384251178868500E84FE3 /* JobProcessor.framework */; };
-		59E384301178868C00E84FE3 /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
+		59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
-		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,19 +111,59 @@
 			remoteGlobalIDString = 59BDFB8F1185B794007F1F2C;
 			remoteInfo = PreferencePane;
 		};
+		59C7EA521191D08500FCE244 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5900F64A11906667001E899B /* DiscPublishingTool */;
+			remoteInfo = DiscPublishingTool;
+		};
+		59C7EFDD11930CB100FCE244 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Nitrogen.framework */;
+			remoteInfo = Nitrogen;
+		};
+		59C7EFDF11930CB100FCE244 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 591403A21105B88A00D6A504 /* Unit Tests.octest */;
+			remoteInfo = "Unit Tests";
+		};
+		59C7EFE111930CC500FCE244 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Nitrogen */;
+			remoteInfo = Nitrogen;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		5900F92311916363001E899B /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				59C7EFC511930C8400FCE244 /* Nitrogen.framework in Copy Frameworks */,
+				5900F90F11916356001E899B /* JobManager.framework in Copy Frameworks */,
+				5900F91011916356001E899B /* JobProcessor.framework in Copy Frameworks */,
+				5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */,
+				5900F91211916356001E899B /* as_storage.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		591204D41137C976002D9163 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				59E3842D1178868C00E84FE3 /* as_storage.framework in Copy Frameworks */,
 				59E3842E1178868C00E84FE3 /* JobManager.framework in Copy Frameworks */,
-				59E3842F1178868C00E84FE3 /* JobProcessor.framework in Copy Frameworks */,
-				59E384301178868C00E84FE3 /* PTRobot.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,10 +171,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
+		5900F64B11906667001E899B /* DiscPublishingTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiscPublishingTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5900F7C611906A3C001E899B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Tool/Info.plist; sourceTree = "<group>"; };
+		5900F7C911906B1E001E899B /* DiscPublishingToolApplication.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DiscPublishingToolApplication.xib; path = Resources/Tool/DiscPublishingToolApplication.xib; sourceTree = "<group>"; };
+		5900F7CE1190701F001E899B /* DiscPublishingJob+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingJob+Info.h"; path = "Classes/DiscPublishingJob+Info.h"; sourceTree = "<group>"; };
+		5900F7CF1190701F001E899B /* DiscPublishingJob+Info.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishingJob+Info.mm"; path = "Classes/DiscPublishingJob+Info.mm"; sourceTree = "<group>"; };
+		5900F97611917BBD001E899B /* NSApplication+Scripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSApplication+Scripting.h"; path = "Classes/Tool/NSApplication+Scripting.h"; sourceTree = "<group>"; };
+		5900F97711917BBD001E899B /* NSApplication+Scripting.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSApplication+Scripting.mm"; path = "Classes/Tool/NSApplication+Scripting.mm"; sourceTree = "<group>"; };
 		591202BA1137BEC7002D9163 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCancelButton.h; sourceTree = "<group>"; };
 		5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadInfoCancelButton.mm; sourceTree = "<group>"; };
@@ -149,16 +207,18 @@
 		591204431137C739002D9163 /* DiscPublisherRobot.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherRobot.mm; sourceTree = "<group>"; };
 		591204441137C739002D9163 /* DiscPublisherStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisherStatus.h; sourceTree = "<group>"; };
 		591204451137C739002D9163 /* DiscPublisherStatus.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherStatus.mm; sourceTree = "<group>"; };
-		591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DiscPublisher.h"; sourceTree = "<group>"; };
-		591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSFileManager+DiscPublisher.mm"; sourceTree = "<group>"; };
-		591204491137C739002D9163 /* NSString+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DiscPublisher.h"; sourceTree = "<group>"; };
-		5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSString+DiscPublisher.mm"; sourceTree = "<group>"; };
-		5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSXMLNode+DiscPublisher.h"; sourceTree = "<group>"; };
-		5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSXMLNode+DiscPublisher.mm"; sourceTree = "<group>"; };
+		591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSFileManager+DiscPublisher.h"; sourceTree = "<group>"; };
+		591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSFileManager+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSFileManager+DiscPublisher.mm"; sourceTree = "<group>"; };
+		591204491137C739002D9163 /* NSString+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSString+DiscPublisher.h"; sourceTree = "<group>"; };
+		5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSString+DiscPublisher.mm"; sourceTree = "<group>"; };
+		5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSXMLNode+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSXMLNode+DiscPublisher.h"; sourceTree = "<group>"; };
+		5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSXMLNode+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSXMLNode+DiscPublisher.mm"; sourceTree = "<group>"; };
 		591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvertedNSStopProgressFreestandingTemplate.png; path = Resources/InvertedNSStopProgressFreestandingTemplate.png; sourceTree = "<group>"; };
 		591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvertedNSStopProgressFreestandingTemplatePressed.png; path = Resources/InvertedNSStopProgressFreestandingTemplatePressed.png; sourceTree = "<group>"; };
 		591204851137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadModalForWindow.xib; sourceTree = "<group>"; };
 		591204871137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadsWindow.xib; sourceTree = "<group>"; };
+		595547A81191B52300A3DF03 /* NSAppleEventDescriptor+N2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAppleEventDescriptor+N2.h"; path = "Classes/Extras/NSAppleEventDescriptor+N2.h"; sourceTree = "<group>"; };
+		595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSAppleEventDescriptor+N2.mm"; path = "Classes/Extras/NSAppleEventDescriptor+N2.mm"; sourceTree = "<group>"; };
 		5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+DiscPublishing.h"; path = "Classes/Extras/NSArray+DiscPublishing.h"; sourceTree = "<group>"; };
 		5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSArray+DiscPublishing.mm"; path = "Classes/Extras/NSArray+DiscPublishing.mm"; sourceTree = "<group>"; };
 		5971022D113FE9A500875159 /* NSString+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DiscPublishing.h"; path = "Classes/Extras/NSString+DiscPublishing.h"; sourceTree = "<group>"; };
@@ -187,6 +247,11 @@
 		59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		59BDFBB21185B87C007F1F2C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Preferences/Info.plist; sourceTree = "<group>"; };
 		59BDFBBF1185BB75007F1F2C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/DiscPublishingPreferences.xib; sourceTree = "<group>"; };
+		59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../osirix/osirix/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
+		59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nitrogen.xcodeproj; path = ../../osirix/osirix/nitrogen/Nitrogen.xcodeproj; sourceTree = SOURCE_ROOT; };
+		59C7EFF611930E0500FCE244 /* DiscPublishingTool.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = DiscPublishingTool.scpt; path = AppleScript/DiscPublishingTool.scpt; sourceTree = "<group>"; };
+		59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = DiscPublishingTool.scpt; path = Resources/AppleScript/DiscPublishingTool.scpt; sourceTree = "<group>"; };
+		59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = DiscPublishingTool.sdef; path = Resources/AppleScript/DiscPublishingTool.sdef; sourceTree = "<group>"; };
 		59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingOptions.h; path = Classes/DiscPublishingOptions.h; sourceTree = "<group>"; };
 		59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingOptions.mm; path = Classes/DiscPublishingOptions.mm; sourceTree = "<group>"; };
 		59E37D37117457D900E84FE3 /* DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishing.h; path = Classes/DiscPublishing.h; sourceTree = "<group>"; };
@@ -200,17 +265,33 @@
 		59E384241178868500E84FE3 /* JobManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobManager.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/JobManager.framework"; sourceTree = SOURCE_ROOT; };
 		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/JobProcessor.framework"; sourceTree = SOURCE_ROOT; };
 		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/PTRobot.framework"; sourceTree = SOURCE_ROOT; };
+		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
+		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
+		59FCD7BD11906000007B28E0 /* NSThread+DiscPublishingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSThread+DiscPublishingTool.h"; path = "Classes/NSThread+DiscPublishingTool.h"; sourceTree = "<group>"; };
+		59FCD7BE11906000007B28E0 /* NSThread+DiscPublishingTool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSThread+DiscPublishingTool.mm"; path = "Classes/NSThread+DiscPublishingTool.mm"; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5900F64911906667001E899B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5900F66A1190676E001E899B /* JobManager.framework in Frameworks */,
+				5900F66D11906776001E899B /* JobProcessor.framework in Frameworks */,
+				5900F6701190677F001E899B /* PTRobot.framework in Frameworks */,
+				5900F68011906784001E899B /* as_storage.framework in Frameworks */,
+				59C7EF8D11930C6F00FCE244 /* Nitrogen.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		59BDFB8E1185B794007F1F2C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				59BDFB9C1185B7DF007F1F2C /* PreferencePanes.framework in Frameworks */,
 				59BDFBC51185BE46007F1F2C /* OsiriX Headers.framework in Frameworks */,
-				59BDFBEA1185C1B9007F1F2C /* JobManager.framework in Frameworks */,
+				59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,13 +299,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */,
 				598C9AE61153C4BA007B7524 /* OsiriX Headers.framework in Frameworks */,
-				59E384271178868500E84FE3 /* as_storage.framework in Frameworks */,
-				59E384281178868500E84FE3 /* JobManager.framework in Frameworks */,
-				59E384291178868600E84FE3 /* JobProcessor.framework in Frameworks */,
-				59E3842A1178868600E84FE3 /* PTRobot.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,8 +312,10 @@
 			children = (
 				59B3FC04117C38330027B0DB /* TODO.txt */,
 				59B3FC05117C38330027B0DB /* Weird.txt */,
+				59FCD7821190492B007B28E0 /* Common */,
 				59BDFBB31185B897007F1F2C /* Plugin */,
 				59BDFBA11185B85D007F1F2C /* Preferences */,
+				59FCD00D11904156007B28E0 /* Tool */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
@@ -247,15 +325,16 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */,
-				59E384231178868500E84FE3 /* as_storage.framework */,
 				59E384241178868500E84FE3 /* JobManager.framework */,
 				59E384251178868500E84FE3 /* JobProcessor.framework */,
 				59E384261178868500E84FE3 /* PTRobot.framework */,
-				598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */,
+				59E384231178868500E84FE3 /* as_storage.framework */,
 				5994E8CE114690E6006E0DF7 /* OsiriX.framework */,
-				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
-				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */,
+				59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */,
+				59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -264,6 +343,8 @@
 			isa = PBXGroup;
 			children = (
 				5973465C1185F2FD00DA86F3 /* Icon.png */,
+				59C7EFF611930E0500FCE244 /* DiscPublishingTool.scpt */,
+				59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */,
 				59E37E70117466F700E84FE3 /* Standard.dcover */,
 				591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */,
 				591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */,
@@ -273,45 +354,22 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		08FB77AFFE84173DC02AAC07 /* Plugin */ = {
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				59E37D37117457D900E84FE3 /* DiscPublishing.h */,
 				59E37D38117457D900E84FE3 /* DiscPublishing.mm */,
-				5971023D113FE9DC00875159 /* Future OsiriX Classes */,
-				59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */,
-				59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */,
 				59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */,
 				59710241113FEA0E00875159 /* DiscPublishingFilesManager.mm */,
 				59710244113FEA1400875159 /* DiscPublishingPatientDisc.h */,
 				59710245113FEA1400875159 /* DiscPublishingPatientDisc.mm */,
-				59E381C81177177900E84FE3 /* DiscPublishingJob.h */,
-				59E381C91177177900E84FE3 /* DiscPublishingJob.mm */,
 				59BDEF68117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h */,
 				59BDEF69117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm */,
 				59710233113FE9C800875159 /* Generic Views */,
 				594B522B1138254300E786F5 /* Extras */,
-				5912043B1137C739002D9163 /* DiscPublisher */,
 				5912041A1137C735002D9163 /* Threads */,
 			);
-			name = Plugin;
-			sourceTree = "<group>";
-		};
-		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				089C1672FE841209C02AAC07 /* Foundation.framework */,
-				089C167FFE841241C02AAC07 /* AppKit.framework */,
-			);
-			name = "Other Frameworks";
+			name = Classes;
 			sourceTree = "<group>";
 		};
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
@@ -319,8 +377,18 @@
 			children = (
 				AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */,
 				59BDFB901185B794007F1F2C /* DiscPublishingPreferences.prefPane */,
+				5900F64B11906667001E899B /* DiscPublishingTool.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5900F7C811906A71001E899B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5900F7C911906B1E001E899B /* DiscPublishingToolApplication.xib */,
+				59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		5912041A1137C735002D9163 /* Threads */ = {
@@ -350,33 +418,19 @@
 		5912043B1137C739002D9163 /* DiscPublisher */ = {
 			isa = PBXGroup;
 			children = (
-				5912043C1137C739002D9163 /* DiscPublisher+Constants.h */,
-				5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */,
 				5912043E1137C739002D9163 /* DiscPublisher.h */,
 				5912043F1137C739002D9163 /* DiscPublisher.mm */,
+				5912043C1137C739002D9163 /* DiscPublisher+Constants.h */,
+				5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */,
 				591204401137C739002D9163 /* DiscPublisherJob.h */,
 				591204411137C739002D9163 /* DiscPublisherJob.mm */,
 				591204421137C739002D9163 /* DiscPublisherRobot.h */,
 				591204431137C739002D9163 /* DiscPublisherRobot.mm */,
 				591204441137C739002D9163 /* DiscPublisherStatus.h */,
 				591204451137C739002D9163 /* DiscPublisherStatus.mm */,
-				591204461137C739002D9163 /* Extras */,
 			);
 			name = DiscPublisher;
 			path = Classes/DiscPublisher;
-			sourceTree = "<group>";
-		};
-		591204461137C739002D9163 /* Extras */ = {
-			isa = PBXGroup;
-			children = (
-				591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */,
-				591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */,
-				591204491137C739002D9163 /* NSString+DiscPublisher.h */,
-				5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */,
-				5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */,
-				5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */,
-			);
-			path = Extras;
 			sourceTree = "<group>";
 		};
 		594B522B1138254300E786F5 /* Extras */ = {
@@ -409,6 +463,14 @@
 				597109E0113FF14D00875159 /* DicomCompressor.mm */,
 				59E381C41177177000E84FE3 /* CSV.h */,
 				59E381C51177177000E84FE3 /* CSV.mm */,
+				595547A81191B52300A3DF03 /* NSAppleEventDescriptor+N2.h */,
+				595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */,
+				591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */,
+				591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */,
+				591204491137C739002D9163 /* NSString+DiscPublisher.h */,
+				5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */,
+				5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */,
+				5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */,
 			);
 			name = "Future OsiriX Classes";
 			sourceTree = "<group>";
@@ -428,7 +490,7 @@
 			children = (
 				591202BA1137BEC7002D9163 /* Info.plist */,
 				32DBCF630370AF2F00C91783 /* Prefix.pch */,
-				08FB77AFFE84173DC02AAC07 /* Plugin */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
 			);
 			name = Plugin;
@@ -452,6 +514,61 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		59C7EFD911930CB100FCE244 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59C7EFDE11930CB100FCE244 /* Nitrogen.framework */,
+				59C7EFE011930CB100FCE244 /* Unit Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		59FCD00D11904156007B28E0 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				5900F7C611906A3C001E899B /* Info.plist */,
+				59FCD781119048A6007B28E0 /* Classes */,
+				5900F7C811906A71001E899B /* Resources */,
+			);
+			name = Tool;
+			sourceTree = "<group>";
+		};
+		59FCD781119048A6007B28E0 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5900F97611917BBD001E899B /* NSApplication+Scripting.h */,
+				5900F97711917BBD001E899B /* NSApplication+Scripting.mm */,
+				59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */,
+				59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */,
+				59FCD7BD11906000007B28E0 /* NSThread+DiscPublishingTool.h */,
+				59FCD7BE11906000007B28E0 /* NSThread+DiscPublishingTool.mm */,
+				59E381C81177177900E84FE3 /* DiscPublishingJob.h */,
+				59E381C91177177900E84FE3 /* DiscPublishingJob.mm */,
+				5912043B1137C739002D9163 /* DiscPublisher */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		59FCD7821190492B007B28E0 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				59FCD78311904942007B28E0 /* Classes */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		59FCD78311904942007B28E0 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5900F7CE1190701F001E899B /* DiscPublishingJob+Info.h */,
+				5900F7CF1190701F001E899B /* DiscPublishingJob+Info.mm */,
+				59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */,
+				59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */,
+				5971023D113FE9DC00875159 /* Future OsiriX Classes */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -468,14 +585,6 @@
 				591204351137C735002D9163 /* ThreadsScroller.h in Headers */,
 				591204371137C735002D9163 /* ThreadsTableView.h in Headers */,
 				591204391137C735002D9163 /* ThreadsWindowController.h in Headers */,
-				5912044D1137C739002D9163 /* DiscPublisher+Constants.h in Headers */,
-				5912044F1137C739002D9163 /* DiscPublisher.h in Headers */,
-				591204511137C739002D9163 /* DiscPublisherJob.h in Headers */,
-				591204531137C739002D9163 /* DiscPublisherRobot.h in Headers */,
-				591204551137C739002D9163 /* DiscPublisherStatus.h in Headers */,
-				591204571137C739002D9163 /* NSFileManager+DiscPublisher.h in Headers */,
-				591204591137C739002D9163 /* NSString+DiscPublisher.h in Headers */,
-				5912045B1137C739002D9163 /* NSXMLNode+DiscPublisher.h in Headers */,
 				5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */,
 				59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */,
 				59710236113FE9C800875159 /* AdaptiveBox.h in Headers */,
@@ -488,12 +597,33 @@
 				59E381C61177177000E84FE3 /* CSV.h in Headers */,
 				59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */,
 				59BDEF6A117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h in Headers */,
+				5900F7D11190701F001E899B /* DiscPublishingJob+Info.h in Headers */,
+				595547AB1191B52300A3DF03 /* NSAppleEventDescriptor+N2.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		5900F64A11906667001E899B /* DiscPublishingTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5900F65811906667001E899B /* Build configuration list for PBXNativeTarget "DiscPublishingTool" */;
+			buildPhases = (
+				5900F64711906667001E899B /* Resources */,
+				5900F64811906667001E899B /* Sources */,
+				5900F64911906667001E899B /* Frameworks */,
+				5900F92311916363001E899B /* Copy Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				59C7EFE211930CC500FCE244 /* PBXTargetDependency */,
+			);
+			name = DiscPublishingTool;
+			productName = DiscPublishingTool;
+			productReference = 5900F64B11906667001E899B /* DiscPublishingTool.app */;
+			productType = "com.apple.product-type.application";
+		};
 		59BDFB8F1185B794007F1F2C /* DiscPublishingPreferences */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 59BDFB951185B795007F1F2C /* Build configuration list for PBXNativeTarget "DiscPublishingPreferences" */;
@@ -527,6 +657,7 @@
 			);
 			dependencies = (
 				59BDFB971185B7BE007F1F2C /* PBXTargetDependency */,
+				59C7EA531191D08500FCE244 /* PBXTargetDependency */,
 			);
 			name = DiscPublishing;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -544,15 +675,48 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* DiscPublishing */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 59C7EFD911930CB100FCE244 /* Products */;
+					ProjectRef = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* DiscPublishing */,
 				59BDFB8F1185B794007F1F2C /* DiscPublishingPreferences */,
+				5900F64A11906667001E899B /* DiscPublishingTool */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		59C7EFDE11930CB100FCE244 /* Nitrogen.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Nitrogen.framework;
+			remoteRef = 59C7EFDD11930CB100FCE244 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		59C7EFE011930CB100FCE244 /* Unit Tests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Unit Tests.octest";
+			remoteRef = 59C7EFDF11930CB100FCE244 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
+		5900F64711906667001E899B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5900F7CA11906B1E001E899B /* DiscPublishingToolApplication.xib in Resources */,
+				59C7F02011930E6E00FCE244 /* DiscPublishingTool.sdef in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		59BDFB8C1185B794007F1F2C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -566,6 +730,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */,
+				59C7EA471191D06C00FCE244 /* DiscPublishingTool.app in Resources */,
 				59BDFC271185C496007F1F2C /* DiscPublishingPreferences.prefPane in Resources */,
 				591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */,
 				591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */,
@@ -605,6 +771,30 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5900F64811906667001E899B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5900F6591190668C001E899B /* DiscPublishingToolAppDelegate.mm in Sources */,
+				5900F65A11906698001E899B /* NSThread+DiscPublishingTool.mm in Sources */,
+				5900F65B1190669E001E899B /* CSV.mm in Sources */,
+				5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */,
+				5900F65D119066AB001E899B /* DiscPublisher.mm in Sources */,
+				5900F65F119066BD001E899B /* NSFileManager+DiscPublisher.mm in Sources */,
+				5900F660119066C5001E899B /* NSString+DiscPublisher.mm in Sources */,
+				5900F661119066C9001E899B /* NSXMLNode+DiscPublisher.mm in Sources */,
+				5900F66211906723001E899B /* DiscPublisher+Constants.mm in Sources */,
+				5900F6631190672B001E899B /* DiscPublisherJob.mm in Sources */,
+				5900F66411906732001E899B /* DiscPublisherRobot.mm in Sources */,
+				5900F66511906736001E899B /* DiscPublisherStatus.mm in Sources */,
+				5900F7D01190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
+				5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */,
+				595547AA1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */,
+				59C7EBAF1192BA3D00FCE244 /* DiscPublishingOptions.mm in Sources */,
+				59C7EBB01192BA4B00FCE244 /* DiscBurningOptions.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		59BDFB8D1185B794007F1F2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -625,14 +815,6 @@
 				591204361137C735002D9163 /* ThreadsScroller.mm in Sources */,
 				591204381137C735002D9163 /* ThreadsTableView.mm in Sources */,
 				5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */,
-				5912044E1137C739002D9163 /* DiscPublisher+Constants.mm in Sources */,
-				591204501137C739002D9163 /* DiscPublisher.mm in Sources */,
-				591204521137C739002D9163 /* DiscPublisherJob.mm in Sources */,
-				591204541137C739002D9163 /* DiscPublisherRobot.mm in Sources */,
-				591204561137C739002D9163 /* DiscPublisherStatus.mm in Sources */,
-				591204581137C739002D9163 /* NSFileManager+DiscPublisher.mm in Sources */,
-				5912045A1137C739002D9163 /* NSString+DiscPublisher.mm in Sources */,
-				5912045C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm in Sources */,
 				59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */,
 				59710232113FE9A500875159 /* NSString+DiscPublishing.mm in Sources */,
 				59710237113FE9C800875159 /* AdaptiveBox.mm in Sources */,
@@ -643,8 +825,12 @@
 				59E37CC91173610300E84FE3 /* DiscPublishingOptions.mm in Sources */,
 				59E37D3A117457D900E84FE3 /* DiscPublishing.mm in Sources */,
 				59E381C71177177000E84FE3 /* CSV.mm in Sources */,
-				59E381CB1177177900E84FE3 /* DiscPublishingJob.mm in Sources */,
 				59BDEF6B117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm in Sources */,
+				5900F7D21190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
+				595547AC1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */,
+				59C7EAA21192A21600FCE244 /* NSFileManager+DiscPublisher.mm in Sources */,
+				59C7EAA31192A21B00FCE244 /* NSString+DiscPublisher.mm in Sources */,
+				59C7EAA41192A21F00FCE244 /* NSXMLNode+DiscPublisher.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,6 +841,16 @@
 			isa = PBXTargetDependency;
 			target = 59BDFB8F1185B794007F1F2C /* DiscPublishingPreferences */;
 			targetProxy = 59BDFB961185B7BE007F1F2C /* PBXContainerItemProxy */;
+		};
+		59C7EA531191D08500FCE244 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5900F64A11906667001E899B /* DiscPublishingTool */;
+			targetProxy = 59C7EA521191D08500FCE244 /* PBXContainerItemProxy */;
+		};
+		59C7EFE211930CC500FCE244 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nitrogen;
+			targetProxy = 59C7EFE111930CC500FCE244 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -686,6 +882,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5900F65611906667001E899B /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = Resources/Tool/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DiscPublishingTool;
+			};
+			name = Development;
+		};
+		5900F65711906667001E899B /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = Resources/Tool/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DiscPublishingTool;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
 		59BDFB921185B795007F1F2C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -748,33 +1004,6 @@
 			};
 			name = Deployment;
 		};
-		59BDFB941185B795007F1F2C /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-				);
-				GCC_ENABLE_CPP_RTTI = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
-				INFOPLIST_FILE = Resources/Preferences/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PREBINDING = YES;
-				PRODUCT_NAME = DiscPublishingPreferences;
-				WRAPPER_EXTENSION = prefPane;
-			};
-			name = Default;
-		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -786,6 +1015,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
@@ -834,6 +1064,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
@@ -866,53 +1097,10 @@
 			};
 			name = Deployment;
 		};
-		CE6A9A9308AC841300D0C1EE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../../../Library/Development/DiscPublishing/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"";
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = DiscPublishing;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Default;
-		};
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					ppc64,
-					x86_64,
-				);
+				ARCHS = i386;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = macosx10.5;
 			};
@@ -930,27 +1118,23 @@
 			};
 			name = Deployment;
 		};
-		CE6A9A9708AC841300D0C1EE /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = macosx10.5;
-			};
-			name = Default;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5900F65811906667001E899B /* Build configuration list for PBXNativeTarget "DiscPublishingTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5900F65611906667001E899B /* Development */,
+				5900F65711906667001E899B /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		59BDFB951185B795007F1F2C /* Build configuration list for PBXNativeTarget "DiscPublishingPreferences" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				59BDFB921185B795007F1F2C /* Development */,
 				59BDFB931185B795007F1F2C /* Deployment */,
-				59BDFB941185B795007F1F2C /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -960,7 +1144,6 @@
 			buildConfigurations = (
 				CE6A9A9108AC841300D0C1EE /* Development */,
 				CE6A9A9208AC841300D0C1EE /* Deployment */,
-				CE6A9A9308AC841300D0C1EE /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -970,7 +1153,6 @@
 			buildConfigurations = (
 				CE6A9A9508AC841300D0C1EE /* Development */,
 				CE6A9A9608AC841300D0C1EE /* Deployment */,
-				CE6A9A9708AC841300D0C1EE /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
