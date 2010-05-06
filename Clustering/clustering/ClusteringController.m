@@ -370,7 +370,7 @@
 			[[datas objectAtIndex:i] writeToFile: dstPath atomically:NO];
 			[filesPaths addObject:dstPath];
 		}
-		[[BrowserController currentBrowser] addFilesToDatabase:filesPaths onlyDICOM:NO safeRebuild:NO produceAddedFiles:NO];
+		[[BrowserController currentBrowser] addFilesToDatabase:filesPaths onlyDICOM:NO produceAddedFiles:NO];
 		[filesPaths release];
 	}
 	else

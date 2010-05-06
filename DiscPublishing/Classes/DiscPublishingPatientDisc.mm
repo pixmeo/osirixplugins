@@ -468,7 +468,7 @@
 
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
-	NSArray* images = [BrowserController addFiles:[dicomDirPath stringsByAppendingPaths:fileNames] toContext:managedObjectContext onlyDICOM:YES safeRebuild:NO notifyAddedFiles:NO parseExistingObject:NO dbFolder:NULL];
+	NSArray* images = [BrowserController addFiles:[dicomDirPath stringsByAppendingPaths:fileNames] toContext:managedObjectContext onlyDICOM:YES  notifyAddedFiles:NO parseExistingObject:NO dbFolder:NULL];
 	
 	NSString* oldDirPath = dirPath;
 	dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
