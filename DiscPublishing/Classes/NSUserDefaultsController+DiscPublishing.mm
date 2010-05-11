@@ -149,7 +149,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 		case DISCTYPE_BR: return 25*1000000000; // 25 GB
 		case DISCTYPE_BR_DL: return 50*1000000000; // 50 GB
 		default: return 0;
-	}	
+	}
 }
 
 -(CGFloat)mediaCapacityBytes {

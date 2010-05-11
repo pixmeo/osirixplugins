@@ -9,7 +9,7 @@
 #import "NSApplication+Scripting.h"
 #import "DiscPublishingJob.h"
 #import "DiscPublishingJob+Info.h"
-#import "NSThread+DiscPublishingTool.h"
+#import "NSThread+N2.h"
 #import "DiscPublishingToolAppDelegate.h"
 #import "DiscPublishingOptions.h"
 #import "DiscPublisher.h"
@@ -18,30 +18,37 @@
 
 @implementation NSApplication (Scripting)
 
--(NSThread*)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
+#pragma mark PublishDisk
+
+-(NSThread*)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info uniqueThreadId:(NSString*)threadId {
 	DiscPublishingJob* job = [[self.delegate discPublisher] createJobOfClass:[DiscPublishingJob class]];
 	job.root = discRootDirPath;
 	job.info = info;
 	
 	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(discJobThread:) object:job];
+	thread.uniqueId = threadId;
 	[thread start];
 	
 	return [thread autorelease];
 }
 
--(void)publishDisc:(NSScriptCommand*)command {
-	NSLog(@"publishDisc:%@", command.description);
+-(id)PublishDisc:(NSScriptCommand*)command {
 	NSString* name = command.directParameter;
 	NSDictionary* args = command.evaluatedArguments;
 	NSString* root = [args objectForKey:@"root"];
 	NSMutableDictionary* info = [args objectForKey:@"info"];
 	
+	static NSUInteger uniqueBurnSessionId = 0;
+	++uniqueBurnSessionId;
+	NSString* uniqueThreadId = [NSString stringWithFormat:@"%d", uniqueBurnSessionId];
+	
 	info = [[info mutableCopy] autorelease];
 	[info setObject:name forKey:DiscPublishingJobInfoDiscNameKey];
 	
-	NSThread* thread = [self spawnDiscWrite:root info:info];
+	NSThread* thread = [self spawnDiscWrite:root info:info uniqueThreadId:uniqueThreadId];
+	[self.delegate distributeNotificationsForThread:thread];
 	
-	// TODO: return thread id so the requesting app knows what thread was created
+	return uniqueThreadId;
 }
 
 -(void)discJobThread:(DiscPublishingJob*)job {
@@ -70,6 +77,37 @@
 	}
 	
 	[pool release];
+}
+
+#pragma mark GetTaskInfo
+
+-(id)GetTaskInfo:(NSScriptCommand*)command {
+	NSString* taskId = command.directParameter;
+	NSThread* thread = [self.delegate threadWithId:taskId];
+	
+	id supportsCancel = [thread.threadDictionary objectForKey:NSThreadSupportsCancelKey];
+	id isCancelled = [thread.threadDictionary objectForKey:NSThreadIsCancelledKey];
+	id status = [thread.threadDictionary objectForKey:NSThreadStatusKey];
+	id progress = [thread.threadDictionary objectForKey:NSThreadProgressKey];
+	
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+				thread.name? (id)thread.name : [NSNull null], @"name",
+				supportsCancel? supportsCancel : [NSNull null], NSThreadSupportsCancelKey,
+				isCancelled? isCancelled : [NSNull null], NSThreadIsCancelledKey,
+				status? status : [NSNull null], NSThreadStatusKey,
+				progress? progress : [NSNull null], NSThreadProgressKey,
+			NULL];
+}
+
+#pragma mark ListTasks
+
+-(id)ListTasks:(NSScriptCommand*)command {
+	NSMutableArray* taskIds = [NSMutableArray array];
+	
+	for (NSThread* thread in [self.delegate threads])
+		[taskIds addObject:thread.uniqueId];
+	
+	return taskIds;
 }
 
 @end

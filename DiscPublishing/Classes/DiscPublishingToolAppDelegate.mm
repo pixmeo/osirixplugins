@@ -9,7 +9,8 @@
 #import "DiscPublishingToolAppDelegate.h"
 #import "DiscPublisher.h"
 #import "DiscPublisherStatus.h"
-#import "NSThread+DiscPublishingTool.h"
+#import "DiscPublishingTool+DistributedNotifications.h"
+#import "NSThread+N2.h"
 
 
 int main(int argc, const char* argv[]) {
@@ -19,15 +20,76 @@ int main(int argc, const char* argv[]) {
 
 @implementation DiscPublishingToolAppDelegate
 
+#pragma mark Thread property distributed notifications
+
+-(void)distributeNotificationsForThread:(NSThread*)thread {
+	[threads addObject:thread];
+	
+	[thread addObserver:self forKeyPath:NSThreadSupportsCancelKey options:NULL context:NULL];
+	[thread addObserver:self forKeyPath:NSThreadIsCancelledKey options:NULL context:NULL];
+	[thread addObserver:self forKeyPath:NSThreadStatusKey options:NULL context:NULL];
+	[thread addObserver:self forKeyPath:NSThreadProgressKey options:NULL context:NULL];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
+}
+
+-(void)stopDistributingNotificationsForThread:(NSThread*)thread {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+
+	[thread removeObserver:self forKeyPath:NSThreadSupportsCancelKey];
+	[thread removeObserver:self forKeyPath:NSThreadIsCancelledKey];
+	[thread removeObserver:self forKeyPath:NSThreadStatusKey];
+	[thread removeObserver:self forKeyPath:NSThreadProgressKey];
+
+	[threads removeObject:thread];
+}
+
+-(void)threadWillExit:(NSNotification*)notification {
+	NSThread* thread = notification.object;
+	
+	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:NSThreadWillExitNotification forKey:DiscPublishingToolThreadChangedInfoKey];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
+
+	[self stopDistributingNotificationsForThread:thread];
+}
+
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+	if ([object isKindOfClass:[NSThread class]]) {
+		NSThread* thread = object;
+		
+		if (!thread.uniqueId)
+			return;
+		
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+									  [thread valueForKeyPath:keyPath], keyPath,
+									  keyPath, DiscPublishingToolThreadChangedInfoKey,
+								  NULL];
+		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
+	}
+}
+
+#pragma mark Application initialization & finalization
+
 @synthesize discPublisher;
 
+-(NSArray*)threads {
+	return threads;
+}
+
+-(NSThread*)threadWithId:(NSString*)threadId {
+	for (NSThread* thread in threads)
+		if ([thread.uniqueId isEqual:threadId])
+			return thread;
+	return NULL;
+}
+
 -(void)applicationDidFinishLaunching:(NSNotification*)aNotification {
-	threads = [[NSArrayController alloc] init];
+	threads = [[NSMutableArray alloc] init];
 	
 	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
 	[thread start];
 	
-	[threads addObject:thread];
+	[self distributeNotificationsForThread:thread];
 	
 	NSLog(@"Welcome to DiscPublishingTool.");
 }

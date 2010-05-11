@@ -6,29 +6,31 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>DiscPublishing</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.osirix.DiscPublishing</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>DiscPublishing</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleIdentifier</key>
+	<string>ch.osirix.discpublishing</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSPrincipalClass</key>
-	<string>DiscPublishing</string>
 	<key>MenuTitles</key>
 	<array>
-		<string>DiscPublishing</string>
+		<string>Publish</string>
 	</array>
-	<key>pluginType</key>
-	<string>Database</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2010 OsiriX Team</string>
-	<key>CFBundleName</key>
-	<string>Disc Publishing</string>
+	<key>NSPrincipalClass</key>
+	<string>DiscPublishing</string>
 	<key>ToolbarIcon</key>
 	<string>Icon</string>
+	<key>allowToolbarIcon</key>
+	<string>YES</string>
+	<key>pluginType</key>
+	<string>Database</string>
 </dict>
 </plist>

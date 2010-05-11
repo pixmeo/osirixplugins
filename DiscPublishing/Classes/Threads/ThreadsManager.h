@@ -9,16 +9,10 @@
 #import <Foundation/Foundation.h>
 
 
-@class ThreadsManagerThreadInfo;
-
-extern const NSString* const ThreadsManagerThreadCompletedNotification;
-extern const NSString* const ThreadsManagerThreadCancelledNotification;
-
 @interface ThreadsManager : NSObject {
 	@private 
     NSMutableArray* _threads;
 	NSArrayController* _threadsController;
-	NSThread* _threadsWatcherThread;
 }
 
 @property(readonly) NSMutableArray* threads;
@@ -27,18 +21,9 @@ extern const NSString* const ThreadsManagerThreadCancelledNotification;
 +(ThreadsManager*)defaultManager;
 
 -(NSUInteger)threadsCount;
--(ThreadsManagerThreadInfo*)addThread:(NSThread*)thread name:(NSString*)name;
--(ThreadsManagerThreadInfo*)addThread:(NSThread*)thread name:(NSString*)name modalForWindow:(NSWindow*)window;
--(void)addThread:(ThreadsManagerThreadInfo*)thread;
--(void)cancelThread:(ThreadsManagerThreadInfo*)thread;
--(void)removeThread:(id)thread;
--(ThreadsManagerThreadInfo*)threadInfoAtIndex:(NSUInteger)index;
-
--(void)setStatus:(NSString*)status forThread:(NSThread*)thread;
--(void)setProgress:(CGFloat)progress ofTotal:(CGFloat)total forThread:(NSThread*)thread;
--(void)setSupportsCancel:(BOOL)flag forThread:(NSThread*)thread;
-
--(ThreadsManagerThreadInfo*)infoForThread:(NSThread*)thread;
+-(NSThread*)threadAtIndex:(NSUInteger)index;
+-(void)addThread:(NSThread*)thread;
+-(void)removeThread:(NSThread*)thread;
 
 -(NSUInteger)countOfThreads;
 -(id)objectInThreadsAtIndex:(NSUInteger)index;

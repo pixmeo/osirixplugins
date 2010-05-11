@@ -13,9 +13,13 @@
 @interface DiscPublishingToolAppDelegate : NSObject {
 @private
 	DiscPublisher* discPublisher;
-	NSArrayController* threads;
+	NSMutableArray* threads;
 }
 
 @property(readonly) DiscPublisher* discPublisher;
+@property(readonly) NSArray* threads;
+
+-(NSThread*)threadWithId:(NSString*)threadId;
+-(void)distributeNotificationsForThread:(NSThread*)thread;
 
 @end

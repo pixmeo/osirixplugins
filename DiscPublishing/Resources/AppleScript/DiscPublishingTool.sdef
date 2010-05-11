@@ -3,23 +3,37 @@
 <dictionary>
 	<suite name="DiscPublishingTool Suite" code="DiPT" description="Classes for the DiscPublishingTool application.">
 
-		<class name="application" code="capp" description="DiscPublishingTool application scripting facilities.">
+		<class name="application" code="capp" description="DiscPublishingTool application scripting facilities. These functions are not usable from simple AppleScript as they've been created to allow the DiscPublishingPlugin to communicate with the DIscPublishingTool (because the Primera libs are only available in 32 bits and OsiriX runs in 64 bits).">
 			<cocoa class="NSApplication" />
 			<responds-to command="PublishDisc">
-                <cocoa method="publishDisc:" />
+                <cocoa method="PublishDisc:" />
+            </responds-to>
+			<responds-to command="ListTasks">
+                <cocoa method="ListTasks:" />
+            </responds-to>
+			<responds-to command="GetTaskInfo">
+                <cocoa method="GetTaskInfo:" />
             </responds-to>
 		</class>
 		
-		
-
-		<command name="PublishDisc" code="DiPTBurn" description="Publish a disc.">
-			<direct-parameter type="text" optional="yes" description="Name of the disc." />
+		<command name="PublishDisc" code="DiPTBurn" description="Start a disc publishing task.">
+            <result type="text" description="A reference key unique to the created burn session." /> 
+			<direct-parameter type="text" optional="no" description="Name of the disc." />
 			<parameter name="root" type="text" optional="no" code="root" description="Path of disc data root.">
 				<cocoa key="root" />
 			</parameter> 
-			<parameter name="info" type="record" optional="yes" code="info" description="Info disctionary.">
+			<parameter name="info" type="record" optional="no" code="info" description="Info disctionary.">
 				<cocoa key="info" />
 			</parameter> 
+		</command>
+		
+		<command name="ListTasks" code="DiPTStat" description="List the current task identifiers.">
+            <result type="list" description="Array containing the task identifiers." />
+		</command>
+		
+		<command name="GetTaskInfo" code="DiPTGetI" description="Get info about a task.">
+            <result type="record" description="A record containing name, supportsCancel, isCancelled, status and progress for the task, or nil." /> 
+			<direct-parameter type="text" optional="no" description="A task identifier." />
 		</command>
 
 	</suite>

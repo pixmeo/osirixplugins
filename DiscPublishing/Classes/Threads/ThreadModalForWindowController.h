@@ -10,7 +10,7 @@
 @class ThreadsManagerThreadInfo;
 
 @interface ThreadModalForWindowController : NSWindowController {
-	ThreadsManagerThreadInfo* _threadInfo;
+	NSThread* _thread;
 	NSWindow* _docWindow;
 	NSProgressIndicator* _progressIndicator;
 	NSButton* _cancelButton;
@@ -18,15 +18,22 @@
 	NSTextField* _statusField;
 }
 
-@property(retain, readonly) ThreadsManagerThreadInfo* threadInfo;
+@property(retain, readonly) NSThread* thread;
 @property(retain, readonly) NSWindow* docWindow;
 @property(retain) IBOutlet NSProgressIndicator* progressIndicator;
 @property(retain) IBOutlet NSButton* cancelButton;
 @property(retain) IBOutlet NSTextField* titleField;
 @property(retain) IBOutlet NSTextField* statusField;
 
--(id)initWithThread:(ThreadsManagerThreadInfo*)threadInfo window:(NSWindow*)window;
+-(id)initWithThread:(NSThread*)thread window:(NSWindow*)window;
 
 -(IBAction)cancelAction:(id)source;
 
 @end
+
+
+@interface NSThread (ModalForWindow)
+
+-(void)startModalForWindow:(NSWindow*)window;
+
+@end;

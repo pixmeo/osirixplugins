@@ -8,7 +8,6 @@
 
 #import "DiscPublishingPatientDisc.h"
 #import "DiscBurningOptions.h"
-#import "ThreadsManagerThreadInfo.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
@@ -24,9 +23,10 @@
 #import <OsiriX Headers/BrowserController.h>
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
-#import "DiscPublishingJob+Info.h"
 #import "DiscPublishing.h"
-#import "NSAppleEventDescriptor+N2.h"
+#import "DiscPublishingJob+Info.h"
+#import "DiscPublishingTasksManager.h"
+#import "NSThread+N2.h"
 
 
 @implementation DiscPublishingPatientDisc
@@ -142,37 +142,11 @@
 	[dcmmkdirTask release];
 }
 
--(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
-	NSDictionary* errors = [NSDictionary dictionary];
-	
-	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
-	if (!appleScript)
-		[NSException raise:NSGenericException format:[errors description]];
-	
-	ProcessSerialNumber psn = {0, kCurrentProcess};
-	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
-	
-	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"PublishDisc" lowercaseString]] forKeyword:keyASSubroutineName];
-	
-	NSAppleEventDescriptor* params = [NSAppleEventDescriptor listDescriptor];
-	[params insertDescriptor:[[info objectForKey:DiscPublishingJobInfoDiscNameKey] appleEventDescriptor] atIndex:1];
-	[params insertDescriptor:[discRootDirPath appleEventDescriptor] atIndex:2];
-	[params insertDescriptor:[info appleEventDescriptor] atIndex:3];
-	[event setParamDescriptor:params forKeyword:keyDirectObject];
-	
-	if (![appleScript executeAppleEvent:event error:&errors])
-		[NSException raise:NSGenericException format:[errors description]];
-	
-	[appleScript release];
-}
-
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	ThreadsManagerThreadInfo* threadInfo = [[ThreadsManager defaultManager] addThread:self name:[self name]];
+	[[ThreadsManager defaultManager] addThread:self];
 	
-	[threadInfo setStatus:@"Detecting image series..."];
+	self.status = @"Detecting image series...";
 	NSMutableArray* series = [[NSMutableArray alloc] init];
 	for (DicomImage* image in _files) {
 		DicomSeries* serie = [image valueForKeyPath:@"series"];
@@ -191,7 +165,7 @@
 	NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	for (DicomSeries* serie in series) {
-		[threadInfo setStatus:[NSString stringWithFormat:@"Preparing data for series %@...", [serie valueForKeyPath:@"name"]]];
+		self.status = [NSString stringWithFormat:@"Preparing data for series %@...", [serie valueForKeyPath:@"name"]];
 		
 		NSArray* images = [self imagesBelongingToSeries:serie];
 		images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
@@ -221,7 +195,7 @@
 	
 //	NSLog(@"paths: %@", seriesPaths);
 
-	[threadInfo setStatus:@"Preparing report data..."];
+	self.status = @"Preparing report data...";
 
 	if (_options.includeReports) {
 		NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
@@ -233,7 +207,7 @@
 	while (seriesSizes.count) {
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		
-		[threadInfo setStatus:[NSString stringWithFormat:@"Preparing data for disc %d...", discNumber]];
+		self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", discNumber];
 		
 		@try {
 			NSMutableArray* privateFiles = [NSMutableArray array];
@@ -416,7 +390,7 @@
 								    /* 4 */	[dateFormatter stringFromDate:[NSDate date]],
 								   NULL], DiscPublishingJobInfoMergeValuesKey,
 								  NULL];
-			[self spawnDiscWrite:discDir info:info];
+			[[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
 			
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);

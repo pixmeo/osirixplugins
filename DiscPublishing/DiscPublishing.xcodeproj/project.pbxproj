@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5900F6591190668C001E899B /* DiscPublishingToolAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */; };
-		5900F65A11906698001E899B /* NSThread+DiscPublishingTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7BE11906000007B28E0 /* NSThread+DiscPublishingTool.mm */; };
+		5900F65A11906698001E899B /* NSThread+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7BE11906000007B28E0 /* NSThread+N2.mm */; };
 		5900F65B1190669E001E899B /* CSV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C51177177000E84FE3 /* CSV.mm */; };
 		5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C91177177900E84FE3 /* DiscPublishingJob.mm */; };
 		5900F65D119066AB001E899B /* DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043F1137C739002D9163 /* DiscPublisher.mm */; };
@@ -32,29 +32,24 @@
 		5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
 		5900F91211916356001E899B /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
 		5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F97711917BBD001E899B /* NSApplication+Scripting.mm */; };
-		5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */; };
-		5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */; };
-		5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041D1137C735002D9163 /* ThreadInfoCell.h */; };
-		5912042E1137C735002D9163 /* ThreadInfoCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912041E1137C735002D9163 /* ThreadInfoCell.mm */; };
 		5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041F1137C735002D9163 /* ThreadModalForWindowController.h */; };
 		591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204201137C735002D9163 /* ThreadModalForWindowController.mm */; };
 		591204311137C735002D9163 /* ThreadsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204211137C735002D9163 /* ThreadsManager.h */; };
 		591204321137C735002D9163 /* ThreadsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204221137C735002D9163 /* ThreadsManager.mm */; };
-		591204331137C735002D9163 /* ThreadsManagerThreadInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204231137C735002D9163 /* ThreadsManagerThreadInfo.h */; };
-		591204341137C735002D9163 /* ThreadsManagerThreadInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204241137C735002D9163 /* ThreadsManagerThreadInfo.mm */; };
-		591204351137C735002D9163 /* ThreadsScroller.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204251137C735002D9163 /* ThreadsScroller.h */; };
-		591204361137C735002D9163 /* ThreadsScroller.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204261137C735002D9163 /* ThreadsScroller.mm */; };
-		591204371137C735002D9163 /* ThreadsTableView.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204271137C735002D9163 /* ThreadsTableView.h */; };
-		591204381137C735002D9163 /* ThreadsTableView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204281137C735002D9163 /* ThreadsTableView.mm */; };
 		591204391137C735002D9163 /* ThreadsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204291137C735002D9163 /* ThreadsWindowController.h */; };
 		5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912042A1137C735002D9163 /* ThreadsWindowController.mm */; };
-		591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */; };
-		591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */; };
 		591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204841137C836002D9163 /* ThreadModalForWindow.xib */; };
 		591204891137C836002D9163 /* ThreadsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204861137C836002D9163 /* ThreadsWindow.xib */; };
+		5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5920D20A1199A80F003BCC5E /* DiscPublishingTasksManager.h */; };
+		5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */; };
+		593C460F11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */; };
+		593C461011980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */; };
+		593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */; };
 		595547AA1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */; };
 		595547AB1191B52300A3DF03 /* NSAppleEventDescriptor+N2.h in Headers */ = {isa = PBXBuildFile; fileRef = 595547A81191B52300A3DF03 /* NSAppleEventDescriptor+N2.h */; };
 		595547AC1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */; };
+		595FC7E51198568E00310FD3 /* NSThread+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7BE11906000007B28E0 /* NSThread+N2.mm */; };
+		595FC84C1198621300310FD3 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */; };
 		59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */; };
 		59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022D113FE9A500875159 /* NSString+DiscPublishing.h */; };
@@ -90,6 +85,12 @@
 		59C7EFC511930C8400FCE244 /* Nitrogen.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */; };
 		59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */; };
 		59C7F02011930E6E00FCE244 /* DiscPublishingTool.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */; };
+		59C7F16E1194537900FCE244 /* ThreadCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C7F16C1194537900FCE244 /* ThreadCell.h */; };
+		59C7F16F1194537900FCE244 /* ThreadCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59C7F16D1194537900FCE244 /* ThreadCell.mm */; };
+		59C7F172119453C100FCE244 /* ThreadCellCancelButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */; };
+		59C7F173119453C100FCE244 /* ThreadCellCancelButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */; };
+		59DEC7B411995E7800E0343A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEC7B311995E7800E0343A /* Carbon.framework */; };
+		59DEC7B511995E7800E0343A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEC7B311995E7800E0343A /* Carbon.framework */; };
 		59E37CC81173610300E84FE3 /* DiscPublishingOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */; };
 		59E37CC91173610300E84FE3 /* DiscPublishingOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */; };
 		59E37D39117457D900E84FE3 /* DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37D37117457D900E84FE3 /* DiscPublishing.h */; };
@@ -98,8 +99,7 @@
 		59E381C61177177000E84FE3 /* CSV.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C41177177000E84FE3 /* CSV.h */; };
 		59E381C71177177000E84FE3 /* CSV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C51177177000E84FE3 /* CSV.mm */; };
 		59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C81177177900E84FE3 /* DiscPublishingJob.h */; };
-		59E3842E1178868C00E84FE3 /* JobManager.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
-		59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
+		59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 /* End PBXBuildFile section */
 
@@ -115,28 +115,28 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5900F64A11906667001E899B /* DiscPublishingTool */;
+			remoteGlobalIDString = 5900F64A11906667001E899B;
 			remoteInfo = DiscPublishingTool;
 		};
 		59C7EFDD11930CB100FCE244 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* Nitrogen.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = Nitrogen;
 		};
 		59C7EFDF11930CB100FCE244 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 591403A21105B88A00D6A504 /* Unit Tests.octest */;
+			remoteGlobalIDString = 591403A21105B88A00D6A504;
 			remoteInfo = "Unit Tests";
 		};
 		59C7EFE111930CC500FCE244 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* Nitrogen */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = Nitrogen;
 		};
 /* End PBXContainerItemProxy section */
@@ -157,17 +157,6 @@
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		591204D41137C976002D9163 /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				59E3842E1178868C00E84FE3 /* JobManager.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -181,20 +170,10 @@
 		5900F97611917BBD001E899B /* NSApplication+Scripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSApplication+Scripting.h"; path = "Classes/Tool/NSApplication+Scripting.h"; sourceTree = "<group>"; };
 		5900F97711917BBD001E899B /* NSApplication+Scripting.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSApplication+Scripting.mm"; path = "Classes/Tool/NSApplication+Scripting.mm"; sourceTree = "<group>"; };
 		591202BA1137BEC7002D9163 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCancelButton.h; sourceTree = "<group>"; };
-		5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadInfoCancelButton.mm; sourceTree = "<group>"; };
-		5912041D1137C735002D9163 /* ThreadInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadInfoCell.h; sourceTree = "<group>"; };
-		5912041E1137C735002D9163 /* ThreadInfoCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadInfoCell.mm; sourceTree = "<group>"; };
 		5912041F1137C735002D9163 /* ThreadModalForWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadModalForWindowController.h; sourceTree = "<group>"; };
 		591204201137C735002D9163 /* ThreadModalForWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadModalForWindowController.mm; sourceTree = "<group>"; };
 		591204211137C735002D9163 /* ThreadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsManager.h; sourceTree = "<group>"; };
 		591204221137C735002D9163 /* ThreadsManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsManager.mm; sourceTree = "<group>"; };
-		591204231137C735002D9163 /* ThreadsManagerThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsManagerThreadInfo.h; sourceTree = "<group>"; };
-		591204241137C735002D9163 /* ThreadsManagerThreadInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsManagerThreadInfo.mm; sourceTree = "<group>"; };
-		591204251137C735002D9163 /* ThreadsScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsScroller.h; sourceTree = "<group>"; };
-		591204261137C735002D9163 /* ThreadsScroller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsScroller.mm; sourceTree = "<group>"; };
-		591204271137C735002D9163 /* ThreadsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsTableView.h; sourceTree = "<group>"; };
-		591204281137C735002D9163 /* ThreadsTableView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsTableView.mm; sourceTree = "<group>"; };
 		591204291137C735002D9163 /* ThreadsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsWindowController.h; sourceTree = "<group>"; };
 		5912042A1137C735002D9163 /* ThreadsWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsWindowController.mm; sourceTree = "<group>"; };
 		5912043C1137C739002D9163 /* DiscPublisher+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscPublisher+Constants.h"; sourceTree = "<group>"; };
@@ -213,10 +192,12 @@
 		5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSString+DiscPublisher.mm"; sourceTree = "<group>"; };
 		5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSXMLNode+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSXMLNode+DiscPublisher.h"; sourceTree = "<group>"; };
 		5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSXMLNode+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSXMLNode+DiscPublisher.mm"; sourceTree = "<group>"; };
-		591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvertedNSStopProgressFreestandingTemplate.png; path = Resources/InvertedNSStopProgressFreestandingTemplate.png; sourceTree = "<group>"; };
-		591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvertedNSStopProgressFreestandingTemplatePressed.png; path = Resources/InvertedNSStopProgressFreestandingTemplatePressed.png; sourceTree = "<group>"; };
 		591204851137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadModalForWindow.xib; sourceTree = "<group>"; };
 		591204871137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadsWindow.xib; sourceTree = "<group>"; };
+		5920D20A1199A80F003BCC5E /* DiscPublishingTasksManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingTasksManager.h; path = Classes/DiscPublishingTasksManager.h; sourceTree = "<group>"; };
+		5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingTasksManager.mm; path = Classes/DiscPublishingTasksManager.mm; sourceTree = "<group>"; };
+		593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingTool+DistributedNotifications.h"; path = "Classes/DiscPublishingTool+DistributedNotifications.h"; sourceTree = "<group>"; };
+		593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishingTool+DistributedNotifications.mm"; path = "Classes/DiscPublishingTool+DistributedNotifications.mm"; sourceTree = "<group>"; };
 		595547A81191B52300A3DF03 /* NSAppleEventDescriptor+N2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAppleEventDescriptor+N2.h"; path = "Classes/Extras/NSAppleEventDescriptor+N2.h"; sourceTree = "<group>"; };
 		595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSAppleEventDescriptor+N2.mm"; path = "Classes/Extras/NSAppleEventDescriptor+N2.mm"; sourceTree = "<group>"; };
 		5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+DiscPublishing.h"; path = "Classes/Extras/NSArray+DiscPublishing.h"; sourceTree = "<group>"; };
@@ -249,9 +230,13 @@
 		59BDFBBF1185BB75007F1F2C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/DiscPublishingPreferences.xib; sourceTree = "<group>"; };
 		59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = ../../osirix/osirix/nitrogen/build/Development/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
 		59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nitrogen.xcodeproj; path = ../../osirix/osirix/nitrogen/Nitrogen.xcodeproj; sourceTree = SOURCE_ROOT; };
-		59C7EFF611930E0500FCE244 /* DiscPublishingTool.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = DiscPublishingTool.scpt; path = AppleScript/DiscPublishingTool.scpt; sourceTree = "<group>"; };
 		59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = DiscPublishingTool.scpt; path = Resources/AppleScript/DiscPublishingTool.scpt; sourceTree = "<group>"; };
 		59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = DiscPublishingTool.sdef; path = Resources/AppleScript/DiscPublishingTool.sdef; sourceTree = "<group>"; };
+		59C7F16C1194537900FCE244 /* ThreadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadCell.h; sourceTree = "<group>"; };
+		59C7F16D1194537900FCE244 /* ThreadCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadCell.mm; sourceTree = "<group>"; };
+		59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadCellCancelButton.h; sourceTree = "<group>"; };
+		59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadCellCancelButton.mm; sourceTree = "<group>"; };
+		59DEC7B311995E7800E0343A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingOptions.h; path = Classes/DiscPublishingOptions.h; sourceTree = "<group>"; };
 		59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingOptions.mm; path = Classes/DiscPublishingOptions.mm; sourceTree = "<group>"; };
 		59E37D37117457D900E84FE3 /* DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishing.h; path = Classes/DiscPublishing.h; sourceTree = "<group>"; };
@@ -267,8 +252,8 @@
 		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/PTRobot.framework"; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
-		59FCD7BD11906000007B28E0 /* NSThread+DiscPublishingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSThread+DiscPublishingTool.h"; path = "Classes/NSThread+DiscPublishingTool.h"; sourceTree = "<group>"; };
-		59FCD7BE11906000007B28E0 /* NSThread+DiscPublishingTool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSThread+DiscPublishingTool.mm"; path = "Classes/NSThread+DiscPublishingTool.mm"; sourceTree = "<group>"; };
+		59FCD7BD11906000007B28E0 /* NSThread+N2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSThread+N2.h"; path = "Classes/NSThread+N2.h"; sourceTree = "<group>"; };
+		59FCD7BE11906000007B28E0 /* NSThread+N2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSThread+N2.mm"; path = "Classes/NSThread+N2.mm"; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -282,6 +267,7 @@
 				5900F6701190677F001E899B /* PTRobot.framework in Frameworks */,
 				5900F68011906784001E899B /* as_storage.framework in Frameworks */,
 				59C7EF8D11930C6F00FCE244 /* Nitrogen.framework in Frameworks */,
+				59DEC7B511995E7800E0343A /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +287,8 @@
 			files = (
 				5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */,
 				598C9AE61153C4BA007B7524 /* OsiriX Headers.framework in Frameworks */,
+				595FC84C1198621300310FD3 /* JobManager.framework in Frameworks */,
+				59DEC7B411995E7800E0343A /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +323,7 @@
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */,
 				59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */,
+				59DEC7B311995E7800E0343A /* Carbon.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -343,11 +332,8 @@
 			isa = PBXGroup;
 			children = (
 				5973465C1185F2FD00DA86F3 /* Icon.png */,
-				59C7EFF611930E0500FCE244 /* DiscPublishingTool.scpt */,
 				59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */,
 				59E37E70117466F700E84FE3 /* Standard.dcover */,
-				591204811137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png */,
-				591204801137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png */,
 				591204841137C836002D9163 /* ThreadModalForWindow.xib */,
 				591204861137C836002D9163 /* ThreadsWindow.xib */,
 			);
@@ -359,6 +345,8 @@
 			children = (
 				59E37D37117457D900E84FE3 /* DiscPublishing.h */,
 				59E37D38117457D900E84FE3 /* DiscPublishing.mm */,
+				5920D20A1199A80F003BCC5E /* DiscPublishingTasksManager.h */,
+				5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */,
 				59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */,
 				59710241113FEA0E00875159 /* DiscPublishingFilesManager.mm */,
 				59710244113FEA1400875159 /* DiscPublishingPatientDisc.h */,
@@ -394,20 +382,14 @@
 		5912041A1137C735002D9163 /* Threads */ = {
 			isa = PBXGroup;
 			children = (
-				5912041B1137C735002D9163 /* ThreadInfoCancelButton.h */,
-				5912041C1137C735002D9163 /* ThreadInfoCancelButton.mm */,
-				5912041D1137C735002D9163 /* ThreadInfoCell.h */,
-				5912041E1137C735002D9163 /* ThreadInfoCell.mm */,
+				59C7F16C1194537900FCE244 /* ThreadCell.h */,
+				59C7F16D1194537900FCE244 /* ThreadCell.mm */,
+				59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */,
+				59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */,
 				5912041F1137C735002D9163 /* ThreadModalForWindowController.h */,
 				591204201137C735002D9163 /* ThreadModalForWindowController.mm */,
 				591204211137C735002D9163 /* ThreadsManager.h */,
 				591204221137C735002D9163 /* ThreadsManager.mm */,
-				591204231137C735002D9163 /* ThreadsManagerThreadInfo.h */,
-				591204241137C735002D9163 /* ThreadsManagerThreadInfo.mm */,
-				591204251137C735002D9163 /* ThreadsScroller.h */,
-				591204261137C735002D9163 /* ThreadsScroller.mm */,
-				591204271137C735002D9163 /* ThreadsTableView.h */,
-				591204281137C735002D9163 /* ThreadsTableView.mm */,
 				591204291137C735002D9163 /* ThreadsWindowController.h */,
 				5912042A1137C735002D9163 /* ThreadsWindowController.mm */,
 			);
@@ -457,6 +439,8 @@
 		5971023D113FE9DC00875159 /* Future OsiriX Classes */ = {
 			isa = PBXGroup;
 			children = (
+				59FCD7BD11906000007B28E0 /* NSThread+N2.h */,
+				59FCD7BE11906000007B28E0 /* NSThread+N2.mm */,
 				59710238113FE9D500875159 /* DiscBurningOptions.h */,
 				59710239113FE9D500875159 /* DiscBurningOptions.mm */,
 				597109DF113FF14D00875159 /* DicomCompressor.h */,
@@ -540,8 +524,6 @@
 				5900F97711917BBD001E899B /* NSApplication+Scripting.mm */,
 				59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */,
 				59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */,
-				59FCD7BD11906000007B28E0 /* NSThread+DiscPublishingTool.h */,
-				59FCD7BE11906000007B28E0 /* NSThread+DiscPublishingTool.mm */,
 				59E381C81177177900E84FE3 /* DiscPublishingJob.h */,
 				59E381C91177177900E84FE3 /* DiscPublishingJob.mm */,
 				5912043B1137C739002D9163 /* DiscPublisher */,
@@ -564,6 +546,8 @@
 				5900F7CF1190701F001E899B /* DiscPublishingJob+Info.mm */,
 				59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */,
 				59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */,
+				593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */,
+				593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */,
 				5971023D113FE9DC00875159 /* Future OsiriX Classes */,
 			);
 			name = Classes;
@@ -577,13 +561,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */,
-				5912042B1137C735002D9163 /* ThreadInfoCancelButton.h in Headers */,
-				5912042D1137C735002D9163 /* ThreadInfoCell.h in Headers */,
 				5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */,
 				591204311137C735002D9163 /* ThreadsManager.h in Headers */,
-				591204331137C735002D9163 /* ThreadsManagerThreadInfo.h in Headers */,
-				591204351137C735002D9163 /* ThreadsScroller.h in Headers */,
-				591204371137C735002D9163 /* ThreadsTableView.h in Headers */,
 				591204391137C735002D9163 /* ThreadsWindowController.h in Headers */,
 				5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */,
 				59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */,
@@ -599,6 +578,10 @@
 				59BDEF6A117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h in Headers */,
 				5900F7D11190701F001E899B /* DiscPublishingJob+Info.h in Headers */,
 				595547AB1191B52300A3DF03 /* NSAppleEventDescriptor+N2.h in Headers */,
+				59C7F16E1194537900FCE244 /* ThreadCell.h in Headers */,
+				59C7F172119453C100FCE244 /* ThreadCellCancelButton.h in Headers */,
+				593C460F11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h in Headers */,
+				5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,7 +630,6 @@
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
-				591204D41137C976002D9163 /* Copy Frameworks */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				8D5B49B5048680CD000E48DA /* Rez */,
@@ -733,8 +715,6 @@
 				59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */,
 				59C7EA471191D06C00FCE244 /* DiscPublishingTool.app in Resources */,
 				59BDFC271185C496007F1F2C /* DiscPublishingPreferences.prefPane in Resources */,
-				591204821137C812002D9163 /* InvertedNSStopProgressFreestandingTemplate.png in Resources */,
-				591204831137C812002D9163 /* InvertedNSStopProgressFreestandingTemplatePressed.png in Resources */,
 				591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */,
 				591204891137C836002D9163 /* ThreadsWindow.xib in Resources */,
 				59E37E73117466F700E84FE3 /* Standard.dcover in Resources */,
@@ -776,7 +756,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5900F6591190668C001E899B /* DiscPublishingToolAppDelegate.mm in Sources */,
-				5900F65A11906698001E899B /* NSThread+DiscPublishingTool.mm in Sources */,
+				5900F65A11906698001E899B /* NSThread+N2.mm in Sources */,
 				5900F65B1190669E001E899B /* CSV.mm in Sources */,
 				5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */,
 				5900F65D119066AB001E899B /* DiscPublisher.mm in Sources */,
@@ -792,6 +772,7 @@
 				595547AA1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */,
 				59C7EBAF1192BA3D00FCE244 /* DiscPublishingOptions.mm in Sources */,
 				59C7EBB01192BA4B00FCE244 /* DiscBurningOptions.mm in Sources */,
+				593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,13 +788,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5912042C1137C735002D9163 /* ThreadInfoCancelButton.mm in Sources */,
-				5912042E1137C735002D9163 /* ThreadInfoCell.mm in Sources */,
 				591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */,
 				591204321137C735002D9163 /* ThreadsManager.mm in Sources */,
-				591204341137C735002D9163 /* ThreadsManagerThreadInfo.mm in Sources */,
-				591204361137C735002D9163 /* ThreadsScroller.mm in Sources */,
-				591204381137C735002D9163 /* ThreadsTableView.mm in Sources */,
 				5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */,
 				59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */,
 				59710232113FE9A500875159 /* NSString+DiscPublishing.mm in Sources */,
@@ -831,6 +807,11 @@
 				59C7EAA21192A21600FCE244 /* NSFileManager+DiscPublisher.mm in Sources */,
 				59C7EAA31192A21B00FCE244 /* NSString+DiscPublisher.mm in Sources */,
 				59C7EAA41192A21F00FCE244 /* NSXMLNode+DiscPublisher.mm in Sources */,
+				59C7F16F1194537900FCE244 /* ThreadCell.mm in Sources */,
+				59C7F173119453C100FCE244 /* ThreadCellCancelButton.mm in Sources */,
+				593C461011980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
+				595FC7E51198568E00310FD3 /* NSThread+N2.mm in Sources */,
+				5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,6 +873,7 @@
 					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
 					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -923,6 +905,7 @@
 					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
 					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -1007,7 +990,7 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1016,6 +999,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
@@ -1065,6 +1049,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
+					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";

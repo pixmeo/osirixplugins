@@ -6,37 +6,41 @@
 //  Copyright 2010 Ingroppalgrillo. All rights reserved.
 //
 
-#import "ThreadInfoCell.h"
-#import "ThreadsManagerThreadInfo.h"
+#import "ThreadCell.h"
 #import "ThreadsManager.h"
 #import "ThreadsWindowController.h"
-#import "ThreadInfoCancelButton.h"
+#import "ThreadCellCancelButton.h"
 #import "NSString+DiscPublisher.h"
+#import "NSThread+N2.h"
 
 
-@implementation ThreadInfoCell
+@implementation ThreadCell
 
 @synthesize progressIndicator = _progressIndicator;
 @synthesize cancelButton = _cancelButton;
-@synthesize threadInfo = _threadInfo;
+@synthesize thread = _thread;
+@synthesize manager = _manager;
 @synthesize view = _view;
 
--(id)initWithInfo:(ThreadsManagerThreadInfo*)threadInfo view:(NSTableView*)view {
+-(id)initWithThread:(NSThread*)thread manager:(ThreadsManager*)manager view:(NSTableView*)view {
 	self = [super init];
 	
 	_view = [view retain];
+	_manager = [manager retain];
 	
 	ThreadsWindowController* threadsController = (id)view.delegate;
 	[self setTextColor:threadsController.statusLabel.textColor];
 	
 	self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:NSZeroRect] autorelease];
 	[self.progressIndicator setUsesThreadedAnimation:YES];
+	[self.progressIndicator setMinValue:0];
+	[self.progressIndicator setMaxValue:1];
 	
-	self.cancelButton = [[[ThreadInfoCancelButton alloc] initWithFrame:NSZeroRect] autorelease]; // TODO: the button sucks, make it look better
+	self.cancelButton = [[[ThreadCellCancelButton alloc] initWithFrame:NSZeroRect] autorelease]; // TODO: the button is ugly, make it look better
 	self.cancelButton.target = self;
 	self.cancelButton.action = @selector(cancelThreadAction:);
-	
-	self.threadInfo = threadInfo;
+
+	self.thread = thread;
 
 	return self;
 }
@@ -46,41 +50,39 @@
 	self.progressIndicator = NULL;
 	[self.cancelButton removeFromSuperview];
 	self.cancelButton = NULL;
-	self.threadInfo = NULL;
+	self.thread = NULL;
 	[_view release];
 	[super dealloc];
 }
 
--(void)setThreadInfo:(ThreadsManagerThreadInfo*)threadInfo {
+-(void)setThread:(NSThread*)thread {
 	@try {
-		[self.threadInfo removeObserver:self forKeyPath:@"supportsCancel"];
-		[self.threadInfo removeObserver:self forKeyPath:@"progress"];
-		[self.threadInfo removeObserver:self forKeyPath:@"status"];
+		[self.thread removeObserver:self forKeyPath:NSThreadSupportsCancelKey];
+		[self.thread removeObserver:self forKeyPath:NSThreadProgressKey];
+		[self.thread removeObserver:self forKeyPath:NSThreadStatusKey];
 	} @catch (...) {
 	}
 	
-	[_threadInfo release];
-	_threadInfo = [threadInfo retain];
+	[_thread release];
+	_thread = [thread retain];
 	
-	[self.threadInfo addObserver:self forKeyPath:@"status" options:NULL context:NULL];
-	[self.threadInfo addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionInitial context:NULL];
-	[self.threadInfo addObserver:self forKeyPath:@"supportsCancel" options:NSKeyValueObservingOptionInitial context:NULL];
+	[self.thread addObserver:self forKeyPath:NSThreadStatusKey options:NSKeyValueObservingOptionInitial context:NULL];
+	[self.thread addObserver:self forKeyPath:NSThreadProgressKey options:NSKeyValueObservingOptionInitial context:NULL];
+	[self.thread addObserver:self forKeyPath:NSThreadSupportsCancelKey options:NSKeyValueObservingOptionInitial context:NULL];
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
-	if (obj == self.threadInfo)
-		if ([keyPath isEqual:@"status"]) {
+	if (obj == self.thread)
+		if ([keyPath isEqual:NSThreadStatusKey]) {
 			[self.view setNeedsDisplayInRect:[self statusFrame]];
 			return;
-		} else if ([keyPath isEqual:@"progress"]) {
-			[self.progressIndicator setMinValue:0];
-			[self.progressIndicator setMaxValue:self.threadInfo.progressTotal];
-			[self.progressIndicator setDoubleValue:self.threadInfo.progress];
-			[self.progressIndicator setIndeterminate:!self.threadInfo.progressTotal];	
+		} else if ([keyPath isEqual:NSThreadProgressKey]) {
+			[self.progressIndicator setDoubleValue:self.thread.progress];
+			[self.progressIndicator setIndeterminate: self.thread.progress < 0];	
 			return;
-		} else if ([keyPath isEqual:@"supportsCancel"]) {
-			[self.cancelButton setHidden:!self.threadInfo.supportsCancel];
-			[self.cancelButton setEnabled:self.threadInfo.supportsCancel];
+		} else if ([keyPath isEqual:NSThreadSupportsCancelKey]) {
+			[self.cancelButton setHidden:!self.thread.supportsCancel];
+			[self.cancelButton setEnabled:self.thread.supportsCancel];
 			return;
 		}
 	
@@ -88,7 +90,7 @@
 }
 
 -(void)cancelThreadAction:(id)source {
-	[self.threadInfo.manager cancelThread:self.threadInfo];
+	[self.thread setIsCancelled:YES];
 }
 
 -(void)drawInteriorWithFrame:(NSRect)frame inView:(NSView*)view {
@@ -99,13 +101,13 @@
 	[NSGraphicsContext saveGraphicsState];
 	
 	NSRect nameFrame = NSMakeRect(frame.origin.x+3, frame.origin.y, frame.size.width-23, frame.size.height);
-	NSString* name = self.threadInfo.thread.name;
+	NSString* name = self.thread.name;
 	if (!name) name = @"Untitled Thread";
 	[name drawWithRect:nameFrame options:NSStringDrawingUsesLineFragmentOrigin attributes:textAttributes];
 	
 	NSRect statusFrame = [self statusFrame];
 	[textAttributes setObject:[NSFont labelFontOfSize:[NSFont systemFontSizeForControlSize:NSMiniControlSize]] forKey:NSFontAttributeName];
-	[(self.threadInfo.status? self.threadInfo.status : @"No activity information was provided for this thread.") drawWithRect:statusFrame options:NSStringDrawingUsesLineFragmentOrigin attributes:textAttributes];
+	[(self.thread.status? self.thread.status : @"No activity information was provided for this thread.") drawWithRect:statusFrame options:NSStringDrawingUsesLineFragmentOrigin attributes:textAttributes];
 	
 	NSRect cancelFrame = NSMakeRect(frame.origin.x+frame.size.width-15-5, frame.origin.y+6, 15, 15);
 	if (![self.cancelButton superview])
@@ -136,7 +138,7 @@ static NSPoint operator+(const NSPoint& p, const NSSize& s)
 }
 
 -(NSRect)statusFrame {
-	NSRect frame = [self.view rectOfRow:[self.threadInfo.manager.threads indexOfObject:self.threadInfo]];
+	NSRect frame = [self.view rectOfRow:[self.manager.threads indexOfObject:self.thread]];
 	return NSMakeRect(frame.origin.x+3, frame.origin.y+14, frame.size.width-23, frame.size.height-13);
 }
 

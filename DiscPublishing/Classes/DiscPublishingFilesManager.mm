@@ -10,13 +10,13 @@
 #import "NSString+DiscPublishing.h"
 #import <OsiriX Headers/Notifications.h>
 #import "ThreadsManager.h"
-#import "ThreadsManagerThreadInfo.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "NSArray+DiscPublishing.h"
 #import <OsiriX Headers/DicomImage.h>
 #import <OsiriX Headers/DicomStudy.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
+#import "NSThread+N2.h"
 
 
 @interface DiscPublishingFilesManager (Private)
@@ -73,7 +73,6 @@
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
-	ThreadsManagerThreadInfo* threadInfo = NULL;
 	while (![self isCancelled]) {
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		
@@ -82,25 +81,21 @@
 		@try {
 			if (_files.count) {
 				// display thread info
-				if (!threadInfo)
-					threadInfo = [[ThreadsManager defaultManager] addThread:self name:[self name]];
+				[[ThreadsManager defaultManager] addThread:self];
 				
 				// update thread status
 				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];
 				if ([[NSUserDefaultsController sharedUserDefaultsController] mode] == BurnModeArchiving) {
-					threadInfo.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time];
+					self.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time];
 				} else {
-					threadInfo.status = [NSString stringWithFormat:@"Receiving images for %@, %@.", [[self namesForStudies:[self studiesForImages:_files]] componentsJoinedByCommasAndAnd], time];
+					self.status = [NSString stringWithFormat:@"Receiving images for %@, %@.", [[self namesForStudies:[self studiesForImages:_files]] componentsJoinedByCommasAndAnd], time];
 				}
 				
 				// burn
 				[self spawnBurns];
 			} else {
 				// hide thread info
-				if (threadInfo) {
-					[[ThreadsManager defaultManager] removeThread:threadInfo];
-					threadInfo = NULL;
-				}
+				[[ThreadsManager defaultManager] removeThread:self];
 			}
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingFilesManager main] error: %@", e);

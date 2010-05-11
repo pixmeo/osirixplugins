@@ -1,7 +1,6 @@
 #import "ThreadsWindowController.h"
 #import "ThreadsManager.h"
-#import "ThreadsManagerThreadInfo.h"
-#import "ThreadInfoCell.h"
+#import "ThreadCell.h"
 
 
 @implementation ThreadsWindowController
@@ -34,25 +33,21 @@
     [super dealloc];
 }
 
--(void)setManager:(ThreadsManager*)manager {
-	[_manager release];
-	_manager = [manager retain];
-}
-
 -(void)awakeFromNib {
 	[[self.tableView tableColumnWithIdentifier:@"all"] bind:@"value" toObject:self.manager.threadsController withKeyPath:@"arrangedObjects" options:NULL];
+//	[self.window setLevel:NSNormalWindowLevel];
 }
 
 -(NSString*)windowFrameAutosaveName {
 	return [NSString stringWithFormat:@"Threads Window Frame: %@", [[self window] title]];
 }
 
--(NSCell*)cellForThreadInfo:(ThreadsManagerThreadInfo*)threadInfo {
-	for (ThreadInfoCell* cell in _cells)
-		if (cell.threadInfo == threadInfo)
+-(NSCell*)cellForThread:(NSThread*)thread {
+	for (ThreadCell* cell in _cells)
+		if (cell.thread == thread)
 			return cell;
 	
-	NSCell* cell = [[ThreadInfoCell alloc] initWithInfo:threadInfo view:self.tableView];
+	NSCell* cell = [[ThreadCell alloc] initWithThread:thread manager:self.manager view:self.tableView];
 	[_cells addObject:cell];
 	
 	return [cell autorelease];
@@ -62,8 +57,8 @@
 	if (obj == self.manager)
 		if ([keyPath isEqual:@"threads"]) { // we observe the threads array so we can release cells when they're not needed anymore
 			if ([[change objectForKey:NSKeyValueChangeKindKey] unsignedIntValue] == NSKeyValueChangeRemoval)
-				for (ThreadsManagerThreadInfo* threadInfo in [change objectForKey:NSKeyValueChangeOldKey])
-					[_cells removeObject:[self cellForThreadInfo:threadInfo]];
+				for (NSThread* thread in [change objectForKey:NSKeyValueChangeOldKey])
+					[_cells removeObject:[self cellForThread:thread]];
 			return;
 		}
 	
@@ -71,7 +66,15 @@
 }
 
 -(NSCell*)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row {
-	return [self cellForThreadInfo:[self.manager threadInfoAtIndex:row]];
+	return [self cellForThread:[self.manager threadAtIndex:row]];
+}
+
+@end
+
+
+@implementation ThreadsTableView
+
+-(void)selectRowIndexes:(NSIndexSet*)indexes byExtendingSelection:(BOOL)extend {
 }
 
 @end

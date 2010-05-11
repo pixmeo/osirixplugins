@@ -176,4 +176,8 @@
 	return [descriptor object];
 }
 
+-(id)scriptingRecordDescriptor {
+	return [self appleEventDescriptor];
+}
+
 @end

@@ -27,3 +27,7 @@
 -(id)initWithManager:(ThreadsManager*)manager;
 
 @end
+
+
+@interface ThreadsTableView : NSTableView
+@end

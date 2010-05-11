@@ -9,21 +9,23 @@
 #import <Foundation/Foundation.h>
 
 
-@class ThreadsManagerThreadInfo;
+@class ThreadsManager;
 
-@interface ThreadInfoCell : NSTextFieldCell {
+@interface ThreadCell : NSTextFieldCell {
 	NSProgressIndicator* _progressIndicator;
+	ThreadsManager* _manager;
 	NSButton* _cancelButton;
-	ThreadsManagerThreadInfo* _threadInfo;
+	NSThread* _thread;
 	NSTableView* _view;
 }
 
 @property(retain) NSProgressIndicator* progressIndicator;
 @property(retain) NSButton* cancelButton;
-@property(retain) ThreadsManagerThreadInfo* threadInfo;
+@property(retain) NSThread* thread;
+@property(retain, readonly) ThreadsManager* manager;
 @property(retain, readonly) NSTableView* view;
 
--(id)initWithInfo:(ThreadsManagerThreadInfo*)threadInfo view:(NSTableView*)view;
+-(id)initWithThread:(NSThread*)thread manager:(ThreadsManager*)manager view:(NSTableView*)view;
 
 -(NSRect)statusFrame;
 
