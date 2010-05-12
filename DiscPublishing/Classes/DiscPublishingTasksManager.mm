@@ -32,9 +32,41 @@
 	return defaultManager;
 }
 
+-(NSArray*)toolListTasks {
+	NSDictionary* errors = [NSDictionary dictionary];
+	
+	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
+	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
+	if (!appleScript)
+		[NSException raise:NSGenericException format:[errors description]];
+	
+	ProcessSerialNumber psn = {0, kCurrentProcess};
+	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
+	
+	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"ListTasks" lowercaseString]] forKeyword:keyASSubroutineName];
+	
+	NSAppleEventDescriptor* result = [appleScript executeAppleEvent:event error:&errors];
+	if (!result)
+		[NSException raise:NSGenericException format:errors.description];
+	
+	return [result object];
+}
+
 -(id)initWithThreadsManager:(ThreadsManager*)threadsManager {
 	self = [super init];
+	
 	_threadsManager = [threadsManager retain];
+	
+	for (NSString* threadId in [self toolListTasks]) {
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
+		NSThread* thread = [[ToolThread alloc] init];
+		thread.name = [NSString stringWithFormat:@"Tool Thread %@", threadId];
+		thread.uniqueId = threadId;
+		[_threadsManager addThread:thread];
+		[thread start];
+	}
+	
 	return self;
 }
 
@@ -165,10 +197,25 @@ NSString* const NSThreadIsToolCancelledKey = @"isToolCancelled";
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 
-	// TODO: get tool thread properties: name, supportsCancel, isCancelled(isToolCancelled), status, progress
+	// get tool thread properties: name, supportsCancel, isCancelled(isToolCancelled), status, progress, and transmit them to this thread
 	NSDictionary* info = [self info];
+	for (NSString* key in info)
+		if ([key isEqual:@"name"])
+			self.name = [info objectForKey:key];
+		else
+		if ([key isEqual:NSThreadSupportsCancelKey])
+			self.supportsCancel = [[info objectForKey:key] boolValue];
+		else
+		if ([key isEqual:NSThreadIsCancelledKey])
+			self.isCancelled = [[info objectForKey:key] boolValue];
+		else
+		if ([key isEqual:NSThreadStatusKey])
+			self.status = [info objectForKey:key];
+		else
+		if ([key isEqual:NSThreadProgressKey])
+			self.progress = [[info objectForKey:key] floatValue];
 	
-	NSLog(@"info: %@", info.description);
+	// subsequent thread info is updated through NSDistributedNotificationCenter
 	
 	while (!self.isToolCancelled)
 		[NSThread sleepForTimeInterval:0.1];

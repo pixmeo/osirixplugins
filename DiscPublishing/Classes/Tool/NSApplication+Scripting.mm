@@ -20,13 +20,12 @@
 
 #pragma mark PublishDisk
 
--(NSThread*)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info uniqueThreadId:(NSString*)threadId {
+-(NSThread*)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
 	DiscPublishingJob* job = [[self.delegate discPublisher] createJobOfClass:[DiscPublishingJob class]];
 	job.root = discRootDirPath;
 	job.info = info;
 	
 	NSThread* thread = [[NSThread alloc] initWithTarget:self selector:@selector(discJobThread:) object:job];
-	thread.uniqueId = threadId;
 	[thread start];
 	
 	return [thread autorelease];
@@ -38,17 +37,13 @@
 	NSString* root = [args objectForKey:@"root"];
 	NSMutableDictionary* info = [args objectForKey:@"info"];
 	
-	static NSUInteger uniqueBurnSessionId = 0;
-	++uniqueBurnSessionId;
-	NSString* uniqueThreadId = [NSString stringWithFormat:@"%d", uniqueBurnSessionId];
-	
 	info = [[info mutableCopy] autorelease];
 	[info setObject:name forKey:DiscPublishingJobInfoDiscNameKey];
 	
-	NSThread* thread = [self spawnDiscWrite:root info:info uniqueThreadId:uniqueThreadId];
+	NSThread* thread = [self spawnDiscWrite:root info:info];
 	[self.delegate distributeNotificationsForThread:thread];
 	
-	return uniqueThreadId;
+	return thread.uniqueId;
 }
 
 -(void)discJobThread:(DiscPublishingJob*)job {
@@ -85,18 +80,20 @@
 	NSString* taskId = command.directParameter;
 	NSThread* thread = [self.delegate threadWithId:taskId];
 	
-	id supportsCancel = [thread.threadDictionary objectForKey:NSThreadSupportsCancelKey];
-	id isCancelled = [thread.threadDictionary objectForKey:NSThreadIsCancelledKey];
-	id status = [thread.threadDictionary objectForKey:NSThreadStatusKey];
-	id progress = [thread.threadDictionary objectForKey:NSThreadProgressKey];
+	NSMutableDictionary* ret = [NSMutableDictionary dictionary];
+	if (thread) {
+		if (thread.name) [ret setObject:thread.name forKey:@"name"];
+		id supportsCancel = [thread.threadDictionary objectForKey:NSThreadSupportsCancelKey];
+		if (supportsCancel) [ret setObject:supportsCancel forKey:NSThreadSupportsCancelKey];
+		id isCancelled = [thread.threadDictionary objectForKey:NSThreadIsCancelledKey];
+		if (isCancelled) [ret setObject:isCancelled forKey:NSThreadIsCancelledKey];
+		id status = [thread.threadDictionary objectForKey:NSThreadStatusKey];
+		if (status) [ret setObject:status forKey:NSThreadStatusKey];
+		id progress = [thread.threadDictionary objectForKey:NSThreadProgressKey];
+		if (progress) [ret setObject:progress forKey:NSThreadProgressKey];
+	}
 	
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-				thread.name? (id)thread.name : [NSNull null], @"name",
-				supportsCancel? supportsCancel : [NSNull null], NSThreadSupportsCancelKey,
-				isCancelled? isCancelled : [NSNull null], NSThreadIsCancelledKey,
-				status? status : [NSNull null], NSThreadStatusKey,
-				progress? progress : [NSNull null], NSThreadProgressKey,
-			NULL];
+	return ret;
 }
 
 #pragma mark ListTasks
@@ -105,9 +102,17 @@
 	NSMutableArray* taskIds = [NSMutableArray array];
 	
 	for (NSThread* thread in [self.delegate threads])
-		[taskIds addObject:thread.uniqueId];
-	
+		if (thread.uniqueId)
+			[taskIds addObject:thread.uniqueId];
+
 	return taskIds;
+}
+
+#pragma mark SetQuitWhenDone
+
+-(void)SetQuitWhenDone:(NSScriptCommand*)command {
+	NSNumber* quit = command.directParameter;
+	[self.delegate setQuitWhenDone:quit.boolValue];
 }
 
 @end

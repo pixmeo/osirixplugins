@@ -177,7 +177,10 @@
 }
 
 -(id)scriptingRecordDescriptor {
-	return [self appleEventDescriptor];
+	NSLog(@"scriptingRecordDescriptor %@", self.description);
+	NSObject* out = [self appleEventDescriptor];
+	NSLog(@"outs %@", out.description);
+	return out;
 }
 
 @end

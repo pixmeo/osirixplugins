@@ -14,10 +14,12 @@
 @private
 	DiscPublisher* discPublisher;
 	NSMutableArray* threads;
+	BOOL quitWhenDone;
 }
 
 @property(readonly) DiscPublisher* discPublisher;
 @property(readonly) NSArray* threads;
+@property BOOL quitWhenDone;
 
 -(NSThread*)threadWithId:(NSString*)threadId;
 -(void)distributeNotificationsForThread:(NSThread*)thread;

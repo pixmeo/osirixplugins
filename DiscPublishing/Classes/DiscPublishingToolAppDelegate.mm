@@ -23,6 +23,11 @@ int main(int argc, const char* argv[]) {
 #pragma mark Thread property distributed notifications
 
 -(void)distributeNotificationsForThread:(NSThread*)thread {
+	static NSUInteger uniqueThreadIdBase = 0;
+	++uniqueThreadIdBase;
+	NSString* threadId = [NSString stringWithFormat:@"%d", uniqueThreadIdBase];
+	thread.uniqueId = threadId;
+	
 	[threads addObject:thread];
 	
 	[thread addObserver:self forKeyPath:NSThreadSupportsCancelKey options:NULL context:NULL];
@@ -51,6 +56,9 @@ int main(int argc, const char* argv[]) {
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
 
 	[self stopDistributingNotificationsForThread:thread];
+	NSLog(@"%d threads left, quit? %d", threads.count, !threads.count && quitWhenDone);
+	if (quitWhenDone && !threads.count)
+		[NSApp stop:self];
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -71,6 +79,7 @@ int main(int argc, const char* argv[]) {
 #pragma mark Application initialization & finalization
 
 @synthesize discPublisher;
+@synthesize quitWhenDone;
 
 -(NSArray*)threads {
 	return threads;
@@ -126,6 +135,13 @@ int main(int argc, const char* argv[]) {
 -(void)dealloc {
 	[threads release];
 	[super dealloc];
+}
+
+-(void)setQuitWhenDone:(BOOL)qwd {
+	quitWhenDone = qwd;
+	NSLog(@"quit set to %d, %d threads", qwd, threads.count);
+	if (quitWhenDone && !threads.count)
+		[NSApp stop:self];
 }
 
 @end

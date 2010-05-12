@@ -20,7 +20,9 @@
 #import <OsiriX Headers/DicomStudy.h>
 #import <OsiriX Headers/DicomSeries.h>
 #import "DiscPublishingPatientDisc.h"
+#import "DiscPublishingTasksManager.h"
 #import "DiscPublishingOptions.h"
+#import "NSAppleEventDescriptor+N2.h"
 
 //#include "NSThread+N2.h"
 
@@ -29,6 +31,30 @@
 static DiscPublishing* discPublishingInstance = NULL;
 +(DiscPublishing*)instance {
 	return discPublishingInstance;
+}
+
+-(void)toolSetQuitWhenDone:(BOOL)flag {
+	NSDictionary* errors = [NSDictionary dictionary];
+	
+	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
+	NSLog(@"scpt %@", scptPath);
+	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
+	if (!appleScript)
+		[NSException raise:NSGenericException format:[errors description]];
+	
+	ProcessSerialNumber psn = {0, kCurrentProcess};
+	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
+	
+	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
+	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"SetQuitWhenDone" lowercaseString]] forKeyword:keyASSubroutineName];
+	
+	NSAppleEventDescriptor* params = [NSAppleEventDescriptor listDescriptor];
+	[params insertDescriptor:[[NSNumber numberWithInt:flag] appleEventDescriptor] atIndex:1];
+	[event setParamDescriptor:params forKeyword:keyDirectObject];
+	
+	NSAppleEventDescriptor* result = [appleScript executeAppleEvent:event error:&errors];
+	if (!result)
+		[NSException raise:NSGenericException format:errors.description];	
 }
 
 -(void)initPlugin {
@@ -43,14 +69,23 @@ static DiscPublishing* discPublishingInstance = NULL;
 	
 	[[ThreadsWindowController defaultController] window];
 	
-	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchAsync|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
+//	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
+	[self toolSetQuitWhenDone:NO];
+	[DiscPublishingTasksManager defaultManager];
 	
 	_filesManager = [[DiscPublishingFilesManager alloc] init];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	
 /*	NSThread* bidon = [[NSThread alloc] initWithTarget:self selector:@selector(bidonThread:) object:NULL];
 //	bidon.supportsCancel = YES;
 	[[ThreadsManager defaultManager] addThread:bidon];
 	[bidon start];*/
+}
+
+-(void)observeOsirixWillTerminate:(NSNotification*)notification {
+	NSLog(@"observeOsirixWillTerminate");
+	[self toolSetQuitWhenDone:YES];
 }
 
 /*-(void)bidonThread:(id)obj {
@@ -67,7 +102,9 @@ static DiscPublishing* discPublishingInstance = NULL;
 }*/
 
 -(void)dealloc {
+	NSLog(@"DiscPublishing dealloc");
 	[[_filesManager invalidate] release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	[super dealloc];
 }
 

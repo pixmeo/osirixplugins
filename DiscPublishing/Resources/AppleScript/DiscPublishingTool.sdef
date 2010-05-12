@@ -2,7 +2,11 @@
 <!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
 <dictionary>
 	<suite name="DiscPublishingTool Suite" code="DiPT" description="Classes for the DiscPublishingTool application.">
-
+        
+		<property name="list of text" code="tex*">
+            <type type="text" list="yes" />
+		</property>
+        
 		<class name="application" code="capp" description="DiscPublishingTool application scripting facilities. These functions are not usable from simple AppleScript as they've been created to allow the DiscPublishingPlugin to communicate with the DIscPublishingTool (because the Primera libs are only available in 32 bits and OsiriX runs in 64 bits).">
 			<cocoa class="NSApplication" />
 			<responds-to command="PublishDisc">
@@ -13,6 +17,9 @@
             </responds-to>
 			<responds-to command="GetTaskInfo">
                 <cocoa method="GetTaskInfo:" />
+            </responds-to>
+			<responds-to command="SetQuitWhenDone">
+                <cocoa method="SetQuitWhenDone:" />
             </responds-to>
 		</class>
 		
@@ -28,12 +35,16 @@
 		</command>
 		
 		<command name="ListTasks" code="DiPTStat" description="List the current task identifiers.">
-            <result type="list" description="Array containing the task identifiers." />
+            <result type="list of text" description="Array containing the task identifiers." />
 		</command>
 		
 		<command name="GetTaskInfo" code="DiPTGetI" description="Get info about a task.">
             <result type="record" description="A record containing name, supportsCancel, isCancelled, status and progress for the task, or nil." /> 
 			<direct-parameter type="text" optional="no" description="A task identifier." />
+		</command>
+		
+		<command name="SetQuitWhenDone" code="DiPTSetQ" description="Tell wether the tool should quit once it has finished burning the queued discs. This quits the tool if no tasks are queued or in progress.">
+			<direct-parameter type="integer" optional="no" description="Wether or not to quit when tasks are finished." />
 		</command>
 
 	</suite>
