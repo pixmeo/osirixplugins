@@ -382,16 +382,16 @@
 		5912041A1137C735002D9163 /* Threads */ = {
 			isa = PBXGroup;
 			children = (
+				591204211137C735002D9163 /* ThreadsManager.h */,
+				591204221137C735002D9163 /* ThreadsManager.mm */,
+				591204291137C735002D9163 /* ThreadsWindowController.h */,
+				5912042A1137C735002D9163 /* ThreadsWindowController.mm */,
 				59C7F16C1194537900FCE244 /* ThreadCell.h */,
 				59C7F16D1194537900FCE244 /* ThreadCell.mm */,
 				59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */,
 				59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */,
 				5912041F1137C735002D9163 /* ThreadModalForWindowController.h */,
 				591204201137C735002D9163 /* ThreadModalForWindowController.mm */,
-				591204211137C735002D9163 /* ThreadsManager.h */,
-				591204221137C735002D9163 /* ThreadsManager.mm */,
-				591204291137C735002D9163 /* ThreadsWindowController.h */,
-				5912042A1137C735002D9163 /* ThreadsWindowController.mm */,
 			);
 			name = Threads;
 			path = Classes/Threads;

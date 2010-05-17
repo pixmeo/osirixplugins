@@ -77,4 +77,7 @@
 -(void)selectRowIndexes:(NSIndexSet*)indexes byExtendingSelection:(BOOL)extend {
 }
 
+-(void)mouseDown:(NSEvent*)evt {
+}
+
 @end
