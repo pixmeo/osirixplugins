@@ -26,7 +26,7 @@
 @implementation DiscPublishingTasksManager
 
 +(DiscPublishingTasksManager*)defaultManager {
-	DiscPublishingTasksManager* defaultManager = NULL;
+	static DiscPublishingTasksManager* defaultManager = NULL;
 	if (!defaultManager)
 		defaultManager = [[DiscPublishingTasksManager alloc] initWithThreadsManager:[ThreadsManager defaultManager]];
 	return defaultManager;
@@ -61,7 +61,8 @@
 	for (NSString* threadId in [self toolListTasks]) {
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 		NSThread* thread = [[ToolThread alloc] init];
-		thread.name = [NSString stringWithFormat:@"Tool Thread %@", threadId];
+		thread.name = [NSString stringWithFormat:@"Disc Publishing Tool thread %@", threadId];
+		thread.status = @"Recovering thread information...";
 		thread.uniqueId = threadId;
 		[_threadsManager addThread:thread];
 		[thread start];

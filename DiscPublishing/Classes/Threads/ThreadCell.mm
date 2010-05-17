@@ -31,14 +31,14 @@
 	ThreadsWindowController* threadsController = (id)view.delegate;
 	[self setTextColor:threadsController.statusLabel.textColor];
 	
-	self.progressIndicator = [[[NSProgressIndicator alloc] initWithFrame:NSZeroRect] autorelease];
-	[self.progressIndicator setUsesThreadedAnimation:YES];
-	[self.progressIndicator setMinValue:0];
-	[self.progressIndicator setMaxValue:1];
+	_progressIndicator = [[NSProgressIndicator alloc] initWithFrame:NSZeroRect];
+	[_progressIndicator setUsesThreadedAnimation:YES];
+	[_progressIndicator setMinValue:0];
+	[_progressIndicator setMaxValue:1];
 	
-	self.cancelButton = [[[ThreadCellCancelButton alloc] initWithFrame:NSZeroRect] autorelease]; // TODO: the button is ugly, make it look better
-	self.cancelButton.target = self;
-	self.cancelButton.action = @selector(cancelThreadAction:);
+	_cancelButton = [[ThreadCellCancelButton alloc] initWithFrame:NSZeroRect]; // TODO: the button is ugly, make it look better
+	_cancelButton.target = self;
+	_cancelButton.action = @selector(cancelThreadAction:);
 
 	self.thread = thread;
 
