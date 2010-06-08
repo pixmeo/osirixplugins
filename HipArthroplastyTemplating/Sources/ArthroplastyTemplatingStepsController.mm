@@ -987,10 +987,6 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	else if (_horizontalAngle != kInvalidAngle)
 		_femurAngle = _horizontalAngle+pi/2;
 	
-	NSLog(@"fa %f", _femurAngle);
-	
-	// leg inequalty
-	
 	// cup inclination
 	if (_cupLayer && [[_cupLayer points] count] >= 6) {
 		_cupAngle = -([self estimateRotationOfROI:_cupLayer]-_horizontalAngle)/pi*180;
@@ -1034,7 +1030,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	NSMutableString* str = [[NSMutableString alloc] initWithCapacity:512];
 	
-	[str appendString:@"OsiriX Arthroplasty Templating"];
+	[str appendString:@"OsiriX Hip Arthroplasty Templating"];
 	
 	if (_originalLegInequality || _legInequality) {
 		[str appendFormat:@"\nLeg length discrepancy:\n"];
@@ -1071,7 +1067,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
 	if ([_neckSizePopUpButton isEnabled])
 		[str appendFormat:@"\nNeck size: %@\n", [[_neckSizePopUpButton selectedItem] title]];
-
+ 
 	if ([[_plannersNameTextField stringValue] length])
 		[str appendFormat:@"\nPlanified by: %@\n", [_plannersNameTextField stringValue]];
 	if (_planningDate)
