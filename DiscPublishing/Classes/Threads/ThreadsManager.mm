@@ -51,10 +51,8 @@
 
 -(void)addThread:(NSThread*)thread {
 	if (![[NSThread currentThread] isMainThread]) {
-		NSLog(@"----- Will add thread %X %@", thread, thread.name);
 		[self performSelectorOnMainThread:@selector(addThread:) withObject:thread waitUntilDone:NO];
 	} else if (![_threads containsObject:thread]) {
-		NSLog(@"----- Adding thread %X %@", thread, thread.name);
 		[[self mutableArrayValueForKey:@"threads"] addObject:thread];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
 	}

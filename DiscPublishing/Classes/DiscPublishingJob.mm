@@ -7,9 +7,9 @@
 //
 
 #import "DiscPublishingJob.h"
-#import "DiscPublishingOptions.h"
+//#import "DiscPublishingOptions.h"
 #import "CSV.h"
-#import "NSFileManager+DiscPublisher.h"
+#import <OsiriX Headers/NSFileManager+N2.h>
 #import "DiscPublishingJob+Info.h"
 
 
@@ -22,7 +22,6 @@
 	NSDictionary* errors = [NSDictionary dictionary];
 	
 	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/ScriptsPTR.scpt"];
-	NSLog(@"%@", scptPath);
 	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
 	if (!appleScript)
 		[NSException raise:NSGenericException format:[errors description]];
@@ -49,12 +48,13 @@
 -(void)start {
 	[self.info writeToFile:[self.root stringByAppendingPathExtension:@"plist"] atomically:YES];
 	
-	DiscPublishingOptions* options = [self.info objectForKey:DiscPublishingJobInfoOptionsKey];
+//	DiscPublishingOptions* options = [self.info objectForKey:DiscPublishingJobInfoOptionsKey];
+	NSString* templatePath = [self.info objectForKey:DiscPublishingJobInfoTemplatePathKey];
 
 	self.discType = [[self.info objectForKey:DiscPublishingJobInfoMediaTypeKey] unsignedIntValue];
 	self.volumeName = [self.info objectForKey:DiscPublishingJobInfoDiscNameKey];
 
-	self.type = JP_JOB_PRINT_ONLY;
+	self.type = JP_JOB_PRINT_ONLY; // TODO: reenable data
 //	self.type = JP_JOB_DATA;
 //	for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.root error:NULL])
 //		[self.files addObject:[self.root stringByAppendingPathComponent:subpath]];
@@ -63,7 +63,7 @@
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];
 	[[CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	self.printFile = [self.root stringByAppendingPathExtension:@"jpg"];
-	[DiscPublishingJob renderDiscCover:options.discCoverTemplatePath merge:csvFile into:self.printFile];
+	[DiscPublishingJob renderDiscCover:templatePath merge:csvFile into:self.printFile];
 	[[NSFileManager defaultManager] removeItemAtPath:csvFile error:NULL];
 	
 	[super start];
@@ -72,6 +72,7 @@
 -(void)dealloc {
 	[[NSFileManager defaultManager] removeItemAtPath:self.printFile error:NULL];
 	[[NSFileManager defaultManager] removeItemAtPath:self.root error:NULL];
+	[[NSFileManager defaultManager] removeItemAtPath:[self.root stringByAppendingPathExtension:@"plist"] error:NULL];
 	self.root = NULL;
 	self.info = NULL;
 	[super dealloc];

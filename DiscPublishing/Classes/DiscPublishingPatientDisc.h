@@ -9,16 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 
-@class DiscBurningOptions, DicomSeries;
+@class DiscPublishingOptions, DiscBurningOptions;//, DicomSeries;
 
 @interface DiscPublishingPatientDisc : NSThread {
 	@private
 	NSMutableArray* _files;
-	DiscBurningOptions* _options;
+	DiscPublishingOptions* _options;
 	NSString* _tmpPath;
 }
 
--(id)initWithFiles:(NSArray*)files options:(DiscBurningOptions*)options;
+-(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options;
 
 +(NSArray*)prepareSeriesDataForImages:(NSArray*)images inDirectory:(NSString*)dirPath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths;
 

@@ -8,12 +8,13 @@
 
 #import "DiscPublishingPreferencesController.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
-#import "NSUserDefaultsController+DiscPublishing.h"
+#import <OsiriX Headers/NSUserDefaultsController+N2.h>
 #import "DiscBurningOptions.h"
 #import "DiscPublishing.h"
 #import <OsiriX Headers/N2Operators.h>
 #import <OsiriX Headers/NSUserDefaultsController+OsiriX.h>
 #import <OsiriX Headers/PreferencesWindowController.h>
+#import <OsiriX Headers/Anonymization.h>
 
 
 @interface NSPathControl (DiscPublishing)
@@ -32,6 +33,8 @@
 -(void)awakeFromNib {
 	[super awakeFromNib];
 	
+//	[[NSUserDefaultsController sharedUserDefaultsController] add];
+	
 	deltaFromPathControlBRToButtonTL = NSZeroSize+patientModeLabelTemplateEditButton.frame.origin - (patientModeLabelTemplatePathControl.frame.origin+patientModeLabelTemplatePathControl.frame.size);
 	
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
@@ -44,10 +47,10 @@
 	[patientModeAuxiliaryDirWarningView setImage:warningImage];
 	[archivingModeZipPasswordWarningView setImage:warningImage];
 	[archivingModeAuxiliaryDirWarningView setImage:warningImage];
-	NSString* zipPasswordToolTip = NSLocalizedString(@"The password must be at least 8 characters long. If this condition is not met then the files will not be zipped.", @"Disc publishing zip password warning");
+	NSString* zipPasswordToolTip = NSLocalizedString(@"The password must be at least 8 characters long. If this condition is not met then the files will not be zipped.", @"Preferences password warning");
 	[patientModeZipPasswordWarningView setToolTip:zipPasswordToolTip];
 	[archivingModeZipPasswordWarningView setToolTip:zipPasswordToolTip];
-	NSString* auxDirToolTip = NSLocalizedString(@"The auxiliary directory must point to an existing directory. If the selected directory does not exist then no files are copied.", @"Disc publishing auxiliary directory warning");
+	NSString* auxDirToolTip = NSLocalizedString(@"The auxiliary directory must point to an existing directory. If the selected directory does not exist then no files are copied.", @"Preferences auxiliary directory warning");
 	[patientModeAuxiliaryDirWarningView setToolTip:auxDirToolTip];
 	[archivingModeAuxiliaryDirWarningView setToolTip:auxDirToolTip];
 }
@@ -75,8 +78,7 @@
 }
 
 -(IBAction)showPatientModeAnonymizationOptionsSheet:(id)sender {
-	//AnonymizationOptionsPanelController* aopc = [[AnonymizationOptionsPanelController alloc] initWithAnonymizationOptions:self.anonymizationOptions];
-	//[aopc beginSheetForWindow:self.window];
+	[Anonymization showPanelForDefaultsKey:DiscPublishingPatientModeAnonymizationTagsDefaultsKey modalForWindow:self.mainView.window modalDelegate:NULL didEndSelector:NULL representedObject:NULL];
 }
 
 -(void)fileSelectionSheetDidEnd:(NSOpenPanel*)openPanel returnCode:(int)returnCode contextInfo:(void*)context {
@@ -92,7 +94,7 @@
 	[openPanel setCanChooseDirectories:YES];
 	[openPanel setAllowsMultipleSelection:NO];
 	
-	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
+	NSString* location = [[NSUserDefaultsController sharedUserDefaultsController] stringForKey:key];
 	
 	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:NULL modalForWindow:self.mainView.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
@@ -112,7 +114,7 @@
 	[openPanel setAllowsMultipleSelection:NO];
 	[openPanel setTreatsFilePackagesAsDirectories:NO];
 	
-	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
+	NSString* location = [[NSUserDefaultsController sharedUserDefaultsController] stringForKey:key];
 	if (!location) location = defaultLocation;
 	
 	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:types modalForWindow:self.mainView.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
@@ -131,12 +133,12 @@
 }
 
 -(void)editDiscCoverFileWithKey:(NSString*)key {
-	NSString* location = [[NSUserDefaults standardUserDefaults] stringForKey:key];
+	NSString* location = [[NSUserDefaultsController sharedUserDefaultsController] stringForKey:key];
 	
 	if (!location || ![[NSFileManager defaultManager] fileExistsAtPath:location]) {
 		location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:@"Template.dcover"];
 		if (![[NSFileManager defaultManager] fileExistsAtPath:location])
-			[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaultsController defaultDiscCoverPath] toPath:location error:NULL];
+			[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaultsController discPublishingDefaultDiscCoverPath] toPath:location error:NULL];
 		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
@@ -190,7 +192,7 @@
 }
 
 -(id)transformedValue:(NSString*)value {
-    return [NSNumber numberWithBool:[NSUserDefaultsController isValidDiscPublishingPassword:value]];
+    return [NSNumber numberWithBool:[NSUserDefaultsController discPublishingIsValidPassword:value]];
 }
 
 @end
@@ -230,7 +232,7 @@
 
 -(id)transformedValue:(NSString*)value {
 	if (!value | ![[NSFileManager defaultManager] fileExistsAtPath:value])
-		return @"/Standard Disc Cover Template";
+		return NSLocalizedString(@"/Standard Disc Cover Template", NULL);
 	return value;
 }
 

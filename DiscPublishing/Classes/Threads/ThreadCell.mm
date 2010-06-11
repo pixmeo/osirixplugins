@@ -9,7 +9,7 @@
 #import "ThreadCell.h"
 #import "ThreadsManager.h"
 #import "ThreadsWindowController.h"
-#import "ThreadCellCancelButton.h"
+#import <OsiriX Headers/N2HighlightImageButtonCell.h>
 #import "NSString+DiscPublisher.h"
 #import "NSThread+N2.h"
 
@@ -36,7 +36,9 @@
 	[_progressIndicator setMinValue:0];
 	[_progressIndicator setMaxValue:1];
 	
-	_cancelButton = [[ThreadCellCancelButton alloc] initWithFrame:NSZeroRect]; // TODO: the button is ugly, make it look better
+	_cancelButton = [[NSButton alloc] initWithFrame:NSZeroRect]; // TODO: the button is ugly, make it look better
+	_cancelButton.cell = [[N2HighlightImageButtonCell alloc] init];
+	[_cancelButton.cell setImage:[NSImage imageNamed:@"NSStopProgressFreestandingTemplate"]];
 	_cancelButton.target = self;
 	_cancelButton.action = @selector(cancelThreadAction:);
 

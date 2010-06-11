@@ -7,7 +7,7 @@
 //
 
 #import "DicomCompressor.h"
-#import "NSFileManager+DiscPublisher.h"
+#import <OsiriX Headers/NSFileManager+N2.h>
 #include <algorithm>
 
 

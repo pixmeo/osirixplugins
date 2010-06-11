@@ -12,7 +12,6 @@
 		5900F65B1190669E001E899B /* CSV.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C51177177000E84FE3 /* CSV.mm */; };
 		5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C91177177900E84FE3 /* DiscPublishingJob.mm */; };
 		5900F65D119066AB001E899B /* DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043F1137C739002D9163 /* DiscPublisher.mm */; };
-		5900F65F119066BD001E899B /* NSFileManager+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */; };
 		5900F660119066C5001E899B /* NSString+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */; };
 		5900F661119066C9001E899B /* NSXMLNode+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */; };
 		5900F66211906723001E899B /* DiscPublisher+Constants.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */; };
@@ -54,8 +53,6 @@
 		59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */; };
 		59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022D113FE9A500875159 /* NSString+DiscPublishing.h */; };
 		59710232113FE9A500875159 /* NSString+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022E113FE9A500875159 /* NSString+DiscPublishing.mm */; };
-		59710236113FE9C800875159 /* AdaptiveBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710234113FE9C800875159 /* AdaptiveBox.h */; };
-		59710237113FE9C800875159 /* AdaptiveBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710235113FE9C800875159 /* AdaptiveBox.mm */; };
 		5971023A113FE9D500875159 /* DiscBurningOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710238113FE9D500875159 /* DiscBurningOptions.h */; };
 		5971023B113FE9D500875159 /* DiscBurningOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710239113FE9D500875159 /* DiscBurningOptions.mm */; };
 		59710242113FEA0E00875159 /* DiscPublishingFilesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */; };
@@ -76,19 +73,14 @@
 		59BDFBC51185BE46007F1F2C /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59BDFC271185C496007F1F2C /* DiscPublishingPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 59BDFB901185B794007F1F2C /* DiscPublishingPreferences.prefPane */; };
 		59C7EA471191D06C00FCE244 /* DiscPublishingTool.app in Resources */ = {isa = PBXBuildFile; fileRef = 5900F64B11906667001E899B /* DiscPublishingTool.app */; };
-		59C7EAA21192A21600FCE244 /* NSFileManager+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */; };
 		59C7EAA31192A21B00FCE244 /* NSString+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */; };
 		59C7EAA41192A21F00FCE244 /* NSXMLNode+DiscPublisher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912044C1137C739002D9163 /* NSXMLNode+DiscPublisher.mm */; };
-		59C7EBAF1192BA3D00FCE244 /* DiscPublishingOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */; };
-		59C7EBB01192BA4B00FCE244 /* DiscBurningOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59710239113FE9D500875159 /* DiscBurningOptions.mm */; };
 		59C7EF8D11930C6F00FCE244 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */; };
 		59C7EFC511930C8400FCE244 /* Nitrogen.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */; };
 		59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */; };
 		59C7F02011930E6E00FCE244 /* DiscPublishingTool.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */; };
 		59C7F16E1194537900FCE244 /* ThreadCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C7F16C1194537900FCE244 /* ThreadCell.h */; };
 		59C7F16F1194537900FCE244 /* ThreadCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59C7F16D1194537900FCE244 /* ThreadCell.mm */; };
-		59C7F172119453C100FCE244 /* ThreadCellCancelButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */; };
-		59C7F173119453C100FCE244 /* ThreadCellCancelButton.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */; };
 		59DEC7B411995E7800E0343A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEC7B311995E7800E0343A /* Carbon.framework */; };
 		59DEC7B511995E7800E0343A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEC7B311995E7800E0343A /* Carbon.framework */; };
 		59E37CC81173610300E84FE3 /* DiscPublishingOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */; };
@@ -186,8 +178,6 @@
 		591204431137C739002D9163 /* DiscPublisherRobot.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherRobot.mm; sourceTree = "<group>"; };
 		591204441137C739002D9163 /* DiscPublisherStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisherStatus.h; sourceTree = "<group>"; };
 		591204451137C739002D9163 /* DiscPublisherStatus.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherStatus.mm; sourceTree = "<group>"; };
-		591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSFileManager+DiscPublisher.h"; sourceTree = "<group>"; };
-		591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSFileManager+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSFileManager+DiscPublisher.mm"; sourceTree = "<group>"; };
 		591204491137C739002D9163 /* NSString+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSString+DiscPublisher.h"; sourceTree = "<group>"; };
 		5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+DiscPublisher.mm"; path = "Classes/DiscPublisher/Extras/NSString+DiscPublisher.mm"; sourceTree = "<group>"; };
 		5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSXMLNode+DiscPublisher.h"; path = "Classes/DiscPublisher/Extras/NSXMLNode+DiscPublisher.h"; sourceTree = "<group>"; };
@@ -204,8 +194,6 @@
 		5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSArray+DiscPublishing.mm"; path = "Classes/Extras/NSArray+DiscPublishing.mm"; sourceTree = "<group>"; };
 		5971022D113FE9A500875159 /* NSString+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DiscPublishing.h"; path = "Classes/Extras/NSString+DiscPublishing.h"; sourceTree = "<group>"; };
 		5971022E113FE9A500875159 /* NSString+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+DiscPublishing.mm"; path = "Classes/Extras/NSString+DiscPublishing.mm"; sourceTree = "<group>"; };
-		59710234113FE9C800875159 /* AdaptiveBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdaptiveBox.h; sourceTree = "<group>"; };
-		59710235113FE9C800875159 /* AdaptiveBox.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AdaptiveBox.mm; sourceTree = "<group>"; };
 		59710238113FE9D500875159 /* DiscBurningOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscBurningOptions.h; path = Classes/DiscBurningOptions.h; sourceTree = "<group>"; };
 		59710239113FE9D500875159 /* DiscBurningOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscBurningOptions.mm; path = Classes/DiscBurningOptions.mm; sourceTree = "<group>"; };
 		59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingFilesManager.h; path = Classes/DiscPublishingFilesManager.h; sourceTree = "<group>"; };
@@ -234,8 +222,6 @@
 		59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = DiscPublishingTool.sdef; path = Resources/AppleScript/DiscPublishingTool.sdef; sourceTree = "<group>"; };
 		59C7F16C1194537900FCE244 /* ThreadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadCell.h; sourceTree = "<group>"; };
 		59C7F16D1194537900FCE244 /* ThreadCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadCell.mm; sourceTree = "<group>"; };
-		59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadCellCancelButton.h; sourceTree = "<group>"; };
-		59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadCellCancelButton.mm; sourceTree = "<group>"; };
 		59DEC7B311995E7800E0343A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		59E37CC61173610300E84FE3 /* DiscPublishingOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingOptions.h; path = Classes/DiscPublishingOptions.h; sourceTree = "<group>"; };
 		59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingOptions.mm; path = Classes/DiscPublishingOptions.mm; sourceTree = "<group>"; };
@@ -353,7 +339,6 @@
 				59710245113FEA1400875159 /* DiscPublishingPatientDisc.mm */,
 				59BDEF68117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h */,
 				59BDEF69117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm */,
-				59710233113FE9C800875159 /* Generic Views */,
 				594B522B1138254300E786F5 /* Extras */,
 				5912041A1137C735002D9163 /* Threads */,
 			);
@@ -388,8 +373,6 @@
 				5912042A1137C735002D9163 /* ThreadsWindowController.mm */,
 				59C7F16C1194537900FCE244 /* ThreadCell.h */,
 				59C7F16D1194537900FCE244 /* ThreadCell.mm */,
-				59C7F170119453C100FCE244 /* ThreadCellCancelButton.h */,
-				59C7F171119453C100FCE244 /* ThreadCellCancelButton.mm */,
 				5912041F1137C735002D9163 /* ThreadModalForWindowController.h */,
 				591204201137C735002D9163 /* ThreadModalForWindowController.mm */,
 			);
@@ -426,16 +409,6 @@
 			name = Extras;
 			sourceTree = "<group>";
 		};
-		59710233113FE9C800875159 /* Generic Views */ = {
-			isa = PBXGroup;
-			children = (
-				59710234113FE9C800875159 /* AdaptiveBox.h */,
-				59710235113FE9C800875159 /* AdaptiveBox.mm */,
-			);
-			name = "Generic Views";
-			path = "Classes/Generic Views";
-			sourceTree = "<group>";
-		};
 		5971023D113FE9DC00875159 /* Future OsiriX Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,8 +422,6 @@
 				59E381C51177177000E84FE3 /* CSV.mm */,
 				595547A81191B52300A3DF03 /* NSAppleEventDescriptor+N2.h */,
 				595547A91191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm */,
-				591204471137C739002D9163 /* NSFileManager+DiscPublisher.h */,
-				591204481137C739002D9163 /* NSFileManager+DiscPublisher.mm */,
 				591204491137C739002D9163 /* NSString+DiscPublisher.h */,
 				5912044A1137C739002D9163 /* NSString+DiscPublisher.mm */,
 				5912044B1137C739002D9163 /* NSXMLNode+DiscPublisher.h */,
@@ -566,7 +537,6 @@
 				591204391137C735002D9163 /* ThreadsWindowController.h in Headers */,
 				5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */,
 				59710231113FE9A500875159 /* NSString+DiscPublishing.h in Headers */,
-				59710236113FE9C800875159 /* AdaptiveBox.h in Headers */,
 				5971023A113FE9D500875159 /* DiscBurningOptions.h in Headers */,
 				59710242113FEA0E00875159 /* DiscPublishingFilesManager.h in Headers */,
 				5971024A113FEA1400875159 /* DiscPublishingPatientDisc.h in Headers */,
@@ -579,7 +549,6 @@
 				5900F7D11190701F001E899B /* DiscPublishingJob+Info.h in Headers */,
 				595547AB1191B52300A3DF03 /* NSAppleEventDescriptor+N2.h in Headers */,
 				59C7F16E1194537900FCE244 /* ThreadCell.h in Headers */,
-				59C7F172119453C100FCE244 /* ThreadCellCancelButton.h in Headers */,
 				593C460F11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h in Headers */,
 				5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */,
 			);
@@ -760,7 +729,6 @@
 				5900F65B1190669E001E899B /* CSV.mm in Sources */,
 				5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */,
 				5900F65D119066AB001E899B /* DiscPublisher.mm in Sources */,
-				5900F65F119066BD001E899B /* NSFileManager+DiscPublisher.mm in Sources */,
 				5900F660119066C5001E899B /* NSString+DiscPublisher.mm in Sources */,
 				5900F661119066C9001E899B /* NSXMLNode+DiscPublisher.mm in Sources */,
 				5900F66211906723001E899B /* DiscPublisher+Constants.mm in Sources */,
@@ -770,8 +738,6 @@
 				5900F7D01190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
 				5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */,
 				595547AA1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */,
-				59C7EBAF1192BA3D00FCE244 /* DiscPublishingOptions.mm in Sources */,
-				59C7EBB01192BA4B00FCE244 /* DiscBurningOptions.mm in Sources */,
 				593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -793,7 +759,6 @@
 				5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */,
 				59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */,
 				59710232113FE9A500875159 /* NSString+DiscPublishing.mm in Sources */,
-				59710237113FE9C800875159 /* AdaptiveBox.mm in Sources */,
 				5971023B113FE9D500875159 /* DiscBurningOptions.mm in Sources */,
 				59710243113FEA0E00875159 /* DiscPublishingFilesManager.mm in Sources */,
 				5971024B113FEA1400875159 /* DiscPublishingPatientDisc.mm in Sources */,
@@ -804,11 +769,9 @@
 				59BDEF6B117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm in Sources */,
 				5900F7D21190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
 				595547AC1191B52300A3DF03 /* NSAppleEventDescriptor+N2.mm in Sources */,
-				59C7EAA21192A21600FCE244 /* NSFileManager+DiscPublisher.mm in Sources */,
 				59C7EAA31192A21B00FCE244 /* NSString+DiscPublisher.mm in Sources */,
 				59C7EAA41192A21F00FCE244 /* NSXMLNode+DiscPublisher.mm in Sources */,
 				59C7F16F1194537900FCE244 /* ThreadCell.mm in Sources */,
-				59C7F173119453C100FCE244 /* ThreadCellCancelButton.mm in Sources */,
 				593C461011980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
 				595FC7E51198568E00310FD3 /* NSThread+N2.mm in Sources */,
 				5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */,

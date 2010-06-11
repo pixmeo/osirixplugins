@@ -46,32 +46,20 @@ extern const NSString* const DiscPublishingArchivingModeCompressJPEGNotJPEG2000D
 extern const NSString* const DiscPublishingArchivingModeZipEncryptFlagDefaultsKey;
 extern const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey;
 
-+(void)initializeDiscPublishing;
++(void)discPublishingInitialize;
 
--(BurnMode)mode;
--(UInt32)mediaType;
--(NSUInteger)patientModeDelay;
--(DiscPublishingOptions*)patientModeOptions;
--(DiscPublishingOptions*)archivingModeOptions;
+-(BurnMode)discPublishingMode;
+-(UInt32)discPublishingMediaType;
+-(NSUInteger)discPublishingPatientModeDelay;
+-(DiscPublishingOptions*)discPublishingPatientModeOptions;
+-(DiscPublishingOptions*)discPublishingArchivingModeOptions;
 
-+(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType;
--(CGFloat)mediaCapacityBytes;
++(CGFloat)discPublishingMediaCapacityBytesForMediaType:(UInt32)mediaType;
+-(CGFloat)discPublishingMediaCapacityBytes;
 
-+(BOOL)isValidDiscPublishingPassword:(NSString*)password;
-+(NSString*)defaultDiscCoverPath;
++(BOOL)discPublishingIsValidPassword:(NSString*)password;
++(NSString*)discPublishingDefaultDiscCoverPath;
 
 @end
 
-
-@interface NSObject (DiscPublishing)
-
-// we often need to compose the string constants declared earlier in this file with a values key path - these functions/methods make that easier
-extern NSString* valuesKeyPath(NSString* key);
--(id)valueForValuesKey:(NSString*)keyPath;
--(void)setValue:(id)value forValuesKey:(NSString*)keyPath;
--(void)bind:(NSString*)binding toObject:(id)observable withValuesKey:(NSString*)key options:(NSDictionary*)options;
--(void)addObserver:(NSObject*)observer forValuesKey:(NSString*)key options:(NSKeyValueObservingOptions)options context:(void*)context;
--(void)removeObserver:(NSObject*)observer forValuesKey:(NSString*)key;
-
-@end;
 

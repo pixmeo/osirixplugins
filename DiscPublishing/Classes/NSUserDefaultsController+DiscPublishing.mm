@@ -7,13 +7,15 @@
 //
 
 #import "NSUserDefaultsController+DiscPublishing.h"
+#import <OsiriX Headers/NSUserDefaultsController+N2.h>
 #import <OsiriX Headers/N2UserDefaults.h>
+#import <OsiriX headers/Anonymization.h>
 #import <OsiriX/DCMAttributeTag.h>
 #import <JobManager/PTJobManager.h>
 #import "DiscPublishingOptions.h"
 #import "DiscPublishing.h"
 #import "DicomTag.h"
-#import "NSFileManager+DiscPublisher.h"
+#import <OsiriX Headers/NSFileManager+N2.h>
 
 
 @interface NSUserDefaultsControllerDiscPublishingHelper : NSObject
@@ -23,7 +25,7 @@
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
 	if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnMediaTypeDefaultsKey)]) {
-		CGFloat bytes = [NSUserDefaultsController mediaCapacityBytesForMediaType:[defaults mediaType]];
+		CGFloat bytes = [defaults discPublishingMediaCapacityBytes];
 		NSUInteger measure = bytes<1000000000? 1000000 : 1000000000;
 		[defaults setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
 		[defaults setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
@@ -86,8 +88,8 @@ const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey =
 
 static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 
-+(void)initializeDiscPublishing {
-	NSLog(@"+[NSUserDefaultsController+DiscPublishing initialize]");
++(void)discPublishingInitialize {
+	NSLog(@"+[NSUserDefaultsController+DiscPublishing discPublishingInitialize]");
 	
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
 	
@@ -100,8 +102,12 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 		// patient mode
 		[NSNumber numberWithUnsignedInt:60], DiscPublishingPatientModeBurnDelayDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeAnonymizeFlagDefaultsKey,
-		[NSArray arrayWithObjects:
-			[NSArray arrayWithObjects: [DCMAttributeTag tagWithName:@"PatientsName"], @"Anonymous", NULL],
+		[NSDictionary dictionaryWithObjectsAndKeys:
+				@"Anonymous", @"PatientsName", 
+		/*		@"", @"PatientsSex",
+				@"", @"PatientsWeight",
+				@"", @"ReferringPhysiciansName",
+				@"", @"PerformingPhysiciansName",*/
 			NULL], DiscPublishingPatientModeAnonymizationTagsDefaultsKey,
 		[NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey,
@@ -129,19 +135,62 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	[defaults addObserver:helper forValuesKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
 }
 
--(BurnMode)mode {
+-(BurnMode)discPublishingMode {
 	return (BurnMode)[[self valueForValuesKey:DiscPublishingBurnModeDefaultsKey] unsignedIntValue];
 }
 
--(UInt32)mediaType {
+-(UInt32)discPublishingMediaType {
 	return [[self valueForValuesKey:DiscPublishingBurnMediaTypeDefaultsKey] unsignedIntValue];
 }
 
--(NSUInteger)patientModeDelay {
+-(NSUInteger)discPublishingPatientModeDelay {
 	return [[self valueForValuesKey:DiscPublishingPatientModeBurnDelayDefaultsKey] unsignedIntValue];
 }
 
-+(CGFloat)mediaCapacityBytesForMediaType:(UInt32)mediaType {
+-(DiscPublishingOptions*)discPublishingPatientModeOptions {
+	DiscPublishingOptions* options = [[DiscPublishingOptions alloc] init];
+	
+//	NSLog(@"dic %@", self.defaults.dictionaryRepresentation.description);
+	
+//	id xxx = [self valueForValuesKey:DiscPublishingPatientModeAnonymizationTagsDefaultsKey];
+	
+	options.anonymize = [self boolForKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey];
+	options.anonymizationTags = [Anonymization tagsValuesArrayFromDictionary:[self dictionaryForKey:DiscPublishingPatientModeAnonymizationTagsDefaultsKey]];
+	options.includeOsirixLite = [self boolForKey:DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey];
+	options.includeHTMLQT = [self boolForKey:DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey];
+	options.includeReports = [self boolForKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];
+	options.includeAuxiliaryDir = [self boolForKey:DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey];
+	options.auxiliaryDirPath = [self stringForKey:DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey];
+	options.compression = (Compression)[self integerForKey:DiscPublishingPatientModeCompressionDefaultsKey];
+	options.compressJPEGNotJPEG2000 = [self boolForKey:DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey];
+	options.zip = [self boolForKey:DiscPublishingPatientModeZipFlagDefaultsKey];
+	options.zipEncrypt = [self boolForKey:DiscPublishingPatientModeZipEncryptFlagDefaultsKey];
+	options.zipEncryptPassword = [self stringForKey:DiscPublishingPatientModeZipEncryptPasswordDefaultsKey];
+	options.discCoverTemplatePath = [self stringForKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+	
+	return [options autorelease];
+}
+
+-(DiscPublishingOptions*)discPublishingArchivingModeOptions {
+	DiscPublishingOptions* options = [[DiscPublishingOptions alloc] init];
+	
+	options.anonymize = NO;
+	options.includeOsirixLite = NO;
+	options.includeHTMLQT = NO;
+	options.includeReports = [self boolForKey:DiscPublishingArchivingModeIncludeReportsFlagDefaultsKey];
+	options.includeAuxiliaryDir = [self boolForKey:DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey];
+	options.auxiliaryDirPath = [self stringForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
+	options.compression = (Compression)[self integerForKey:DiscPublishingArchivingModeCompressionDefaultsKey];
+	options.compressJPEGNotJPEG2000 = [self boolForKey:DiscPublishingArchivingModeCompressJPEGNotJPEG2000DefaultsKey];
+	options.zip = [self boolForKey:DiscPublishingArchivingModeZipFlagDefaultsKey];
+	options.zipEncrypt = [self boolForKey:DiscPublishingArchivingModeZipEncryptFlagDefaultsKey];
+	options.zipEncryptPassword = [self stringForKey:DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey];
+	options.discCoverTemplatePath = [self stringForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+	
+	return [options autorelease];
+}
+
++(CGFloat)discPublishingMediaCapacityBytesForMediaType:(UInt32)mediaType {
 	switch (mediaType) {
 		case DISCTYPE_CD: return 700*1000000; // 700 MB
 		case DISCTYPE_DVD: return 4.7*1000000000; // 4.7 GB
@@ -152,84 +201,16 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	}
 }
 
--(CGFloat)mediaCapacityBytes {
+-(CGFloat)discPublishingMediaCapacityBytes {
 	return [[self valueForValuesKey:DiscPublishingBurnMediaCapacityDefaultsKey] floatValue] * [[self valueForValuesKey:DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey] unsignedIntValue];
 }
 
--(DiscPublishingOptions*)patientModeOptions {
-	DiscPublishingOptions* options = [[DiscPublishingOptions alloc] init];
-	
-	options.anonymize = [self.defaults boolForKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey];
-	options.anonymizationTags = [self.defaults arrayForKey:DiscPublishingPatientModeAnonymizationTagsDefaultsKey];
-	options.includeOsirixLite = [self.defaults boolForKey:DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey];
-	options.includeHTMLQT = [self.defaults boolForKey:DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey];
-	options.includeReports = [self.defaults boolForKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];
-	options.includeAuxiliaryDir = [self.defaults boolForKey:DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey];
-	options.auxiliaryDirPath = [self.defaults stringForKey:DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey];
-	options.compression = (Compression)[self.defaults integerForKey:DiscPublishingPatientModeCompressionDefaultsKey];
-	options.compressJPEGNotJPEG2000 = [self.defaults boolForKey:DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey];
-	options.zip = [self.defaults boolForKey:DiscPublishingPatientModeZipFlagDefaultsKey];
-	options.zipEncrypt = [self.defaults boolForKey:DiscPublishingPatientModeZipEncryptFlagDefaultsKey];
-	options.zipEncryptPassword = [self.defaults stringForKey:DiscPublishingPatientModeZipEncryptPasswordDefaultsKey];
-	options.discCoverTemplatePath = [self.defaults stringForKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
-	
-	return [options autorelease];
-}
-
--(DiscPublishingOptions*)archivingModeOptions {
-	DiscPublishingOptions* options = [[DiscPublishingOptions alloc] init];
-	
-	options.anonymize = NO;
-	options.includeOsirixLite = NO;
-	options.includeHTMLQT = NO;
-	options.includeReports = [self.defaults boolForKey:DiscPublishingArchivingModeIncludeReportsFlagDefaultsKey];
-	options.includeAuxiliaryDir = [self.defaults boolForKey:DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey];
-	options.auxiliaryDirPath = [self.defaults stringForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
-	options.compression = (Compression)[self.defaults integerForKey:DiscPublishingArchivingModeCompressionDefaultsKey];
-	options.compressJPEGNotJPEG2000 = [self.defaults boolForKey:DiscPublishingArchivingModeCompressJPEGNotJPEG2000DefaultsKey];
-	options.zip = [self.defaults boolForKey:DiscPublishingArchivingModeZipFlagDefaultsKey];
-	options.zipEncrypt = [self.defaults boolForKey:DiscPublishingArchivingModeZipEncryptFlagDefaultsKey];
-	options.zipEncryptPassword = [self.defaults stringForKey:DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey];
-	options.discCoverTemplatePath = [self.defaults stringForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
-	
-	return [options autorelease];
-}
-
-+(BOOL)isValidDiscPublishingPassword:(NSString*)value {
++(BOOL)discPublishingIsValidPassword:(NSString*)value {
 	return value.length >= 8;	
 }
 
-+(NSString*)defaultDiscCoverPath {
-	return [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"];
-}
-
-@end
-
-
-@implementation NSObject (DiscPublishing)
-
-NSString* valuesKeyPath(NSString* key) {
-	return [NSString stringWithFormat:@"values.%@", key];
-}
-
--(id)valueForValuesKey:(NSString*)keyPath {
-	return [self valueForKeyPath:valuesKeyPath(keyPath)];
-}
-
--(void)setValue:(id)value forValuesKey:(NSString*)keyPath {
-	[self setValue:value forKeyPath:valuesKeyPath(keyPath)];
-}
-
--(void)bind:(NSString*)binding toObject:(id)observable withValuesKey:(NSString*)key options:(NSDictionary*)options {
-	[self bind:binding toObject:observable withKeyPath:valuesKeyPath(key) options:options];
-}
-
--(void)addObserver:(NSObject*)observer forValuesKey:(NSString*)key options:(NSKeyValueObservingOptions)options context:(void*)context {
-	[self addObserver:observer forKeyPath:valuesKeyPath(key) options:options context:context];
-}
-
--(void)removeObserver:(NSObject*)observer forValuesKey:(NSString*)key {
-	[self removeObserver:observer forKeyPath:valuesKeyPath(key)];
++(NSString*)discPublishingDefaultDiscCoverPath {
+	return [[[NSBundle bundleForClass:[DiscPublishing class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"];
 }
 
 @end

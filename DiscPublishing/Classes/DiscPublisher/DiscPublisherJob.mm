@@ -9,7 +9,7 @@
 #import "DiscPublisherJob.h"
 #import "DiscPublisherStatus.h"
 #import "DiscPublisher+Constants.h"
-#import "NSFileManager+DiscPublisher.h"
+#import <OsiriX Headers/NSFileManager+N2.h>
 #import "NSXMLNode+DiscPublisher.h"
 #import "NSString+DiscPublisher.h"
 

@@ -140,8 +140,10 @@ int main(int argc, const char* argv[]) {
 -(void)setQuitWhenDone:(BOOL)qwd {
 	quitWhenDone = qwd;
 	NSLog(@"quit set to %d, %d threads", qwd, threads.count);
-	if (quitWhenDone && !threads.count)
+	if (quitWhenDone && !threads.count) {
 		[NSApp stop:self];
+		[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined location:NSMakePoint(0,0) modifierFlags:0 timestamp:0.0 windowNumber:0 context:nil subtype:0 data1:0 data2:0] atStart:true];
+	}
 }
 
 @end

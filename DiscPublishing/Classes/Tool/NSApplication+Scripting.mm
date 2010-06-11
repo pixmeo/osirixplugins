@@ -11,7 +11,7 @@
 #import "DiscPublishingJob+Info.h"
 #import "NSThread+N2.h"
 #import "DiscPublishingToolAppDelegate.h"
-#import "DiscPublishingOptions.h"
+//#import "DiscPublishingOptions.h"
 #import "DiscPublisher.h"
 #import "NSAppleEventDescriptor+N2.h"
 

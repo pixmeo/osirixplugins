@@ -10,7 +10,7 @@
 #import "DiscPublishingFilesManager.h"
 #import "ThreadsManager.h"
 #import "DiscPublisher.h"
-#import "NSFileManager+DiscPublisher.h"
+#import <OsiriX Headers/NSFileManager+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublisherStatus.h"
 #import <QTKit/QTKit.h>
@@ -61,7 +61,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 	discPublishingInstance = self;
 	
 	[QTMovie movie]; // this initializes the QT kit on the main thread
-	[NSUserDefaultsController initializeDiscPublishing];
+	[NSUserDefaultsController discPublishingInitialize];
 	
 	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
 	
@@ -135,7 +135,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 	BrowserController* bc = [BrowserController currentBrowser];
 	NSArray* sel = [bc databaseSelection];
 	
-	[[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] patientModeOptions]] autorelease];
+	[[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
 	
 	return 0;
 }

@@ -7,12 +7,12 @@
 //
 
 #import "DiscPublishingPatientDisc.h"
-#import "DiscBurningOptions.h"
+#import "DiscPublishingOptions.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
 #import "ThreadsManager.h"
-#import "NSFileManager+DiscPublisher.h"
+#import <OsiriX Headers/NSFileManager+N2.h>
 #import "DicomCompressor.h"
 #import <OsiriX Headers/QTExportHTMLSummary.h>
 #import <OsiriX Headers/DicomSeries.h>
@@ -31,7 +31,7 @@
 
 @implementation DiscPublishingPatientDisc
 
--(id)initWithFiles:(NSArray*)files options:(DiscBurningOptions*)options {
+-(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options {
 	self = [super init];
 	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[files objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
 	
@@ -219,7 +219,7 @@
 	//		NSString* discFinalDirPath = [discTmpDirPath stringByAppendingPathComponent:@"FINAL"];
 	//		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
 			
-			NSUInteger mediaCapacityBytes = [[NSUserDefaultsController sharedUserDefaultsController] mediaCapacityBytes];
+			NSUInteger mediaCapacityBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacityBytes];
 			
 			if (_options.includeOsirixLite)
 				[DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
@@ -235,6 +235,12 @@
 			
 			NSString* discName = [DiscPublishingPatientDisc discNameForSeries:discSeries];
 			NSString* safeDiscName = [discName filenameString];
+			
+			NSMutableArray* discModalities = [NSMutableArray array];
+			for (DicomSeries* serie in discSeries)
+				if (![discModalities containsObject:serie.modality])
+					[discModalities addObject:serie.modality];
+			NSString* modality = [discModalities componentsJoinedByString:@", "];
 			
 			// prepare patients dictionary for html generation
 			
@@ -343,7 +349,7 @@
 			
 			if (_options.zip) {
 				NSMutableArray* args = [NSMutableArray arrayWithObject:@"-r"];
-				if (_options.zipEncrypt && [NSUserDefaultsController isValidDiscPublishingPassword:_options.zipEncryptPassword]) {
+				if (_options.zipEncrypt && [NSUserDefaultsController discPublishingIsValidPassword:_options.zipEncryptPassword]) {
 					[args addObject:@"-eP"];
 					[args addObject:_options.zipEncryptPassword];
 					[args addObject:@"encryptedDICOM.zip"];
@@ -378,16 +384,18 @@
 			// save information dict
 			
 			NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-			[dateFormatter setDateFormat:[[NSUserDefaults standardUserDefaults] stringForKey:@"DBDateOfBirthFormat2"]];
+			[dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
 			NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
 								  safeDiscName, DiscPublishingJobInfoDiscNameKey,
-								  _options, DiscPublishingJobInfoOptionsKey,
-								  [NSNumber numberWithUnsignedInt:[[NSUserDefaultsController sharedUserDefaultsController] mediaType]], DiscPublishingJobInfoMediaTypeKey,
+			  //				  _options, DiscPublishingJobInfoOptionsKey,
+								  _options.discCoverTemplatePath, DiscPublishingJobInfoTemplatePathKey,
+								  [NSNumber numberWithUnsignedInt:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaType]], DiscPublishingJobInfoMediaTypeKey,
 								  [NSArray arrayWithObjects:
 									/* 1 */	discName,
 								    /* 2 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth],
 								    /* 3 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].date],
 								    /* 4 */	[dateFormatter stringFromDate:[NSDate date]],
+								    /* 5 */	modality,
 								   NULL], DiscPublishingJobInfoMergeValuesKey,
 								  NULL];
 			[[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
@@ -429,13 +437,14 @@
 	for (NSUInteger i = 0; i < imagesIn.count; ++i) {
 		DicomImage* image = [imagesIn objectAtIndex:i];
 		NSString* filePath = [image completePathResolved];
-		NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:[filePath lastPathComponent]];
+		NSString* filename = [NSString stringWithFormat:@"%d", i];
+		NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
 		
 		if (options.anonymize)
 			[DCMObject anonymizeContentsOfFile:filePath tags:options.anonymizationTags writingToFile:toFilePath];
 		else [[NSFileManager defaultManager] copyPath:filePath toPath:toFilePath handler:NULL]; // TODO: handle copy errors
 		
-		[fileNames addObject:[toFilePath lastPathComponent]];
+		[fileNames addObject:filename];
 	}
 	
 //	NSLog(@"importing %d images to context", fileNames.count);

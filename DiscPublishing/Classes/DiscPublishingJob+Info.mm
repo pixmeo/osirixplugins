@@ -10,7 +10,7 @@
 
 
 const NSString* const DiscPublishingJobInfoDiscNameKey = @"DiscName";
-const NSString* const DiscPublishingJobInfoOptionsKey = @"Options";
+const NSString* const DiscPublishingJobInfoTemplatePathKey = @"TemplatePath";
 const NSString* const DiscPublishingJobInfoMergeValuesKey = @"MergeValues";
 const NSString* const DiscPublishingJobInfoMediaTypeKey = @"MediaType";
 

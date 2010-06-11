@@ -85,7 +85,7 @@
 				
 				// update thread status
 				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];
-				if ([[NSUserDefaultsController sharedUserDefaultsController] mode] == BurnModeArchiving) {
+				if ([[NSUserDefaultsController sharedUserDefaultsController] discPublishingMode] == BurnModeArchiving) {
 					self.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time];
 				} else {
 					self.status = [NSString stringWithFormat:@"Receiving images for %@, %@.", [[self namesForStudies:[self studiesForImages:_files]] componentsJoinedByCommasAndAnd], time];
@@ -156,7 +156,7 @@
 }
 
 -(void)spawnBurns {
-	NSTimeInterval burnDelay = [[NSUserDefaultsController sharedUserDefaultsController] patientModeDelay];
+	NSTimeInterval burnDelay = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeDelay];
 	NSMutableArray* patientsToBurn = [[NSMutableArray alloc] initWithCapacity:self.patientsLastReceiveTimes.count];
 	
 	for (NSString* patientUID in self.patientsLastReceiveTimes) {
@@ -181,7 +181,7 @@
 	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	[self.patientsLastReceiveTimes removeObjectForKey:patientUID];
 	
-	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] patientModeOptions]] autorelease];
+	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
 	
 	[files release];
 }
