@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,7 @@
 		5969FC1F11184417006C9938 /* Hemi-ellipse-Preview.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5969FC1E11184417006C9938 /* Hemi-ellipse-Preview.pdf */; };
 		596DF1FA10B59936006351CD /* EjectionFractionWorkflow+OsiriX.h in Headers */ = {isa = PBXBuildFile; fileRef = 596DF1F810B59936006351CD /* EjectionFractionWorkflow+OsiriX.h */; };
 		596DF1FB10B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */; };
-		5986F69310DB88A300D28EFB /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5986F69210DB88A300D28EFB /* OsiriX Headers.framework */; };
+		597F141411A40C0F003E22B1 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 597F141311A40C0F003E22B1 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5986F7B510DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5986F7B310DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.h */; };
 		5986F7B610DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5986F7B410DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.mm */; };
 		5987F5D3103018A5006D39F5 /* Ejection_Fraction_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5987F5D2103018A5006D39F5 /* Ejection_Fraction_Prefix.pch */; };
@@ -65,7 +65,7 @@
 		5969FC1E11184417006C9938 /* Hemi-ellipse-Preview.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Hemi-ellipse-Preview.pdf"; path = "Resources/Previews/Hemi-ellipse-Preview.pdf"; sourceTree = "<group>"; };
 		596DF1F810B59936006351CD /* EjectionFractionWorkflow+OsiriX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EjectionFractionWorkflow+OsiriX.h"; path = "Sources/EjectionFractionWorkflow+OsiriX.h"; sourceTree = "<group>"; };
 		596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "EjectionFractionWorkflow+OsiriX.mm"; path = "Sources/EjectionFractionWorkflow+OsiriX.mm"; sourceTree = "<group>"; };
-		5986F69210DB88A300D28EFB /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		597F141311A40C0F003E22B1 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		5986F7B310DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionDicomSaveDialog.h; path = Sources/EjectionFractionDicomSaveDialog.h; sourceTree = "<group>"; };
 		5986F7B410DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionDicomSaveDialog.mm; path = Sources/EjectionFractionDicomSaveDialog.mm; sourceTree = "<group>"; };
 		5987F5D2103018A5006D39F5 /* Ejection_Fraction_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ejection_Fraction_Prefix.pch; path = Sources/Ejection_Fraction_Prefix.pch; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				5986F69310DB88A300D28EFB /* OsiriX Headers.framework in Frameworks */,
+				597F141411A40C0F003E22B1 /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +124,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5986F69210DB88A300D28EFB /* OsiriX Headers.framework */,
+				597F141311A40C0F003E22B1 /* OsiriX Headers.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
@@ -322,8 +322,7 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -339,17 +338,8 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_8)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_9)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_10)",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../nitrogen/build/Release\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_10 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../nitrogen/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/../../osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_5 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_6 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_7 = "\"$(SRCROOT)/../_externals/nitrogen/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_8 = "\"$(SRCROOT)/../_externals/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_9 = "\"$(SRCROOT)/../../osirix/nitrogen/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -394,7 +384,7 @@
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Development;
 		};

@@ -18,6 +18,8 @@
 #import <OsiriX Headers/N2View.h>
 #import <OsiriX Headers/N2MinMax.h>
 #import <OsiriX Headers/N2Window.h>
+#import <OsiriX Headers/NSWindow+N2.h>
+#import <OsiriX Headers/N2ImageView.h>
 #import <OsiriX Headers/NSImageView+N2.h>
 #import <OsiriX Headers/N2Operators.h>
 #import <OsiriX Headers/ROI.h>
