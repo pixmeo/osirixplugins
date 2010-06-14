@@ -22,7 +22,7 @@
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingTasksManager.h"
 #import "DiscPublishingOptions.h"
-#import "NSAppleEventDescriptor+N2.h"
+#import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
 
 //#include "NSThread+N2.h"
 

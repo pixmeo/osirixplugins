@@ -13,7 +13,7 @@
 #import "DiscPublisher+Constants.h"
 #import "ThreadsManager.h"
 #import <OsiriX Headers/NSFileManager+N2.h>
-#import "DicomCompressor.h"
+#import <OsiriX Headers/DicomCompressor.h>
 #import <OsiriX Headers/QTExportHTMLSummary.h>
 #import <OsiriX Headers/DicomSeries.h>
 #import <OsiriX Headers/DicomStudy.h>
@@ -26,7 +26,7 @@
 #import "DiscPublishing.h"
 #import "DiscPublishingJob+Info.h"
 #import "DiscPublishingTasksManager.h"
-#import "NSThread+N2.h"
+#import <OsiriX Headers/NSThread+N2.h>
 
 
 @implementation DiscPublishingPatientDisc

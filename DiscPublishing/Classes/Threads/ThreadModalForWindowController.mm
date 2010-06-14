@@ -8,7 +8,7 @@
 
 #import "ThreadModalForWindowController.h"
 #import "ThreadsManager.h"
-#import "NSThread+N2.h"
+#import <OsiriX Headers/NSThread+N2.h>
 
 
 @implementation ThreadModalForWindowController

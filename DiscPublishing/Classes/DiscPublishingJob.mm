@@ -8,7 +8,7 @@
 
 #import "DiscPublishingJob.h"
 //#import "DiscPublishingOptions.h"
-#import "CSV.h"
+#import <OsiriX Headers/N2CSV.h>
 #import <OsiriX Headers/NSFileManager+N2.h>
 #import "DiscPublishingJob+Info.h"
 
@@ -61,7 +61,7 @@
 	
 	// the merging of the template and csv is buggy in the framework, we do this ourselves
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];
-	[[CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+	[[N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	self.printFile = [self.root stringByAppendingPathExtension:@"jpg"];
 	[DiscPublishingJob renderDiscCover:templatePath merge:csvFile into:self.printFile];
 	[[NSFileManager defaultManager] removeItemAtPath:csvFile error:NULL];

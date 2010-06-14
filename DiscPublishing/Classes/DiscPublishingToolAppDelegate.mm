@@ -10,7 +10,7 @@
 #import "DiscPublisher.h"
 #import "DiscPublisherStatus.h"
 #import "DiscPublishingTool+DistributedNotifications.h"
-#import "NSThread+N2.h"
+#import <OsiriX Headers/NSThread+N2.h>
 
 
 int main(int argc, const char* argv[]) {

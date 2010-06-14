@@ -10,8 +10,8 @@
 #import "DiscPublisherStatus.h"
 #import "DiscPublisher+Constants.h"
 #import <OsiriX Headers/NSFileManager+N2.h>
-#import "NSXMLNode+DiscPublisher.h"
-#import "NSString+DiscPublisher.h"
+#import <OsiriX Headers/NSXMLNode+N2.h>
+#import <OsiriX Headers/NSString+N2.h>
 
 
 @implementation DiscPublisherJob

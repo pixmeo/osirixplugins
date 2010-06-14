@@ -16,7 +16,7 @@
 #import <OsiriX Headers/DicomStudy.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
-#import "NSThread+N2.h"
+#import <OsiriX Headers/NSThread+N2.h>
 
 
 @interface DiscPublishingFilesManager (Private)

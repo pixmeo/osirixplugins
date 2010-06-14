@@ -9,7 +9,7 @@
 #import "DiscPublishingPreferencesController.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import <OsiriX Headers/NSUserDefaultsController+N2.h>
-#import "DiscBurningOptions.h"
+#import <OsiriX Headers/DiscBurningOptions.h>
 #import "DiscPublishing.h"
 #import <OsiriX Headers/N2Operators.h>
 #import <OsiriX Headers/NSUserDefaultsController+OsiriX.h>

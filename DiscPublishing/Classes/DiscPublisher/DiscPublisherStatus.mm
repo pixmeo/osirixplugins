@@ -8,7 +8,7 @@
 
 #import "DiscPublisherStatus.h"
 #import "DiscPublisher+Constants.h"
-#import "NSXMLNode+DiscPublisher.h"
+#import <OsiriX Headers/NSXMLNode+N2.h>
 #import <JobManager/PTJobManager.h>
 
 

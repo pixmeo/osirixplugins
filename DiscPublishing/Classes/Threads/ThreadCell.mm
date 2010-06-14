@@ -10,8 +10,8 @@
 #import "ThreadsManager.h"
 #import "ThreadsWindowController.h"
 #import <OsiriX Headers/N2HighlightImageButtonCell.h>
-#import "NSString+DiscPublisher.h"
-#import "NSThread+N2.h"
+#import <OsiriX Headers/NSString+N2.h>
+#import <OsiriX Headers/NSThread+N2.h>
 
 
 @implementation ThreadCell

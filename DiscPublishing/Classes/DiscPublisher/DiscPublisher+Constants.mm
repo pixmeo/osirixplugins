@@ -7,7 +7,7 @@
 //
 
 #include "DiscPublisher+Constants.h"
-#include "NSString+DiscPublisher.h"
+#include <OsiriX Headers/NSString+N2.h>
 
 
 @implementation DiscPublisher (Constants)
