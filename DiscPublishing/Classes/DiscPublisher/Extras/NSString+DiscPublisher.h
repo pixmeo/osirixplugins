@@ -11,7 +11,5 @@
 
 @interface NSString (DiscPublisher)
 
--(NSString*)stringByPrefixingLinesWithString:(NSString*)prefix;
--(NSString*)suspendedString;
 
 @end

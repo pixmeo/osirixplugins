@@ -117,7 +117,9 @@
 		[NSThread sleepForTimeInterval:0.001];
 	@try {
 		
-		[_files addObjectsFromArray:addedImages];
+		for (DicomImage* image in addedImages)
+			if (![_files containsObject:image])
+				[_files addObject:image];
 		
 		NSDate* time = [NSDate date];
 		self.lastReceiveTime = time;
