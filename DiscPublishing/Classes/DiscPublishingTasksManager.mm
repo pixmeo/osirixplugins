@@ -7,7 +7,7 @@
 //
 
 #import "DiscPublishingTasksManager.h"
-#import "ThreadsManager.h"
+#import <OsiriX Headers/ThreadsManager.h>
 #import <OsiriX Headers/NSThread+N2.h>
 #import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
 #import <OpenScripting/OpenScripting.h>

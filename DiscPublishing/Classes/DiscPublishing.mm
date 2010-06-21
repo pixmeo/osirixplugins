@@ -6,9 +6,9 @@
 //
 
 #import "DiscPublishing.h"
-#import "ThreadsWindowController.h"
+#import <OsiriX Headers/ActivityWindowController.h>
 #import "DiscPublishingFilesManager.h"
-#import "ThreadsManager.h"
+#import <OsiriX Headers/ThreadsManager.h>
 #import "DiscPublisher.h"
 #import <OsiriX Headers/NSFileManager+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
@@ -67,7 +67,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 	
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"DiscPublishingPreferences" inBundle:bundle withTitle:NSLocalizedString(@"Disc Publishing", NULL) image:[[[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"Icon" ofType:@"png"]] autorelease]]; // TODO: icon
 	
-	[[ThreadsWindowController defaultController] window];
+	[[ActivityWindowController defaultController] window];
 	
 //	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
 	[self toolSetQuitWhenDone:NO];

@@ -11,7 +11,7 @@
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
-#import "ThreadsManager.h"
+#import <OsiriX Headers/ThreadsManager.h>
 #import <OsiriX Headers/NSFileManager+N2.h>
 #import <OsiriX Headers/DicomCompressor.h>
 #import <OsiriX Headers/QTExportHTMLSummary.h>

@@ -9,7 +9,7 @@
 #import "DiscPublishingFilesManager.h"
 #import "NSString+DiscPublishing.h"
 #import <OsiriX Headers/Notifications.h>
-#import "ThreadsManager.h"
+#import <OsiriX Headers/ThreadsManager.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "NSArray+DiscPublishing.h"
 #import <OsiriX Headers/DicomImage.h>
@@ -180,10 +180,12 @@
 		if ([[file valueForKeyPath:@"series.study.patientUID"] isEqual:patientUID])
 			[files addObject:file];
 	[_files removeObjectsInArray:files];
-	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	[self.patientsLastReceiveTimes removeObjectForKey:patientUID];
+
+	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	
-	[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+	if (files.count)
+		[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
 	
 	[files release];
 }

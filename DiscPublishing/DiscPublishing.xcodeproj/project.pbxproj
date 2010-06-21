@@ -27,14 +27,6 @@
 		5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
 		5900F91211916356001E899B /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
 		5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F97711917BBD001E899B /* NSApplication+Scripting.mm */; };
-		5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 5912041F1137C735002D9163 /* ThreadModalForWindowController.h */; };
-		591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204201137C735002D9163 /* ThreadModalForWindowController.mm */; };
-		591204311137C735002D9163 /* ThreadsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204211137C735002D9163 /* ThreadsManager.h */; };
-		591204321137C735002D9163 /* ThreadsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 591204221137C735002D9163 /* ThreadsManager.mm */; };
-		591204391137C735002D9163 /* ThreadsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 591204291137C735002D9163 /* ThreadsWindowController.h */; };
-		5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912042A1137C735002D9163 /* ThreadsWindowController.mm */; };
-		591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204841137C836002D9163 /* ThreadModalForWindow.xib */; };
-		591204891137C836002D9163 /* ThreadsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 591204861137C836002D9163 /* ThreadsWindow.xib */; };
 		5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5920D20A1199A80F003BCC5E /* DiscPublishingTasksManager.h */; };
 		5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */; };
 		593C460F11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */; };
@@ -63,8 +55,6 @@
 		59C7EFC511930C8400FCE244 /* Nitrogen.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */; };
 		59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */; };
 		59C7F02011930E6E00FCE244 /* DiscPublishingTool.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */; };
-		59C7F16E1194537900FCE244 /* ThreadCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 59C7F16C1194537900FCE244 /* ThreadCell.h */; };
-		59C7F16F1194537900FCE244 /* ThreadCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59C7F16D1194537900FCE244 /* ThreadCell.mm */; };
 		59DC28BA11C613E000DAD5B4 /* NSString+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 59DC28B811C613E000DAD5B4 /* NSString+DiscPublishing.h */; };
 		59DC28BB11C613E000DAD5B4 /* NSString+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59DC28B911C613E000DAD5B4 /* NSString+DiscPublishing.mm */; };
 		59DEC7B411995E7800E0343A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59DEC7B311995E7800E0343A /* Carbon.framework */; };
@@ -146,12 +136,6 @@
 		5900F97611917BBD001E899B /* NSApplication+Scripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSApplication+Scripting.h"; path = "Classes/Tool/NSApplication+Scripting.h"; sourceTree = "<group>"; };
 		5900F97711917BBD001E899B /* NSApplication+Scripting.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSApplication+Scripting.mm"; path = "Classes/Tool/NSApplication+Scripting.mm"; sourceTree = "<group>"; };
 		591202BA1137BEC7002D9163 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
-		5912041F1137C735002D9163 /* ThreadModalForWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadModalForWindowController.h; sourceTree = "<group>"; };
-		591204201137C735002D9163 /* ThreadModalForWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadModalForWindowController.mm; sourceTree = "<group>"; };
-		591204211137C735002D9163 /* ThreadsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsManager.h; sourceTree = "<group>"; };
-		591204221137C735002D9163 /* ThreadsManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsManager.mm; sourceTree = "<group>"; };
-		591204291137C735002D9163 /* ThreadsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadsWindowController.h; sourceTree = "<group>"; };
-		5912042A1137C735002D9163 /* ThreadsWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadsWindowController.mm; sourceTree = "<group>"; };
 		5912043C1137C739002D9163 /* DiscPublisher+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscPublisher+Constants.h"; sourceTree = "<group>"; };
 		5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "DiscPublisher+Constants.mm"; sourceTree = "<group>"; };
 		5912043E1137C739002D9163 /* DiscPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisher.h; sourceTree = "<group>"; };
@@ -162,8 +146,6 @@
 		591204431137C739002D9163 /* DiscPublisherRobot.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherRobot.mm; sourceTree = "<group>"; };
 		591204441137C739002D9163 /* DiscPublisherStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscPublisherStatus.h; sourceTree = "<group>"; };
 		591204451137C739002D9163 /* DiscPublisherStatus.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DiscPublisherStatus.mm; sourceTree = "<group>"; };
-		591204851137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadModalForWindow.xib; sourceTree = "<group>"; };
-		591204871137C836002D9163 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/ThreadsWindow.xib; sourceTree = "<group>"; };
 		5920D20A1199A80F003BCC5E /* DiscPublishingTasksManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingTasksManager.h; path = Classes/DiscPublishingTasksManager.h; sourceTree = "<group>"; };
 		5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingTasksManager.mm; path = Classes/DiscPublishingTasksManager.mm; sourceTree = "<group>"; };
 		593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingTool+DistributedNotifications.h"; path = "Classes/DiscPublishingTool+DistributedNotifications.h"; sourceTree = "<group>"; };
@@ -192,8 +174,6 @@
 		59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nitrogen.xcodeproj; path = ../../osirix/osirix/nitrogen/Nitrogen.xcodeproj; sourceTree = SOURCE_ROOT; };
 		59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = DiscPublishingTool.scpt; path = Resources/AppleScript/DiscPublishingTool.scpt; sourceTree = "<group>"; };
 		59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.sdef; name = DiscPublishingTool.sdef; path = Resources/AppleScript/DiscPublishingTool.sdef; sourceTree = "<group>"; };
-		59C7F16C1194537900FCE244 /* ThreadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadCell.h; sourceTree = "<group>"; };
-		59C7F16D1194537900FCE244 /* ThreadCell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ThreadCell.mm; sourceTree = "<group>"; };
 		59DC28B811C613E000DAD5B4 /* NSString+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DiscPublishing.h"; path = "Classes/Extras/NSString+DiscPublishing.h"; sourceTree = "<group>"; };
 		59DC28B911C613E000DAD5B4 /* NSString+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSString+DiscPublishing.mm"; path = "Classes/Extras/NSString+DiscPublishing.mm"; sourceTree = "<group>"; };
 		59DEC7B311995E7800E0343A /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -290,8 +270,6 @@
 				5973465C1185F2FD00DA86F3 /* Icon.png */,
 				59C7F00B11930E4E00FCE244 /* DiscPublishingTool.scpt */,
 				59E37E70117466F700E84FE3 /* Standard.dcover */,
-				591204841137C836002D9163 /* ThreadModalForWindow.xib */,
-				591204861137C836002D9163 /* ThreadsWindow.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -310,7 +288,6 @@
 				59BDEF68117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h */,
 				59BDEF69117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm */,
 				594B522B1138254300E786F5 /* Extras */,
-				5912041A1137C735002D9163 /* Threads */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -332,22 +309,6 @@
 				59C7F01F11930E6E00FCE244 /* DiscPublishingTool.sdef */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		5912041A1137C735002D9163 /* Threads */ = {
-			isa = PBXGroup;
-			children = (
-				591204211137C735002D9163 /* ThreadsManager.h */,
-				591204221137C735002D9163 /* ThreadsManager.mm */,
-				591204291137C735002D9163 /* ThreadsWindowController.h */,
-				5912042A1137C735002D9163 /* ThreadsWindowController.mm */,
-				59C7F16C1194537900FCE244 /* ThreadCell.h */,
-				59C7F16D1194537900FCE244 /* ThreadCell.mm */,
-				5912041F1137C735002D9163 /* ThreadModalForWindowController.h */,
-				591204201137C735002D9163 /* ThreadModalForWindowController.mm */,
-			);
-			name = Threads;
-			path = Classes/Threads;
 			sourceTree = "<group>";
 		};
 		5912043B1137C739002D9163 /* DiscPublisher */ = {
@@ -480,9 +441,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */,
-				5912042F1137C735002D9163 /* ThreadModalForWindowController.h in Headers */,
-				591204311137C735002D9163 /* ThreadsManager.h in Headers */,
-				591204391137C735002D9163 /* ThreadsWindowController.h in Headers */,
 				5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */,
 				59710242113FEA0E00875159 /* DiscPublishingFilesManager.h in Headers */,
 				5971024A113FEA1400875159 /* DiscPublishingPatientDisc.h in Headers */,
@@ -491,7 +449,6 @@
 				59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */,
 				59BDEF6A117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h in Headers */,
 				5900F7D11190701F001E899B /* DiscPublishingJob+Info.h in Headers */,
-				59C7F16E1194537900FCE244 /* ThreadCell.h in Headers */,
 				593C460F11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h in Headers */,
 				5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */,
 				59DC28BA11C613E000DAD5B4 /* NSString+DiscPublishing.h in Headers */,
@@ -628,8 +585,6 @@
 				59C7F01011930E5B00FCE244 /* DiscPublishingTool.scpt in Resources */,
 				59C7EA471191D06C00FCE244 /* DiscPublishingTool.app in Resources */,
 				59BDFC271185C496007F1F2C /* DiscPublishingPreferences.prefPane in Resources */,
-				591204881137C836002D9163 /* ThreadModalForWindow.xib in Resources */,
-				591204891137C836002D9163 /* ThreadsWindow.xib in Resources */,
 				59E37E73117466F700E84FE3 /* Standard.dcover in Resources */,
 				5973465D1185F2FD00DA86F3 /* Icon.png in Resources */,
 			);
@@ -693,9 +648,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				591204301137C735002D9163 /* ThreadModalForWindowController.mm in Sources */,
-				591204321137C735002D9163 /* ThreadsManager.mm in Sources */,
-				5912043A1137C735002D9163 /* ThreadsWindowController.mm in Sources */,
 				59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */,
 				59710243113FEA0E00875159 /* DiscPublishingFilesManager.mm in Sources */,
 				5971024B113FEA1400875159 /* DiscPublishingPatientDisc.mm in Sources */,
@@ -703,7 +655,6 @@
 				59E37D3A117457D900E84FE3 /* DiscPublishing.mm in Sources */,
 				59BDEF6B117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm in Sources */,
 				5900F7D21190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
-				59C7F16F1194537900FCE244 /* ThreadCell.mm in Sources */,
 				593C461011980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
 				5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */,
 				59DC28BB11C613E000DAD5B4 /* NSString+DiscPublishing.mm in Sources */,
@@ -731,22 +682,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		591204841137C836002D9163 /* ThreadModalForWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				591204851137C836002D9163 /* English */,
-			);
-			name = ThreadModalForWindow.xib;
-			sourceTree = "<group>";
-		};
-		591204861137C836002D9163 /* ThreadsWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				591204871137C836002D9163 /* English */,
-			);
-			name = ThreadsWindow.xib;
-			sourceTree = "<group>";
-		};
 		59BDFBBE1185BB75007F1F2C /* DiscPublishingPreferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
