@@ -12,6 +12,8 @@
 
 - (void) initPlugin
 {
+	// The following line creates a preference pane for the plugin in the preferences of OsiriX
+	// it adds the HelloWorldPreferences.xib as the pref pane
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"HelloWorldPreferences" inBundle:[NSBundle bundleForClass:[self class]] withTitle:@"Hello World" image:[NSImage imageNamed:@"NSUser"]];
 }
 
