@@ -6,20 +6,25 @@
 //
 
 #import "HelloWorldFilter.h"
+#import <OsiriX Headers/PreferencesWindowController.h>
 
 @implementation HelloWorldFilter
 
 - (void) initPlugin
 {
+	[PreferencesWindowController addPluginPaneWithResourceNamed:@"HelloWorldPreferences" inBundle:[NSBundle bundleForClass:[self class]] withTitle:@"Hello World" image:[NSImage imageNamed:@"NSUser"]];
 }
 
 - (long) filterImage:(NSString*) menuName
 {
+	NSString* message = [[NSUserDefaults standardUserDefaults] stringForKey:@"HelloWorld_Message"];
+	if (!message) message = @"Define this message in the Hello World plugin's preferences";
+	
 	NSAlert *myAlert = [NSAlert alertWithMessageText:@"Hello World!"
 									   defaultButton:@"Hello"
 									 alternateButton:nil
 										 otherButton:nil
-						   informativeTextWithFormat:@":-)"];
+						   informativeTextWithFormat:@"%@", message];
 	
 	[myAlert runModal];
 

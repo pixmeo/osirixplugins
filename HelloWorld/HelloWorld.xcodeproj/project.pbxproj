@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		592685BF11D2053D00CFA81F /* HelloWorldPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 592685BE11D2053D00CFA81F /* HelloWorldPreferences.xib */; };
+		592685C311D2056D00CFA81F /* HelloWorldPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592685C211D2056D00CFA81F /* HelloWorldPreferencesController.m */; };
+		592685DF11D2089100CFA81F /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 592685DE11D2089100CFA81F /* PreferencePanes.framework */; };
+		5926860711D2098C00CFA81F /* HelloWorldPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 592685B011D204D100CFA81F /* HelloWorldPreferences.prefPane */; };
 		8D5B49AE048680CD000E48DA /* HelloWorld_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -15,12 +19,28 @@
 		ABA48A670680BB690089EB4F /* HelloWorldFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* HelloWorldFilter.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		592685B611D204DC00CFA81F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 592685AF11D204D100CFA81F /* HelloWorldPreferences */;
+			remoteInfo = HelloWorldPreferences;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorld_Prefix.pch; sourceTree = "<group>"; };
+		592685B011D204D100CFA81F /* HelloWorldPreferences.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelloWorldPreferences.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		592685B111D204D100CFA81F /* HelloWorldPreferences-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HelloWorldPreferences-Info.plist"; sourceTree = "<group>"; };
+		592685BE11D2053D00CFA81F /* HelloWorldPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HelloWorldPreferences.xib; sourceTree = "<group>"; };
+		592685C111D2056D00CFA81F /* HelloWorldPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorldPreferencesController.h; sourceTree = "<group>"; };
+		592685C211D2056D00CFA81F /* HelloWorldPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelloWorldPreferencesController.m; sourceTree = "<group>"; };
+		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		AB5D36050680E57E00F4007A /* HelloWorld.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelloWorld.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -29,6 +49,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		592685AE11D204D100CFA81F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				592685DF11D2089100CFA81F /* PreferencePanes.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B3048680CD000E48DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,6 +93,8 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				592685B111D204D100CFA81F /* HelloWorldPreferences-Info.plist */,
+				592685BE11D2053D00CFA81F /* HelloWorldPreferences.xib */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -74,6 +104,7 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				592685BC11D2051900CFA81F /* HelloWorldPreferences */,
 				AB2C26750677B0C400A08910 /* HelloWorldFilter */,
 			);
 			name = Classes;
@@ -91,6 +122,7 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				592685DE11D2089100CFA81F /* PreferencePanes.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 			);
@@ -101,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5D36050680E57E00F4007A /* HelloWorld.osirixplugin */,
+				592685B011D204D100CFA81F /* HelloWorldPreferences.prefPane */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -111,6 +144,15 @@
 				32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		592685BC11D2051900CFA81F /* HelloWorldPreferences */ = {
+			isa = PBXGroup;
+			children = (
+				592685C111D2056D00CFA81F /* HelloWorldPreferencesController.h */,
+				592685C211D2056D00CFA81F /* HelloWorldPreferencesController.m */,
+			);
+			name = HelloWorldPreferences;
 			sourceTree = "<group>";
 		};
 		AB2C26750677B0C400A08910 /* HelloWorldFilter */ = {
@@ -137,6 +179,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		592685AF11D204D100CFA81F /* HelloWorldPreferences */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 592685B511D204D100CFA81F /* Build configuration list for PBXNativeTarget "HelloWorldPreferences" */;
+			buildPhases = (
+				592685AC11D204D100CFA81F /* Resources */,
+				592685AD11D204D100CFA81F /* Sources */,
+				592685AE11D204D100CFA81F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HelloWorldPreferences;
+			productName = HelloWorldPreferences;
+			productReference = 592685B011D204D100CFA81F /* HelloWorldPreferences.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
 		8D5B49AC048680CD000E48DA /* HelloWorld */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "HelloWorld" */;
@@ -150,6 +209,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				592685B711D204DC00CFA81F /* PBXTargetDependency */,
 			);
 			name = HelloWorld;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -170,15 +230,25 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* HelloWorld */,
+				592685AF11D204D100CFA81F /* HelloWorldPreferences */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		592685AC11D204D100CFA81F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				592685BF11D2053D00CFA81F /* HelloWorldPreferences.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49AF048680CD000E48DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5926860711D2098C00CFA81F /* HelloWorldPreferences.prefPane in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,6 +266,14 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		592685AD11D204D100CFA81F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				592685C311D2056D00CFA81F /* HelloWorldPreferencesController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,6 +283,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		592685B711D204DC00CFA81F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 592685AF11D204D100CFA81F /* HelloWorldPreferences */;
+			targetProxy = 592685B611D204DC00CFA81F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
@@ -218,6 +304,78 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		592685B211D204D100CFA81F /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "HelloWorldPreferences-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = HelloWorldPreferences;
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Development;
+		};
+		592685B311D204D100CFA81F /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "HelloWorldPreferences-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = HelloWorldPreferences;
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		592685B411D204D100CFA81F /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "HelloWorldPreferences-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = HelloWorldPreferences;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Default;
+		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -374,6 +532,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		592685B511D204D100CFA81F /* Build configuration list for PBXNativeTarget "HelloWorldPreferences" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				592685B211D204D100CFA81F /* Development */,
+				592685B311D204D100CFA81F /* Deployment */,
+				592685B411D204D100CFA81F /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "HelloWorld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
