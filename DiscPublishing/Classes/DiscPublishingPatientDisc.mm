@@ -248,6 +248,8 @@
 					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]) // forst OR is bigger than the one we picked earlier
 						pickedMediaKey = key;
 			
+//			NSLog(@"media type will be: %@", pickedMediaKey);
+			
 			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]];
 			[seriesSizes removeObjectsForKeys:discSeriesValues];
 			NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];

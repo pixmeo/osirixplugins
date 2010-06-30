@@ -145,7 +145,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 	} else
 	if (bins.count == 2) {
 		NSUserDefaultsController* defaultsC = [NSUserDefaultsController sharedUserDefaultsController];
-		[DiscPublishing SetBinSelection:YES leftBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:0] rightBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:1] defaultBin:LOCATION_REJECT];
+		[DiscPublishing SetBinSelection:YES leftBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:1] rightBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:0] defaultBin:LOCATION_REJECT];
 	} else {
 		NSLog(@"Warning: we didn't expect having to handle more than 2 bins...");
 	}
