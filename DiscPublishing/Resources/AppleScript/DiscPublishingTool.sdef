@@ -21,6 +21,12 @@
 			<responds-to command="SetQuitWhenDone">
                 <cocoa method="SetQuitWhenDone:" />
             </responds-to>
+			<responds-to command="GetStatusXML">
+                <cocoa method="GetStatusXML:" />
+            </responds-to>
+			<responds-to command="SetBinSelection">
+                <cocoa method="SetBinSelection:" />
+            </responds-to>
 		</class>
 		
 		<command name="PublishDisc" code="DiPTBurn" description="Start a disc publishing task.">
@@ -46,6 +52,23 @@
 		<command name="SetQuitWhenDone" code="DiPTSetQ" description="Tell wether the tool should quit once it has finished burning the queued discs. This quits the tool if no tasks are queued or in progress.">
 			<direct-parameter type="integer" optional="no" description="Wether or not to quit when tasks are finished." />
 		</command>
+		
+		<command name="GetStatusXML" code="DiPTGetS" description="Get status xml">
+            <result type="text" description="The xml" />
+		</command>
+		
+		<command name="SetBinSelection" code="DiPTSeBS" description="Set bin selection">
+			<direct-parameter type="integer" optional="no" description="Enable or disable." />
+			<parameter name="leftBinMediaType" type="integer" optional="no" code="left" description="Left bin media type.">
+				<cocoa key="leftBinMediaType" />
+			</parameter>
+			<parameter name="rightBinMediaType" type="integer" optional="no" code="rigt" description="Right bin media type.">
+				<cocoa key="rightBinMediaType" />
+			</parameter>
+			<parameter name="defaultBin" type="integer" optional="no" code="dflt" description="Default bin.">
+				<cocoa key="defaultBin" />
+			</parameter>
+        </command>
 
 	</suite>
 

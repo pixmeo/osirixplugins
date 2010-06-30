@@ -7,10 +7,9 @@
 //
 
 #import "DiscPublishingTasksManager.h"
+#import "DiscPublishing+Tool.h"
 #import <OsiriX Headers/ThreadsManager.h>
 #import <OsiriX Headers/NSThread+N2.h>
-#import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
-#import <OpenScripting/OpenScripting.h>
 #import "DiscPublishingJob+Info.h"
 #import "DiscPublishingTool+DistributedNotifications.h"
 
@@ -32,33 +31,12 @@
 	return defaultManager;
 }
 
--(NSArray*)toolListTasks {
-	NSDictionary* errors = [NSDictionary dictionary];
-	
-	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
-	if (!appleScript)
-		[NSException raise:NSGenericException format:[errors description]];
-	
-	ProcessSerialNumber psn = {0, kCurrentProcess};
-	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
-	
-	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"ListTasks" lowercaseString]] forKeyword:keyASSubroutineName];
-	
-	NSAppleEventDescriptor* result = [appleScript executeAppleEvent:event error:&errors];
-	if (!result)
-		[NSException raise:NSGenericException format:errors.description];
-	
-	return [result object];
-}
-
 -(id)initWithThreadsManager:(ThreadsManager*)threadsManager {
 	self = [super init];
 	
 	_threadsManager = [threadsManager retain];
 	
-	for (NSString* threadId in [self toolListTasks]) {
+	for (NSString* threadId in [DiscPublishing ListTasks]) {
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 		NSThread* thread = [[ToolThread alloc] init];
 		thread.name = [NSString stringWithFormat:@"Disc Publishing Tool thread %@", threadId];
@@ -76,30 +54,7 @@
 }
 
 -(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
-	NSDictionary* errors = [NSDictionary dictionary];
-	
-	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
-	if (!appleScript)
-		[NSException raise:NSGenericException format:[errors description]];
-	
-	ProcessSerialNumber psn = {0, kCurrentProcess};
-	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
-	
-	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"PublishDisc" lowercaseString]] forKeyword:keyASSubroutineName];
-	
-	NSAppleEventDescriptor* params = [NSAppleEventDescriptor listDescriptor];
-	[params insertDescriptor:[[info objectForKey:DiscPublishingJobInfoDiscNameKey] appleEventDescriptor] atIndex:1];
-	[params insertDescriptor:[discRootDirPath appleEventDescriptor] atIndex:2];
-	[params insertDescriptor:[info appleEventDescriptor] atIndex:3];
-	[event setParamDescriptor:params forKeyword:keyDirectObject];
-	
-	NSAppleEventDescriptor* result = [appleScript executeAppleEvent:event error:&errors];
-	if (!result)
-		[NSException raise:NSGenericException format:errors.description];
-	
-	NSString* threadId = [result object];
+	NSString* threadId = [DiscPublishing PublishDisc:[info objectForKey:DiscPublishingJobInfoDiscNameKey] root:discRootDirPath info:info];
 	[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 	
 	// a dummy thread that displays info about the Tool thread that handles this burn
@@ -108,8 +63,6 @@
 	thread.uniqueId = threadId;
 	[_threadsManager addThread:thread];
 	[thread start];
-	
-	[appleScript release];
 }
 
 -(ToolThread*)threadWithId:(NSString*)threadId {
@@ -171,28 +124,7 @@ NSString* const NSThreadIsToolCancelledKey = @"isToolCancelled";
 }
 
 -(NSDictionary*)info {
-	NSDictionary* errors = [NSDictionary dictionary];
-	
-	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
-	if (!appleScript)
-		[NSException raise:NSGenericException format:[errors description]];
-	
-	ProcessSerialNumber psn = {0, kCurrentProcess};
-	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
-	
-	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"GetTaskInfo" lowercaseString]] forKeyword:keyASSubroutineName];
-	
-	NSAppleEventDescriptor* params = [NSAppleEventDescriptor listDescriptor];
-	[params insertDescriptor:[self.uniqueId appleEventDescriptor] atIndex:1];
-	[event setParamDescriptor:params forKeyword:keyDirectObject];
-	
-	NSAppleEventDescriptor* result = [appleScript executeAppleEvent:event error:&errors];
-	if (!result)
-		[NSException raise:NSGenericException format:errors.description];
-	
-	return [result object];
+	return [DiscPublishing GetTaskInfo:self.uniqueId];
 }
 
 -(void)main {

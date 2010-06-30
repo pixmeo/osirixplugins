@@ -12,6 +12,9 @@
 
 @interface DiscPublishing : PluginFilter {
 	DiscPublishingFilesManager* _filesManager;
+	NSTimer* robotReadyTimer;
+	BOOL robotIsReady;
+	
 }
 
 +(DiscPublishing*)instance;

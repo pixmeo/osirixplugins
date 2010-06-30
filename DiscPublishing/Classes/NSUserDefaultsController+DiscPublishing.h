@@ -18,10 +18,12 @@ enum BurnMode {
 
 @interface NSUserDefaultsController (DiscPublishing)
 
+extern const NSString* const DiscPublishingActiveFlagDefaultsKey;
+
 extern const NSString* const DiscPublishingBurnModeDefaultsKey;
-extern const NSString* const DiscPublishingBurnMediaTypeDefaultsKey;
-extern const NSString* const DiscPublishingBurnMediaCapacityDefaultsKey;
-extern const NSString* const DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey;
+//extern const NSString* const DiscPublishingBurnMediaTypeDefaultsKey;
+//extern const NSString* const DiscPublishingBurnMediaCapacityDefaultsKey;
+//extern const NSString* const DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey;
 
 extern const NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey;
@@ -46,16 +48,23 @@ extern const NSString* const DiscPublishingArchivingModeCompressJPEGNotJPEG2000D
 extern const NSString* const DiscPublishingArchivingModeZipEncryptFlagDefaultsKey;
 extern const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey;
 
+extern const NSString* const DiscPublishingMediaTypeTagSuffix;
++(NSString*)discPublishingMediaTypeTagBindingKeyForBin:(NSUInteger)bin;
++(NSString*)discPublishingMediaCapacityBindingKeyForBin:(NSUInteger)bin;
++(NSString*)discPublishingMediaCapacityMeasureTagBindingKeyForBin:(NSUInteger)bin;
+
 +(void)discPublishingInitialize;
 
+-(BOOL)discPublishingIsActive;
+
 -(BurnMode)discPublishingMode;
--(UInt32)discPublishingMediaType;
+//-(UInt32)discPublishingMediaType;
 -(NSUInteger)discPublishingPatientModeDelay;
 -(DiscPublishingOptions*)discPublishingPatientModeOptions;
 -(DiscPublishingOptions*)discPublishingArchivingModeOptions;
 
-+(CGFloat)discPublishingMediaCapacityBytesForMediaType:(UInt32)mediaType;
--(CGFloat)discPublishingMediaCapacityBytes;
+-(NSUInteger)discPublishingMediaTypeTagForBin:(NSUInteger)bin;
+-(NSDictionary*)discPublishingMediaCapacities;
 
 +(BOOL)discPublishingIsValidPassword:(NSString*)password;
 +(NSString*)discPublishingDefaultDiscCoverPath;

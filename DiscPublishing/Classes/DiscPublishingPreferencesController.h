@@ -12,8 +12,8 @@
 @interface DiscPublishingPreferencesController : NSPreferencePane {
 	IBOutlet NSMatrix* burnModeMatrix;
 	IBOutlet NSBox* burnModeOptionsBox;
-	IBOutlet NSTextField* mediaCapacityTextField;
-	IBOutlet NSPopUpButton* mediaCapacityMeasurePopUpButton;
+//	IBOutlet NSTextField* mediaCapacityTextField;
+//	IBOutlet NSPopUpButton* mediaCapacityMeasurePopUpButton;
 	
 	IBOutlet NSView* patientModeOptionsView;
 	IBOutlet NSView* archivingModeOptionsView;
@@ -28,6 +28,13 @@
 	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
 	
 	NSSize deltaFromPathControlBRToButtonTL;
+	
+	// RobotOptions
+	IBOutlet NSBox* robotOptionsBox;
+	NSView* unavailableRobotOptionsView;
+	IBOutlet NSTextField* unavailableRobotOptionsTextView;
+	NSTimer* robotOptionsTimer;
+	NSMutableArray* robotOptionsBins;
 }
 
 -(IBAction)showPatientModeAnonymizationOptionsSheet:(id)sender;

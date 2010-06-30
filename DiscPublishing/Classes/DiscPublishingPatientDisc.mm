@@ -219,15 +219,36 @@
 	//		NSString* discFinalDirPath = [discTmpDirPath stringByAppendingPathComponent:@"FINAL"];
 	//		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
 			
-			NSUInteger mediaCapacityBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacityBytes];
+			NSDictionary* mediaCapacitiesBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacities];
 			
 			if (_options.includeOsirixLite)
 				[DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
 			if (_options.includeAuxiliaryDir)
 				[DiscPublishingPatientDisc copyContentsOfDirectory:_options.auxiliaryDirPath toPath:discBaseDirPath];
-			mediaCapacityBytes -= [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
-				
-			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:mediaCapacityBytes];
+			
+			NSUInteger tempSizeAtDiscBaseDir = [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
+			NSMutableDictionary* mediaCapacitiesBytesTemp = [NSMutableDictionary dictionaryWithCapacity:mediaCapacitiesBytes.count];
+			for (id key in mediaCapacitiesBytes)
+				[mediaCapacitiesBytesTemp setObject:[NSNumber numberWithUnsignedInteger:[[mediaCapacitiesBytes objectForKey:key] unsignedIntValue]-tempSizeAtDiscBaseDir] forKey:key];
+			mediaCapacitiesBytes = mediaCapacitiesBytesTemp;
+			
+			// mediaCapacitiesBytes contains one or more disc capacities and seriesSizes contains the series still needing to be burnt
+			// what disc type between these in mediaCapacitiesBytes will we use?
+			NSUInteger totalSeriesSizes = 0;
+			for (id serie in seriesSizes)
+				totalSeriesSizes += [[seriesSizes objectForKey:serie] unsignedIntValue];
+			id pickedMediaKey = NULL;
+			// try pick the smallest that fits the data
+			for (id key in mediaCapacitiesBytes)
+				if ([[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] > totalSeriesSizes) // fits
+					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] < [[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]) // forst OR is smaller than the one we picked earlier
+						pickedMediaKey = key;
+			if (!pickedMediaKey) // data won't fit a single disc, pick the biggest of discs available
+				for (id key in mediaCapacitiesBytes)
+					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]) // forst OR is bigger than the one we picked earlier
+						pickedMediaKey = key;
+			
+			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]];
 			[seriesSizes removeObjectsForKeys:discSeriesValues];
 			NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];
 			for (NSValue* serieValue in discSeriesValues)
@@ -389,7 +410,7 @@
 								  safeDiscName, DiscPublishingJobInfoDiscNameKey,
 			  //				  _options, DiscPublishingJobInfoOptionsKey,
 								  _options.discCoverTemplatePath, DiscPublishingJobInfoTemplatePathKey,
-								  [NSNumber numberWithUnsignedInt:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaType]], DiscPublishingJobInfoMediaTypeKey,
+								  pickedMediaKey, DiscPublishingJobInfoMediaTypeKey,
 								  [NSArray arrayWithObjects:
 									/* 1 */	discName,
 								    /* 2 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth],
@@ -399,7 +420,6 @@
 								   NULL], DiscPublishingJobInfoMergeValuesKey,
 								  NULL];
 			[[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
-			
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
 		}

@@ -113,6 +113,9 @@
 -(void)databaseAddition:(NSNotification*)notification {
 	NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBCompleteNotificationImagesArray];
 	
+	if (![[NSUserDefaultsController sharedUserDefaultsController] discPublishingIsActive])
+		return;
+	
 	while (![_filesLock tryLock])
 		[NSThread sleepForTimeInterval:0.001];
 	@try {

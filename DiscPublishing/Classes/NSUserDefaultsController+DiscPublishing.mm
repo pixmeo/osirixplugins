@@ -14,6 +14,7 @@
 #import <JobManager/PTJobManager.h>
 #import "DiscPublishingOptions.h"
 #import "DiscPublishing.h"
+#import "DiscPublishing+Tool.h"
 #import "DicomTag.h"
 #import <OsiriX Headers/NSFileManager+N2.h>
 
@@ -24,12 +25,13 @@
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
-	if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnMediaTypeDefaultsKey)]) {
+	/*if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnMediaTypeDefaultsKey)]) {
 		CGFloat bytes = [defaults discPublishingMediaCapacityBytes];
 		NSUInteger measure = bytes<1000000000? 1000000 : 1000000000;
 		[defaults setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
 		[defaults setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
-	} else if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeAnonymizeFlagDefaultsKey)]) {
+	} else*/
+	if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeAnonymizeFlagDefaultsKey)]) {
 		if ([[defaults valueForValuesKey:keyPath] boolValue])
 			[defaults setValue:[NSNumber numberWithBool:NO] forValuesKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];	
 	}
@@ -40,10 +42,12 @@
 
 @implementation NSUserDefaultsController (DiscPublishing)
 
+const NSString* const DiscPublishingActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
+
 const NSString* const DiscPublishingBurnModeDefaultsKey = @"DiscPublishingBurnMode";
-const NSString* const DiscPublishingBurnMediaTypeDefaultsKey = @"DiscPublishingBurnMediaType";
-const NSString* const DiscPublishingBurnMediaCapacityDefaultsKey = @"DiscPublishingBurnMediaCapacity";
-const NSString* const DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey = @"DiscPublishingBurnMediaCapacityMeasureTag";
+//const NSString* const DiscPublishingBurnMediaTypeDefaultsKey = @"DiscPublishingBurnMediaType";
+//const NSString* const DiscPublishingBurnMediaCapacityDefaultsKey = @"DiscPublishingBurnMediaCapacity";
+//const NSString* const DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey = @"DiscPublishingBurnMediaCapacityMeasureTag";
 
 const NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey = @"DiscPublishingPatientModeBurnDelay";
 const NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey = @"DiscPublishingPatientModeDiscCoverTemplatePath";
@@ -96,9 +100,12 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	// merge our initial values with the existing ones
 	NSMutableDictionary* initialValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithUnsignedInt:BurnModePatient], DiscPublishingBurnModeDefaultsKey,
-		[NSNumber numberWithUnsignedInt:DISCTYPE_CD], DiscPublishingBurnMediaTypeDefaultsKey,           // this value is related to...
-		[NSNumber numberWithFloat:700], DiscPublishingBurnMediaCapacityDefaultsKey,                     // this one and...
-		[NSNumber numberWithUnsignedInt:1000000], DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey, // ...this one, together they mean "CD capacity is 700 MB" (see +mediaCapacityBytesForMediaType)
+		[NSNumber numberWithUnsignedInt:DISCTYPE_CD], [self discPublishingMediaTypeTagBindingKeyForBin:0],           // this value is related to...
+		[NSNumber numberWithFloat:700], [self discPublishingMediaCapacityBindingKeyForBin:0],							// this one and...
+		[NSNumber numberWithUnsignedInt:1000000], [self discPublishingMediaCapacityMeasureTagBindingKeyForBin:0], // ...this one, together they mean "CD capacity is 700 MB" (see +mediaCapacityBytesForMediaType)										  
+		[NSNumber numberWithUnsignedInt:DISCTYPE_DVD], [self discPublishingMediaTypeTagBindingKeyForBin:1],           // this value is related to...
+		[NSNumber numberWithFloat:4.7], [self discPublishingMediaCapacityBindingKeyForBin:1],							// this one and...
+		[NSNumber numberWithUnsignedInt:1000000000], [self discPublishingMediaCapacityMeasureTagBindingKeyForBin:1], // ...this one, together they mean "DVD capacity is 4.7 GB" (see +mediaCapacityBytesForMediaType)
 		// patient mode
 		[NSNumber numberWithUnsignedInt:60], DiscPublishingPatientModeBurnDelayDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeAnonymizeFlagDefaultsKey,
@@ -131,17 +138,21 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	[defaults setInitialValues:[NSDictionary dictionaryWithDictionary:initialValues]];
 	
 	helper = [[NSUserDefaultsControllerDiscPublishingHelper alloc] init];
-	[defaults addObserver:helper forValuesKey:DiscPublishingBurnMediaTypeDefaultsKey options:NULL context:NULL];
+//	[defaults addObserver:helper forValuesKey:DiscPublishingBurnMediaTypeDefaultsKey options:NULL context:NULL];
 	[defaults addObserver:helper forValuesKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
+}
+
+-(BOOL)discPublishingIsActive {
+	return [[self valueForValuesKey:DiscPublishingActiveFlagDefaultsKey] boolValue];
 }
 
 -(BurnMode)discPublishingMode {
 	return (BurnMode)[[self valueForValuesKey:DiscPublishingBurnModeDefaultsKey] unsignedIntValue];
 }
 
--(UInt32)discPublishingMediaType {
+/*-(UInt32)discPublishingMediaType {
 	return [[self valueForValuesKey:DiscPublishingBurnMediaTypeDefaultsKey] unsignedIntValue];
-}
+}*/
 
 -(NSUInteger)discPublishingPatientModeDelay {
 	return [[self valueForValuesKey:DiscPublishingPatientModeBurnDelayDefaultsKey] unsignedIntValue];
@@ -190,27 +201,62 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	return [options autorelease];
 }
 
-+(CGFloat)discPublishingMediaCapacityBytesForMediaType:(UInt32)mediaType {
-	switch (mediaType) {
-		case DISCTYPE_CD: return 700*1000000; // 700 MB
-		case DISCTYPE_DVD: return 4.7*1000000000; // 4.7 GB
-		case DISCTYPE_DVDDL: return 8.5*1000000000; // 8.5 GB
-		case DISCTYPE_BR: return 25*1000000000; // 25 GB
-		case DISCTYPE_BR_DL: return 50*1000000000; // 50 GB
-		default: return 0;
-	}
-}
-
--(CGFloat)discPublishingMediaCapacityBytes {
-	return [[self valueForValuesKey:DiscPublishingBurnMediaCapacityDefaultsKey] floatValue] * [[self valueForValuesKey:DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey] unsignedIntValue];
-}
-
 +(BOOL)discPublishingIsValidPassword:(NSString*)value {
 	return value.length >= 8;	
 }
 
 +(NSString*)discPublishingDefaultDiscCoverPath {
 	return [[[NSBundle bundleForClass:[DiscPublishing class]] resourcePath] stringByAppendingPathComponent:@"Standard.dcover"];
+}
+
++(NSString*)discPublishingBaseBindingKeyForBin:(NSUInteger)bin {
+	return [NSString stringWithFormat:@"DiscPublishingBin%u", (uint32)bin];
+}
+
+const NSString* const DiscPublishingMediaTypeTagSuffix = @"_MediaTypeTag";
+
++(NSString*)discPublishingMediaTypeTagBindingKeyForBin:(NSUInteger)bin {
+	return [NSString stringWithFormat:@"%@%@", [self discPublishingBaseBindingKeyForBin:bin], DiscPublishingMediaTypeTagSuffix];
+}
+
++(NSString*)discPublishingMediaCapacityBindingKeyForBin:(NSUInteger)bin {
+	return [NSString stringWithFormat:@"%@_MediaCapacity", [self discPublishingBaseBindingKeyForBin:bin]];
+}
+
++(NSString*)discPublishingMediaCapacityMeasureTagBindingKeyForBin:(NSUInteger)bin {
+	return [NSString stringWithFormat:@"%@_MediaCapacityMeasureTag", [self discPublishingBaseBindingKeyForBin:bin]];
+}
+
+-(NSUInteger)discPublishingMediaCapacityBytesForBin:(NSUInteger)bin {
+	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+	return [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaCapacityBindingKeyForBin:bin]] floatValue] * [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaCapacityMeasureTagBindingKeyForBin:bin]] unsignedIntValue];
+}
+
+-(NSUInteger)discPublishingMediaTypeTagForBin:(NSUInteger)bin {
+	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
+	return [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:bin]] unsignedIntValue];
+}
+
+-(NSDictionary*)discPublishingMediaCapacities {
+	NSXMLDocument* doc = NULL;
+	@try {
+		NSString* xml = [DiscPublishing GetStatusXML];
+		doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
+	} @catch (...) {
+		[NSException raise:NSGenericException format:NSLocalizedString(@"Unable to communicate with robot.", NULL)];
+	}
+	
+	NSMutableDictionary* dic = [NSMutableDictionary dictionary];
+	NSArray* bins = [doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL];
+//	for (NSUInteger i = 0; i < 2; ++i) {
+//#warning: this MUST be enabled when releasing
+	for (NSUInteger i = 0; i < bins.count; ++i) {
+		[dic setObject:[NSNumber numberWithUnsignedInt:[self discPublishingMediaCapacityBytesForBin:i]] forKey:[NSNumber numberWithUnsignedInt:[self discPublishingMediaTypeTagForBin:i]]];
+	}
+	
+	[doc release];
+	
+	return dic;
 }
 
 @end

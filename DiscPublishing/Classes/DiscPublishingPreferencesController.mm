@@ -7,6 +7,7 @@
 //
 
 #import "DiscPublishingPreferencesController.h"
+#import "DiscPublishingPreferencesController+RobotOptions.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import <OsiriX Headers/NSUserDefaultsController+N2.h>
 #import <OsiriX Headers/DiscBurningOptions.h>
@@ -42,25 +43,25 @@
 	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
 	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
 	
-	NSImage* warningImage = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"Warning" ofType:@"png"]] autorelease];
-	[patientModeZipPasswordWarningView setImage:warningImage];
-	[patientModeAuxiliaryDirWarningView setImage:warningImage];
-	[archivingModeZipPasswordWarningView setImage:warningImage];
-	[archivingModeAuxiliaryDirWarningView setImage:warningImage];
 	NSString* zipPasswordToolTip = NSLocalizedString(@"The password must be at least 8 characters long. If this condition is not met then the files will not be zipped.", @"Preferences password warning");
 	[patientModeZipPasswordWarningView setToolTip:zipPasswordToolTip];
 	[archivingModeZipPasswordWarningView setToolTip:zipPasswordToolTip];
 	NSString* auxDirToolTip = NSLocalizedString(@"The auxiliary directory must point to an existing directory. If the selected directory does not exist then no files are copied.", @"Preferences auxiliary directory warning");
 	[patientModeAuxiliaryDirWarningView setToolTip:auxDirToolTip];
 	[archivingModeAuxiliaryDirWarningView setToolTip:auxDirToolTip];
+	
+	[self robotOptionsInit];
 }
 
 -(void)dealloc {
+	[self robotOptionsDealloc];
 	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self];
 	[super dealloc];
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
+	NSLog(@"prefs observeValueForKeyPath:%@", keyPath);
+
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	if (obj == defaultsController) {
 		if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnModeDefaultsKey)]) {
@@ -68,13 +69,22 @@
 				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
 				case BurnModePatient: [burnModeOptionsBox setContentView:patientModeOptionsView]; break;
 			}
-			
-			[self.mainView.window.windowController synchronizeSizeWithContent];
-		} else if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)])
+			return;
+		} else
+		if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)]) {
 			[patientModeLabelTemplateEditButton setFrameOrigin:RectBR([patientModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
-		else if ([keyPath isEqual:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)])
+			return;
+		} else
+		if ([keyPath isEqual:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)]) {
 			[archivingModeLabelTemplateEditButton setFrameOrigin:RectBR([archivingModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
+			return;
+		}
 	}
+	
+	if ([self robotOptionsObserveValueForKeyPath:keyPath ofObject:obj change:change context:context])
+		return;
+	
+	[super observeValueForKeyPath:keyPath ofObject:obj change:change context:context];
 }
 
 -(IBAction)showPatientModeAnonymizationOptionsSheet:(id)sender {
@@ -234,6 +244,30 @@
 	if (!value | ![[NSFileManager defaultManager] fileExistsAtPath:value])
 		return NSLocalizedString(@"/Standard Disc Cover Template", NULL);
 	return value;
+}
+
+@end
+
+
+@interface DiscPublishingPreferencesOptionsBoxTitleForMode: NSValueTransformer
+@end
+@implementation DiscPublishingPreferencesOptionsBoxTitleForMode
+
++(Class)transformedValueClass {
+	return [NSString class];
+}
+
++(BOOL)allowsReverseTransformation {
+	return NO;
+}
+
+-(id)transformedValue:(id)value {
+	switch ([value intValue]) {
+		case BurnModeArchiving: return NSLocalizedString(@"Options for Archiving mode", NULL);
+		case BurnModePatient: return NSLocalizedString(@"Options for Patient mode", NULL);
+	}
+	
+	return NSLocalizedString(@"Options", NULL);
 }
 
 @end

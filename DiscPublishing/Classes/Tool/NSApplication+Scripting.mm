@@ -13,6 +13,7 @@
 #import "DiscPublishingToolAppDelegate.h"
 //#import "DiscPublishingOptions.h"
 #import "DiscPublisher.h"
+#import "DiscPublisherStatus.h"
 #import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
 
 
@@ -113,6 +114,33 @@
 -(void)SetQuitWhenDone:(NSScriptCommand*)command {
 	NSNumber* quit = command.directParameter;
 	[self.delegate setQuitWhenDone:quit.boolValue];
+}
+
+#pragma mark GetStatusXML
+
+-(id)GetStatusXML:(NSScriptCommand*)command {
+	DiscPublisherStatus* status = [[self.delegate discPublisher] status];
+	[status refresh];
+	NSString* xml = [[status doc] XMLString];
+	if (!xml)
+		[NSException raise:NSGenericException format:@"No status available, probably no robot connected"];
+	return xml;
+}
+
+#pragma mark SetBinSelection
+
+-(id)SetBinSelection:(NSScriptCommand*)command {
+	NSDictionary* args = command.evaluatedArguments;
+
+	JM_BinSelection jmbs;
+	jmbs.fEnabled = [command.directParameter boolValue];
+	jmbs.nLeftBinType = [[args objectForKey:@"leftBinMediaType"] unsignedIntValue];
+	jmbs.nRightBinType = [[args objectForKey:@"rightBinMediaType"] unsignedIntValue];
+	jmbs.nDefaultBin = [[args objectForKey:@"defaultBin"] unsignedIntValue];
+	
+	UInt32 err = JM_SetBinSelection(&jmbs);
+	if (err != JM_OK)
+		[NSException raise:NSGenericException format:@"JM_SetBinSelection returned %d", err];
 }
 
 @end

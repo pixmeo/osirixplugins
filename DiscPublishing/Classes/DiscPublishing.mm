@@ -6,13 +6,13 @@
 //
 
 #import "DiscPublishing.h"
+#import "DiscPublishing+Tool.h"
 #import <OsiriX Headers/ActivityWindowController.h>
 #import "DiscPublishingFilesManager.h"
 #import <OsiriX Headers/ThreadsManager.h>
-#import "DiscPublisher.h"
 #import <OsiriX Headers/NSFileManager+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
-#import "DiscPublisherStatus.h"
+#import <OsiriX Headers/NSUserDefaultsController+N2.h>
 #import <QTKit/QTKit.h>
 #import <OsiriX Headers/PreferencesWindowController.h>
 #import <OsiriX Headers/BrowserController.h>
@@ -23,6 +23,7 @@
 #import "DiscPublishingTasksManager.h"
 #import "DiscPublishingOptions.h"
 #import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
+#import <PTRobot/PTRobot.h>
 
 //#include "NSThread+N2.h"
 
@@ -31,30 +32,6 @@
 static DiscPublishing* discPublishingInstance = NULL;
 +(DiscPublishing*)instance {
 	return discPublishingInstance;
-}
-
--(void)toolSetQuitWhenDone:(BOOL)flag {
-	NSDictionary* errors = [NSDictionary dictionary];
-	
-	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.scpt"];
-	NSLog(@"scpt %@", scptPath);
-	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
-	if (!appleScript)
-		[NSException raise:NSGenericException format:[errors description]];
-	
-	ProcessSerialNumber psn = {0, kCurrentProcess};
-	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
-	
-	NSAppleEventDescriptor* event = [NSAppleEventDescriptor appleEventWithEventClass:kASAppleScriptSuite eventID:kASSubroutineEvent targetDescriptor:target returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-	[event setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:[@"SetQuitWhenDone" lowercaseString]] forKeyword:keyASSubroutineName];
-	
-	NSAppleEventDescriptor* params = [NSAppleEventDescriptor listDescriptor];
-	[params insertDescriptor:[[NSNumber numberWithInt:flag] appleEventDescriptor] atIndex:1];
-	[event setParamDescriptor:params forKeyword:keyDirectObject];
-	
-	NSAppleEventDescriptor* result = [appleScript executeAppleEvent:event error:&errors];
-	if (!result)
-		[NSException raise:NSGenericException format:errors.description];	
 }
 
 -(void)initPlugin {
@@ -70,10 +47,13 @@ static DiscPublishing* discPublishingInstance = NULL;
 	[[ActivityWindowController defaultController] window];
 	
 //	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
-	[self toolSetQuitWhenDone:NO];
+	[DiscPublishing SetQuitWhenDone:NO];
 	[DiscPublishingTasksManager defaultManager];
 	
 	_filesManager = [[DiscPublishingFilesManager alloc] init];
+	
+	robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(robotReadyTimerCallback:) userInfo:NULL repeats:YES];
+	[robotReadyTimer fire];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	
@@ -85,7 +65,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {
 	NSLog(@"observeOsirixWillTerminate");
-	[self toolSetQuitWhenDone:YES];
+	[DiscPublishing SetQuitWhenDone:YES];
 }
 
 /*-(void)bidonThread:(id)obj {
@@ -103,6 +83,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 
 -(void)dealloc {
 	NSLog(@"DiscPublishing dealloc");
+	[robotReadyTimer invalidate]; robotReadyTimer = NULL;
 	[[_filesManager invalidate] release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	[super dealloc];
@@ -148,6 +129,53 @@ static DiscPublishing* discPublishingInstance = NULL;
 +(NSString*)discCoverTemplatesDirPath {
 	NSString* path = [[self baseDirPath] stringByAppendingPathComponent:@"Disc Cover Templates"];
 	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+}
+
+-(void)updateBinSelection {
+	if (!robotIsReady)
+		return;
+	
+	NSString* xml = [DiscPublishing GetStatusXML];
+	NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
+	NSArray* bins = [doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL];
+	
+//#warning: this MUST be enabled when releasing
+	if (bins.count == 1) {
+		[DiscPublishing SetBinSelection:NO leftBinMediaType:0 rightBinMediaType:0 defaultBin:LOCATION_REJECT];
+	} else
+	if (bins.count == 2) {
+		NSUserDefaultsController* defaultsC = [NSUserDefaultsController sharedUserDefaultsController];
+		[DiscPublishing SetBinSelection:YES leftBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:0] rightBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:1] defaultBin:LOCATION_REJECT];
+	} else {
+		NSLog(@"Warning: we didn't expect having to handle more than 2 bins...");
+	}
+	
+	[doc release];
+}
+
+-(void)robotReadyTimerCallback:(NSTimer*)timer {
+	@try {
+		NSString* xml = [DiscPublishing GetStatusXML];
+		[robotReadyTimer invalidate]; robotReadyTimer = NULL;
+		// this will only happen ONCE
+		robotIsReady = YES;
+		[self updateBinSelection];
+		NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
+		[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:0] options:NULL context:NULL];
+//#warning: this MUST be enabled when releasing
+		if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
+			[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
+	} @catch (NSException* e) {
+		NSLog(@"%@", e);
+	} 
+}
+
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
+//	NSLog(@"plugin observeValueForKeyPath:%@", keyPath);
+	
+	if ([keyPath hasSuffix:DiscPublishingMediaTypeTagSuffix]) {
+		[self updateBinSelection];
+	}
 }
 
 @end
