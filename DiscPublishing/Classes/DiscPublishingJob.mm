@@ -54,10 +54,10 @@
 	self.discType = [[self.info objectForKey:DiscPublishingJobInfoMediaTypeKey] unsignedIntValue];
 	self.volumeName = [self.info objectForKey:DiscPublishingJobInfoDiscNameKey];
 
-//	self.type = JP_JOB_PRINT_ONLY; // TODO: reenable data
-	self.type = JP_JOB_DATA;
-	for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.root error:NULL])
-		[self.files addObject:[self.root stringByAppendingPathComponent:subpath]];
+	self.type = JP_JOB_PRINT_ONLY; // TODO: reenable data
+//	self.type = JP_JOB_DATA;
+//	for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.root error:NULL])
+//		[self.files addObject:[self.root stringByAppendingPathComponent:subpath]];
 	
 	// the merging of the template and csv is buggy in the framework, we do this ourselves
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];

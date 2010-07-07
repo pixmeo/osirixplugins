@@ -40,8 +40,6 @@
 
 	_tmpPath = [[[NSFileManager defaultManager] tmpFilePathInDir:@"/tmp"] retain];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:_tmpPath];
-
-	[self start];
 	
 	return self;
 }
@@ -120,10 +118,6 @@
 	return [NSString stringWithFormat:@"Archive %@", [[NSDate date] descriptionWithCalendarFormat:@"%Y%m%d-%H%M%S" timeZone:NULL locale:NULL]];
 }
 
-+(NSString*)descriptionForSeries:(NSArray*)series {
-	return @"This is the description for thecontent of this disc";
-}
-
 +(void)generateDICOMDIRAtDirectory:(NSString*)root withDICOMFilesInDirectory:(NSString*)dicomPath {
 	if ([dicomPath hasPrefix:root]) {
 		NSUInteger index = root.length;
@@ -146,12 +140,14 @@
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	[[ThreadsManager defaultManager] addThread:self];
 	
-	self.status = @"Detecting image series...";
+	self.status = @"Detecting image series and studies...";
 	NSMutableArray* series = [[NSMutableArray alloc] init];
+	NSMutableArray* studies = [[NSMutableArray alloc] init];
 	for (DicomImage* image in _files) {
-		DicomSeries* serie = [image valueForKeyPath:@"series"];
-		if (![series containsObject:serie])
-			[series addObject:serie];
+		if (![series containsObject:image.series])
+			[series addObject:image.series];
+		if (![studies containsObject:image.series.study])
+			[studies addObject:image.series.study];
 	}
 	
 	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
@@ -161,17 +157,19 @@
     [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
 	managedObjectContext.undoManager.levelsOfUndo = 1;	
 	[managedObjectContext.undoManager disableUndoRegistration];
-
+	
 	NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
+	NSUInteger processedImagesCount = 0;
 	for (DicomSeries* serie in series) {
-		self.status = [NSString stringWithFormat:@"Preparing data for series %@...", [serie valueForKeyPath:@"name"]];
-		
+		self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
+
 		NSArray* images = [self imagesBelongingToSeries:serie];
+		[self enterSubthreadWithRange:1.*processedImagesCount/_files.count:1.*images.count/_files.count];
 		images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
 		
 		if (images.count) {
-			serie = [[images objectAtIndex:0] valueForKeyPath:@"series"];
+			serie = [(DicomImage*)[images objectAtIndex:0] series];
 			NSString* tmpPath = [DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath];
 				
 			NSUInteger size;
@@ -191,17 +189,20 @@
 			} else size = [[NSFileManager defaultManager] sizeAtPath:tmpPath];
 			[seriesSizes setObject:[NSNumber numberWithUnsignedInteger:size] forKey:[NSValue valueWithPointer:serie]];
 		}
+		
+		[self exitSubthread];
+		processedImagesCount += images.count;
+	}
+	
+	NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
+	if (_options.includeReports) {
+		[[NSFileManager defaultManager] confirmDirectoryAtPath:reportsTmpPath];
+		for (DicomStudy* study in studies)
+			if (study.reportURL)
+				[[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
 	}
 	
 //	NSLog(@"paths: %@", seriesPaths);
-
-	self.status = @"Preparing report data...";
-
-	if (_options.includeReports) {
-		NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
-		[[NSFileManager defaultManager] confirmDirectoryAtPath:reportsTmpPath];
-		; // TODO: copy reports
-	}
 
 	NSUInteger discNumber = 1;
 	while (seriesSizes.count) {
@@ -225,6 +226,11 @@
 				[DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
 			if (_options.includeAuxiliaryDir)
 				[DiscPublishingPatientDisc copyContentsOfDirectory:_options.auxiliaryDirPath toPath:discBaseDirPath];
+			if (_options.includeReports) {
+				NSString* reportsDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"Reports"];
+				[privateFiles addObject:reportsDiscBaseDirPath];
+				[[NSFileManager defaultManager] copyItemAtPath:reportsTmpPath toPath:reportsDiscBaseDirPath error:NULL];
+			}
 			
 			NSUInteger tempSizeAtDiscBaseDir = [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
 			NSMutableDictionary* mediaCapacitiesBytesTemp = [NSMutableDictionary dictionaryWithCapacity:mediaCapacitiesBytes.count];
@@ -359,8 +365,8 @@
 				
 				// generate html
 				
-				for (NSString* k in htmlExportDic)
-					NSLog(@"%@ has %d images", k, [[htmlExportDic objectForKey:k] count]);
+//				for (NSString* k in htmlExportDic)
+//					NSLog(@"%@ has %d images", k, [[htmlExportDic objectForKey:k] count]);
 				
 				QTExportHTMLSummary* htmlExport = [[QTExportHTMLSummary alloc] init];
 				[htmlExport setPatientsDictionary:htmlExportDic];
@@ -435,6 +441,7 @@
 	[seriesPaths release];
 	[seriesSizes release];
 	[series release];
+	[studies release];
 
 	[managedObjectContext release];
 	[persistentStoreCoordinator release];
@@ -444,6 +451,10 @@
 }
 
 +(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths {
+	NSThread* currentThread = [NSThread currentThread];
+	NSString* baseStatus = currentThread.status;
+//	CGFloat baseProgress = currentThread.progress;
+	
 	NSString* dirPath = [[NSFileManager defaultManager] tmpFilePathInDir:basePath];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dirPath];
 	
@@ -454,27 +465,55 @@
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 	
 //	NSLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
-
+	
+	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", options.anonymize? NSLocalizedString(@"Anonymizing files...", NULL) : NSLocalizedString(@"Copying files...", NULL) ];
 	NSMutableArray* fileNames = [NSMutableArray arrayWithCapacity:imagesIn.count];
+	NSMutableArray* originalCopiedFiles = [NSMutableArray array]; // to avoid double copies (multiframe dicom)
+	[currentThread enterSubthreadWithRange:0:0.5];
 	for (NSUInteger i = 0; i < imagesIn.count; ++i) {
+		currentThread.progress = CGFloat(i)/imagesIn.count;
+		
 		DicomImage* image = [imagesIn objectAtIndex:i];
 		NSString* filePath = [image completePathResolved];
-		NSString* filename = [NSString stringWithFormat:@"%d", i];
-		NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
 		
-		if (options.anonymize)
-			[DCMObject anonymizeContentsOfFile:filePath tags:options.anonymizationTags writingToFile:toFilePath];
-		else [[NSFileManager defaultManager] copyPath:filePath toPath:toFilePath handler:NULL]; // TODO: handle copy errors
+		if (![originalCopiedFiles containsObject:filePath]) {
+			[originalCopiedFiles addObject:filePath];
 		
-		[fileNames addObject:filename];
+			if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+				NSLog(@"Warning: file unavailable at path %@", filePath);
+				continue;
+			}
+			
+			NSString* filename = [NSString stringWithFormat:@"%d", i];
+			NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
+			
+			if (options.anonymize)
+				[DCMObject anonymizeContentsOfFile:filePath tags:options.anonymizationTags writingToFile:toFilePath];
+			else [[NSFileManager defaultManager] copyPath:filePath toPath:toFilePath handler:NULL]; // TODO: handle copy errors
+			
+			[fileNames addObject:filename];
+		}
 	}
 	
-//	NSLog(@"importing %d images to context", fileNames.count);
+	currentThread.status = baseStatus;
+	[currentThread exitSubthread];
 
+	if (!fileNames.count)
+		return fileNames;
+	
+	[currentThread enterSubthreadWithRange:0.5:0.5];
+	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Importing files...", NULL)];
+//	NSLog(@"importing %d images to context", fileNames.count);
+	
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
-	NSArray* images = [BrowserController addFiles:[dicomDirPath stringsByAppendingPaths:fileNames] toContext:managedObjectContext onlyDICOM:YES  notifyAddedFiles:NO parseExistingObject:NO dbFolder:NULL];
+	NSMutableArray* images = [[[BrowserController addFiles:[dicomDirPath stringsByAppendingPaths:fileNames] toContext:managedObjectContext onlyDICOM:YES  notifyAddedFiles:NO parseExistingObject:NO dbFolder:@"/tmp"] mutableCopy] autorelease];
+	for (NSInteger i = images.count-1; i >= 0; --i)
+		if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
+			[images removeObjectAtIndex:i];
 	
+	//NSLog(@"TEST %d files to %d images", fileNames.count, images.count);
+		
 	NSString* oldDirPath = dirPath;
 	dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
 //	NSLog(@"moving %@ to %@", oldDirPath, dirPath);
@@ -485,7 +524,9 @@
 	
 //	NSLog(@"decompressing");
 	
+	currentThread.progress = 0.3;
 	if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000)) {
+		currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Decompressing files...", NULL)];
 		NSString* beforeDicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM_before_decompression"];
 		[[NSFileManager defaultManager] movePath:dicomDirPath toPath:beforeDicomDirPath handler:NULL];
 		[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
@@ -495,7 +536,9 @@
 	
 //	NSLog(@"compressing");
 
+	currentThread.progress = 0.4;
 	if (options.compression == CompressionCompress) {
+		currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Compressing files...", NULL)];
 		NSMutableDictionary* execOptions = [NSMutableDictionary dictionary];
 		[execOptions setObject:[NSNumber numberWithBool:options.compressJPEGNotJPEG2000] forKey:@"JPEGinsteadJPEG2000"];
 		[execOptions setObject:[NSNumber numberWithBool:YES] forKey:@"DecompressMoveIfFail"];
@@ -515,7 +558,9 @@
 	
 //	NSLog(@"generating QTHTML");
 
+	currentThread.progress = 0.7;
 	if (options.includeHTMLQT) {
+		currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Generating HTML/Quicktime files...", NULL)];
 		NSString* htmlqtTmpPath = [dirPath stringByAppendingPathComponent:@"HTMLQT"];
 		[[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtTmpPath];
 		NSArray* sortedImages = [images sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"instanceNumber" ascending:YES] autorelease]]];
@@ -523,7 +568,9 @@
 	}
 	
 //	NSLog(@"done");
-
+	[currentThread exitSubthread];
+	currentThread.status = baseStatus;
+	
 	return images;
 }
 

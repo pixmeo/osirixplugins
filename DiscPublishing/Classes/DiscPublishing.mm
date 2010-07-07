@@ -116,7 +116,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 	BrowserController* bc = [BrowserController currentBrowser];
 	NSArray* sel = [bc databaseSelection];
 	
-	[[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+	[[[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease] start];
 	
 	return 0;
 }

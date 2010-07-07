@@ -43,7 +43,7 @@
 		thread.status = @"Recovering thread information...";
 		thread.uniqueId = threadId;
 		[_threadsManager addThread:thread];
-		[thread start];
+		[[thread autorelease] start];
 	}
 	
 	return self;

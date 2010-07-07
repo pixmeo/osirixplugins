@@ -14,6 +14,7 @@
 #import "NSArray+DiscPublishing.h"
 #import <OsiriX Headers/DicomImage.h>
 #import <OsiriX Headers/DicomStudy.h>
+#import <OsiriX Headers/BrowserController.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
 #import <OsiriX Headers/NSThread+N2.h>
@@ -44,7 +45,7 @@
 	
 	_patientsLastReceiveTimes = [[NSMutableDictionary alloc] initWithCapacity:512];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(databaseAddition:) name:OsirixAddToDBCompleteNotification object:NULL];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeDatabaseAddition:) name:OsirixAddToDBCompleteNotification object:NULL];
 	
 	[self start];
 	
@@ -110,7 +111,7 @@
 	[pool release];
 }
 
--(void)databaseAddition:(NSNotification*)notification {
+-(void)observeDatabaseAddition:(NSNotification*)notification {
 	NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBCompleteNotificationImagesArray];
 	
 	if (![[NSUserDefaultsController sharedUserDefaultsController] discPublishingIsActive])
@@ -121,8 +122,10 @@
 	@try {
 		
 		for (DicomImage* image in addedImages)
-			if (![_files containsObject:image])
-				[_files addObject:image];
+			if ([image managedObjectContext] == [[BrowserController currentBrowser] managedObjectContext])
+				if (![_files containsObject:image])
+					if (image.modality && ![image.modality isEqual:@"SR"])
+						[_files addObject:image];
 		
 		NSDate* time = [NSDate date];
 		self.lastReceiveTime = time;
@@ -130,7 +133,7 @@
 			[self.patientsLastReceiveTimes setObject:time forKey:[image valueForKeyPath:@"series.study.patientUID"]];
 		
 	} @catch (NSException* e) {
-		NSLog(@"[DiscPublishingFilesManager databaseAddition:] error: %@", e);
+		NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e);
 	} @finally {
 		[_filesLock unlock];
 	}
@@ -185,10 +188,10 @@
 	[_files removeObjectsInArray:files];
 	[self.patientsLastReceiveTimes removeObjectForKey:patientUID];
 
-	NSLog(@"removed %d files, %d left", files.count, _files.count);
+//	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	
 	if (files.count)
-		[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+		[[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease] start];
 	
 	[files release];
 }
