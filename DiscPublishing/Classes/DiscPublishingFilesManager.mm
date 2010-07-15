@@ -82,7 +82,7 @@
 		@try {
 			if (_files.count) {
 				// display thread info
-				[[ThreadsManager defaultManager] addThread:self];
+				[[ThreadsManager defaultManager] addThreadAndStart:self];
 				
 				// update thread status
 				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];

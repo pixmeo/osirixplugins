@@ -138,7 +138,7 @@
 
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	[[ThreadsManager defaultManager] addThread:self];
+	[[ThreadsManager defaultManager] addThreadAndStart:self];
 	
 	self.status = @"Detecting image series and studies...";
 	NSMutableArray* series = [[NSMutableArray alloc] init];

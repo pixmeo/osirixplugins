@@ -59,8 +59,8 @@ static DiscPublishing* discPublishingInstance = NULL;
 	
 /*	NSThread* bidon = [[NSThread alloc] initWithTarget:self selector:@selector(bidonThread:) object:NULL];
 //	bidon.supportsCancel = YES;
-	[[ThreadsManager defaultManager] addThread:bidon];
-	[bidon start];*/
+	[[ThreadsManager defaultManager] addThreadAndStart:bidon];
+*/
 }
 
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {

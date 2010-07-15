@@ -42,8 +42,7 @@
 		thread.name = [NSString stringWithFormat:@"Disc Publishing Tool thread %@", threadId];
 		thread.status = @"Recovering thread information...";
 		thread.uniqueId = threadId;
-		[_threadsManager addThread:thread];
-		[[thread autorelease] start];
+		[_threadsManager addThreadAndStart: [thread autorelease]];
 	}
 	
 	return self;
@@ -61,8 +60,7 @@
 	NSThread* thread = [[ToolThread alloc] init];
 	thread.name = [NSString stringWithFormat:@"Tool Thread %@", threadId];
 	thread.uniqueId = threadId;
-	[_threadsManager addThread:thread];
-	[thread start];
+	[_threadsManager addThreadAndStart:thread];
 }
 
 -(ToolThread*)threadWithId:(NSString*)threadId {
