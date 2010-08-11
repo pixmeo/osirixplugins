@@ -98,9 +98,16 @@ int main(int argc, const char* argv[]) {
 	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
 	[thread start];
 	
-	[self distributeNotificationsForThread:thread];
+//	[self distributeNotificationsForThread:thread];
 	
 	NSLog(@"Welcome to DiscPublishingTool.");
+	
+	// recover jobs, need folder XXX and files XXX.plist & XXX.jpg
+//	for (<#initial#>; <#condition#>; <#increment#>) {
+//		<#statements#>
+//	}
+	
+	
 }
 
 -(void)initDiscPublisherThread:(id)obj {

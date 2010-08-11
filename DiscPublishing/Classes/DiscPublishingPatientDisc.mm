@@ -119,12 +119,12 @@
 }
 
 +(void)generateDICOMDIRAtDirectory:(NSString*)root withDICOMFilesInDirectory:(NSString*)dicomPath {
-	if ([dicomPath hasPrefix:root]) {
+/*	if ([dicomPath hasPrefix:root]) {
 		NSUInteger index = root.length;
 		if ([dicomPath characterAtIndex:index] == '/')
 			++index;
 		dicomPath = [dicomPath substringFromIndex:index];
-	}
+	}*/
 	
 	NSTask* dcmmkdirTask = [[NSTask alloc] init];
 	[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
@@ -228,7 +228,7 @@
 				[DiscPublishingPatientDisc copyContentsOfDirectory:_options.auxiliaryDirPath toPath:discBaseDirPath];
 			if (_options.includeReports) {
 				NSString* reportsDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"Reports"];
-				[privateFiles addObject:reportsDiscBaseDirPath];
+				[privateFiles addObject:@"Reports"];
 				[[NSFileManager defaultManager] copyItemAtPath:reportsTmpPath toPath:reportsDiscBaseDirPath error:NULL];
 			}
 			
@@ -300,7 +300,7 @@
 				}
 			
 			// generate DICOMDIR
-			[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:discBaseDirPath withDICOMFilesInDirectory:dicomDiscBaseDirPath];
+			[DiscPublishingPatientDisc	generateDICOMDIRAtDirectory:discBaseDirPath withDICOMFilesInDirectory:discBaseDirPath];
 			[privateFiles addObject:@"DICOMDIR"];
 			
 			// move QTHTML files
@@ -458,13 +458,13 @@
 	NSString* dirPath = [[NSFileManager defaultManager] tmpFilePathInDir:basePath];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dirPath];
 	
-//	NSLog(@"dirPath is %@", dirPath);
+	NSLog(@"dirPath is %@", dirPath);
 	
 	// copy files by considering anonymize
 	NSString* dicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM"];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 	
-//	NSLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
+	NSLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
 	
 	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", options.anonymize? NSLocalizedString(@"Anonymizing files...", NULL) : NSLocalizedString(@"Copying files...", NULL) ];
 	NSMutableArray* fileNames = [NSMutableArray arrayWithCapacity:imagesIn.count];
@@ -503,7 +503,7 @@
 	
 	[currentThread enterSubthreadWithRange:0.5:0.5];
 	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Importing files...", NULL)];
-//	NSLog(@"importing %d images to context", fileNames.count);
+	NSLog(@"importing %d images to context", fileNames.count);
 	
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
@@ -512,17 +512,17 @@
 		if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
 			[images removeObjectAtIndex:i];
 	
-	//NSLog(@"TEST %d files to %d images", fileNames.count, images.count);
+	NSLog(@"    %d files to %d images", fileNames.count, images.count);
 		
 	NSString* oldDirPath = dirPath;
 	dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
-//	NSLog(@"moving %@ to %@", oldDirPath, dirPath);
+	NSLog(@"moving %@ to %@", oldDirPath, dirPath);
 	[[NSFileManager defaultManager] moveItemAtPath:oldDirPath toPath:dirPath error:NULL];
 	for (DicomImage* image in images)
 		[image setPathString:[[image pathString] stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath]];
 	dicomDirPath = [dicomDirPath stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath];
 	
-//	NSLog(@"decompressing");
+	NSLog(@"decompressing");
 	
 	currentThread.progress = 0.3;
 	if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000)) {
@@ -534,7 +534,7 @@
 		[[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
 	}
 	
-//	NSLog(@"compressing");
+	NSLog(@"compressing");
 
 	currentThread.progress = 0.4;
 	if (options.compression == CompressionCompress) {
@@ -556,7 +556,7 @@
 	
 	[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:dirPath withDICOMFilesInDirectory:dicomDirPath];
 	
-//	NSLog(@"generating QTHTML");
+	NSLog(@"generating QTHTML");
 
 	currentThread.progress = 0.7;
 	if (options.includeHTMLQT) {
@@ -567,7 +567,7 @@
 		[BrowserController exportQuicktime:sortedImages:htmlqtTmpPath:YES:NULL:seriesPaths];
 	}
 	
-//	NSLog(@"done");
+	NSLog(@"done");
 	[currentThread exitSubthread];
 	currentThread.status = baseStatus;
 	

@@ -25,6 +25,7 @@
 	IBOutlet NSButton* patientModeLabelTemplateEditButton;
 	IBOutlet NSButton* archivingModeLabelTemplateEditButton;
 	IBOutlet NSPathControl* patientModeLabelTemplatePathControl;
+	IBOutlet NSPathControl* patientModeAuxDirPathControl;
 	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
 	
 	NSSize deltaFromPathControlBRToButtonTL;

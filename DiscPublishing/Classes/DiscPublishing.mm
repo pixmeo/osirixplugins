@@ -64,7 +64,6 @@ static DiscPublishing* discPublishingInstance = NULL;
 }
 
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {
-	NSLog(@"observeOsirixWillTerminate");
 	[DiscPublishing SetQuitWhenDone:YES];
 }
 

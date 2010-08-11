@@ -112,6 +112,7 @@
 }
 
 -(void)initRobotGetStatusTimerFireMethod:(NSTimer*)timer { // timer is this->robotOptionsTimer
+	//[patientModeAuxDirPathControl setEnabled:YES];
 	@try {
 		NSString* xml = [DiscPublishing GetStatusXML];
 		[robotOptionsTimer invalidate]; robotOptionsTimer = NULL;

@@ -120,7 +120,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey,
 		[NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeReportsFlagDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey,
-//		[[NSFileManager defaultManager] findSystemFolderOfType:kMusicDocumentsFolderType forDomain:kUserDomain], DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey, // TODO: check and fix
+	  //		[[NSFileManager defaultManager] findSystemFolderOfType:kMusicDocumentsFolderType forDomain:kUserDomain], DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey, // TODO: check and fix
 		[NSNumber numberWithUnsignedInt:CompressionCompress], DiscPublishingPatientModeCompressionDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeZipFlagDefaultsKey,
@@ -177,7 +177,9 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	options.zip = [self boolForKey:DiscPublishingPatientModeZipFlagDefaultsKey];
 	options.zipEncrypt = [self boolForKey:DiscPublishingPatientModeZipEncryptFlagDefaultsKey];
 	options.zipEncryptPassword = [self stringForKey:DiscPublishingPatientModeZipEncryptPasswordDefaultsKey];
+	
 	options.discCoverTemplatePath = [self stringForKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+	if (!options.discCoverTemplatePath) options.discCoverTemplatePath = [NSUserDefaultsController discPublishingDefaultDiscCoverPath];
 	
 	return [options autorelease];
 }
@@ -196,8 +198,10 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	options.zip = [self boolForKey:DiscPublishingArchivingModeZipFlagDefaultsKey];
 	options.zipEncrypt = [self boolForKey:DiscPublishingArchivingModeZipEncryptFlagDefaultsKey];
 	options.zipEncryptPassword = [self stringForKey:DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey];
-	options.discCoverTemplatePath = [self stringForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
 	
+	options.discCoverTemplatePath = [self stringForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+	if (!options.discCoverTemplatePath) options.discCoverTemplatePath = [NSUserDefaultsController discPublishingDefaultDiscCoverPath];
+
 	return [options autorelease];
 }
 
