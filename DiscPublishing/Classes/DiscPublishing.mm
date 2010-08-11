@@ -44,7 +44,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 	
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"DiscPublishingPreferences" inBundle:bundle withTitle:NSLocalizedString(@"Disc Publishing", NULL) image:[[[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"Icon" ofType:@"png"]] autorelease]]; // TODO: icon
 	
-	[[ActivityWindowController defaultController] window];
+//	[[ActivityWindowController defaultController] window];
 	
 //	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
 	[DiscPublishing SetQuitWhenDone:NO];
