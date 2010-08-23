@@ -8,9 +8,13 @@
 
 #import "DiscPublishingToolAppDelegate.h"
 #import "DiscPublisher.h"
+#import "DiscPublisher+Constants.h"
 #import "DiscPublisherStatus.h"
 #import "DiscPublishingTool+DistributedNotifications.h"
 #import <OsiriX Headers/NSThread+N2.h>
+#import <OsiriX Headers/NSXMLNode+N2.h>
+#import <OsiriX Headers/N2Debug.h>
+#import <Growl/GrowlDefines.h>
 
 
 int main(int argc, const char* argv[]) {
@@ -19,6 +23,8 @@ int main(int argc, const char* argv[]) {
 
 
 @implementation DiscPublishingToolAppDelegate
+
+@synthesize lastErr;
 
 #pragma mark Thread property distributed notifications
 
@@ -94,9 +100,14 @@ int main(int argc, const char* argv[]) {
 
 -(void)applicationDidFinishLaunching:(NSNotification*)aNotification {
 	threads = [[NSMutableArray alloc] init];
+//	errs = [[NSMutableArray alloc] init];
+	
+	[GrowlApplicationBridge setGrowlDelegate:self];
 	
 	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
 	[thread start];
+	
+	statusTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(statusTimerCallback:) userInfo:NULL repeats:YES];
 	
 //	[self distributeNotificationsForThread:thread];
 	
@@ -107,7 +118,15 @@ int main(int argc, const char* argv[]) {
 //		<#statements#>
 //	}
 	
-	
+}
+
+-(void)errorWithTitle:(NSString*)title description:(NSString*)description uniqueContext:(id)context {
+	if (![lastErr isEqual:description]) {
+		self.lastErr = description;
+		//[errs addObject:context];
+		NSLog(@"%@: %@", title, description);
+		[GrowlApplicationBridge notifyWithTitle:title description:description notificationName:@"RobotError" iconData:NULL priority:0 isSticky:YES clickContext:context];
+	}
 }
 
 -(void)initDiscPublisherThread:(id)obj {
@@ -132,7 +151,7 @@ int main(int argc, const char* argv[]) {
 				[NSThread sleepForTimeInterval:0.5];
 			}
 		} @catch (NSException* e) {
-			thread.status = [NSString stringWithFormat:@"Initialization error %@, is any robot connected to the computer?", e];
+			NSLog(@"Robot initialization error %@", e);
 			[NSThread sleepForTimeInterval:5];
 		}
 	
@@ -140,17 +159,74 @@ int main(int argc, const char* argv[]) {
 }
 
 -(void)dealloc {
+	[statusTimer invalidate];
+	self.lastErr = NULL;
 	[threads release];
+//	[errs release];
 	[super dealloc];
 }
 
 -(void)setQuitWhenDone:(BOOL)qwd {
 	quitWhenDone = qwd;
-//	NSLog(@"quit set to %d, %d threads", qwd, threads.count);
+	DLog(@"quit set to %d, %d threads", qwd, threads.count);
 	if (quitWhenDone && !threads.count) {
 		[NSApp stop:self];
 		[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined location:NSMakePoint(0,0) modifierFlags:0 timestamp:0.0 windowNumber:0 context:nil subtype:0 data1:0 data2:0] atStart:true];
 	}
 }
+
+-(void)statusTimerCallback:(NSTimer*)timer {
+	NSLog(@"statusTimerCallback:");
+	if (discPublisher) {
+		[discPublisher.status refresh];
+		UInt32 errorS = 0;
+		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
+		for (NSXMLNode* robot in [discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
+			UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
+			if (error) {
+				[self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[[robot childNamed:@"SYSTEM_STATUS"] stringValue] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
+				errorS += error;
+			}
+		}
+		if (!errorS) {
+			self.lastErr = NULL;
+		}
+	}
+}
+
+#pragma mark Growl
+
+-(NSDictionary*)registrationDictionaryForGrowl {
+	NSDictionary* hrNotifs = [NSDictionary dictionaryWithObjectsAndKeys:
+							 NSLocalizedString(@"Robot Error", NULL), @"RobotError",
+							 NULL];
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			@"ch.osirix.discpublishing.tool", GROWL_APP_ID,
+			[hrNotifs allKeys], GROWL_NOTIFICATIONS_DEFAULT,
+			[hrNotifs allKeys], GROWL_NOTIFICATIONS_ALL,
+			hrNotifs, GROWL_NOTIFICATIONS_HUMAN_READABLE_NAMES,
+			NULL];
+}
+
+-(NSString*)applicationNameForGrowl {
+	return NSLocalizedString(@"Disc Publishing", NULL);
+}
+
+-(NSData*)applicationIconDataForGrowl {
+	return [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"../Icon.png"]];
+}
+
+/*-(void)growlNotificationGoingOut:(id)context {
+	if ([errs containsObject:context])
+		[errs removeObject:context];
+}
+
+-(void)growlNotificationWasClicked:(id)context {
+	[self growlNotificationGoingOut:context];
+}
+
+-(void)growlNotificationTimedOut:(id)context {
+	[self growlNotificationGoingOut:context];
+}*/
 
 @end

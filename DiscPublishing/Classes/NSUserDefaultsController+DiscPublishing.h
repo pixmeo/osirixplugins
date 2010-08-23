@@ -21,6 +21,7 @@ enum BurnMode {
 extern const NSString* const DiscPublishingActiveFlagDefaultsKey;
 
 extern const NSString* const DiscPublishingBurnModeDefaultsKey;
+extern const NSString* const DiscPublishingBurnSpeedDefaultsKey;
 //extern const NSString* const DiscPublishingBurnMediaTypeDefaultsKey;
 //extern const NSString* const DiscPublishingBurnMediaCapacityDefaultsKey;
 //extern const NSString* const DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey;

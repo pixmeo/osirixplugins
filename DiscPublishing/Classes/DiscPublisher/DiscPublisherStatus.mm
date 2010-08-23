@@ -9,6 +9,7 @@
 #import "DiscPublisherStatus.h"
 #import "DiscPublisher+Constants.h"
 #import <OsiriX Headers/NSXMLNode+N2.h>
+#import <OsiriX Headers/N2Debug.h>
 #import <JobManager/PTJobManager.h>
 
 
@@ -39,7 +40,7 @@
 -(void)refresh {
 	NSString* xml = [NSString stringWithContentsOfFile:self.path encoding:NSUTF8StringEncoding error:NULL];
 	
-//	NSLog(@"Status XML:\n\n%@\n\n", xml);
+	NSLog(@"[DiscPublisherStatus refresh]");
 	
 	NSError* error = NULL;
 	NSXMLDocument* doc = [[[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:&error] autorelease];

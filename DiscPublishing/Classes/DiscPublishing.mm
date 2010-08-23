@@ -9,6 +9,7 @@
 #import "DiscPublishing+Tool.h"
 #import <OsiriX Headers/ActivityWindowController.h>
 #import "DiscPublishingFilesManager.h"
+#import <OsiriX Headers/N2Shell.h>
 #import <OsiriX Headers/ThreadsManager.h>
 #import <OsiriX Headers/NSFileManager+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
@@ -24,6 +25,8 @@
 #import "DiscPublishingOptions.h"
 #import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
 #import <PTRobot/PTRobot.h>
+#import <OsiriX Headers/NSPanel+N2.h>
+#import <OsiriX Headers/N2Debug.h>
 
 //#include "NSThread+N2.h"
 
@@ -33,6 +36,14 @@ static DiscPublishing* discPublishingInstance = NULL;
 +(DiscPublishing*)instance {
 	return discPublishingInstance;
 }
+
+-(void)kickstartTool {
+	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.app"], NULL]];
+	[DiscPublishing SetQuitWhenDone:NO];
+}
+
+const static NSString* const RobotReadyTimerCallbackUserInfoWindowKey = @"Window";
+const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"StartDate";
 
 -(void)initPlugin {
 	discPublishingInstance = self;
@@ -46,14 +57,28 @@ static DiscPublishing* discPublishingInstance = NULL;
 	
 //	[[ActivityWindowController defaultController] window];
 	
-//	[[NSWorkspace sharedWorkspace] launchAppWithBundleIdentifier:@"ch.osirix.discpublishing.tool" options:NSWorkspaceLaunchWithoutAddingToRecents|NSWorkspaceLaunchWithoutActivation additionalEventParamDescriptor:NULL launchIdentifier:NULL];
-	[DiscPublishing SetQuitWhenDone:NO];
+	toolAliveKeeperTimer = [NSTimer scheduledTimerWithTimeInterval:3600 target:self selector:@selector(toolAliveKeeperTimerCallback:) userInfo:NULL repeats:YES];
+	[toolAliveKeeperTimer fire];
+	
 	[DiscPublishingTasksManager defaultManager];
 	
 	_filesManager = [[DiscPublishingFilesManager alloc] init];
 	
-	robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(robotReadyTimerCallback:) userInfo:NULL repeats:YES];
-	[robotReadyTimer fire];
+	NSPanel* w = NULL;
+	@try {
+		[self kickstartTool];
+		[DiscPublishing GetStatusXML];
+	} @catch (NSException* e) {
+		w = [[NSPanel alertWithTitle:NSLocalizedString(@"Disc Publishing Error", NULL) message:NSLocalizedString(@"OsiriX was unable to communicate with the Disc Publishing robot. Please check that the robot is on and connected to the computer. This dialog will automatically disappear if the plugin finds a usable robot.", NULL) defaultButton:NSLocalizedString(@"Ignore", NULL) alternateButton:NULL icon:[[NSImage alloc] initWithContentsOfFile:[[[NSBundle bundleForClass:[self class]] pathForResource:@"Icon" ofType:@"png"] autorelease]]] retain];
+		[w setLevel:NSModalPanelWindowLevel];
+		[[w defaultButtonCell] setAction:@selector(close)];
+		[[w defaultButtonCell] setTarget:w];
+	}
+	
+	NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
+	[userInfo setObject:w forKey:RobotReadyTimerCallbackUserInfoWindowKey];
+	[userInfo setObject:[NSDate date] forKey:RobotReadyTimerCallbackUserInfoStartDateKey];
+	robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(robotReadyTimerCallback:) userInfo:userInfo repeats:YES];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	
@@ -63,7 +88,38 @@ static DiscPublishing* discPublishingInstance = NULL;
 */
 }
 
+
+/*if (discPublisher) {
+	[discPublisher.status refresh];
+	//	NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
+	for (NSXMLNode* robot in [discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
+		UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
+		if (error)
+			[self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[NSString stringWithFormat:@"%@, %@", [DiscPublisher PTSystemError:error], [[robot childNamed:@"SYSTEM_STATUS"] stringValue]] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
+	}
+}*/
+
+
+-(void)toolAliveKeeperTimerCallback:(NSTimer*)timer {
+	@try {
+		[DiscPublishing SetQuitWhenDone:YES];
+	} @catch (NSException* e) {
+		NSLog(@"Tool quit error: %@", e.description);
+	}
+	@try {
+		[self kickstartTool];
+	} @catch (NSException* e) {
+		NSLog(@"Tool start error: %@", e.description);
+	}
+	@try {
+		[DiscPublishing SetQuitWhenDone:NO];
+	} @catch (NSException* e) {
+		NSLog(@"Tool dont quit error: %@", e.description);
+	}
+}
+
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {
+	[robotReadyTimer invalidate];
 	[DiscPublishing SetQuitWhenDone:YES];
 }
 
@@ -153,8 +209,14 @@ static DiscPublishing* discPublishingInstance = NULL;
 }
 
 -(void)robotReadyTimerCallback:(NSTimer*)timer {
+	if ([[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoStartDateKey] && [[NSDate date] timeIntervalSinceDate:[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoStartDateKey]] > 3) {
+		[[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] center];
+		[[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] makeKeyAndOrderFront:self];
+		[[timer userInfo] removeObjectForKey:RobotReadyTimerCallbackUserInfoStartDateKey];
+	}
 	@try {
 		NSString* xml = [DiscPublishing GetStatusXML];
+		[[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] close];
 		[robotReadyTimer invalidate]; robotReadyTimer = NULL;
 		// this will only happen ONCE
 		robotIsReady = YES;
@@ -165,7 +227,7 @@ static DiscPublishing* discPublishingInstance = NULL;
 		if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
 			[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
 	} @catch (NSException* e) {
-		NSLog(@"%@", e);
+		//DLog(@"%@", e);
 	} 
 }
 

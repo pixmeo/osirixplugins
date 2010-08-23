@@ -70,6 +70,8 @@
 		59E37D3A117457D900E84FE3 /* DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37D38117457D900E84FE3 /* DiscPublishing.mm */; };
 		59E37E73117466F700E84FE3 /* Standard.dcover in Resources */ = {isa = PBXBuildFile; fileRef = 59E37E70117466F700E84FE3 /* Standard.dcover */; };
 		59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C81177177900E84FE3 /* DiscPublishingJob.h */; };
+		59E3EFCD121A684500DD4552 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E3EFCC121A684500DD4552 /* Growl.framework */; };
+		59E3EFEE121A6FC300DD4552 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E3EFCC121A684500DD4552 /* Growl.framework */; };
 		59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 /* End PBXBuildFile section */
@@ -119,6 +121,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				59E3EFEE121A6FC300DD4552 /* Growl.framework in Copy Frameworks */,
 				59C7EFC511930C8400FCE244 /* Nitrogen.framework in Copy Frameworks */,
 				5900F90F11916356001E899B /* JobManager.framework in Copy Frameworks */,
 				5900F91011916356001E899B /* JobProcessor.framework in Copy Frameworks */,
@@ -200,6 +203,7 @@
 		59E384241178868500E84FE3 /* JobManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobManager.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/JobManager.framework"; sourceTree = SOURCE_ROOT; };
 		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/JobProcessor.framework"; sourceTree = SOURCE_ROOT; };
 		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/PTRobot.framework"; sourceTree = SOURCE_ROOT; };
+		59E3EFCC121A684500DD4552 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../osirix/osirix/Binaries/Growl.framework; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +220,7 @@
 				5900F68011906784001E899B /* as_storage.framework in Frameworks */,
 				59C7EF8D11930C6F00FCE244 /* Nitrogen.framework in Frameworks */,
 				59DEC7B511995E7800E0343A /* Carbon.framework in Frameworks */,
+				59E3EFCD121A684500DD4552 /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +266,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				59E3EFCC121A684500DD4552 /* Growl.framework */,
 				59E384241178868500E84FE3 /* JobManager.framework */,
 				59E384251178868500E84FE3 /* JobProcessor.framework */,
 				59E384261178868500E84FE3 /* PTRobot.framework */,
@@ -736,6 +742,7 @@
 					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
+					"\"$(SRCROOT)/../../osirix/osirix/Binaries\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -768,6 +775,7 @@
 					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
 					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
+					"\"$(SRCROOT)/../../osirix/osirix/Binaries\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;

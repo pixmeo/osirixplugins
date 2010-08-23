@@ -1,7 +1,7 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf320
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;\red18\green57\blue158;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww16520\viewh11800\viewkind0
+\paperw11900\paperh16840\margl1440\margr1440\vieww15120\viewh15820\viewkind0
 \deftab720
 \pard\pardeftab720\ql\qnatural
 
@@ -43,8 +43,28 @@
 \
 - The first checkbox, which says "Automatically queue and publish images received via DICOM", activates automatic disc publishing.\'a0\
 \
-- If you want to, customize your OsiriX main window's toolbar (right click on toolbar, "Customize Toolbar...") by adding the plugin's "Publish" button\
+- If you want to, customize your OsiriX main window's toolbar (right click on toolbar, "Customize Toolbar...") by adding the plugin's "Publish" button to it\
 - Make sure the "Albums & Sources" drawer is visible, as the plugin only tells you about its status through the new Activity table, on the bottom of the drawer.\
+\
+- If something goes wrong, the plugin will notify you through Growl. If Growl is not installed and active, you may miss important messages. We suggest you set Growl to use the MailMe or SMS display styles for all notifications from the plugin, which shows as 
+\i Disc Publishing
+\i0  in the Growl preference pane (it will appear only once the plugin will have been run for the first time). \
+\
+Our disc publishing mac boots at 7.30 AM and shuts down at 6.30 PM. It is set to\'a0automatically log into a 'discpublishing' user. A launch daemon is set for that user in order to keep OsiriX running.\
+\
+
+\b Disc Cover
+\b0 \
+\
+The plugin allows you to provide a template for the disc's label. The template editing application, bundled in the plugin, supports the usage of text fields where the content of the fields is filled when the template is used for printing. The plugin fills these 
+\i merge
+\i0  fields with these values:\
+1) patient's name;\
+2) patient's birth date;\
+3) study names (if multiple values, these are separated by commas);\
+4) modalities (if multiple values, these are separated by commas)\
+5) study dates (if multiple values, these are separated by commas)\
+6) current date\
 \
 
 \b Test\'a01
@@ -63,8 +83,5 @@ If you activated the\'a0"Automatically queue and publish images received via DIC
 \b Known bugs
 \b0 \
 \
-I have seen the plugin stop functioning after having been idle for about 7 hours. As a temporary solution, our test publishing mac automatically boots at 7.30 AM and shuts down at 6.30 PM. It is set to\'a0automatically log into a 'discpublishing' user. A launch daemon is set for that user in order to keep OsiriX running.\
-\
-When I installed the plugin on our test machine, in the preferences the Label template Edit button opened Template.dcover as a folder, displaying its contents instead of opening it with its editor application "Disc Cover PE".\
-Temporary workaround:\'a0Disc Cover PE must be launched manually just once, so the link between the .dcover suffix and the\'a0"Disc Cover PE"\'a0application is made. You will find the application in the plugin bundle, at: DiscPublishing.osirixplugin/Contents/Resources/DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 2 PE.app\
+None\
 }

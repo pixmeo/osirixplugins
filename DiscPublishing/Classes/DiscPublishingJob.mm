@@ -53,6 +53,7 @@
 
 	self.discType = [[self.info objectForKey:DiscPublishingJobInfoMediaTypeKey] unsignedIntValue];
 	self.volumeName = [self.info objectForKey:DiscPublishingJobInfoDiscNameKey];
+	self.writeSpeed = [[self.info objectForKey:DiscPublishingJobInfoBurnSpeedKey] intValue]*10;
 
 //	self.type = JP_JOB_PRINT_ONLY; // TODO: reenable data
 	self.type = JP_JOB_DATA;

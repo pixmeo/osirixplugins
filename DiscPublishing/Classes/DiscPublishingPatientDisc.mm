@@ -15,6 +15,7 @@
 #import <OsiriX Headers/NSFileManager+N2.h>
 #import <OsiriX Headers/DicomCompressor.h>
 #import <OsiriX Headers/QTExportHTMLSummary.h>
+#import <OsiriX Headers/NSUserDefaultsController+N2.h>
 #import <OsiriX Headers/DicomSeries.h>
 #import <OsiriX Headers/DicomStudy.h>
 #import <OsiriX/DCMObject.h>
@@ -27,6 +28,7 @@
 #import "DiscPublishingJob+Info.h"
 #import "DiscPublishingTasksManager.h"
 #import <OsiriX Headers/NSThread+N2.h>
+#import <OsiriX Headers/N2Debug.h>
 
 
 @implementation DiscPublishingPatientDisc
@@ -140,6 +142,9 @@
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	[[ThreadsManager defaultManager] addThreadAndStart:self];
 	
+	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	[dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
+
 	self.status = @"Detecting image series and studies...";
 	NSMutableArray* series = [[NSMutableArray alloc] init];
 	NSMutableArray* studies = [[NSMutableArray alloc] init];
@@ -202,7 +207,7 @@
 				[[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
 	}
 	
-//	NSLog(@"paths: %@", seriesPaths);
+//	DLog(@"paths: %@", seriesPaths);
 
 	NSUInteger discNumber = 1;
 	while (seriesSizes.count) {
@@ -254,7 +259,7 @@
 					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]) // forst OR is bigger than the one we picked earlier
 						pickedMediaKey = key;
 			
-//			NSLog(@"media type will be: %@", pickedMediaKey);
+			DLog(@"media type will be: %@", pickedMediaKey);
 			
 			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]];
 			[seriesSizes removeObjectsForKeys:discSeriesValues];
@@ -269,7 +274,21 @@
 			for (DicomSeries* serie in discSeries)
 				if (![discModalities containsObject:serie.modality])
 					[discModalities addObject:serie.modality];
-			NSString* modality = [discModalities componentsJoinedByString:@", "];
+			NSString* modalities = [discModalities componentsJoinedByString:@", "];
+			
+			NSMutableArray* discStudyNames = [NSMutableArray array];
+			for (DicomSeries* serie in discSeries)
+				if (![discStudyNames containsObject:serie.study.studyName])
+					[discStudyNames addObject:serie.study.studyName];
+			NSString* studyNames = [discStudyNames componentsJoinedByString:@", "];
+			
+			NSMutableArray* discStudyDates = [NSMutableArray array];
+			for (DicomSeries* serie in discSeries) {
+				NSString* date = [dateFormatter stringFromDate:serie.study.date];
+				if (![discStudyDates containsObject:date])
+					[discStudyDates addObject:date];
+			}
+			NSString* studyDates = [discStudyDates componentsJoinedByString:@", "];			
 			
 			// prepare patients dictionary for html generation
 			
@@ -352,7 +371,7 @@
 							NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:serie.id.intValue inSeriesPaths:seriesPaths];
 							if (kind) {
 								[BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:serie.id.intValue kind:kind toSeriesPaths:seriesPaths];
-								NSLog(@"renaming %@ to %@", subpath, destinationFilename);
+								DLog(@"renaming %@ to %@", subpath, destinationFilename);
 							}
 						}
 						
@@ -412,19 +431,19 @@
 			
 			// save information dict
 			
-			NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-			[dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
 			NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
 								  safeDiscName, DiscPublishingJobInfoDiscNameKey,
 			  //				  _options, DiscPublishingJobInfoOptionsKey,
 								  _options.discCoverTemplatePath, DiscPublishingJobInfoTemplatePathKey,
 								  pickedMediaKey, DiscPublishingJobInfoMediaTypeKey,
+								  [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DiscPublishingBurnSpeedDefaultsKey], DiscPublishingJobInfoBurnSpeedKey,
 								  [NSArray arrayWithObjects:
 									/* 1 */	discName,
 								    /* 2 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth],
-								    /* 3 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].date],
-								    /* 4 */	[dateFormatter stringFromDate:[NSDate date]],
-								    /* 5 */	modality,
+								    /* 3 */	studyNames,
+								    /* 4 */	modalities,
+								    /* 5 */ studyDates,
+								    /* 6 */	[dateFormatter stringFromDate:[NSDate date]],
 								   NULL], DiscPublishingJobInfoMergeValuesKey,
 								  NULL];
 			[[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
@@ -458,13 +477,13 @@
 	NSString* dirPath = [[NSFileManager defaultManager] tmpFilePathInDir:basePath];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dirPath];
 	
-	NSLog(@"dirPath is %@", dirPath);
+	DLog(@"dirPath is %@", dirPath);
 	
 	// copy files by considering anonymize
 	NSString* dicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM"];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 	
-	NSLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
+	DLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
 	
 	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", options.anonymize? NSLocalizedString(@"Anonymizing files...", NULL) : NSLocalizedString(@"Copying files...", NULL) ];
 	NSMutableArray* fileNames = [NSMutableArray arrayWithCapacity:imagesIn.count];
@@ -503,7 +522,7 @@
 	
 	[currentThread enterSubthreadWithRange:0.5:0.5];
 	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Importing files...", NULL)];
-	NSLog(@"importing %d images to context", fileNames.count);
+	DLog(@"importing %d images to context", fileNames.count);
 	
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
@@ -512,17 +531,17 @@
 		if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
 			[images removeObjectAtIndex:i];
 	
-	NSLog(@"    %d files to %d images", fileNames.count, images.count);
+	DLog(@"    %d files to %d images", fileNames.count, images.count);
 		
 	NSString* oldDirPath = dirPath;
 	dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
-	NSLog(@"moving %@ to %@", oldDirPath, dirPath);
+	DLog(@"moving %@ to %@", oldDirPath, dirPath);
 	[[NSFileManager defaultManager] moveItemAtPath:oldDirPath toPath:dirPath error:NULL];
 	for (DicomImage* image in images)
 		[image setPathString:[[image pathString] stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath]];
 	dicomDirPath = [dicomDirPath stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath];
 	
-	NSLog(@"decompressing");
+	DLog(@"decompressing");
 	
 	currentThread.progress = 0.3;
 	if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000)) {
@@ -534,7 +553,7 @@
 		[[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
 	}
 	
-	NSLog(@"compressing");
+	DLog(@"compressing");
 
 	currentThread.progress = 0.4;
 	if (options.compression == CompressionCompress) {
@@ -556,7 +575,7 @@
 	
 	[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:dirPath withDICOMFilesInDirectory:dicomDirPath];
 	
-	NSLog(@"generating QTHTML");
+	DLog(@"generating QTHTML");
 
 	currentThread.progress = 0.7;
 	if (options.includeHTMLQT) {
@@ -567,7 +586,7 @@
 		[BrowserController exportQuicktime:sortedImages:htmlqtTmpPath:YES:NULL:seriesPaths];
 	}
 	
-	NSLog(@"done");
+	DLog(@"done");
 	[currentThread exitSubthread];
 	currentThread.status = baseStatus;
 	

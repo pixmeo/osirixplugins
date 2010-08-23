@@ -13,3 +13,4 @@ extern const NSString* const DiscPublishingJobInfoDiscNameKey;
 extern const NSString* const DiscPublishingJobInfoTemplatePathKey;
 extern const NSString* const DiscPublishingJobInfoMergeValuesKey;
 extern const NSString* const DiscPublishingJobInfoMediaTypeKey;
+extern const NSString* const DiscPublishingJobInfoBurnSpeedKey;

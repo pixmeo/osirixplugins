@@ -10,6 +10,7 @@
 #import "DiscPublishingPreferencesController+RobotOptions.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import <OsiriX Headers/NSUserDefaultsController+N2.h>
+#import <OsiriX Headers/N2Shell.h>
 #import <OsiriX Headers/DiscBurningOptions.h>
 #import "DiscPublishing.h"
 #import <OsiriX Headers/N2Operators.h>
@@ -39,9 +40,9 @@
 	deltaFromPathControlBRToButtonTL = NSZeroSize+patientModeLabelTemplateEditButton.frame.origin - (patientModeLabelTemplatePathControl.frame.origin+patientModeLabelTemplatePathControl.frame.size);
 	
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
-	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingBurnModeDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
-	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
-	[defaultsController addObserver:self forKeyPath:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey) options:NSKeyValueObservingOptionInitial context:NULL];
+	[defaultsController addObserver:self forValuesKey:DiscPublishingBurnModeDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
+	[defaultsController addObserver:self forValuesKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
+	[defaultsController addObserver:self forValuesKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
 	
 	NSString* zipPasswordToolTip = NSLocalizedString(@"The password must be at least 8 characters long. If this condition is not met then the password will not be applied.", @"Preferences password warning");
 	[patientModeZipPasswordWarningView setToolTip:zipPasswordToolTip];
@@ -55,12 +56,14 @@
 
 -(void)dealloc {
 	[self robotOptionsDealloc];
-	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self];
+	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingBurnModeDefaultsKey];
+	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
 	[super dealloc];
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
-	NSLog(@"prefs observeValueForKeyPath:%@", keyPath);
+	//NSLog(@"prefs observeValueForKeyPath:%@", keyPath);
 
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	if (obj == defaultsController) {
@@ -152,6 +155,7 @@
 		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
+	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: location, @"-a", [[[NSBundle bundleForClass:[self class]] bundlePath] stringByAppendingPathComponent:@"../DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 2 PE.app"], NULL]];
 	[[NSWorkspace sharedWorkspace] openFile:location];
 }
 

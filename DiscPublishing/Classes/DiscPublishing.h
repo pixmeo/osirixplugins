@@ -14,7 +14,7 @@
 	DiscPublishingFilesManager* _filesManager;
 	NSTimer* robotReadyTimer;
 	BOOL robotIsReady;
-	
+	NSTimer* toolAliveKeeperTimer;
 }
 
 +(DiscPublishing*)instance;

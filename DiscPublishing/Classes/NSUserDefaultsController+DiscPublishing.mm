@@ -45,6 +45,7 @@
 const NSString* const DiscPublishingActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
 
 const NSString* const DiscPublishingBurnModeDefaultsKey = @"DiscPublishingBurnMode";
+const NSString* const DiscPublishingBurnSpeedDefaultsKey = @"DiscPublishingBurnSpeed";
 //const NSString* const DiscPublishingBurnMediaTypeDefaultsKey = @"DiscPublishingBurnMediaType";
 //const NSString* const DiscPublishingBurnMediaCapacityDefaultsKey = @"DiscPublishingBurnMediaCapacity";
 //const NSString* const DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey = @"DiscPublishingBurnMediaCapacityMeasureTag";
@@ -93,13 +94,14 @@ const NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey =
 static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 
 +(void)discPublishingInitialize {
-	NSLog(@"+[NSUserDefaultsController+DiscPublishing discPublishingInitialize]");
+	//DLog(@"+[NSUserDefaultsController+DiscPublishing discPublishingInitialize]");
 	
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
 	
 	// merge our initial values with the existing ones
 	NSMutableDictionary* initialValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 		[NSNumber numberWithUnsignedInt:BurnModePatient], DiscPublishingBurnModeDefaultsKey,
+		[NSNumber numberWithUnsignedInt:100], DiscPublishingBurnSpeedDefaultsKey,
 		[NSNumber numberWithUnsignedInt:DISCTYPE_CD], [self discPublishingMediaTypeTagBindingKeyForBin:0],           // this value is related to...
 		[NSNumber numberWithFloat:700], [self discPublishingMediaCapacityBindingKeyForBin:0],							// this one and...
 		[NSNumber numberWithUnsignedInt:1000000], [self discPublishingMediaCapacityMeasureTagBindingKeyForBin:0], // ...this one, together they mean "CD capacity is 700 MB" (see +mediaCapacityBytesForMediaType)										  

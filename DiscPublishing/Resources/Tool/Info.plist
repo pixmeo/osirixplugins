@@ -11,7 +11,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2010 OsiriX Team</string>
 	<key>CFBundleName</key>
-	<string>HUGE Administration Tool</string>
+	<string>DiscPublishingTool</string>
 	<key>NSMainNibFile</key>
 	<string>DiscPublishingToolApplication</string>
 	<key>NSPrincipalClass</key>
@@ -30,5 +30,15 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>TicketVersion</key>
+	<string>1</string>
+	<key>AllNotifications</key>
+	<array>
+		<string>RobotError</string>
+	</array>
+	<key>DefaultNotifications</key>
+	<array>
+		<string>RobotError</string>
+	</array>
 </dict>
 </plist>
