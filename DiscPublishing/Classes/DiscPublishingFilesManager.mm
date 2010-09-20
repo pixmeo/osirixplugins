@@ -82,7 +82,7 @@
 		@try {
 			if (_files.count) {
 				// display thread info
-				[[ThreadsManager defaultManager] addThreadAndStart:self];
+				[[ThreadsManager defaultManager] performSelector:@selector(addThread:) withObject:self];
 				
 				// update thread status
 				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];
@@ -96,7 +96,7 @@
 				[self spawnBurns];
 			} else {
 				// hide thread info
-				[[ThreadsManager defaultManager] removeThread:self];
+				[[ThreadsManager defaultManager] performSelector:@selector(removeThread:) withObject:self];
 			}
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingFilesManager main] error: %@", e);
@@ -190,8 +190,10 @@
 
 //	NSLog(@"removed %d files, %d left", files.count, _files.count);
 	
-	if (files.count)
-		[[[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease] start];
+	if (files.count) {
+		DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+		[[ThreadsManager defaultManager] addThreadAndStart:dppd];
+	}
 	
 	[files release];
 }

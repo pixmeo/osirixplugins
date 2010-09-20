@@ -7,7 +7,6 @@
 
 #import "DiscPublishing.h"
 #import "DiscPublishing+Tool.h"
-#import <OsiriX Headers/ActivityWindowController.h>
 #import "DiscPublishingFilesManager.h"
 #import <OsiriX Headers/N2Shell.h>
 #import <OsiriX Headers/ThreadsManager.h>
@@ -171,7 +170,8 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	BrowserController* bc = [BrowserController currentBrowser];
 	NSArray* sel = [bc databaseSelection];
 	
-	[[[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease] start];
+	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+	[[ThreadsManager defaultManager] addThreadAndStart:dppd];
 	
 	return 0;
 }

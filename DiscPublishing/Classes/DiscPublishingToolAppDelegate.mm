@@ -180,7 +180,7 @@ int main(int argc, const char* argv[]) {
 	if (discPublisher) {
 		[discPublisher.status refresh];
 		UInt32 errorS = 0;
-		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
+//		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
 		for (NSXMLNode* robot in [discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
 			UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
 			if (error) {

@@ -140,7 +140,7 @@
 
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	[[ThreadsManager defaultManager] addThreadAndStart:self];
+	// [[ThreadsManager defaultManager] addThreadAndStart:self];
 	
 	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 	[dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
@@ -532,7 +532,10 @@
 			[images removeObjectAtIndex:i];
 	
 	DLog(@"    %d files to %d images", fileNames.count, images.count);
-		
+	
+	if (!images.count)
+		return images;
+	
 	NSString* oldDirPath = dirPath;
 	dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
 	DLog(@"moving %@ to %@", oldDirPath, dirPath);

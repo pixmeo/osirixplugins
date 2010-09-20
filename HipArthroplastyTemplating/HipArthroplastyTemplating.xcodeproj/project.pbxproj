@@ -97,7 +97,7 @@
 		59D94E6A0FCE807D00509EEC /* ArthroplastyTemplatingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingPlugin.h; sourceTree = "<group>"; };
 		59D94E6F0FCE807D00509EEC /* ArthroplastyTemplatingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingTableView.h; sourceTree = "<group>"; };
 		59D94E710FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingWindowController.h; sourceTree = "<group>"; };
-		59D951DA0FCE826400509EEC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59D951DA0FCE826400509EEC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		59F523CD1055235F009B6D89 /* MEDACTA Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "MEDACTA Templates"; sourceTree = "<group>"; };
 		59F5247210554EAA009B6D89 /* MEDACTATemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDACTATemplate.h; sourceTree = "<group>"; };
 		59F5247310554EAA009B6D89 /* MEDACTATemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MEDACTATemplate.mm; sourceTree = "<group>"; };
@@ -132,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				5969FE0011187FDE006C9938 /* TODO.txt */,
+				59D951DA0FCE826400509EEC /* Info.plist */,
 				5912DF3B118F24F1007F7D40 /* Prefix.pch */,
 				59D94E580FCE807D00509EEC /* Sources */,
 				59D94E910FCE81BD00509EEC /* Resources */,
@@ -224,7 +225,6 @@
 				5912DF4D118F26B7007F7D40 /* com.osirix.hiparthroplastytemplating.plist */,
 				5912DF47118F26AB007F7D40 /* HipArthroplastyTemplatingSteps.xib */,
 				5912DF48118F26AB007F7D40 /* HipArthroplastyTemplatingWindow.xib */,
-				59D951DA0FCE826400509EEC /* Info.plist */,
 				59F523CD1055235F009B6D89 /* MEDACTA Templates */,
 			);
 			path = Resources;
