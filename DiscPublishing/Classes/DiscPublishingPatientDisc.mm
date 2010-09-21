@@ -166,45 +166,65 @@
 	NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	NSUInteger processedImagesCount = 0;
-	for (DicomSeries* serie in series) {
-		self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
+	for (DicomSeries* serie in series)
+	{
+		@try
+		{
+			self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
 
-		NSArray* images = [self imagesBelongingToSeries:serie];
-		[self enterSubthreadWithRange:1.*processedImagesCount/_files.count:1.*images.count/_files.count];
-		images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
-		
-		if (images.count) {
-			serie = [(DicomImage*)[images objectAtIndex:0] series];
-			NSString* tmpPath = [DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath];
-				
-			NSUInteger size;
-			if ([_options zip]) {
-				NSString* tmpZipPath = [[[NSFileManager defaultManager] tmpFilePathInTmp] stringByAppendingPathExtension:@"zip"];
-				
-				NSTask* task = [[NSTask alloc] init];
-				[task setLaunchPath:@"/usr/bin/zip"];
-				[task setArguments:[NSArray arrayWithObjects: @"-rq", tmpZipPath, tmpPath, NULL]];
-				[task launch];
-				[task waitUntilExit];
-				[task release];
-				
-				size = [[[NSFileManager defaultManager] attributesOfItemAtPath:tmpZipPath error:NULL] fileSize];
-				
-				[[NSFileManager defaultManager] removeItemAtPath:tmpZipPath error:NULL];			
-			} else size = [[NSFileManager defaultManager] sizeAtPath:tmpPath];
-			[seriesSizes setObject:[NSNumber numberWithUnsignedInteger:size] forKey:[NSValue valueWithPointer:serie]];
+			NSArray* images = [self imagesBelongingToSeries:serie];
+			[self enterSubthreadWithRange:1.*processedImagesCount/_files.count:1.*images.count/_files.count];
+			images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
+			
+			if (images.count) {
+				serie = [(DicomImage*)[images objectAtIndex:0] series];
+				NSString* tmpPath = [DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath];
+					
+				NSUInteger size;
+				if ([_options zip]) {
+					NSString* tmpZipPath = [[[NSFileManager defaultManager] tmpFilePathInTmp] stringByAppendingPathExtension:@"zip"];
+					
+					NSTask* task = [[NSTask alloc] init];
+					[task setLaunchPath:@"/usr/bin/zip"];
+					[task setArguments:[NSArray arrayWithObjects: @"-rq", tmpZipPath, tmpPath, NULL]];
+					[task launch];
+					[task waitUntilExit];
+					[task release];
+					
+					size = [[[NSFileManager defaultManager] attributesOfItemAtPath:tmpZipPath error:NULL] fileSize];
+					
+					[[NSFileManager defaultManager] removeItemAtPath:tmpZipPath error:NULL];			
+				} else size = [[NSFileManager defaultManager] sizeAtPath:tmpPath];
+				[seriesSizes setObject:[NSNumber numberWithUnsignedInteger:size] forKey:[NSValue valueWithPointer:serie]];
+			}
+			
+			[self exitSubthread];
 		}
-		
-		[self exitSubthread];
+		@catch (NSException * e)
+		{
+			NSLog( @"***** DiscPublishingPatientDisc : %@", e);
+		}
 		processedImagesCount += images.count;
 	}
 	
 	NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
-	if (_options.includeReports) {
+	if (_options.includeReports)
+	{
 		[[NSFileManager defaultManager] confirmDirectoryAtPath:reportsTmpPath];
+		
 		for (DicomStudy* study in studies)
+		{
 			if (study.reportURL)
-				[[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
+			{
+				if( [study.reportURL hasPrefix: @"http://"] || [study.reportURL hasPrefix: @"https://"])
+				{
+					NSString *urlContent = [NSString stringWithContentsOfURL: [NSURL URLWithString: study.reportURL]];
+					[urlContent writeToFile: [reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] atomically: YES];
+				}
+				else
+					[[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
+			}
+		}
 	}
 	
 //	DLog(@"paths: %@", seriesPaths);
@@ -469,7 +489,8 @@
 	[pool release];
 }
 
-+(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths {
++(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths
+{
 	NSThread* currentThread = [NSThread currentThread];
 	NSString* baseStatus = currentThread.status;
 //	CGFloat baseProgress = currentThread.progress;
