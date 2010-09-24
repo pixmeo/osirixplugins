@@ -110,7 +110,7 @@
 							<reference key="NSSupport" ref="22"/>
 							<reference key="NSControlView" ref="579041570"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<object class="NSCustomResource" key="NSNormalImage" id="197859496">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">NSRadioButton</string>
@@ -137,7 +137,7 @@
 							<reference key="NSSupport" ref="22"/>
 							<reference key="NSControlView" ref="833992798"/>
 							<int key="NSButtonFlags">1211912703</int>
-							<int key="NSButtonFlags2">130</int>
+							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="197859496"/>
 							<reference key="NSAlternateImage" ref="155465226"/>
 							<string key="NSAlternateContents"/>
@@ -2814,10 +2814,12 @@
 							<string>previousStep:</string>
 							<string>reset:</string>
 							<string>skipStep:</string>
+							<string>stepDone:</string>
 							<string>stepValueChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2833,6 +2835,7 @@
 							<string>previousStep:</string>
 							<string>reset:</string>
 							<string>skipStep:</string>
+							<string>stepDone:</string>
 							<string>stepValueChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -2851,6 +2854,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">skipStep:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">stepDone:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
