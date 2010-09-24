@@ -1,0 +1,19 @@
+You will be able to add your own templates to the plugin: add a folder  
+"My Templates" (it must end with "Templates") to the plugin's  
+Resources directory, and inside that folder use the same structure as  
+the included MEDACTA Templates data:
+- every implant has a TXT file and one or two PDF files (anterior/ 
+posterior, lateral) for every available size
+- the txt file contains values for: FIXATION_TYPE, PRODUCT_GROUP,  
+IMPLANT_MANUFACTURER, MODULARITY_INFO, PRODUCT_FAMILY_NAME,  
+LEFT_RIGHT, TYPE_OF_SURGERY, COMPONENT_TYPE, SIZE, REF_NO,  
+PDF_FILE_AP, PDF_FILE_ML, ORIENTATION
+- coordinates of "origin" in the pdf (rotation point for cups, center  
+for stems): AP_ORIGIN_X, AP_ORIGIN_Y, ML_ORIGIN_X, ML_ORIGIN_Y,
+- in stem, coordinates of the different neck-length rotation points  
+(fixed points common with the cup): AP_HEAD_ROTATION_POINT_1_X, ....,  
+ML_HEAD_ROTATION_POINT_5_Y (1 is interpreted as XS, then S, M, L, XL)
+I'll give you more details once you're done with this part.
+Regards,
+- ORIENTATION indicates the leg for which the template is drawn on the
+PDF. 
