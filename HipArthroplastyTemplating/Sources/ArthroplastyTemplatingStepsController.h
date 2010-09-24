@@ -18,6 +18,7 @@
 	IBOutlet N2StepsView* _stepsView;
 	N2Step *_stepCalibration, *_stepAxes, *_stepLandmarks, *_stepCutting, *_stepCup, *_stepStem, *_stepPlacement, *_stepSave;
 	IBOutlet NSView *_viewCalibration, *_viewAxes, *_viewLandmarks, *_viewCutting, *_viewCup, *_viewStem, *_viewPlacement, *_viewSave;
+	IBOutlet NSButton *doneCalibration, *doneAxes, *doneLandmarks, *doneCutting, *doneCup, *doneStem, *donePlacement, *doneSave;
 	
 	NSMutableSet* _knownRois;
 	ROI *_magnificationLine, *_horizontalAxis, *_femurAxis, *_landmark1, *_landmark2, *_femurRoi;

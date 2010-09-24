@@ -82,6 +82,17 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	[_steps addObject: _stepSave = [[N2Step alloc] initWithTitle:@"Save" enclosedView:_viewSave]];
 	[_steps enableDisableSteps];
 	
+	if ([N2Step instancesRespondToSelector:@selector(setDefaultButton:)]) {
+		[_stepCalibration setDefaultButton:doneCalibration];
+		[_stepAxes setDefaultButton:doneAxes];
+		[_stepLandmarks setDefaultButton:doneLandmarks];
+		[_stepCutting setDefaultButton:doneCutting];
+		[_stepCup setDefaultButton:doneCup];
+		[_stepStem setDefaultButton:doneStem];
+		[_stepPlacement setDefaultButton:donePlacement];
+		[_stepSave setDefaultButton:doneSave];
+	}
+	
 	[_magnificationRadioCustom setAttributedTitle:[[[NSAttributedString alloc] initWithString:[_magnificationRadioCustom title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [_magnificationRadioCustom font], NSFontAttributeName, NULL]] autorelease]];
 	[_magnificationRadioCalibrate setAttributedTitle:[[[NSAttributedString alloc] initWithString:[_magnificationRadioCalibrate title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [_magnificationRadioCalibrate font], NSFontAttributeName, NULL]] autorelease]];
 	[_magnificationCustomFactor setBackgroundColor:[[self window] backgroundColor]];
@@ -89,8 +100,10 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	[_plannersNameTextField setBackgroundColor:[[self window] backgroundColor]];
 	[_magnificationCustomFactor setFloatValue:1.15];
 //	[self updateInfo];
-	
+	 
 	[_plannersNameTextField setStringValue:[[[_plugin templatesWindowController] userDefaults] object:PlannersNameUserDefaultKey otherwise:NSFullUserName()]];
+	
+	[_steps setCurrentStep:_stepCalibration];
 }
 
 -(void)applyMagnification:(CGFloat)magnificationValue {
@@ -768,8 +781,19 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		
 		NSString* name = [NSString stringWithFormat:@"%@ %d", namePrefix, n];
 		[_viewerController deselectAllROIs];
-		[_viewerController exportDICOMFileInt:YES withName:name];
-		[[BrowserController currentBrowser] checkIncoming:self];
+		
+		NSDictionary* d = [_viewerController exportDICOMFileInt:YES withName:name];
+		if (d.count) {
+			NSArray* files = [NSArray arrayWithObject:d];
+			[BrowserController addFiles:[files valueForKey:@"file"]
+							  toContext:[[BrowserController currentBrowser] managedObjectContext]
+							 toDatabase:[BrowserController currentBrowser]
+							  onlyDICOM:YES 
+					   notifyAddedFiles:YES
+					parseExistingObject:YES
+							   dbFolder:[[BrowserController currentBrowser] documentsDirectory]
+					  generatedByOsiriX:YES];
+		} else [[BrowserController currentBrowser] checkIncoming:self];
 		
 		// send to PACS
 		if ([_sendToPACSButton state]==NSOnState)
@@ -817,7 +841,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		switch ([event keyCode]) {
 			case 76: // enter
 			case 36: // return
-				[_steps nextStep:self];
+				[_steps nextStep:_steps.currentStep];
 				return YES;
 			default:
 				unichar uc = [[event charactersIgnoringModifiers] characterAtIndex:0];
