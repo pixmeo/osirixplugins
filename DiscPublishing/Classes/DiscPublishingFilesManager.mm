@@ -82,12 +82,13 @@
 		@try {
 			if (_files.count) {
 				// display thread info
-				[[ThreadsManager defaultManager] performSelector:@selector(addThread:) withObject:self];
+				if (![[[ThreadsManager defaultManager] threads] containsObject:self])
+					[[ThreadsManager defaultManager] addThreadAndStart:self];
 				
 				// update thread status
 				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];
 				if ([[NSUserDefaultsController sharedUserDefaultsController] discPublishingMode] == BurnModeArchiving) {
-					self.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time];
+					self.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time]; // TODO: this
 				} else {
 					self.status = [NSString stringWithFormat:@"Receiving images for %@, %@.", [[self namesForStudies:[self studiesForImages:_files]] componentsJoinedByCommasAndAnd], time];
 				}
@@ -96,7 +97,7 @@
 				[self spawnBurns];
 			} else {
 				// hide thread info
-				[[ThreadsManager defaultManager] performSelector:@selector(removeThread:) withObject:self];
+				[[ThreadsManager defaultManager] removeThread:self];
 			}
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingFilesManager main] error: %@", e);

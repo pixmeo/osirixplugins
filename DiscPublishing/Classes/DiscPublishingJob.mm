@@ -55,6 +55,7 @@
 	self.volumeName = [self.info objectForKey:DiscPublishingJobInfoDiscNameKey];
 	self.writeSpeed = [[self.info objectForKey:DiscPublishingJobInfoBurnSpeedKey] intValue]*10;
 	
+//	NSLog(@"starting %@ (%@)", [NSString stringWithContentsOfFile:[[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DiscPublishingMode.switch"] encoding:NSUTF8StringEncoding error:NULL], [[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DiscPublishingMode.switch"]);
 	if ([@"TEST" isEqual:[NSString stringWithContentsOfFile:[[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DiscPublishingMode.switch"] encoding:NSUTF8StringEncoding error:NULL]])
 		 self.type = JP_JOB_PRINT_ONLY;
 	else {
@@ -63,9 +64,11 @@
 			[self.files addObject:[self.root stringByAppendingPathComponent:subpath]];
 	}
 	
+	NSLog(@"self.info.descriptionself.info.descriptionself.info.description\n%@", self.info.description);
+	
 	// the merging of the template and csv is buggy in the framework, we do this ourselves
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];
-	[[N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSISOLatin1StringEncoding error:NULL];
+	[[N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSMacOSRomanStringEncoding error:NULL];
 	self.printFile = [self.root stringByAppendingPathExtension:@"jpg"];
 	[DiscPublishingJob renderDiscCover:templatePath merge:csvFile into:self.printFile];
 	[[NSFileManager defaultManager] removeItemAtPath:csvFile error:NULL];

@@ -196,6 +196,8 @@
 					[[NSFileManager defaultManager] removeItemAtPath:tmpZipPath error:NULL];			
 				} else size = [[NSFileManager defaultManager] sizeAtPath:tmpPath];
 				[seriesSizes setObject:[NSNumber numberWithUnsignedInteger:size] forKey:[NSValue valueWithPointer:serie]];
+
+				processedImagesCount += images.count;
 			}
 			
 			[self exitSubthread];
@@ -204,7 +206,6 @@
 		{
 			NSLog( @"***** DiscPublishingPatientDisc : %@", e);
 		}
-		processedImagesCount += images.count;
 	}
 	
 	NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
@@ -218,7 +219,7 @@
 			{
 				if( [study.reportURL hasPrefix: @"http://"] || [study.reportURL hasPrefix: @"https://"])
 				{
-					NSString *urlContent = [NSString stringWithContentsOfURL: [NSURL URLWithString: study.reportURL]];
+					NSString *urlContent = [NSString stringWithContentsOfURL:[NSURL URLWithString: study.reportURL]];
 					[urlContent writeToFile: [reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] atomically: YES];
 				}
 				else

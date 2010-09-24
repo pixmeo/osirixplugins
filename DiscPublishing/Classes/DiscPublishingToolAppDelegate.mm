@@ -176,7 +176,6 @@ int main(int argc, const char* argv[]) {
 }
 
 -(void)statusTimerCallback:(NSTimer*)timer {
-	NSLog(@"statusTimerCallback:");
 	if (discPublisher) {
 		[discPublisher.status refresh];
 		UInt32 errorS = 0;

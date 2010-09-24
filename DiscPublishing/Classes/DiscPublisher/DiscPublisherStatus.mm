@@ -40,7 +40,7 @@
 -(void)refresh {
 	NSString* xml = [NSString stringWithContentsOfFile:self.path encoding:NSUTF8StringEncoding error:NULL];
 	
-	NSLog(@"[DiscPublisherStatus refresh]");
+	DLog(@"[DiscPublisherStatus refresh]");
 	
 	NSError* error = NULL;
 	NSXMLDocument* doc = [[[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:&error] autorelease];
