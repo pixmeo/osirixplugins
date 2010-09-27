@@ -261,7 +261,14 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ROI Enhancement II" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* ROI */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -329,8 +336,6 @@
 			buildSettings = {
 				ARCHS = (
 					i386,
-					ppc,
-					ppc64,
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
@@ -341,7 +346,6 @@
 		ABF52CF90FC189810094B252 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
 				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "ppc i386 ppc64 x86_64";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;

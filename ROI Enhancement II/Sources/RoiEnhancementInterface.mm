@@ -20,6 +20,7 @@
 #import <OsiriX Headers/DICOMExport.h>
 #import <OsiriX Headers/DCMPix.h>
 #import <OsiriX Headers/DCMView.h>
+#import <OsiriX Headers/BrowserController.h>
 #import "RoiEnhancementUserDefaults.h"
 #import "RoiEnhancementDicomSaveDialog.h"
 #import "OsiriX Headers/Notifications.h"
