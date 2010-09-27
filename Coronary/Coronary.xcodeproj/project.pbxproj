@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8416A24D10B6A08700EB0BD0 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8416A24C10B6A08700EB0BD0 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		84C2E21B10285C9600C38AF1 /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 84C2E21A10285C9600C38AF1 /* Prefix.pch */; };
 		84C2E21F10285CDB00C38AF1 /* Coronary.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C2E21D10285CDB00C38AF1 /* Coronary.h */; };
 		84C2E22010285CDB00C38AF1 /* Coronary.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C2E21E10285CDB00C38AF1 /* Coronary.m */; };
@@ -26,6 +25,7 @@
 		CE5CC4C810B489A5006A5B6D /* CoronaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5CC4C610B489A5006A5B6D /* CoronaryController.m */; };
 		CE5CC4D410B48A3E006A5B6D /* CoronaryView.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5CC4D210B48A3E006A5B6D /* CoronaryView.h */; };
 		CE5CC4D510B48A3E006A5B6D /* CoronaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5CC4D310B48A3E006A5B6D /* CoronaryView.m */; };
+		CED454CC12512A8F00C7E928 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CED454CB12512A8F00C7E928 /* OsiriX Headers.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		8416A24C10B6A08700EB0BD0 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		84C2E21A10285C9600C38AF1 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		84C2E21D10285CDB00C38AF1 /* Coronary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coronary.h; sourceTree = "<group>"; };
 		84C2E21E10285CDB00C38AF1 /* Coronary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Coronary.m; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		CE5CC4C610B489A5006A5B6D /* CoronaryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoronaryController.m; sourceTree = "<group>"; };
 		CE5CC4D210B48A3E006A5B6D /* CoronaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoronaryView.h; sourceTree = "<group>"; };
 		CE5CC4D310B48A3E006A5B6D /* CoronaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoronaryView.m; sourceTree = "<group>"; };
+		CED454CB12512A8F00C7E928 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +61,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
-				8416A24D10B6A08700EB0BD0 /* OsiriX Headers.framework in Frameworks */,
+				CED454CC12512A8F00C7E928 /* OsiriX Headers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,7 +122,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8416A24C10B6A08700EB0BD0 /* OsiriX Headers.framework */,
+				CED454CB12512A8F00C7E928 /* OsiriX Headers.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -204,7 +204,6 @@
 			};
 			buildConfigurationList = CE6A9AA808AC841E00D0C1EE /* Build configuration list for PBXProject "Coronary" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -289,6 +288,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../osirix/build/Deployment Universal 64-bit\"",
 					"\"$(SRCROOT)/../../osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;

@@ -8,7 +8,7 @@
 
 #import "CoronaryView.h"
 
-static CoronaryView *CoronaryView= nil;
+static CoronaryView *CoronaryView = nil;
 
 @implementation CoronaryView
 
