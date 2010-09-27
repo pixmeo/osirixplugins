@@ -551,7 +551,6 @@
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DiscPublishing" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -771,38 +770,6 @@
 			};
 			name = Development;
 		};
-		5900F65711906667001E899B /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
-					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
-					"\"$(SRCROOT)/../../osirix/osirix/Binaries\"",
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = Resources/Tool/Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = DiscPublishingTool;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
 		59BDFB921185B795007F1F2C /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -827,7 +794,7 @@
 				GCC_PREFIX_HEADER = Prefix.pch;
 				INFOPLIST_FILE = Resources/Preferences/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -837,36 +804,6 @@
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Development;
-		};
-		59BDFB931185B795007F1F2C /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-				);
-				GCC_ENABLE_CPP_RTTI = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
-				INFOPLIST_FILE = Resources/Preferences/Info.plist;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PREBINDING = YES;
-				PRODUCT_NAME = DiscPublishingPreferences;
-				WRAPPER_EXTENSION = prefPane;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
 		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
@@ -903,7 +840,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -922,50 +859,6 @@
 			};
 			name = Development;
 		};
-		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Resources/Info.plist;
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = DiscPublishing;
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -975,18 +868,6 @@
 			};
 			name = Development;
 		};
-		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = macosx10.5;
-			};
-			name = Deployment;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -994,7 +875,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5900F65611906667001E899B /* Development */,
-				5900F65711906667001E899B /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -1003,7 +883,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				59BDFB921185B795007F1F2C /* Development */,
-				59BDFB931185B795007F1F2C /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -1012,7 +891,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9108AC841300D0C1EE /* Development */,
-				CE6A9A9208AC841300D0C1EE /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
@@ -1021,7 +899,6 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9508AC841300D0C1EE /* Development */,
-				CE6A9A9608AC841300D0C1EE /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
