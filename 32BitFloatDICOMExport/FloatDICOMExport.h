@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PluginFilter.h"
+#import <OsiriX Headers/PluginFilter.h>
 
 @interface FloatDICOMExport : PluginFilter {
 

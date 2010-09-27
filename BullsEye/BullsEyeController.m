@@ -131,7 +131,7 @@ const NSString* FileTypeCSV = @"csv";
 
 -(IBAction) saveDICOM:(id)sender
 {
-	[self dicomSave: [[presetsList selection] valueForKey: @"name"] backgroundColor: [NSColor whiteColor] toFile: [[[BrowserController currentBrowser] fixedDocumentsDirectory] stringByAppendingPathComponent: @"INCOMING.noindex/bullsEye.dcm"]];
+	[self dicomSave: [[presetsList selection] valueForKey: @"name"] backgroundColor: [NSColor whiteColor] toFile: nil];
 }
 
 -(IBAction)saveAsPDF:(id)sender
@@ -190,7 +190,18 @@ const NSString* FileTypeCSV = @"csv";
 		[dicomExport setSeriesDescription: seriesDescription];
 		[dicomExport setSeriesNumber: 85469];
 		[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
-		[dicomExport writeDCMFile:filename];
+		NSString *f = [dicomExport writeDCMFile: nil];
+	
+		if( f)
+			[BrowserController addFiles: [NSArray arrayWithObject: f]
+						 toContext: [[BrowserController currentBrowser] managedObjectContext]
+						toDatabase: [BrowserController currentBrowser]
+						 onlyDICOM: YES 
+				  notifyAddedFiles: YES
+			   parseExistingObject: YES
+						  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+				 generatedByOsiriX: YES];
+			 
 		[dicomExport release];
 	}
 }

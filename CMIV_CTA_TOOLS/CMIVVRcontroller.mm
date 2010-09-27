@@ -31,6 +31,9 @@
 #import "DICOMExport.h"
 #include "VRMakeObject.h"
 #import <QTKit/QTKit.h>
+#import "OsiriX Headers/BrowserController.h"
+
+
 static void needAdjustClipPlane(vtkObject*,unsigned long c, void* ptr, void*)
 {
 	CMIVVRcontroller* controller = (CMIVVRcontroller*) ptr;
@@ -212,15 +215,22 @@ static void needAdjustClipPlane(vtkObject*,unsigned long c, void* ptr, void*)
 				
 				[dcmSequence setPixelData: dataPtr samplePerPixel:spp bitsPerPixel:bpp width: width height: height];
 				
-				[dcmSequence writeDCMFile: 0L];
+				NSString *f = [dcmSequence writeDCMFile: 0L];
+	
+				if( f)
+					[BrowserController addFiles: [NSArray arrayWithObject: f]
+								 toContext: [[BrowserController currentBrowser] managedObjectContext]
+								toDatabase: [BrowserController currentBrowser]
+								 onlyDICOM: YES 
+						  notifyAddedFiles: YES
+					   parseExistingObject: YES
+								  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+						 generatedByOsiriX: YES];
 				
 				free( dataPtr);
 			}
 			
 			[pool release];
-			
-			
-			
 		}
 		
 		[vrViewer endRenderImageWithBestQuality];

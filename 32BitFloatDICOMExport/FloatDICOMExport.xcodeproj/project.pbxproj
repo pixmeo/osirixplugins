@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84C2E264102864CC00C38AF1 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C2E263102864CC00C38AF1 /* OsiriX.framework */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB01B9BC067FAC0500CDDB0F /* WebKit.framework */; };
+		AB250FA11250E09B00FD6EC7 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB250FA01250E09B00FD6EC7 /* OsiriX Headers.framework */; };
+		AB2510FF1250E0EF00FD6EC7 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2510FE1250E0EF00FD6EC7 /* OsiriX.framework */; };
 		CE4EAB9F1037E5AA00DA0EFB /* DICOMExport.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EAB9E1037E5AA00DA0EFB /* DICOMExport.h */; };
 		CE4EABC31037E79900DA0EFB /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EABC21037E79900DA0EFB /* browserController.h */; };
 		CE4EABCA1037E7A500DA0EFB /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = CE4EABC91037E7A500DA0EFB /* DCMPix.h */; };
@@ -24,10 +25,11 @@
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		84C2E263102864CC00C38AF1 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix/build/Deployment Universal 64-bit/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB01B9BC067FAC0500CDDB0F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		AB1411F40677B3BE004B0074 /* FloatDICOMExport.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FloatDICOMExport.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB250FA01250E09B00FD6EC7 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		AB2510FE1250E0EF00FD6EC7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix/osirix/build/Deployment 64-bit/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
 		CE4EAB9E1037E5AA00DA0EFB /* DICOMExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DICOMExport.h; path = ../../osirix/DICOMExport.h; sourceTree = SOURCE_ROOT; };
 		CE4EABC21037E79900DA0EFB /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = browserController.h; path = ../../osirix/browserController.h; sourceTree = SOURCE_ROOT; };
 		CE4EABC91037E7A500DA0EFB /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DCMPix.h; path = ../../osirix/DCMPix.h; sourceTree = SOURCE_ROOT; };
@@ -45,7 +47,8 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
-				84C2E264102864CC00C38AF1 /* OsiriX.framework in Frameworks */,
+				AB250FA11250E09B00FD6EC7 /* OsiriX Headers.framework in Frameworks */,
+				AB2510FF1250E0EF00FD6EC7 /* OsiriX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-				84C2E263102864CC00C38AF1 /* OsiriX.framework */,
+				AB2510FE1250E0EF00FD6EC7 /* OsiriX.framework */,
+				AB250FA01250E09B00FD6EC7 /* OsiriX Headers.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -192,7 +196,14 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9AA808AC841E00D0C1EE /* Build configuration list for PBXProject "FloatDICOMExport" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Invert */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -254,6 +265,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../osirix/build/Deployment Universal 64-bit\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Deployment 64-bit\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -292,8 +305,6 @@
 			buildSettings = {
 				ARCHS = (
 					i386,
-					ppc,
-					ppc64,
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;

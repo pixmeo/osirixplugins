@@ -27,6 +27,7 @@
 #import <OsiriX Headers/MyPoint.h>
 #import <OsiriX Headers/DCMPix.h>
 #import <OsiriX Headers/DICOMExport.h>
+#import <OsiriX Headers/BrowserController.h>
 #import "EjectionFractionZoomView.h"
 
 const NSString* FileTypePDF = @"pdf";
@@ -284,7 +285,18 @@ const NSString* FileTypeDICOM = @"dcm";
 	[dicomExport setSeriesDescription:seriesDescription];
 	[dicomExport setSeriesNumber:35466];
 	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
-	[dicomExport writeDCMFile:filename];
+	NSString *f = [dicomExport writeDCMFile: nil];
+	
+	if( f)
+		[BrowserController addFiles: [NSArray arrayWithObject: f]
+					 toContext: [[BrowserController currentBrowser] managedObjectContext]
+					toDatabase: [BrowserController currentBrowser]
+					 onlyDICOM: YES 
+			  notifyAddedFiles: YES
+		   parseExistingObject: YES
+					  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+			 generatedByOsiriX: YES];
+	
 	[dicomExport release];
 }
 

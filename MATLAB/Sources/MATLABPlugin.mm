@@ -61,7 +61,18 @@
 	[de setSliceThickness:[dcm sliceThickness]];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resultImported:) name:OsirixAddToDBNotification object:NULL];
-	[de writeDCMFile:NULL];
+	
+	NSString *f = [de writeDCMFile:NULL];
+	 
+	 if( f)
+		[BrowserController addFiles: [NSArray arrayWithObject: f]
+					 toContext: [[BrowserController currentBrowser] managedObjectContext]
+					toDatabase: [BrowserController currentBrowser]
+					 onlyDICOM: YES 
+			  notifyAddedFiles: YES
+		   parseExistingObject: YES
+					  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+			 generatedByOsiriX: YES];
 	
 	[de release];
 	

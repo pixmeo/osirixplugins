@@ -102,7 +102,17 @@
 			if( [rep isPlanar])
 				NSLog( @"********** DCMJpegImportFilter Planar is not yet supported....");
 			
-			[e writeDCMFile: [NSString stringWithFormat: @"%@/INCOMING.noindex/JTD%d.dcm", [[BrowserController currentBrowser] documentsDirectory], imageNumber++]];
+			NSString *f = [e writeDCMFile: nil];
+	
+			if( f)
+				[BrowserController addFiles: [NSArray arrayWithObject: f]
+							 toContext: [[BrowserController currentBrowser] managedObjectContext]
+							toDatabase: [BrowserController currentBrowser]
+							 onlyDICOM: YES 
+					  notifyAddedFiles: YES
+				   parseExistingObject: YES
+							  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+					 generatedByOsiriX: YES];
 		}
 	}
 	[pool release];

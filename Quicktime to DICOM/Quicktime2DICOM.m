@@ -8,6 +8,7 @@
 #import "OsiriX Headers/browserController.h"
 #import "OsiriX Headers/WaitRendering.h"
 #import "OsiriX Headers/DICOMExport.h"
+#import "OsiriX Headers/BrowserController.h"
 
 @implementation Quicktime2DICOM
 
@@ -170,7 +171,7 @@
 	{
 		[movie attachToCurrentThread];
 		
-		int curFrame = 0, imageNumber = 0;
+		int curFrame = 0;
 		[movie gotoBeginning];
 		
 		QTTime previousTime = [movie currentTime];
@@ -195,7 +196,17 @@
 					spp = 3;
 				
 				[e setPixelData: (unsigned char*) data samplesPerPixel: spp bitsPerSample: 8 width:width height:height];
-				[e writeDCMFile: [NSString stringWithFormat: @"%@/INCOMING.noindex/JTD%d.dcm", [[BrowserController currentBrowser] documentsDirectory], imageNumber++]];
+				NSString *f = [e writeDCMFile: nil];
+	 
+				 if( f)
+					[BrowserController addFiles: [NSArray arrayWithObject: f]
+								 toContext: [[BrowserController currentBrowser] managedObjectContext]
+								toDatabase: [BrowserController currentBrowser]
+								 onlyDICOM: YES 
+						  notifyAddedFiles: YES
+					   parseExistingObject: YES
+								  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+						 generatedByOsiriX: YES];
 				
 				free( data);
 			}

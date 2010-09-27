@@ -10,11 +10,11 @@
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		AB250F2F1250DFA700FD6EC7 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB250F2D1250DFA700FD6EC7 /* OsiriX Headers.framework */; };
+		AB2512A71250E14800FD6EC7 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2512A61250E14800FD6EC7 /* OsiriX.framework */; };
 		AB2E0A8D10BECA59004BE0F5 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2E0A8C10BECA59004BE0F5 /* QTKit.framework */; };
-		AB2E0BAC10BED326004BE0F5 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2E0BAB10BED326004BE0F5 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ABA48A650680BB600089EB4F /* Quicktime2DICOM.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* Quicktime2DICOM.h */; };
 		ABA48A670680BB690089EB4F /* Quicktime2DICOM.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* Quicktime2DICOM.m */; };
-		ABBE9EFE104FFBBA00E756FB /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABBE9EFD104FFBBA00E756FB /* OsiriX.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,12 +24,12 @@
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB250F2D1250DFA700FD6EC7 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		AB2512A61250E14800FD6EC7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix/osirix/build/Deployment 64-bit/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
 		AB2E0A8C10BECA59004BE0F5 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
-		AB2E0BAB10BED326004BE0F5 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		AB5D36050680E57E00F4007A /* Quicktime2DICOM.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Quicktime2DICOM.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA48A640680BB600089EB4F /* Quicktime2DICOM.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Quicktime2DICOM.h; sourceTree = "<group>"; };
 		ABA48A660680BB690089EB4F /* Quicktime2DICOM.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Quicktime2DICOM.m; sourceTree = "<group>"; };
-		ABBE9EFD104FFBBA00E756FB /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix/build/Deployment Universal 64-bit/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,9 +38,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				ABBE9EFE104FFBBA00E756FB /* OsiriX.framework in Frameworks */,
 				AB2E0A8D10BECA59004BE0F5 /* QTKit.framework in Frameworks */,
-				AB2E0BAC10BED326004BE0F5 /* OsiriX Headers.framework in Frameworks */,
+				AB250F2F1250DFA700FD6EC7 /* OsiriX Headers.framework in Frameworks */,
+				AB2512A71250E14800FD6EC7 /* OsiriX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,8 +62,8 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				ABBE9EFD104FFBBA00E756FB /* OsiriX.framework */,
-				AB2E0BAB10BED326004BE0F5 /* OsiriX Headers.framework */,
+				AB250F2D1250DFA700FD6EC7 /* OsiriX Headers.framework */,
+				AB2512A61250E14800FD6EC7 /* OsiriX.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);
@@ -164,7 +164,14 @@
 			isa = PBXProject;
 			buildConfigurationList = BF90E90E088F520B0078E0EC /* Build configuration list for PBXProject "Quicktime2DICOM" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Duplicate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -225,6 +232,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"\"$(SRCROOT)/../../osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Deployment 64-bit\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/build/Deployment Universal 64-bit\"";
 				GCC_DYNAMIC_NO_PIC = NO;

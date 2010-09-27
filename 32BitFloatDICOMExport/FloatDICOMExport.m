@@ -8,10 +8,10 @@
 #import "FloatDICOMExport.h"
 #import "OsiriX/DCMObject.h"
 #import "OsiriX/DCMTransferSyntax.h"
-#import "DCMPix.h"
+#import "OsiriX Headers/DCMPix.h"
 
-#import "DICOMExport.h"
-#import "BrowserController.h"
+#import "OsiriX Headers/DICOMExport.h"
+#import "OsiriX Headers/BrowserController.h"
 
 @implementation FloatDICOMExport
 
@@ -28,7 +28,17 @@
 	
 	[xport setSourceFile: [curPix sourceFile]];
 	[xport setPixelData: (unsigned char*) [curPix fImage] samplesPerPixel: 1 bitsPerSample: sizeof( float) * 8 width: [curPix pwidth] height: [curPix pheight]];
-	[xport writeDCMFile: [[[BrowserController currentBrowser] fixedDocumentsDirectory] stringByAppendingPathComponent: @"INCOMING.noindex/dicom-in-32-bit-float.dcm"]];
+	NSString *f = [xport writeDCMFile: nil];
+	 
+	 if( f)
+		[BrowserController addFiles: [NSArray arrayWithObject: f]
+					 toContext: [[BrowserController currentBrowser] managedObjectContext]
+					toDatabase: [BrowserController currentBrowser]
+					 onlyDICOM: YES 
+			  notifyAddedFiles: YES
+		   parseExistingObject: YES
+					  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
+			 generatedByOsiriX: YES];
 	 
 	return 0;   // No Errors
 }
