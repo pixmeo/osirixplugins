@@ -511,29 +511,47 @@
 	NSMutableArray* fileNames = [NSMutableArray arrayWithCapacity:imagesIn.count];
 	NSMutableArray* originalCopiedFiles = [NSMutableArray array]; // to avoid double copies (multiframe dicom)
 	[currentThread enterSubthreadWithRange:0:0.5];
-	for (NSUInteger i = 0; i < imagesIn.count; ++i) {
+	for (NSUInteger i = 0; i < imagesIn.count; ++i)
+	{
+		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+		
 		currentThread.progress = CGFloat(i)/imagesIn.count;
 		
 		DicomImage* image = [imagesIn objectAtIndex:i];
 		NSString* filePath = [image completePathResolved];
 		
-		if (![originalCopiedFiles containsObject:filePath]) {
+		if (![originalCopiedFiles containsObject:filePath])
+		{
 			[originalCopiedFiles addObject:filePath];
 		
-			if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+			if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+			{
 				NSLog(@"Warning: file unavailable at path %@", filePath);
-				continue;
+				goto continueFor;
 			}
 			
 			NSString* filename = [NSString stringWithFormat:@"%d", i];
 			NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
 			
 			if (options.anonymize)
-				[DCMObject anonymizeContentsOfFile:filePath tags:options.anonymizationTags writingToFile:toFilePath];
+			{
+				@try
+				{
+					[DCMObject anonymizeContentsOfFile:filePath tags:options.anonymizationTags writingToFile:toFilePath];
+				}
+				@catch (NSException * e)
+				{
+					NSLog( @"***** exception in %s: %@", __PRETTY_FUNCTION__, e);
+				}
+			}
 			else [[NSFileManager defaultManager] copyPath:filePath toPath:toFilePath handler:NULL]; // TODO: handle copy errors
 			
 			[fileNames addObject:filename];
 		}
+		
+		continueFor:
+		
+		[pool release];
 	}
 	
 	currentThread.status = baseStatus;
