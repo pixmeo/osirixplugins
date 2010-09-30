@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<link href="./style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
+		<h1>Exec</h1>
+		<div id="text">
+            This plugin allows you to execute an external program on the DICOM files you select in the OsiriX studies browser.<br/>
+            <br/>
+            This plugin was made to be customized, and only once customized its usage will be useful. The uncustomized usage of the plugin will result into a very useless behaviour: a file named <i>OsiriX.exec.txt</i> will be created on your desktop, and the file's contents will be some details (DICOM file path, patient's name and birth date, title of selected plugin button/menu) about the files that were selected when you fired the plugin.
+            <pre style="margin-left: 1cm">/Users/me/Documents/OsiriX Data/DATABASE.noindex/70000/65436.dcm ANONYMIZE 20050514 Exec
+/Users/me/Documents/OsiriX Data/DATABASE.noindex/70000/65444.dcm ANONYMIZE 20050514 Exec
+/Users/me/Documents/OsiriX Data/DATABASE.noindex/70000/65433.dcm ANONYMIZE 20050514 Exec</pre>
+            
+            <h2>Important Warning</h2>
+            
+            As of the current release, you must avoid running more than one customized plugin at a time. If you do, the behavior is undefined (whatever the plugin you select, of all the plugins only one will execute, always the same).
+            
+            <h2>Customization</h2>
+            
+            There are different things you should customize:
+            <ul>
+                <li>
+                    <b>The name of the plugin</b><br/>
+                    Rename <i>Exec.osirixplugin</i> to <i>Example.osirixplugin</i>.
+                </li>
+                <li>
+                    <b>The <i>Info.plist</i> file contents</b><br/>
+                    Open <i>Example.osirixplugin/Contents/Info.plist</i> (to access it, right-click on <i>Example.osirixplugin</i> and select <i>Show Package Contents</i>) with a text editor (like TextEdit) and modify the following values:
+                    <ul>
+                        <li>
+                            <b><i>MenuTitles</i></b><br/>
+                            Replace <i>Exec</i> with your plugin's menu and toolbar icon's title.
+                        </li>
+                        <li>
+                            <b><i>ToolbarIcon</i></b><br/>
+                            Replace <i>Icon</i> with the name of the icon file in the <i>Resources</i> folder. You will probably leave this value untouched and replace the <i>Icon.png</i> file directly. If you're wondering, the file extension doesn't need to be specified.
+                        </li>
+                        <li>
+                            <b><i>MenuTitles</i></b><br/>
+                            Replace <i>Exec</i> vith your plugin's menu and toolbar icon's title. If you specify more than one title, you may then be able to handle more than one distinct execution.
+                        </li>
+                        <li>
+                            <b><i>Command</i></b><br/>
+                            This is an array of strings that specify the executed program's path and its arguments. You can either specify static values or replacement keys that the plugin replaces with values related to the DICOM file the program is executed for. The replacement keys are always escaped by percent symbols, which are removed when the replacement succeeds. Escaped values can be the following:
+                            <ul>
+                                <li>
+                                    Any DICOM attribute tag's name, like <i>PatientsName</i>, <i>ReferringPhysiciansName</i>, <i>CodingSchemeDesignator</i> or <i>InterpretationAuthor</i>. These keys will be replaced with the DICOM file's value for the tag they specify.
+                                </li>
+                                <li>
+                                    Any DICOM attribute tag's group and element hexadecimal values separated by a comma, like <i>0010,0010</i>, <i>0008,0090</i>, <i>0008,0102</i> or <i>4008,010C</i>. These keys will be replaced with the DICOM file's value for the tag they specify.
+                                </li>
+                                <li>
+                                    <i>DicomFilePath</i> will be replaced with the DICOM file's path.
+                                </li>
+                                <li>
+                                    <i>MenuTitle</i> will be replaced with the name of the selected menu or button.
+                                </li>
+                                <li>
+                                    <i>BundleResourcesPath</i> will be replaced with the path to the plugin's <i>Resources</i> directory.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <b>The <i>Resources</i> directory's contents</b><br/>
+                    <ul>
+                        <li>
+                            <i>Icon.png</i> must be replaced/renamed/deleted accordingly to your <i>Info.plist</i>'s <i>ToolbarIcon</i> value.
+                        </li>
+                        <li>
+                            <i>exec.sh</i> must be replaced/renamed/modified accordingly to your <i>Info.plist</i>'s <i>Command</i> value and to what your customized plugin is supposed to do.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h2>Remarks</h2>
+            
+            The example execution launches <i>exec.sh</i> through <i>/bin/sh</i>, but you may also directly call an executable or another interpreter.
+            
+            <h2>Download</h2>
+            
+            <a href="Exec.osirixplugin.zip">Download</a> the modifiable plugin.
+	    </div>
+    </body>
+</html>
