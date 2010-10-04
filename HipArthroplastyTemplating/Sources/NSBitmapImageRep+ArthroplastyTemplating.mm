@@ -58,7 +58,7 @@ struct IntegerPoint {
 	}
 	
 	// make unflooded pixels with alpha = 0 have alpha = 1
-#pragma omp parallel for default(shared)
+//#pragma omp parallel for default(shared)
 	for (NSInteger x = 0; x < width; ++x)
 		for (NSInteger y = 1; y < height-1; ++y)
 			if (!visited[x][y] && !data[P(x,y)+3])
@@ -85,7 +85,7 @@ struct IntegerPoint {
 	for (NSInteger i = 0; i < componentsCount; ++i)
 		uint8components[i] = components[i]*UINT8_MAX;
 	
-#pragma omp parallel for default(shared)
+//#pragma omp parallel for default(shared)
 	for (NSInteger x = 0; x < width; ++x)
 		for (NSInteger y = 1; y < height-1; ++y) {
 			NSUInteger p = P(x,y);
