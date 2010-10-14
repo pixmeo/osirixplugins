@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		22C9712C0BA9BAC900ADA848 /* 3DRotate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 22C9712B0BA9BAC900ADA848 /* 3DRotate.tiff */; };
+		843374E2126753F000A833F2 /* SRAnnotation.h in Headers */ = {isa = PBXBuildFile; fileRef = 843374E1126753F000A833F2 /* SRAnnotation.h */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		AB2514741250E22D00FD6EC7 /* libitkvnl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2514571250E22D00FD6EC7 /* libitkvnl.a */; };
@@ -1716,7 +1717,6 @@
 		B9C3BAB90F5D9BC0001D6931 /* trash.icns in Resources */ = {isa = PBXBuildFile; fileRef = B9C3BAB50F5D9BC0001D6931 /* trash.icns */; };
 		B9C3BAF20F5D9CF6001D6931 /* browserController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C3BAF00F5D9CF6001D6931 /* browserController.h */; };
 		B9C3BAF30F5D9CF6001D6931 /* OSIWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C3BAF10F5D9CF6001D6931 /* OSIWindowController.h */; };
-		B9C3BAF60F5D9D0E001D6931 /* ROISRConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C3BAF50F5D9D0E001D6931 /* ROISRConverter.h */; };
 		B9C596A10D127F810082FCAF /* CMIVDCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = B9C5969D0D127F810082FCAF /* CMIVDCMView.h */; };
 		B9C596A20D127F810082FCAF /* CMIVDCMView.m in Sources */ = {isa = PBXBuildFile; fileRef = B9C5969E0D127F810082FCAF /* CMIVDCMView.m */; };
 		B9CACF5B0B049C510099ADCE /* CMIVChopperController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B9E3A0440B048ED300387A56 /* CMIVChopperController.mm */; };
@@ -1734,6 +1734,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		22C9712B0BA9BAC900ADA848 /* 3DRotate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = 3DRotate.tiff; sourceTree = "<group>"; };
+		843374E1126753F000A833F2 /* SRAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRAnnotation.h; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB2514571250E22D00FD6EC7 /* libitkvnl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libitkvnl.a; path = ../../osirix/osirix/ITK180/bin/libitkvnl.a; sourceTree = SOURCE_ROOT; };
 		AB2514581250E22D00FD6EC7 /* libITKIO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libITKIO.a; path = ../../osirix/osirix/ITK180/bin/libITKIO.a; sourceTree = SOURCE_ROOT; };
@@ -3441,7 +3442,6 @@
 		B9C3BAB50F5D9BC0001D6931 /* trash.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = trash.icns; sourceTree = "<group>"; };
 		B9C3BAF00F5D9CF6001D6931 /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = browserController.h; sourceTree = "<group>"; };
 		B9C3BAF10F5D9CF6001D6931 /* OSIWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIWindowController.h; sourceTree = "<group>"; };
-		B9C3BAF50F5D9D0E001D6931 /* ROISRConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ROISRConverter.h; sourceTree = "<group>"; };
 		B9C5969D0D127F810082FCAF /* CMIVDCMView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMIVDCMView.h; sourceTree = "<group>"; };
 		B9C5969E0D127F810082FCAF /* CMIVDCMView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMIVDCMView.m; sourceTree = "<group>"; };
 		B9E39DE70B03648700387A56 /* CMIV_CTA_TOOLS.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CMIV_CTA_TOOLS.h; sourceTree = "<group>"; };
@@ -5276,7 +5276,7 @@
 		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
 			isa = PBXGroup;
 			children = (
-				B9C3BAF50F5D9D0E001D6931 /* ROISRConverter.h */,
+				843374E1126753F000A833F2 /* SRAnnotation.h */,
 				B9C3BAF00F5D9CF6001D6931 /* browserController.h */,
 				B9C3BAF10F5D9CF6001D6931 /* OSIWindowController.h */,
 				B95F5BD40D3E6CD2003D201B /* DICOMExport.h */,
@@ -5377,7 +5377,6 @@
 				B9C3BAB00F5D9B89001D6931 /* CMIVVesselPlotView.h in Headers */,
 				B9C3BAF20F5D9CF6001D6931 /* browserController.h in Headers */,
 				B9C3BAF30F5D9CF6001D6931 /* OSIWindowController.h in Headers */,
-				B9C3BAF60F5D9D0E001D6931 /* ROISRConverter.h in Headers */,
 				AB2522CB1250E3C800FD6EC7 /* vtk3DS.h in Headers */,
 				AB2522CC1250E3C800FD6EC7 /* vtk3DSImporter.h in Headers */,
 				AB2522CD1250E3C800FD6EC7 /* vtk3DWidget.h in Headers */,
@@ -6959,6 +6958,7 @@
 				AB2528FB1250E3C900FD6EC7 /* vtkXYPlotWidget.h in Headers */,
 				AB2528FC1250E3C900FD6EC7 /* vtkXYZMolReader.h in Headers */,
 				AB2528FD1250E3C900FD6EC7 /* vtkZLibDataCompressor.h in Headers */,
+				843374E2126753F000A833F2 /* SRAnnotation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

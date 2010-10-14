@@ -25,11 +25,11 @@ PURPOSE.
 #import <Cocoa/Cocoa.h>
 #include <Accelerate/Accelerate.h>
 #import "DCMObject.h"
-#import "DCMCalendarDate.h"
-#import "PluginFilter.h"
-#import "dicomFile.h"
-#import "DCMPixelDataAttribute.h"
-#import "DCMDataContainer.h"
+#import "OsiriX Headers/DCMCalendarDate.h"
+#import "OsiriX Headers/PluginFilter.h"
+#import "OsiriX Headers/dicomFile.h"
+#import "OsiriX Headers/DCMPixelDataAttribute.h"
+#import "OsiriX Headers/DCMDataContainer.h"
 enum DCM_CompressionQuality {DCMLosslessQuality, DCMHighQuality, DCMMediumQuality, DCMLowQuality};
 @interface CMIVExport : NSObject {
 

@@ -19,7 +19,7 @@ PURPOSE.
 
 #import "CMIVExport.h"
 #import "BrowserController.h"
-#import "ROISRConverter.h"
+#import "SRAnnotation.h"
 
 #define VERBOSEMODE
 
@@ -516,7 +516,7 @@ PURPOSE.
 					[fakeDicomImage setValue:sopInstanceUID forKey:@"sopInstanceUID"];
 					[fakeDicomImage setValue:[NSNumber numberWithInt:[curPix ID]] forKey:@"instanceNumber"];
 				
-					NSString	*aROIpath = [ROISRConverter archiveROIsAsDICOM: [roiList objectAtIndex:ii]  toPath: tempdstPath forImage:fakeDicomImage ];
+					NSString	*aROIpath = [SRAnnotation archiveROIsAsDICOM: [roiList objectAtIndex:ii]  toPath: tempdstPath forImage:fakeDicomImage ];
 					if(aROIpath)
 						[addedROIFiles addObject:aROIpath];
 					else
