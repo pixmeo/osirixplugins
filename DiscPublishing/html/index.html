@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+	<head>
+		<link href="./style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
+		<h1>DiscPublishing</h1>
+		<div id="text">
+            This plugin allows you to use a Primera DiscPublisher robot with OsiriX.<br/>
+            <br/>
+            With Primera robots OsiriX will be able to produce labeled CDs and DVDs containing selected DICOM files. The discs' content and label can be customized. The following list enumerates the available  options:
+            <ul>
+                <li>
+                    <b>Automatic burn of incoming files</b><br/>
+                    Can be enabled/disabled.
+                </li>
+                <li>
+                    <b>Burn delay</b><br/>
+                    You can specify how long OsiriX must wait before it starts burning data. The selected delay is applied this way: every time a patient's image is received, that patient's timer is reset, and when a timer reaches the delay the data received for that patient is prepared and burnt.
+                </li>
+                <li>
+                    <b>Anonymization</b><br/>
+                    The DICOM files can be anonymized before being processed and burnt.
+                </li>
+                <li>
+                    <b>Compression</b><br/>
+                    The DICOM files can be compressed or decompressed.
+                </li>
+                <li>
+                    <b>OsiriX Lite</b><br/>
+                    The OsiriX Lite application can be written on the disc.
+                </li>
+                <li>
+                    <b>HTML/QuickTime</b><br/>
+                    An HTML version of the DICOM images can be included. Series containing more than one image are included as QuickTime movies.
+                </li>
+                <li>
+                    <b>ZIP compression and encryption</b><br/>
+                    To save extra space, you may apply ZIP compression to the data included in the disk. Also, the ZIP file can be protected with a password.
+                </li>
+                <li>
+                    <b>Extra content</b><br/>
+                    You may specify a folder whose content is copied on the burnt discs.
+                </li>
+                <li>
+                    <b>Label template</b><br/>
+                    You can select a <i>Disc Cover 2</i> label template file that will be filled with values extracted from the DICOM files' meta data.
+                </li>
+                <li>
+                    <b>Burn speed</b><br/>
+                    Can be set from 10% to 100%.
+                </li>
+            </ul>
+            
+            <h2>What you need</h2>
+            <ul>
+                <li>
+                    <b>A primera Disc Publisher</b><br/>
+	                We tested Disc Publisher SE, Disc Publisher Pro and DiscPublisher Xi (CD/DVD only, never BluRay).
+                </li>
+                <li>
+                    <b>An Intel Mac running OsiriX 3.8 or newer</b><br/>
+                <li>
+                    <b>The DiscPublishing plugin</b><br/>
+                </li>
+            </ul>
+            
+            <h2>Setup</h2>
+            
+            <ul>
+                <li>
+                    Link the DiscPublisher's USB cable to the mac, power both units (mac and robot) on
+                </li>
+                <li>
+                    Make sure the DiscPublisher is installed as a printer on the MacOS X System Preferences' <i>Print & Fax</i> panel.<br/>
+	                If it isn't, you will need to install the printer drivers, download them here: <a href="http://primera.eu/en/driver/driver.html">http://primera.eu/en/driver/driver.html</a><br/>
+                	You probably need to reboot after setting up the printer! The system won't ask you to, but do it.
+                </li>
+                <li>
+                    I'm not sure this is necessary, but check if your DiscPublisher is running its most recent firmware through the printer utility.<br/>
+                    If necessary, update it: <a href="http://primera.eu/en/driver/firmware.html">http://primera.eu/en/driver/firmware.html</a>
+                </li>
+                <li>
+                    Load the input bins with blank CDs/DVDs.
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Install the OsiriX application into the /Applications/ folder.
+                </li>
+                <li>
+                    Install the plugin.
+                </li>
+                <li>
+                    Launch OsiriX.
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    Configure the plugin through its preferences panel in the OsiriX Preferences window.</br>
+                    The first thing you want to check is whether the plugin is successfully communicating with the robot. In the preferences panel there is a box labeled <i>Robot Options</i>. If that box says "No robot was found", then there is a problem, otherwise the box offers you an interface to specify what type of disks you put in the robot's input bins.
+                </li>
+                <li>
+                    Currently, only patient mode is implemented. One day, if users will ask for it, we might implement the archiving plugin mode.
+                </li>
+                <li>
+                    The other options are rather intuitive and described on this page's introduction.
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    If you want to, customize your OsiriX main window's toolbar (right click on toolbar, "Customize Toolbar...") by adding the plugin's "Publish" button to it.
+                </li>
+                <li>
+                    Make sure the <i>Albums & Sources</i> drawer is visible, as the plugin only tells you about its status through the new Activity table, on the bottom of the drawer.
+                </li>
+                <li>
+                    If something goes wrong, the plugin will notify you through Growl. If Growl is not installed and active, you may miss important messages. We suggest you set Growl to use the MailMe or SMS display styles for all notifications from the plugin, which shows as Disc Publishing in the Growl preference pane (it will appear only once the plugin will have been run for the first time). 
+                </li>
+            </ul>
+            
+            Our disc publishing test mac is set to automatically log into a 'discpublishing' user. A launch daemon is set for that user in order to keep OsiriX running. We advise you to do the same.
+
+            <h2>Disc Cover</h2>
+            
+            The plugin allows you to provide a template for the disc's label. The template editing application, bundled in the plugin, supports the usage of text fields where the content of the fields is filled when the template is used for printing. The plugin fills these merge fields with these values:
+            <ol>
+                <li>Patient's name;</li>
+                <li>Patient's birth date</li>
+                <li>Study names (if multiple values, these are separated by commas);</li>
+                <li>Modalities (if multiple values, these are separated by commas)</li>
+                <li>Study dates (if multiple values, these are separated by commas)</li>
+                <li>Current date</li>
+            </ol>
+            
+            <h2>Tests</h2>
+            
+            <div>If you already have some DICOM files in your database, select a few of them (of the same patient) and start the publishing process through the toolbar "Publish" button or the "Publish" menu item, under Plugins > Database. Only do this ONCE (otherwise you'll publish more disks).<br/>
+            The disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
+
+            <div>If you activated the "Automatically queue and publish images received via DICOM" checkbox, send some files to OsiriX from another DICOM node (the plugin will publish one disk per patient). When the files arrive, the plugin stacks them and waits until the delay you specified in the preferences is passed since a patient's last received image; then it takes all that patient's images off the stack, and publishes them: the disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
+
+            <h2>Download</h2>
+            
+            <a href="DiscPublishing.osirixplugin.zip">Download</a> the plugin.
+	    </div>
+    </body>
+</html>
