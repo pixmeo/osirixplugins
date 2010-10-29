@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		59D9468112531D900095680D /* ExecFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D9467F12531D900095680D /* ExecFilter.h */; };
-		59D9468212531D900095680D /* ExecFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59D9468012531D900095680D /* ExecFilter.m */; };
-		59D9469512531F560095680D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 59D9469412531F560095680D /* Icon.png */; };
-		59D94A261254C49B0095680D /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D94A251254C49B0095680D /* OsiriX.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		59D94B251254D7F20095680D /* exec.sh in Resources */ = {isa = PBXBuildFile; fileRef = 59D94B241254D7F20095680D /* exec.sh */; };
+		594DB777125B445700D8E3A5 /* DefaultDefaultsFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 594DB775125B445700D8E3A5 /* DefaultDefaultsFilter.h */; };
+		594DB778125B445700D8E3A5 /* DefaultDefaultsFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 594DB776125B445700D8E3A5 /* DefaultDefaultsFilter.m */; };
+		594DB7BE125B685700D8E3A5 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 594DB7BD125B685700D8E3A5 /* defaults.plist */; };
 		8D5B49AE048680CD000E48DA /* HelloWorld_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		A9F61B3E11521316007BCF97 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -23,14 +21,12 @@
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorld_Prefix.pch; sourceTree = "<group>"; };
 		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
-		59D9467F12531D900095680D /* ExecFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExecFilter.h; path = Sources/ExecFilter.h; sourceTree = "<group>"; };
-		59D9468012531D900095680D /* ExecFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExecFilter.m; path = Sources/ExecFilter.m; sourceTree = "<group>"; };
-		59D9469412531F560095680D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		59D94A251254C49B0095680D /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/osirix/build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
-		59D94B241254D7F20095680D /* exec.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = exec.sh; path = Resources/exec.sh; sourceTree = "<group>"; };
+		594DB775125B445700D8E3A5 /* DefaultDefaultsFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DefaultDefaultsFilter.h; path = Sources/DefaultDefaultsFilter.h; sourceTree = "<group>"; };
+		594DB776125B445700D8E3A5 /* DefaultDefaultsFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DefaultDefaultsFilter.m; path = Sources/DefaultDefaultsFilter.m; sourceTree = "<group>"; };
+		594DB7BD125B685700D8E3A5 /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = defaults.plist; path = Resources/defaults.plist; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
-		AB5D36050680E57E00F4007A /* Exec.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Exec.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB5D36050680E57E00F4007A /* DefaultDefaults.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DefaultDefaults.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +36,6 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				A9F61B3E11521316007BCF97 /* OsiriX Headers.framework in Frameworks */,
-				59D94A261254C49B0095680D /* OsiriX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,8 +67,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				59D9469412531F560095680D /* Icon.png */,
-				59D94B241254D7F20095680D /* exec.sh */,
+				594DB7BD125B685700D8E3A5 /* defaults.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -81,8 +75,8 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				59D9467F12531D900095680D /* ExecFilter.h */,
-				59D9468012531D900095680D /* ExecFilter.m */,
+				594DB775125B445700D8E3A5 /* DefaultDefaultsFilter.h */,
+				594DB776125B445700D8E3A5 /* DefaultDefaultsFilter.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -90,7 +84,6 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				59D94A251254C49B0095680D /* OsiriX.framework */,
 				A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
@@ -110,7 +103,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AB5D36050680E57E00F4007A /* Exec.osirixplugin */,
+				AB5D36050680E57E00F4007A /* DefaultDefaults.osirixplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -131,16 +124,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49AE048680CD000E48DA /* HelloWorld_Prefix.pch in Headers */,
-				59D9468112531D900095680D /* ExecFilter.h in Headers */,
+				594DB777125B445700D8E3A5 /* DefaultDefaultsFilter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* Exec */ = {
+		8D5B49AC048680CD000E48DA /* DefaultDefaults */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Exec" */;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DefaultDefaults" */;
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
@@ -152,10 +145,10 @@
 			);
 			dependencies = (
 			);
-			name = Exec;
+			name = DefaultDefaults;
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = Invert;
-			productReference = AB5D36050680E57E00F4007A /* Exec.osirixplugin */;
+			productReference = AB5D36050680E57E00F4007A /* DefaultDefaults.osirixplugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -163,7 +156,7 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Exec" */;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DefaultDefaults" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -177,7 +170,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* Exec */,
+				8D5B49AC048680CD000E48DA /* DefaultDefaults */,
 			);
 		};
 /* End PBXProject section */
@@ -187,8 +180,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59D9469512531F560095680D /* Icon.png in Resources */,
-				59D94B251254D7F20095680D /* exec.sh in Resources */,
+				594DB7BE125B685700D8E3A5 /* defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,7 +201,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59D9468212531D900095680D /* ExecFilter.m in Sources */,
+				594DB778125B445700D8E3A5 /* DefaultDefaultsFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +212,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
+					ppc,
 					i386,
 					x86_64,
 				);
@@ -253,7 +246,7 @@
 					dynamic_lookup,
 				);
 				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = Exec;
+				PRODUCT_NAME = DefaultDefaults;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -283,7 +276,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Exec" */ = {
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DefaultDefaults" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9108AC841300D0C1EE /* Development */,
@@ -291,7 +284,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Exec" */ = {
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DefaultDefaults" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9508AC841300D0C1EE /* Development */,

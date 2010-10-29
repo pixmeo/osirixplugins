@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSToolbar Configuration 3DMPR Toolbar Identifier</key>
+	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
+		<key>TB Is Shown</key>
+		<integer>1</integer>
+		<key>TB Item Identifiers</key>
+		<array>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>tbTools</string>
+			<string>tbWLWW</string>
+			<string>tbThickSlab</string>
+			<string>tbShading</string>
+			<string>tbMovie</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>Reset.tiff</string>
+			<string>Export.icns</string>
+			<string>Capture.icns</string>
+			<string>QTExport.icns</string>
+			<string>AxisShowHide</string>
+			<string>MousePositionShowHide</string>
+			<string>syncZoomLevel</string>
+		</array>
+		<key>TB Size Mode</key>
+		<integer>1</integer>
+		<key>TB Visibility Priority Values</key>
+		<dict/>
+	</dict>
+	<key>NSToolbar Configuration DicomDatabase Toolbar Identifier</key>
+	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
+		<key>TB Is Shown</key>
+		<integer>1</integer>
+		<key>TB Item Identifiers</key>
+		<array>
+			<string>ComPACS</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>Import.icns</string>
+			<string>Export.icns</string>
+			<string>Anonymizer.icns</string>
+			<string>cd.icns</string>
+			<string>Burner.tif</string>
+			<string>XML.icns</string>
+			<string>trash.icns</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>Viewer.icns</string>
+			<string>ROIsAndKeys.tif</string>
+			<string>Movie.icns</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>StartupDisk.tif</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>Exec</string>
+			<string>Report.icns</string>
+			<string>Search</string>
+			<string>TimeInterval</string>
+		</array>
+		<key>TB Size Mode</key>
+		<integer>1</integer>
+		<key>TB Visibility Priority Values</key>
+		<dict/>
+	</dict>
+	<key>NSToolbar Configuration Viewer Toolbar Identifier</key>
+	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
+		<key>TB Is Shown</key>
+		<integer>1</integer>
+		<key>TB Item Identifiers</key>
+		<array>
+			<string>DatabaseWindow.icns</string>
+			<string>windows.tif</string>
+			<string>Series</string>
+			<string>Patient</string>
+			<string>Tools</string>
+			<string>WLWW</string>
+			<string>Reconstruction</string>
+			<string>Orientation</string>
+			<string>Fusion</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>Hip Templating</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>QTExport.icns</string>
+			<string>Sync.tif</string>
+			<string>PropagateSettings</string>
+			<string>Play.icns</string>
+			<string>Speed</string>
+			<string>MIP.tif</string>
+			<string>iChat.icns</string>
+			<string>XML.icns</string>
+		</array>
+		<key>TB Size Mode</key>
+		<integer>1</integer>
+		<key>TB Visibility Priority Values</key>
+		<dict/>
+	</dict>
+	<key>NSToolbar Configuration VRPanel Toolbar Identifier</key>
+	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
+		<key>TB Is Shown</key>
+		<integer>0</integer>
+		<key>TB Item Identifiers</key>
+		<array>
+			<string>Tools</string>
+			<string>Mode</string>
+			<string>WLWW</string>
+			<string>LOD</string>
+			<string>Capture.icns</string>
+			<string>2DBlending</string>
+			<string>Cropping.icns</string>
+			<string>OrientationWidget.tiff</string>
+			<string>NSToolbarFlexibleSpaceItem</string>
+			<string>QTExport.icns</string>
+			<string>OrientationsView</string>
+			<string>Reset.tiff</string>
+			<string>Export.icns</string>
+		</array>
+		<key>TB Size Mode</key>
+		<integer>1</integer>
+		<key>TB Visibility Priority Values</key>
+		<dict/>
+	</dict>
+	<key>onlyDICOM</key>
+	<false/>
+</dict>
+</plist>
