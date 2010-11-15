@@ -185,6 +185,8 @@
 		BOOL stop = NO;
 		do
 		{
+			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+			
 			int width, height;
 			BOOL isRGB;
 			float *data = [self getDataFromNSImage: [movie currentFrameImage] w: &width h: &height rgb: &isRGB];
@@ -215,6 +217,8 @@
 			[movie stepForward];
 			
 			if( QTTimeCompare( previousTime, [movie currentTime]) != NSOrderedAscending) stop = YES;
+			
+			[pool release];
 		}
 		while( stop == NO);
 	}
