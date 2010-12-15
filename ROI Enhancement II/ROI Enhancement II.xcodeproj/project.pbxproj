@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,7 +21,7 @@
 		598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598960820F9EFC5E00BEFEE4 /* GraphKit.framework */; };
 		59C72CEF0FCD905300430BD9 /* ROI_Enhancement_II.pch in Headers */ = {isa = PBXBuildFile; fileRef = 59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */; };
 		59D64E7C0FAF36D60021E211 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59D64E7A0FAF36D60021E211 /* InfoPlist.strings */; };
-		59F9B20410C95907008A6EF1 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9B20310C95907008A6EF1 /* OsiriX Headers.framework */; };
+		59F9B20410C95907008A6EF1 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9B20310C95907008A6EF1 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59F9B31A10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9B30C10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h */; };
 		59F9B31B10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B30D10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm */; };
 		59F9B31C10C95AC5008A6EF1 /* RoiEnhancementChart.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9B30E10C95AC5008A6EF1 /* RoiEnhancementChart.h */; };
@@ -261,7 +261,6 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ROI Enhancement II" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -339,7 +338,7 @@
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Deployment;
 		};
@@ -458,7 +457,7 @@
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Development;
 		};

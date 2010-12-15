@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		59EBE42112B8A8B500809C61 /* Unzip Libs */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 59EBE42E12B8A8E100809C61 /* Build configuration list for PBXAggregateTarget "Unzip Libs" */;
+			buildPhases = (
+				59EBE42012B8A8B500809C61 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Unzip Libs";
+			productName = "Unzip Libs";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		5900F6591190668C001E899B /* DiscPublishingToolAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */; };
 		5900F65C119066A7001E899B /* DiscPublishingJob.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E381C91177177900E84FE3 /* DiscPublishingJob.mm */; };
@@ -112,6 +126,20 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = Nitrogen;
 		};
+		59EBEBF712B8A9D100809C61 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 59EBE42112B8A8B500809C61 /* Unzip Libs */;
+			remoteInfo = "Unzip Libs";
+		};
+		59EBEBF912B8A9DE00809C61 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 59EBE42112B8A8B500809C61 /* Unzip Libs */;
+			remoteInfo = "Unzip Libs";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -199,10 +227,10 @@
 		59E37E70117466F700E84FE3 /* Standard.dcover */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Standard.dcover; path = Resources/Standard.dcover; sourceTree = "<group>"; };
 		59E381C81177177900E84FE3 /* DiscPublishingJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingJob.h; path = Classes/DiscPublishingJob.h; sourceTree = "<group>"; };
 		59E381C91177177900E84FE3 /* DiscPublishingJob.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingJob.mm; path = Classes/DiscPublishingJob.mm; sourceTree = "<group>"; };
-		59E384231178868500E84FE3 /* as_storage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = as_storage.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/as_storage.framework"; sourceTree = SOURCE_ROOT; };
-		59E384241178868500E84FE3 /* JobManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobManager.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/JobManager.framework"; sourceTree = SOURCE_ROOT; };
-		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/JobProcessor.framework"; sourceTree = SOURCE_ROOT; };
-		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = "../../../libs/Primera Frameworks from PTPublisher 1.7/PTRobot.framework"; sourceTree = SOURCE_ROOT; };
+		59E384231178868500E84FE3 /* as_storage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = as_storage.framework; path = Libs/as_storage.framework; sourceTree = "<group>"; };
+		59E384241178868500E84FE3 /* JobManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobManager.framework; path = Libs/JobManager.framework; sourceTree = "<group>"; };
+		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = Libs/JobProcessor.framework; sourceTree = "<group>"; };
+		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = Libs/PTRobot.framework; sourceTree = "<group>"; };
 		59E3EFCC121A684500DD4552 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = ../../osirix/osirix/Binaries/Growl.framework; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
@@ -266,6 +294,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */,
 				59E3EFCC121A684500DD4552 /* Growl.framework */,
 				59E384241178868500E84FE3 /* JobManager.framework */,
 				59E384251178868500E84FE3 /* JobProcessor.framework */,
@@ -275,7 +304,6 @@
 				598C9AE51153C4BA007B7524 /* OsiriX Headers.framework */,
 				59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
-				59C7EFD811930CB100FCE244 /* Nitrogen.xcodeproj */,
 				59C7EF8C11930C6F00FCE244 /* Nitrogen.framework */,
 				59DEC7B311995E7800E0343A /* Carbon.framework */,
 			);
@@ -497,6 +525,7 @@
 			);
 			dependencies = (
 				59C7EFE211930CC500FCE244 /* PBXTargetDependency */,
+				59EBEBF812B8A9D100809C61 /* PBXTargetDependency */,
 			);
 			name = DiscPublishingTool;
 			productName = DiscPublishingTool;
@@ -514,6 +543,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				59EBEBFA12B8A9DE00809C61 /* PBXTargetDependency */,
 			);
 			name = DiscPublishingPreferences;
 			productName = PreferencePane;
@@ -550,7 +580,6 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DiscPublishing" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -568,6 +597,7 @@
 			);
 			projectRoot = "";
 			targets = (
+				59EBE42112B8A8B500809C61 /* Unzip Libs */,
 				8D5B49AC048680CD000E48DA /* DiscPublishing */,
 				59BDFB8F1185B794007F1F2C /* DiscPublishingPreferences */,
 				5900F64A11906667001E899B /* DiscPublishingTool */,
@@ -650,6 +680,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# fix paths from plugin binary to plugin frameworks\ninstall_name_tool -change @executable_path/../Frameworks/JobManager.framework/Versions/A/JobManager @loader_path/../Frameworks/JobManager.framework/Versions/A/JobManager $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor @loader_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage @loader_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage $TARGET_BUILD_DIR/$EXECUTABLE_PATH\n# fix paths from plugin JobManager framework to frameworks it depends on\ninstall_name_tool -change @executable_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor @loader_path/../../../JobProcessor.framework/Versions/A/JobProcessor $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobManager.framework/Versions/A/JobManager\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../../../PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobManager.framework/Versions/A/JobManager\n# fix paths from plugin JobProcessor framework to frameworks it depends on\ninstall_name_tool -change @executable_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage @loader_path/../../../AS_Storage.framework/Versions/A/AS_Storage $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobProcessor.framework/Versions/A/JobProcessor\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../../../PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobProcessor.framework/Versions/A/JobProcessor\n\nexit 0\n";
 		};
+		59EBE42012B8A8B500809C61 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT\"\nmkdir -p Libs\nunzip -uo Resources/PrimeraFrameworks.zip -d Libs\nexit 0";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -716,6 +759,16 @@
 			name = Nitrogen;
 			targetProxy = 59C7EFE111930CC500FCE244 /* PBXContainerItemProxy */;
 		};
+		59EBEBF812B8A9D100809C61 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 59EBE42112B8A8B500809C61 /* Unzip Libs */;
+			targetProxy = 59EBEBF712B8A9D100809C61 /* PBXContainerItemProxy */;
+		};
+		59EBEBFA12B8A9DE00809C61 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 59EBE42112B8A8B500809C61 /* Unzip Libs */;
+			targetProxy = 59EBEBF912B8A9DE00809C61 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -745,11 +798,8 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 					"\"$(SRCROOT)/../../osirix/osirix/nitrogen/build/Development\"",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
-					"\"$(SRCROOT)/../../osirix/osirix/Binaries\"",
+					"\"$(SRCROOT)/../../osirix/osirix/Binaries",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -779,11 +829,7 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -805,6 +851,16 @@
 			};
 			name = Development;
 		};
+		59EBE42212B8A8B500809C61 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Unzip Libs";
+			};
+			name = Development;
+		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -814,17 +870,7 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"",
-					"\"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Versions/A/Frameworks\"",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(HOME)/Library/Development/DiscPublishing/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../../libs/Primera Frameworks from PTPublisher 1.7\"";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -863,6 +909,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/System/Library/Frameworks/Carbon.framework/Frameworks\"",
+					"\"$(SRCROOT)/Libs\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				SDKROOT = macosx10.5;
 			};
@@ -883,6 +934,14 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				59BDFB921185B795007F1F2C /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		59EBE42E12B8A8E100809C61 /* Build configuration list for PBXAggregateTarget "Unzip Libs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				59EBE42212B8A8B500809C61 /* Development */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;

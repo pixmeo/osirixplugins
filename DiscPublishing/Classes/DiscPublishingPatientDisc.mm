@@ -31,6 +31,11 @@
 #import <OsiriX Headers/N2Debug.h>
 
 
+static NSString* PreventNullString(NSString* s) {
+	return s? s : @"";
+}
+
+
 @implementation DiscPublishingPatientDisc
 
 -(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options {
@@ -459,12 +464,12 @@
 								  pickedMediaKey, DiscPublishingJobInfoMediaTypeKey,
 								  [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DiscPublishingBurnSpeedDefaultsKey], DiscPublishingJobInfoBurnSpeedKey,
 								  [NSArray arrayWithObjects:
-									/* 1 */	discName,
-								    /* 2 */ [dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth],
-								    /* 3 */	studyNames,
-								    /* 4 */	modalities,
-								    /* 5 */ studyDates,
-								    /* 6 */	[dateFormatter stringFromDate:[NSDate date]],
+									/* 1 */	PreventNullString(discName),
+								    /* 2 */ PreventNullString([dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth]),
+								    /* 3 */	PreventNullString(studyNames),
+								    /* 4 */	PreventNullString(modalities),
+								    /* 5 */ PreventNullString(studyDates),
+								    /* 6 */	PreventNullString([dateFormatter stringFromDate:[NSDate date]]),
 								   NULL], DiscPublishingJobInfoMergeValuesKey,
 								  NULL];
 			[[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
