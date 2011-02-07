@@ -79,7 +79,9 @@
 	} else if ([item isKindOfClass:[OSIROI class]]) {
 		if ([[tableColumn identifier] isEqualToString:@"name"]) {
 			return [(OSIROI *)item name];
-		} else {
+		} else if ([[tableColumn identifier] isEqualToString:@"value"]) {
+			return [(OSIROI *)item label];
+        } else {
 			return @"";
 		}
 	} else {
