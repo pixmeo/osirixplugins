@@ -35,8 +35,6 @@
 		4FE8943712F8575000B78E25 /* OSIDemo.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSIDemo.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FE8943912F8575000B78E25 /* OSIDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OSIDemo-Info.plist"; sourceTree = "<group>"; };
 		4FE8944212F8578900B78E25 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		4FE8945D12F859AF00B78E25 /* CPRBezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPRBezierPath.h; path = ../../pluginSDK/CPRBezierPath.h; sourceTree = SOURCE_ROOT; };
-		4FE8945E12F859AF00B78E25 /* CPRGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPRGeometry.h; path = ../../pluginSDK/CPRGeometry.h; sourceTree = SOURCE_ROOT; };
 		4FE8945F12F859AF00B78E25 /* OSICoalescedROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSICoalescedROI.h; path = ../../pluginSDK/OSICoalescedROI.h; sourceTree = SOURCE_ROOT; };
 		4FE8946012F859AF00B78E25 /* OSIEnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSIEnvironment.h; path = ../../pluginSDK/OSIEnvironment.h; sourceTree = SOURCE_ROOT; };
 		4FE8946112F859AF00B78E25 /* OSIGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSIGeometry.h; path = ../../pluginSDK/OSIGeometry.h; sourceTree = SOURCE_ROOT; };
@@ -46,7 +44,11 @@
 		4FE8946512F859AF00B78E25 /* OSIROIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSIROIManager.h; path = ../../pluginSDK/OSIROIManager.h; sourceTree = SOURCE_ROOT; };
 		4FE8946612F859AF00B78E25 /* OSIROIMask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSIROIMask.h; path = ../../pluginSDK/OSIROIMask.h; sourceTree = SOURCE_ROOT; };
 		4FE8946712F859AF00B78E25 /* OSIVolumeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OSIVolumeWindow.h; path = ../../pluginSDK/OSIVolumeWindow.h; sourceTree = SOURCE_ROOT; };
-		4FE8947F12F85C3B00B78E25 /* CPRBezierCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CPRBezierCore.h; path = ../../pluginSDK/CPRBezierCore.h; sourceTree = SOURCE_ROOT; };
+		4FF3BAA41302D38500415C43 /* N3BezierCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = N3BezierCore.h; path = ../../trunk/nitrogen/Sources/N3BezierCore.h; sourceTree = SOURCE_ROOT; };
+		4FF3BAA51302D38500415C43 /* N3BezierCoreAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = N3BezierCoreAdditions.h; path = ../../trunk/nitrogen/Sources/N3BezierCoreAdditions.h; sourceTree = SOURCE_ROOT; };
+		4FF3BAA61302D38500415C43 /* N3BezierPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = N3BezierPath.h; path = ../../trunk/nitrogen/Sources/N3BezierPath.h; sourceTree = SOURCE_ROOT; };
+		4FF3BAA71302D38500415C43 /* N3Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = N3Geometry.h; path = ../../trunk/nitrogen/Sources/N3Geometry.h; sourceTree = SOURCE_ROOT; };
+		4FF3BAC01302DA1D00415C43 /* Point3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Point3D.h; path = ../../trunk/Point3D.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 		4F0CD2F012F96518001AD5CF /* OsiriXHeaders */ = {
 			isa = PBXGroup;
 			children = (
+				4FF3BAC01302DA1D00415C43 /* Point3D.h */,
 				4F0CD2F912F9656D001AD5CF /* DCMView.h */,
 				4F0CD2FA12F9656D001AD5CF /* MyPoint.h */,
 				4F0CD2FB12F9656D001AD5CF /* ROI.h */,
@@ -132,9 +135,10 @@
 		4FE8944912F858F400B78E25 /* PluginSDKHeaders */ = {
 			isa = PBXGroup;
 			children = (
-				4FE8945D12F859AF00B78E25 /* CPRBezierPath.h */,
-				4FE8947F12F85C3B00B78E25 /* CPRBezierCore.h */,
-				4FE8945E12F859AF00B78E25 /* CPRGeometry.h */,
+				4FF3BAA41302D38500415C43 /* N3BezierCore.h */,
+				4FF3BAA51302D38500415C43 /* N3BezierCoreAdditions.h */,
+				4FF3BAA61302D38500415C43 /* N3BezierPath.h */,
+				4FF3BAA71302D38500415C43 /* N3Geometry.h */,
 				4FE8945F12F859AF00B78E25 /* OSICoalescedROI.h */,
 				4FE8946012F859AF00B78E25 /* OSIEnvironment.h */,
 				4FE8946112F859AF00B78E25 /* OSIGeometry.h */,
