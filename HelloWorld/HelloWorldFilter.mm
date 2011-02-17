@@ -7,6 +7,8 @@
 
 #import "HelloWorldFilter.h"
 #import <OsiriX Headers/PreferencesWindowController.h>
+#import <OsiriX Headers/NSImage+N2.h>
+#import <OsiriX Headers/N2Operators.h>
 
 @implementation HelloWorldFilter
 
@@ -51,7 +53,7 @@
 
 		// the pixList contains all DCMPix for the current frame
 		NSArray *pixList = [currentViewer pixList:frame];
-		for (int i=0; i<[pixList count]; i++)
+		for (NSUInteger i=0; i<[pixList count]; i++)
 		{
 			DCMPix *pix = [pixList objectAtIndex:i];
 			// do something with the DCMPix...
@@ -59,5 +61,40 @@
 		}
 	}
 }
+
+// this method demonstrates how te catch a viewer's mousedown event
+-(BOOL)handleEvent:(NSEvent*)event forViewer:(ViewerController*)c {
+	if (![c isKindOfClass:[ViewerController class]])
+		return NO;
+	
+	if ([event type] == NSLeftMouseDown) {
+		NSPoint p = [[c imageView] ConvertFromNSView2GL:[[c imageView] convertPoint:[event locationInWindow] fromView:nil]];
+		
+		N2Image* image = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:HelloWorldFilter.class] pathForResource:@"fatigue" ofType:@"png"]] autorelease];
+		
+		float pixSpacing = (1.0 / [image resolution] * 25.4); // image is in 72 dpi, we work in millimeters
+		ROI* newLayer = [c addLayerRoiToCurrentSliceWithImage:image referenceFilePath:nil layerPixelSpacingX:pixSpacing layerPixelSpacingY:pixSpacing];
+		
+		[c bringToFrontROI:newLayer];
+		[newLayer generateEncodedLayerImage];
+		
+		// find the center of the template
+		NSPoint o = NSMakePoint([image size]/2);
+		
+		NSArray *layerPoints = [newLayer points];
+		NSPoint layerSize = [[layerPoints objectAtIndex:2] point] - [[layerPoints objectAtIndex:0] point];
+		
+		NSPoint layerCenter = layerSize*0.5;
+		[[newLayer points] addObject:[MyPoint point:layerCenter]]; // center, index 4
+		
+		[newLayer setROIMode:ROI_selected]; // in order to make the roiMove method possible
+		[newLayer roiMove:p-layerCenter :YES];
+		
+		return YES;
+	}
+	
+	return NO;
+}
+
 
 @end
