@@ -7,7 +7,6 @@
 
 #import "HelloWorldFilter.h"
 #import <OsiriX Headers/PreferencesWindowController.h>
-#import <OsiriX Headers/NSImage+N2.h>
 #import <OsiriX Headers/N2Operators.h>
 
 @implementation HelloWorldFilter
@@ -70,9 +69,9 @@
 	if ([event type] == NSLeftMouseDown) {
 		NSPoint p = [[c imageView] ConvertFromNSView2GL:[[c imageView] convertPoint:[event locationInWindow] fromView:nil]];
 		
-		N2Image* image = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:HelloWorldFilter.class] pathForResource:@"fatigue" ofType:@"png"]] autorelease];
+		NSImage* image = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:HelloWorldFilter.class] pathForResource:@"fatigue" ofType:@"png"]] autorelease];
 		
-		float pixSpacing = (1.0 / [image resolution] * 25.4); // image is in 72 dpi, we work in millimeters
+		float pixSpacing = (1.0 / 72 * 25.4); // image is in 72 dpi, we work in millimeters
 		ROI* newLayer = [c addLayerRoiToCurrentSliceWithImage:image referenceFilePath:nil layerPixelSpacingX:pixSpacing layerPixelSpacingY:pixSpacing];
 		
 		[c bringToFrontROI:newLayer];
