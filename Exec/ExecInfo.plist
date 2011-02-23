@@ -13,19 +13,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>NSPrincipalClass</key>
-	<string>ExecFilter</string>
-	<key>pluginType</key>
-	<string>Database</string>
-	<key>allowToolbarIcon</key>
-	<string>YES</string>
-	<key>ToolbarIcon</key>
-	<string>Icon</string>
-	<key>MenuTitles</key>
-	<array>
-		<string>Exec</string>
-	</array>
+	<string>1.1</string>
 	<key>Command</key>
 	<array>
 		<string>/bin/sh</string>
@@ -35,5 +23,19 @@
 		<string>%PatientsBirthDate%</string>
 		<string>%MenuTitle%</string>
 	</array>
+	<key>MenuTitles</key>
+	<array>
+		<string>Exec</string>
+	</array>
+	<key>NSPrincipalClass</key>
+	<string>ExecFilter</string>
+	<key>ToolbarIcon</key>
+	<string>Icon</string>
+	<key>allowToolbarIcon</key>
+	<string>YES</string>
+	<key>pluginType</key>
+	<string>Database</string>
+	<key>Autoexecute</key>
+	<false/>
 </dict>
 </plist>

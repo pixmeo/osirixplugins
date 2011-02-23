@@ -7,8 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		597258A61314FB6400956F80 /* HelloWorld_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */; };
+		597258A71314FB6400956F80 /* ExecFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D9467F12531D900095680D /* ExecFilter.h */; };
+		597258A91314FB6400956F80 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 59D9469412531F560095680D /* Icon.png */; };
+		597258AA1314FB6400956F80 /* exec.sh in Resources */ = {isa = PBXBuildFile; fileRef = 59D94B241254D7F20095680D /* exec.sh */; };
+		597258AE1314FB6400956F80 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		597258AF1314FB6400956F80 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		597258B01314FB6400956F80 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D94A251254C49B0095680D /* OsiriX.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		597258D81315003700956F80 /* ExecFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 597258D71315003700956F80 /* ExecFilter.mm */; };
+		597258D91315003700956F80 /* ExecFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 597258D71315003700956F80 /* ExecFilter.mm */; };
 		59D9468112531D900095680D /* ExecFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D9467F12531D900095680D /* ExecFilter.h */; };
-		59D9468212531D900095680D /* ExecFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59D9468012531D900095680D /* ExecFilter.m */; };
 		59D9469512531F560095680D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 59D9469412531F560095680D /* Icon.png */; };
 		59D94A261254C49B0095680D /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59D94A251254C49B0095680D /* OsiriX.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59D94B251254D7F20095680D /* exec.sh in Resources */ = {isa = PBXBuildFile; fileRef = 59D94B241254D7F20095680D /* exec.sh */; };
@@ -23,17 +31,29 @@
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelloWorld_Prefix.pch; sourceTree = "<group>"; };
 		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
+		597258961314FB4A00956F80 /* AutoexecInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AutoexecInfo.plist; sourceTree = "<group>"; };
+		597258971314FB4A00956F80 /* ExecInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ExecInfo.plist; sourceTree = "<group>"; };
+		597258B41314FB6400956F80 /* Autoexec.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Autoexec.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		597258D71315003700956F80 /* ExecFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ExecFilter.mm; path = Sources/ExecFilter.mm; sourceTree = "<group>"; };
 		59D9467F12531D900095680D /* ExecFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExecFilter.h; path = Sources/ExecFilter.h; sourceTree = "<group>"; };
-		59D9468012531D900095680D /* ExecFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExecFilter.m; path = Sources/ExecFilter.m; sourceTree = "<group>"; };
 		59D9469412531F560095680D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		59D94A251254C49B0095680D /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/osirix/build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
+		59D94A251254C49B0095680D /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix-trunk/build/Development/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
 		59D94B241254D7F20095680D /* exec.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = exec.sh; path = Resources/exec.sh; sourceTree = "<group>"; };
-		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		A9F61B3D11521316007BCF97 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix-trunk/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		AB5D36050680E57E00F4007A /* Exec.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Exec.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		597258AD1314FB6400956F80 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				597258AE1314FB6400956F80 /* Cocoa.framework in Frameworks */,
+				597258AF1314FB6400956F80 /* OsiriX Headers.framework in Frameworks */,
+				597258B01314FB6400956F80 /* OsiriX.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B3048680CD000E48DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,7 +70,8 @@
 		089C166AFE841209C02AAC07 /* HelloWorld */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B7048680CD000E48DA /* Info.plist */,
+				597258961314FB4A00956F80 /* AutoexecInfo.plist */,
+				597258971314FB4A00956F80 /* ExecInfo.plist */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -82,7 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				59D9467F12531D900095680D /* ExecFilter.h */,
-				59D9468012531D900095680D /* ExecFilter.m */,
+				597258D71315003700956F80 /* ExecFilter.mm */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -111,6 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5D36050680E57E00F4007A /* Exec.osirixplugin */,
+				597258B41314FB6400956F80 /* Autoexec.osirixplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -126,6 +148,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		597258A51314FB6400956F80 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				597258A61314FB6400956F80 /* HelloWorld_Prefix.pch in Headers */,
+				597258A71314FB6400956F80 /* ExecFilter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49AD048680CD000E48DA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -138,6 +169,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		597258A41314FB6400956F80 /* Autoexec */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 597258B21314FB6400956F80 /* Build configuration list for PBXNativeTarget "Autoexec" */;
+			buildPhases = (
+				597258A51314FB6400956F80 /* Headers */,
+				597258A81314FB6400956F80 /* Resources */,
+				597258AB1314FB6400956F80 /* Sources */,
+				597258AD1314FB6400956F80 /* Frameworks */,
+				597258B11314FB6400956F80 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Autoexec;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = 597258B41314FB6400956F80 /* Autoexec.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		8D5B49AC048680CD000E48DA /* Exec */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Exec" */;
@@ -165,7 +216,6 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Exec" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -178,11 +228,21 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Exec */,
+				597258A41314FB6400956F80 /* Autoexec */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		597258A81314FB6400956F80 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				597258A91314FB6400956F80 /* Icon.png in Resources */,
+				597258AA1314FB6400956F80 /* exec.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49AF048680CD000E48DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -195,6 +255,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXRezBuildPhase section */
+		597258B11314FB6400956F80 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B5048680CD000E48DA /* Rez */ = {
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
@@ -205,17 +272,71 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		597258AB1314FB6400956F80 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				597258D91315003700956F80 /* ExecFilter.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59D9468212531D900095680D /* ExecFilter.m in Sources */,
+				597258D81315003700956F80 /* ExecFilter.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		597258B31314FB6400956F80 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Volumes/Colossus/Projects/osirix-trunk/build/Development",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = AutoexecInfo.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Autoexec;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -227,11 +348,8 @@
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"/Volumes/Colossus/Projects/osirix-trunk/build/Development",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -242,7 +360,7 @@
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_FILE = ExecInfo.plist;
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
@@ -283,6 +401,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		597258B21314FB6400956F80 /* Build configuration list for PBXNativeTarget "Autoexec" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				597258B31314FB6400956F80 /* Development */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
 		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Exec" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

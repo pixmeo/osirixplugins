@@ -8,11 +8,9 @@
 #import <OsiriX/DCMObject.h>
 #import <OsiriX Headers/BrowserController.h>
 #import <OsiriX Headers/DicomSeries.h>
+#import <OsiriX Headers/Notifications.h>
 
 @implementation ExecFilter
-
--(void)initPlugin {
-}
 
 -(void)filesIn:(id)obj into:(NSMutableArray*)files {
 	if ([obj isKindOfClass:[NSArray class]])
@@ -59,19 +57,17 @@
 	return [NSString stringWithFormat:@"%%%@%%", str];
 }
 
--(long)filterImage:(NSString*)menuTitle {
+-(void)processImages:(NSArray*)dicomImages menuTitle:(NSString*)menuTitle{
 	NSDictionary* info = [[NSBundle bundleForClass:[self class]] infoDictionary];
-	
-	NSArray* dicomImages = [self filesIn:[[BrowserController currentBrowser] databaseSelection]];
 	NSArray* execParamsTemplate = [info objectForKey:@"Command"];
-	
+
 	for (DicomImage* dicomImage in dicomImages) {
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
+		
 		DCMObject* dcmObj = [DCMObject objectWithContentsOfFile:dicomImage.completePathResolved decodingPixelData:NO];
 		
 		NSMutableArray* params = [[execParamsTemplate mutableCopy] autorelease];
-		for (int i = 0; i < params.count; ++i) {
+		for (NSUInteger i = 0; i < params.count; ++i) {
 			NSMutableString* str = [[[params objectAtIndex:i] mutableCopy] autorelease];
 			
 			NSUInteger from = 0;
@@ -94,11 +90,24 @@
 		
 		NSLog(@"Executing %@ with params [%@]", path, [params componentsJoinedByString:@", "]);
 		[NSTask launchedTaskWithLaunchPath:path arguments:params];
-
+		
 		[pool release];
-	}
-	
+	}	
+}
+
+-(long)filterImage:(NSString*)menuTitle {
+	[self processImages:[self filesIn:[[BrowserController currentBrowser] databaseSelection]] menuTitle:menuTitle];
 	return 0;
+}
+
+-(void)initPlugin {
+	NSDictionary* info = [[NSBundle bundleForClass:[self class]] infoDictionary];
+	if ([[info objectForKey:@"Autoexec"] boolValue])
+		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(databaseAddition:) name:OsirixAddToDBNotification object:NULL];
+}
+
+-(void)databaseAddition:(NSNotification*)notification {
+	[self processImages:[notification.userInfo objectForKey:OsirixAddToDBNotificationImagesArray] menuTitle:NULL];
 }
 
 @end
