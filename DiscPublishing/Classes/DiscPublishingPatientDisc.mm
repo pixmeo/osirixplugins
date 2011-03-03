@@ -18,6 +18,7 @@
 #import <OsiriX Headers/NSUserDefaultsController+N2.h>
 #import <OsiriX Headers/DicomSeries.h>
 #import <OsiriX Headers/DicomStudy.h>
+#import <OsiriX Headers/AppController.h>
 #import <OsiriX/DCMObject.h>
 #import <OsiriX Headers/DicomImage.h>
 #import <OsiriX Headers/NSString+N2.h>
@@ -133,14 +134,21 @@ static NSString* PreventNullString(NSString* s) {
 		dicomPath = [dicomPath substringFromIndex:index];
 	}*/
 	
-	NSTask* dcmmkdirTask = [[NSTask alloc] init];
-	[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
-	[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
-	[dcmmkdirTask setCurrentDirectoryPath:root];
-	[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
-	[dcmmkdirTask launch];
-	[dcmmkdirTask waitUntilExit];
-	[dcmmkdirTask release];
+	if( [AppController hasMacOSXSnowLeopard] == NO)
+	{
+		NSRunCriticalAlertPanel( NSLocalizedString( @"DICOMDIR", nil), NSLocalizedString( @"DICOMDIR creation requires MacOS 10.6 or higher. DICOMDIR file will NOT be generated.", nil), NSLocalizedString( @"OK", nil), nil, nil);
+	}
+	else
+	{
+		NSTask* dcmmkdirTask = [[NSTask alloc] init];
+		[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
+		[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
+		[dcmmkdirTask setCurrentDirectoryPath:root];
+		[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
+		[dcmmkdirTask launch];
+		[dcmmkdirTask waitUntilExit];
+		[dcmmkdirTask release];
+	}
 }
 
 -(void)main {
