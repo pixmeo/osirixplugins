@@ -8,8 +8,8 @@
 
 #import "DiscPublishingTasksManager.h"
 #import "DiscPublishing+Tool.h"
-#import <OsiriX Headers/ThreadsManager.h>
-#import <OsiriX Headers/NSThread+N2.h>
+#import <OsiriXAPI/ThreadsManager.h>
+#import <OsiriXAPI/NSThread+N2.h>
 #import "DiscPublishingJob+Info.h"
 #import "DiscPublishingTool+DistributedNotifications.h"
 

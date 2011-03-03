@@ -9,9 +9,9 @@
 #import "DiscPublisherJob.h"
 #import "DiscPublisherStatus.h"
 #import "DiscPublisher+Constants.h"
-#import <OsiriX Headers/NSFileManager+N2.h>
-#import <OsiriX Headers/NSXMLNode+N2.h>
-#import <OsiriX Headers/NSString+N2.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
+#import <OsiriXAPI/NSXMLNode+N2.h>
+#import <OsiriXAPI/NSString+N2.h>
 
 
 @implementation DiscPublisherJob

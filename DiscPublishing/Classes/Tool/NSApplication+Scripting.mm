@@ -9,12 +9,12 @@
 #import "NSApplication+Scripting.h"
 #import "DiscPublishingJob.h"
 #import "DiscPublishingJob+Info.h"
-#import <OsiriX Headers/NSThread+N2.h>
+#import <OsiriXAPI/NSThread+N2.h>
 #import "DiscPublishingToolAppDelegate.h"
 //#import "DiscPublishingOptions.h"
 #import "DiscPublisher.h"
 #import "DiscPublisherStatus.h"
-#import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
+#import <OsiriXAPI/NSAppleEventDescriptor+N2.h>
 
 
 @implementation NSApplication (Scripting)

@@ -11,25 +11,25 @@
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
-#import <OsiriX Headers/ThreadsManager.h>
-#import <OsiriX Headers/NSFileManager+N2.h>
-#import <OsiriX Headers/DicomCompressor.h>
-#import <OsiriX Headers/QTExportHTMLSummary.h>
-#import <OsiriX Headers/NSUserDefaultsController+N2.h>
-#import <OsiriX Headers/DicomSeries.h>
-#import <OsiriX Headers/DicomStudy.h>
-#import <OsiriX Headers/AppController.h>
+#import <OsiriXAPI/ThreadsManager.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
+#import <OsiriXAPI/DicomCompressor.h>
+#import <OsiriXAPI/QTExportHTMLSummary.h>
+#import <OsiriXAPI/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/DicomSeries.h>
+#import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/AppController.h>
 #import <OsiriX/DCMObject.h>
-#import <OsiriX Headers/DicomImage.h>
-#import <OsiriX Headers/NSString+N2.h>
-#import <OsiriX Headers/BrowserController.h>
+#import <OsiriXAPI/DicomImage.h>
+#import <OsiriXAPI/NSString+N2.h>
+#import <OsiriXAPI/BrowserController.h>
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
 #import "DiscPublishing.h"
 #import "DiscPublishingJob+Info.h"
 #import "DiscPublishingTasksManager.h"
-#import <OsiriX Headers/NSThread+N2.h>
-#import <OsiriX Headers/N2Debug.h>
+#import <OsiriXAPI/NSThread+N2.h>
+#import <OsiriXAPI/N2Debug.h>
 
 
 static NSString* PreventNullString(NSString* s) {
@@ -134,11 +134,7 @@ static NSString* PreventNullString(NSString* s) {
 		dicomPath = [dicomPath substringFromIndex:index];
 	}*/
 	
-	if( [AppController hasMacOSXSnowLeopard] == NO)
-	{
-		NSRunCriticalAlertPanel( NSLocalizedString( @"DICOMDIR", nil), NSLocalizedString( @"DICOMDIR creation requires MacOS 10.6 or higher. DICOMDIR file will NOT be generated.", nil), NSLocalizedString( @"OK", nil), nil, nil);
-	}
-	else
+	if ([AppController hasMacOSXSnowLeopard])
 	{
 		NSTask* dcmmkdirTask = [[NSTask alloc] init];
 		[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];

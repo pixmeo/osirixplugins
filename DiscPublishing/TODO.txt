@@ -2,13 +2,13 @@
 - Customizable merge values with custom DICOM meta data
 - Request: I see that Osirix free version burn discs but the names of DICOM files don't follow the standard of 8 characters and the name of the folder that contains the files for the web is different from IHE_PDI.
 
-
 Important-ish
 ! treat series that don't fit on a single disc
 - at start recover jobs from jobs dir
 - dialog for 'Publish' button
 
 Later...
+- use NSDistributedObject instead of AppleScript
 - archiving mode
 - make OsiriX use new API (DicomCompressor, BurnerWindowController)
 

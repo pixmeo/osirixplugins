@@ -12,7 +12,7 @@
 #import "DiscPublisher+Constants.h"
 #import <PTRobot/PTRobot.h>
 #import <JobManager/PTJobManager.h>
-#import <OsiriX Headers/NSFileManager+N2.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
 
 
 @implementation DiscPublisher

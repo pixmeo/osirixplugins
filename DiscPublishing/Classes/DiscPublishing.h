@@ -5,7 +5,7 @@
 //  Copyright (c) 2010 OsiriX. All rights reserved.
 //
 
-#import <OsiriX Headers/PluginFilter.h>
+#import <OsiriXAPI/PluginFilter.h>
 
 
 @class DiscPublishingFilesManager;

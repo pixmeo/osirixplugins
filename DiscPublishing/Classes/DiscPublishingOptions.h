@@ -6,7 +6,7 @@
 //  Copyright 2010 OsiriX Team. All rights reserved.
 //
 
-#import <OsiriX Headers/DiscBurningOptions.h>
+#import <OsiriXAPI/DiscBurningOptions.h>
 
 
 @interface DiscPublishingOptions : DiscBurningOptions {

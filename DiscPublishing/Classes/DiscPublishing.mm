@@ -8,24 +8,25 @@
 #import "DiscPublishing.h"
 #import "DiscPublishing+Tool.h"
 #import "DiscPublishingFilesManager.h"
-#import <OsiriX Headers/N2Shell.h>
-#import <OsiriX Headers/ThreadsManager.h>
-#import <OsiriX Headers/NSFileManager+N2.h>
+#import <OsiriXAPI/N2Shell.h>
+#import <OsiriXAPI/ThreadsManager.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
-#import <OsiriX Headers/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <QTKit/QTKit.h>
-#import <OsiriX Headers/PreferencesWindowController.h>
-#import <OsiriX Headers/BrowserController.h>
-#import <OsiriX Headers/DicomAlbum.h>
-#import <OsiriX Headers/DicomStudy.h>
-#import <OsiriX Headers/DicomSeries.h>
+#import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/DicomAlbum.h>
+#import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/DicomSeries.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingTasksManager.h"
 #import "DiscPublishingOptions.h"
-#import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
+#import <OsiriXAPI/NSAppleEventDescriptor+N2.h>
 #import <PTRobot/PTRobot.h>
-#import <OsiriX Headers/NSPanel+N2.h>
-#import <OsiriX Headers/N2Debug.h>
+#import <OsiriXAPI/NSPanel+N2.h>
+#import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/AppController.h>
 
 //#include "NSThread+N2.h"
 
@@ -45,6 +46,9 @@ const static NSString* const RobotReadyTimerCallbackUserInfoWindowKey = @"Window
 const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"StartDate";
 
 -(void)initPlugin {
+	if (![AppController hasMacOSXSnowLeopard])
+		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
+
 	discPublishingInstance = self;
 	
 	[QTMovie movie]; // this initializes the QT kit on the main thread

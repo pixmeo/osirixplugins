@@ -8,7 +8,7 @@
 
 #import "DiscPublishing+Tool.h"
 #import <OpenScripting/OpenScripting.h>
-#import <OsiriX Headers/NSAppleEventDescriptor+N2.h>
+#import <OsiriXAPI/NSAppleEventDescriptor+N2.h>
 
 
 @implementation DiscPublishing (Tool)

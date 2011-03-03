@@ -9,8 +9,8 @@
 #import "DiscPublishingPreferencesController+RobotOptions.h"
 #import "DiscPublishingPreferencesBinViewController.h"
 #import "DiscPublishing+Tool.h"
-#import <OsiriX Headers/NSXMLNode+N2.h>
-#import <OsiriX Headers/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/NSXMLNode+N2.h>
+#import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 
 

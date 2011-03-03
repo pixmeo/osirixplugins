@@ -8,16 +8,16 @@
 
 #import "DiscPublishingFilesManager.h"
 #import "NSString+DiscPublishing.h"
-#import <OsiriX Headers/Notifications.h>
-#import <OsiriX Headers/ThreadsManager.h>
+#import <OsiriXAPI/Notifications.h>
+#import <OsiriXAPI/ThreadsManager.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import "NSArray+DiscPublishing.h"
-#import <OsiriX Headers/DicomImage.h>
-#import <OsiriX Headers/DicomStudy.h>
-#import <OsiriX Headers/BrowserController.h>
+#import <OsiriXAPI/DicomImage.h>
+#import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/BrowserController.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
-#import <OsiriX Headers/NSThread+N2.h>
+#import <OsiriXAPI/NSThread+N2.h>
 
 
 @interface DiscPublishingFilesManager (Private)

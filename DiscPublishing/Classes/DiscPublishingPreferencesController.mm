@@ -9,14 +9,14 @@
 #import "DiscPublishingPreferencesController.h"
 #import "DiscPublishingPreferencesController+RobotOptions.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
-#import <OsiriX Headers/NSUserDefaultsController+N2.h>
-#import <OsiriX Headers/N2Shell.h>
-#import <OsiriX Headers/DiscBurningOptions.h>
+#import <OsiriXAPI/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/N2Shell.h>
+#import <OsiriXAPI/DiscBurningOptions.h>
 #import "DiscPublishing.h"
-#import <OsiriX Headers/N2Operators.h>
-#import <OsiriX Headers/NSUserDefaultsController+OsiriX.h>
-#import <OsiriX Headers/PreferencesWindowController.h>
-#import <OsiriX Headers/Anonymization.h>
+#import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/NSUserDefaultsController+OsiriX.h>
+#import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/Anonymization.h>
 
 
 @interface NSPathControl (DiscPublishing)

@@ -7,16 +7,16 @@
 //
 
 #import "NSUserDefaultsController+DiscPublishing.h"
-#import <OsiriX Headers/NSUserDefaultsController+N2.h>
-#import <OsiriX Headers/N2UserDefaults.h>
-#import <OsiriX headers/Anonymization.h>
+#import <OsiriXAPI/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/N2UserDefaults.h>
+#import <OsiriXAPI/Anonymization.h>
 #import <OsiriX/DCMAttributeTag.h>
 #import <JobManager/PTJobManager.h>
 #import "DiscPublishingOptions.h"
 #import "DiscPublishing.h"
 #import "DiscPublishing+Tool.h"
 #import "DicomTag.h"
-#import <OsiriX Headers/NSFileManager+N2.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
 
 
 @interface NSUserDefaultsControllerDiscPublishingHelper : NSObject

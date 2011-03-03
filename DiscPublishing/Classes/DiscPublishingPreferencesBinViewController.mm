@@ -7,7 +7,7 @@
 //
 
 #import "DiscPublishingPreferencesBinViewController.h"
-#import <OsiriX Headers/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import <JobManager/PTJobManager.h>
 

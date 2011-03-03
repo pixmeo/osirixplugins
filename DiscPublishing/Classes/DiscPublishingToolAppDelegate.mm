@@ -11,9 +11,9 @@
 #import "DiscPublisher+Constants.h"
 #import "DiscPublisherStatus.h"
 #import "DiscPublishingTool+DistributedNotifications.h"
-#import <OsiriX Headers/NSThread+N2.h>
-#import <OsiriX Headers/NSXMLNode+N2.h>
-#import <OsiriX Headers/N2Debug.h>
+#import <OsiriXAPI/NSThread+N2.h>
+#import <OsiriXAPI/NSXMLNode+N2.h>
+#import <OsiriXAPI/N2Debug.h>
 #import <Growl/GrowlDefines.h>
 
 

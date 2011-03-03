@@ -8,8 +8,8 @@
 
 #import "DiscPublishingJob.h"
 //#import "DiscPublishingOptions.h"
-#import <OsiriX Headers/N2CSV.h>
-#import <OsiriX Headers/NSFileManager+N2.h>
+#import <OsiriXAPI/N2CSV.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
 #import "DiscPublishingJob+Info.h"
 
 
