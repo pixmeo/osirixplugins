@@ -225,8 +225,9 @@ static NSString* PreventNullString(NSString* s) {
 			{
 				if( [study.reportURL hasPrefix: @"http://"] || [study.reportURL hasPrefix: @"https://"])
 				{
-					NSString *urlContent = [NSString stringWithContentsOfURL:[NSURL URLWithString: study.reportURL]];
-					[urlContent writeToFile: [reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] atomically: YES];
+					NSStringEncoding se = NULL;
+					NSString *urlContent = [NSString stringWithContentsOfURL:[NSURL URLWithString:study.reportURL] usedEncoding:&se error:NULL];
+					[urlContent writeToFile: [reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 				}
 				else
 					[[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
