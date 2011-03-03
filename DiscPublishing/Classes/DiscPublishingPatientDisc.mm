@@ -134,17 +134,14 @@ static NSString* PreventNullString(NSString* s) {
 		dicomPath = [dicomPath substringFromIndex:index];
 	}*/
 	
-	if ([AppController hasMacOSXSnowLeopard])
-	{
-		NSTask* dcmmkdirTask = [[NSTask alloc] init];
-		[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
-		[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
-		[dcmmkdirTask setCurrentDirectoryPath:root];
-		[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
-		[dcmmkdirTask launch];
-		[dcmmkdirTask waitUntilExit];
-		[dcmmkdirTask release];
-	}
+	NSTask* dcmmkdirTask = [[NSTask alloc] init];
+	[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
+	[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
+	[dcmmkdirTask setCurrentDirectoryPath:root];
+	[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
+	[dcmmkdirTask launch];
+	[dcmmkdirTask waitUntilExit];
+	[dcmmkdirTask release];
 }
 
 -(void)main {
