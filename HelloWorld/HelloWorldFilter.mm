@@ -6,8 +6,8 @@
 //
 
 #import "HelloWorldFilter.h"
-#import <OsiriX Headers/PreferencesWindowController.h>
-#import <OsiriX Headers/N2Operators.h>
+#import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/N2Operators.h>
 
 @implementation HelloWorldFilter
 

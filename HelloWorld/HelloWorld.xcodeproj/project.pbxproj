@@ -12,7 +12,7 @@
 		592685DF11D2089100CFA81F /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 592685DE11D2089100CFA81F /* PreferencePanes.framework */; };
 		5926860711D2098C00CFA81F /* HelloWorldPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 592685B011D204D100CFA81F /* HelloWorldPreferences.prefPane */; };
 		59A3C84A130D6A1E001937EB /* fatigue.png in Resources */ = {isa = PBXBuildFile; fileRef = 59A3C849130D6A1E001937EB /* fatigue.png */; };
-		59A3C9ED130D6BB5001937EB /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriX Headers.framework */; };
+		59A3C9ED130D6BB5001937EB /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */; };
 		59A3CBB2130D704E001937EB /* HelloWorldFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59A3CBB1130D704E001937EB /* HelloWorldFilter.mm */; };
 		8D5B49AE048680CD000E48DA /* HelloWorld_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -43,7 +43,7 @@
 		592685C211D2056D00CFA81F /* HelloWorldPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelloWorldPreferencesController.m; sourceTree = "<group>"; };
 		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		59A3C849130D6A1E001937EB /* fatigue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fatigue.png; sourceTree = "<group>"; };
-		59A3C9EC130D6BB5001937EB /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix-trunk/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
 		59A3CBB1130D704E001937EB /* HelloWorldFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldFilter.mm; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* HelloWorld.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelloWorld.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,7 +64,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				59A3C9ED130D6BB5001937EB /* OsiriX Headers.framework in Frameworks */,
+				59A3C9ED130D6BB5001937EB /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +116,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				59A3C9EC130D6BB5001937EB /* OsiriX Headers.framework */,
+				59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -227,7 +227,14 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HelloWorld" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* HelloWorld */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -390,7 +397,6 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/osirix/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../osirix-trunk/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
