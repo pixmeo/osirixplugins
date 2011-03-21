@@ -9,11 +9,11 @@
 #import "BullsEyeController.h"
 #import "ColorCell.h"
 #import "BullsEyeView.h"
-#import "OsiriX Headers/BrowserController.h"
-#import "OsiriX Headers/DICOMExport.h"
-#import "OsiriX Headers/ViewerController.h"
-#import "OsiriX Headers/DCMView.h"
-#import "OsiriX Headers/DCMPix.h"
+#import "OsiriXAPI/BrowserController.h"
+#import "OsiriXAPI/DICOMExport.h"
+#import "OsiriXAPI/ViewerController.h"
+#import "OsiriXAPI/DCMView.h"
+#import "OsiriXAPI/DCMPix.h"
 
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";

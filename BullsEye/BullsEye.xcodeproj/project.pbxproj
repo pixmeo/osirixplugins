@@ -20,12 +20,12 @@
 		ABEB178010B52BCB00245C73 /* PresetsListArrayController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABEB177E10B52BCB00245C73 /* PresetsListArrayController.h */; };
 		ABEB178110B52BCB00245C73 /* PresetsListArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEB177F10B52BCB00245C73 /* PresetsListArrayController.m */; };
 		CE1F172810B832FC00344DCA /* BullsEyeIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = CE1F172710B832FC00344DCA /* BullsEyeIcon.tiff */; };
+		CE2E634A1337E1BC00AD3187 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2E63491337E1BC00AD3187 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CE5CC4C710B489A5006A5B6D /* BullsEyeController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5CC4C510B489A5006A5B6D /* BullsEyeController.h */; };
 		CE5CC4C810B489A5006A5B6D /* BullsEyeController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5CC4C610B489A5006A5B6D /* BullsEyeController.m */; };
 		CE5CC4CE10B489D9006A5B6D /* BullsEyeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE5CC4CC10B489D9006A5B6D /* BullsEyeController.xib */; };
 		CE5CC4D410B48A3E006A5B6D /* BullsEyeView.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5CC4D210B48A3E006A5B6D /* BullsEyeView.h */; };
 		CE5CC4D510B48A3E006A5B6D /* BullsEyeView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5CC4D310B48A3E006A5B6D /* BullsEyeView.m */; };
-		CE6C9A551141CBC40037D648 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6C9A541141CBC40037D648 /* OsiriX Headers.framework */; };
 		CE9B95F210B5F04D002451B0 /* Perfusion.pdf in Resources */ = {isa = PBXBuildFile; fileRef = CE9B95F110B5F04D002451B0 /* Perfusion.pdf */; };
 /* End PBXBuildFile section */
 
@@ -47,12 +47,12 @@
 		ABEB177E10B52BCB00245C73 /* PresetsListArrayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresetsListArrayController.h; sourceTree = "<group>"; };
 		ABEB177F10B52BCB00245C73 /* PresetsListArrayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresetsListArrayController.m; sourceTree = "<group>"; };
 		CE1F172710B832FC00344DCA /* BullsEyeIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BullsEyeIcon.tiff; sourceTree = "<group>"; };
+		CE2E63491337E1BC00AD3187 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = SOURCE_ROOT; };
 		CE5CC4C510B489A5006A5B6D /* BullsEyeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BullsEyeController.h; sourceTree = "<group>"; };
 		CE5CC4C610B489A5006A5B6D /* BullsEyeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BullsEyeController.m; sourceTree = "<group>"; };
 		CE5CC4CD10B489D9006A5B6D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/BullsEyeController.xib; sourceTree = "<group>"; };
 		CE5CC4D210B48A3E006A5B6D /* BullsEyeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BullsEyeView.h; sourceTree = "<group>"; };
 		CE5CC4D310B48A3E006A5B6D /* BullsEyeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BullsEyeView.m; sourceTree = "<group>"; };
-		CE6C9A541141CBC40037D648 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		CE9B95F110B5F04D002451B0 /* Perfusion.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Perfusion.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +63,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
-				CE6C9A551141CBC40037D648 /* OsiriX Headers.framework in Frameworks */,
+				CE2E634A1337E1BC00AD3187 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +125,6 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CE6C9A541141CBC40037D648 /* OsiriX Headers.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -134,6 +133,7 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE2E63491337E1BC00AD3187 /* OsiriXAPI.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				AB01B9BC067FAC0500CDDB0F /* WebKit.framework */,

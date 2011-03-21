@@ -5,8 +5,8 @@
 
 #import "DCMJpegImportFilter.h"
 #import <OsiriX/DCM.h>
-#import "OsiriX Headers/browserController.h"
-#import "OsiriX Headers/DICOMExport.h"
+#import "OsiriXAPI/browserController.h"
+#import "OsiriXAPI/DICOMExport.h"
 
 @implementation DCMJpegImportFilter
 
