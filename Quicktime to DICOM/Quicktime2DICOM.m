@@ -5,10 +5,10 @@
 #import "Quicktime2DICOM.h"
 #import <OsiriX/DCM.h>
 #import "QTKit/QTMovie.h"
-#import "OsiriX Headers/browserController.h"
-#import "OsiriX Headers/WaitRendering.h"
-#import "OsiriX Headers/DICOMExport.h"
-#import "OsiriX Headers/BrowserController.h"
+#import "OsiriXAPI/browserController.h"
+#import "OsiriXAPI/WaitRendering.h"
+#import "OsiriXAPI/DICOMExport.h"
+#import "OsiriXAPI/BrowserController.h"
 
 @implementation Quicktime2DICOM
 

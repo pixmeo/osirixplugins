@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,7 @@
 		592685DF11D2089100CFA81F /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 592685DE11D2089100CFA81F /* PreferencePanes.framework */; };
 		5926860711D2098C00CFA81F /* HelloWorldPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 592685B011D204D100CFA81F /* HelloWorldPreferences.prefPane */; };
 		59A3C84A130D6A1E001937EB /* fatigue.png in Resources */ = {isa = PBXBuildFile; fileRef = 59A3C849130D6A1E001937EB /* fatigue.png */; };
-		59A3C9ED130D6BB5001937EB /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */; };
+		59A3C9ED130D6BB5001937EB /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59A3CBB2130D704E001937EB /* HelloWorldFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59A3CBB1130D704E001937EB /* HelloWorldFilter.mm */; };
 		8D5B49AE048680CD000E48DA /* HelloWorld_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* HelloWorld_Prefix.pch */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -43,7 +43,7 @@
 		592685C211D2056D00CFA81F /* HelloWorldPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelloWorldPreferencesController.m; sourceTree = "<group>"; };
 		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		59A3C849130D6A1E001937EB /* fatigue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fatigue.png; sourceTree = "<group>"; };
-		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
+		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = SOURCE_ROOT; };
 		59A3CBB1130D704E001937EB /* HelloWorldFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HelloWorldFilter.mm; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* HelloWorld.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HelloWorld.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -517,7 +517,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Development;
 		};
@@ -529,7 +529,7 @@
 					i386,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Deployment;
 		};
@@ -541,7 +541,7 @@
 					i386,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.5;
 			};
 			name = Default;
 		};

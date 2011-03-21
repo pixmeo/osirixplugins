@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB01B9BC067FAC0500CDDB0F /* WebKit.framework */; };
-		AB250FA11250E09B00FD6EC7 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB250FA01250E09B00FD6EC7 /* OsiriX Headers.framework */; };
 		AB2510FF1250E0EF00FD6EC7 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB2510FE1250E0EF00FD6EC7 /* OsiriX.framework */; };
+		CE2E68E51337E50300AD3187 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2E68E41337E50300AD3187 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		CE4EAC121037E91800DA0EFB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CE4EAC101037E91800DA0EFB /* InfoPlist.strings */; };
 		CE797E1E1037DA7D00C2C7D2 /* FloatDICOMExport.h in Headers */ = {isa = PBXBuildFile; fileRef = CE797E1C1037DA7D00C2C7D2 /* FloatDICOMExport.h */; };
 		CE797E1F1037DA7D00C2C7D2 /* FloatDICOMExport.m in Sources */ = {isa = PBXBuildFile; fileRef = CE797E1D1037DA7D00C2C7D2 /* FloatDICOMExport.m */; };
@@ -24,8 +24,8 @@
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB01B9BC067FAC0500CDDB0F /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		AB1411F40677B3BE004B0074 /* FloatDICOMExport.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FloatDICOMExport.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB250FA01250E09B00FD6EC7 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
 		AB2510FE1250E0EF00FD6EC7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix/osirix/build/Deployment 64-bit/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
+		CE2E68E41337E50300AD3187 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = SOURCE_ROOT; };
 		CE4EAC111037E91800DA0EFB /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		CE797E1C1037DA7D00C2C7D2 /* FloatDICOMExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatDICOMExport.h; sourceTree = "<group>"; };
 		CE797E1D1037DA7D00C2C7D2 /* FloatDICOMExport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloatDICOMExport.m; sourceTree = "<group>"; };
@@ -39,8 +39,8 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				AB01B9BD067FAC0500CDDB0F /* WebKit.framework in Frameworks */,
-				AB250FA11250E09B00FD6EC7 /* OsiriX Headers.framework in Frameworks */,
 				AB2510FF1250E0EF00FD6EC7 /* OsiriX.framework in Frameworks */,
+				CE2E68E51337E50300AD3187 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,8 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				CE2E68E41337E50300AD3187 /* OsiriXAPI.framework */,
 				AB2510FE1250E0EF00FD6EC7 /* OsiriX.framework */,
-				AB250FA01250E09B00FD6EC7 /* OsiriX Headers.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
