@@ -13,14 +13,14 @@
 =========================================================================*/
 
 #import "RoiEnhancementROIList.h"
-#import <OsiriX Headers/ROI.h>
+#import <OsiriXAPI/ROI.h>
 #import "RoiEnhancementInterface.h"
 #import "RoiEnhancementChart.h"
-#import <OsiriX Headers/ViewerController.h>
+#import <OsiriXAPI/ViewerController.h>
 #import <GRLineDataSet.h>
 #import <GRAreaDataSet.h>
 #import "RoiEnhancementOptions.h"
-#import <OsiriX Headers/Notifications.h>
+#import <OsiriXAPI/Notifications.h>
 
 @implementation RoiEnhancementROIRec
 @synthesize roi = _roi;

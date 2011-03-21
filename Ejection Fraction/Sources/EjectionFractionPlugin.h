@@ -6,7 +6,7 @@
 //  Copyright 2009 OsiriX Team. All rights reserved.
 //
 
-#import <OsiriX Headers/PluginFilter.h>
+#import <OsiriXAPI/PluginFilter.h>
 #import "EjectionFractionAlgorithm.h"
 
 extern NSString* EjectionFractionAlgorithmAddedNotification;

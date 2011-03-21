@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <OsiriX Headers/ViewerController.h>
+#import <OsiriXAPI/ViewerController.h>
 
 @class EjectionFractionStepsController, EjectionFractionPlugin, EjectionFractionAlgorithm;
 

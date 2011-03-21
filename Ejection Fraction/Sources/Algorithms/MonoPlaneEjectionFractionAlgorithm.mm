@@ -8,8 +8,8 @@
 
 #import "MonoPlaneEjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
-#import <OsiriX Headers/ROI.h>
-#import <OsiriX Headers/DCMView.h>
+#import <OsiriXAPI/ROI.h>
+#import <OsiriXAPI/DCMView.h>
 
 NSString* DiasLong = @"Diastole long axis area";
 NSString* SystLong = @"Systole long axis area";

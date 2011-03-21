@@ -8,7 +8,7 @@
 
 #import "TeichholzEjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
-#import <OsiriX Headers/ROI.h>
+#import <OsiriXAPI/ROI.h>
 
 @implementation TeichholzEjectionFractionAlgorithm
 

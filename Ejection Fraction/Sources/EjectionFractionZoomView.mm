@@ -7,8 +7,8 @@
 //
 
 #import "EjectionFractionZoomView.h"
-#import <OsiriX Headers/NSView+N2.h>
-#import <OsiriX Headers/N2Operators.h>
+#import <OsiriXAPI/NSView+N2.h>
+#import <OsiriXAPI/N2Operators.h>
 
 
 @implementation EjectionFractionZoomView

@@ -8,7 +8,7 @@
 
 #import "BiPlaneEjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
-#import <OsiriX Headers/ROI.h>
+#import <OsiriXAPI/ROI.h>
 
 NSString* DiasHorLong = @"Diastole horizontal long axis area";
 NSString* SystHorLong = @"Systole horizontal long axis area";

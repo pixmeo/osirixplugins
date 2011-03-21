@@ -18,9 +18,9 @@
 #import "RoiEnhancementROIList.h"
 #import <GRAxes.h>
 #import "RoiEnhancementUserDefaults.h"
-#import <OsiriX Headers/ViewerController.h>
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/Notifications.h>
+#import <OsiriXAPI/ViewerController.h>
+#import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/Notifications.h>
 
 @implementation RoiEnhancementOptions
 

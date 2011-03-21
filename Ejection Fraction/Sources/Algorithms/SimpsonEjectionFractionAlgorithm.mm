@@ -8,7 +8,7 @@
 
 #import "SimpsonEjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
-#import <OsiriX Headers/ROI.h>
+#import <OsiriXAPI/ROI.h>
 
 NSString* DiasMitral = @"Diastole base short axis area/diameter";
 NSString* SystMitral = @"Systole base short axis area/diameter";

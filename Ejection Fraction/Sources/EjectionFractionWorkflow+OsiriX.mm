@@ -11,13 +11,13 @@
 #import "EjectionFractionPlugin.h"
 #import "EjectionFractionStepsController.h"
 #import "EjectionFractionResultsController.h"
-#import <OsiriX Headers/Notifications.h>
-#import <OsiriX Headers/ViewerController.h>
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/DicomSeries.h>
-#import <OsiriX Headers/ROI.h>
-#import <OsiriX Headers/NSDictionary+N2.h>
-#import <OsiriX Headers/N2Debug.h>
+#import <OsiriXAPI/Notifications.h>
+#import <OsiriXAPI/ViewerController.h>
+#import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/DicomSeries.h>
+#import <OsiriXAPI/ROI.h>
+#import <OsiriXAPI/NSDictionary+N2.h>
+#import <OsiriXAPI/N2Debug.h>
 
 NSString* EjectionFractionWorkflowExpectedROIChangedNotification = @"EjectionFractionWorkflowExpectedROIChangedNotification";
 NSString* EjectionFractionWorkflowROIAssignedNotification = @"EjectionFractionWorkflowROIAssignedNotification";

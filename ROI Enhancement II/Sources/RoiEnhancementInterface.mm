@@ -13,17 +13,17 @@
 =========================================================================*/
 
 #import "RoiEnhancementInterface.h"
-#import <OsiriX Headers/ViewerController.h>
+#import <OsiriXAPI/ViewerController.h>
 #import "RoiEnhancementROIList.h"
 #import "RoiEnhancementChart.h"
 #import "RoiEnhancementOptions.h"
-#import <OsiriX Headers/DICOMExport.h>
-#import <OsiriX Headers/DCMPix.h>
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/BrowserController.h>
+#import <OsiriXAPI/DICOMExport.h>
+#import <OsiriXAPI/DCMPix.h>
+#import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/BrowserController.h>
 #import "RoiEnhancementUserDefaults.h"
 #import "RoiEnhancementDicomSaveDialog.h"
-#import "OsiriX Headers/Notifications.h"
+#import "OsiriXAPI/Notifications.h"
 
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";

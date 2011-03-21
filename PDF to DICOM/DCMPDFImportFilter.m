@@ -6,8 +6,8 @@
 #import "DCMPDFImportFilter.h"
 #import <OsiriX/DCM.h>
 
-#import "OsiriX Headers/browserController.h"
-#import "OsiriX Headers/DicomFile.h"
+#import "OsiriXAPI/browserController.h"
+#import "OsiriXAPI/DicomFile.h"
 
 @implementation DCMPDFImportFilter
 

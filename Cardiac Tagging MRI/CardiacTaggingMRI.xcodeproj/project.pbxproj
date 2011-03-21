@@ -3,13 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		AB125D2A11299C5C002D63E2 /* OsiriX Headers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB125D2911299C5C002D63E2 /* OsiriX Headers.framework */; };
+		AB125D2A11299C5C002D63E2 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB125D2911299C5C002D63E2 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		ABDA6A480A50FE9300223368 /* CardiacTaggingMRIFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDA6A460A50FE9300223368 /* CardiacTaggingMRIFilter.m */; };
 		ABDA6A490A50FE9300223368 /* CardiacTaggingMRIFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABDA6A470A50FE9300223368 /* CardiacTaggingMRIFilter.h */; };
 		ABDA6A4B0A50FE9D00223368 /* CardiacTaggingMRI_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = ABDA6A4A0A50FE9D00223368 /* CardiacTaggingMRI_Prefix.pch */; };
@@ -23,7 +23,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AB125D2911299C5C002D63E2 /* OsiriX Headers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "OsiriX Headers.framework"; path = "../../osirix/osirix/build/Development/OsiriX Headers.framework"; sourceTree = SOURCE_ROOT; };
+		AB125D2911299C5C002D63E2 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = SOURCE_ROOT; };
 		AB94F8DF0682170900733F34 /* CardiacTaggingMRI.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardiacTaggingMRI.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABDA6A460A50FE9300223368 /* CardiacTaggingMRIFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CardiacTaggingMRIFilter.m; sourceTree = "<group>"; };
 		ABDA6A470A50FE9300223368 /* CardiacTaggingMRIFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CardiacTaggingMRIFilter.h; sourceTree = "<group>"; };
@@ -39,7 +39,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				CE25C4BE07BD5CFA00AFB3EA /* Accelerate.framework in Frameworks */,
-				AB125D2A11299C5C002D63E2 /* OsiriX Headers.framework in Frameworks */,
+				AB125D2A11299C5C002D63E2 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AB125D2911299C5C002D63E2 /* OsiriX Headers.framework */,
+				AB125D2911299C5C002D63E2 /* OsiriXAPI.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				CE25C4BD07BD5CFA00AFB3EA /* Accelerate.framework */,
 			);
@@ -162,8 +162,15 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = CE6A9B5308AC847E00D0C1EE /* Build configuration list for PBXProject "CardiacTaggingMRI" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Duplicate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -269,7 +276,7 @@
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				SDKROOT = macosx10.5;
 			};
 			name = Development;
 		};

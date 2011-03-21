@@ -7,14 +7,14 @@
 //
 
 #import "EjectionFractionImageView.h"
-#import <OsiriX Headers/DCMPix.h>
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/ROI.h>
-#import <OsiriX Headers/Notifications.h>
-#import <OsiriX Headers/MyPoint.h>
-#import <OsiriX Headers/N2Operators.h>
-#import <OsiriX Headers/N2MinMax.h>
-#import <OsiriX Headers/NSView+N2.h>
+#import <OsiriXAPI/DCMPix.h>
+#import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/ROI.h>
+#import <OsiriXAPI/Notifications.h>
+#import <OsiriXAPI/MyPoint.h>
+#import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/N2MinMax.h>
+#import <OsiriXAPI/NSView+N2.h>
 
 
 @implementation EjectionFractionImageView

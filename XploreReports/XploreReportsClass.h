@@ -3,7 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <OsiriX Headers/PluginFilter.h>
+#import <OsiriXAPI/PluginFilter.h>
 
 @interface XploreReportsClass : PluginFilter {
 

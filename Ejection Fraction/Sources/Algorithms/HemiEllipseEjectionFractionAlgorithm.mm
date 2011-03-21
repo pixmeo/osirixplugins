@@ -8,7 +8,7 @@
 
 #import "HemiEllipseEjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
-#import <OsiriX Headers/ROI.h>
+#import <OsiriXAPI/ROI.h>
 
 NSString* DiasShort = @"Diastole short axis area/diameter";
 NSString* SystShort = @"Systole short axis area/diameter";

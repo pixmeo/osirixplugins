@@ -8,7 +8,7 @@
 
 #import "EjectionFractionAlgorithm.h"
 #import "EjectionFractionWorkflow.h"
-#import <OsiriX Headers/DCMView.h>
+#import <OsiriXAPI/DCMView.h>
 #import "EjectionFractionPlugin.h"
 #import <algorithm>
 

@@ -12,22 +12,22 @@
 #import "EjectionFractionAlgorithm.h"
 #import "EjectionFractionDicomSaveDialog.h"
 #import "EjectionFractionImageView.h"
-#import <OsiriX Headers/N2ColumnLayout.h>
-#import <OsiriX Headers/N2CellDescriptor.h>
-#import <OsiriX Headers/NSTextView+N2.h>
-#import <OsiriX Headers/N2View.h>
-#import <OsiriX Headers/N2MinMax.h>
-#import <OsiriX Headers/N2Window.h>
-#import <OsiriX Headers/NSWindow+N2.h>
-#import <OsiriX Headers/N2ImageView.h>
-#import <OsiriX Headers/NSImageView+N2.h>
-#import <OsiriX Headers/N2Operators.h>
-#import <OsiriX Headers/ROI.h>
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/MyPoint.h>
-#import <OsiriX Headers/DCMPix.h>
-#import <OsiriX Headers/DICOMExport.h>
-#import <OsiriX Headers/BrowserController.h>
+#import <OsiriXAPI/N2ColumnLayout.h>
+#import <OsiriXAPI/N2CellDescriptor.h>
+#import <OsiriXAPI/NSTextView+N2.h>
+#import <OsiriXAPI/N2View.h>
+#import <OsiriXAPI/N2MinMax.h>
+#import <OsiriXAPI/N2Window.h>
+#import <OsiriXAPI/NSWindow+N2.h>
+#import <OsiriXAPI/N2ImageView.h>
+#import <OsiriXAPI/NSImageView+N2.h>
+#import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/ROI.h>
+#import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/MyPoint.h>
+#import <OsiriXAPI/DCMPix.h>
+#import <OsiriXAPI/DICOMExport.h>
+#import <OsiriXAPI/BrowserController.h>
 #import "EjectionFractionZoomView.h"
 
 const NSString* FileTypePDF = @"pdf";

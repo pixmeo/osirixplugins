@@ -13,15 +13,15 @@
 =========================================================================*/
 
 #import "RoiEnhancementChart.h"
-#import <OsiriX Headers/DCMPix.h>
+#import <OsiriXAPI/DCMPix.h>
 #import <GRAxes.h>
 #import <GRLineDataSet.h>
 #import "RoiEnhancementAreaDataSet.h"
 #import "RoiEnhancementInterface.h"
-#import <OsiriX Headers/ViewerController.h>
+#import <OsiriXAPI/ViewerController.h>
 #import "RoiEnhancementROIList.h"
-#import <OsiriX Headers/ROI.h>
-#import <OsiriX Headers/DCMView.h>
+#import <OsiriXAPI/ROI.h>
+#import <OsiriXAPI/DCMView.h>
 #import "RoiEnhancementOptions.h"
 
 @implementation RoiEnhancementChart

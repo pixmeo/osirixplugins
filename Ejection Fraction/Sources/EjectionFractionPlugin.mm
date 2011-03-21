@@ -9,13 +9,13 @@
 #import "EjectionFractionPlugin.h"
 #import "EjectionFractionWorkflow.h"
 #import "EjectionFractionStepsController.h"
-#import <OsiriX Headers/Notifications.h>
+#import <OsiriXAPI/Notifications.h>
 #import "MonoPlaneEjectionFractionAlgorithm.h"
 #import "BiPlaneEjectionFractionAlgorithm.h"
 #import "HemiEllipseEjectionFractionAlgorithm.h"
 #import "SimpsonEjectionFractionAlgorithm.h"
 #import "TeichholzEjectionFractionAlgorithm.h"
-#import <OsiriX Headers/N2Debug.h>
+#import <OsiriXAPI/N2Debug.h>
 
 NSString* EjectionFractionAlgorithmAddedNotification = @"EjectionFractionWorkflowAlgorithmAddedNotification";
 NSString* EjectionFractionAlgorithmRemovedNotification = @"EjectionFractionWorkflowAlgorithmRemovedNotification";
