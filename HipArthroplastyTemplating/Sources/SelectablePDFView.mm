@@ -7,8 +7,8 @@
 //
 
 #import "SelectablePDFView.h"
-#import <OsiriX Headers/N2Operators.h>
-#import <OsiriX Headers/NSImage+N2.h>
+#import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/NSImage+N2.h>
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #include <algorithm>
 #include <cmath>

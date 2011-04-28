@@ -9,18 +9,18 @@
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplatingPlugin.h"
 #import "ArthroplastyTemplatingUserDefaults.h"
-#import <OsiriX Headers/SendController.h>
-#import <OsiriX Headers/BrowserController.h>
-#import <OsiriX Headers/ViewerController.h>
-#import <OsiriX Headers/DCMPix.h>
-#import <OsiriX Headers/DCMView.h>
-#import <OsiriX Headers/N2Step.h>
-#import <OsiriX Headers/N2Steps.h>
-#import <OsiriX Headers/N2StepsView.h>
-#import <OsiriX Headers/N2Panel.h>
-#import <OsiriX Headers/NSBitmapImageRep+N2.h>
-#import <OsiriX Headers/N2Operators.h>
-#import <OsiriX Headers/Notifications.h>
+#import <OsiriXAPI/SendController.h>
+#import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/ViewerController.h>
+#import <OsiriXAPI/DCMPix.h>
+#import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/N2Step.h>
+#import <OsiriXAPI/N2Steps.h>
+#import <OsiriXAPI/N2StepsView.h>
+#import <OsiriXAPI/N2Panel.h>
+#import <OsiriXAPI/NSBitmapImageRep+N2.h>
+#import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/Notifications.h>
 #import "ArthroplastyTemplateFamily.h"
 // #include "vImage/Convolution.h"
 #include <vector>
@@ -110,8 +110,13 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	CGFloat factor = 1.*_appliedMagnification/magnificationValue;
 	
 	for (DCMPix* p in [_viewerController pixList]) {
-		[p setPixelSpacingX:[p pixelSpacingX]*factor];
-		[p setPixelSpacingY:[p pixelSpacingY]*factor];
+		if (!p.pixelSpacingX && !p.pixelSpacingY) {
+			p.pixelSpacingX = p.pixelSpacingY = 1./72;	
+			factor *= 720;
+			magnificationValue /= 10;
+		}
+		p.pixelSpacingX *= factor;
+		p.pixelSpacingY *= factor;
 	}
 	
 	_appliedMagnification = magnificationValue;
@@ -190,7 +195,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	BOOL newAxis = !*axis;
 	if (newAxis) {
-		*axis = [[ROI alloc] initWithType:tMesure :[[_horizontalAxis valueForKey:@"pixelSpacingX"] floatValue] :[[_horizontalAxis valueForKey:@"pixelSpacingY"] floatValue] :[[_horizontalAxis valueForKey:@"imageOrigin"] pointValue]];
+		*axis = [[ROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX.floatValue :_horizontalAxis.pixelSpacingY.floatValue :_horizontalAxis.imageOrigin.pointValue];
 		[*axis setDisplayTextualData:NO];
 		[*axis setThickness:1]; [*axis setOpacity:.5];
 		[*axis setSelectable:NO];
@@ -241,7 +246,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	if (roiFrom && roiTo) {
 		if (!*axis) {
-			*axis = [[ROI alloc] initWithType:tMesure :[[_horizontalAxis valueForKey:@"pixelSpacingX"] floatValue] :[[_horizontalAxis valueForKey:@"pixelSpacingY"] floatValue] :[[_horizontalAxis valueForKey:@"imageOrigin"] pointValue]];
+			*axis = [[ROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX.floatValue :_horizontalAxis.pixelSpacingY.floatValue :_horizontalAxis.imageOrigin.pointValue];
 			[*axis setThickness:1]; [*axis setOpacity:.5];
 			[*axis setSelectable:NO];
 			[[_viewerController imageView] roiSet:*axis];
@@ -695,7 +700,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		
 		
 		_femurLandmarkOriginal = [self closestROIFromSet:[NSSet setWithObjects:_landmark1, _landmark2, NULL] toPoints:[_femurRoi points]];
-		_femurLandmark = [[ROI alloc] initWithType:t2DPoint :[[_femurLandmarkOriginal valueForKey:@"pixelSpacingX"] floatValue] :[[_femurLandmarkOriginal valueForKey:@"pixelSpacingY"] floatValue] :[[_femurLandmarkOriginal valueForKey:@"imageOrigin"] pointValue]];
+		_femurLandmark = [[ROI alloc] initWithType:t2DPoint :_femurLandmarkOriginal.pixelSpacingX.floatValue :_femurLandmarkOriginal.pixelSpacingY.floatValue :_femurLandmarkOriginal.imageOrigin.pointValue];
 		[_femurLandmark setROIRect:[_femurLandmarkOriginal rect]];
 		[_femurLandmark setName:[NSString stringWithFormat:@"%@'",[_femurLandmarkOriginal name]]]; // same name + prime
 		[_femurLandmark setDisplayTextualData:NO];

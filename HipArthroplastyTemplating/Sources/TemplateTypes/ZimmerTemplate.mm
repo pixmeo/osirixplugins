@@ -6,8 +6,8 @@
 //
 
 #import "ZimmerTemplate.h"
-#import <OsiriX Headers/NSString+N2.h>
-#import <OsiriX Headers/N2Operators.h>
+#import <OsiriXAPI/NSString+N2.h>
+#import <OsiriXAPI/N2Operators.h>
 
 @implementation ZimmerTemplate
 

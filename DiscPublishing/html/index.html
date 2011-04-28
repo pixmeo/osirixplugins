@@ -128,17 +128,47 @@
             
             Our disc publishing test mac is set to automatically log into a 'discpublishing' user. A launch daemon is set for that user in order to keep OsiriX running. We advise you to do the same.
 
-            <h2>Disc Cover</h2>
+             <h2>Customization</h2>
+             
+            <ul>
+                <li>
+                    <b>DICOM directory name</b><br/><br/>
+  		           The directory containing all DICOM files is by default named <i>DICOM</i>. If you need the DICOM directory to be named differently, you must edit the file at DiscPublishing.osirixplugin/Contents/Info.plist and specify the custom directory name for key <i>DicomDirectoryName</i>.
+<pre>&lt;key&gt;DicomDirectoryName&lt;/key&gt;
+&lt;string&gt;IHE_PDI&lt;/string&gt;</pre>
+				</li>
+                <li>
+                    <b>Disc cover merge fields</b><br/><br/>
+                    The plugin allows you to provide a template for the disc's label. The template editing application, bundled in the plugin, supports the usage of text fields where the content of the fields is filled when the template is used for printing.<br/>
+                    By default, the plugin fills these merge fields with these values:
+					<br/>
+					<br/>
+					<ol>
+						<li>Disc name (normally the patient's name)</li>
+						<li>Patient's birth date</li>
+						<li>Study names (if multiple values, these are separated by commas)</li>
+						<li>Modalities (if multiple values, these are separated by commas)</li>
+						<li>Study dates (if multiple values, these are separated by commas)</li>
+						<li>Current date</li>
+					</ol>
+					<br/>
+					These fields are specified in the file at DiscPublishing.osirixplugin/Contents/Info.plist under the key <i>MergeFields</i>:
+<pre>&lt;key&gt;MergeFields&lt;/key&gt;
+&lt;array&gt;
+	&lt;string&gt;%DiscName%&lt;/string&gt;
+	&lt;string&gt;%PatientsBirthDate%&lt;/string&gt;
+	&lt;string&gt;%StudyDescription%&lt;/string&gt;
+	&lt;string&gt;%Modality%&lt;/string&gt;
+	&lt;string&gt;%StudyDate%&lt;/string&gt;
+	&lt;string&gt;%CurrentDate%&lt;/string&gt;
+&lt;/array&gt;</pre>
+					
+					You can modify these values and add more, up to a maximum total of 10. 
+					TODO: list available keys!
+					
+                </li>
+			</ul>
             
-            The plugin allows you to provide a template for the disc's label. The template editing application, bundled in the plugin, supports the usage of text fields where the content of the fields is filled when the template is used for printing. The plugin fills these merge fields with these values:
-            <ol>
-                <li>Patient's name;</li>
-                <li>Patient's birth date</li>
-                <li>Study names (if multiple values, these are separated by commas);</li>
-                <li>Modalities (if multiple values, these are separated by commas)</li>
-                <li>Study dates (if multiple values, these are separated by commas)</li>
-                <li>Current date</li>
-            </ol>
             
             <h2>Tests</h2>
             

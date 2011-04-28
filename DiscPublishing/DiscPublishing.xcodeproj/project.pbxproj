@@ -50,7 +50,6 @@
 		593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */; };
 		5956BB7711D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5956BB7611D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.mm */; };
 		5956BC0F11D3A2610016EF6D /* DiscPublishingPreferencesBinView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5956BC0D11D3A2610016EF6D /* DiscPublishingPreferencesBinView.xib */; };
-		595FC84C1198621300310FD3 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5971022F113FE9A500875159 /* NSArray+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */; };
 		59710230113FE9A500875159 /* NSArray+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */; };
 		59710242113FEA0E00875159 /* DiscPublishingFilesManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */; };
@@ -84,9 +83,14 @@
 		59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C81177177900E84FE3 /* DiscPublishingJob.h */; };
 		59E3EFCD121A684500DD4552 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E3EFCC121A684500DD4552 /* Growl.framework */; };
 		59E3EFEE121A6FC300DD4552 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E3EFCC121A684500DD4552 /* Growl.framework */; };
+		59EE466013694E7A0002A7F8 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
+		59EE466113694E7A0002A7F8 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
+		59EE469E13695C380002A7F8 /* JobManager.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; };
+		59EE46A313695C3F0002A7F8 /* JobProcessor.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384251178868500E84FE3 /* JobProcessor.framework */; };
+		59EE46A613695C420002A7F8 /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
+		59EE46A913695C460002A7F8 /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
 		59F0D251131F8A2400E3F979 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0D250131F8A2400E3F979 /* Nitrogen.framework */; };
 		59F0D29F131F8A3D00E3F979 /* Nitrogen.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0D250131F8A2400E3F979 /* Nitrogen.framework */; };
-		59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384241178868500E84FE3 /* JobManager.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +159,20 @@
 				5900F91011916356001E899B /* JobProcessor.framework in Copy Frameworks */,
 				5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */,
 				5900F91211916356001E899B /* as_storage.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		59EE469513695C050002A7F8 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				59EE46A913695C460002A7F8 /* as_storage.framework in Copy Frameworks */,
+				59EE46A613695C420002A7F8 /* PTRobot.framework in Copy Frameworks */,
+				59EE46A313695C3F0002A7F8 /* JobProcessor.framework in Copy Frameworks */,
+				59EE469E13695C380002A7F8 /* JobManager.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,7 +276,7 @@
 			files = (
 				59BDFB9C1185B7DF007F1F2C /* PreferencePanes.framework in Frameworks */,
 				59BDFBC51185BE46007F1F2C /* OsiriXAPI.framework in Frameworks */,
-				59FCCD7B119040DA007B28E0 /* JobManager.framework in Frameworks */,
+				59EE466113694E7A0002A7F8 /* JobManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,8 +286,8 @@
 			files = (
 				5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */,
 				598C9AE61153C4BA007B7524 /* OsiriXAPI.framework in Frameworks */,
-				595FC84C1198621300310FD3 /* JobManager.framework in Frameworks */,
 				59DEC7B411995E7800E0343A /* Carbon.framework in Frameworks */,
+				59EE466013694E7A0002A7F8 /* JobManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +573,7 @@
 			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DiscPublishing" */;
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
+				59EE469513695C050002A7F8 /* Copy Frameworks */,
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
@@ -830,7 +849,10 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Libs\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -871,7 +893,10 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Libs\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;

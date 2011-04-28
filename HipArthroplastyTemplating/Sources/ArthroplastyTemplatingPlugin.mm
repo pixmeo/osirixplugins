@@ -8,9 +8,9 @@
 #import "ArthroplastyTemplatingPlugin.h"
 #import "ArthroplastyTemplatingStepsController.h"
 #import "ArthroplastyTemplatingWindowController.h"
-#import <OsiriX Headers/BrowserController.h>
-#import <OsiriX Headers/Notifications.h>
-#import <OsiriX Headers/NSPanel+N2.h>
+#import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/Notifications.h>
+#import <OsiriXAPI/NSPanel+N2.h>
 
 
 @implementation ArthroplastyTemplatingPlugin

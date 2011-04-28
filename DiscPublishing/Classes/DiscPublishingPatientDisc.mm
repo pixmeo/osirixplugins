@@ -99,8 +99,18 @@ static NSString* PreventNullString(NSString* s) {
 	return [basePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@", [series valueForKeyPath:@"seriesDICOMUID"]]];
 }
 
++(NSString*)dicomDirName {
+	NSDictionary* info = [[NSBundle bundleForClass:[self class]] infoDictionary];
+	
+	NSString* dicomDirName = [info objectForKey:@"DicomDirectoryName"];
+	if ([dicomDirName isKindOfClass:NSString.class] && dicomDirName.length)
+		return dicomDirName;
+	
+	return @"DICOM";
+}
+
 +(void)copyOsirixLiteToPath:(NSString*)path {
-	NSTask *unzipTask = [[NSTask alloc] init];
+	NSTask* unzipTask = [[NSTask alloc] init];
 	[unzipTask setLaunchPath: @"/usr/bin/unzip"];
 	[unzipTask setCurrentDirectoryPath:path];
 	[unzipTask setArguments:[NSArray arrayWithObjects: @"-o", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"OsiriX Launcher.zip"], NULL]];
@@ -112,6 +122,12 @@ static NSString* PreventNullString(NSString* s) {
 +(void)copyContentsOfDirectory:(NSString*)auxDir toPath:(NSString*)path {
 	for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:auxDir error:NULL])
 		[[NSFileManager defaultManager] copyPath:[auxDir stringByAppendingPathComponent:subpath] toPath:[path stringByAppendingPathComponent:subpath] handler:NULL];
+}
+
++(void)copyWeasisToPath:(NSString*)path {
+	if ([[AppController sharedAppController] respondsToSelector:@selector(weasisBasePath)])
+		[self copyContentsOfDirectory:[[AppController sharedAppController] weasisBasePath] toPath:path];
+	else NSLog(@"Warning: attempt to copy weasis on OsiriX prior to version 3.9");
 }
 
 +(NSString*)discNameForSeries:(NSArray*)series {
@@ -255,6 +271,8 @@ static NSString* PreventNullString(NSString* s) {
 			
 			NSDictionary* mediaCapacitiesBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacities];
 			
+			if ([_options respondsToSelector:@selector(includeWeasis)] && _options.includeWeasis)
+				[DiscPublishingPatientDisc copyWeasisToPath:discBaseDirPath];
 			if (_options.includeOsirixLite)
 				[DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
 			if (_options.includeAuxiliaryDir)
@@ -334,9 +352,9 @@ static NSString* PreventNullString(NSString* s) {
 			
 			// move DICOM files
 			
-			NSString* dicomDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"DICOM"];
+			NSString* dicomDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
 			[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDiscBaseDirPath];
-			[privateFiles addObject:@"DICOM"];
+			[privateFiles addObject:[DiscPublishingPatientDisc dicomDirName]];
 			
 			NSUInteger fileNumber = 0;
 			for (DicomSeries* serie in discSeries)
@@ -509,7 +527,7 @@ static NSString* PreventNullString(NSString* s) {
 	DLog(@"dirPath is %@", dirPath);
 	
 	// copy files by considering anonymize
-	NSString* dicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM"];
+	NSString* dicomDirPath = [dirPath stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 	
 	DLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
