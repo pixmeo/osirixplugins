@@ -12,6 +12,7 @@
 #import <OsiriXAPI/SendController.h>
 #import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/ViewerController.h>
+#import <OsiriXAPI/ROI.h>
 #import <OsiriXAPI/DCMPix.h>
 #import <OsiriXAPI/DCMView.h>
 #import <OsiriXAPI/N2Step.h>
@@ -195,7 +196,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	BOOL newAxis = !*axis;
 	if (newAxis) {
-		*axis = [[ROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX.floatValue :_horizontalAxis.pixelSpacingY.floatValue :_horizontalAxis.imageOrigin.pointValue];
+		*axis = [[ROI alloc] initWithType:tMesure :[_horizontalAxis pixelSpacingX] :[_horizontalAxis pixelSpacingY] :[_horizontalAxis imageOrigin]];
 		[*axis setDisplayTextualData:NO];
 		[*axis setThickness:1]; [*axis setOpacity:.5];
 		[*axis setSelectable:NO];
@@ -246,7 +247,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	if (roiFrom && roiTo) {
 		if (!*axis) {
-			*axis = [[ROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX.floatValue :_horizontalAxis.pixelSpacingY.floatValue :_horizontalAxis.imageOrigin.pointValue];
+			*axis = [[ROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX :_horizontalAxis.pixelSpacingY :_horizontalAxis.imageOrigin];
 			[*axis setThickness:1]; [*axis setOpacity:.5];
 			[*axis setSelectable:NO];
 			[[_viewerController imageView] roiSet:*axis];
@@ -700,7 +701,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		
 		
 		_femurLandmarkOriginal = [self closestROIFromSet:[NSSet setWithObjects:_landmark1, _landmark2, NULL] toPoints:[_femurRoi points]];
-		_femurLandmark = [[ROI alloc] initWithType:t2DPoint :_femurLandmarkOriginal.pixelSpacingX.floatValue :_femurLandmarkOriginal.pixelSpacingY.floatValue :_femurLandmarkOriginal.imageOrigin.pointValue];
+		_femurLandmark = [[ROI alloc] initWithType:t2DPoint :_femurLandmarkOriginal.pixelSpacingX :_femurLandmarkOriginal.pixelSpacingY :_femurLandmarkOriginal.imageOrigin];
 		[_femurLandmark setROIRect:[_femurLandmarkOriginal rect]];
 		[_femurLandmark setName:[NSString stringWithFormat:@"%@'",[_femurLandmarkOriginal name]]]; // same name + prime
 		[_femurLandmark setDisplayTextualData:NO];

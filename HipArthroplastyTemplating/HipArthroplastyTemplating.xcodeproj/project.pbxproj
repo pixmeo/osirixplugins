@@ -359,7 +359,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
-			shellScript = "#!/usr/bin/perl\n\nuse strict;\n\nmy $source = \"$ENV{HOME}/Library/Development/Arthroplasty Templating/Templates\";\nmy $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n\nopendir(TEMPLATES, $source);\nforeach (readdir(TEMPLATES)) {\n\tif ($_ !~ /^\\./i) {\n\t\tmy @args = (\"cp\", \"-Rfp\", \"$source/$_\", $target);\n\t\tsystem(@args);\n\t}\n}\n\nclosedir(TEMPLATES);\n\nexit 0;";
+			shellScript = "#!/usr/bin/perl\n\nuse strict;\n\nmy $source = \"$ENV{HOME}/Library/Development/Arthroplasty Templating/Templates\";\nmy $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n\nopendir(TEMPLATES, $source);\nforeach (readdir(TEMPLATES)) {\n\tif ($_ !~ /^\\./i) {\n\t\tmy $name = $_;\n\t\tmy $path = \"$source/$_\";\n\t\tmy $linkpath = readlink($path);\n\t\tprint \"$path is $linkpath\\n\";\n\t\tif ($linkpath) {\n\t\t\t$path = $linkpath;\n\t\t}\n\n\t\tmy @args = (\"cp\", \"-Rfp\", $path, $target);\n\t\tsystem(@args);\n\t}\n}\n\nclosedir(TEMPLATES);\n\nexit 0;";
 		};
 		59F510221054F3FA009B6D89 /* Clean Templates Directories */ = {
 			isa = PBXShellScriptBuildPhase;
