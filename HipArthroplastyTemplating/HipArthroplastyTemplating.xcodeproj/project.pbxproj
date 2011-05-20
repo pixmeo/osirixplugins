@@ -22,12 +22,12 @@
 		598E1E2F0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E2E0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm */; };
 		598E1E310FFB3E5A00BC313C /* ArthroplastyTemplateFamily.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E300FFB3E5A00BC313C /* ArthroplastyTemplateFamily.mm */; };
 		598E1E330FFB3E7E00BC313C /* ArthroplastyTemplatingSplitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E320FFB3E7E00BC313C /* ArthroplastyTemplatingSplitView.mm */; };
-		598E1E370FFB3EC900BC313C /* ZimmerTemplate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 598E1E360FFB3EC900BC313C /* ZimmerTemplate.mm */; };
-		59956E500FD8105F007C151F /* ZimmerTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 59956E4E0FD8105F007C151F /* ZimmerTemplate.h */; };
 		59956E780FD812CF007C151F /* ArthroplastyTemplateFamily.h in Headers */ = {isa = PBXBuildFile; fileRef = 59956E760FD812CF007C151F /* ArthroplastyTemplateFamily.h */; };
 		599572900FDD3E2B007C151F /* SelectablePDFView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5995728E0FDD3E2B007C151F /* SelectablePDFView.h */; };
 		599572910FDD3E2B007C151F /* SelectablePDFView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5995728F0FDD3E2B007C151F /* SelectablePDFView.mm */; };
 		599572CC0FDD5170007C151F /* ArthroplastyTemplatingWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 599572CB0FDD5170007C151F /* ArthroplastyTemplatingWindowController.mm */; };
+		599A23CB138648C50086168F /* InfoTxtTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 599A23C9138648C50086168F /* InfoTxtTemplate.h */; };
+		599A23CC138648C50086168F /* InfoTxtTemplate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 599A23CA138648C50086168F /* InfoTxtTemplate.mm */; };
 		599C7B190FFCFED000AD1EB9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 599C7B180FFCFED000AD1EB9 /* Accelerate.framework */; };
 		59A640051042DFF3003F4069 /* ArthroplastyTemplatingStepsController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59A640031042DFF3003F4069 /* ArthroplastyTemplatingStepsController.mm */; };
 		59A640061042DFF3003F4069 /* ArthroplastyTemplatingStepsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59A640041042DFF3003F4069 /* ArthroplastyTemplatingStepsController.h */; };
@@ -38,8 +38,6 @@
 		59D94E8D0FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59D94E710FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h */; };
 		59DB06B2133CDC2B001FA39B /* Headers in Resources */ = {isa = PBXBuildFile; fileRef = 59DB0530133CDC2B001FA39B /* Headers */; };
 		59F523FD1055235F009B6D89 /* MEDACTA Templates in Resources */ = {isa = PBXBuildFile; fileRef = 59F523CD1055235F009B6D89 /* MEDACTA Templates */; };
-		59F5247410554EAA009B6D89 /* MEDACTATemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F5247210554EAA009B6D89 /* MEDACTATemplate.h */; };
-		59F5247510554EAA009B6D89 /* MEDACTATemplate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F5247310554EAA009B6D89 /* MEDACTATemplate.mm */; };
 		59F6A15F105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F6A15D105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.h */; };
 		59F6A160105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F6A15E105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.mm */; };
 		59F6A17110564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F6A16F10564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.h */; };
@@ -83,12 +81,12 @@
 		598E1E2E0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingTableView.mm; sourceTree = "<group>"; };
 		598E1E300FFB3E5A00BC313C /* ArthroplastyTemplateFamily.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplateFamily.mm; sourceTree = "<group>"; };
 		598E1E320FFB3E7E00BC313C /* ArthroplastyTemplatingSplitView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingSplitView.mm; sourceTree = "<group>"; };
-		598E1E360FFB3EC900BC313C /* ZimmerTemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZimmerTemplate.mm; sourceTree = "<group>"; };
-		59956E4E0FD8105F007C151F /* ZimmerTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZimmerTemplate.h; sourceTree = "<group>"; };
 		59956E760FD812CF007C151F /* ArthroplastyTemplateFamily.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplateFamily.h; sourceTree = "<group>"; };
 		5995728E0FDD3E2B007C151F /* SelectablePDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectablePDFView.h; sourceTree = "<group>"; };
 		5995728F0FDD3E2B007C151F /* SelectablePDFView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SelectablePDFView.mm; sourceTree = "<group>"; };
 		599572CB0FDD5170007C151F /* ArthroplastyTemplatingWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingWindowController.mm; sourceTree = "<group>"; };
+		599A23C9138648C50086168F /* InfoTxtTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoTxtTemplate.h; sourceTree = "<group>"; };
+		599A23CA138648C50086168F /* InfoTxtTemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InfoTxtTemplate.mm; sourceTree = "<group>"; };
 		599C7B180FFCFED000AD1EB9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		59A640031042DFF3003F4069 /* ArthroplastyTemplatingStepsController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ArthroplastyTemplatingStepsController.mm; sourceTree = "<group>"; };
 		59A640041042DFF3003F4069 /* ArthroplastyTemplatingStepsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArthroplastyTemplatingStepsController.h; sourceTree = "<group>"; };
@@ -100,8 +98,6 @@
 		59D951DA0FCE826400509EEC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		59DB0530133CDC2B001FA39B /* Headers */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Headers; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework/Versions/A/Headers"; sourceTree = SOURCE_ROOT; };
 		59F523CD1055235F009B6D89 /* MEDACTA Templates */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "MEDACTA Templates"; sourceTree = "<group>"; };
-		59F5247210554EAA009B6D89 /* MEDACTATemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MEDACTATemplate.h; sourceTree = "<group>"; };
-		59F5247310554EAA009B6D89 /* MEDACTATemplate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MEDACTATemplate.mm; sourceTree = "<group>"; };
 		59F6A15D105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ArthroplastyTemplatingWindowController+Color.h"; sourceTree = "<group>"; };
 		59F6A15E105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+Color.mm"; sourceTree = "<group>"; };
 		59F6A16F10564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ArthroplastyTemplatingWindowController+OsiriX.h"; sourceTree = "<group>"; };
@@ -182,10 +178,8 @@
 		59956E4D0FD8105F007C151F /* TemplateTypes */ = {
 			isa = PBXGroup;
 			children = (
-				59956E4E0FD8105F007C151F /* ZimmerTemplate.h */,
-				598E1E360FFB3EC900BC313C /* ZimmerTemplate.mm */,
-				59F5247210554EAA009B6D89 /* MEDACTATemplate.h */,
-				59F5247310554EAA009B6D89 /* MEDACTATemplate.mm */,
+				599A23C9138648C50086168F /* InfoTxtTemplate.h */,
+				599A23CA138648C50086168F /* InfoTxtTemplate.mm */,
 			);
 			path = TemplateTypes;
 			sourceTree = "<group>";
@@ -255,18 +249,17 @@
 				59D94E860FCE807D00509EEC /* ArthroplastyTemplatingPlugin.h in Headers */,
 				59D94E8B0FCE807D00509EEC /* ArthroplastyTemplatingTableView.h in Headers */,
 				59D94E8D0FCE807D00509EEC /* ArthroplastyTemplatingWindowController.h in Headers */,
-				59956E500FD8105F007C151F /* ZimmerTemplate.h in Headers */,
 				59956E780FD812CF007C151F /* ArthroplastyTemplateFamily.h in Headers */,
 				599572900FDD3E2B007C151F /* SelectablePDFView.h in Headers */,
 				595252820FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h in Headers */,
 				592C9F3B0FDFAD0C00EB256B /* ArthroplastyTemplatingSplitView.h in Headers */,
 				59A640061042DFF3003F4069 /* ArthroplastyTemplatingStepsController.h in Headers */,
-				59F5247410554EAA009B6D89 /* MEDACTATemplate.h in Headers */,
 				59F6A15F105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.h in Headers */,
 				59F6A17110564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.h in Headers */,
 				59F6A17610564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h in Headers */,
 				595B975811172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h in Headers */,
 				5912DF3C118F24F1007F7D40 /* Prefix.pch in Headers */,
+				599A23CB138648C50086168F /* InfoTxtTemplate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,13 +384,12 @@
 				598E1E2F0FFB3E4D00BC313C /* ArthroplastyTemplatingTableView.mm in Sources */,
 				598E1E310FFB3E5A00BC313C /* ArthroplastyTemplateFamily.mm in Sources */,
 				598E1E330FFB3E7E00BC313C /* ArthroplastyTemplatingSplitView.mm in Sources */,
-				598E1E370FFB3EC900BC313C /* ZimmerTemplate.mm in Sources */,
 				59A640051042DFF3003F4069 /* ArthroplastyTemplatingStepsController.mm in Sources */,
-				59F5247510554EAA009B6D89 /* MEDACTATemplate.mm in Sources */,
 				59F6A160105639F8008585F5 /* ArthroplastyTemplatingWindowController+Color.mm in Sources */,
 				59F6A17210564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm in Sources */,
 				59F6A17710564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm in Sources */,
 				595B975911172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm in Sources */,
+				599A23CC138648C50086168F /* InfoTxtTemplate.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

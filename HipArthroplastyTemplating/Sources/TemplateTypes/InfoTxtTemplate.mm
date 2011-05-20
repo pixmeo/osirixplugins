@@ -1,18 +1,23 @@
 //
-//  ZimmerTemplate.m
+//  InfoTxtTemplate.m
 //  Arthroplasty Templating II
 //  Created by Joris Heuberger on 19/03/07.
+//  Modified by Alessandro Volz since 07/2009
 //  Copyright (c) 2007-2009 OsiriX Team. All rights reserved.
 //
 
-#import "ZimmerTemplate.h"
+#import "InfoTxtTemplate.h"
 #import <OsiriXAPI/NSString+N2.h>
 #import <OsiriXAPI/N2Operators.h>
 
-@implementation ZimmerTemplate
+@implementation InfoTxtTemplate
 
 id First(id a, id b) {
 	return a? a : b;
+}
+
++(NSArray*)templatesAtPath:(NSString*)dirpath {
+	return [[self class] templatesAtPath:dirpath usingClass:[self class]];
 }
 
 +(NSArray*)templatesAtPath:(NSString*)dirpath usingClass:(Class)classs {
@@ -66,8 +71,8 @@ id First(id a, id b) {
 	self = [super initWithPath:path];
 	
 	// properties
-	_properties = [[ZimmerTemplate propertiesFromInfoFileAtPath:path] retain];
-	if(!_properties)
+	_properties = [[[self class] propertiesFromInfoFileAtPath:path] retain];
+	if (!_properties)
 		return NULL; // TODO: is self released?
 
 	return self;
