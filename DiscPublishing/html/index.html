@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
-		<h1>DiscPublishing</h1>
+		<h1>DiscPublishing 1.0.2</h1>
 		<div id="text">
             This plugin allows you to use a Primera DiscPublisher robot with OsiriX.<br/>
             <br/>
@@ -137,7 +137,7 @@
 <pre>&lt;key&gt;DicomDirectoryName&lt;/key&gt;
 &lt;string&gt;IHE_PDI&lt;/string&gt;</pre>
 				</li>
-                <li>
+                <!--li>
                     <b>Disc cover merge fields</b><br/><br/>
                     The plugin allows you to provide a template for the disc's label. The template editing application, bundled in the plugin, supports the usage of text fields where the content of the fields is filled when the template is used for printing.<br/>
                     By default, the plugin fills these merge fields with these values:
@@ -166,7 +166,7 @@
 					You can modify these values and add more, up to a maximum total of 10. 
 					TODO: list available keys!
 					
-                </li>
+                </li-->
 			</ul>
             
             
@@ -176,6 +176,7 @@
             The disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
 
             <div>If you activated the "Automatically queue and publish images received via DICOM" checkbox, send some files to OsiriX from another DICOM node (the plugin will publish one disk per patient). When the files arrive, the plugin stacks them and waits until the delay you specified in the preferences is passed since a patient's last received image; then it takes all that patient's images off the stack, and publishes them: the disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
+
 	    </div>
     </body>
 </html>

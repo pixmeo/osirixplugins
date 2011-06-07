@@ -54,6 +54,7 @@ const NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey = @"DiscPubl
 const NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey = @"DiscPublishingPatientModeDiscCoverTemplatePath";
 const NSString* const DiscPublishingPatientModeAnonymizeFlagDefaultsKey = @"DiscPublishingPatientModeAnonymizeFlag";
 const NSString* const DiscPublishingPatientModeAnonymizationTagsDefaultsKey = @"DiscPublishingPatientModeAnonymizationTags";
+const NSString* const DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey = @"DiscPublishingPatientModeIncludeWeasisFlag";
 const NSString* const DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey = @"DiscPublishingPatientModeIncludeOsirixLiteFlag";
 const NSString* const DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey = @"DiscPublishingPatientModeIncludeHTMLQTFlag";
 const NSString* const DiscPublishingPatientModeIncludeReportsFlagDefaultsKey = @"DiscPublishingPatientModeIncludeReportsFlag";
@@ -119,6 +120,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 				@"", @"PerformingPhysiciansName",*/
 			NULL], DiscPublishingPatientModeAnonymizationTagsDefaultsKey,
 		[NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey,
+		[NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey,
 		[NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeReportsFlagDefaultsKey,
 		[NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey,
@@ -169,6 +171,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	
 	options.anonymize = [self boolForKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey];
 	options.anonymizationTags = [Anonymization tagsValuesArrayFromDictionary:[self dictionaryForKey:DiscPublishingPatientModeAnonymizationTagsDefaultsKey]];
+	options.includeWeasis = [self boolForKey:DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey];
 	options.includeOsirixLite = [self boolForKey:DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey];
 	options.includeHTMLQT = [self boolForKey:DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey];
 	options.includeReports = [self boolForKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];
@@ -233,9 +236,11 @@ const NSString* const DiscPublishingMediaTypeTagSuffix = @"_MediaTypeTag";
 	return [NSString stringWithFormat:@"%@_MediaCapacityMeasureTag", [self discPublishingBaseBindingKeyForBin:bin]];
 }
 
--(NSUInteger)discPublishingMediaCapacityBytesForBin:(NSUInteger)bin {
+-(CGFloat)discPublishingMediaCapacityBytesForBin:(NSUInteger)bin {
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
-	return [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaCapacityBindingKeyForBin:bin]] floatValue] * [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaCapacityMeasureTagBindingKeyForBin:bin]] unsignedIntValue];
+	CGFloat a = [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaCapacityBindingKeyForBin:bin]] floatValue];
+	CGFloat b = [[defaultsController valueForValuesKey:[NSUserDefaultsController discPublishingMediaCapacityMeasureTagBindingKeyForBin:bin]] floatValue];
+	return a * b;
 }
 
 -(NSUInteger)discPublishingMediaTypeTagForBin:(NSUInteger)bin {
@@ -254,10 +259,11 @@ const NSString* const DiscPublishingMediaTypeTagSuffix = @"_MediaTypeTag";
 	
 	NSMutableDictionary* dic = [NSMutableDictionary dictionary];
 	NSArray* bins = [doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL];
+	NSLog(@"bins %@", bins);
 //	for (NSUInteger i = 0; i < 2; ++i) {
 //#warning: this MUST be enabled when releasing
 	for (NSUInteger i = 0; i < bins.count; ++i) {
-		[dic setObject:[NSNumber numberWithUnsignedInt:[self discPublishingMediaCapacityBytesForBin:i]] forKey:[NSNumber numberWithUnsignedInt:[self discPublishingMediaTypeTagForBin:i]]];
+		[dic setObject:[NSNumber numberWithFloat:[self discPublishingMediaCapacityBytesForBin:i]] forKey:[NSNumber numberWithUnsignedInt:[self discPublishingMediaTypeTagForBin:i]]];
 	}
 	
 	[doc release];

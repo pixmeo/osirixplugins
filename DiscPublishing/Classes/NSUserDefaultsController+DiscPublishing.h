@@ -30,6 +30,7 @@ extern const NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeAnonymizeFlagDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeAnonymizationTagsDefaultsKey;
+extern const NSString* const DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey;
 extern const NSString* const DiscPublishingPatientModeIncludeReportsFlagDefaultsKey;

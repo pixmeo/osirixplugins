@@ -70,7 +70,7 @@ static NSString* PreventNullString(NSString* s) {
 	return [ret autorelease];
 }
 
-+(NSArray*)selectSeriesOfSizes:(NSDictionary*)seriesSizes forDiscWithCapacity:(NSUInteger)mediaCapacity {
++(NSArray*)selectSeriesOfSizes:(NSDictionary*)seriesSizes forDiscWithCapacity:(CGFloat)mediaCapacity {
 	// if all fits in a disk, return all
 	NSUInteger sum = 0;
 	for (NSValue* serieValue in seriesSizes)
@@ -270,6 +270,7 @@ static NSString* PreventNullString(NSString* s) {
 	//		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
 			
 			NSDictionary* mediaCapacitiesBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacities];
+		//	NSLog(@"----- mcb %@", mediaCapacitiesBytes);
 			
 			if ([_options respondsToSelector:@selector(includeWeasis)] && _options.includeWeasis)
 				[DiscPublishingPatientDisc copyWeasisToPath:discBaseDirPath];
@@ -286,28 +287,37 @@ static NSString* PreventNullString(NSString* s) {
 			NSUInteger tempSizeAtDiscBaseDir = [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
 			NSMutableDictionary* mediaCapacitiesBytesTemp = [NSMutableDictionary dictionaryWithCapacity:mediaCapacitiesBytes.count];
 			for (id key in mediaCapacitiesBytes)
-				[mediaCapacitiesBytesTemp setObject:[NSNumber numberWithUnsignedInteger:[[mediaCapacitiesBytes objectForKey:key] unsignedIntValue]-tempSizeAtDiscBaseDir] forKey:key];
+				[mediaCapacitiesBytesTemp setObject:[NSNumber numberWithFloat:[[mediaCapacitiesBytes objectForKey:key] floatValue]-tempSizeAtDiscBaseDir] forKey:key];
 			mediaCapacitiesBytes = mediaCapacitiesBytesTemp;
+		//	NSLog(@"----- mcb %@", mediaCapacitiesBytes);
 			
 			// mediaCapacitiesBytes contains one or more disc capacities and seriesSizes contains the series still needing to be burnt
 			// what disc type between these in mediaCapacitiesBytes will we use?
 			NSUInteger totalSeriesSizes = 0;
 			for (id serie in seriesSizes)
 				totalSeriesSizes += [[seriesSizes objectForKey:serie] unsignedIntValue];
-			id pickedMediaKey = NULL;
+			id pickedMediaKey = nil;
 			// try pick the smallest that fits the data
-			for (id key in mediaCapacitiesBytes)
-				if ([[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] > totalSeriesSizes) // fits
-					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] < [[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]) // forst OR is smaller than the one we picked earlier
+			//NSLog(@"----- Picking media... totalSeriesSizes is %d", totalSeriesSizes);
+			for (id key in mediaCapacitiesBytes) {
+			//	NSLog(@"Will it be %@ sized %f ?", key, [[mediaCapacitiesBytes objectForKey:key] floatValue]);
+				if ([[mediaCapacitiesBytes objectForKey:key] floatValue] > totalSeriesSizes) { // fits
+			//		NSLog(@"\tIt may be...");
+					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] floatValue] < [[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]) { // forst OR is smaller than the one we picked earlier
+			//			NSLog(@"\tIt really may be...");
 						pickedMediaKey = key;
+					}
+				}
+			}
+			//NSLog(@"Picked media key %@", pickedMediaKey);
 			if (!pickedMediaKey) // data won't fit a single disc, pick the biggest of discs available
 				for (id key in mediaCapacitiesBytes)
-					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] unsignedIntValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]) // forst OR is bigger than the one we picked earlier
+					if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] floatValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]) // forst OR is bigger than the one we picked earlier
 						pickedMediaKey = key;
 			
 			DLog(@"media type will be: %@", pickedMediaKey);
 			
-			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] unsignedIntValue]];
+			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]];
 			[seriesSizes removeObjectsForKeys:discSeriesValues];
 			NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];
 			for (NSValue* serieValue in discSeriesValues)
@@ -365,7 +375,7 @@ static NSString* PreventNullString(NSString* s) {
 				}
 			
 			// generate DICOMDIR
-			[DiscPublishingPatientDisc	generateDICOMDIRAtDirectory:discBaseDirPath withDICOMFilesInDirectory:discBaseDirPath];
+			[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:discBaseDirPath withDICOMFilesInDirectory:discBaseDirPath];
 			[privateFiles addObject:@"DICOMDIR"];
 			
 			// move QTHTML files
