@@ -202,8 +202,8 @@ static		float						deg2rad = 3.14159265358979/180.0;
 	int mouseOnLines=0;
 	float centerheight = self.frame.size.height*0.1;
 	float centerwidth = self.frame.size.width*0.1;
-	float mousetocenterx=(mouseLocation.x-crossPoint.x)*scaleValue;
-	float mousetocentery=(mouseLocation.y-crossPoint.y)*scaleValue;
+	float mousetocenterx=(mouseLocation.x-crossPoint.x)*[self scaleValue];
+	float mousetocentery=(mouseLocation.y-crossPoint.y)*[self scaleValue];
 	//abs(mousetocenterx)
 	if(mousetocenterx<0)
 		mousetocenterx=-mousetocenterx;
@@ -351,8 +351,8 @@ static		float						deg2rad = 3.14159265358979/180.0;
 		float crossglX=0,crossglY=0;
 		if(curDCM)
 		{
-			crossglX = scaleValue *(crossPoint.x-curDCM.pwidth/2.);
-			crossglY = scaleValue *(crossPoint.y-curDCM.pheight/2.);
+			crossglX = [self scaleValue] *(crossPoint.x-curDCM.pwidth/2.);
+			crossglY = [self scaleValue] *(crossPoint.y-curDCM.pheight/2.);
 		}
 		
 		glTranslatef(crossglX, crossglY, 0.0);
