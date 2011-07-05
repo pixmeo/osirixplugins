@@ -4,7 +4,6 @@
 //
 
 #import "DCMJpegImportFilter.h"
-#import <OsiriX/DCM.h>
 #import "OsiriXAPI/browserController.h"
 #import "OsiriXAPI/DICOMExport.h"
 
@@ -17,13 +16,15 @@
 	NSArray *currentSelection = [[BrowserController currentBrowser] databaseSelection];
 	if ([currentSelection count] > 0)
 	{
-		id selection = [currentSelection objectAtIndex:0];
-		NSString *source;
+		NSMutableArray *images = [NSMutableArray array];
 		
-		if ([[[selection entity] name] isEqualToString:@"Study"]) 
-			source = [[[[[selection valueForKey:@"series"] anyObject] valueForKey:@"images"] anyObject] valueForKey:@"completePath"];
-		else
-			source = [[[selection valueForKey:@"images"] anyObject] valueForKey:@"completePath"];
+		if( [[[BrowserController currentBrowser] window] firstResponder] == [[BrowserController currentBrowser] oMatrix]) [[BrowserController currentBrowser] filesForDatabaseMatrixSelection: images];
+		else [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
+		
+		NSString *source = nil;
+		
+		if( [images count])
+			source = [[images objectAtIndex: 0] valueForKey:@"completePath"];
 	
 		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 		
@@ -33,8 +34,11 @@
 		[openPanel setMessage:NSLocalizedString( @"Select image or folder of images to convert to DICOM", nil)];
 		
 		if( e == nil)
+		{
 			e = [[DICOMExport alloc] init];
-		
+			[e setSeriesNumber: 86532 + [[NSCalendarDate date] minuteOfHour]  + [[NSCalendarDate date] secondOfMinute]];
+		}
+			
 		if([openPanel runModalForTypes:[NSImage imageFileTypes]] == NSOKButton)
 		{
 			imageNumber = 0;
