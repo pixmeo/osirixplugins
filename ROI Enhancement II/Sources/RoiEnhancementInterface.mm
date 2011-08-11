@@ -151,9 +151,9 @@ const NSString* FileTypeCSV = @"csv";
 	[dicomExport setSeriesDescription: seriesDescription];
 	[dicomExport setSeriesNumber: 35466];
 	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
-	NSString *f = [dicomExport writeDCMFile: nil];
+	NSString* f = [dicomExport writeDCMFile: nil];
 	
-	if( f)
+	if (f)
 		[BrowserController addFiles: [NSArray arrayWithObject: f]
 					 toContext: [[BrowserController currentBrowser] managedObjectContext]
 					toDatabase: [BrowserController currentBrowser]

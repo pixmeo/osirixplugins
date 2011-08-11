@@ -17,7 +17,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface RoiEnhancementSplitView : NSSplitView {
+@interface RoiEnhancementSplitView : NSSplitView<NSSplitViewDelegate> {
 	CGFloat rightSubviewWidth;
 }
 

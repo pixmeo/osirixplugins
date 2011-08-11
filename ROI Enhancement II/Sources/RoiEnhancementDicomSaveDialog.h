@@ -15,7 +15,7 @@
 #import <Cocoa/Cocoa.h>
 @class RoiEnhancementInterface;
 
-@interface RoiEnhancementDicomSaveDialog : NSWindow {
+@interface RoiEnhancementDicomSaveDialog : NSWindow<NSWindowDelegate> {
 	IBOutlet RoiEnhancementInterface* _interface;
 	IBOutlet NSColorWell* _imageBackgroundColor;
 	IBOutlet NSButton* _saveButton;
