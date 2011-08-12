@@ -26,7 +26,7 @@
 
 @property(readonly) GRLineDataSet* min;
 @property(readonly) GRLineDataSet* max;
-@property BOOL displayed;
+@property(nonatomic) BOOL displayed;
 
 -(id)initWithOwnerChart:(RoiEnhancementChart*)chart min:(GRLineDataSet*)min max:(GRLineDataSet*)max;
 -(void)drawRect:(NSRect)dirtyRect;

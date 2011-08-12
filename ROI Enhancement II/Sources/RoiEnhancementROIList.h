@@ -71,10 +71,10 @@ enum ROISel {
 -(void)removeROI:(NSNotification*)notification;
 
 -(void)displayAllROIs;
--(void)displayAllROIs:(id)sender;
+-(IBAction)displayAllROIs:(id)sender;
 -(void)displaySelectedROIs;
--(void)displaySelectedROIs:(id)sender;
--(void)displayCheckedROIs:(id)sender;
+-(IBAction)displaySelectedROIs:(id)sender;
+-(IBAction)displayCheckedROIs:(id)sender;
 
 -(void)changedMin:(BOOL)min mean:(BOOL)mean max:(BOOL)max fill:(BOOL)fill;
 

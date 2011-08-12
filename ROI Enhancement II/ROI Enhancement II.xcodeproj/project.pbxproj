@@ -380,6 +380,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -430,6 +431,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
