@@ -8,8 +8,7 @@
 
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplateFamily.h"
-#import "ZimmerTemplate.h"
-#import "MEDACTATemplate.h"
+#import "InfoTxtTemplate.h"
 
 @implementation ArthroplastyTemplatingWindowController (Templates)
 
@@ -22,8 +21,8 @@
 	while (NSString* sub = [e nextObject])
 		if ([sub hasSuffix:@"Templates"])
 			if ([sub rangeOfString:@"Zimmer"].location != NSNotFound)
-				[_templates addObjectsFromArray:[ZimmerTemplate templatesAtPath:[path stringByAppendingPathComponent:sub] usingClass:[ZimmerTemplate class]]];
-			else [_templates addObjectsFromArray:[MEDACTATemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
+				[_templates addObjectsFromArray:[InfoTxtTemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
+			else [_templates addObjectsFromArray:[InfoTxtTemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
 	
 	// fill _families from _templates
 	for (unsigned i = 0; i < [_templates count]; ++i) {

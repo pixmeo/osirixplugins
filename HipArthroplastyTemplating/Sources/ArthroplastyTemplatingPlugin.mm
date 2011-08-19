@@ -80,8 +80,8 @@
 
 -(ArthroplastyTemplatingStepsController*)windowControllerForViewer:(ViewerController*)viewer {
 	for (NSWindow* window in _windows)
-		if ([[window delegate] viewerController] == viewer)
-			return [window delegate];
+		if ([(ArthroplastyTemplatingStepsController*)[window delegate] viewerController] == viewer)
+			return (ArthroplastyTemplatingStepsController*)[window delegate];
 	return NULL;
 }
 

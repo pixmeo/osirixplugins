@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface ArthroplastyTemplatingSplitView : NSSplitView {
+@interface ArthroplastyTemplatingSplitView : NSSplitView<NSSplitViewDelegate> {
 }
 
 @end
