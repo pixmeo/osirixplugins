@@ -24,7 +24,7 @@ int main(int argc, const char* argv[]) {
 
 @implementation DiscPublishingToolAppDelegate
 
-@synthesize lastErr;
+@synthesize lastErr, binSelection;
 
 #pragma mark Thread property distributed notifications
 
@@ -191,6 +191,22 @@ int main(int argc, const char* argv[]) {
 			self.lastErr = NULL;
 		}
 	}
+}
+
+-(void)setBinSelection:(JM_BinSelection)jmbs {
+    binSelection = jmbs;
+    hasBinSelection = YES;
+    [self applyBinSelection];
+}
+
+-(void)applyBinSelection {
+    if (hasBinSelection) {
+        NSLog(@"Applying bin selection: %d,%d,%d,%d", binSelection.fEnabled, binSelection.nLeftBinType, binSelection.nRightBinType, binSelection.nDefaultBin);
+        UInt32 err = JM_SetBinSelection(&binSelection);
+        if (err != JM_OK)
+            [NSException raise:NSGenericException format:@"JM_SetBinSelection returned %d", err];
+    } else
+        NSLog(@"Should apply bin selection, but it is undefined!");
 }
 
 #pragma mark Growl

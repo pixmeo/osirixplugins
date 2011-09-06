@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Growl/Growl.h>
+#import <JobManager/PTJobManager.h>
 
 @class DiscPublisher;
 
@@ -19,14 +20,19 @@
 	//NSMutableArray* errs;
 	NSTimer* statusTimer;
 	NSString* lastErr;
+    JM_BinSelection binSelection;
+    BOOL hasBinSelection;
 }
 
 @property(readonly) DiscPublisher* discPublisher;
 @property(readonly) NSArray* threads;
-@property BOOL quitWhenDone;
+@property(nonatomic) BOOL quitWhenDone;
 @property(retain) NSString* lastErr;
+@property(nonatomic,assign) JM_BinSelection binSelection;
 
 -(NSThread*)threadWithId:(NSString*)threadId;
 -(void)distributeNotificationsForThread:(NSThread*)thread;
+
+-(void)applyBinSelection;
 
 @end

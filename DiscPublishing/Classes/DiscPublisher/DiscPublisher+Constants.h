@@ -10,24 +10,24 @@
 
 @interface DiscPublisher (Constants)
 
-extern const NSString* const DiscPublisherException;
+extern NSString* const DiscPublisherException;
 
 #define ConditionalDiscPublisherException(err, error, description) { if (err == error) [NSException raise:DiscPublisherException format:@"%@", description]; }
 #define ConditionalDiscPublisherPTErrorException(err) { if (err) [NSException raise:DiscPublisherException format:@"%@", [DiscPublisher PTError:err]]; }
 #define ConditionalDiscPublisherJPErrorException(err) { if (err) [NSException raise:DiscPublisherException format:@"%@", [DiscPublisher JPError:err]]; }
 #define ConditionalDiscPublisherJMErrorException(err) { if (err) [NSException raise:DiscPublisherException format:@"%@", [DiscPublisher JMError:err]]; }
 
-extern const NSString* const DiscPublisherErrorInternalErrorOccurred;
-extern const NSString* const DiscPublisherErrorCommandOutOfSequence;
-extern const NSString* const DiscPublisherErrorDLLNotFound;
-extern const NSString* const DiscPublisherErrorNoRobotsFound;
-extern const NSString* const DiscPublisherErrorNotEnoughMemory;
-extern const NSString* const DiscPublisherErrorInvalidRobotHandle;
-extern const NSString* const DiscPublisherErrorInvalidRobotAction;
-extern const NSString* const DiscPublisherErrorNoResponseFromRobot;
-extern const NSString* const DiscPublisherErrorNoPrinter;
-extern const NSString* const DiscPublisherErrorInvalidLocation;
-extern const NSString* const DiscPublisherErrorNotReadyToAcceptNewJob;
+extern NSString* const DiscPublisherErrorInternalErrorOccurred;
+extern NSString* const DiscPublisherErrorCommandOutOfSequence;
+extern NSString* const DiscPublisherErrorDLLNotFound;
+extern NSString* const DiscPublisherErrorNoRobotsFound;
+extern NSString* const DiscPublisherErrorNotEnoughMemory;
+extern NSString* const DiscPublisherErrorInvalidRobotHandle;
+extern NSString* const DiscPublisherErrorInvalidRobotAction;
+extern NSString* const DiscPublisherErrorNoResponseFromRobot;
+extern NSString* const DiscPublisherErrorNoPrinter;
+extern NSString* const DiscPublisherErrorInvalidLocation;
+extern NSString* const DiscPublisherErrorNotReadyToAcceptNewJob;
 
 +(NSString*)PTRobotType:(UInt32)type;
 +(NSString*)PTRobotOptions:(UInt32)options;

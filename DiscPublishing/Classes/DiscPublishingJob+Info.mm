@@ -9,8 +9,8 @@
 #import "DiscPublishingJob+Info.h"
 
 
-const NSString* const DiscPublishingJobInfoDiscNameKey = @"DiscName";
-const NSString* const DiscPublishingJobInfoTemplatePathKey = @"TemplatePath";
-const NSString* const DiscPublishingJobInfoMergeValuesKey = @"MergeValues";
-const NSString* const DiscPublishingJobInfoMediaTypeKey = @"MediaType";
-const NSString* const DiscPublishingJobInfoBurnSpeedKey = @"BurnSpeed";
+NSString* const DiscPublishingJobInfoDiscNameKey = @"DiscName";
+NSString* const DiscPublishingJobInfoTemplatePathKey = @"TemplatePath";
+NSString* const DiscPublishingJobInfoMergeValuesKey = @"MergeValues";
+NSString* const DiscPublishingJobInfoMediaTypeKey = @"MediaType";
+NSString* const DiscPublishingJobInfoBurnSpeedKey = @"BurnSpeed";

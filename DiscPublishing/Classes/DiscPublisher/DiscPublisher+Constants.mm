@@ -12,19 +12,19 @@
 
 @implementation DiscPublisher (Constants)
 
-const NSString* const DiscPublisherException = @"Disk Publisher Exception";
+NSString* const DiscPublisherException = @"Disk Publisher Exception";
 
-const NSString* const DiscPublisherErrorInternalErrorOccurred = @"An internal error occurred";
-const NSString* const DiscPublisherErrorCommandOutOfSequence = @"Command called out of sequence";
-const NSString* const DiscPublisherErrorDLLNotFound = @"One of the support DLLs cannot be found";
-const NSString* const DiscPublisherErrorNoRobotsFound = @"No robots found";
-const NSString* const DiscPublisherErrorNotEnoughMemory = @"Not enough memory allocated";
-const NSString* const DiscPublisherErrorInvalidRobotHandle = @"Invalid robot handle";
-const NSString* const DiscPublisherErrorInvalidRobotAction = @"Invalid robot action";
-const NSString* const DiscPublisherErrorNoResponseFromRobot = @"No response from robot";
-const NSString* const DiscPublisherErrorNoPrinter = @"The robot doesn't have a printer";
-const NSString* const DiscPublisherErrorInvalidLocation = @"Invalid robot location";
-const NSString* const DiscPublisherErrorNotReadyToAcceptNewJob = @"Robot is not ready to accept new jobs";
+NSString* const DiscPublisherErrorInternalErrorOccurred = @"An internal error occurred";
+NSString* const DiscPublisherErrorCommandOutOfSequence = @"Command called out of sequence";
+NSString* const DiscPublisherErrorDLLNotFound = @"One of the support DLLs cannot be found";
+NSString* const DiscPublisherErrorNoRobotsFound = @"No robots found";
+NSString* const DiscPublisherErrorNotEnoughMemory = @"Not enough memory allocated";
+NSString* const DiscPublisherErrorInvalidRobotHandle = @"Invalid robot handle";
+NSString* const DiscPublisherErrorInvalidRobotAction = @"Invalid robot action";
+NSString* const DiscPublisherErrorNoResponseFromRobot = @"No response from robot";
+NSString* const DiscPublisherErrorNoPrinter = @"The robot doesn't have a printer";
+NSString* const DiscPublisherErrorInvalidLocation = @"Invalid robot location";
+NSString* const DiscPublisherErrorNotReadyToAcceptNewJob = @"Robot is not ready to accept new jobs";
 
 #pragma mark -
 #pragma mark Constants

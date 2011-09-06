@@ -1,12 +1,12 @@
 //
-//  NSApplication+Scripting.mm
+//  DiscPublishingToolApplication.mm
 //  DiscPublishing
 //
 //  Created by Alessandro Volz on 5/5/10.
 //  Copyright 2010 OsiriX Team. All rights reserved.
 //
 
-#import "NSApplication+Scripting.h"
+#import "DiscPublishingToolApplication.h"
 #import "DiscPublishingJob.h"
 #import "DiscPublishingJob+Info.h"
 #import <OsiriXAPI/NSThread+N2.h>
@@ -17,7 +17,11 @@
 #import <OsiriXAPI/NSAppleEventDescriptor+N2.h>
 
 
-@implementation NSApplication (Scripting)
+@implementation DiscPublishingToolApplication
+
+-(DiscPublishingToolAppDelegate*)delegate {
+    return (DiscPublishingToolAppDelegate*)[super delegate];
+}
 
 #pragma mark PublishDisk
 
@@ -33,6 +37,8 @@
 }
 
 -(id)PublishDisc:(NSScriptCommand*)command {
+    [self.delegate applyBinSelection];
+    
 	NSString* name = command.directParameter;
 	NSDictionary* args = command.evaluatedArguments;
 	NSString* root = [args objectForKey:@"root"];
@@ -138,9 +144,7 @@
 	jmbs.nRightBinType = [[args objectForKey:@"rightBinMediaType"] unsignedIntValue];
 	jmbs.nDefaultBin = [[args objectForKey:@"defaultBin"] unsignedIntValue];
 	
-	UInt32 err = JM_SetBinSelection(&jmbs);
-	if (err != JM_OK)
-		[NSException raise:NSGenericException format:@"JM_SetBinSelection returned %d", err];
+    [self.delegate setBinSelection:jmbs];
 }
 
 @end

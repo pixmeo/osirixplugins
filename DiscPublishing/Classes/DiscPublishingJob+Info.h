@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 
-extern const NSString* const DiscPublishingJobInfoDiscNameKey;
-extern const NSString* const DiscPublishingJobInfoTemplatePathKey;
-extern const NSString* const DiscPublishingJobInfoMergeValuesKey;
-extern const NSString* const DiscPublishingJobInfoMediaTypeKey;
-extern const NSString* const DiscPublishingJobInfoBurnSpeedKey;
+extern NSString* const DiscPublishingJobInfoDiscNameKey;
+extern NSString* const DiscPublishingJobInfoTemplatePathKey;
+extern NSString* const DiscPublishingJobInfoMergeValuesKey;
+extern NSString* const DiscPublishingJobInfoMediaTypeKey;
+extern NSString* const DiscPublishingJobInfoBurnSpeedKey;

@@ -22,7 +22,9 @@
 #import <OsiriX/DCMObject.h>
 #import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/NSString+N2.h>
+#import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
 #import "DiscPublishing.h"
@@ -103,7 +105,7 @@ static NSString* PreventNullString(NSString* s) {
 	NSDictionary* info = [[NSBundle bundleForClass:[self class]] infoDictionary];
 	
 	NSString* dicomDirName = [info objectForKey:@"DicomDirectoryName"];
-	if ([dicomDirName isKindOfClass:NSString.class] && dicomDirName.length)
+	if ([dicomDirName isKindOfClass:[NSString class]] && dicomDirName.length)
 		return dicomDirName;
 	
 	return @"DICOM";
@@ -121,7 +123,7 @@ static NSString* PreventNullString(NSString* s) {
 
 +(void)copyContentsOfDirectory:(NSString*)auxDir toPath:(NSString*)path {
 	for (NSString* subpath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:auxDir error:NULL])
-		[[NSFileManager defaultManager] copyPath:[auxDir stringByAppendingPathComponent:subpath] toPath:[path stringByAppendingPathComponent:subpath] handler:NULL];
+		[[NSFileManager defaultManager] copyItemAtPath:[auxDir stringByAppendingPathComponent:subpath] toPath:[path stringByAppendingPathComponent:subpath] error:NULL];
 }
 
 +(void)copyWeasisToPath:(NSString*)path {
@@ -177,13 +179,15 @@ static NSString* PreventNullString(NSString* s) {
 			[studies addObject:image.series.study];
 	}
 	
-	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
+    DicomDatabase* database = [DicomDatabase databaseAtPath:[[NSFileManager defaultManager] tmpFilePathInTmp]];
+    
+/*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
 	NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
 	[persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:NULL URL:NULL options:NULL error:NULL];
     NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
     [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
 	managedObjectContext.undoManager.levelsOfUndo = 1;	
-	[managedObjectContext.undoManager disableUndoRegistration];
+	[managedObjectContext.undoManager disableUndoRegistration];*/
 	
 	NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
@@ -196,7 +200,7 @@ static NSString* PreventNullString(NSString* s) {
 
 			NSArray* images = [self imagesBelongingToSeries:serie];
 			[self enterSubthreadWithRange:1.*processedImagesCount/_files.count:1.*images.count/_files.count];
-			images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
+			images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options database:database seriesPaths:seriesPaths];
 			
 			if (images.count) {
 				serie = [(DicomImage*)[images objectAtIndex:0] series];
@@ -224,9 +228,8 @@ static NSString* PreventNullString(NSString* s) {
 			
 			[self exitSubthread];
 		}
-		@catch (NSException * e)
-		{
-			NSLog( @"***** DiscPublishingPatientDisc : %@", e);
+		@catch (NSException* e) {
+			N2LogExceptionWithStackTrace(e);
 		}
 	}
 	
@@ -518,14 +521,14 @@ static NSString* PreventNullString(NSString* s) {
 	[series release];
 	[studies release];
 
-	[managedObjectContext release];
+/*	[managedObjectContext release];
 	[persistentStoreCoordinator release];
-	[managedObjectModel release];
+	[managedObjectModel release];*/
 	
 	[pool release];
 }
 
-+(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths
++(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options database:(DicomDatabase*)database seriesPaths:(NSMutableDictionary*)seriesPaths
 {
 	NSThread* currentThread = [NSThread currentThread];
 	NSString* baseStatus = currentThread.status;
@@ -579,7 +582,7 @@ static NSString* PreventNullString(NSString* s) {
 					NSLog( @"***** exception in %s: %@", __PRETTY_FUNCTION__, e);
 				}
 			}
-			else [[NSFileManager defaultManager] copyPath:filePath toPath:toFilePath handler:NULL]; // TODO: handle copy errors
+			else [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:toFilePath error:NULL]; // TODO: handle copy errors
 			
 			[fileNames addObject:filename];
 		}
@@ -601,7 +604,7 @@ static NSString* PreventNullString(NSString* s) {
 	
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
-	NSMutableArray* images = [[[BrowserController addFiles:[dicomDirPath stringsByAppendingPaths:fileNames] toContext:managedObjectContext onlyDICOM:YES  notifyAddedFiles:NO parseExistingObject:NO dbFolder:@"/tmp"] mutableCopy] autorelease];
+	NSMutableArray* images = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
 	for (NSInteger i = images.count-1; i >= 0; --i)
 		if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
 			[images removeObjectAtIndex:i];
@@ -625,7 +628,7 @@ static NSString* PreventNullString(NSString* s) {
 	if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000)) {
 		currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Decompressing files...", NULL)];
 		NSString* beforeDicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM_before_decompression"];
-		[[NSFileManager defaultManager] movePath:dicomDirPath toPath:beforeDicomDirPath handler:NULL];
+		[[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error:NULL];
 		[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 		[DicomCompressor decompressFiles:[beforeDicomDirPath stringsByAppendingPaths:fileNames] toDirectory:dicomDirPath withOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"DecompressMoveIfFail"]];
 		[[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
@@ -645,7 +648,7 @@ static NSString* PreventNullString(NSString* s) {
 		}
 		
 		NSString* beforeDicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM_before_compression"];
-		[[NSFileManager defaultManager] movePath:dicomDirPath toPath:beforeDicomDirPath handler:NULL];
+		[[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error:NULL];
 		[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 		[DicomCompressor compressFiles:[beforeDicomDirPath stringsByAppendingPaths:fileNames] toDirectory:dicomDirPath withOptions:execOptions];
 		[[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
@@ -661,7 +664,7 @@ static NSString* PreventNullString(NSString* s) {
 		NSString* htmlqtTmpPath = [dirPath stringByAppendingPathComponent:@"HTMLQT"];
 		[[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtTmpPath];
 		NSArray* sortedImages = [images sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"instanceNumber" ascending:YES] autorelease]]];
-		[BrowserController exportQuicktime:sortedImages:htmlqtTmpPath:YES:NULL:seriesPaths];
+		[BrowserController exportQuicktime :sortedImages :htmlqtTmpPath :YES :NULL :seriesPaths];
 	}
 	
 	DLog(@"done");

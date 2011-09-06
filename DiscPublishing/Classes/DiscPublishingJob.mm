@@ -24,7 +24,7 @@
 	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/ScriptsPTR.scpt"];
 	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
 	if (!appleScript)
-		[NSException raise:NSGenericException format:[errors description]];
+		[NSException raise:NSGenericException format:@"%@", [errors description]];
 	
 	ProcessSerialNumber psn = {0, kCurrentProcess};
 	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
@@ -40,7 +40,7 @@
 	[event setParamDescriptor:params forKeyword:keyDirectObject];
 	
 	if (![appleScript executeAppleEvent:event error:&errors])
-		[NSException raise:NSGenericException format:[errors description]];
+		[NSException raise:NSGenericException format:@"%@", [errors description]];
 	
 	[appleScript release];
 }

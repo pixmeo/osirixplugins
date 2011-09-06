@@ -40,7 +40,7 @@
 		5900F91011916356001E899B /* JobProcessor.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384251178868500E84FE3 /* JobProcessor.framework */; };
 		5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384261178868500E84FE3 /* PTRobot.framework */; };
 		5900F91211916356001E899B /* as_storage.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E384231178868500E84FE3 /* as_storage.framework */; };
-		5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F97711917BBD001E899B /* NSApplication+Scripting.mm */; };
+		5900F97811917BBD001E899B /* DiscPublishingToolApplication.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5900F97711917BBD001E899B /* DiscPublishingToolApplication.mm */; };
 		5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5920D20A1199A80F003BCC5E /* DiscPublishingTasksManager.h */; };
 		5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */; };
 		592687E011D35A2800CFA81F /* DiscPublishing+Tool.h in Headers */ = {isa = PBXBuildFile; fileRef = 592687DE11D35A2800CFA81F /* DiscPublishing+Tool.h */; };
@@ -117,27 +117,6 @@
 			remoteGlobalIDString = 59EBE42112B8A8B500809C61;
 			remoteInfo = "Unzip Libs";
 		};
-		59F0D232131F8A0500E3F979 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 59F0D22A131F8A0500E3F979 /* Nitrogen.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = Nitrogen;
-		};
-		59F0D234131F8A0500E3F979 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 59F0D22A131F8A0500E3F979 /* Nitrogen.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 591403A21105B88A00D6A504;
-			remoteInfo = "Unit Tests";
-		};
-		59F0D24D131F8A1100E3F979 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 59F0D22A131F8A0500E3F979 /* Nitrogen.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Nitrogen;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -177,8 +156,8 @@
 		5900F7C911906B1E001E899B /* DiscPublishingToolApplication.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DiscPublishingToolApplication.xib; path = Resources/Tool/DiscPublishingToolApplication.xib; sourceTree = "<group>"; };
 		5900F7CE1190701F001E899B /* DiscPublishingJob+Info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingJob+Info.h"; path = "Classes/DiscPublishingJob+Info.h"; sourceTree = "<group>"; };
 		5900F7CF1190701F001E899B /* DiscPublishingJob+Info.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishingJob+Info.mm"; path = "Classes/DiscPublishingJob+Info.mm"; sourceTree = "<group>"; };
-		5900F97611917BBD001E899B /* NSApplication+Scripting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSApplication+Scripting.h"; path = "Classes/Tool/NSApplication+Scripting.h"; sourceTree = "<group>"; };
-		5900F97711917BBD001E899B /* NSApplication+Scripting.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSApplication+Scripting.mm"; path = "Classes/Tool/NSApplication+Scripting.mm"; sourceTree = "<group>"; };
+		5900F97611917BBD001E899B /* DiscPublishingToolApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolApplication.h; path = Classes/Tool/DiscPublishingToolApplication.h; sourceTree = "<group>"; };
+		5900F97711917BBD001E899B /* DiscPublishingToolApplication.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolApplication.mm; path = Classes/Tool/DiscPublishingToolApplication.mm; sourceTree = "<group>"; };
 		591202BA1137BEC7002D9163 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		5912043C1137C739002D9163 /* DiscPublisher+Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DiscPublisher+Constants.h"; sourceTree = "<group>"; };
 		5912043D1137C739002D9163 /* DiscPublisher+Constants.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "DiscPublisher+Constants.mm"; sourceTree = "<group>"; };
@@ -238,8 +217,7 @@
 		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = Libs/JobProcessor.framework; sourceTree = "<group>"; };
 		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = Libs/PTRobot.framework; sourceTree = "<group>"; };
 		59E3EFCC121A684500DD4552 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = "../../osirix-trunk/Binaries/Growl.framework"; sourceTree = SOURCE_ROOT; };
-		59F0D22A131F8A0500E3F979 /* Nitrogen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nitrogen.xcodeproj; path = "../../osirix-trunk/nitrogen/Nitrogen.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = "../../osirix-trunk/nitrogen/build/Development/Nitrogen.framework"; sourceTree = SOURCE_ROOT; };
+		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = "../../osirix-branch-coredata/nitrogen/build/Development/Nitrogen.framework"; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,7 +278,6 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				59F0D22A131F8A0500E3F979 /* Nitrogen.xcodeproj */,
 				59F0D250131F8A2400E3F979 /* Nitrogen.framework */,
 				59E3EFCC121A684500DD4552 /* Growl.framework */,
 				59E384241178868500E84FE3 /* JobManager.framework */,
@@ -438,15 +415,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		59F0D22B131F8A0500E3F979 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				59F0D233131F8A0500E3F979 /* Nitrogen.framework */,
-				59F0D235131F8A0500E3F979 /* Unit Tests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		59FCD00D11904156007B28E0 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,8 +428,8 @@
 		59FCD781119048A6007B28E0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				5900F97611917BBD001E899B /* NSApplication+Scripting.h */,
-				5900F97711917BBD001E899B /* NSApplication+Scripting.mm */,
+				5900F97611917BBD001E899B /* DiscPublishingToolApplication.h */,
+				5900F97711917BBD001E899B /* DiscPublishingToolApplication.mm */,
 				59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */,
 				59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */,
 				59E381C81177177900E84FE3 /* DiscPublishingJob.h */,
@@ -531,7 +499,6 @@
 			);
 			dependencies = (
 				59EBEBF812B8A9D100809C61 /* PBXTargetDependency */,
-				59F0D24E131F8A1100E3F979 /* PBXTargetDependency */,
 			);
 			name = DiscPublishingTool;
 			productName = DiscPublishingTool;
@@ -585,6 +552,9 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DiscPublishing" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -597,12 +567,6 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* DiscPublishing */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 59F0D22B131F8A0500E3F979 /* Products */;
-					ProjectRef = 59F0D22A131F8A0500E3F979 /* Nitrogen.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				59EBE42112B8A8B500809C61 /* Unzip Libs */,
@@ -612,23 +576,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		59F0D233131F8A0500E3F979 /* Nitrogen.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Nitrogen.framework;
-			remoteRef = 59F0D232131F8A0500E3F979 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		59F0D235131F8A0500E3F979 /* Unit Tests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Unit Tests.octest";
-			remoteRef = 59F0D234131F8A0500E3F979 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5900F64711906667001E899B /* Resources */ = {
@@ -716,7 +663,7 @@
 				5900F66411906732001E899B /* DiscPublisherRobot.mm in Sources */,
 				5900F66511906736001E899B /* DiscPublisherStatus.mm in Sources */,
 				5900F7D01190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
-				5900F97811917BBD001E899B /* NSApplication+Scripting.mm in Sources */,
+				5900F97811917BBD001E899B /* DiscPublishingToolApplication.mm in Sources */,
 				593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -772,11 +719,6 @@
 			target = 59EBE42112B8A8B500809C61 /* Unzip Libs */;
 			targetProxy = 59EBEBF912B8A9DE00809C61 /* PBXContainerItemProxy */;
 		};
-		59F0D24E131F8A1100E3F979 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Nitrogen;
-			targetProxy = 59F0D24D131F8A1100E3F979 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -810,7 +752,6 @@
 					"$(SRCROOT)/../../osirix-trunk/Binaries",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -823,8 +764,8 @@
 					"-framework",
 					AppKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = DiscPublishingTool;
+				VALID_ARCHS = i386;
 			};
 			name = Development;
 		};
@@ -843,7 +784,6 @@
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -856,7 +796,6 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				PREBINDING = YES;
 				PRODUCT_NAME = DiscPublishingPreferences;
 				WRAPPER_EXTENSION = prefPane;
 			};
@@ -886,7 +825,6 @@
 					"\"$(SRCROOT)/Libs\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -924,12 +862,13 @@
 			buildSettings = {
 				ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/System/Library/Frameworks/Carbon.framework/Frameworks\"",
+					"$(SDKROOT)/System/Library/Frameworks/Carbon.framework/Frameworks",
 					"\"$(SRCROOT)/Libs\"",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../osirix-branch-coredata/build/Development\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Development;
 		};
