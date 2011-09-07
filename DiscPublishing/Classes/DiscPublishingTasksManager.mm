@@ -53,6 +53,8 @@
 }
 
 -(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
+    [[DiscPublishing instance] updateBinSelection];
+    
 	NSString* threadId = [DiscPublishing PublishDisc:[info objectForKey:DiscPublishingJobInfoDiscNameKey] root:discRootDirPath info:info];
 	[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 	

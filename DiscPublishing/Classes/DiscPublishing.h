@@ -22,4 +22,6 @@
 +(NSString*)baseDirPath;
 +(NSString*)discCoverTemplatesDirPath;
 
+-(void)updateBinSelection;
+
 @end
