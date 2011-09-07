@@ -22,7 +22,7 @@
 #import <OsiriX/DCMObject.h>
 #import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/NSString+N2.h>
-#import <OsiriXAPI/DicomDatabase.h>
+//#import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <JobManager/PTJobManager.h>
@@ -179,15 +179,15 @@ static NSString* PreventNullString(NSString* s) {
 			[studies addObject:image.series.study];
 	}
 	
-    DicomDatabase* database = [DicomDatabase databaseAtPath:[[NSFileManager defaultManager] tmpFilePathInTmp]];
-    
-/*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
+//    DicomDatabase* database = [DicomDatabase databaseAtPath:[[NSFileManager defaultManager] tmpFilePathInTmp]];
+
+	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
 	NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
 	[persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:NULL URL:NULL options:NULL error:NULL];
     NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
     [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
 	managedObjectContext.undoManager.levelsOfUndo = 1;	
-	[managedObjectContext.undoManager disableUndoRegistration];*/
+	[managedObjectContext.undoManager disableUndoRegistration];
 	
 	NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
 	NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
@@ -200,7 +200,8 @@ static NSString* PreventNullString(NSString* s) {
 
 			NSArray* images = [self imagesBelongingToSeries:serie];
 			[self enterSubthreadWithRange:1.*processedImagesCount/_files.count:1.*images.count/_files.count];
-			images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options database:database seriesPaths:seriesPaths];
+            images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
+//          images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options database:database seriesPaths:seriesPaths];
 			
 			if (images.count) {
 				serie = [(DicomImage*)[images objectAtIndex:0] series];
@@ -521,14 +522,15 @@ static NSString* PreventNullString(NSString* s) {
 	[series release];
 	[studies release];
 
-/*	[managedObjectContext release];
+	[managedObjectContext release];
 	[persistentStoreCoordinator release];
-	[managedObjectModel release];*/
+	[managedObjectModel release];
 	
 	[pool release];
 }
 
-+(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options database:(DicomDatabase*)database seriesPaths:(NSMutableDictionary*)seriesPaths
+//+(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options database:(DicomDatabase*)database seriesPaths:(NSMutableDictionary*)seriesPaths
++(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths
 {
 	NSThread* currentThread = [NSThread currentThread];
 	NSString* baseStatus = currentThread.status;
@@ -604,7 +606,8 @@ static NSString* PreventNullString(NSString* s) {
 	
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
-	NSMutableArray* images = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
+    NSMutableArray* images = [[[BrowserController addFiles:[dicomDirPath stringsByAppendingPaths:fileNames] toContext:managedObjectContext onlyDICOM:YES  notifyAddedFiles:NO parseExistingObject:NO dbFolder:@"/tmp"] mutableCopy] autorelease];
+    //	NSMutableArray* images = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
 	for (NSInteger i = images.count-1; i >= 0; --i)
 		if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
 			[images removeObjectAtIndex:i];

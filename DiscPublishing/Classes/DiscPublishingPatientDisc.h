@@ -9,7 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 
-@class DiscPublishingOptions, DiscBurningOptions, DicomDatabase;//, DicomSeries;
+@class DiscPublishingOptions, DiscBurningOptions;//, DicomSeries;
+// @class DicomDatabase;
+
 
 @interface DiscPublishingPatientDisc : NSThread {
 	@private
@@ -20,6 +22,6 @@
 
 -(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options;
 
-+(NSArray*)prepareSeriesDataForImages:(NSArray*)images inDirectory:(NSString*)dirPath options:(DiscBurningOptions*)options database:(DicomDatabase*)database seriesPaths:(NSMutableDictionary*)seriesPaths;
++(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths;
 
 @end
