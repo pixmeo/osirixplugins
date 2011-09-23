@@ -17,7 +17,7 @@
 #import <OsiriXAPI/NSUserDefaultsController+OsiriX.h>
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/Anonymization.h>
-
+#import "DiscPublishingUtils.h"
 
 @interface NSPathControl (DiscPublishing)
 -(NSRect)usedFrame;
@@ -67,18 +67,18 @@
 
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	if (obj == defaultsController) {
-		if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnModeDefaultsKey)]) {
+		if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingBurnModeDefaultsKey)]) {
 			switch ([[defaultsController valueForKeyPath:keyPath] intValue]) {
 				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
 				case BurnModePatient: [burnModeOptionsBox setContentView:patientModeOptionsView]; break;
 			}
 			return;
 		} else
-		if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)]) {
+		if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)]) {
 			[patientModeLabelTemplateEditButton setFrameOrigin:RectBR([patientModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
 			return;
 		} else
-		if ([keyPath isEqual:valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)]) {
+		if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)]) {
 			[archivingModeLabelTemplateEditButton setFrameOrigin:RectBR([archivingModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
 			return;
 		}

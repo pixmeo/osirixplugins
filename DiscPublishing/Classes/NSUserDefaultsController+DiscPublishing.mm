@@ -17,6 +17,7 @@
 #import "DiscPublishing+Tool.h"
 #import "DicomTag.h"
 #import <OsiriXAPI/NSFileManager+N2.h>
+#import "DiscPublishingUtils.h"
 
 
 @interface NSUserDefaultsControllerDiscPublishingHelper : NSObject
@@ -25,13 +26,13 @@
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 	NSUserDefaultsController* defaults = [NSUserDefaultsController sharedUserDefaultsController];
-	/*if ([keyPath isEqual:valuesKeyPath(DiscPublishingBurnMediaTypeDefaultsKey)]) {
+	/*if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingBurnMediaTypeDefaultsKey)]) {
 		CGFloat bytes = [defaults discPublishingMediaCapacityBytes];
 		NSUInteger measure = bytes<1000000000? 1000000 : 1000000000;
-		[defaults setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
-		[defaults setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
+		[defaults setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:DP_valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
+		[defaults setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:DP_valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
 	} else*/
-	if ([keyPath isEqual:valuesKeyPath(DiscPublishingPatientModeAnonymizeFlagDefaultsKey)]) {
+	if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingPatientModeAnonymizeFlagDefaultsKey)]) {
 		if ([[defaults valueForValuesKey:keyPath] boolValue])
 			[defaults setValue:[NSNumber numberWithBool:NO] forValuesKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];	
 	}

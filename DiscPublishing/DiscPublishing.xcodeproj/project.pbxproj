@@ -45,6 +45,9 @@
 		5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */; };
 		592687E011D35A2800CFA81F /* DiscPublishing+Tool.h in Headers */ = {isa = PBXBuildFile; fileRef = 592687DE11D35A2800CFA81F /* DiscPublishing+Tool.h */; };
 		592687E111D35A2800CFA81F /* DiscPublishing+Tool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 592687DF11D35A2800CFA81F /* DiscPublishing+Tool.mm */; };
+		59381811142C602600D14DC6 /* DiscPublishingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 5938180F142C602600D14DC6 /* DiscPublishingUtils.h */; };
+		59381812142C602600D14DC6 /* DiscPublishingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 59381810142C602600D14DC6 /* DiscPublishingUtils.m */; };
+		59381813142C602600D14DC6 /* DiscPublishingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 59381810142C602600D14DC6 /* DiscPublishingUtils.m */; };
 		593C460F11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h in Headers */ = {isa = PBXBuildFile; fileRef = 593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */; };
 		593C461011980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */; };
 		593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */ = {isa = PBXBuildFile; fileRef = 593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */; };
@@ -173,6 +176,8 @@
 		5920D20B1199A80F003BCC5E /* DiscPublishingTasksManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingTasksManager.mm; path = Classes/DiscPublishingTasksManager.mm; sourceTree = "<group>"; };
 		592687DE11D35A2800CFA81F /* DiscPublishing+Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishing+Tool.h"; path = "Classes/DiscPublishing+Tool.h"; sourceTree = "<group>"; };
 		592687DF11D35A2800CFA81F /* DiscPublishing+Tool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishing+Tool.mm"; path = "Classes/DiscPublishing+Tool.mm"; sourceTree = "<group>"; };
+		5938180F142C602600D14DC6 /* DiscPublishingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingUtils.h; path = Classes/DiscPublishingUtils.h; sourceTree = "<group>"; };
+		59381810142C602600D14DC6 /* DiscPublishingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiscPublishingUtils.m; path = Classes/DiscPublishingUtils.m; sourceTree = "<group>"; };
 		593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingTool+DistributedNotifications.h"; path = "Classes/DiscPublishingTool+DistributedNotifications.h"; sourceTree = "<group>"; };
 		593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishingTool+DistributedNotifications.mm"; path = "Classes/DiscPublishingTool+DistributedNotifications.mm"; sourceTree = "<group>"; };
 		5956BB7511D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingPreferencesController+RobotOptions.h"; path = "Classes/DiscPublishingPreferencesController+RobotOptions.h"; sourceTree = "<group>"; };
@@ -217,7 +222,7 @@
 		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = Libs/JobProcessor.framework; sourceTree = "<group>"; };
 		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = Libs/PTRobot.framework; sourceTree = "<group>"; };
 		59E3EFCC121A684500DD4552 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = "../../osirix-trunk/Binaries/Growl.framework"; sourceTree = SOURCE_ROOT; };
-		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = "../../osirix-branch-coredata/nitrogen/build/Development/Nitrogen.framework"; sourceTree = SOURCE_ROOT; };
+		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = "../../osirix-trunk/nitrogen/build/Development/Nitrogen.framework"; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -456,6 +461,8 @@
 				59E37CC71173610300E84FE3 /* DiscPublishingOptions.mm */,
 				593C460D11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.h */,
 				593C460E11980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm */,
+				5938180F142C602600D14DC6 /* DiscPublishingUtils.h */,
+				59381810142C602600D14DC6 /* DiscPublishingUtils.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -480,6 +487,7 @@
 				5920D20C1199A80F003BCC5E /* DiscPublishingTasksManager.h in Headers */,
 				59DC28BA11C613E000DAD5B4 /* NSString+DiscPublishing.h in Headers */,
 				592687E011D35A2800CFA81F /* DiscPublishing+Tool.h in Headers */,
+				59381811142C602600D14DC6 /* DiscPublishingUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +673,7 @@
 				5900F7D01190701F001E899B /* DiscPublishingJob+Info.mm in Sources */,
 				5900F97811917BBD001E899B /* DiscPublishingToolApplication.mm in Sources */,
 				593C461111980A27005D7658 /* DiscPublishingTool+DistributedNotifications.mm in Sources */,
+				59381813142C602600D14DC6 /* DiscPublishingUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,6 +702,7 @@
 				5920D20D1199A80F003BCC5E /* DiscPublishingTasksManager.mm in Sources */,
 				59DC28BB11C613E000DAD5B4 /* NSString+DiscPublishing.mm in Sources */,
 				592687E111D35A2800CFA81F /* DiscPublishing+Tool.mm in Sources */,
+				59381812142C602600D14DC6 /* DiscPublishingUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

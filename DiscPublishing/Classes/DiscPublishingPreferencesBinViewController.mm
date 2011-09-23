@@ -10,6 +10,7 @@
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import <JobManager/PTJobManager.h>
+#import "DiscPublishingUtils.h"
 
 
 @interface DiscPublishingPreferencesBinViewController ()
@@ -85,8 +86,8 @@
 	if ([keyPath hasSuffix:[self mediaTypeTagBindingKey]]) {
 		CGFloat bytes = [DiscPublishingPreferencesBinViewController mediaCapacityBytesForMediaType:[[defaultsController valueForValuesKey:[self mediaTypeTagBindingKey]] unsignedIntValue]];
 		NSUInteger measure = bytes<1000000000? 1000000 : 1000000000;
-		[defaultsController setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:valuesKeyPath([self mediaCapacityBindingKey])];
-		[defaultsController setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:valuesKeyPath([self mediaCapacityMeasureTagBindingKey])];
+		[defaultsController setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:DP_valuesKeyPath([self mediaCapacityBindingKey])];
+		[defaultsController setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:DP_valuesKeyPath([self mediaCapacityMeasureTagBindingKey])];
 	}
 }
 
