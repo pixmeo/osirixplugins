@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PluginFilter.h"
+#import <OsiriXAPI/PluginFilter.h>
 
 @interface OSIDemoPlugin : PluginFilter {
 

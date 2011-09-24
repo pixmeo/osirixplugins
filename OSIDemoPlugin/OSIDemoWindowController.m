@@ -7,9 +7,9 @@
 //
 
 #import "OSIDemoWindowController.h"
-#import "OSIEnvironment.h"
-#import "OSIVolumeWindow.h"
-#import "OSIROI.h"
+#import <OsiriXAPI/OSIEnvironment.h>
+#import <OsiriXAPI/OSIVolumeWindow.h>
+#import <OsiriXAPI/OSIROI.h>
 #import "OSIDemoCoalescedWindowController.h"
 
 @interface OSIDemoWindowController ()

@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "OSIROIManager.h"
+#import <OsiriXAPI/OSIROIManager.h>
 
 @class OSIVolumeWindow;
 @class OSIROIManager;
