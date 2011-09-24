@@ -1,0 +1,307 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F24E947142E290400A8F60A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F24E946142E290400A8F60A /* Cocoa.framework */; };
+		4F24E951142E290400A8F60A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F24E94F142E290400A8F60A /* InfoPlist.strings */; };
+		4F24E960142E292600A8F60A /* OSIDemoCoalescedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F24E959142E292600A8F60A /* OSIDemoCoalescedWindowController.m */; };
+		4F24E961142E292600A8F60A /* OSIDemoCoalescedWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F24E95A142E292600A8F60A /* OSIDemoCoalescedWindowController.xib */; };
+		4F24E962142E292600A8F60A /* OSIDemoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F24E95C142E292600A8F60A /* OSIDemoPlugin.m */; };
+		4F24E963142E292600A8F60A /* OSIDemoWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F24E95E142E292600A8F60A /* OSIDemoWindowController.m */; };
+		4F24E964142E292600A8F60A /* OSIDemoWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F24E95F142E292600A8F60A /* OSIDemoWindowController.xib */; };
+		4F24E968142E297000A8F60A /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F24E967142E297000A8F60A /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4F24E943142E290400A8F60A /* OSIDemo.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OSIDemo.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F24E946142E290400A8F60A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		4F24E949142E290400A8F60A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4F24E94A142E290400A8F60A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4F24E94B142E290400A8F60A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4F24E94E142E290400A8F60A /* OSIDemoPlugin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OSIDemoPlugin-Info.plist"; sourceTree = "<group>"; };
+		4F24E950142E290400A8F60A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4F24E952142E290400A8F60A /* OSIDemoPlugin-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OSIDemoPlugin-Prefix.pch"; sourceTree = "<group>"; };
+		4F24E958142E292600A8F60A /* OSIDemoCoalescedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIDemoCoalescedWindowController.h; sourceTree = "<group>"; };
+		4F24E959142E292600A8F60A /* OSIDemoCoalescedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIDemoCoalescedWindowController.m; sourceTree = "<group>"; };
+		4F24E95A142E292600A8F60A /* OSIDemoCoalescedWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OSIDemoCoalescedWindowController.xib; sourceTree = "<group>"; };
+		4F24E95B142E292600A8F60A /* OSIDemoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIDemoPlugin.h; sourceTree = "<group>"; };
+		4F24E95C142E292600A8F60A /* OSIDemoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIDemoPlugin.m; sourceTree = "<group>"; };
+		4F24E95D142E292600A8F60A /* OSIDemoWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIDemoWindowController.h; sourceTree = "<group>"; };
+		4F24E95E142E292600A8F60A /* OSIDemoWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIDemoWindowController.m; sourceTree = "<group>"; };
+		4F24E95F142E292600A8F60A /* OSIDemoWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OSIDemoWindowController.xib; sourceTree = "<group>"; };
+		4F24E967142E297000A8F60A /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OsiriXAPI.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4F24E940142E290400A8F60A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F24E947142E290400A8F60A /* Cocoa.framework in Frameworks */,
+				4F24E968142E297000A8F60A /* OsiriXAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F24E938142E290300A8F60A = {
+			isa = PBXGroup;
+			children = (
+				4F24E94C142E290400A8F60A /* OSIDemoPlugin */,
+				4F24E945142E290400A8F60A /* Frameworks */,
+				4F24E944142E290400A8F60A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4F24E944142E290400A8F60A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4F24E943142E290400A8F60A /* OSIDemo.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4F24E945142E290400A8F60A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F24E967142E297000A8F60A /* OsiriXAPI.framework */,
+				4F24E946142E290400A8F60A /* Cocoa.framework */,
+				4F24E948142E290400A8F60A /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4F24E948142E290400A8F60A /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4F24E949142E290400A8F60A /* AppKit.framework */,
+				4F24E94A142E290400A8F60A /* CoreData.framework */,
+				4F24E94B142E290400A8F60A /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		4F24E94C142E290400A8F60A /* OSIDemoPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				4F24E958142E292600A8F60A /* OSIDemoCoalescedWindowController.h */,
+				4F24E959142E292600A8F60A /* OSIDemoCoalescedWindowController.m */,
+				4F24E95A142E292600A8F60A /* OSIDemoCoalescedWindowController.xib */,
+				4F24E95B142E292600A8F60A /* OSIDemoPlugin.h */,
+				4F24E95C142E292600A8F60A /* OSIDemoPlugin.m */,
+				4F24E95D142E292600A8F60A /* OSIDemoWindowController.h */,
+				4F24E95E142E292600A8F60A /* OSIDemoWindowController.m */,
+				4F24E95F142E292600A8F60A /* OSIDemoWindowController.xib */,
+				4F24E94D142E290400A8F60A /* Supporting Files */,
+			);
+			path = OSIDemoPlugin;
+			sourceTree = "<group>";
+		};
+		4F24E94D142E290400A8F60A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F24E94E142E290400A8F60A /* OSIDemoPlugin-Info.plist */,
+				4F24E94F142E290400A8F60A /* InfoPlist.strings */,
+				4F24E952142E290400A8F60A /* OSIDemoPlugin-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4F24E942142E290400A8F60A /* OSIDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F24E955142E290400A8F60A /* Build configuration list for PBXNativeTarget "OSIDemo" */;
+			buildPhases = (
+				4F24E93F142E290400A8F60A /* Sources */,
+				4F24E940142E290400A8F60A /* Frameworks */,
+				4F24E941142E290400A8F60A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OSIDemo;
+			productName = OSIDemoPlugin;
+			productReference = 4F24E943142E290400A8F60A /* OSIDemo.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F24E93A142E290300A8F60A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Spaltenstein Natural Image";
+			};
+			buildConfigurationList = 4F24E93D142E290300A8F60A /* Build configuration list for PBXProject "OSIDemoPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4F24E938142E290300A8F60A;
+			productRefGroup = 4F24E944142E290400A8F60A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4F24E942142E290400A8F60A /* OSIDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4F24E941142E290400A8F60A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F24E951142E290400A8F60A /* InfoPlist.strings in Resources */,
+				4F24E961142E292600A8F60A /* OSIDemoCoalescedWindowController.xib in Resources */,
+				4F24E964142E292600A8F60A /* OSIDemoWindowController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4F24E93F142E290400A8F60A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F24E960142E292600A8F60A /* OSIDemoCoalescedWindowController.m in Sources */,
+				4F24E962142E292600A8F60A /* OSIDemoPlugin.m in Sources */,
+				4F24E963142E292600A8F60A /* OSIDemoWindowController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4F24E94F142E290400A8F60A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F24E950142E290400A8F60A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4F24E953142E290400A8F60A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				SDKROOT = macosx;
+			};
+			name = Development;
+		};
+		4F24E954142E290400A8F60A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				SDKROOT = macosx;
+			};
+			name = Deployment;
+		};
+		4F24E956142E290400A8F60A /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSIDemoPlugin/OSIDemoPlugin-Prefix.pch";
+				INFOPLIST_FILE = "OSIDemoPlugin/OSIDemoPlugin-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = osirixplugin;
+			};
+			name = Development;
+		};
+		4F24E957142E290400A8F60A /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OSIDemoPlugin/OSIDemoPlugin-Prefix.pch";
+				INFOPLIST_FILE = "OSIDemoPlugin/OSIDemoPlugin-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = osirixplugin;
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4F24E93D142E290300A8F60A /* Build configuration list for PBXProject "OSIDemoPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F24E953142E290400A8F60A /* Development */,
+				4F24E954142E290400A8F60A /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		4F24E955142E290400A8F60A /* Build configuration list for PBXNativeTarget "OSIDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F24E956142E290400A8F60A /* Development */,
+				4F24E957142E290400A8F60A /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4F24E93A142E290300A8F60A /* Project object */;
+}
