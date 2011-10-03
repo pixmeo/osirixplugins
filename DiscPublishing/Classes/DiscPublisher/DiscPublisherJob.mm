@@ -43,6 +43,8 @@
 @synthesize printFile = _printFile;
 @synthesize printMergeFile = _printMergeFile;
 
+@synthesize colorType = _colorType, colorTable = _colorTable, saturation = _saturation, cartType = _cartType;
+
 -(id)initWithDiscPublisher:(DiscPublisher*)discPublisher {
 	self = [super init];
 	_discPublisher = discPublisher;
@@ -64,6 +66,10 @@
 	self.innerDiameter = 230;
 	self.outerMargin = 10;
 	self.printQuality = PQ_BETTER;
+    self.colorType = 0;
+    self.colorTable = 0;
+    self.saturation = 100;
+    self.cartType = CARTRIDGE_COLOR;
 	
 	return self;
 }
@@ -98,7 +104,7 @@
 	[properties addChild:[NSXMLNode elementWithName:@"AUTHOR" text:self.author]];
 	[properties addChild:[NSXMLNode elementWithName:@"COPIES" unsignedInt:self.numCopies]];
 	[properties addChild:[NSXMLNode elementWithName:@"JOB_TYPE" unsignedInt:self.type]];
-	[properties addChild:[NSXMLNode elementWithName:@"INT_JOB_TYPE" unsignedInt:7]]; // TODO: ???
+	[properties addChild:[NSXMLNode elementWithName:@"INT_JOB_TYPE" unsignedInt:2]]; // TODO: ???
 	[properties addChild:[NSXMLNode elementWithName:@"DELETE_TEMP_IMAGE_FILES" bool:NO]];
 	[properties addChild:[NSXMLNode elementWithName:@"DELETE_TEMP_MERGE_FILES" bool:NO]];
 	[properties addChild:[NSXMLNode elementWithName:@"DISC_TYPE" text:[DiscPublisherJob DiscType:self.discType]]];
@@ -111,9 +117,13 @@
 		if (self.printMergeFile) [printing addChild:[NSXMLNode elementWithName:@"MERGE_FILE" text:self.printMergeFile]];
 		if (self.printMergeFile) [printing addChild:[NSXMLNode elementWithName:@"MERGE_FILE_FROM" text:self.printMergeFile]];
 		[printing addChild:[NSXMLNode elementWithName:@"INNER_DIAMETER" unsignedInt:self.innerDiameter]];
-		[printing addChild:[NSXMLNode elementWithName:@"MEDIA" text:@"TuffCoat Plus CD"]]; // TODO: TuffCoat Plus CD, TuffCoat with Aquaguard, ...
+		[printing addChild:[NSXMLNode elementWithName:@"MEDIA" text:@"Custom"]]; // TODO: TuffCoat Plus CD, TuffCoat with Aquaguard, ...
 		[printing addChild:[NSXMLNode elementWithName:@"OUTER_MARGIN" unsignedInt:self.outerMargin]];
 		[printing addChild:[NSXMLNode elementWithName:@"PRINT_QUALITY" unsignedInt:self.printQuality]];
+		[printing addChild:[NSXMLNode elementWithName:@"COLOR_TYPE" unsignedInt:self.colorType]];
+		[printing addChild:[NSXMLNode elementWithName:@"COLOR_TABLE" unsignedInt:self.colorTable]];
+		[printing addChild:[NSXMLNode elementWithName:@"SATURATION" unsignedInt:self.saturation]];
+		[printing addChild:[NSXMLNode elementWithName:@"CART_TYPE" unsignedInt:self.cartType]];
 	}
 	
 	if (self.files.count) {

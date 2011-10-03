@@ -1,3 +1,7 @@
+1.1
+- Upgrade to Primera SDK 2.2, which includes support for DP 4100 Series
+- DICOMDIR is now generated in a cleaner way: a lot of warnings will no longer be output from dcmmkdir
+
 1.0.3
 - Fixes issue when robot outputs published discs on the left bin of DP Xi2
 - Fixes link problem with OsiriX 3.9.4

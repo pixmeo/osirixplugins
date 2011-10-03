@@ -129,31 +129,34 @@ NSString* const NSThreadIsToolCancelledKey = @"isToolCancelled";
 
 -(void)main {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
-	// get tool thread properties: name, supportsCancel, isCancelled(isToolCancelled), status, progress, and transmit them to this thread
-	NSDictionary* info = [self info];
-	for (NSString* key in info)
-		if ([key isEqual:@"name"])
-			self.name = [info objectForKey:key];
-		else
-		if ([key isEqual:NSThreadSupportsCancelKey])
-			self.supportsCancel = [[info objectForKey:key] boolValue];
-		else
-		if ([key isEqual:NSThreadIsCancelledKey])
-			self.isCancelled = [[info objectForKey:key] boolValue];
-		else
-		if ([key isEqual:NSThreadStatusKey])
-			self.status = [info objectForKey:key];
-		else
-		if ([key isEqual:NSThreadProgressKey])
-			self.progress = [[info objectForKey:key] floatValue];
-	
-	// subsequent thread info is updated through NSDistributedNotificationCenter
-	
-	while (!self.isToolCancelled)
-		[NSThread sleepForTimeInterval:0.1];
-	
-	[pool release];
+    @try {
+        // get tool thread properties: name, supportsCancel, isCancelled(isToolCancelled), status, progress, and transmit them to this thread
+        NSDictionary* info = [self info];
+        for (NSString* key in info)
+        if ([key isEqual:@"name"])
+            self.name = [info objectForKey:key];
+        else
+        if ([key isEqual:NSThreadSupportsCancelKey])
+            self.supportsCancel = [[info objectForKey:key] boolValue];
+        else
+        if ([key isEqual:NSThreadIsCancelledKey])
+            self.isCancelled = [[info objectForKey:key] boolValue];
+        else
+        if ([key isEqual:NSThreadStatusKey])
+            self.status = [info objectForKey:key];
+        else
+        if ([key isEqual:NSThreadProgressKey])
+            self.progress = [[info objectForKey:key] floatValue];
+        
+        // subsequent thread info is updated through NSDistributedNotificationCenter
+        
+        while (!self.isToolCancelled)
+            [NSThread sleepForTimeInterval:0.1];
+	} @catch (NSException* e) {
+        NSLog(@"ToolThread exception: %@", e.reason);
+    } @finally {
+        [pool release];
+    }
 }
 
 @end

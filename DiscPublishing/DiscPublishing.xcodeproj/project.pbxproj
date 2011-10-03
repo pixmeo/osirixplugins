@@ -183,6 +183,7 @@
 		5956BB7511D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingPreferencesController+RobotOptions.h"; path = "Classes/DiscPublishingPreferencesController+RobotOptions.h"; sourceTree = "<group>"; };
 		5956BB7611D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishingPreferencesController+RobotOptions.mm"; path = "Classes/DiscPublishingPreferencesController+RobotOptions.mm"; sourceTree = "<group>"; };
 		5956BC0E11D3A2610016EF6D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/DiscPublishingPreferencesBinView.xib; sourceTree = "<group>"; };
+		596D309C143999E7004EE9EC /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = TODO.txt; path = ../DiscPublishing2.2/TODO.txt; sourceTree = "<group>"; };
 		5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+DiscPublishing.h"; path = "Classes/Extras/NSArray+DiscPublishing.h"; sourceTree = "<group>"; };
 		5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSArray+DiscPublishing.mm"; path = "Classes/Extras/NSArray+DiscPublishing.mm"; sourceTree = "<group>"; };
 		59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingFilesManager.h; path = Classes/DiscPublishingFilesManager.h; sourceTree = "<group>"; };
@@ -195,7 +196,6 @@
 		598C9AE51153C4BA007B7524 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
 		5994E8CE114690E6006E0DF7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix-trunk/build/Development/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
 		5994EBBB114921F4006E0DF7 /* Warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Warning.png; path = Resources/Warning.png; sourceTree = "<group>"; };
-		59B3FC04117C38330027B0DB /* TODO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.txt; sourceTree = "<group>"; };
 		59B3FC05117C38330027B0DB /* Weird.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Weird.txt; sourceTree = "<group>"; };
 		59BDEF68117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaultsController+DiscPublishing.h"; path = "Classes/NSUserDefaultsController+DiscPublishing.h"; sourceTree = "<group>"; };
 		59BDEF69117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSUserDefaultsController+DiscPublishing.mm"; path = "Classes/NSUserDefaultsController+DiscPublishing.mm"; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 		089C166AFE841209C02AAC07 /* DiscPublishing */ = {
 			isa = PBXGroup;
 			children = (
-				59B3FC04117C38330027B0DB /* TODO.txt */,
+				596D309C143999E7004EE9EC /* TODO.txt */,
 				59B3FC05117C38330027B0DB /* Weird.txt */,
 				59FCD7821190492B007B28E0 /* Common */,
 				59BDFBB31185B897007F1F2C /* Plugin */,

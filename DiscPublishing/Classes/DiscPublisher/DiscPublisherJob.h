@@ -42,6 +42,7 @@
 	UInt32 _printQuality;
 	NSString* _printFile;
 	NSString* _printMergeFile;
+    UInt32 _colorType, _colorTable, _saturation, _cartType;
 }
 
 @property(readonly, assign) DiscPublisher* discPublisher;
@@ -69,6 +70,8 @@
 @property UInt32 printQuality;
 @property(retain) NSString* printFile;
 @property(retain) NSString* printMergeFile;
+
+@property UInt32 colorType, colorTable, saturation, cartType;
 
 @property(readonly) const JobStatus& status;
 @property(readonly) const JobStatus& refreshStatus;

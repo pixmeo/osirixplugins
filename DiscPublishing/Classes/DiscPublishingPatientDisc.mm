@@ -378,9 +378,16 @@ static NSString* PreventNullString(NSString* s) {
 					image.pathString = newPath;
 				}
 			
-			// generate DICOMDIR
-			[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:discBaseDirPath withDICOMFilesInDirectory:discBaseDirPath];
-			[privateFiles addObject:@"DICOMDIR"];
+			// generate DICOMDIR: move DICOM to a tmp dir, execute generateDICOMDIRAtDirectory:withDICOMFilesInDirectory: in the tmp dir, move DICOM and DICOMDIR back to the working directory (to avoid dcmmkdir errors/warnings in stdout)
+            NSString* temporaryDirPathForDicomdirGeneration = [NSFileManager.defaultManager tmpFilePathInTmp];
+            NSString* temporaryDicomDirPathForDicomdirGeneration = [temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
+            [NSFileManager.defaultManager confirmDirectoryAtPath:temporaryDirPathForDicomdirGeneration];
+            [NSFileManager.defaultManager moveItemAtPath:dicomDiscBaseDirPath toPath:temporaryDicomDirPathForDicomdirGeneration error:NULL];
+			[DiscPublishingPatientDisc generateDICOMDIRAtDirectory:temporaryDirPathForDicomdirGeneration withDICOMFilesInDirectory:temporaryDirPathForDicomdirGeneration];
+            [NSFileManager.defaultManager moveItemAtPath:temporaryDicomDirPathForDicomdirGeneration toPath:dicomDiscBaseDirPath error:NULL];
+            [NSFileManager.defaultManager moveItemAtPath:[temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:@"DICOMDIR"] toPath:[discBaseDirPath stringByAppendingPathComponent:@"DICOMDIR"] error:NULL];
+            [NSFileManager.defaultManager removeItemAtPath:temporaryDirPathForDicomdirGeneration error:NULL];
+            [privateFiles addObject:@"DICOMDIR"];
 			
 			// move QTHTML files
 			
