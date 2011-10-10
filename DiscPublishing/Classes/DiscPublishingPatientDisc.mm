@@ -487,7 +487,7 @@ static NSString* PreventNullString(NSString* s) {
 			
 			// move data to ~/Library/Application Support/OsiriX/DiscPublishing/Discs/<safeDiscName>
 			
-			NSString* discsDir = [[DiscPublishing baseDirPath] stringByAppendingPathComponent:@"Discs"];
+			NSString* discsDir = [DiscPublishing discsDirPath];
 			[[NSFileManager defaultManager] confirmDirectoryAtPath:discsDir];
 			
 			NSString* discDir = [discsDir stringByAppendingPathComponent:safeDiscName];

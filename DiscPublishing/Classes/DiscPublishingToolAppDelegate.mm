@@ -14,6 +14,7 @@
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/NSXMLNode+N2.h>
 #import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
 #import <Growl/GrowlDefines.h>
 
 
@@ -103,19 +104,29 @@ int main(int argc, const char* argv[]) {
 //	errs = [[NSMutableArray alloc] init];
 	
 	[GrowlApplicationBridge setGrowlDelegate:self];
-	
+    
+    // TODO: we should recover leftover jobs, not just delete them... but then maybe they're the reason why we crashed in the first place
+    @try {
+        NSString* jobsDirPath = [DiscPublisher jobsDirPath];
+        for (NSString* p in [NSFileManager.defaultManager contentsOfDirectoryAtPath:jobsDirPath error:NULL]) {
+            NSLog(@"DiscPublishing plugin is deleting %@", [jobsDirPath stringByAppendingPathComponent:p]);
+            [NSFileManager.defaultManager removeItemAtPath:[jobsDirPath stringByAppendingPathComponent:p] error:NULL];
+        }
+	} @catch (...) {
+    }
+    
 	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
-	[thread start];
-	
+    [thread start];
+    
 	statusTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(statusTimerCallback:) userInfo:NULL repeats:YES];
 	
 //	[self distributeNotificationsForThread:thread];
 	
 	NSLog(@"Welcome to DiscPublishingTool.");
 	
-	// recover jobs, need folder XXX and files XXX.plist & XXX.jpg
-//	for (<#initial#>; <#condition#>; <#increment#>) {
-//		<#statements#>
+	// recover jobs, need folder XXX and files XXX.plist & XXX.jpg, but // TODO: we currently delete them
+//	for (;;) {
+//		;
 //	}
 	
 }

@@ -155,7 +155,7 @@
 		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
-	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: location, @"-a", [[[NSBundle bundleForClass:[self class]] bundlePath] stringByAppendingPathComponent:@"../DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 2 PE.app"], NULL]];
+	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: location, @"-a", [[[NSBundle bundleForClass:[self class]] bundlePath] stringByAppendingPathComponent:@"../DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 3 PE.app"], NULL]];
 	[[NSWorkspace sharedWorkspace] openFile:location];
 }
 

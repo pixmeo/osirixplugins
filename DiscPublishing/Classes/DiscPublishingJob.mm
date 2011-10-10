@@ -19,7 +19,29 @@
 @synthesize info = _info;
 
 +(void)renderDiscCover:(NSString*)dcoverPath merge:(NSString*)mergePath into:(NSString*)outputJpgPath {
-	NSDictionary* errors = [NSDictionary dictionary];
+	// make sure the system knows where to find Disc Cover 3 PE.app, (com.belightsoft.DiscCover3.pe)
+	
+    NSString* myPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/Disc Cover 3 PE.app"];
+    
+    NSString* knownBundlePath = nil;
+    @try {
+        knownBundlePath = [NSWorkspace.sharedWorkspace absolutePathForAppBundleWithIdentifier:@"com.belightsoft.DiscCover3.pe"];
+    } @catch (...) {
+    }
+    
+    NSString* knownNamePath = nil;
+    @try {
+        knownNamePath = [NSWorkspace.sharedWorkspace fullPathForApplication:@"Disc Cover 3 PE"];
+    } @catch (...) {
+    }
+    
+    if (![knownBundlePath isEqualToString:myPath] || ![knownNamePath isEqualToString:myPath]) {
+        [NSWorkspace.sharedWorkspace launchApplication:myPath];
+    }
+    
+    // execute applescript
+    
+    NSDictionary* errors = [NSDictionary dictionary];
 	
 	NSString* scptPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/ScriptsPTR.scpt"];
 	NSAppleScript* appleScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:scptPath] error:&errors];
@@ -64,14 +86,16 @@
 			[self.files addObject:[self.root stringByAppendingPathComponent:subpath]];
 	}
 	
-	NSLog(@"self.info.descriptionself.info.descriptionself.info.description\n%@", self.info.description);
+//	NSLog(@"self.info.descriptionself.info.descriptionself.info.description\n%@", self.info.description);
 	
 	// the merging of the template and csv is buggy in the framework, we do this ourselves
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];
 	[[N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSMacOSRomanStringEncoding error:NULL];
 	self.printFile = [self.root stringByAppendingPathExtension:@"jpg"];
-	[DiscPublishingJob renderDiscCover:templatePath merge:csvFile into:self.printFile];
-	[[NSFileManager defaultManager] removeItemAtPath:csvFile error:NULL];
+	
+    [DiscPublishingJob renderDiscCover:templatePath merge:csvFile into:self.printFile];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:csvFile error:NULL];
 	
 	[super start];
 }

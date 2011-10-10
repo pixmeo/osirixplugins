@@ -20,6 +20,7 @@
 +(DiscPublishing*)instance;
 
 +(NSString*)baseDirPath;
++(NSString*)discsDirPath;
 +(NSString*)discCoverTemplatesDirPath;
 
 -(void)updateBinSelection;

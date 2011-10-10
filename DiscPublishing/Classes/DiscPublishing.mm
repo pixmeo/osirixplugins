@@ -50,6 +50,16 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
 
 	discPublishingInstance = self;
+    
+    // TODO: we should recover leftover jobs, not just delete them... but then maybe they're the reason why we crashed in the first place
+    @try {
+        NSString* discsDirPath = [[self class] discsDirPath];
+        for (NSString* p in [NSFileManager.defaultManager contentsOfDirectoryAtPath:discsDirPath error:NULL]) {
+            NSLog(@"DiscPublishing plugin is deleting %@", [discsDirPath stringByAppendingPathComponent:p]);
+            [NSFileManager.defaultManager removeItemAtPath:[discsDirPath stringByAppendingPathComponent:p] error:NULL];
+        }
+	} @catch (...) {
+    }
 	
 	[QTMovie movie]; // this initializes the QT kit on the main thread
 	[NSUserDefaultsController discPublishingInitialize];
@@ -81,7 +91,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
 	[userInfo setObject:w forKey:RobotReadyTimerCallbackUserInfoWindowKey];
 	[userInfo setObject:[NSDate date] forKey:RobotReadyTimerCallbackUserInfoStartDateKey];
-	robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(robotReadyTimerCallback:) userInfo:userInfo repeats:YES];
+	robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(robotReadyTimerCallback:) userInfo:userInfo repeats:YES];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	
@@ -183,6 +193,10 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 +(NSString*)baseDirPath {
 	NSString* path = [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:[[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]];
 	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
+}
+
++(NSString*)discsDirPath {
+    return [[self baseDirPath] stringByAppendingPathComponent:@"Discs"];
 }
 
 +(NSString*)discCoverTemplatesDirPath {
