@@ -210,11 +210,12 @@ extern float ROIColorR, ROIColorG, ROIColorB; // declared in ROI.m
 }
 
 -(void)roiRemoved:(NSNotification*)notification {
-	NSLog(@"roiremoved!");
 	ROI* roi = [notification object];
 	NSString* roiId = [self idForRoi:roi];
-	if (roiId) {
+	if (roiId)
+    {
 		[self setRoi:NULL forId:roiId];
+        
 		[self selectOrOpenViewerForRoiWithId:roiId];
 	}
 }

@@ -6,27 +6,103 @@
 //
 
 #import "JPEG.h"
+#import "OsiriX/DCM.h"
 #import "OsiriX/DCMObject.h"
 #import "OsiriX/DCMTransferSyntax.h"
 #import "DCMPix.h"
+
+#include "osconfig.h" /* make sure OS specific configuration is included first */
+#include "djdecode.h"  /* for dcmjpeg decoders */
+#include "djencode.h"  /* for dcmjpeg encoders */
+#include "dcrledrg.h"  /* for DcmRLEDecoderRegistration */
+#include "dcrleerg.h"  /* for DcmRLEEncoderRegistration */
+#include "djrploss.h"
+#include "djrplol.h"
+#include "dcpixel.h"
+#include "dcrlerp.h"
+
+#include "dcdatset.h"
+#include "dcmetinf.h"
+#include "dcfilefo.h"
+#include "dcdebug.h"
+#include "dcuid.h"
+#include "dcdict.h"
+#include "dcdeftag.h"
+
 
 @implementation JPEG
 
 -(void) compress:(DCMTransferSyntax*) tsx quality: (int) quality fromFile: (NSString*) from toFile:(NSString*) dest 
 {
-	DCMObject *dcmObject = [[DCMObject alloc] initWithContentsOfFile: from decodingPixelData: NO];
-	
-	BOOL succeed = NO;
-	
-	@try
-	{
-		succeed = [dcmObject writeToFile: dest withTransferSyntax: tsx quality: quality AET:@"OsiriX" atomically:YES];
-	}
-	@catch (NSException *e)
-	{
-		NSLog( @"dcmObject writeToFile failed: %@", e);
-	}
-	[dcmObject release];
+    DcmFileFormat fileformat;
+    OFCondition cond = fileformat.loadFile( [from UTF8String]);
+    // if we can't read it stop
+    if( cond.good())
+    {
+        DcmDataset *dataset = fileformat.getDataset();
+        DcmXfer original_xfer(dataset->getOriginalXfer());
+        
+        DcmRepresentationParameter *params = nil;
+        E_TransferSyntax tSyntax;
+        DJ_RPLossless losslessParams(6,0);
+        DJ_RPLossy JP2KParams( quality);
+        DJ_RPLossy JP2KParamsLossLess( DCMLosslessQuality);
+        
+        if( [tsx isEqualToTransferSyntax: [DCMTransferSyntax ExplicitVRLittleEndianTransferSyntax]])
+        {
+            tSyntax = EXS_LittleEndianExplicit;
+            params = nil;
+        }
+        else
+        {
+            if( quality == 0)
+            {
+                params = &JP2KParamsLossLess;
+                tSyntax = EXS_JPEG2000LosslessOnly;
+            }
+            else
+            {
+                params = &JP2KParams;
+                tSyntax = EXS_JPEG2000;
+            }
+        }
+        
+        // this causes the lossless JPEG version of the dataset to be created
+        DcmXfer oxferSyn( tSyntax);
+        dataset->chooseRepresentation(tSyntax, params);
+        
+        // check if everything went well
+        if (dataset->canWriteXfer(tSyntax))
+        {
+            // force the meta-header UIDs to be re-generated when storing the file 
+            // since the UIDs in the data set may have changed 
+            
+            //only need to do this for lossy
+            //delete metaInfo->remove(DCM_MediaStorageSOPClassUID);
+            //delete metaInfo->remove(DCM_MediaStorageSOPInstanceUID);
+            
+            // store in lossless JPEG format
+            fileformat.loadAllDataIntoMemory();
+            
+            [[NSFileManager defaultManager] removeItemAtPath: dest error:nil];
+            cond = fileformat.saveFile( [dest UTF8String], tSyntax);
+            OFBool status =  (cond.good()) ? YES : NO;
+        }
+    }
+    
+//	DCMObject *dcmObject = [[DCMObject alloc] initWithContentsOfFile: from decodingPixelData: NO];
+//	
+//	BOOL succeed = NO;
+//	
+//	@try
+//	{
+//		succeed = [dcmObject writeToFile: dest withTransferSyntax: tsx quality: quality AET:@"OsiriX" atomically:YES];
+//	}
+//	@catch (NSException *e)
+//	{
+//		NSLog( @"dcmObject writeToFile failed: %@", e);
+//	}
+//	[dcmObject release];
 }
 
 - (void) subtract: (float*) dest :(float*) mask :(long) size
@@ -98,7 +174,7 @@
 	long imageSize = sizeof( float) * [curPix pwidth] * [curPix pheight];
 	long size = newTotal * imageSize;
 	
-	emptyData = malloc( size);
+	emptyData = (unsigned char*) malloc( size);
 	if( emptyData)
 	{
 		NSMutableArray	*newPixList = [NSMutableArray arrayWithCapacity: 0];
