@@ -90,7 +90,11 @@
 	
 	// the merging of the template and csv is buggy in the framework, we do this ourselves
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];
-	[[N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]] writeToFile:csvFile atomically:YES encoding:NSMacOSRomanStringEncoding error:NULL];
+    NSArray* mergeValues = [self.info objectForKey:DiscPublishingJobInfoMergeValuesKey];
+//    NSLog(@"Merge values: %@", mergeValues);
+    NSString* mergeString = [N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]];
+//    NSLog(@"Merge string: %@", mergeString);
+	[mergeString writeToFile:csvFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	self.printFile = [self.root stringByAppendingPathExtension:@"jpg"];
 	
     [DiscPublishingJob renderDiscCover:templatePath merge:csvFile into:self.printFile];

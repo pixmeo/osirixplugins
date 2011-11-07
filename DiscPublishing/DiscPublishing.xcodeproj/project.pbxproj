@@ -183,7 +183,7 @@
 		5956BB7511D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DiscPublishingPreferencesController+RobotOptions.h"; path = "Classes/DiscPublishingPreferencesController+RobotOptions.h"; sourceTree = "<group>"; };
 		5956BB7611D380350016EF6D /* DiscPublishingPreferencesController+RobotOptions.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DiscPublishingPreferencesController+RobotOptions.mm"; path = "Classes/DiscPublishingPreferencesController+RobotOptions.mm"; sourceTree = "<group>"; };
 		5956BC0E11D3A2610016EF6D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/DiscPublishingPreferencesBinView.xib; sourceTree = "<group>"; };
-		596D309C143999E7004EE9EC /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = TODO.txt; path = ../DiscPublishing2.2/TODO.txt; sourceTree = "<group>"; };
+		596D309C143999E7004EE9EC /* TODO.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO.txt; sourceTree = SOURCE_ROOT; };
 		5971022B113FE9A500875159 /* NSArray+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+DiscPublishing.h"; path = "Classes/Extras/NSArray+DiscPublishing.h"; sourceTree = "<group>"; };
 		5971022C113FE9A500875159 /* NSArray+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSArray+DiscPublishing.mm"; path = "Classes/Extras/NSArray+DiscPublishing.mm"; sourceTree = "<group>"; };
 		59710240113FEA0E00875159 /* DiscPublishingFilesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingFilesManager.h; path = Classes/DiscPublishingFilesManager.h; sourceTree = "<group>"; };
@@ -225,6 +225,7 @@
 		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = "../../osirix-trunk/nitrogen/build/Development/Nitrogen.framework"; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
+		71327A8A14683DBD007E49BE /* Versions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Versions.txt; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -269,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				596D309C143999E7004EE9EC /* TODO.txt */,
+				71327A8A14683DBD007E49BE /* Versions.txt */,
 				59B3FC05117C38330027B0DB /* Weird.txt */,
 				59FCD7821190492B007B28E0 /* Common */,
 				59BDFBB31185B897007F1F2C /* Plugin */,
@@ -842,12 +844,9 @@
 				GCC_PREFIX_HEADER = Prefix.pch;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Plug-ins";
-				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -874,9 +873,9 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/System/Library/Frameworks/Carbon.framework/Frameworks",
 					"\"$(SRCROOT)/Libs\"",
-					"\"$(SRCROOT)/../../osirix-branch-coredata/build/Development\"",
+					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.6;
 				VALID_ARCHS = "i386 x86_64";
 			};

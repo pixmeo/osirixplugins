@@ -32,6 +32,7 @@
 #import "DiscPublishingTasksManager.h"
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/DicomDir.h>
 
 
 static NSString* PreventNullString(NSString* s) {
@@ -145,21 +146,22 @@ static NSString* PreventNullString(NSString* s) {
 }
 
 +(void)generateDICOMDIRAtDirectory:(NSString*)root withDICOMFilesInDirectory:(NSString*)dicomPath {
-/*	if ([dicomPath hasPrefix:root]) {
-		NSUInteger index = root.length;
-		if ([dicomPath characterAtIndex:index] == '/')
-			++index;
-		dicomPath = [dicomPath substringFromIndex:index];
-	}*/
-	
-	NSTask* dcmmkdirTask = [[NSTask alloc] init];
-	[dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
-	[dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
-	[dcmmkdirTask setCurrentDirectoryPath:root];
-	[dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
-	[dcmmkdirTask launch];
-	[dcmmkdirTask waitUntilExit];
-	[dcmmkdirTask release];
+    // newer versions of osirix (since revision 9105) have a DicomDir class with a createDicomDirAtDir: class method
+    if ([NSClassFromString(@"DicomDir") respondsToSelector:@selector(createDicomDirAtDir:)]) 
+    {
+        [DicomDir createDicomDirAtDir:root];
+    }
+    else // before that, we had to use the dcmmkdir binary bundled with OsiriX
+    {
+        NSTask* dcmmkdirTask = [[NSTask alloc] init];
+        [dcmmkdirTask setEnvironment:[NSDictionary dictionaryWithObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dicom.dic"] forKey:@"DCMDICTPATH"]];
+        [dcmmkdirTask setLaunchPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"dcmmkdir"]];
+        [dcmmkdirTask setCurrentDirectoryPath:root];
+        [dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
+        [dcmmkdirTask launch];
+        [dcmmkdirTask waitUntilExit];
+        [dcmmkdirTask release];
+    }
 }
 
 -(void)main {

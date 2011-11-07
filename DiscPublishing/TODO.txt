@@ -1,13 +1,9 @@
-Known bugs:
-- It seem that the index.html is not generated correctly by the DiscPublishing plugin (it's ok using the burn feature of OsiriX).
-  All links to the jpeg/quicktime files are broken and directed to a folder named "tmp" in the webpage's source code.
-
 Next:
 - Customizable merge values with custom DICOM meta data
 
 Important-ish
 ! treat series that don't fit on a single disc
-- at start recover jobs from jobs dir
+- at start recover jobs from jobs dir (we currently delete them)
 - dialog for 'Publish' button
 
 Later...

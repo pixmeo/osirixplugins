@@ -1,3 +1,7 @@
+1.1.1
+- Fixed disc cover merge text encoding bug
+- No longer relying on dcmmkdir for DICOMDIR generation, depending on the version of OsiriX
+
 1.1
 - Upgrade to Primera SDK 2.2, which includes support for DP 4100 Series
 - DICOMDIR is now generated in a cleaner way: a lot of warnings will no longer be output from dcmmkdir
