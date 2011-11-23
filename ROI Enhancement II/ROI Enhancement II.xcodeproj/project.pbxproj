@@ -20,7 +20,6 @@
 		5989607E0F9EFBE200BEFEE4 /* GRXYDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */; };
 		598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598960820F9EFC5E00BEFEE4 /* GraphKit.framework */; };
 		59C72CEF0FCD905300430BD9 /* ROI_Enhancement_II.pch in Headers */ = {isa = PBXBuildFile; fileRef = 59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */; };
-		59D64E7C0FAF36D60021E211 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 59D64E7A0FAF36D60021E211 /* InfoPlist.strings */; };
 		59F9B20410C95907008A6EF1 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F9B20310C95907008A6EF1 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59F9B31A10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9B30C10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h */; };
 		59F9B31B10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B30D10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm */; };
@@ -59,7 +58,6 @@
 		598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRXYDataSet.h; sourceTree = "<group>"; };
 		598960820F9EFC5E00BEFEE4 /* GraphKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GraphKit.framework; path = /System/Library/PrivateFrameworks/GraphKit.framework; sourceTree = "<absolute>"; };
 		59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROI_Enhancement_II.pch; path = Sources/ROI_Enhancement_II.pch; sourceTree = "<group>"; };
-		59D64E7B0FAF36D60021E211 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		59F9B20310C95907008A6EF1 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
 		59F9B30C10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoiEnhancementAreaDataSet.h; path = Sources/RoiEnhancementAreaDataSet.h; sourceTree = "<group>"; };
 		59F9B30D10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RoiEnhancementAreaDataSet.mm; path = Sources/RoiEnhancementAreaDataSet.mm; sourceTree = "<group>"; };
@@ -97,6 +95,7 @@
 		089C166AFE841209C02AAC07 /* ROI */ = {
 			isa = PBXGroup;
 			children = (
+				5977157D0FA97FD3003CBDE8 /* Info.plist */,
 				59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -119,8 +118,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5977157D0FA97FD3003CBDE8 /* Info.plist */,
-				59D64E7A0FAF36D60021E211 /* InfoPlist.strings */,
 				5977157F0FA97FE3003CBDE8 /* Interface.xib */,
 			);
 			name = Resources;
@@ -287,7 +284,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				597715800FA97FE3003CBDE8 /* Interface.xib in Resources */,
-				59D64E7C0FAF36D60021E211 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -322,28 +318,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		59D64E7A0FAF36D60021E211 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				59D64E7B0FAF36D60021E211 /* English */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		ABF52CF80FC189810094B252 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Deployment;
 		};
@@ -454,13 +436,10 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.6;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Development;
 		};
