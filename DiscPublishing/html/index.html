@@ -177,6 +177,15 @@
             The disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
 
             <div>If you activated the "Automatically queue and publish images received via DICOM" checkbox, send some files to OsiriX from another DICOM node (the plugin will publish one disk per patient). When the files arrive, the plugin stacks them and waits until the delay you specified in the preferences is passed since a patient's last received image; then it takes all that patient's images off the stack, and publishes them: the disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
+            
+		 	<h2>Known problems</h2>
+
+            <div>Some users have contacted us, saying that the plugin was unstable and crashed a lot. We have determined that the installation of this plugin through the OsiriX Plugins Manager is currently unstable, and we strongly advise users to perform a manual installation of the plugin: <ul>
+            	<li>Quit OsiriX</li>
+            	<li>Download the plugin at the following URL: <a href="http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip">http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip</a></li>
+            	<li>Unzip the file and place DiscPublishing.osirixplugin in /Library/Application\ Support/OsiriX/Plugins or /Users/ale/Library/Application Support/OsiriX/Plugins</li>
+            	<li>Launch OsiriX</li>
+            </ul></div>
 
 	    </div>
     </body>
