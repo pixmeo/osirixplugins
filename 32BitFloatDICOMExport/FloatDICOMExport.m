@@ -8,10 +8,10 @@
 #import "FloatDICOMExport.h"
 #import "OsiriX/DCMObject.h"
 #import "OsiriX/DCMTransferSyntax.h"
-#import "OsiriX Headers/DCMPix.h"
+#import "OsiriXAPI/DCMPix.h"
 
-#import "OsiriX Headers/DICOMExport.h"
-#import "OsiriX Headers/BrowserController.h"
+#import "OsiriXAPI/DICOMExport.h"
+#import "OsiriXAPI/BrowserController.h"
 
 @implementation FloatDICOMExport
 

@@ -131,6 +131,12 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	}
 }
 
+- (void) willUnload
+{
+    [robotReadyTimer invalidate];
+	[DiscPublishing SetQuitWhenDone:YES];
+}
+
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {
 	[robotReadyTimer invalidate];
 	[DiscPublishing SetQuitWhenDone:YES];
