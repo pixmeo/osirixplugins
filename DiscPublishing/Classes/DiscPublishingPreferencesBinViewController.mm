@@ -39,7 +39,7 @@
 -(id)initWithName:(NSString*)name bin:(NSUInteger)bind {
 	self = [self initWithNibName:@"DiscPublishingPreferencesBinView" bundle:[NSBundle bundleForClass:[self class]]];
 	self.bin = bind;
-	self.view; // load
+	NSView* view = self.view; // load
 	
 	[label setStringValue:[NSString stringWithFormat:@"%@:", name]];
 	[discTypePopup setAutoenablesItems:NO];

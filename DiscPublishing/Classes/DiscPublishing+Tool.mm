@@ -115,7 +115,7 @@
 }
 
 +(void)SetBinSelection:(BOOL)enabled leftBinMediaType:(NSUInteger)leftBinMediaType rightBinMediaType:(NSUInteger)rightBinMediaType defaultBin:(NSUInteger)defaultBin {
-	NSLog(@"SetBinSelection:%d leftBinMediaType:%d rightBinMediaType:%d defaultBin:%d", enabled, leftBinMediaType, rightBinMediaType, defaultBin);
+	NSLog(@"SetBinSelection:%d leftBinMediaType:%lu rightBinMediaType:%lu defaultBin:%lu", enabled, (unsigned long)leftBinMediaType, (unsigned long)rightBinMediaType, (unsigned long)defaultBin);
 	
 	ProcessSerialNumber psn = {0, kCurrentProcess};
 	NSAppleEventDescriptor *target = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];

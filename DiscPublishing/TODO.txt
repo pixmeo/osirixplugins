@@ -1,3 +1,7 @@
+TODO:
+- willUnload executes SetQuitWhenDone:YES but doesn't fail if the plugin is busy publishing a disk.
+- willUnload should also quit the Disc Cover PE application.
+
 Next:
 - Customizable merge values with custom DICOM meta data
 

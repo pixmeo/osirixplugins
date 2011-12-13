@@ -554,7 +554,7 @@ static NSString* PreventNullString(NSString* s) {
 	NSString* dicomDirPath = [dirPath stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
 	
-	DLog(@"copying %d files to %@", imagesIn.count, dicomDirPath);
+	DLog(@"copying %lu files to %@", (unsigned long)imagesIn.count, dicomDirPath);
 	
 	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", options.anonymize? NSLocalizedString(@"Anonymizing files...", NULL) : NSLocalizedString(@"Copying files...", NULL) ];
 	NSMutableArray* fileNames = [NSMutableArray arrayWithCapacity:imagesIn.count];
@@ -611,7 +611,7 @@ static NSString* PreventNullString(NSString* s) {
 	
 	[currentThread enterSubthreadWithRange:0.5:0.5];
 	currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Importing files...", NULL)];
-	DLog(@"importing %d images to context", fileNames.count);
+	DLog(@"importing %lu images to context", (unsigned long)fileNames.count);
 	
 //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
 //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
@@ -621,7 +621,7 @@ static NSString* PreventNullString(NSString* s) {
 		if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
 			[images removeObjectAtIndex:i];
 	
-	DLog(@"    %d files to %d images", fileNames.count, images.count);
+	DLog(@"    %lu files to %lu images", (unsigned long)fileNames.count, (unsigned long)images.count);
 	
 	if (!images.count)
 		return images;

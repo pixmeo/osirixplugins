@@ -11,6 +11,7 @@
 #import "DiscPublishing+Tool.h"
 #import <OsiriXAPI/NSXMLNode+N2.h>
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
+#import <OsiriXAPI/NSView+N2.h>
 #import "NSUserDefaultsController+DiscPublishing.h"
 
 
