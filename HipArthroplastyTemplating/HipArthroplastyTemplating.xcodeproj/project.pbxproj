@@ -295,7 +295,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HipArthroplastyTemplating" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -405,7 +405,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				ENABLE_OPENMP_SUPPORT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -419,19 +418,17 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = Resources/Info.plist;
-				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 				);
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -455,7 +452,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				SDKROOT = macosx10.6;
 			};
 			name = Development;

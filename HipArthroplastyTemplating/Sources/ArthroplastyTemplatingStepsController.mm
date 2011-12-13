@@ -28,7 +28,7 @@
 
 #define kInvalidAngle 666
 #define kInvalidMagnification 0
-const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
+NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
 @interface ArthroplastyTemplatingStepsController (Private)
 -(void)adjustStemToCup:(unsigned)index;
@@ -897,7 +897,7 @@ const NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			_isMyMouse = (modifiers == NSCommandKeyMask+NSAlternateKeyMask)? [event retain] : NULL;
 			return _isMyMouse != NULL;
 		}
-	} else if (_isMyMouse && [event type] == NSLeftMouseDragged || [event type] == NSRightMouseDragged || [event type] == NSOtherMouseDragged) {
+	} else if (_isMyMouse && ([event type] == NSLeftMouseDragged || [event type] == NSRightMouseDragged || [event type] == NSOtherMouseDragged)) {
 		if (_cupLayer && [_cupLayer ROImode] == ROI_selected)
 			[self rotateLayer:_cupLayer byTrackingMouseFrom:[_isMyMouse locationInWindow] to:[event locationInWindow]];
 		if (_stemLayer && [_stemLayer ROImode] == ROI_selected)

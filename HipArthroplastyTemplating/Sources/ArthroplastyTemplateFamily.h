@@ -6,7 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "ArthroplastyTemplate.h";
+#import "ArthroplastyTemplate.h"
 
 
 @interface ArthroplastyTemplateFamily : NSObject {
