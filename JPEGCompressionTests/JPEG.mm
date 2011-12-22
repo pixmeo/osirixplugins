@@ -53,7 +53,7 @@
             tSyntax = EXS_LittleEndianExplicit;
             params = nil;
         }
-        else
+        else if( [tsx isEqualToTransferSyntax: [DCMTransferSyntax JPEG2000LossyTransferSyntax]] || [tsx isEqualToTransferSyntax: [DCMTransferSyntax JPEG2000LosslessTransferSyntax]])
         {
             if( quality == 0)
             {
@@ -64,6 +64,19 @@
             {
                 params = &JP2KParams;
                 tSyntax = EXS_JPEG2000;
+            }
+        }
+        else if( [tsx isEqualToTransferSyntax: [DCMTransferSyntax JPEGLSLosslessTransferSyntax]] || [tsx isEqualToTransferSyntax: [DCMTransferSyntax JPEGLSLossyTransferSyntax]])
+        {
+            if( quality == 0)
+            {
+                params = &JP2KParamsLossLess;
+                tSyntax = EXS_JPEGLSLossless;
+            }
+            else
+            {
+                params = &JP2KParams;
+                tSyntax = EXS_JPEGLSLossy;
             }
         }
         
@@ -165,6 +178,22 @@
 	[[NSFileManager defaultManager] removeItemAtPath: [destFile stringByAppendingString: @".jp2k-lossy-3"] error: nil];
 	[self compress: [DCMTransferSyntax JPEG2000LossyTransferSyntax] quality: 3 fromFile: srcFile toFile: [destFile stringByAppendingString: @".jp2k-lossy-3"]];
 	newTotal++;
+    
+	[[NSFileManager defaultManager] removeItemAtPath: [destFile stringByAppendingString: @".jpls-lossless"] error: nil];
+	[self compress: [DCMTransferSyntax JPEGLSLosslessTransferSyntax] quality: 0 fromFile: srcFile toFile: [destFile stringByAppendingString: @".jpls-lossless"]];
+	newTotal++;
+	
+	[[NSFileManager defaultManager] removeItemAtPath: [destFile stringByAppendingString: @".jpls-lossy-1"] error: nil];
+	[self compress: [DCMTransferSyntax JPEGLSLossyTransferSyntax] quality: 1 fromFile: srcFile toFile: [destFile stringByAppendingString: @".jpls-lossy-1"]];
+	newTotal++;
+	
+	[[NSFileManager defaultManager] removeItemAtPath: [destFile stringByAppendingString: @".jpls-lossy-2"] error: nil];
+	[self compress: [DCMTransferSyntax JPEGLSLossyTransferSyntax] quality: 2 fromFile: srcFile toFile: [destFile stringByAppendingString: @".jpls-lossy-2"]];
+	newTotal++;
+	
+	[[NSFileManager defaultManager] removeItemAtPath: [destFile stringByAppendingString: @".jpls-lossy-3"] error: nil];
+	[self compress: [DCMTransferSyntax JPEGLSLossyTransferSyntax] quality: 3 fromFile: srcFile toFile: [destFile stringByAppendingString: @".jpls-lossy-3"]];
+	newTotal++;
 	
 //	[[NSFileManager defaultManager] removeItemAtPath: [destFile stringByAppendingString: @".jpeg-lossless"] error: nil];
 //	[self compress: [DCMTransferSyntax JPEGLossless14TransferSyntax] quality: 0 fromFile: srcFile toFile: [destFile stringByAppendingString: @".jpeg-lossless"]];
@@ -207,6 +236,26 @@
 		[[newPixList lastObject] setFrameNo: [newPixList count]-1];
 		[newDcmList addObject: [[viewerController fileList] objectAtIndex: [[viewerController imageView] curImage]]];
 		
+        [newPixList addObject: [[[DCMPix alloc] initWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossless"]] autorelease]];
+		[[newPixList lastObject] setTot: newTotal];
+		[[newPixList lastObject] setFrameNo: [newPixList count]-1];
+		[newDcmList addObject: [[viewerController fileList] objectAtIndex: [[viewerController imageView] curImage]]];
+		
+		[newPixList addObject: [[[DCMPix alloc] initWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossy-1"]] autorelease]];
+		[[newPixList lastObject] setTot: newTotal];
+		[[newPixList lastObject] setFrameNo: [newPixList count]-1];
+		[newDcmList addObject: [[viewerController fileList] objectAtIndex: [[viewerController imageView] curImage]]];
+		
+		[newPixList addObject: [[[DCMPix alloc] initWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossy-2"]] autorelease]];
+		[[newPixList lastObject] setTot: newTotal];
+		[[newPixList lastObject] setFrameNo: [newPixList count]-1];
+		[newDcmList addObject: [[viewerController fileList] objectAtIndex: [[viewerController imageView] curImage]]];
+		
+		[newPixList addObject: [[[DCMPix alloc] initWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossy-3"]] autorelease]];
+		[[newPixList lastObject] setTot: newTotal];
+		[[newPixList lastObject] setFrameNo: [newPixList count]-1];
+		[newDcmList addObject: [[viewerController fileList] objectAtIndex: [[viewerController imageView] curImage]]];
+        
 		float ww = 0;
 		
 		for( DCMPix *p in newPixList)
@@ -251,6 +300,10 @@
 				case 2: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jp2k-lossy-1"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jp2k-lossy-1", originalSize / fileSize, fileSize / 1024., originalSize / 1024.];	break;
 				case 3: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jp2k-lossy-2"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jp2k-lossy-2", originalSize / fileSize, fileSize / 1024., originalSize / 1024.];	break;
 				case 4: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jp2k-lossy-3"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jp2k-lossy-3", originalSize / fileSize, fileSize / 1024., originalSize / 1024.];	break;
+                case 5: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossless"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jpls-lossless", originalSize / fileSize, fileSize / 1024., originalSize / 1024.]; break;
+				case 6: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossy-1"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jpls-lossy-1", originalSize / fileSize, fileSize / 1024., originalSize / 1024.];	break;
+				case 7: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossy-2"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jpls-lossy-2", originalSize / fileSize, fileSize / 1024., originalSize / 1024.];	break;
+				case 8: fileSize = [[NSData dataWithContentsOfFile: [destFile stringByAppendingString: @".jpls-lossy-3"]] length];	s = [NSString stringWithFormat:@"%@ ratio: %2.2fx - %2.0f Kb / %2.0f Kb", @"jpls-lossy-3", originalSize / fileSize, fileSize / 1024., originalSize / 1024.];	break;
 			}
 			
 			[newROI setName: s];
