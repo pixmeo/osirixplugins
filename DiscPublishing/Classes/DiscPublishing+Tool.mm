@@ -7,7 +7,7 @@
 //
 
 #import "DiscPublishing+Tool.h"
-#import <OpenScripting/OpenScripting.h>
+#import <Carbon/Carbon.h>
 #import <OsiriXAPI/NSAppleEventDescriptor+N2.h>
 
 

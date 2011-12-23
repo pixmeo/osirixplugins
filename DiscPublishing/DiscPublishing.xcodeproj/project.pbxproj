@@ -543,7 +543,6 @@
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				8D5B49B5048680CD000E48DA /* Rez */,
-				59120CB91137DFB4002D9163 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -632,19 +631,6 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		59120CB91137DFB4002D9163 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# fix paths from plugin binary to plugin frameworks\ninstall_name_tool -change @executable_path/../Frameworks/JobManager.framework/Versions/A/JobManager @loader_path/../Frameworks/JobManager.framework/Versions/A/JobManager $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor @loader_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$EXECUTABLE_PATH\ninstall_name_tool -change @executable_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage @loader_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage $TARGET_BUILD_DIR/$EXECUTABLE_PATH\n# fix paths from plugin JobManager framework to frameworks it depends on\ninstall_name_tool -change @executable_path/../Frameworks/JobProcessor.framework/Versions/A/JobProcessor @loader_path/../../../JobProcessor.framework/Versions/A/JobProcessor $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobManager.framework/Versions/A/JobManager\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../../../PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobManager.framework/Versions/A/JobManager\n# fix paths from plugin JobProcessor framework to frameworks it depends on\ninstall_name_tool -change @executable_path/../Frameworks/AS_Storage.framework/Versions/A/AS_Storage @loader_path/../../../AS_Storage.framework/Versions/A/AS_Storage $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobProcessor.framework/Versions/A/JobProcessor\ninstall_name_tool -change @executable_path/../Frameworks/PTRobot.framework/Versions/A/PTRobot @loader_path/../../../PTRobot.framework/Versions/A/PTRobot $TARGET_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/JobProcessor.framework/Versions/A/JobProcessor\n\nexit 0\n";
-		};
 		59EBE42012B8A8B500809C61 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -757,6 +743,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -769,7 +756,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = Resources/Tool/Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -785,10 +771,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -803,7 +785,6 @@
 				GCC_PREFIX_HEADER = Prefix.pch;
 				INFOPLIST_FILE = Resources/Preferences/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-undefined",
 					dynamic_lookup,
@@ -826,10 +807,6 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -847,7 +824,6 @@
 				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_STYLE = Bundle;
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -869,15 +845,13 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/System/Library/Frameworks/Carbon.framework/Frameworks",
+					"\"$(SDKROOT)/System/Library/Frameworks\"",
 					"\"$(SRCROOT)/Libs\"",
 					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.6;
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Development;
 		};
