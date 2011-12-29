@@ -12,6 +12,7 @@
 {
 	int imageNumber;
 	DICOMExport *e;
+    IBOutlet NSView *accessoryView;
 }
 
 - (long) filterImage:(NSString*) menuName;
