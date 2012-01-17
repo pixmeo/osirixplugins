@@ -10,8 +10,7 @@
 //#import "DiscPublishingOptions.h"
 #import <OsiriXAPI/N2CSV.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
-#import "DiscPublishingJob+Info.h"
-
+#import "DiscPublishingTool.h"
 
 @implementation DiscPublishingJob
 

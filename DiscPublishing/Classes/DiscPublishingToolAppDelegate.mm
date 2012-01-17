@@ -10,24 +10,88 @@
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
 #import "DiscPublisherStatus.h"
-#import "DiscPublishingTool+DistributedNotifications.h"
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/NSXMLNode+N2.h>
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <Growl/GrowlDefines.h>
-
+#import "DiscPublishingJob.h"
 
 int main(int argc, const char* argv[]) {
 	return NSApplicationMain(argc, argv);
 }
 
+@interface DiscPublishingToolAppDelegate ()
+
+@property(retain) NSConnection* connection;
+@property(retain) NSString* lastErr;
+
+@end
 
 @implementation DiscPublishingToolAppDelegate
 
-@synthesize lastErr, binSelection;
+@synthesize connection = _connection;
+@synthesize lastErr = _lastErr;
 
-#pragma mark Thread property distributed notifications
+-(void)applicationWillFinishLaunching:(NSNotification*)n {
+	[GrowlApplicationBridge setGrowlDelegate:self];
+    
+    _connection = [[NSConnection alloc] init];
+    if ([self.connection registerName:DiscPublishingToolProxyName])
+        [self.connection setRootObject:self];
+    else self.connection = nil;
+    
+    _threads = [[NSMutableArray alloc] init];
+	
+    // TODO: we should recover leftover jobs, not just delete them... but then maybe they're the reason why we crashed in the first place
+    @try {
+        NSString* jobsDirPath = [DiscPublisher jobsDirPath];
+        for (NSString* p in [NSFileManager.defaultManager contentsOfDirectoryAtPath:jobsDirPath error:NULL]) {
+            NSLog(@"DiscPublishing plugin is deleting %@", [jobsDirPath stringByAppendingPathComponent:p]);
+            [NSFileManager.defaultManager removeItemAtPath:[jobsDirPath stringByAppendingPathComponent:p] error:NULL];
+        }
+	} @catch (...) {
+    }
+    
+	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
+    [thread start];
+    
+	_statusTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(statusTimerCallback:) userInfo:NULL repeats:YES];
+	
+	NSLog(@"Welcome to DiscPublishingTool.");
+    
+    [NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolWillFinishLaunchingNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
+}
+
+-(void)applicationWillTerminate:(NSNotification*)n {
+    [NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolWillTerminateNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
+
+	NSLog(@"DiscPublishingTool says Goodbye.");
+}
+
+-(void)dealloc {
+    [_discPublisher release];
+    [_connection release];
+	[_statusTimer invalidate];
+	self.lastErr = nil;
+	[_threads release];
+	[super dealloc];
+}
+
+-(void)quitNow {
+	NSLog(@"DiscPublishingTool is Quitting.");
+    [NSApp stop:self];
+    [NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined location:NSMakePoint(0,0) modifierFlags:0 timestamp:0.0 windowNumber:0 context:nil subtype:0 data1:0 data2:0] atStart:true];
+}
+
+#pragma mark Tasks
+
+-(NSThread*)threadWithId:(NSString*)threadId {
+	for (NSThread* thread in _threads)
+		if ([thread.uniqueId isEqual:threadId])
+			return thread;
+	return NULL;
+}
 
 -(void)distributeNotificationsForThread:(NSThread*)thread {
 	static NSUInteger uniqueThreadIdBase = 0;
@@ -35,7 +99,7 @@ int main(int argc, const char* argv[]) {
 	NSString* threadId = [NSString stringWithFormat:@"%d", uniqueThreadIdBase];
 	thread.uniqueId = threadId;
 	
-	[threads addObject:thread];
+	[_threads addObject:thread];
 	
 	[thread addObserver:self forKeyPath:NSThreadSupportsCancelKey options:NULL context:NULL];
 	[thread addObserver:self forKeyPath:NSThreadIsCancelledKey options:NULL context:NULL];
@@ -53,7 +117,7 @@ int main(int argc, const char* argv[]) {
 	[thread removeObserver:self forKeyPath:NSThreadStatusKey];
 	[thread removeObserver:self forKeyPath:NSThreadProgressKey];
 
-	[threads removeObject:thread];
+	[_threads removeObject:thread];
 }
 
 -(void)threadWillExit:(NSNotification*)notification {
@@ -64,8 +128,8 @@ int main(int argc, const char* argv[]) {
 
 	[self stopDistributingNotificationsForThread:thread];
 //	NSLog(@"%d threads left, quit? %d", threads.count, !threads.count && quitWhenDone);
-	if (quitWhenDone && !threads.count)
-		[NSApp stop:self];
+	if (_quitWhenDone && !_threads.count)
+        [self quitNow];
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -79,60 +143,14 @@ int main(int argc, const char* argv[]) {
 									  [thread valueForKeyPath:keyPath], keyPath,
 									  keyPath, DiscPublishingToolThreadChangedInfoKey,
 								  NULL];
-		[[NSDistributedNotificationCenter defaultCenter] postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
+		[NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
 	}
 }
 
-#pragma mark Application initialization & finalization
-
-@synthesize discPublisher;
-@synthesize quitWhenDone;
-
--(NSArray*)threads {
-	return threads;
-}
-
--(NSThread*)threadWithId:(NSString*)threadId {
-	for (NSThread* thread in threads)
-		if ([thread.uniqueId isEqual:threadId])
-			return thread;
-	return NULL;
-}
-
--(void)applicationDidFinishLaunching:(NSNotification*)aNotification {
-	threads = [[NSMutableArray alloc] init];
-//	errs = [[NSMutableArray alloc] init];
-	
-	[GrowlApplicationBridge setGrowlDelegate:self];
-    
-    // TODO: we should recover leftover jobs, not just delete them... but then maybe they're the reason why we crashed in the first place
-    @try {
-        NSString* jobsDirPath = [DiscPublisher jobsDirPath];
-        for (NSString* p in [NSFileManager.defaultManager contentsOfDirectoryAtPath:jobsDirPath error:NULL]) {
-            NSLog(@"DiscPublishing plugin is deleting %@", [jobsDirPath stringByAppendingPathComponent:p]);
-            [NSFileManager.defaultManager removeItemAtPath:[jobsDirPath stringByAppendingPathComponent:p] error:NULL];
-        }
-	} @catch (...) {
-    }
-    
-	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
-    [thread start];
-    
-	statusTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(statusTimerCallback:) userInfo:NULL repeats:YES];
-	
-//	[self distributeNotificationsForThread:thread];
-	
-	NSLog(@"Welcome to DiscPublishingTool.");
-	
-	// recover jobs, need folder XXX and files XXX.plist & XXX.jpg, but // TODO: we currently delete them
-//	for (;;) {
-//		;
-//	}
-	
-}
+#pragma mark Stuff
 
 -(void)errorWithTitle:(NSString*)title description:(NSString*)description uniqueContext:(id)context {
-	if (![lastErr isEqual:description]) {
+	if (![_lastErr isEqual:description]) {
 		self.lastErr = description;
 		//[errs addObject:context];
 		NSLog(@"%@: %@", title, description);
@@ -146,15 +164,15 @@ int main(int argc, const char* argv[]) {
 	NSThread* thread = [NSThread currentThread];
 	thread.name = @"Initializing Disk Publisher...";
 	
-	while (![thread isCancelled] && !discPublisher)
+	while (![thread isCancelled] && !_discPublisher)
 		@try {
-			discPublisher = [[DiscPublisher alloc] init];
+			_discPublisher = [[DiscPublisher alloc] init];
 			
-			for (NSNumber* robotId in discPublisher.status.robotIds)
-				[self.discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_IGNOREINKLOW];
+			for (NSNumber* robotId in _discPublisher.status.robotIds)
+				[_discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_IGNOREINKLOW];
 			
 			while (![thread isCancelled]) @try {
-				if ([self.discPublisher.status allRobotsAreIdle])
+				if ([_discPublisher.status allRobotsAreIdle])
 					break;
 			} @catch (NSException* e) {
 				NSLog(@"[DiscPublishingTool initDiscPublisher:] exception: %@", e);
@@ -169,29 +187,12 @@ int main(int argc, const char* argv[]) {
 	[pool release];
 }
 
--(void)dealloc {
-	[statusTimer invalidate];
-	self.lastErr = NULL;
-	[threads release];
-//	[errs release];
-	[super dealloc];
-}
-
--(void)setQuitWhenDone:(BOOL)qwd {
-	quitWhenDone = qwd;
-	DLog(@"quit set to %d, %d threads", qwd, threads.count);
-	if (quitWhenDone && !threads.count) {
-		[NSApp stop:self];
-		[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined location:NSMakePoint(0,0) modifierFlags:0 timestamp:0.0 windowNumber:0 context:nil subtype:0 data1:0 data2:0] atStart:true];
-	}
-}
-
 -(void)statusTimerCallback:(NSTimer*)timer {
-	if (discPublisher) {
-		[discPublisher.status refresh];
+	if (_discPublisher) {
+		[_discPublisher.status refresh];
 		UInt32 errorS = 0;
 //		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
-		for (NSXMLNode* robot in [discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
+		for (NSXMLNode* robot in [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
 			UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
 			if (error) {
 				[self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[[robot childNamed:@"SYSTEM_STATUS"] stringValue] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
@@ -204,20 +205,14 @@ int main(int argc, const char* argv[]) {
 	}
 }
 
--(void)setBinSelection:(JM_BinSelection)jmbs {
-    binSelection = jmbs;
-    hasBinSelection = YES;
-    [self applyBinSelection];
-}
-
 -(void)applyBinSelection {
-    if (hasBinSelection) {
-        NSLog(@"Applying bin selection: %d,%d,%d,%d", binSelection.fEnabled, binSelection.nLeftBinType, binSelection.nRightBinType, binSelection.nDefaultBin);
-        UInt32 err = JM_SetBinSelection(&binSelection);
+    if (_hasBinSelection) {
+        DLog(@"Applying bin selection: %d,%d,%d,%d", _binSelection.fEnabled, _binSelection.nLeftBinType, _binSelection.nRightBinType, _binSelection.nDefaultBin);
+        UInt32 err = JM_SetBinSelection(&_binSelection);
         if (err != JM_OK)
             [NSException raise:NSGenericException format:@"JM_SetBinSelection returned %d", err];
     } else
-        NSLog(@"Should apply bin selection, but it is undefined!");
+        DLog(@"Should apply bin selection, but it is undefined!");
 }
 
 #pragma mark Growl
@@ -254,5 +249,102 @@ int main(int argc, const char* argv[]) {
 -(void)growlNotificationTimedOut:(id)context {
 	[self growlNotificationGoingOut:context];
 }*/
+
+-(void)discJobThread:(DiscPublishingJob*)job {
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	
+	NSThread* thread = [NSThread currentThread];
+	thread.name = [NSString stringWithFormat:@"Publishing disc %@...", [job.info objectForKey:DiscPublishingJobInfoDiscNameKey]];
+	
+	@try {
+		thread.status = @"Starting job...";
+		[job start];
+		
+		while (YES) {
+			if (job.status.dwJobState == JOB_FAILED) {
+				// TODO: recover job, retry, whatever!!
+				thread.status = [NSString stringWithFormat:@"Job failed with error: %d", job.status.dwLastError];
+			} else
+				thread.status = job.statusString;
+			
+			if (job.status.dwJobState == JOB_COMPLETED) break;
+			[NSThread sleepForTimeInterval:1];
+		}
+		
+	} @catch (NSException* e) {
+		NSLog(@"Job exception: %@", e);
+	}
+	
+	[pool release];
+}
+
+#pragma mark DiscPublishingTool
+
+-(BOOL)ping {
+    return YES;
+}
+
+-(void)setBinSelectionEnabled:(BOOL)enabled leftBinType:(NSUInteger)leftBinType rightBinType:(NSUInteger)rightBinType defaultBin:(NSUInteger)defaultBin {
+    _hasBinSelection = YES;
+	_binSelection.fEnabled = enabled;
+	_binSelection.nLeftBinType = leftBinType;
+	_binSelection.nRightBinType = rightBinType;
+	_binSelection.nDefaultBin = defaultBin;
+    [self applyBinSelection];
+}
+
+-(NSString*)publishDiscWithRoot:(NSString*)root info:(NSDictionary*)info {
+    DiscPublishingJob* job = [_discPublisher createJobOfClass:[DiscPublishingJob class]];
+	job.root = root;
+	job.info = info;
+	
+	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(discJobThread:) object:job] autorelease];
+	[thread start];
+	[self distributeNotificationsForThread:thread];
+
+    return thread.uniqueId;
+}
+
+-(NSArray*)listTasks {
+	NSMutableArray* taskIds = [NSMutableArray array];
+	
+	for (NSThread* thread in _threads)
+		if (thread.uniqueId)
+			[taskIds addObject:thread.uniqueId];
+    
+	return taskIds;
+}
+
+-(NSDictionary*)getTaskInfoForId:(NSString*)taskId {
+	NSThread* thread = [self threadWithId:taskId];
+	
+	NSMutableDictionary* ret = [NSMutableDictionary dictionary];
+	if (thread) {
+		if (thread.name) [ret setObject:thread.name forKey:@"name"];
+		id supportsCancel = [thread.threadDictionary objectForKey:NSThreadSupportsCancelKey];
+		if (supportsCancel) [ret setObject:supportsCancel forKey:NSThreadSupportsCancelKey];
+		id isCancelled = [thread.threadDictionary objectForKey:NSThreadIsCancelledKey];
+		if (isCancelled) [ret setObject:isCancelled forKey:NSThreadIsCancelledKey];
+		id status = [thread.threadDictionary objectForKey:NSThreadStatusKey];
+		if (status) [ret setObject:status forKey:NSThreadStatusKey];
+		id progress = [thread.threadDictionary objectForKey:NSThreadProgressKey];
+		if (progress) [ret setObject:progress forKey:NSThreadProgressKey];
+	}
+	
+	return ret;
+}
+
+-(NSString*)getStatusXML {
+	DiscPublisherStatus* status = [_discPublisher status];
+	[status refresh];
+	return [[status doc] XMLString];
+}
+
+-(void)setQuitWhenDone:(BOOL)flag {
+	_quitWhenDone = flag;
+	DLog(@"quit set to %d, %d threads", flag, _threads.count);
+	if (_quitWhenDone && !_threads.count)
+        [self quitNow]; //[self performSelector:@selector(quitNow) withObject:nil afterDelay:0.01];
+}
 
 @end

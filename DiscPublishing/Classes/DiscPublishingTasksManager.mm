@@ -6,12 +6,11 @@
 //  Copyright 2010 OsiriX Team. All rights reserved.
 //
 
+#import "DiscPublishing.h"
 #import "DiscPublishingTasksManager.h"
-#import "DiscPublishing+Tool.h"
+#import "DiscPublishingTool.h"
 #import <OsiriXAPI/ThreadsManager.h>
 #import <OsiriXAPI/NSThread+N2.h>
-#import "DiscPublishingJob+Info.h"
-#import "DiscPublishingTool+DistributedNotifications.h"
 
 
 @interface ToolThread : NSThread
@@ -36,7 +35,7 @@
 	
 	_threadsManager = [threadsManager retain];
 	
-	for (NSString* threadId in [DiscPublishing ListTasks]) {
+	for (NSString* threadId in [DiscPublishing.instance.tool listTasks]) {
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 		NSThread* thread = [[ToolThread alloc] init];
 		thread.name = [NSString stringWithFormat:@"Disc Publishing Tool thread %@", threadId];
@@ -55,8 +54,8 @@
 -(void)spawnDiscWrite:(NSString*)discRootDirPath info:(NSDictionary*)info {
     [[DiscPublishing instance] updateBinSelection];
     
-	NSString* threadId = [DiscPublishing PublishDisc:[info objectForKey:DiscPublishingJobInfoDiscNameKey] root:discRootDirPath info:info];
-	[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
+	NSString* threadId = [DiscPublishing.instance.tool publishDiscWithRoot:discRootDirPath info:info];
+	[NSDistributedNotificationCenter.defaultCenter addObserver:self selector:@selector(observeThreadInfoChange:) name:DiscPublishingToolThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 	
 	// a dummy thread that displays info about the Tool thread that handles this burn
 	NSThread* thread = [[ToolThread alloc] init];
@@ -124,7 +123,7 @@ NSString* const NSThreadIsToolCancelledKey = @"isToolCancelled";
 }
 
 -(NSDictionary*)info {
-	return [DiscPublishing GetTaskInfo:self.uniqueId];
+	return [DiscPublishing.instance.tool getTaskInfoForId:self.uniqueId];
 }
 
 -(void)main {

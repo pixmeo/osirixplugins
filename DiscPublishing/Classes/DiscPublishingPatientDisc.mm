@@ -28,7 +28,6 @@
 #import <JobManager/PTJobManager.h>
 #import <QTKit/QTKit.h>
 #import "DiscPublishing.h"
-#import "DiscPublishingJob+Info.h"
 #import "DiscPublishingTasksManager.h"
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/N2Debug.h>

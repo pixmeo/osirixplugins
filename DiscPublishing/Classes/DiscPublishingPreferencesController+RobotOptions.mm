@@ -8,7 +8,8 @@
 
 #import "DiscPublishingPreferencesController+RobotOptions.h"
 #import "DiscPublishingPreferencesBinViewController.h"
-#import "DiscPublishing+Tool.h"
+#import "DiscPublishing.h"
+#import "DiscPublishingTool.h"
 #import <OsiriXAPI/NSXMLNode+N2.h>
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <OsiriXAPI/NSView+N2.h>
@@ -115,9 +116,11 @@
 -(void)initRobotGetStatusTimerFireMethod:(NSTimer*)timer { // timer is this->robotOptionsTimer
 	//[patientModeAuxDirPathControl setEnabled:YES];
 	@try {
-		NSString* xml = [DiscPublishing GetStatusXML];
-		[robotOptionsTimer invalidate]; robotOptionsTimer = NULL;
-		[self robotOptionsInitWithStatusXML:xml];
+		NSString* xml = [DiscPublishing.instance.tool getStatusXML];
+        if (xml) {
+            [robotOptionsTimer invalidate]; robotOptionsTimer = NULL;
+            [self robotOptionsInitWithStatusXML:xml];
+        }
 	} @catch (NSException* e) {
 	} 
 }

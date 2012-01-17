@@ -4,16 +4,12 @@
 <dict>
 	<key>LSUIElement</key>
 	<true/>
-	<key>NSAppleScriptEnabled</key>
-	<true/>
-	<key>OSAScriptingDefinition</key>
-	<string>DiscPublishingTool.sdef</string>
 	<key>CFBundleName</key>
 	<string>DiscPublishingTool</string>
 	<key>NSMainNibFile</key>
 	<string>DiscPublishingToolApplication</string>
 	<key>NSPrincipalClass</key>
-	<string>DiscPublishingToolApplication</string>
+	<string>NSApplication</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundlePackageType</key>

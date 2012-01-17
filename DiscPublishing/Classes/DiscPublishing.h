@@ -6,16 +6,19 @@
 //
 
 #import <OsiriXAPI/PluginFilter.h>
-
+#import "DiscPublishingTool.h"
 
 @class DiscPublishingFilesManager;
 
 @interface DiscPublishing : PluginFilter {
 	DiscPublishingFilesManager* _filesManager;
-	NSTimer* robotReadyTimer;
-	BOOL robotIsReady;
-	NSTimer* toolAliveKeeperTimer;
+	NSTimer* _robotReadyTimer;
+	BOOL _robotIsReady;
+	NSTimer* _toolAliveKeeperTimer;
+    NSDistantObject<DiscPublishingTool>* _tool;
 }
+
+@property(retain,readonly,nonatomic) NSDistantObject<DiscPublishingTool>* tool;
 
 +(DiscPublishing*)instance;
 

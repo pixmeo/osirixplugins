@@ -6,7 +6,6 @@
 //
 
 #import "DiscPublishing.h"
-#import "DiscPublishing+Tool.h"
 #import "DiscPublishingFilesManager.h"
 #import <OsiriXAPI/N2Shell.h>
 #import <OsiriXAPI/ThreadsManager.h>
@@ -30,16 +29,52 @@
 
 //#include "NSThread+N2.h"
 
+@interface DiscPublishing ()
+
+@property(retain,readwrite,nonatomic) NSDistantObject<DiscPublishingTool>* tool;
+
+@end
+
 @implementation DiscPublishing
+
+@synthesize tool = _tool;
 
 static DiscPublishing* discPublishingInstance = NULL;
 +(DiscPublishing*)instance {
 	return discPublishingInstance;
 }
 
--(void)kickstartTool {
-	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"DiscPublishingTool.app"], NULL]];
-	[DiscPublishing SetQuitWhenDone:NO];
+-(NSDistantObject<DiscPublishingTool>*)toolOnlyIfRunning:(BOOL)onlyIfRunning {
+    @synchronized (self) { 
+        BOOL ok = NO;
+        @try {
+            ok = [_tool ping];
+        } @catch (...) {
+        }
+        
+        if (!ok) { // maybe already running?
+            [_tool release];
+            _tool = (NSDistantObject<DiscPublishingTool>*)[[NSConnection rootProxyForConnectionWithRegisteredName:DiscPublishingToolProxyName host:nil] retain];
+            ok = [_tool ping];
+        }
+        
+        if (!onlyIfRunning)
+            if (!ok) { // not running, we must launch it
+                [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"DiscPublishingTool.app"], NULL]];
+                NSDate* start = NSDate.date;
+                while (!ok && [NSDate.date timeIntervalSinceDate:start] < 20) {
+                    [_tool release];
+                    _tool = (NSDistantObject<DiscPublishingTool>*)[[NSConnection rootProxyForConnectionWithRegisteredName:DiscPublishingToolProxyName host:nil] retain];
+                    ok = [_tool ping];
+                }
+            }
+    }
+    
+    return _tool;
+}
+
+-(NSDistantObject<DiscPublishingTool>*)tool {
+    return [self toolOnlyIfRunning:NO];
 }
 
 const static NSString* const RobotReadyTimerCallbackUserInfoWindowKey = @"Window";
@@ -49,6 +84,8 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	if (![AppController hasMacOSXSnowLeopard])
 		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
+    
 	discPublishingInstance = self;
     
     // TODO: we should recover leftover jobs, not just delete them... but then maybe they're the reason why we crashed in the first place
@@ -70,30 +107,31 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	
 //	[[ActivityWindowController defaultController] window];
 	
-	toolAliveKeeperTimer = [NSTimer scheduledTimerWithTimeInterval:3600 target:self selector:@selector(toolAliveKeeperTimerCallback:) userInfo:NULL repeats:YES];
-	[toolAliveKeeperTimer fire];
+	_toolAliveKeeperTimer = [NSTimer scheduledTimerWithTimeInterval:3600 target:self selector:@selector(toolAliveKeeperTimerCallback:) userInfo:NULL repeats:YES];
+	[_toolAliveKeeperTimer fire];
 	
 	[DiscPublishingTasksManager defaultManager];
 	
 	_filesManager = [[DiscPublishingFilesManager alloc] init];
 	
-	NSPanel* w = NULL;
+    NSString* xml = nil;
 	@try {
-		[self kickstartTool];
-		[DiscPublishing GetStatusXML];
+		xml = [self.tool getStatusXML];
 	} @catch (NSException* e) {
-		w = [[NSPanel alertWithTitle:NSLocalizedString(@"Disc Publishing Error", NULL) message:NSLocalizedString(@"OsiriX was unable to communicate with the Disc Publishing robot. Please check that the robot is on and connected to the computer. This dialog will automatically disappear if the plugin finds a usable robot.", NULL) defaultButton:NSLocalizedString(@"Ignore", NULL) alternateButton:NULL icon:[[NSImage alloc] initWithContentsOfFile:[[[NSBundle bundleForClass:[self class]] pathForResource:@"Icon" ofType:@"png"] autorelease]]] retain];
+	}
+    
+	NSPanel* w = nil;
+    if (!xml) {
+        w = [[NSPanel alertWithTitle:NSLocalizedString(@"Disc Publishing Error", NULL) message:NSLocalizedString(@"OsiriX was unable to communicate with the Disc Publishing robot. Please check that the robot is on and connected to the computer. This dialog will automatically disappear if the plugin finds a usable robot.", NULL) defaultButton:NSLocalizedString(@"Ignore", NULL) alternateButton:NULL icon:[[NSImage alloc] initWithContentsOfFile:[[[NSBundle bundleForClass:[self class]] pathForResource:@"Icon" ofType:@"png"] autorelease]]] retain];
 		[w setLevel:NSModalPanelWindowLevel];
 		[[w defaultButtonCell] setAction:@selector(close)];
 		[[w defaultButtonCell] setTarget:w];
-	}
-	
-	NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
-	[userInfo setObject:w forKey:RobotReadyTimerCallbackUserInfoWindowKey];
+    }
+    
+	NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
+	if (w) [userInfo setObject:w forKey:RobotReadyTimerCallbackUserInfoWindowKey];
 	[userInfo setObject:[NSDate date] forKey:RobotReadyTimerCallbackUserInfoStartDateKey];
-	robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(robotReadyTimerCallback:) userInfo:userInfo repeats:YES];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
+	_robotReadyTimer = [NSTimer scheduledTimerWithTimeInterval:2.5 target:self selector:@selector(robotReadyTimerCallback:) userInfo:userInfo repeats:YES];
 	
 /*	NSThread* bidon = [[NSThread alloc] initWithTarget:self selector:@selector(bidonThread:) object:NULL];
 //	bidon.supportsCancel = YES;
@@ -101,45 +139,29 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 */
 }
 
-
-/*if (discPublisher) {
-	[discPublisher.status refresh];
-	//	NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
-	for (NSXMLNode* robot in [discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
-		UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
-		if (error)
-			[self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[NSString stringWithFormat:@"%@, %@", [DiscPublisher PTSystemError:error], [[robot childNamed:@"SYSTEM_STATUS"] stringValue]] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
-	}
-}*/
-
-
 -(void)toolAliveKeeperTimerCallback:(NSTimer*)timer {
+    @try {
+        [[self toolOnlyIfRunning:YES] setQuitWhenDone:YES]; // if is currently running, ask it to quit
+        [NSThread sleepForTimeInterval:0.05];
+    } @catch (NSException* e) {
+        NSLog(@"Tool quit error: %@", e.reason);
+    }
+    
 	@try {
-		[DiscPublishing SetQuitWhenDone:YES];
+        [[self tool] setQuitWhenDone:NO];
 	} @catch (NSException* e) {
-		NSLog(@"Tool quit error: %@", e.description);
-	}
-	@try {
-		[self kickstartTool];
-	} @catch (NSException* e) {
-		NSLog(@"Tool start error: %@", e.description);
-	}
-	@try {
-		[DiscPublishing SetQuitWhenDone:NO];
-	} @catch (NSException* e) {
-		NSLog(@"Tool dont quit error: %@", e.description);
+		NSLog(@"Tool relaunch error: %@", e.reason);
 	}
 }
 
-- (void) willUnload
-{
-    [robotReadyTimer invalidate];
-	[DiscPublishing SetQuitWhenDone:YES];
+- (void) willUnload {
+    [_robotReadyTimer invalidate];
+	[self.tool setQuitWhenDone:YES];
 }
 
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {
-	[robotReadyTimer invalidate];
-	[DiscPublishing SetQuitWhenDone:YES];
+	[_robotReadyTimer invalidate];
+	[self.tool setQuitWhenDone:YES];
 }
 
 /*-(void)bidonThread:(id)obj {
@@ -157,7 +179,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 
 -(void)dealloc {
 	NSLog(@"DiscPublishing dealloc");
-	[robotReadyTimer invalidate]; robotReadyTimer = NULL;
+	[_robotReadyTimer invalidate]; _robotReadyTimer = NULL;
 	[[_filesManager invalidate] release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
 	[super dealloc];
@@ -211,20 +233,20 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 }
 
 -(void)updateBinSelection {
-	if (!robotIsReady)
+	if (!_robotIsReady)
 		return;
 	
-	NSString* xml = [DiscPublishing GetStatusXML];
+	NSString* xml = [self.tool getStatusXML];
 	NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
 	NSArray* bins = [doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL];
 	
 //#warning: this MUST be enabled when releasing
 	if (bins.count == 1) {
-		[DiscPublishing SetBinSelection:NO leftBinMediaType:0 rightBinMediaType:0 defaultBin:LOCATION_REJECT];
+		[self.tool setBinSelectionEnabled:NO leftBinType:0 rightBinType:0 defaultBin:LOCATION_REJECT];
 	} else
 	if (bins.count == 2) {
 		NSUserDefaultsController* defaultsC = [NSUserDefaultsController sharedUserDefaultsController];
-		[DiscPublishing SetBinSelection:YES leftBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:1] rightBinMediaType:[defaultsC discPublishingMediaTypeTagForBin:0] defaultBin:LOCATION_REJECT];
+		[self.tool setBinSelectionEnabled:YES leftBinType:[defaultsC discPublishingMediaTypeTagForBin:1] rightBinType:[defaultsC discPublishingMediaTypeTagForBin:0] defaultBin:LOCATION_REJECT];
 	} else {
 		NSLog(@"Warning: we didn't expect having to handle more than 2 bins...");
 	}
@@ -239,17 +261,19 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 		[[timer userInfo] removeObjectForKey:RobotReadyTimerCallbackUserInfoStartDateKey];
 	}
 	@try {
-		NSString* xml = [DiscPublishing GetStatusXML];
-		[[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] close];
-		[robotReadyTimer invalidate]; robotReadyTimer = NULL;
-		// this will only happen ONCE
-		robotIsReady = YES;
-		[self updateBinSelection];
-		NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
-		[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:0] options:NULL context:NULL];
-//#warning: this MUST be enabled when releasing
-		if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
-			[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
+		NSString* xml = [self.tool getStatusXML];
+        if (xml) {
+            [[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] close];
+            [_robotReadyTimer invalidate]; _robotReadyTimer = NULL;
+            // this will only happen ONCE
+            _robotIsReady = YES;
+            [self updateBinSelection];
+            NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
+            [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:0] options:NULL context:NULL];
+    //#warning: this MUST be enabled when releasing
+            if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
+                [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
+        }
 	} @catch (NSException* e) {
 		//DLog(@"%@", e);
 	} 

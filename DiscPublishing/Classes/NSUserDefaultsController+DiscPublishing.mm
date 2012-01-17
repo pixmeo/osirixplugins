@@ -14,7 +14,6 @@
 #import <JobManager/PTJobManager.h>
 #import "DiscPublishingOptions.h"
 #import "DiscPublishing.h"
-#import "DiscPublishing+Tool.h"
 #import "DicomTag.h"
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import "DiscPublishingUtils.h"
@@ -252,10 +251,12 @@ NSString* const DiscPublishingMediaTypeTagSuffix = @"_MediaTypeTag";
 -(NSDictionary*)discPublishingMediaCapacities {
 	NSXMLDocument* doc = NULL;
 	@try {
-		NSString* xml = [DiscPublishing GetStatusXML];
+		NSString* xml = [DiscPublishing.instance.tool getStatusXML];
 		doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
 	} @catch (...) {
-		[NSException raise:NSGenericException format:@"%@", NSLocalizedString(@"Unable to communicate with robot.", NULL)];
+		if ([NSProcessInfo.processInfo.arguments containsObject:@"--TestDiscPublishing"]) // for testing purposes
+            return [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithFloat:700*1000000], [NSNumber numberWithUnsignedInt:0], [NSNumber numberWithFloat:4.7*1000000000], [NSNumber numberWithUnsignedInt:1], nil];
+        [NSException raise:NSGenericException format:@"%@", NSLocalizedString(@"Unable to communicate with robot.", NULL)];
 	}
 	
 	NSMutableDictionary* dic = [NSMutableDictionary dictionary];
