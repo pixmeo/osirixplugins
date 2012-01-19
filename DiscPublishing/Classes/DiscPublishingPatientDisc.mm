@@ -41,6 +41,8 @@ static NSString* PreventNullString(NSString* s) {
 
 @implementation DiscPublishingPatientDisc
 
+@synthesize window = _window;
+
 -(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options {
 	self = [super init];
 	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[files objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
@@ -59,6 +61,7 @@ static NSString* PreventNullString(NSString* s) {
 	[_tmpPath release];
 	[_options release];
 	[_files release];
+    self.window = nil;
 	[super dealloc];
 }
 
@@ -379,6 +382,8 @@ static NSString* PreventNullString(NSString* s) {
 					image.pathString = newPath;
 				}
 			
+            NSLog(@"disk %d series count is %d", (int)discNumber, (int)discSeries.count);
+            
 			// generate DICOMDIR: move DICOM to a tmp dir, execute generateDICOMDIRAtDirectory:withDICOMFilesInDirectory: in the tmp dir, move DICOM and DICOMDIR back to the working directory (to avoid dcmmkdir errors/warnings in stdout)
             NSString* temporaryDirPathForDicomdirGeneration = [NSFileManager.defaultManager tmpFilePathInTmp];
             NSString* temporaryDicomDirPathForDicomdirGeneration = [temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
@@ -517,6 +522,8 @@ static NSString* PreventNullString(NSString* s) {
 			[[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
 		} @catch (NSException* e) {
 			NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
+            if (self.window)
+                [self performSelectorOnMainThread:@selector(_reportError:) withObject:e.reason waitUntilDone:NO];
 		}
 		
 		[NSThread sleepForTimeInterval:0.01];
@@ -535,6 +542,10 @@ static NSString* PreventNullString(NSString* s) {
 	[managedObjectModel release];
 	
 	[pool release];
+}
+
+-(void)_reportError:(NSString*)err {
+    [[NSAlert alertWithMessageText:NSLocalizedString(@"Disc Publishing Error", nil) defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", err] beginSheetModalForWindow:self.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 }
 
 //+(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options database:(DicomDatabase*)database seriesPaths:(NSMutableDictionary*)seriesPaths

@@ -18,7 +18,10 @@
 	NSMutableArray* _files;
 	DiscPublishingOptions* _options;
 	NSString* _tmpPath;
+    NSWindow* _window;
 }
+
+@property(retain) NSWindow* window;
 
 -(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options;
 

@@ -213,6 +213,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	NSArray* sel = [bc databaseSelection];
 	
 	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+    dppd.window = bc.window;
 	[[ThreadsManager defaultManager] addThreadAndStart:dppd];
 	
 	return 0;
