@@ -10,6 +10,7 @@
 //#import "DiscPublishingOptions.h"
 #import <OsiriXAPI/N2CSV.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
+#import <OsiriXAPI/N2Shell.h>
 #import "DiscPublishingTool.h"
 
 @implementation DiscPublishingJob
@@ -35,7 +36,8 @@
     }
     
     if (![knownBundlePath isEqualToString:myPath] || ![knownNamePath isEqualToString:myPath]) {
-        [NSWorkspace.sharedWorkspace launchApplication:myPath];
+        // [NSWorkspace.sharedWorkspace launchApplication:myPath];
+        [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", myPath, @"--args", @"--no-assistant", nil]];
     }
     
     // execute applescript
@@ -65,6 +67,30 @@
 	
 	[appleScript release];
 }
+
+/*+(void)renderDiscCover:(NSString*)dcoverPath merge:(NSString*)mergePath into:(NSString*)outputJpgPath {
+    NSString* appPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/Disc Cover 3 PE.app"];
+    
+    [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", appPath, @"--args", @"--no-assistant", nil]];
+    NSMutableString* source = [NSMutableString string];
+    [source appendString:@"on run argv\n"];
+    [source appendString:@"  set appPathUnix to (item 1 of argv)\n"];
+    [source appendString:@"  set dcoverPathUnix to (item 2 of argv)\n"];
+	[source appendString:@"  set outputJpgPathUnix to (item 3 of argv)\n"];
+	[source appendString:@"  set mergePathUnix to (item 4 of argv)\n"];
+    [source appendFormat:@"  tell application appPathUnix\n"];
+    [source appendFormat:@"    set dcDocument to openDocument filename dcoverPathUnix visible no\n"];
+    [source appendFormat:@"    tell dcDocument\n"];
+    [source appendFormat:@"      setMergeFieldsFromFile filename mergePathUnix lineNumber 1\n"];
+    [source appendFormat:@"      exportDocumentTo filename outputJpgPathUnix filetype \"jpg\" resolution 600\n"];
+    [source appendFormat:@"    end tell\n"];
+    [source appendFormat:@"  end tell\n"];
+    [source appendString:@"end run\n"];
+    
+    NSLog(@"%@", source);
+    
+    [[self class] _runAppleScript:source withArguments:[NSArray arrayWithObjects: appPath, dcoverPath, outputJpgPath, mergePath, nil]];
+}*/
 
 -(void)start {
 	[self.info writeToFile:[self.root stringByAppendingPathExtension:@"plist"] atomically:YES];

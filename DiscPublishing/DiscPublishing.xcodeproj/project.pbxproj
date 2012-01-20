@@ -822,6 +822,7 @@
 					"\"$(SRCROOT)/Libs\"",
 					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
 				);
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				SDKROOT = macosx10.6;
 			};
 			name = Development;
