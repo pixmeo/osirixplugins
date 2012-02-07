@@ -18,8 +18,9 @@
 	DiscPublisher* _discPublisher;
 	NSMutableArray* _threads;
 	BOOL _quitWhenDone;
-	NSTimer* _statusTimer;
+	NSThread* _statusThread;
 	NSString* _lastErr;
+    NSInteger _lastNumberOfWindows;
     JM_BinSelection _binSelection;
     BOOL _hasBinSelection;
     NSConnection* _connection;

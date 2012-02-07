@@ -16,6 +16,7 @@
 	BOOL _robotIsReady;
 	NSTimer* _toolAliveKeeperTimer;
     NSDistantObject<DiscPublishingTool>* _tool;
+    NSLock* _robotReadyThreadLock;
 }
 
 @property(retain,readonly,nonatomic) NSDistantObject<DiscPublishingTool>* tool;

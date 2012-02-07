@@ -1,7 +1,10 @@
 1.2
 - Communication between the plugin and the Tool (the program that communicates with the robot) is done through NSDistantObject instead of AppleScript.
-- Fix on version 1.1.2: the DiscPublishingTool app was compiled as "32- and 64-bits Intel", and the Primera frameworks are 32-bits only.
+- Fixed issue when the Disc Cover 3 PE application wasn't found
+- Fixed issue when the plugin crashed with a "index 0 out of bounds" exception (by switching to LLVM GCC)
 - Upgrade to Primera SDK 2.3 beta
+- Primera framework dialogs are now read and distributed as a Growl notification
+- Fix on version 1.1.2: the DiscPublishingTool app was compiled as "32- and 64-bits Intel", and the Primera frameworks are 32-bits only.
 
 1.1.2 - This version was retired because it contained a bug
 - Technical update: willUnload makes the tool quit, so that OsiriX plugin manager updates will succeed when rewriting over the tool's binary.

@@ -262,12 +262,11 @@ static NSString* PreventNullString(NSString* s) {
 //	DLog(@"paths: %@", seriesPaths);
 
 	NSUInteger discNumber = 1;
-	while (seriesSizes.count) {
+	while (seriesSizes.count && !self.isCancelled) {
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-		
-		self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", discNumber];
-		
 		@try {
+            self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", discNumber];
+
 			NSMutableArray* privateFiles = [NSMutableArray array];
 
 			NSString* discBaseDirPath = [[NSFileManager defaultManager] tmpFilePathInTmp];
@@ -325,6 +324,11 @@ static NSString* PreventNullString(NSString* s) {
 			
 			DLog(@"media type will be: %@", pickedMediaKey);
 			
+            if (!pickedMediaKey) {
+                [self cancel];
+                [NSException raise:NSGenericException format:@"%@", NSLocalizedString(@"Something is wrong with the robot.", nil)];
+            }
+            
 			NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]];
 			[seriesSizes removeObjectsForKeys:discSeriesValues];
 			NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];
@@ -524,10 +528,10 @@ static NSString* PreventNullString(NSString* s) {
 			NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
             if (self.window)
                 [self performSelectorOnMainThread:@selector(_reportError:) withObject:e.reason waitUntilDone:NO];
-		}
-		
-		[NSThread sleepForTimeInterval:0.01];
-		[pool release];
+		} @finally {
+            [NSThread sleepForTimeInterval:0.01];
+            [pool release];
+        }
 	}
 	
 //	NSLog(@"paths: %@", seriesPaths);

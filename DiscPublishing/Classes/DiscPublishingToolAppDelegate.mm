@@ -53,11 +53,14 @@ int main(int argc, const char* argv[]) {
 	} @catch (...) {
     }
     
-	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread:) object:NULL] autorelease];
+	NSThread* thread = [[[NSThread alloc] initWithTarget:self selector:@selector(initDiscPublisherThread) object:nil] autorelease];
     [thread start];
     
-	_statusTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(statusTimerCallback:) userInfo:NULL repeats:YES];
+//	_statusTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(statusTimerCallback:) userInfo:NULL repeats:YES];
 	
+    _statusThread = [[NSThread alloc] initWithTarget:self selector:@selector(statusThread) object:nil];
+    [_statusThread start];
+    
 	NSLog(@"Welcome to DiscPublishingTool.");
     
     [NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolWillFinishLaunchingNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
@@ -72,7 +75,12 @@ int main(int argc, const char* argv[]) {
 -(void)dealloc {
     [_discPublisher release];
     [_connection release];
-	[_statusTimer invalidate];
+	
+    [_statusThread cancel];
+    while (_statusThread.isExecuting)
+        [NSThread sleepForTimeInterval:0.01];
+    [_statusThread release];
+    
 	self.lastErr = nil;
 	[_threads release];
 	[super dealloc];
@@ -158,7 +166,7 @@ int main(int argc, const char* argv[]) {
 	}
 }
 
--(void)initDiscPublisherThread:(id)obj {
+-(void)initDiscPublisherThread {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
 	NSThread* thread = [NSThread currentThread];
@@ -187,22 +195,61 @@ int main(int argc, const char* argv[]) {
 	[pool release];
 }
 
--(void)statusTimerCallback:(NSTimer*)timer {
-	if (_discPublisher) {
-		[_discPublisher.status refresh];
-		UInt32 errorS = 0;
-//		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
-		for (NSXMLNode* robot in [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
-			UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
-			if (error) {
-				[self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[[robot childNamed:@"SYSTEM_STATUS"] stringValue] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
-				errorS += error;
-			}
-		}
-		if (!errorS) {
-			self.lastErr = NULL;
-		}
-	}
+-(void)statusThread {
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	NSThread* thread = [NSThread currentThread];
+    
+    while (![thread isCancelled])
+        @try {
+            UInt32 errorS = 0;
+        
+            if (_discPublisher) {
+                [_discPublisher.status refresh];
+                //		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
+                for (NSXMLNode* robot in [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
+                    UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
+                    if (error) {
+                        [self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[[robot childNamed:@"SYSTEM_STATUS"] stringValue] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
+                        errorS += error;
+                    }
+                }
+            }
+            
+            if (!errorS) {
+                NSArray* windows = [NSApp windows];
+                if (windows.count && windows.count != _lastNumberOfWindows) {
+                    DLog(@"Warning: we shouldn't display any windows, and somwhow we're currently displaying %d", windows.count);
+                    
+                    // TODO: this is where we may want to use the PowerRelay
+
+                    NSString* message = nil;
+                    for (NSWindow* window in windows)
+                        for (NSView* view in [window.contentView subviews])
+                            if ([view isKindOfClass:[NSTextField class]]) {
+                                NSString* value = [(NSTextField*)view stringValue];
+                                if (value.length)
+                                    message = value;
+                            }
+                    
+                    if (message.length) {
+                        message = [NSString stringWithFormat:@"%@%@", [[message substringWithRange:NSMakeRange(0,1)] lowercaseString], [message substringWithRange:NSMakeRange(1,message.length-1)]];
+                        ++errorS;
+                        [self errorWithTitle:NSLocalizedString(@"Robot Framework GUI", NULL) description:[NSString stringWithFormat:NSLocalizedString(@"The Primera framework requires your attention: %@", nil), message] uniqueContext:nil];
+                    }
+                }
+                
+                _lastNumberOfWindows = windows.count;
+            }
+            
+            if (!errorS)
+                self.lastErr = NULL;
+        } @catch (NSException* e) {
+            N2LogExceptionWithStackTrace(e);
+        } @finally {
+            [NSThread sleepForTimeInterval:1];
+        }
+    
+    [pool release];
 }
 
 -(void)applyBinSelection {

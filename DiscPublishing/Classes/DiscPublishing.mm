@@ -83,10 +83,12 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 -(void)initPlugin {
 	if (![AppController hasMacOSXSnowLeopard])
 		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
     
 	discPublishingInstance = self;
+    
+    _robotReadyThreadLock = [[NSLock alloc] init];
     
     // TODO: we should recover leftover jobs, not just delete them... but then maybe they're the reason why we crashed in the first place
     @try {
@@ -179,6 +181,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 
 -(void)dealloc {
 	NSLog(@"DiscPublishing dealloc");
+    [_robotReadyThreadLock release];
 	[_robotReadyTimer invalidate]; _robotReadyTimer = NULL;
 	[[_filesManager invalidate] release];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
@@ -256,28 +259,56 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 }
 
 -(void)robotReadyTimerCallback:(NSTimer*)timer {
-	if ([[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoStartDateKey] && [[NSDate date] timeIntervalSinceDate:[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoStartDateKey]] > 3) {
-		[[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] center];
-		[[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] makeKeyAndOrderFront:self];
+    NSWindow* window = [[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey];
+    
+	if (window && [[NSDate date] timeIntervalSinceDate:[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoStartDateKey]] > 3) {
+		[window center];
+		[window makeKeyAndOrderFront:self];
 		[[timer userInfo] removeObjectForKey:RobotReadyTimerCallbackUserInfoStartDateKey];
 	}
-	@try {
-		NSString* xml = [self.tool getStatusXML];
-        if (xml) {
-            [[[timer userInfo] objectForKey:RobotReadyTimerCallbackUserInfoWindowKey] close];
-            [_robotReadyTimer invalidate]; _robotReadyTimer = NULL;
-            // this will only happen ONCE
-            _robotIsReady = YES;
-            [self updateBinSelection];
-            NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
-            [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:0] options:NULL context:NULL];
-    //#warning: this MUST be enabled when releasing
-            if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
-                [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
-        }
-	} @catch (NSException* e) {
-		//DLog(@"%@", e);
-	} 
+    
+    [self performSelectorInBackground:@selector(robotReadyThread:) withObject:window];
+}
+
+-(void)robotReadyThread:(NSWindow*)window {
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    @try {
+        if ([_robotReadyThreadLock tryLock])
+            @try {
+                NSString* xml = [self.tool getStatusXML];
+                if (xml) {
+                    [self performSelectorOnMainThread:@selector(robotReadyMainThread:) withObject:[NSArray arrayWithObjects: xml, window, nil] waitUntilDone:NO];
+                }
+            } @catch (NSException* e) {
+                // N2LogExceptionWithStackTrace(e);
+            } @finally {
+                [_robotReadyThreadLock unlock];
+            }
+    } @catch (NSException* e) {
+        // N2LogExceptionWithStackTrace(e);
+    } @finally {
+        [pool release];
+    }
+}
+
+-(void)robotReadyMainThread:(NSArray*)io {
+    @try {
+        NSString* xml = [io objectAtIndex:0];
+        NSWindow* window = io.count > 1 ? [io objectAtIndex:1] : nil;
+        
+        [window close];
+        [_robotReadyTimer invalidate]; _robotReadyTimer = NULL;
+        // this will only happen ONCE
+        _robotIsReady = YES;
+        [self updateBinSelection];
+        NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
+        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:0] options:NULL context:NULL];
+        //#warning: this MUST be enabled when releasing
+        if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
+            [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
+    } @catch (NSException* e) {
+        // N2LogExceptionWithStackTrace(e);
+    }
 }
 
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {

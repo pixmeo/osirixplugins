@@ -43,14 +43,14 @@
 		[DiscPublisher terminateJobManager];
 		@throw;
 	}
-
+    
 	_jobs = [[NSMutableArray alloc] initWithCapacity:8];
 
 	char filePath[512];
 	UInt32 err = JM_GetStatusFile(filePath);
 	ConditionalDiscPublisherJMErrorException(err);
 	_status = [[DiscPublisherStatus alloc] initWithFileAtPath:[NSString stringWithUTF8String:filePath]];
-	
+    
 	return self;
 }
 
