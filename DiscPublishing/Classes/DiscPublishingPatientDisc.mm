@@ -381,7 +381,7 @@ static NSString* PreventNullString(NSString* s) {
 			NSUInteger fileNumber = 0;
 			for (DicomSeries* serie in discSeries)
 				for (DicomImage* image in [serie sortedImages]) {
-					NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", fileNumber++]];
+					NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%06d", fileNumber++]];
 					[[NSFileManager defaultManager] moveItemAtPath:image.pathString toPath:newPath error:NULL];
 					image.pathString = newPath;
 				}
@@ -593,7 +593,7 @@ static NSString* PreventNullString(NSString* s) {
 				goto continueFor;
 			}
 			
-			NSString* filename = [NSString stringWithFormat:@"%d", i];
+			NSString* filename = [NSString stringWithFormat:@"%06d", i];
 			NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
 			
 			if (options.anonymize)
