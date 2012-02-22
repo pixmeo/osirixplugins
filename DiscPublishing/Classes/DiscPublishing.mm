@@ -188,26 +188,26 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	[super dealloc];
 }
 
--(void)filesIn:(id)obj into:(NSMutableArray*)files {
+-(void)imagesIn:(id)obj into:(NSMutableArray*)files {
 	if ([obj isKindOfClass:[NSArray class]])
 		for (id sobj in obj)
-			[self filesIn:sobj into:files];
+			[self imagesIn:sobj into:files];
 	else
 	if ([obj isKindOfClass:[DicomAlbum class]])
 		for (id study in ((DicomAlbum*)obj).studies)
-			[self filesIn:study into:files];
+			[self imagesIn:study into:files];
 	else
 	if ([obj isKindOfClass:[DicomStudy class]])
 		for (id series in ((DicomStudy*)obj).series)
-			[self filesIn:series into:files];
+			[self imagesIn:series into:files];
 	else
 	if ([obj isKindOfClass:[DicomSeries class]])
 		[files addObjectsFromArray:[((DicomSeries*)obj).images allObjects]];
 }
 
--(NSArray*)filesIn:(NSArray*)arr {
+-(NSArray*)imagesIn:(NSArray*)arr {
 	NSMutableArray* files = [NSMutableArray array];
-	[self filesIn:arr into:files];
+	[self imagesIn:arr into:files];
 	return files;
 }
 
@@ -215,7 +215,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	BrowserController* bc = [BrowserController currentBrowser];
 	NSArray* sel = [bc databaseSelection];
 	
-	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithFiles:[self filesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:[self imagesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
     dppd.window = bc.window;
 	[[ThreadsManager defaultManager] addThreadAndStart:dppd];
 	

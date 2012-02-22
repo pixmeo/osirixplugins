@@ -9,16 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface DiscPublishingFilesManager : NSThread {
+@interface DiscPublishingFilesManager : NSObject {
 	@private
-	NSMutableArray* _files;
-	NSLock* _filesLock;
-	NSDate* _lastReceiveTime;
-	NSMutableDictionary* _patientsLastReceiveTimes;
+	NSMutableDictionary* _patientStacks;
+    NSTimer* _publishTimer;
 }
-
-@property(retain) NSDate* lastReceiveTime;
-@property(readonly) NSMutableDictionary* patientsLastReceiveTimes;
 
 -(id)invalidate;
 

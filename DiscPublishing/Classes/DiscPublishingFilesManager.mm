@@ -14,10 +14,12 @@
 #import "NSArray+DiscPublishing.h"
 #import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/BrowserController.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
 #import <OsiriXAPI/NSThread+N2.h>
+#import <OsiriXAPI/N2Stuff.h>
 
 
 @interface DiscPublishingFilesManager (Private)
@@ -29,118 +31,180 @@
 
 @end
 
+@interface DiscPublishingDummyThread : NSThread
+@end
+@implementation DiscPublishingDummyThread
+
+-(void)main {
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    @try {
+        while (!self.isCancelled)
+            [NSThread sleepForTimeInterval:0.01];
+    } @catch (...) {
+        // do nothing
+    } @finally {
+        [pool release];
+    }
+}
+
+@end
+
+@interface DiscPublishingPatientStack : NSObject {
+    NSMutableArray* _images;
+    DiscPublishingDummyThread* _dummyThread;
+    NSDate* _lastAdditionDate;
+    NSTimer* _refreshTimer;
+}
+
+@property(retain) NSDate* lastAdditionDate;
+
+@end
+
+@implementation DiscPublishingPatientStack
+
+@synthesize lastAdditionDate = _lastAdditionDate;
+
+-(id)initWithPatientName:(NSString*)patientName {
+    if ((self = [super init])) {
+        _dummyThread = [[DiscPublishingDummyThread alloc] init];
+        _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"Receiving images for %@", nil), patientName];
+        _dummyThread.status = NSLocalizedString(@"Initializing...", nil);
+        _dummyThread.supportsCancel = YES;
+        [ThreadsManager.defaultManager addThreadAndStart:_dummyThread];
+        
+        _images = [[NSMutableArray alloc] init];
+        
+        _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(_timerRefresh:) userInfo:nil repeats:YES];
+    }
+    
+    return self;
+}
+
+-(void)invalidate {
+    [_refreshTimer invalidate]; _refreshTimer = nil;
+    [_dummyThread cancel];
+}
+
+-(void)dealloc {
+    [_dummyThread release];
+    [_images release];
+    self.lastAdditionDate = nil;
+    [super dealloc];
+}
+
+-(NSArray*)images {
+    return _images;
+}
+
+-(void)addImage:(DicomImage*)image {
+    [_images addObject:image];
+    self.lastAdditionDate = [NSDate date];
+}
+
+-(void)_timerRefresh:(NSTimer*)timer {
+    if (_lastAdditionDate) {
+        CGFloat s = floorf(-[_lastAdditionDate timeIntervalSinceNow]);
+        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, @"image", @"images"), N2LocalizedSingularPluralCount(s, @"second", @"seconds")];
+    }
+}
+
+-(BOOL)isCancelled {
+    return _dummyThread.isCancelled;
+}
+
+@end
 
 @implementation DiscPublishingFilesManager
 
-@synthesize lastReceiveTime = _lastReceiveTime;
-@synthesize patientsLastReceiveTimes = _patientsLastReceiveTimes;
-
 -(id)init {
-	self = [super init];
-	
-	[self setName:@"Stacking up incoming files for Disc Publishing..."];
-	
-	_files = [[NSMutableArray alloc] initWithCapacity:512];
-	_filesLock = [[NSLock alloc] init];
-	
-	_patientsLastReceiveTimes = [[NSMutableDictionary alloc] initWithCapacity:512];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeDatabaseAddition:) name:OsirixAddToDBCompleteNotification object:NULL];
-	
-	[self start];
-	
-	return self;
-}
-
--(id)invalidate {
-	[self cancel];
-	while ([self isExecuting])
-		[NSThread sleepForTimeInterval:0.01];
+	if ((self = [super init])) {
+        _patientStacks = [[NSMutableDictionary alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeDatabaseAddition:) name:OsirixAddToDBCompleteNotification object:NULL];
+        _publishTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(_timerPublish:) userInfo:nil repeats:YES];
+	}
+    
 	return self;
 }
 
 -(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixAddToDBCompleteNotification object:NULL];
-	
-	[_patientsLastReceiveTimes release];
-	
-	[_filesLock release];
-	[_files release];
-	self.lastReceiveTime = NULL;
-	
+	[_patientStacks release];
 	[super dealloc];
 }
 
--(void)main {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-	
-	while (![self isCancelled]) {
-		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-		
-		while (![_filesLock tryLock])
-			[NSThread sleepForTimeInterval:0.001];
-		@try {
-			if (_files.count) {
-				// display thread info
-				if (![[[ThreadsManager defaultManager] threads] containsObject:self])
-					[[ThreadsManager defaultManager] addThreadAndStart:self];
-				
-				// update thread status
-				NSString* time = [NSString stringWithFormat:@"%@ since last receive", [NSString stringForTimeInterval:[[NSDate date] timeIntervalSinceDate:self.lastReceiveTime]]];
-				if ([[NSUserDefaultsController sharedUserDefaultsController] discPublishingMode] == BurnModeArchiving) {
-					self.status = [NSString stringWithFormat:@"Added files size is ZZZ, %@.", time]; // TODO: this
-				} else {
-					self.status = [NSString stringWithFormat:@"Receiving images for %@, %@.", [[self namesForStudies:[self studiesForImages:_files]] componentsJoinedByCommasAndAnd], time];
-				}
-				
-				// burn
-				[self spawnBurns];
-			} else {
-				// hide thread info
-				[[ThreadsManager defaultManager] removeThread:self];
-			}
-		} @catch (NSException* e) {
-			NSLog(@"[DiscPublishingFilesManager main] error: %@", e);
-		} @finally {
-			[_filesLock unlock];
-		}
-		
-		[NSThread sleepForTimeInterval:0.01];
-		[pool release];
-	}
-	
-	[pool release];
+-(id)invalidate {
+    [_publishTimer invalidate];
+    _publishTimer = nil;
+    return self;
+}
+
+-(void)_timerPublish:(NSTimer*)timer {
+	NSTimeInterval burnDelay = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeDelay];
+    
+    @synchronized (_patientStacks) {
+        for (NSString* key in _patientStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
+            DiscPublishingPatientStack* dpps = [_patientStacks objectForKey:key];
+            
+            if (dpps.isCancelled) {
+                [_patientStacks removeObjectForKey:key];
+                continue;
+            }
+            
+            if (-[dpps.lastAdditionDate timeIntervalSinceNow] > burnDelay) {
+                [dpps retain];
+                
+                [dpps invalidate];
+                [_patientStacks removeObjectForKey:key];
+                
+                DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:dpps.images options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+                [[ThreadsManager defaultManager] addThreadAndStart:dppd];
+                
+                [dpps release];
+            }
+        }
+    }
+}
+
+-(DiscPublishingPatientStack*)stackForImage:(DicomImage*)image {
+    @synchronized (_patientStacks) {
+        DiscPublishingPatientStack* dpps = [_patientStacks objectForKey:image.series.study.patientUID];
+        if (dpps)
+            return dpps;
+        
+        dpps = [[[DiscPublishingPatientStack alloc] initWithPatientName:image.series.study.name] autorelease];
+        [_patientStacks setObject:dpps forKey:image.series.study.patientUID];
+        
+        return dpps;
+    }
+    
+    return nil;
 }
 
 -(void)observeDatabaseAddition:(NSNotification*)notification {
-	NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBCompleteNotificationImagesArray];
-	
-	if (![[NSUserDefaultsController sharedUserDefaultsController] discPublishingIsActive])
+	if (![NSThread isMainThread]) {
+        [self performSelectorOnMainThread:@selector(observeDatabaseAddition:) withObject:notification waitUntilDone:NO];
+        return;
+    }
+    
+    if (![[NSUserDefaultsController sharedUserDefaultsController] discPublishingIsActive])
 		return;
+    
+	NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBNotificationImagesArray];
 	
-	while (![_filesLock tryLock])
-		[NSThread sleepForTimeInterval:0.001];
-	@try {
-		
-		for (DicomImage* image in addedImages)
-			if ([image managedObjectContext] == [[BrowserController currentBrowser] managedObjectContext])
-				if (![_files containsObject:image])
-					if (image.modality && ![image.modality isEqual:@"SR"])
-						[_files addObject:image];
-		
-		NSDate* time = [NSDate date];
-		self.lastReceiveTime = time;
-		for (DicomImage* image in addedImages)
-			[self.patientsLastReceiveTimes setObject:time forKey:[image valueForKeyPath:@"series.study.patientUID"]];
-		
-	} @catch (NSException* e) {
-		NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e);
-	} @finally {
-		[_filesLock unlock];
-	}
+	for (DicomImage* image in addedImages)
+        @try {
+            if ([image managedObjectContext] == [[BrowserController currentBrowser] managedObjectContext]) {
+                DiscPublishingPatientStack* dpps = [self stackForImage:image];
+                if (![dpps.images containsObject:image])
+                    if (image.modality && ![image.modality isEqual:@"SR"]) // TODO: why?
+                        [dpps addImage:image];
+            }
+        } @catch (NSException* e) {
+            NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e.reason);
+        }
 }
 
--(NSArray*)namesForStudies:(NSArray*)studies {
+/*-(NSArray*)namesForStudies:(NSArray*)studies {
 	NSMutableArray* names = [[NSMutableArray alloc] initWithCapacity:studies.count];
 	
 	for (DicomStudy* study in studies) {
@@ -162,42 +226,7 @@
 	}
 	
 	return [studies autorelease];
-}
-
--(void)spawnBurns {
-	NSTimeInterval burnDelay = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeDelay];
-	NSMutableArray* patientsToBurn = [[NSMutableArray alloc] initWithCapacity:self.patientsLastReceiveTimes.count];
-	
-	for (NSString* patientUID in self.patientsLastReceiveTimes) {
-		NSDate* time = [self.patientsLastReceiveTimes objectForKey:patientUID];
-		if ([[NSDate date] timeIntervalSinceDate:time] >= burnDelay)
-			[patientsToBurn addObject:patientUID];
-	}
-	
-	for (NSString* patientUID in patientsToBurn)
-		[self spawnPatientBurn:patientUID];
-	
-	[patientsToBurn release];
-}
-
--(void)spawnPatientBurn:(NSString*)patientUID {
-	NSMutableArray* files = [[NSMutableArray alloc] initWithCapacity:512];
-	
-	for (DicomImage* file in _files)
-		if ([[file valueForKeyPath:@"series.study.patientUID"] isEqual:patientUID])
-			[files addObject:file];
-	[_files removeObjectsInArray:files];
-	[self.patientsLastReceiveTimes removeObjectForKey:patientUID];
-
-//	NSLog(@"removed %d files, %d left", files.count, _files.count);
-	
-	if (files.count) {
-		DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithFiles:files options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
-		[[ThreadsManager defaultManager] addThreadAndStart:dppd];
-	}
-	
-	[files release];
-}
+}*/
 
 @end
 

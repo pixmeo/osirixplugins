@@ -1,4 +1,7 @@
 1.2
+- If you have a robot with 2 input bins, you can now have the same media type in both bins.
+- Per-patient queues in the OsiriX tasks manager.
+- It is now possible to cancel a parient's data publishment before it is sent to the robot. However, avoid using this too much, as it leaves a bunch of big files in the /tmp directory.
 - Communication between the plugin and the Tool (the program that communicates with the robot) is done through NSDistantObject instead of AppleScript.
 - Fixed issue when the Disc Cover 3 PE application wasn't found
 - Fixed issue when the plugin crashed with a "index 0 out of bounds" exception (by switching to LLVM GCC)

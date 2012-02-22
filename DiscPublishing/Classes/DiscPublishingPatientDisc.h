@@ -15,7 +15,7 @@
 
 @interface DiscPublishingPatientDisc : NSThread {
 	@private
-	NSMutableArray* _files;
+	NSMutableArray* _images;
 	DiscPublishingOptions* _options;
 	NSString* _tmpPath;
     NSWindow* _window;
@@ -23,7 +23,7 @@
 
 @property(retain) NSWindow* window;
 
--(id)initWithFiles:(NSArray*)files options:(DiscPublishingOptions*)options;
+-(id)initWithImages:(NSArray*)images options:(DiscPublishingOptions*)options;
 
 +(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths;
 
