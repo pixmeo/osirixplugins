@@ -27,7 +27,7 @@
 
 // In fact, if the users want the same media in the 2 bins, just let them
 -(void)enableDisableMediaTypes {
-/*	NSLog(@"enableDisableMediaTypes with %@ %@", [[[robotOptionsBins objectAtIndex:0] discTypePopup] titleOfSelectedItem], [[[robotOptionsBins objectAtIndex:1] discTypePopup] titleOfSelectedItem]);
+	NSLog(@"enableDisableMediaTypes with %@ %@", [[[robotOptionsBins objectAtIndex:0] discTypePopup] titleOfSelectedItem], [[[robotOptionsBins objectAtIndex:1] discTypePopup] titleOfSelectedItem]);
 	for (DiscPublishingPreferencesBinViewController* bin in robotOptionsBins)
 		for (NSMenuItem* mi in [[bin discTypePopup] itemArray])
 			[mi setEnabled:YES];
@@ -36,7 +36,7 @@
 		for (DiscPublishingPreferencesBinViewController* bin2 in robotOptionsBins) // for all other bins
 			if (bin2 != bin1) // so exclude this bin1
 				[[[[bin2 discTypePopup] menu] itemWithTag:bin1MediaType] setEnabled:NO];
-	}	*/
+	}
 }
 
 -(void)robotOptionsInitWithStatusXML:(NSString*)xml {

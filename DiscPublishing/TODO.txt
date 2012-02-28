@@ -1,6 +1,8 @@
 TODO:
 - willUnload executes SetQuitWhenDone:YES but doesn't fail if the plugin is busy publishing a disk.
 - willUnload should also quit the Disc Cover PE application.
+- Bender: stop robot jobs
+- Bender: delete successfully published data from database
 
 Next:
 - Customizable merge values with custom DICOM meta data
@@ -12,7 +14,6 @@ Important-ish
 
 Later...
 - The number of images in a study OR the number of images/studies burned on a disk
-- use NSDistributedObject instead of AppleScript
 - archiving mode
 - make OsiriX use new API (DicomCompressor, BurnerWindowController)
 
