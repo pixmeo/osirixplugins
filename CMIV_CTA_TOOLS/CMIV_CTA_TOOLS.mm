@@ -44,6 +44,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 @synthesize ifVesselEnhanced;
 - (void) initPlugin
 {
+    // This version requires OsiriX 4.1 or higher
+    NSString *OsiriXVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"];
+    
+    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleExecutable"] isEqualToString: @"OsiriX"])
+    {
+        if( [OsiriXVersion compare: @"4.1" options: NSNumericSearch] < 0)
+            NSRunCriticalAlertPanel( @"CMIV Plugin", @"This version of CMIV Plugin requires OsiriX 4.1 or higher.", @"OK", nil, nil);
+    }
+    else if( [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleExecutable"] isEqualToString: @"OsiriX MD"])
+    {
+        if( [OsiriXVersion compare: @"1.4" options: NSNumericSearch] < 0)
+            NSRunCriticalAlertPanel( @"CMIV Plugin", @"This version of CMIV Plugin requires OsiriX MD 1.4 or higher.", @"OK", nil, nil);
+    }
+    
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addedToDB:) name:@"OsirixAddToDBNotification" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(autoSeedingIndicatorStep:) name:@"CMIVLeveIndicatorStep" object:nil];
 	//autoseeding parameters

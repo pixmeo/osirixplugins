@@ -14,7 +14,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
-#import <Accelerate/Accelerate.h>
+#include <Accelerate/Accelerate.h>
 
 typedef struct {
    double x,y,z;
