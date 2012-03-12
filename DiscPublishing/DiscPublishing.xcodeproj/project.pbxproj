@@ -617,7 +617,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT\"\nmkdir -p Libs\nunzip -uo Resources/PrimeraFrameworks.zip -d Libs\nexit 0";
+			shellScript = "cd \"$SRCROOT\"\n\nmkdir -p Libs\n\nunzip -uo Resources/PrimeraFrameworks.zip -d Libs\n\ncd Libs\nrm -rf __MACOSX\nif [ -d \"PrimeraFrameworks\" ]; then\n    cd \"PrimeraFrameworks\"\n    for f in *; do\n        rm -Rf \"../$f\"\n        mv \"$f\" ..\n    done\n    cd ..\n    rm -Rf PrimeraFrameworks\nfi\n\nexit 0";
 		};
 /* End PBXShellScriptBuildPhase section */
 
