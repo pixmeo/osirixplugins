@@ -16,6 +16,7 @@
 @interface DiscPublishingPatientDisc : NSThread {
 	@private
 	NSMutableArray* _images;
+    NSManagedObjectContext* _icontext;
 	DiscPublishingOptions* _options;
 	NSString* _tmpPath;
     NSWindow* _window;

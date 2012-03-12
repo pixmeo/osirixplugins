@@ -47,8 +47,18 @@ static NSString* PreventNullString(NSString* s) {
 	self = [super init];
 	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[images objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
 	
-	_images = [[NSMutableArray alloc] initWithArray:images];
 	_options = [options retain];
+
+    _icontext = [[NSManagedObjectContext alloc] init];
+    _icontext.undoManager = nil;
+    _icontext.persistentStoreCoordinator = [[[images objectAtIndex:0] managedObjectContext] persistentStoreCoordinator];
+
+	_images = [[NSMutableArray alloc] init];
+    for (DicomImage* image in images) {
+        DicomImage* iimage = (DicomImage*)[_icontext objectWithID:image.objectID];
+        if (iimage)
+            [_images addObject:iimage];
+    }
 
 	_tmpPath = [[[NSFileManager defaultManager] tmpFilePathInDir:@"/tmp"] retain];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:_tmpPath];
@@ -61,6 +71,7 @@ static NSString* PreventNullString(NSString* s) {
 	[_tmpPath release];
 	[_options release];
 	[_images release];
+    [_icontext release];
     self.window = nil;
 	[super dealloc];
 }
