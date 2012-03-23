@@ -481,7 +481,7 @@
 	{
 		NSLog(@"Viewer Window will close.... We have to close!");
 		
-		[self release];
+		[self autorelease];
 	}
 	
 	if( [note object] == new2DViewer)
@@ -494,7 +494,7 @@
 {
 	NSLog(@"Window will close.... and release his memory...");
 	
-	[self release];
+	[self autorelease];
 }
 
 - (void) dealloc

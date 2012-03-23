@@ -181,7 +181,7 @@
     
     if (!wrapper)
     {
-        [self release];
+        [self autorelease];
         self = nil;
     }
     else {

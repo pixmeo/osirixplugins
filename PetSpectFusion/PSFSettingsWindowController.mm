@@ -297,7 +297,7 @@
 {
 	DebugLog(@"SettingsWindowController close");
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[self release];
+	[self autorelease];
 	
 }
 
@@ -305,7 +305,7 @@
 {
 	DebugLog(@"One of the necessary viewers have closed");
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[self release];
+	[self autorelease];
 }
 
 - (void) levelChanged:(RegUpdate*) updateParams

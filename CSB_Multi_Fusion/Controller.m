@@ -288,7 +288,7 @@ static NSString *OsirixROIChangeNotification = @"roiChange";
 {
 	NSLog(@"CSB_Multi_Fusion: Window will close.... and release his memory...");
 	
-	[self release];
+	[self autorelease];
 
 }
 

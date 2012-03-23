@@ -146,7 +146,7 @@
 	[originalViewController release];
 	[originalViewVolumeData release];
 	[originalViewPixList release];
-	[self release];
+	[self autorelease];
 	
 }
 - (int)reduceTheVolume:(NSArray*)bordersArray:(ViewerController *) vc

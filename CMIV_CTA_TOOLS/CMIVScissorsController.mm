@@ -231,7 +231,7 @@ static		float						deg2rad = 3.14159265358979/180.0;
 		[centerlinesLengthArrays release];
 	[seedToolTipsTabView setDelegate:nil];
 
-	[self release];
+	[self autorelease];
 	
 }
 -(void) dealloc

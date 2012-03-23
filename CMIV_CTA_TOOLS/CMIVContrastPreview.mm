@@ -464,7 +464,7 @@
 	if(parentColorData)    								
 		[parentColorData     release];
 	
-	[self release];
+	[self autorelease];
 }
 -(void) dealloc
 {

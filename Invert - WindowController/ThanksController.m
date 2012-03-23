@@ -30,7 +30,7 @@
 {
 	NSLog(@"Window will close.... and release his memory...");
 	
-	[self release];
+	[self autorelease];
 }
 
 - (void) dealloc

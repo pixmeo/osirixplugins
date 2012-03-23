@@ -41,7 +41,7 @@ const NSString* FileTypeCSV = @"csv";
 		[[NSUserDefaults standardUserDefaults] setValue: [presetsList arrangedObjects] forKey: @"presetsBullsEyeList"];
 		
 		[[self window] orderOut: self];
-		[self release];
+		[self autorelease];
 	}
 }
 - (IBAction) refresh: (id) sender

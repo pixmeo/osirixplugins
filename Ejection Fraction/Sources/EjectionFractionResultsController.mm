@@ -222,7 +222,7 @@ const NSString* FileTypeDICOM = @"dcm";
 -(void)windowWillClose:(NSNotification*)notification {
 //	NSLog(@"results windowWillClose, rc = %d, win rc = %d", [self retainCount], [[self window] retainCount]);
 	NSLog(@"results controller window will close, my rc is %d", [self retainCount]);
-	[self release]; // TODO: this is UNSAFE, [NSWindow dealloc] should release the controller? the problem is, NSWindow's retain count is huge, so it won't be released
+	[self autorelease]; // TODO: this is UNSAFE, [NSWindow dealloc] should release the controller? the problem is, NSWindow's retain count is huge, so it won't be released
 }
 
 -(void)dealloc {

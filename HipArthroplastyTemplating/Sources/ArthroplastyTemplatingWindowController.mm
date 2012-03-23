@@ -66,7 +66,7 @@
 }
 
 -(void)windowWillClose:(NSNotification *)aNotification {
-	// [self release];
+	// [self autorelease];
 }
 
 //-(NSSize)windowWillResize:(NSWindow*)window toSize:(NSSize)size {

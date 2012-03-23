@@ -225,14 +225,14 @@ NSInteger compareStudy(ViewerController *v1, ViewerController *v2, void *context
 	if( [note object] == [filter viewerController])
 	{
 		[[NSNotificationCenter defaultCenter] removeObserver: self];
-		[self release];
+		[self autorelease];
 	}
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
-	[self release];
+	[self autorelease];
 }
 
 - (void) dealloc

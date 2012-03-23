@@ -398,7 +398,7 @@ static void needAdjustClipPlane(vtkObject*,unsigned long c, void* ptr, void*)
 		[originalViewController release];
 		[originalViewVolumeData release];
 		[originalViewPixList release];
-		[self release];
+		[self autorelease];
 		
 	}	
 }

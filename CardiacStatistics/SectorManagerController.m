@@ -252,7 +252,7 @@ PURPOSE.
  
 	NSLog( @"ROIManager windowWillClose");
 	
-	[self release];
+	[self autorelease];
 }
 
 - (void) dealloc

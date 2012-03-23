@@ -156,7 +156,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 #pragma mark Windows
 
 - (void)windowWillClose:(NSNotification *)aNotification { // this window is closing
-	[self release];
+	[self autorelease];
 }
 
 - (void)viewerWillClose:(NSNotification*)notification {
