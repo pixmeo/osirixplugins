@@ -1,3 +1,6 @@
+1.2.1
+- Added XMLRPC function 'DPPublish'
+
 1.2.0
 - Per-patient queues in the OsiriX tasks manager.
 - It is now possible to cancel a parient's data publishment before it is sent to the robot. However, avoid using this too much, as it leaves a bunch of big files in the /tmp directory.

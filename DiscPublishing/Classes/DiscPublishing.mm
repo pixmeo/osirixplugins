@@ -26,6 +26,8 @@
 #import <OsiriXAPI/NSPanel+N2.h>
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/AppController.h>
+#import <OsiriXAPI/N2XMLRPC.h>
+#import <OsiriXAPI/Notifications.h>
 
 //#include "NSThread+N2.h"
 
@@ -84,7 +86,9 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	if (![AppController hasMacOSXSnowLeopard])
 		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
+    
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeXMLRPCMessageNotification:) name:OsirixXMLRPCMessageNotification object:nil];
     
 	discPublishingInstance = self;
     
@@ -220,6 +224,68 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	[[ThreadsManager defaultManager] addThreadAndStart:dppd];
 	
 	return 0;
+}
+
+-(void)observeXMLRPCMessageNotification:(NSNotification*)n {
+    NSMutableDictionary* no = [n object];
+    if ([[no objectForKey:@"methodName"] isEqualToString:@"DPPublish"] || [[no objectForKey:@"MethodName"] isEqualToString:@"DPPublish"]) {
+        // if there is a NSXMLDocument key in no, we must parse it and extract the request args...
+        @try {
+            NSXMLDocument* doc = [no objectForKey:@"NSXMLDocument"];
+            if (doc) {
+                NSDictionary* params = (id)[N2XMLRPC ParseElement:[[doc objectsForXQuery:@"/methodCall/params/param/value/*" error:NULL] objectAtIndex:0]];
+                [no addEntriesFromDictionary:params];
+            }
+        } @catch (NSException* e) {
+            N2LogExceptionWithStackTrace(e);
+        }
+        
+        [no setObject:[NSNumber numberWithBool:YES] forKey:@"Processed"];
+        
+        NSInteger err = 0;
+        NSMutableDictionary* result = [NSMutableDictionary dictionary];
+        
+        NSString* request = [no objectForKey:@"request"];
+        NSString* entity = [no objectForKey:@"table"];
+        if (!request or !entity) err = -1;
+        
+        if (!err)
+            @try {
+                NSManagedObjectContext* context = [BrowserController.currentBrowser defaultManagerObjectContext];
+                
+                NSFetchRequest* fr = [[[NSFetchRequest alloc] init] autorelease];
+                fr.entity = [NSEntityDescription entityForName:entity inManagedObjectContext:context];
+                fr.predicate = [NSPredicate predicateWithFormat:request];
+                
+                NSError* error = nil;
+                NSArray* matches = [context executeFetchRequest:fr error:&error];
+                if (error) {
+                    err = -2;
+                    [result setObject:[error localizedDescription] forKey:@"localizedDescription"];
+                } else {
+                    NSArray* images = [self imagesIn:matches];
+                    
+                    if (images.count) {
+                        DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:images options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+                        [[ThreadsManager defaultManager] addThreadAndStart:dppd];
+                        
+                        [result setObject:[NSNumber numberWithInt:images.count] forKey:@"count"];
+                    } else {
+                        err = -3;
+                    }
+                }
+            } @catch (NSException* e) {
+                err = -666;
+                [result setObject:[e reason] forKey:@"reason"];
+            }
+        
+        [result setObject:[NSNumber numberWithInt:err] forKey:@"error"];
+        
+        [no setObject:result forKey:@"Response"];
+        NSString* xml = [NSString stringWithFormat:@"<?xml version=\"1.0\"?><methodResponse><params><param><value>%@</value></param></params></methodResponse>", [N2XMLRPC FormatElement:result]];
+        NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:0 error:NULL];
+        [no setObject:doc forKey:@"NSXMLDocumentResponse"];
+    }
 }
 
 +(NSString*)baseDirPath {

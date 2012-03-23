@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
-		<h1>DiscPublishing 1.2.0</h1>
+		<h1>DiscPublishing 1.2.1</h1>
 		<div id="text">
             This plugin allows you to use a Primera DiscPublisher robot with OsiriX.<br/>
             <br/>
@@ -180,11 +180,50 @@
 
             <div>If you activated the "Automatically queue and publish images received via DICOM" checkbox, send some files to OsiriX from another DICOM node (the plugin will publish one disk per patient). When the files arrive, the plugin stacks them and waits until the delay you specified in the preferences is passed since a patient's last received image; then it takes all that patient's images off the stack, and publishes them: the disk data gets copied, compressed, anonymized, etc, as described in the activity table entry, then you'll see your robot pick a disk, burn it, label it and output it.</div>
             
+            <h2>XMLRPC</h2>
+            
+            <div>RIS integration can be done through  XMLRPC calls to OsiriX. This plugin responds to XMLRPC calls as follows:</div>
+
+			<div><ul><li>Method: <b>DPPublish</b><br/>
+				This method allows you to start the publishing process by specifying what to publish through the <i>request</i> parameter.
+				<ul>
+					<li>Parameters: like for other OsiriX XMLRPC methods, one <i>struct</i> containing values the following keys:
+						<ul>
+							<li><i>request</i>: the value must be a string that respects NSPredicate syntax, used agains the OsiriX database</li>
+							<li><i>table</i>: what database entity the predicate is to be matched against either 'Study', 'Series' or 'Image' (you MUST respect the case - for example, lowercase 'image' will fail)</li>
+						</ul>
+					</li>
+					<li>Response: a struct containing the following keys:
+						<ul>
+							<li><i>error</i>: an integer (careful, OsiriX usually returns this as a string) with the following values:
+								<ul>
+									<li>0: publishing process successfully started, key 'count' is also in the response</li>
+									<li>-1: key 'request' or 'table' missing in request</li>
+									<li>-2: an error occurred while fetching from the database, key 'localizedDescription' gives more details on the error</li>
+									<li>-3: database request returned 0 images</li>
+									<li>-666: an exception occurred, key 'reason' gives more details on the exception</li>
+								</ul>
+							</li>
+							<li><i>count</i>: available only when <i>error</i> is 0, an integer describing how many images are being published</li>
+							<li><i>localizedDescription</i>: available only when <i>error</i> is -2, a string describing the error</li>
+							<li><i>reason</i>: available only when <i>error</i> is -666, a string describing the exception</li>
+						</ul>
+					</li>
+					<li>Examples:<ul>
+						<li>{request: "accessionNumber = 'A0123456789'", table: "Study"}</li>
+						<li>{request: "patientID = '123456'", table: "Study"}</li>
+						<li>{request: "study.patientID = '123456', seriesDICOMUID = '1.2.3.4.5.6.7'", table: "Series"}</li>
+						<li>osirix://?methodName=DPPublish&table=Study&request="accessionNumber = 'A0123456789'"</li>
+						<li>&lt;?xml version='1.0' encoding='UTF-8'?&gt;&lt;methodCall&gt;&lt;methodName&gt;DPPublish&lt;/methodName&gt;&lt;params&gt;&lt;param&gt;&lt;value&gt;&lt;struct&gt;&lt;member&gt;&lt;name&gt;table&lt;/name&gt;&lt;value&gt;&lt;string&gt;Study&lt;/string&gt;&lt;/value&gt;&lt;/member&gt;&lt;member&gt;&lt;name&gt;request&lt;/name&gt;&lt;value&gt;&lt;string&gt;accessionNumber = 'A0123456789'&lt;/string&gt;&lt;/value&gt;&lt;/member&gt;&lt;/struct&gt;&lt;/value&gt;&lt;/param&gt;&lt;/params&gt;&lt;/methodCall&gt;</li>
+					</ul></li>
+				</ul>
+			</li></ul></div>
+
 		 	<h2>Known problems</h2>
 
             <div>Some users have contacted us, saying that the plugin was unstable and crashed a lot. We have determined that the installation of this plugin through the OsiriX Plugins Manager is currently unstable, and we strongly advise users to perform a manual re-installation of the plugin: <ul>
             	<li>Quit OsiriX</li>
-            	<li>Download the plugin at the following URL: <a href="http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip">http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip</a></li>
+            	<li>Manually download the plugin (do not try to use the plugin manager) from the following URL: <a href="http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip">http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip</a></li>
             	<li>Unzip the file and place DiscPublishing.osirixplugin in /Library/Application\ Support/OsiriX/Plugins or ~/Library/Application Support/OsiriX/Plugins</li>
             	<li>Launch OsiriX</li>
             </ul></div>
