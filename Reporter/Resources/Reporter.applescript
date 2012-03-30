@@ -61,13 +61,27 @@ on run argv
 			make new text box at after p with properties {fill type:plain image, image data:imageFilePath, stroke type:none, extra space:1, placement:moving, name:uid, width:iwidth, height:iheight}
 			-- apply some styling to the newly created text box (the image) and paragraph
 			set paragraph style of last paragraph to paragraph style "Caption"
+            
+            -- set the text box to take the whole width of teh page, or the caption will show at its right
 			set width of last text box to "100%"
-			
 			set nwidth to width of last text box
 			-- if the image width won't fit, adapt the height
 			if nwidth < iwidth then
 				set height of last text box to iheight / iwidth * nwidth
 			end if
+            
+            -- if the image is very vertical, it'll cover an entire page.. leave at least the space for the caption
+            set nheight to height of last text box
+            set mheight to height of containing page of last text box - top margin - bottom margin - 0.035277778*2 -- 2 points
+--            display dialog the "ssfsf " & nheight & " " & mheight
+            if nheight > mheight then
+                set pc to page count
+                repeat while (page count) is equal to pc
+                    set height of last text box to height of last text box - 0.2
+                end repeat
+                --set height of last text box to mheight
+            end if
+            
 			-- if the image is much smaller than the page width, force the caption text to be centered
 			--if nwidth - iwidth > nwidth / 3 then
 			set alignment of last paragraph to center -- TODO: do we want to modify the Caption style instead?
