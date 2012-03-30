@@ -230,7 +230,7 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
         mi.target = ReporterInstance;
         mi = [item.menu addItemWithTitle:NSLocalizedString(@"Add key images and images containing ROIs to the Report", nil) action:@selector(_toolbarActionImages:) keyEquivalent:@""];
         mi.target = ReporterInstance;
-        [item.menu addItem:[NSMenuItem separatorItem]];
+//        [item.menu addItem:[NSMenuItem separatorItem]];
 //        mi = [item.menu addItemWithTitle:NSLocalizedString(@"Replace previously added images instead of adding them again", nil) action:@selector(_toggleReplaceImages:) keyEquivalent:@""];
 //        [mi bind:@"value" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:[[NSArray arrayWithObjects:@"values", ReporterReplaceDefaultsKey, nil] componentsJoinedByString:@"."] options:nil];
         
