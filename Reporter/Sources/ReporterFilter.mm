@@ -153,6 +153,9 @@
             
             DCMView* view = [[DCMView alloc] initWithFrame:frame imageRows:image.height.intValue imageColumns:image.width.intValue];
             [view setPixels:[NSMutableArray arrayWithObject:pix] files:[NSMutableArray arrayWithObject:image] rois:(rois? [NSMutableArray arrayWithObject:rois] : nil) firstImage:0 level:'i' reset:YES];
+            [view setXFlipped:image.xFlipped.boolValue];
+            [view setYFlipped:image.yFlipped.boolValue];
+            [view setWLWW:pix.wl:pix.ww];
             [win.contentView addSubview:view];
             [view drawRect:frame];
             
