@@ -72,7 +72,12 @@ on run argv
 			--if nwidth - iwidth > nwidth / 3 then
 			set alignment of last paragraph to center -- TODO: do we want to modify the Caption style instead?
 			--end if
-			
+
+            -- because of a bug in Pages, we need to re-enter the text box height, or the text box size won't be properly saved
+            set nheight to height of last text box
+            set height of last text box to 1
+            set height of last text box to nheight
+            
 			(*
              end if
              *)
