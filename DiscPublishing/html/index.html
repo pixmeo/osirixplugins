@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
-		<h1>DiscPublishing 1.2.1</h1>
+		<h1>DiscPublishing 1.2.2</h1>
 		<div id="text">
             This plugin allows you to use a Primera DiscPublisher robot with OsiriX.<br/>
             <br/>
@@ -128,7 +128,9 @@
             
             Our disc publishing test mac is set to automatically log into a 'discpublishing' user. A launch daemon is set for that user in order to keep OsiriX running. We advise you to do the same.<br/>
             <br/>
-            Additionally, we have configured <a href="http://growl.info/downloads">Growl</a> to use the <a href="http://code.google.com/p/growl-mail-smtp/wiki/Documentation">MailMeToo plugin</a> to send emails for all notifications dispatched by the DiscPublishing plugin. This makes unattended usage of the plugin much more practical, as you will receive emails whenever the robot requires an action from you.
+            Additionally, we have configured <a href="http://growl.info/downloads">Growl</a> to use the <a href="http://code.google.com/p/growl-mail-smtp/wiki/Documentation">MailMeToo plugin</a> to send emails for all notifications dispatched by the DiscPublishing plugin. This makes unattended usage of the plugin much more practical, as you will receive emails whenever the robot requires an action from you. Growl 1.2.2 works just fine - actually, even better than later versions because of Mac App Store constraints.<br/>
+            <br/>
+            You may want to activate the OsiriX server mode option, but since version 1.2.2 of this plugin DICOM listener errors are intercepted by the plugin and redirected to Growl (long DICOM transfers could block OsiriX on a <i>DICOM Listener Error</i> modal alert dialog).
 
              <h2>Customization</h2>
              
@@ -137,8 +139,8 @@
                     <b>DICOM directory name</b><br/><br/>
   		           The directory containing all DICOM files is by default named <i>DICOM</i>. If you need the DICOM directory to be named differently, you must edit the file at DiscPublishing.osirixplugin/Contents/Info.plist and specify the custom directory name for key <i>DicomDirectoryName</i>.
 <pre>&lt;key&gt;DicomDirectoryName&lt;/key&gt;
-&lt;string&gt;IHE_PDI&lt;/string&gt;</pre>
-					Warning: if you include Weasis on the disc, beware that Weasis only scans for DICOM files in directories named dicom, DICOM, IHE_PDI and ihe_pdi.
+&lt;string&gt;IMAGES&lt;/string&gt;</pre>
+					Warning: if you include Weasis on the disc, beware that Weasis only scans for DICOM files in directories named dicom, DICOM, images and IMAGES.
 				</li>
                 <!--li>
                     <b>Disc cover merge fields</b><br/><br/>

@@ -28,6 +28,7 @@
 #import <OsiriXAPI/AppController.h>
 #import <OsiriXAPI/N2XMLRPC.h>
 #import <OsiriXAPI/Notifications.h>
+#import <objc/runtime.h>
 
 //#include "NSThread+N2.h"
 
@@ -86,6 +87,13 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	if (![AppController hasMacOSXSnowLeopard])
 		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
     
+    // swizzle the -[AppController displayListenerError:] method to growl instead of showing modal dialogs
+    Class AppControllerClass = NSClassFromString(@"AppController");
+    Method method = class_getInstanceMethod(AppControllerClass, @selector(displayListenerError:));
+    IMP imp = method_getImplementation(method);
+    class_addMethod(AppControllerClass, @selector(_AppControllerDisplayListenerError:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_AppControllerDisplayListenerError:)));
+    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeXMLRPCMessageNotification:) name:OsirixXMLRPCMessageNotification object:nil];
@@ -143,6 +151,13 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 //	bidon.supportsCancel = YES;
 	[[ThreadsManager defaultManager] addThreadAndStart:bidon];
 */
+}
+
+-(void)_AppControllerDisplayListenerError:(NSString*)message {
+    NSDistantObject<DiscPublishingTool>* tool = [discPublishingInstance tool];
+    if (tool)
+        [tool growlWithTitle:NSLocalizedString(@"DICOM Listener Error", nil) message:message];
+    else [self _AppControllerDisplayListenerError:message];
 }
 
 -(void)toolAliveKeeperTimerCallback:(NSTimer*)timer {
@@ -228,7 +243,11 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 
 -(void)observeXMLRPCMessageNotification:(NSNotification*)n {
     NSMutableDictionary* no = [n object];
-    if ([[no objectForKey:@"methodName"] isEqualToString:@"DPPublish"] || [[no objectForKey:@"MethodName"] isEqualToString:@"DPPublish"]) {
+    
+    NSString* methodName = [no objectForKey:@"MethodName"];
+    if (!methodName) methodName = [no objectForKey:@"methodName"];
+    
+    if ([methodName isEqualToString:@"DPPublish"]) {
         // if there is a NSXMLDocument key in no, we must parse it and extract the request args...
         @try {
             NSXMLDocument* doc = [no objectForKey:@"NSXMLDocument"];

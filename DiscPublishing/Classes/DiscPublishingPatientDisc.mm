@@ -634,7 +634,7 @@ static NSString* PreventNullString(NSString* s) {
                     goto continueFor;
                 }
                 
-                NSString* filename = [NSString stringWithFormat:@"%06d", i];
+                NSString* filename = [NSString stringWithFormat:@"%08d", i]; // IHE wants DICOM files to be named with 8 chars
                 NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
                 
                 if (options.anonymize)
@@ -744,7 +744,7 @@ static NSString* PreventNullString(NSString* s) {
         currentThread.progress = 0.7;
         if (options.includeHTMLQT) {
             currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Generating HTML/Quicktime files...", NULL)];
-            NSString* htmlqtTmpPath = [dirPath stringByAppendingPathComponent:@"HTMLQT"];
+            NSString* htmlqtTmpPath = [dirPath stringByAppendingPathComponent:@"HTMLQT"]; // IHE wants this folder to be named IHE_PDI... but that's really not an explicit name!
             [[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtTmpPath];
             NSArray* sortedImages = [images sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"instanceNumber" ascending:YES] autorelease]]];
             [BrowserController exportQuicktime :sortedImages :htmlqtTmpPath :YES :NULL :seriesPaths];

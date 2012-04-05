@@ -25,6 +25,8 @@ extern NSString* const DiscPublishingToolProxyName;
 
 -(BOOL)ping;
 
+-(void)growlWithTitle:(NSString*)title message:(NSString*)message;
+
 -(void)setBinSelectionEnabled:(BOOL)enabled leftBinType:(NSUInteger)leftBinType rightBinType:(NSUInteger)rightBinType defaultBin:(NSUInteger)defaultBin;
 -(NSString*)publishDiscWithRoot:(NSString*)root info:(NSDictionary*)info;
 

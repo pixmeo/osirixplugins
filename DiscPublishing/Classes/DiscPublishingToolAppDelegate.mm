@@ -331,6 +331,10 @@ int main(int argc, const char* argv[]) {
     return YES;
 }
 
+-(void)growlWithTitle:(NSString*)title message:(NSString*)message {
+    [self errorWithTitle:title description:message uniqueContext:nil];
+}
+
 -(void)setBinSelectionEnabled:(BOOL)enabled leftBinType:(NSUInteger)leftBinType rightBinType:(NSUInteger)rightBinType defaultBin:(NSUInteger)defaultBin {
     _hasBinSelection = YES;
 	_binSelection.fEnabled = enabled;
