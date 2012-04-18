@@ -13,7 +13,7 @@
 @class KBDelayedPopUpButton;
 
 
-@interface KBPopUpToolbarItem : NSToolbarItem
+@interface ReporterKBPopUpToolbarItem : NSToolbarItem
 {
 	KBDelayedPopUpButton *button;
 	NSImage *smallImage;

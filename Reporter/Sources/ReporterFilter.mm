@@ -222,10 +222,10 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
 //    static NSString* ReporterIconFilePath = [[[NSBundle bundleForClass:[ReporterFilter class]] pathForImageResource:@"Reporter"] retain];
     
     if ([itemIdentifier isEqualToString:ReporterViewerToolbarItemIdentifier]) {
-        KBPopUpToolbarItem* item = [[[KBPopUpToolbarItem alloc] initWithItemIdentifier:ReporterViewerToolbarItemIdentifier] autorelease];
+        ReporterKBPopUpToolbarItem* item = [[[ReporterKBPopUpToolbarItem alloc] initWithItemIdentifier:ReporterViewerToolbarItemIdentifier] autorelease];
         item.label = item.paletteLabel = NSLocalizedString(@"Reporter", @"Name of toolbar item");
-        
         item.image = [[[NSImage alloc] initWithContentsOfURL:[[NSBundle bundleForClass:[self class]] URLForResource:@"Reporter" withExtension:@"png"]] autorelease];
+        [item.image setSize:NSMakeSize(33,33)];
         
         NSMenuItem* mi;
         item.menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
@@ -255,7 +255,11 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
 -(BOOL)validateToolbarItem:(NSToolbarItem*)item {
 //    if ([item.toolbar.delegate isKindOfClass:[BrowserController class]])
 //        return [[(BrowserController*)item.toolbar.delegate databaseOutline] numberOfSelectedRows] >= 1;
-    return YES;
+    
+    ViewerController* vc = [ViewerController frontMostDisplayed2DViewer];
+    DicomStudy* study = [vc currentStudy];
+    
+    return study.reportURL != nil;
 }
 
 -(void)_toolbarActionImage:(id)sender {

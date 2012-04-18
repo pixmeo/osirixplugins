@@ -138,7 +138,7 @@
 @end
 
 
-@implementation KBPopUpToolbarItem
+@implementation ReporterKBPopUpToolbarItem
 
 - (id)initWithItemIdentifier:(NSString *)ident
 {
@@ -251,28 +251,31 @@
 		[[self popupCell] setImage:regularImage];
 	}
 	
-	if ([[self toolbar] delegate])
-	{
-		BOOL enabled = YES;
-		
-		if ([[[self toolbar] delegate] respondsToSelector:@selector(validateToolbarItem:)])
-			enabled = [(id)[[self toolbar] delegate] validateToolbarItem:self];
-		
-		else if ([[[self toolbar] delegate] respondsToSelector:@selector(validateUserInterfaceItem:)])
-			enabled = [(id)[[self toolbar] delegate] validateUserInterfaceItem:self];
-		
-		[self setEnabled:enabled];
-	}
-	
-	else if ([self action])
+	if ([self action])
 	{
 		if (![self target])
 			[self setEnabled:[[[[self view] window] firstResponder] respondsToSelector:[self action]]];
 		
-		else
-			[self setEnabled:[[self target] respondsToSelector:[self action]]];
+		else {
+            if ([[self target] respondsToSelector:@selector(validateToolbarItem:)])
+                [self setEnabled:[[self target] validateToolbarItem:self]];
+            else
+                [self setEnabled:[[self target] respondsToSelector:[self action]]];
+        }
 	}
-	
+    else 
+    if ([[self toolbar] delegate])
+    {
+        BOOL enabled = YES;
+        
+        if ([[[self toolbar] delegate] respondsToSelector:@selector(validateToolbarItem:)])
+            enabled = [(id)[[self toolbar] delegate] validateToolbarItem:self];
+        
+        else if ([[[self toolbar] delegate] respondsToSelector:@selector(validateUserInterfaceItem:)])
+            enabled = [(id)[[self toolbar] delegate] validateUserInterfaceItem:self];
+        
+        [self setEnabled:enabled];
+    }
 	else
 		[super validate];
 }
