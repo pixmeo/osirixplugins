@@ -183,7 +183,7 @@
             {
                 {
                     [[viewersList objectAtIndex: i] checkEverythingLoaded];
-                    [[viewersList objectAtIndex: i] setImageRows: [[paramDict valueForKey: @"rowsTiling"] intValue] columns: [[paramDict valueForKey: @"rowsTiling"] intValue]];
+                    [[viewersList objectAtIndex: i] setImageRows: [[paramDict valueForKey: @"rowsTiling"] intValue] columns: [[paramDict valueForKey: @"columnsTiling"] intValue]];
                 }
             }
             
