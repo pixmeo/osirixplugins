@@ -47,6 +47,8 @@
 -(void)add:(NSArray*)adds forStudy:(DicomStudy*)study {
     NSString* reportFilePath = [study reportURL];
     
+    [viewerController performSelector:@selector(generateReport:) withObject:self];
+    
     if (![reportFilePath hasSuffix:@"pages"]) {
         NSBeginAlertSheet(@"Reporter", nil, nil, nil, nil, nil, nil, nil, nil, @"The report must be written with the Pages application, part of Apple iWork.");
         return;
