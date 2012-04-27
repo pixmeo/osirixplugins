@@ -37,15 +37,33 @@
         DicomDatabase* xdatabase = [DicomDatabase activeLocalDatabase];
         DicomDatabase* idatabase = [xdatabase independentDatabase];
         
+        thread.status = NSLocalizedString(@"Listing images...", nil);
         NSArray* iimages = [idatabase objectsForEntity:idatabase.imageEntity];
         NSMutableArray* ipaths = [NSMutableArray array];
-        for (NSInteger i = 0; i < iimages.count; ++i) {
-            thread.progress = 1.0*i/iimages.count;
+        thread.status = NSLocalizedString(@"Listing files...", nil);
+        __block NSInteger c = 0;
+        dispatch_apply(iimages.count, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i){
+            thread.progress = 1.0*(++c)/iimages.count;
             DicomImage* iimage = [iimages objectAtIndex:i];
             NSString* path = iimage.completePath;
-            if (![ipaths containsObject:path])
-                [ipaths addObject:path];
+            @synchronized (ipaths) {
+//                if (![ipaths containsObject:path])
+                    [ipaths addObject:path];
+            }
+        });
+        
+        thread.progress = -1;
+        thread.status = NSLocalizedString(@"Sorting files list...", nil);
+        [ipaths sortUsingSelector:@selector(compare:)];
+        thread.status = NSLocalizedString(@"Optimizing files list...", nil);
+        for (int i = 0; i < ipaths.count-1; ++i) {
+            thread.progress = 1.0*i/ipaths.count;
+            NSString* io = [ipaths objectAtIndex:i];
+            while (i < ipaths.count-1 && [[ipaths objectAtIndex:i+1] isEqualToString:io])
+                [ipaths removeObjectAtIndex:i+1];
         }
+        
+        thread.progress = -1;
         
         NSString* base = [idatabase dataDirPath];
         NSFileManager* fm = [NSFileManager defaultManager];
