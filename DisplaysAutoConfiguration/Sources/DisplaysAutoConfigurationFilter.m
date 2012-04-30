@@ -58,9 +58,11 @@
         NSLog(@"Display %@, %@, %@, %@: %@", vendorID, productID, serialNumber, [screen displayName], ([matchedScreens containsObject:screen]? @"matched" : @"NOT matched"));
     }
     
-    if (matchedScreens.count) // we found at least one eligible display
+    if (matchedScreens.count) { // we found at least one eligible display
         for (NSScreen* screen in screens)
             [[NSUserDefaults standardUserDefaults] screen:screen setIsUsedForViewers:[matchedScreens containsObject:screen]];
+        [[NSUserDefaults standardUserDefaults] setBool:0 forKey:@"ReserveScreenForDB"];
+    }
 }
 
 - (long)filterImage:(NSString*)menuName {
