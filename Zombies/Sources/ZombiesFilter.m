@@ -8,6 +8,7 @@
 #import "ZombiesFilter.h"
 #import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/DicomImage.h>
+#import <OsiriXAPI/browserController.h>
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/ThreadsManager.h>
@@ -39,42 +40,49 @@
             DicomDatabase* xdatabase = [DicomDatabase activeLocalDatabase];
             DicomDatabase* idatabase = [xdatabase independentDatabase];
             
-            thread.status = NSLocalizedString(@"Listing images...", nil);
-            NSArray* iimages = [idatabase objectsForEntity:idatabase.imageEntity];
-            if (thread.isCancelled) return;
-
-            NSMutableArray* ipaths = [NSMutableArray array];
-            thread.status = NSLocalizedString(@"Finding image file paths...", nil);
-            __block NSInteger c = 0;
-            dispatch_apply(iimages.count, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
-                if (thread.isCancelled) return;
-                @synchronized (iimages) {
-                    ++c;
-                }
-                thread.progress = 1.0*c/iimages.count;
-                DicomImage* iimage = [iimages objectAtIndex:i];
-                NSString* path = iimage.completePath;
-                @synchronized (ipaths) {
-                    [ipaths addObject:path];
-                }
-            });
-            if (thread.isCancelled) return;
+            NSString* incoming = [xdatabase incomingDirPath];
+            NSString* base = [xdatabase dataDirPath];
             
-            thread.progress = -1;
-            thread.status = NSLocalizedString(@"Sorting files list...", nil);
-            [ipaths sortUsingSelector:@selector(compare:)];
-            thread.status = NSLocalizedString(@"Optimizing files list...", nil);
-            for (int i = 0; i < ipaths.count-1; ++i) {
+            thread.status = NSLocalizedString(@"Counting images...", nil);
+            NSUInteger iimagesCount = [idatabase countObjectsForEntity:idatabase.imageEntity];
+            
+            NSArray* iimages = nil;
+            NSMutableArray* ipaths = [NSMutableArray array];
+            if (iimagesCount < 1000000) {
+                thread.status = NSLocalizedString(@"Listing images...", nil);
+                iimages = [idatabase objectsForEntity:idatabase.imageEntity];
                 if (thread.isCancelled) return;
-                thread.progress = 1.0*i/ipaths.count;
-                NSString* io = [ipaths objectAtIndex:i];
-                while (i < ipaths.count-1 && [[ipaths objectAtIndex:i+1] isEqualToString:io])
-                    [ipaths removeObjectAtIndex:i+1];
+                
+                thread.status = NSLocalizedString(@"Finding image file paths...", nil);
+                __block NSInteger c = 0;
+                dispatch_apply(iimages.count, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(size_t i) {
+                    if (thread.isCancelled) return;
+                    @synchronized (iimages) { ++c; }
+                    thread.progress = 1.0*c/iimages.count;
+                    DicomImage* iimage = [iimages objectAtIndex:i];
+                    NSString* path = iimage.completePath;
+                    @synchronized (ipaths) {
+                        [ipaths addObject:path];
+                    }
+                });
+                if (thread.isCancelled) return;
+
+                thread.progress = -1;
+                thread.status = NSLocalizedString(@"Sorting files list...", nil);
+                [ipaths sortUsingSelector:@selector(compare:)];
+                thread.status = NSLocalizedString(@"Optimizing files list...", nil);
+                for (int i = 0; i < ipaths.count-1; ++i) {
+                    if (thread.isCancelled) return;
+                    thread.progress = 1.0*i/ipaths.count;
+                    NSString* io = [ipaths objectAtIndex:i];
+                    while (i < ipaths.count-1 && [[ipaths objectAtIndex:i+1] isEqualToString:io])
+                        [ipaths removeObjectAtIndex:i+1];
+                }
             }
             
             thread.progress = -1;
             
-            NSString* base = [idatabase dataDirPath];
+//            NSString* base = [idatabase dataDirPath];
             NSFileManager* fm = [NSFileManager defaultManager];
             NSDirectoryEnumerator* de = [fm enumeratorAtPath:base filesOnly:YES recursive:YES];
             NSUInteger filesCount = 0, zombiesCount = 0;
@@ -88,7 +96,8 @@
                     NSString* path = [base stringByAppendingPathComponent:sub]; 
                     BOOL isDir;
                     if ([fm fileExistsAtPath:path isDirectory:&isDir] && !isDir) {
-                        NSString* name = [[path lastPathComponent] stringByDeletingPathExtension];
+                        NSString* filename = [path lastPathComponent];
+                        NSString* name = [filename stringByDeletingPathExtension];
                         NSInteger num = [name integerValue];
                         if (num > 0) {
                             ++filesCount;
@@ -110,12 +119,21 @@
                             if (xarray.count > 0)
                                 continue; // there is an NSImage pointing to that file in the main database
                             
-                            // if we're here, it means the current iteration is a zombie, zap it
-                            //[fm removeItemAtPath:path error:NULL];
-                            
-                            NSLog(@"I should kill this, but shall I? %@", path);
-                            
+                            NSLog(@"Zombie: %@", path);
                             ++zombiesCount;
+
+                            // if we're here, it means the current iteration is a zombie, move it to incoming
+                            NSUInteger i = 0;
+                            NSString* toPath;
+                            do {
+                                NSString* name = path.lastPathComponent;
+                                if (!i)
+                                    toPath = [incoming stringByAppendingPathComponent:filename];
+                                else toPath = [incoming stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-%d.%@", name, (int)i, filename.pathExtension]];
+                                ++i;
+                            } while (![fm fileExistsAtPath:path]);
+                            
+                            [fm moveItemAtPath:path toPath:toPath error:NULL];
                         }
                     }
                 } @catch (...) {
