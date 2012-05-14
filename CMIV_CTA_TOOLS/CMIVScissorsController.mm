@@ -9077,7 +9077,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 		seedPosition[0] = imgwidth/2;//start from center
 		seedPosition[1] = imgheight/2;//start from center	
 		
-		node.SetValue( seedValue );
+		node.SetValue( seedValue * spaceX);
 		node.SetIndex( seedPosition );
 		
 
@@ -9090,11 +9090,11 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 			seedPosition[0] = imgwidth/2;//start from center
 			seedPosition[1] = ii*3;//start from center	
 			
-			node.SetValue( seedValue );
+			node.SetValue( seedValue * spaceX);
 			node.SetIndex( seedPosition );
 			
 			
-			seeds->InsertElement( ii, node );
+			seeds->InsertElement( ii-1, node );
 		}
 	}
 	fastMarching->SetTrialPoints(  seeds  );
@@ -9104,6 +9104,8 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 	
 	try
     {
+		importFilter->Update();
+		fastMarching->SetOutputSpacing( importFilter->GetOutput()->GetSpacing() );
 		thresholder->Update();
     }
 	catch( itk::ExceptionObject & excep )

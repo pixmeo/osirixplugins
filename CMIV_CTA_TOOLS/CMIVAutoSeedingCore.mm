@@ -2359,7 +2359,7 @@ else
 	seedPosition[0] = costMapWidth/2;//start from center
 	seedPosition[1] = costMapWidth/2;//start from center	
 	
-	node.SetValue( seedValue );
+	node.SetValue( seedValue *costMapSpacing[0] );
 	node.SetIndex( seedPosition );
 
 	seeds->InsertElement( 0, node );
@@ -2406,6 +2406,8 @@ else
 		try
 		{
 			importFilter->Modified();
+			importFilter->Update();
+			fastMarching->SetOutputSpacing( importFilter->GetOutput()->GetSpacing() );
 			smoothing->SetInput( importFilter->GetOutput() );//should try without this line
 			thresholder->Update();
 		}
