@@ -1,0 +1,41 @@
+#ifndef GRAPHICSVIEW_H
+#define GRAPHICSVIEW_H
+
+#include "Parametres.h"
+
+#ifdef _OS_WIN_
+	#include <windows.h>
+#endif
+
+#include <QtCore>
+#include <QGraphicsView>
+
+
+class GraphicsView : public QGraphicsView
+{
+    Q_OBJECT
+public:
+    explicit GraphicsView(QGraphicsScene *scene, QWidget *parent = 0);
+    virtual void resizeEvent(QResizeEvent *event);
+	int getResX();
+	int getResY();
+	void setSize(int width, int height);
+	void GraphicsView::setPosition(int x, int y);
+signals:
+
+public slots:
+
+private:
+    void createUI();
+	void moveBottom(GraphicsView* widget);
+	int WIDTH;
+	int HEIGHT;
+	
+protected:
+    void keyPressEvent(QKeyEvent * event);
+	/*void paintEvent(QPaintEvent * event);*/
+	
+
+};
+
+#endif // GRAPHICSVIEW_H
