@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <OsiriXAPI/PluginFilter.h>
 
+
 @interface HelloWorldFilter : PluginFilter {
 
 }
