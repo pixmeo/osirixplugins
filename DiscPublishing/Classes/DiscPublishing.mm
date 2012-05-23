@@ -55,25 +55,32 @@ static DiscPublishing* discPublishingInstance = NULL;
         } @catch (...) {
         }
         
-        if (!ok) { // maybe already running?
-            [_tool release];
-            _tool = (NSDistantObject<DiscPublishingTool>*)[[NSConnection rootProxyForConnectionWithRegisteredName:DiscPublishingToolProxyName host:nil] retain];
-            ok = [_tool ping];
-        }
-        
-        if (!onlyIfRunning)
-            if (!ok) { // not running, we must launch it
-                [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"DiscPublishingTool.app"], NULL]];
-                NSDate* start = NSDate.date;
-                while (!ok && [NSDate.date timeIntervalSinceDate:start] < 20) {
-                    [_tool release];
-                    _tool = (NSDistantObject<DiscPublishingTool>*)[[NSConnection rootProxyForConnectionWithRegisteredName:DiscPublishingToolProxyName host:nil] retain];
-                    ok = [_tool ping];
-                }
+        if (!ok) // maybe already running?
+            @try {
+                [_tool release];
+                _tool = (NSDistantObject<DiscPublishingTool>*)[[NSConnection rootProxyForConnectionWithRegisteredName:DiscPublishingToolProxyName host:nil] retain];
+                ok = [_tool ping];
+            } @catch (...) {
             }
+        
+        if (!ok)
+            if (!onlyIfRunning)// not running, we must launch it
+                @try {
+                    [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"DiscPublishingTool.app"], NULL]];
+                    NSDate* start = NSDate.date;
+                    while (!ok && [NSDate.date timeIntervalSinceDate:start] < 20) {
+                        [_tool release];
+                        _tool = (NSDistantObject<DiscPublishingTool>*)[[NSConnection rootProxyForConnectionWithRegisteredName:DiscPublishingToolProxyName host:nil] retain];
+                        ok = [_tool ping];
+                    }
+                } @catch (...) {
+                }
+        
+        if (ok)
+            return _tool;
     }
     
-    return _tool;
+    return nil;
 }
 
 -(NSDistantObject<DiscPublishingTool>*)tool {
@@ -136,7 +143,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
     
 	NSPanel* w = nil;
     if (!xml) {
-        w = [[NSPanel alertWithTitle:NSLocalizedString(@"Disc Publishing Error", NULL) message:NSLocalizedString(@"OsiriX was unable to communicate with the Disc Publishing robot. Please check that the robot is on and connected to the computer. This dialog will automatically disappear if the plugin finds a usable robot.", NULL) defaultButton:NSLocalizedString(@"Ignore", NULL) alternateButton:NULL icon:[[NSImage alloc] initWithContentsOfFile:[[[NSBundle bundleForClass:[self class]] pathForResource:@"Icon" ofType:@"png"] autorelease]]] retain];
+        w = [[NSPanel alertWithTitle:NSLocalizedString(@"Disc Publishing Error", NULL) message:NSLocalizedString(@"OsiriX was unable to communicate with the Disc Publishing robot. Please check that the robot is on and connected to the computer. This dialog will automatically disappear if the plugin finds a usable robot.", NULL) defaultButton:NSLocalizedString(@"Ignore", NULL) alternateButton:NULL icon:[[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"Icon" ofType:@"png"]] autorelease]] retain];
 		[w setLevel:NSModalPanelWindowLevel];
 		[[w defaultButtonCell] setAction:@selector(close)];
 		[[w defaultButtonCell] setTarget:w];
