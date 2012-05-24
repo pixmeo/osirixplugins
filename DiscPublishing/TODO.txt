@@ -1,4 +1,6 @@
 TODO:
+- Important: detect low ink cartridges, notify the user
+- Maybe, instead of using Growl for the notifications, we should directly send emails... Maybe we can do both.
 - willUnload executes SetQuitWhenDone:YES but doesn't fail if the plugin is busy publishing a disk.
 - willUnload should also quit the Disc Cover PE application.
 - Bender: stop robot jobs
