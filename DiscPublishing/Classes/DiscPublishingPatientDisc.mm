@@ -565,6 +565,7 @@ static NSString* PreventNullString(NSString* s) {
                 NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
                 if (self.window)
                     [self performSelectorOnMainThread:@selector(_reportError:) withObject:e.reason waitUntilDone:NO];
+                break;
             } @finally {
                 [NSThread sleepForTimeInterval:0.01];
                 [pool release];

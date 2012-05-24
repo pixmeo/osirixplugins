@@ -1,6 +1,7 @@
 1.2.3
 - Fixes a double release bug
 - Adds a security layer around tool calls (try/catch)
+- Fixes an infinite loop bug when launching the publishing process without a robot
 
 1.2.2
 - Redirects OsiriX DICOM listener errors to Growl
