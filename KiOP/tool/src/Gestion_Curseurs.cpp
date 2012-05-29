@@ -56,7 +56,7 @@ void InitGestionCurseurs(void)
 
 
 // Charge un curseur à partir d'un fichier .cur
-BOOL LoadCursorFromCURFile(LPTSTR szFileName, HCURSOR *phCursor, UINT dimX, UINT dimY)
+BOOL LoadCursorFromCURFile(LPTSTR szFileName, HCURSOR *phCursor, unsigned int dimX, unsigned int dimY)
 {
 	*phCursor = NULL;
 	*phCursor = (HCURSOR)LoadImage( NULL, szFileName, IMAGE_CURSOR, dimX, dimY, LR_LOADFROMFILE | LR_SHARED);
@@ -96,21 +96,19 @@ void ChangeCursor(unsigned short val)
 			hCurTemp = CopyCursor(hCurHandClose);
 			break;
 
-
 		case 6 :
 			hCurTemp = CopyCursor(hCurWindows);
 			break;
-		default : 
-			printf("\n*** ERREUR : parametre de ChangeCursor(%i) invalide. ***\n\n",val);
+		default :
+			cout << "\n*** ERREUR : parametre de ChangeCursor(" << val << ") invalide. ***\n\n" << endl;
 			return;
 		}
 
 		testInt = SetSystemCursor(hCurTemp, 32512);
-		//printf("testInt : %i\n",testInt);
-
 		valPrev = val;
 	}
 }
+
 
 
 

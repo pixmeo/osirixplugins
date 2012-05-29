@@ -1,16 +1,16 @@
 
-/*****************************************************************************
-****************************** FICHIERS INCLUS ******************************/
+//==========================================================================//
+//============================ FICHIERS INCLUS =============================//
 
 #include "Cursor.h"
 
 
-/*****************************************************************************
-******************************** CONSTANTES *********************************/
+//==========================================================================//
+//=============================== CONSTANTES ===============================//
 
 #define CORRECTION_DISTANCE_LINEAIRE 0
 
-#if (SCRSZW >= SCRSZH)
+#if (1)//(SCRSZW >= SCRSZH)
 	#define MAXDX 45
 	#define MAXDY ( (int)((double)MAXDX * ((double)SCRSZH/(double)SCRSZW)) )
 #else
@@ -31,14 +31,14 @@
 #define COEFF_EXP_Y ((40*SCRSZH)/(MAXDY*COEFF_C))
 
 
-/*****************************************************************************
-**************************** VARIABLES GLOBALES *****************************/
+//==========================================================================//
+//=========================== VARIABLES GLOBALES ===========================//
 
 
 
 
-/*****************************************************************************
-********************************* MÉTHODES **********************************/
+//==========================================================================//
+//=============================== MÉTHODES =================================//
 
 // Constructeur
 Cursor::Cursor(short type)
@@ -62,13 +62,11 @@ Cursor::Cursor(short type)
 	m_clicEnable = false;
 	m_cursorInitialised = false;
 
-	UINT x1 = 70,		y1 = 30;
-	UINT x2 = 110,	y2 = 80;
+	unsigned int x1 = 70,		y1 = 30;
+	unsigned int x2 = 110,	y2 = 80;
 
 	double a = (double)(y2-y1)/(double)(x2-x1);
 	double b = (double)y2-a*(double)x2;
-
-	printf("\ta : %f\tb : %f\n\n",a,b);
 
 	double courbe[7] = 
 	{
@@ -202,7 +200,7 @@ void Cursor::SingleLeftClic(void)
 	if (m_clicEnable)
 	{
 		mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
-		printf("Simple Clic gauche\n");
+		cout << "Simple Clic gauche\n" << endl;
 	}
 }
 
@@ -212,7 +210,7 @@ void Cursor::DoubleLeftClic(void)
 	{
 		mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
 		mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
-		printf("Double Clic gauche\n");
+		cout << "Double Clic gauche\n" << endl;
 	}
 }
 
@@ -224,7 +222,7 @@ void Cursor::PressLeftClic(void)
 		#ifdef _OS_WIN_
 			ChangeCursor(5); // main fermée
 		#endif
-		printf("Clic gauche maintenu\n");
+		cout << "Clic gauche maintenu\n" << endl;
 	}
 }
 
@@ -236,13 +234,13 @@ void Cursor::ReleaseLeftClic(void)
 		#ifdef _OS_WIN_
 			ChangeCursor(4); // main ouverte
 		#endif
-		printf("Clic gauche relache\n");
+		cout << "Clic gauche relache\n" << endl;
 	}
 }
 
 
 
-void Cursor::SteadyDetected(UINT nb)
+void Cursor::SteadyDetected(unsigned int nb)
 {
 	if (GetState() != 0)
 	{
@@ -277,8 +275,8 @@ void Cursor::SteadyDetected(UINT nb)
 			}
 			break;
 
-		default : 
-			printf("\nERREUR STEADY : Steady %i n'existe pas!\n\n",nb);
+		default :
+			cout << "\nERREUR STEADY : Steady " << nb << " n'existe pas!\n\n" << endl;
 			break;
 		}
 	}
@@ -359,22 +357,22 @@ void Cursor::ChangeState(short newState)
 		{
 
 		// Hors session / Exit
-		case 0 : 
+		case 0 :
 			EndCursorSession();
 			break;
 
 		// Relâchement du clic / Déplacement du curseur libre
-		case 1 : 
+		case 1 :
 			ReleaseLeftClic();
 			break;
 
 		// Maintient du clic
-		case 2 : 
+		case 2 :
 			PressLeftClic();
 			break;
 
-		default : 
-			printf("\nERREUR STATE : State %i n'existe pas!\n\n",newState);
+		default :
+			cout << "\nERREUR STATE : State " << newState << " n'existe pas!\n" << endl;
 			#ifdef _OS_WIN_
 				ChangeCursor(0);
 			#endif
@@ -412,8 +410,6 @@ void Cursor::NewCursorPos(void)
 	#endif
 
 	//IncrementPos(dxs,dys);
-	//return;
-	//printf("Déplacement dxs : %i\tdys : %i\n",dxs,dys);
 
 	int dxt = 0, dyt = 0;
 
@@ -424,7 +420,6 @@ void Cursor::NewCursorPos(void)
 		dyt = m_courbeDeplacement[abs(dys)] * (dys>=0?1:-1);
 
 	IncrementPos(dxt,dyt);
-	//printf("Déplacement dxt : %i\tdyt : %i\n\n",dxt,dyt);
 }
 
 

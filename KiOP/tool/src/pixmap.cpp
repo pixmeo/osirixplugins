@@ -1,6 +1,6 @@
+
 #include "pixmap.h"
-#include <QApplication>
-#include <QtGui>
+
 
 Pixmap::Pixmap(const QPixmap &pix, QGraphicsItem *parent)
     : QGraphicsWidget(parent), orig(pix), p(pix)

@@ -1,8 +1,11 @@
 #ifndef PIXMAP_H
 #define PIXMAP_H
 
-#include <QGraphicsWidget>
-#include <QPixmap>
+#include <QtGui>
+#include <QtGui/qapplication.h>
+#include <QtGui/qgraphicswidget.h>
+#include <QtGui/qpixmap.h>
+
 
 class Pixmap : public QGraphicsWidget
 {
@@ -27,4 +30,12 @@ public slots:
 
 };
 
-#endif // PIXMAP_H
+
+#endif //========================== FIN ====================================//
+
+
+
+
+
+
+

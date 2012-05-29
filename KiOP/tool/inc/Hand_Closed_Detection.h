@@ -9,60 +9,92 @@
 #include <iostream>
 
 #include "Parametres.h"
+#include "Region_Of_Interest.h"
+
 #include <XnTypes.h>
 #include <QSize>
-
 #include <QPoint>
 
 #include "XnCppWrapper.h"
-
-#include "opencv2/opencv.hpp"
-//#include "opencv2/imgproc/imgproc.hpp"
-//#include "opencv2/highgui/highgui.hpp"
-#include "imgproc.hpp"
-#include "highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
+//#include "cap_openni.cpp"
 
 using namespace std;
 using namespace cv;
 
 
 //==========================================================================//
+//=============================== CONSTANTES ===============================//
+
+#define INTERVALLE_PROFONDEUR_DETECTION 200
+#define RAPPORT_DIM_ROI 0.6
+#define TAILLE 10
+#define NB_CASE_HAND_CLOSED_PREV 10
+
+//==========================================================================//
 //================================ CLASSES =================================//
-
-
 
 class HandClosedDetection
 {
-public : 
+public :
 
-  HandClosedDetection(void);
-	void SetDepthLimits(unsigned int handPointZ);
+	HandClosedDetection();
+	void Update(unsigned int methode, const xn::DepthMetaData& dpmd, const XnPoint3D handPt);
 
-	void SetHandPt(XnPoint3D handPoint);
-	void SetHandPtInROI(void);
+	//void ExtractionROI(const xn::DepthMetaData& dpmd);
+	void UpdateROI_Data(const xn::DepthMetaData& dpmd);
+	void Display_ROI(Mat& ROI);
 
-	void SetROI_Size(void);
-	void SetROI_Pt(void);
-	QPoint ROI_Pt(void);
+	void UpdateDepthLimits(void);
+	void UpdateDepthLimits(unsigned int handPtZ);
 
-	void AfficheTest(xn::DepthMetaData& dpmd, Mat& matOut);
+	void UpdateHandPt(XnPoint3D handPoint);
+	void UpdateHandPtInROI(void);
+
+	void UpdateROI_Pt(void);
+	void UpdateROI_Size(void);
+
+	QPoint ROI_Pt(void) const;
+	QSize ROI_Size(void) const;
+
 	void DefinitionPointsCadrage(Mat& ROI, QPoint& haut, QPoint& bas, QPoint& gauche, QPoint& droite);
 
-private : 
+	void MethodeAireMain(const xn::DepthMetaData& dpmd);
+	void MethodeSurfaceRect(const xn::DepthMetaData& dpmd);
+
+	void IncrementCompteurFrame(void);
+	void ResetCompteurFrame(void);
+	int CompteurFrame(void) const;
+
+	void UpdateHandClosedPrev(void);
+
+	bool HandClosed(void) const;
+	bool HandClosedPrev(unsigned int val) const;
+	bool HandClosedFlancMont(void) const;
+	bool HandClosedFlancDesc(void) const;
+	bool HandClosedClic(unsigned int val) const;
+	bool HandClosedStateChanged() const;
+
+private :
+
+	RegionOfInterrest m_ROI;
+	Mat m_ROI_Data;
+	Mat m_ROI_Data2;
 
 	bool m_handClosed;
-	
+	bool m_handClosedPrev[NB_CASE_HAND_CLOSED_PREV];
+	bool m_ROI_OutOfCamera;
+
 	unsigned int m_depthLimitMin, m_depthLimitMax;
 	XnPoint3D m_handPt;
 	QPoint m_handPtInROI;
 
-	QSize m_ROI_Size;
-	QPoint m_ROI_Pt;
+	unsigned int m_compteurFrame;
 };
 
 
-
-#endif
+#endif //========================== FIN ====================================//
 
 
 

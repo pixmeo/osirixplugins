@@ -1,6 +1,5 @@
+
 #include "graphicsview.h"
-#include <QApplication>
-#include <QtGui>
 
 
 GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent) : QGraphicsView(scene, parent)
@@ -11,6 +10,7 @@ GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent) : QGraphicsVi
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setStyleSheet("background: transparent");
+	//this->setStyleSheet("background: green");
 	//this->setStyleSheet("background-color: rgba(139,137,137,0.5);");
 	//this->setStyleSheet("background-image: url(:/images/Resources/background.png)");
 	this->setFrameStyle(0);
@@ -95,6 +95,14 @@ void GraphicsView::setSize(int width, int height){
 
     this->createUI();
 	this->moveBottom(this);
+}
+
+QPoint GraphicsView::Size(void)
+{
+	QPoint temp;
+	temp.setX(WIDTH);
+	temp.setY(HEIGHT);
+	return temp;
 }
 
 void GraphicsView::setPosition(int x, int y){

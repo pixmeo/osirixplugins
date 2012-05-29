@@ -14,8 +14,7 @@
 //#include <qcursor.h>
 #include <QCursor>
 //#include <Qt/qpoint.h>
-//#include <QPoint>
-#include "qpoint.h"
+#include <QPoint>
 
 
 //==========================================================================//
@@ -67,10 +66,9 @@ private :
 };
 
 
+#endif //========================== FIN ====================================//
 
 
-
-#endif
 
 
 

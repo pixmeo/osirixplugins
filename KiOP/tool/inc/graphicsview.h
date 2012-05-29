@@ -7,8 +7,10 @@
 	#include <windows.h>
 #endif
 
+#include <QtGui>
+#include <QtGui/qapplication.h>
+#include <QtGui/qgraphicsview.h>
 #include <QtCore>
-#include <QGraphicsView>
 
 
 class GraphicsView : public QGraphicsView
@@ -20,6 +22,7 @@ public:
 	int getResX();
 	int getResY();
 	void setSize(int width, int height);
+	QPoint Size(void);
 	void GraphicsView::setPosition(int x, int y);
 signals:
 
@@ -38,4 +41,12 @@ protected:
 
 };
 
-#endif // GRAPHICSVIEW_H
+
+#endif //========================== FIN ====================================//
+
+
+
+
+
+
+

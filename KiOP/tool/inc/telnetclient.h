@@ -3,7 +3,7 @@
 
 #include <QtGui/QMainWindow>
 //#include "ui_testsocket.h"
-#include <qtcpsocket.h>
+#include <QtNetwork/qtcpsocket.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
@@ -38,4 +38,12 @@ private:
 	quint16 bufferSize;
 };
 
-#endif // TELNETCLIENT_H
+
+#endif //========================== FIN ====================================//
+
+
+
+
+
+
+

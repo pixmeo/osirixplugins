@@ -1,20 +1,12 @@
-/*****************************************************************************
-******************************* INFORMATIONS *********************************
-*                                                                            *
-*			Fichier :	Gestion_GLUT.h                                               *
-*			Auteur :	Thomas M. Strgar                                             *
-*			Projet :	Projet Kinectop                                              *
-*			Dernière modification : 11.08.2011                                     *
-*                                                                            *
-*                                                                            *
-*****************************************************************************/
 
-#ifndef Gestion_GLUT_h
-#define Gestion_GLUT_h
+#ifndef __GESTION_GLUT_H__
+#define __GESTION_GLUT_H__
 
 
-/*****************************************************************************
-****************************** FICHIERS INCLUS ******************************/
+//==========================================================================//
+//============================ FICHIERS INCLUS =============================//
+
+#include "Parametres.h"
 
 #include <stdio.h>
 #ifdef _OS_WIN_
@@ -22,23 +14,16 @@
 #endif
 #include <GL/glut.h>
 
-#include "main.h"
 
+//==========================================================================//
+//============================== PROTOTYPES ================================//
 
-#define WIN_WIDTH (SCRSZW/RAPPORT_SCRSZW_WINSZW)
-#define WIN_HEIGHT ( (int)(WIN_WIDTH*(240.0/320.0)) )
-
-/*****************************************************************************
-************************** PROTOTYPES DE FONCTIONS **************************/
-
-void RedimensionnementFenetre(unsigned int width, unsigned int height);
-//void RepositionnementFenetre(unsigned int val);
+void RepositionnementFenetre(unsigned int val);
 void RepositionnementFenetre(unsigned int x, unsigned int y);
 
 
+#endif //========================== FIN ====================================//
 
-
-#endif
 
 
 

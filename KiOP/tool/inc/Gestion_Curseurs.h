@@ -22,11 +22,12 @@
 ************************** PROTOTYPES DE FONCTIONS **************************/
 
 void InitGestionCurseurs(void);
-BOOL LoadCursorFromCURFile(LPTSTR szFileName, HCURSOR *phCursor, UINT dimX, UINT dimY);
+BOOL LoadCursorFromCURFile(LPTSTR szFileName, HCURSOR *phCursor, unsigned int dimX, unsigned int dimY);
 void ChangeCursor(unsigned short val);
 
 
-#endif
+#endif //========================== FIN ====================================//
+
 
 
 
