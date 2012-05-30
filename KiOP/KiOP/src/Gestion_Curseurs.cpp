@@ -35,22 +35,14 @@ int test[2] = {1,2};
 void InitGestionCurseurs(void)
 {
 	hCurDefault = CopyCursor(GetCursor()); // Ne marche pas ?!?
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow.cur"),&hCurDefault,32,32);
 	BOOL btest = 0;
 	int i;
 
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow_xl.cur"),&hCurWhite,32,32);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow_xl_red.cur"),&hCurRed,32,32);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow_xl_green.cur"),&hCurGreen,32,32);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow_xl_blue.cur"),&hCurBlue,32,32);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow_xl_yellow.cur"),&hCurYellow,32,32);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/aero_arrow.cur"),&hCurWindows,32,32);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/main_ouverte.cur"),&hCurHandOpen,64,64);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/main_fermee.cur"),&hCurHandClose,64,64);
-
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/halo_red.cur"),	&hCurHaloRed,128,128);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/halo_blue.cur"),	&hCurHaloBlue,128,128);
-	LoadCursorFromCURFile(TEXT("kinect/Cursors/Pointeur_jaune_2.cur"),	&hCurPointerYellow,64,64);
+	LoadCursorFromCURFile(TEXT("../res/cursors/aero_arrow.cur"),&hCurDefault,32,32);
+	LoadCursorFromCURFile(TEXT("../res/cursors/aero_arrow.cur"),&hCurWindows,32,32);
+	LoadCursorFromCURFile(TEXT("../res/cursors/aero_arrow_xl.cur"),&hCurWhite,32,32);
+	LoadCursorFromCURFile(TEXT("../res/cursors/main_ouverte.cur"),&hCurHandOpen,64,64);
+	LoadCursorFromCURFile(TEXT("../res/cursors/main_fermee.cur"),&hCurHandClose,64,64);
 
 }
 

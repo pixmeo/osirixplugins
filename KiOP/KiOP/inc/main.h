@@ -12,7 +12,6 @@
 #include "Control_Cursor_Qt.h"
 #include "Hand_Closed_Detection.h"
 #ifdef _OS_WIN_
-	#include "Cursor.h"
 	#include "Gestion_Curseurs.h"
 #endif
 #include "graphicsview.h"

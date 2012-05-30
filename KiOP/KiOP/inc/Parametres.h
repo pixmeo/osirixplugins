@@ -11,9 +11,10 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-#if (0)
+// Définition du système d'exploitation
+#if defined (_WIN32)
 	#define _OS_WIN_
-#else
+#elif defined (__APPLE__)
 	#define _OS_MAC_
 #endif
 

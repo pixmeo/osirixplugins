@@ -92,13 +92,9 @@ GraphicsView *viewLayouts;
 vector<Pixmap*> pix; //for main tools
 vector<Pixmap*> pixL; //for layouts
 Pixmap* pixActive; //for activeTool
-//TelnetClient telnet;
-
-// Cursor objects //
-//Cursor cursor(2);
 
 // KiOP//
-//CursorQt cursorQt(2);
+CursorQt cursorQt(2);
 HandClosedDetection hCD;
 
 
@@ -425,7 +421,7 @@ void handleState()
 					{
 						lastState = currentState;
 						currentState = 3;						// MODE SOURIS
-//						cursor.NewCursorSession();
+						cursorQt.NewCursorSession();
 					}
 					break;
 
@@ -506,41 +502,41 @@ void handleState()
 			}
 			break;
 
-//		// Mouse control
-//		case 3 :
-//
-//			// Sortie du mode souris
-//			if (cursor.GetState() == 0)
-//			{
-//				lastState = currentState;
-//				currentState = 1;
-//				currentTool = totalTools;
-//				lastTool = 0;
-//				windowActiveTool->hide();
-//				for (int i=0; i<=totalTools; i++)
-//				{
-//					pix.operator[](i)->show();
-//				}
-//				break;
-//			}
-//
-//			// Distance limite de la main au capteur
-//			if (handPt.Z < (handDepthLimit + handDepthThreshold))
-//			{
-//				cursor.MoveEnable();
-//				cursor.ClicEnable();
-//				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
-//			}
-//			else
-//			{
-//				cursor.MoveDisable();
-//				cursor.ClicDisable();
-//				windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
-//			}
-//
-//			// Appel de la méthode pour déplacer le curseur
-//			cursor.NewCursorVirtualPos((int)(handPt.X),(int)(handPt.Y),(int)(handPt.Z));
-//			break;
+		// Mouse control
+		case 3 :
+
+			// Sortie du mode souris
+			if (!cursorQt.InCursorSession())
+			{
+				lastState = currentState;
+				currentState = 1;
+				currentTool = totalTools;
+				lastTool = 0;
+				windowActiveTool->hide();
+				for (int i=0; i<=totalTools; i++)
+				{
+					pix.operator[](i)->show();
+				}
+				break;
+			}
+
+			// Distance limite de la main au capteur
+			if (handPt.Z < (handDepthLimit + handDepthThreshold))
+			{
+				cursorQt.SetMoveEnable();
+				cursorQt.SetClicEnable();
+				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+			}
+			else
+			{
+				cursorQt.SetMoveDisable();
+				cursorQt.SetClicDisable();
+				windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+			}
+
+			// Appel de la méthode pour déplacer le curseur
+			cursorQt.MoveCursor((int)(handPt.X),(int)(handPt.Y),(int)(handPt.Z));
+			break;
 	}
 }
 
@@ -595,7 +591,6 @@ void glutKeyboard (unsigned char key, int x, int y)
 		lastState = currentState;
 		currentState = 0;
 		sessionManager->EndSession();
-		//telnet.deconnexion();
 		break;
 	case 't' :
 		methodeMainFermeeSwitch = !methodeMainFermeeSwitch;
@@ -726,25 +721,26 @@ void glutDisplay()
 				steady2 = false; sd2.Reset();
 			}
 
-//			// mode Souris
-//			if ((currentState == 3) && (cursor.GetState() != 0))
-//			{
-//				// Souris SteadyClic
-//				if			(cursor.GetCursorType() == 1)
-//				{
-//					if (cursor.CheckExitMouseMode())
-//						cursor.ChangeState(0);
-//				}
-//
-//				//Souris HandClosedClic
-//				else if ((cursor.GetCursorType() == 2) && (cursor.GetCursorInitialised()))
-//				{
-//					if (handFlancMont)
-//						cursor.SetMainFermee(true);
-//					else if (handFlancDesc)
-//						cursor.SetMainFermee(false);
-//				}
-//			}
+			// mode Souris
+			if ((currentState == 3) && (cursorQt.InCursorSession()))
+			{
+				// Souris SteadyClic
+				if			(cursorQt.CursorType() == 1)
+				{
+					//if (cursor.CheckExitMouseMode())
+					//if (cursorQt.ExitMouseMode())
+						//cursor.ChangeState(0);
+				}
+
+				//Souris HandClosedClic
+				else if ((cursorQt.CursorType() == 2) && (cursorQt.CursorInitialised()))
+				{
+					if (handFlancMont)
+						cursorQt.SetHandClosed(true);
+					else if (handFlancDesc)
+						cursorQt.SetHandClosed(false);
+				}
+			}
 
 			// Affichage des carrés de couleurs pour indiquer l'etat de la main
 			if (handClosed)
@@ -754,9 +750,6 @@ void glutDisplay()
 			int cote = 50;
 			int carreX = xSize-(cote+10), carreY = 10;
 			glRecti(carreX,carreY,carreX+cote,carreY+cote);
-//			if (cursor.GetCursorType() == 2)
-//				glRecti(carreX,carreY+10+cote,carreX+cote,carreY+10+2*cote);
-
 		}
 	}
 	glutSwapBuffers();
@@ -828,7 +821,6 @@ void initGL(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-
 	Initialisation();
 
 	///////////////////// OPEN_NI / NITE / OPENGL ////////////////
@@ -915,7 +907,7 @@ int main(int argc, char *argv[])
 	initGL(argc,argv);
 
 
-	//Qt
+	// Qt
 #ifdef _OS_MAC_
 	int qargc = 0;
 	char **qargv = NULL;
@@ -944,13 +936,13 @@ int main(int argc, char *argv[])
 	Pixmap *p6 = new Pixmap(QPixmap(":/images/Resources/contrast.png").scaled(64,64));
 	Pixmap *p7 = new Pixmap(QPixmap(":/images/Resources/stop.png").scaled(64,64));
 #elif defined _OS_MAC_
-	Pixmap *p1 = new Pixmap(QPixmap(":/images/res/mouse.png").scaled(64,64));
-	Pixmap *p2 = new Pixmap(QPixmap(":/images/res/layout.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/images/res/move.png").scaled(64,64));
-	Pixmap *p4 = new Pixmap(QPixmap(":/images/res/zoom.png").scaled(64,64));
-	Pixmap *p5 = new Pixmap(QPixmap(":/images/res/scroll.png").scaled(64,64));
-	Pixmap *p6 = new Pixmap(QPixmap(":/images/res/contrast.png").scaled(64,64));
-	Pixmap *p7 = new Pixmap(QPixmap(":/images/res/stop.png").scaled(64,64));
+	Pixmap *p1 = new Pixmap(QPixmap(":/../res/mouse.png").scaled(64,64));
+	Pixmap *p2 = new Pixmap(QPixmap(":/../res/images/layout.png").scaled(64,64));
+	Pixmap *p3 = new Pixmap(QPixmap(":/../images/move.png").scaled(64,64));
+	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
+	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
+	Pixmap *p6 = new Pixmap(QPixmap(":contrast.png").scaled(64,64));
+	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #endif
 
 	p1->setObjectName("mouse");
@@ -961,13 +953,13 @@ int main(int argc, char *argv[])
 	p6->setObjectName("contrast");
 	p7->setObjectName("stop");
 
-	p1->setGeometry(QRectF(  0.0,   192.0, 64.0, 64.0));
-	p2->setGeometry(QRectF(  128.0,   192.0, 64.0, 64.0));
-	p3->setGeometry(QRectF(  256.0,   192.0, 64.0, 64.0));
-	p4->setGeometry(QRectF(  384.0,   192.0, 64.0, 64.0));
-	p5->setGeometry(QRectF(  512.0,   192.0, 64.0, 64.0));
-	p6->setGeometry(QRectF(  640.0,   192.0, 64.0, 64.0));
-	p7->setGeometry(QRectF(  768.0,   192.0, 64.0, 64.0));
+	p1->setGeometry(QRectF(  0.0, 192.0, 64.0, 64.0));
+	p2->setGeometry(QRectF(128.0, 192.0, 64.0, 64.0));
+	p3->setGeometry(QRectF(256.0, 192.0, 64.0, 64.0));
+	p4->setGeometry(QRectF(384.0, 192.0, 64.0, 64.0));
+	p5->setGeometry(QRectF(512.0, 192.0, 64.0, 64.0));
+	p6->setGeometry(QRectF(640.0, 192.0, 64.0, 64.0));
+	p7->setGeometry(QRectF(768.0, 192.0, 64.0, 64.0));
 
 	pix.push_back(p1);
 	pix.push_back(p2);
@@ -997,10 +989,6 @@ int main(int argc, char *argv[])
 	windowActiveTool->setScene(sceneActiveTool);
 	windowActiveTool->setGeometry(window->getResX()-128,window->getResY()-168,128,128);
 
-	//window->show();
-	/////////////////////////////////////////////////////////////////////////////////////
-
-
 
 	////////////// LAYOUT
 #if defined _OS_WIN_
@@ -1026,7 +1014,7 @@ int main(int argc, char *argv[])
 	l5->setObjectName("3b");
 	l6->setObjectName("2x2");
 	
-	l1->setGeometry(QRectF(0.0,   192.0, 64.0, 64.0));
+	l1->setGeometry(QRectF(  0.0, 192.0, 64.0, 64.0));
 	l2->setGeometry(QRectF(128.0, 192.0, 64.0, 64.0));
 	l3->setGeometry(QRectF(256.0, 192.0, 64.0, 64.0));
 	l4->setGeometry(QRectF(384.0, 192.0, 64.0, 64.0));
@@ -1141,7 +1129,7 @@ void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 // Callback for no hand detected
 void XN_CALLBACK_TYPE NoHands(void* UserCxt)
 {
-//	cursor.ChangeState(0);
+	cursorQt.EndCursorSession();
 }
 
 // Callback for when the focus is in progress
@@ -1177,7 +1165,7 @@ void XN_CALLBACK_TYPE Steady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pUser
 		// Mode souris
 		if (currentState == 3)
 		{
-//			cursor.SteadyDetected(1);
+			cursorQt.SteadyDetected(10);
 			//sd.Reset();
 		}
 		else
@@ -1193,7 +1181,7 @@ void XN_CALLBACK_TYPE Steady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUse
 	// Mode souris
 	if (currentState == 3)
 	{
-//		cursor.SteadyDetected(2);
+		cursorQt.SteadyDetected(20);
 	}
 
 	// Autres outils
@@ -1209,7 +1197,7 @@ void XN_CALLBACK_TYPE Steady_Detected3(XnUInt32 nId, XnFloat fStdDev, void *pUse
 	// Mode souris
 	if (currentState == 3)
 	{
-//		cursor.SteadyDetected(3);
+		cursorQt.SteadyDetected(30);
 	}
 }
 
@@ -1228,7 +1216,7 @@ void XN_CALLBACK_TYPE NotSteady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pU
 	// Mode souris
 	if (currentState == 3)
 	{
-//		cursor.NotSteadyDetected();
+		//cursor.NotSteadyDetected();
 	}
 }
 
