@@ -11,7 +11,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-#if (0)
+#if (1)
 	#define _OS_WIN_
 #else
 	#define _OS_MAC_
@@ -28,8 +28,8 @@ using namespace std;
 //============================== CONSTANTES ================================//
 
 #ifdef _OS_WIN_
-#	define SCRSZW 1600
-#	define SCRSZH 900
+#	define SCRSZW (SCRSZWidth())
+#	define SCRSZH (SCRSZHeight())
 #endif
 #ifdef _OS_MAC_
 #	define SCRSZW 2560
@@ -56,8 +56,8 @@ using namespace std;
 //==========================================================================//
 //============================== PROTOTYPES ================================//
 
-//unsigned int SCRSZWidth(void);
-//unsigned int SCRSZHeight(void);
+unsigned int SCRSZWidth(void);
+unsigned int SCRSZHeight(void);
 
 
 #endif //========================== FIN ====================================//

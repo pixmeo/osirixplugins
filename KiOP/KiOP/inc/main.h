@@ -15,8 +15,8 @@
 	#include "Cursor.h"
 	#include "Gestion_Curseurs.h"
 #endif
-#include "pixmap.h"
 #include "graphicsview.h"
+#include "pixmap.h"
 #include "telnetclient.h"
 
 // Headers de base
@@ -52,6 +52,7 @@
 #include "opencv2/highgui/highgui.hpp"
 
 // Headers for Qt
+#include <QtCore>
 #include <QtGui>
 #include <QtGui/QApplication>
 #include <QtGui/QCursor>
@@ -65,7 +66,7 @@ using namespace cv;
 //============================== CONSTANTES ================================//
 
 #define XML_FILE "openni.xml"
-#define TITLE "KiOP"
+#define TITLE "KinectOP"
 
 #define DP_FAR 5000
 #define DP_CLOSE 0

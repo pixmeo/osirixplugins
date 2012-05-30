@@ -23,7 +23,7 @@ public:
 	int getResY();
 	void setSize(int width, int height);
 	QPoint Size(void);
-	void setPosition(int x, int y);
+	void GraphicsView::setPosition(int x, int y);
 signals:
 
 public slots:

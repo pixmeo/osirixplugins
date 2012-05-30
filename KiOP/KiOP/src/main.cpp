@@ -92,9 +92,10 @@ GraphicsView *viewLayouts;
 vector<Pixmap*> pix; //for main tools
 vector<Pixmap*> pixL; //for layouts
 Pixmap* pixActive; //for activeTool
+//TelnetClient telnet;
 
 // Cursor objects //
-//Cursor cursor(2);
+Cursor cursor(2);
 
 // KiOP//
 //CursorQt cursorQt(2);
@@ -210,7 +211,7 @@ void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
 
 void handleState()
 {
-    static TelnetClient telnet;
+	static TelnetClient telnet;
 	//cout << currentState << endl;
 
 	bool inIntervalleX = (handPt.X < handSurfaceLimit+handSurfaceThreshold)&&(handPt.X > handSurfaceLimit-handSurfaceThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en X
@@ -424,7 +425,7 @@ void handleState()
 					{
 						lastState = currentState;
 						currentState = 3;						// MODE SOURIS
-//						cursor.NewCursorSession();
+						cursor.NewCursorSession();
 					}
 					break;
 
@@ -505,41 +506,41 @@ void handleState()
 			}
 			break;
 
-//		// Mouse control
-//		case 3 :
-//
-//			// Sortie du mode souris
-//			if (cursor.GetState() == 0)
-//			{
-//				lastState = currentState;
-//				currentState = 1;
-//				currentTool = totalTools;
-//				lastTool = 0;
-//				windowActiveTool->hide();
-//				for (int i=0; i<=totalTools; i++)
-//				{
-//					pix.operator[](i)->show();
-//				}
-//				break;
-//			}
-//
-//			// Distance limite de la main au capteur
-//			if (handPt.Z < (handDepthLimit + handDepthThreshold))
-//			{
-//				cursor.MoveEnable();
-//				cursor.ClicEnable();
-//				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
-//			}
-//			else
-//			{
-//				cursor.MoveDisable();
-//				cursor.ClicDisable();
-//				windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
-//			}
-//
-//			// Appel de la méthode pour déplacer le curseur
-//			cursor.NewCursorVirtualPos((int)(handPt.X),(int)(handPt.Y),(int)(handPt.Z));
-//			break;
+		// Mouse control
+		case 3 :
+
+			// Sortie du mode souris
+			if (cursor.GetState() == 0)
+			{
+				lastState = currentState;
+				currentState = 1;
+				currentTool = totalTools;
+				lastTool = 0;
+				windowActiveTool->hide();
+				for (int i=0; i<=totalTools; i++)
+				{
+					pix.operator[](i)->show();
+				}
+				break;
+			}
+
+			// Distance limite de la main au capteur
+			if (handPt.Z < (handDepthLimit + handDepthThreshold))
+			{
+				cursor.MoveEnable();
+				cursor.ClicEnable();
+				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+			}
+			else
+			{
+				cursor.MoveDisable();
+				cursor.ClicDisable();
+				windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+			}
+
+			// Appel de la méthode pour déplacer le curseur
+			cursor.NewCursorVirtualPos((int)(handPt.X),(int)(handPt.Y),(int)(handPt.Z));
+			break;
 	}
 }
 
@@ -594,6 +595,7 @@ void glutKeyboard (unsigned char key, int x, int y)
 		lastState = currentState;
 		currentState = 0;
 		sessionManager->EndSession();
+		//telnet.deconnexion();
 		break;
 	case 't' :
 		methodeMainFermeeSwitch = !methodeMainFermeeSwitch;
@@ -724,25 +726,25 @@ void glutDisplay()
 				steady2 = false; sd2.Reset();
 			}
 
-//			// mode Souris
-//			if ((currentState == 3) && (cursor.GetState() != 0))
-//			{
-//				// Souris SteadyClic
-//				if			(cursor.GetCursorType() == 1)
-//				{
-//					if (cursor.CheckExitMouseMode())
-//						cursor.ChangeState(0);
-//				}
-//
-//				//Souris HandClosedClic
-//				else if ((cursor.GetCursorType() == 2) && (cursor.GetCursorInitialised()))
-//				{
-//					if (handFlancMont)
-//						cursor.SetMainFermee(true);
-//					else if (handFlancDesc)
-//						cursor.SetMainFermee(false);
-//				}
-//			}
+			// mode Souris
+			if ((currentState == 3) && (cursor.GetState() != 0))
+			{
+				// Souris SteadyClic
+				if			(cursor.GetCursorType() == 1)
+				{
+					if (cursor.CheckExitMouseMode())
+						cursor.ChangeState(0);
+				}
+
+				//Souris HandClosedClic
+				else if ((cursor.GetCursorType() == 2) && (cursor.GetCursorInitialised()))
+				{
+					if (handFlancMont)
+						cursor.SetMainFermee(true);
+					else if (handFlancDesc)
+						cursor.SetMainFermee(false);
+				}
+			}
 
 			// Affichage des carrés de couleurs pour indiquer l'etat de la main
 			if (handClosed)
@@ -752,8 +754,8 @@ void glutDisplay()
 			int cote = 50;
 			int carreX = xSize-(cote+10), carreY = 10;
 			glRecti(carreX,carreY,carreX+cote,carreY+cote);
-//			if (cursor.GetCursorType() == 2)
-//				glRecti(carreX,carreY+10+cote,carreX+cote,carreY+10+2*cote);
+			if (cursor.GetCursorType() == 2)
+				glRecti(carreX,carreY+10+cote,carreX+cote,carreY+10+2*cote);
 
 		}
 	}
@@ -829,7 +831,7 @@ int main(int argc, char *argv[])
 
 	Initialisation();
 
-	/////////////////////////////////////////// OPEN_NI / NITE / OPENGL ////////////////
+	///////////////////// OPEN_NI / NITE / OPENGL ////////////////
 	xn::EnumerationErrors errors;
 
 	status = context.InitFromXmlFile(XML_FILE);
@@ -1139,7 +1141,7 @@ void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 // Callback for no hand detected
 void XN_CALLBACK_TYPE NoHands(void* UserCxt)
 {
-//	cursor.ChangeState(0);
+	cursor.ChangeState(0);
 }
 
 // Callback for when the focus is in progress
@@ -1150,11 +1152,11 @@ void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus,
 	//			<< ptPosition.Y << "," << ptPosition.Z << "): " << fProgress << "\n" << endl;
 
 	/// Pour réafficher l'écran s'il s'est éteint
-//	POINT temp;
-//	GetCursorPos(&temp);
-//	int test = ((temp.x < SCRSZW/2) ? 1 : -1);
-//	for (int i=1; i<50; i++)
-//		SetCursorPos(temp.x + i*test, temp.y);
+	POINT temp;
+	GetCursorPos(&temp);
+	int test = ((temp.x < SCRSZW/2) ? 1 : -1);
+	for (int i=1; i<50; i++)
+		SetCursorPos(temp.x + i*test, temp.y);
 	//SetCursorPos(temp.x, temp.y);
 	//cout << "AAAAAAAAA" << endl;
 }
@@ -1175,32 +1177,40 @@ void XN_CALLBACK_TYPE Steady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pUser
 		// Mode souris
 		if (currentState == 3)
 		{
-//			cursor.SteadyDetected(1);
+			cursor.SteadyDetected(1);
 			//sd.Reset();
 		}
 		else
+		{
 			steadyState = true;
+		}
 	}
 }
 
 void XN_CALLBACK_TYPE Steady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
 {
 	cout << "  STEADY 2\n";
-//	// Mode souris
-//	if (currentState == 3)
-//		cursor.SteadyDetected(2);
+	// Mode souris
+	if (currentState == 3)
+	{
+		cursor.SteadyDetected(2);
+	}
 
 	// Autres outils
-//	else if (currentState == 2)
+	else if (currentState == 2)
+	{
 		steady2 = true;
+	}
 }
 
 void XN_CALLBACK_TYPE Steady_Detected3(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
 {
 	cout << "  STEADY 3\n";
-//	// Mode souris
-//	if (currentState == 3)
-//		cursor.SteadyDetected(3);
+	// Mode souris
+	if (currentState == 3)
+	{
+		cursor.SteadyDetected(3);
+	}
 }
 
 void XN_CALLBACK_TYPE Steady_Detected02(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
@@ -1215,9 +1225,11 @@ void XN_CALLBACK_TYPE NotSteady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pU
 	cout << "\n NOT STEADY \n";
 	steadyState = false;
 
-//	// Mode souris
-//	if (currentState == 3)
-//		cursor.NotSteadyDetected();
+	// Mode souris
+	if (currentState == 3)
+	{
+		cursor.NotSteadyDetected();
+	}
 }
 
 void XN_CALLBACK_TYPE NotSteady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
