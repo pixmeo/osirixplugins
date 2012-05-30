@@ -111,13 +111,22 @@
                             NSPredicate* predicate = [NSPredicate predicateWithFormat:@"pathNumber = %@", [NSNumber numberWithInteger:num]];
                             
                             // look for a database image object that points to this image path number
-                            NSArray* iarray = [idatabase objectsForEntity:idatabase.imageEntity predicate:predicate];
-                            if (iarray.count > 0)
-                                continue; // there is an NSImage pointing to that file in our independent database
+                            @try {
+                                NSArray* iarray = [idatabase objectsForEntity:idatabase.imageEntity predicate:predicate];
+                                if (iarray.count > 0)
+                                    continue; // there is an NSImage pointing to that file in our independent database
+                            } @catch (NSException* e) {
+                                N2LogExceptionWithStackTrace(e);
+                            }
+                            
                             // the independent database isn't synced to the main database, so make sure that such object doesn't exist in the main db
-                            NSArray* xarray = [xdatabase objectsForEntity:xdatabase.imageEntity predicate:predicate];
-                            if (xarray.count > 0)
-                                continue; // there is an NSImage pointing to that file in the main database
+                            @try {
+                                NSArray* xarray = [xdatabase objectsForEntity:xdatabase.imageEntity predicate:predicate];
+                                if (xarray.count > 0)
+                                    continue; // there is an NSImage pointing to that file in the main database
+                            } @catch (NSException* e) {
+                                N2LogExceptionWithStackTrace(e);
+                            }
                             
                             NSLog(@"Zombie: %@", path);
                             ++zombiesCount;
@@ -136,8 +145,8 @@
                             [fm moveItemAtPath:path toPath:toPath error:NULL];
                         }
                     }
-                } @catch (...) {
-                    // do nothing
+                } @catch (NSException* e) {
+                    N2LogExceptionWithStackTrace(e);
                 } @finally {
                     [pool release];
                 }
