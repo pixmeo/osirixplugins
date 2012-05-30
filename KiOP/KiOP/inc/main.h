@@ -65,7 +65,7 @@ using namespace cv;
 //============================== CONSTANTES ================================//
 
 #define XML_FILE "openni.xml"
-#define TITLE "KinectOP"
+#define TITLE "KiOP"
 
 #define DP_FAR 5000
 #define DP_CLOSE 0

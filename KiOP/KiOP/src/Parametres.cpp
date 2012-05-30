@@ -5,29 +5,29 @@
 #include "Parametres.h"
 
 
-//==========================================================================//
-//=========================== VARIABLES GLOBALES ===========================//
-
-
-QDesktopWidget *desktop2 = QApplication::desktop();
-QRect rect = desktop2->screenGeometry(0);
-
-
-//==========================================================================//
-//============================== FONCTIONS =================================//
-
-unsigned int SCRSZWidth(void)
-{
-	return rect.width();
-}
-
-unsigned int SCRSZHeight(void)
-{
-	return rect.height();
-}
-
-
-//================================= FIN ====================================//
+////==========================================================================//
+////=========================== VARIABLES GLOBALES ===========================//
+//
+//
+//QDesktopWidget *desktop2 = QApplication::desktop();
+//QRect rect = desktop2->screenGeometry(0);
+//
+//
+////==========================================================================//
+////============================== FONCTIONS =================================//
+//
+//unsigned int SCRSZWidth(void)
+//{
+//	return rect.width();
+//}
+//
+//unsigned int SCRSZHeight(void)
+//{
+//	return rect.height();
+//}
+//
+//
+////================================= FIN ====================================//
 
 
 
