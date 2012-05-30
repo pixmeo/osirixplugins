@@ -11,7 +11,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 
-#if (1)
+#if (0)
 	#define _OS_WIN_
 #else
 	#define _OS_MAC_
