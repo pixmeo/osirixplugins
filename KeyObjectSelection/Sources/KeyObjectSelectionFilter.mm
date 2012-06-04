@@ -11,6 +11,7 @@
 #import <OsiriXAPI/dctk.h>
 #import <OsiriXAPI/dsrdoc.h>
 #import <OsiriXAPI/dsrtypes.h>
+//#import <OsiriXAPI/dsrimgtn.h>
 
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/ViewerController.h>
@@ -27,16 +28,28 @@
 #import <OsiriXAPI/N2MutableUInteger.h>
 #import <OsiriXAPI/DCMTKStoreSCU.h>
 
+#undef XRay3DAngiographicImageStorage
+#undef XRay3DCraniofacialImageStorage
+
 #import <OsiriX/DCMObject.h>
+#import <OsiriX/DCMAbstractSyntaxUID.h>
 
 #import <objc/runtime.h>
 
-@implementation KeyObjectSelectionFilter
+@interface DicomImage (KOS)
+@end
 
-+(int)count { // DEBUG: sometimes we see a message on the log, something is calling this undefined method... we defined it so we can breakpoint here
-    NSLog(@"???");
-    return 0;
+@implementation DicomImage (KOS)
+
+-(NSString*)pathSOPInstanceUIDAndFrameID {
+    if (self.frameID)
+        return [NSString stringWithFormat:@"%@: %@ - %@", self.completePath, self.sopInstanceUID, self.frameID];
+    else return [NSString stringWithFormat:@"%@: %@", self.completePath, self.sopInstanceUID];
 }
+
+@end
+
+@implementation KeyObjectSelectionFilter
 
 static KeyObjectSelectionFilter* KeyObjectSelectionFilterInstance = nil;
 
@@ -103,18 +116,20 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
 
 + (NSArray*)KOsInStudy:(DicomStudy*)study {
     NSArray* images = [[self class] imagesInStudy:study];
-    return [images filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"modality == 'KO'"]];
+    return [images filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"modality = 'KO'"]];
 }
 
 + (NSArray*)keyImagesInStudy:(DicomStudy*)study {
     NSArray* images = [[self class] imagesInStudy:study];
-    return [images filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isKeyImage == YES"]];
+    return [images filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"isKeyImage = YES"]];
 }
 
 + (void)KOs:(NSArray*)kos analyzeAndReturnKeyImages:(NSMutableArray*)keyImages invalidatedKeyImages:(NSMutableArray*)invalidatedKeyImages invalidatedKOs:(NSMutableArray*)inInvalidatedKOs keyImagesPerKO:(NSMutableArray*)inKeyImagesPerKO{
     kos = [kos sortedArrayUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
-        return -[[obj1 date] compare:[obj2 date]];
+        return [[obj1 date] compare:[obj2 date]];
     }];
+    
+    DLog(@"%d KOS: %@", (int)kos.count, [kos valueForKey:@"pathSOPInstanceUIDAndFrameID"]);
 
     NSMutableArray* invalidatedKOs = inInvalidatedKOs? inInvalidatedKOs : [NSMutableArray array];
     NSMutableArray* keyImagesPerKO = inKeyImagesPerKO? inKeyImagesPerKO : [NSMutableArray array];
@@ -129,9 +144,22 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
         DcmDataset* dset = dfile.getDataset(); // = &dfile;
         if (dfile.loadFile([path fileSystemRepresentation]).bad()) { NSLog(@"Warning: can't load KO file at %@", path); continue; }
         
-        /*DSRDocument document;
+        /*// we read this file with DSRDocument
+        
+        DSRDocument document;
         if (document.read(*dset).bad()) { NSLog(@"Warning: can't read KO file at %@", path); continue; }
-        DSRDocumentTree& dtree = document.getTree();*/
+        DSRDocumentTree& dtree = document.getTree();
+        
+        DSRCodedEntryValue* conceptName = dtree.getCurrentContentItem().getConceptNamePtr();
+        if (!conceptName) { NSLog(@"Warning: KO file at %@ doesn't contain ConceptName", path); continue; }
+        
+        if (dtree.gotoNamedNode(*conceptName))
+            do {
+                DSRImageReferenceValue* image = dtree.getCurrentContentItem().getImageReferencePtr();
+                NSLog(@"%@ --- %s", path, image->getSOPInstanceUID().c_str());
+            } while (dtree.gotoNextNamedNode(*conceptName));
+        
+        break;*/
         
         DcmSequenceOfItems* sConceptNameCodeSequence = nil;
         if (dset->findAndGetElement(DcmTagKey(DCM_ConceptNameCodeSequence), (DcmElement*&)sConceptNameCodeSequence).bad()) { NSLog(@"Warning: KO file at %@ doesn't contain ConceptNameCodeSequence", path); continue; }
@@ -153,9 +181,10 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
                 DcmItem* item = sContentSequence->getItem(i);
                 OFString referencedSOPInstanceUID;
                 if (item->findAndGetOFString(DCM_ReferencedSOPInstanceUID, referencedSOPInstanceUID, 0, OFTrue).good()) {
-                    NSPredicate* pred = [NSPredicate predicateWithFormat:@"sopInstanceUID == %@", [NSString stringWithCString:referencedSOPInstanceUID.c_str() encoding:NSUTF8StringEncoding]];
+                    NSPredicate* pred = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@", [NSString stringWithCString:referencedSOPInstanceUID.c_str() encoding:NSUTF8StringEncoding]];
                     NSArray* referencedImages = [kos filteredArrayUsingPredicate:pred];
                     [invalidatedKOs addObjectsFromArray:referencedImages];
+                    NSLog(@"%@\n%@ invalidates %@", path, ko.sopInstanceUID, [referencedImages valueForKey:@"pathSOPInstanceUIDAndFrameID"]);
                 }
             }
         
@@ -169,18 +198,31 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
             DcmItem* item = sContentSequence->getItem(i);
             OFString referencedSOPInstanceUID;
             if (item->findAndGetOFString(DcmTagKey(DCM_ReferencedSOPInstanceUID), referencedSOPInstanceUID, 0, OFTrue).good()) {
-                NSPredicate* pred = [NSPredicate predicateWithFormat:@"sopInstanceUID == %@", [NSString stringWithCString:referencedSOPInstanceUID.c_str() encoding:NSUTF8StringEncoding]];
-                NSArray* referencedImages = [studyImages filteredArrayUsingPredicate:pred];
-                [keyImages addObjectsFromArray:referencedImages];
+                NSString* sopInstanceUID = [NSString stringWithCString:referencedSOPInstanceUID.c_str() encoding:NSUTF8StringEncoding];
+                
+                const char* str;
+                if (item->findAndGetString(DCM_ReferencedFrameNumber, str, OFTrue).good()) {
+                    for (NSString* frameID in [[NSString stringWithCString:str encoding:NSUTF8StringEncoding] componentsSeparatedByString:@"\\"]) {
+                        NSPredicate* pred = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@ AND frameID = %@", sopInstanceUID, [NSNumber numberWithInteger:[frameID integerValue]]];
+                        [keyImages addObjectsFromArray:[studyImages filteredArrayUsingPredicate:pred]];
+                    }
+                } else {
+                    NSString* sopInstanceUID = [NSString stringWithCString:referencedSOPInstanceUID.c_str() encoding:NSUTF8StringEncoding];
+                    NSPredicate* pred = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@", sopInstanceUID];
+                    [keyImages addObjectsFromArray:[studyImages filteredArrayUsingPredicate:pred]];
+                }
             }
         }
         
         [keyImagesPerKO addObject:[NSArray arrayWithObjects: ko, keyImages, nil]];
+        DLog(@"%@\n%@ sets keyImages %@", path, ko.sopInstanceUID, [keyImages valueForKey:@"pathSOPInstanceUIDAndFrameID"]);
     }
     
     for (NSArray* kipko in keyImagesPerKO) {
         DicomImage* ko = [kipko objectAtIndex:0];
         NSArray* images = [kipko objectAtIndex:1];
+        
+        DLog(@"Applying %@ dated %@", ko.sopInstanceUID, ko.date);
         
         if ([invalidatedKOs containsObject:ko]) {
             [keyImages removeObjectsInArray:images];
@@ -194,6 +236,10 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
             [invalidatedKeyImages removeObjectsInArray:images];
         }
     }
+    
+    DLog(@"Invalidated keyImages: %@", [invalidatedKeyImages valueForKey:@"pathSOPInstanceUIDAndFrameID"]);
+    
+    DLog(@"Valid keyImages: %@", [keyImages valueForKey:@"pathSOPInstanceUIDAndFrameID"]);
 }
 
 + (void)KOs:(NSArray*)kos analyzeAndReturnKeyImages:(NSMutableArray*)keyImages invalidatedKeyImages:(NSMutableArray*)invalidatedKeyImages {
@@ -204,10 +250,6 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     NSMutableArray* keyImages = [NSMutableArray array];
     NSMutableArray* invalidatedKeyImages = [NSMutableArray array];
     [[self class] KOs:kos analyzeAndReturnKeyImages:keyImages invalidatedKeyImages:invalidatedKeyImages];
-    
-    NSLog(@"KOS for %@: %@", study.studyInstanceUID, [[kos sortedArrayUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
-        return -[[obj1 date] compare:[obj2 date]];
-    }] valueForKey:@"completePath"]);
     
     NSThread* thread = [NSThread currentThread];
     
@@ -322,111 +364,6 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
         }];
 }
 
-- (void)finalizeSeriesViewingForViewerController:(ViewerController*)vc {
-    // this function is executed BEFORE -[ViewerController finalizeSeriesViewing]
-}
-
--(NSString*)DA:(NSDate*)date {
-    return [date descriptionWithCalendarFormat:@"%Y%m%d" timeZone:nil locale:nil];
-}
-
--(NSString*)TM:(NSDate*)date {
-    return [date descriptionWithCalendarFormat:@"%H%M" timeZone:nil locale:nil];
-}
-
--(NSString*)createKeyObjectSelectionDocumentWithStudy:(DicomStudy*)study codeValue:(const char*)codeValue meaning:(const char*)codeMeaning contentImages:(NSArray*)contentImages {
-    DicomDatabase* database = [DicomDatabase databaseForContext:study.managedObjectContext];
-    
-    /*NSString* seriesInstanceUID = nil; // series containing KO images
-    for (DicomImage* ko in [self KOsInStudy:study]) {
-        seriesInstanceUID = ko.series.seriesDICOMUID;
-        break;
-    }
-    
-    if (!seriesInstanceUID) {
-        DCMObject* obj = [[DCMObject alloc] init];
-        [obj newSeriesInstanceUID];
-        seriesInstanceUID = [[[[[obj attributes] objectForKey:@"0020,000E"] value] retain] autorelease];
-        [obj release];
-    }*/
-
-    // create KO file
-    
-    DSRDocument document(DSRTypes::DT_KeyObjectDoc);
-    DSRDocumentTree& dtree = document.getTree();
-
-    /*if (seriesInstanceUID) {
-        document.setStudyUID();
-        ;//document.setSeriesInstanceUID(seriesInstanceUID.UTF8String);
-    } else*/
-    document.createNewSeriesInStudy(study.studyInstanceUID.UTF8String);
-    
-    document.setInstanceNumber("1");
-    document.setSpecificCharacterSetType(DSRTypes::CS_UTF8);
-	if (study.name) document.setPatientsName(study.name.UTF8String);
-	if (study.studyName) document.setStudyDescription(study.studyName.UTF8String);
-	if (study.dateOfBirth) document.setPatientsBirthDate([[self DA:study.dateOfBirth] UTF8String]);
-	if (study.patientSex) document.setPatientsSex(study.patientSex.UTF8String);
-	if (study.patientID) document.setPatientID(study.patientID.UTF8String);
-	if (study.referringPhysician) document.setReferringPhysiciansName(study.referringPhysician.UTF8String);
-	if (study.id) document.setStudyID(study.id.UTF8String);
-	if (study.accessionNumber) document.setAccessionNumber(study.accessionNumber.UTF8String);
-	document.setSeriesDescription("OsiriX KeyObjectSelection Plugin KO");
-    document.setManufacturer("OsiriX KeyObjectSelection Plugin");
-    document.setSeriesNumber("6000"); // TODO: ?
-    
-    NSDate* now = [NSDate date];
-    document.setContentDate([[self DA:now] UTF8String]);
-    document.setContentDate([[self TM:now] UTF8String]);
-    
-    // KEY OBJECT DOCUMENT MODULE
-    
-    dtree.addContentItem(DSRTypes::RT_isRoot, DSRTypes::VT_Container);
-    DSRContentItem& dci = dtree.getCurrentContentItem();
-    
-    DSRCodedEntryValue* conceptName = dci.getConceptNamePtr();
-    if (conceptName != NULL)
-        conceptName->setCode(codeValue, "DCM", codeMeaning);
-
-    DSRTypes::E_AddMode addMode = DSRTypes::AM_belowCurrent;
-    for (DicomImage* image in contentImages) {
-        DcmFileFormat iff;
-        iff.loadFile([[image completePath] fileSystemRepresentation]);
-        DcmDataset* idataset = iff.getDataset();
-        
-        const char* sopClassUID;
-        idataset->findAndGetString(DcmTagKey(DCM_SOPClassUID), sopClassUID);
-        
-        dtree.addContentItem(DSRTypes::RT_contains, DSRTypes::VT_Image, addMode);
-        DSRContentItem& ici = dtree.getCurrentContentItem();
-        DSRCompositeReferenceValue* ref = ici.getImageReferencePtr();
-        if (ref) ref->setValue(DSRImageReferenceValue(sopClassUID, image.sopInstanceUID.UTF8String));
-        
-        addMode = DSRTypes::AM_afterCurrent;
-    }
-    
-    // save
-    
-    [NSFileManager.defaultManager confirmDirectoryAtPath:database.tempDirPath];
-    NSString* outputFilePath = [NSFileManager.defaultManager tmpFilePathInDir:database.tempDirPath];
-
-    DcmFileFormat dff;
-    document.write(*dff.getDataset());
-    OFCondition cond = dff.saveFile(outputFilePath.fileSystemRepresentation, EXS_LittleEndianExplicit);
-    if (cond.bad())
-        [NSException raise:NSGenericException format:@"Can't write KO file:\n%s", cond.text()];
-    
-    NSString* dbpath = [database uniquePathForNewDataFileWithExtension:@"dcm"];
-    [NSFileManager.defaultManager moveItemAtPath:outputFilePath toPath:dbpath error:NULL];
-    [database addFilesAtPaths:[NSArray arrayWithObject:dbpath]
-            postNotifications:YES
-                    dicomOnly:YES 
-          rereadExistingItems:YES
-            generatedByOsiriX:YES];
-    
-    return dbpath;
-}
-
 - (void)saveKOsForStudy:(DicomStudy*)study {
     NSArray* kos = [[self class] KOsInStudy:study];
     
@@ -437,6 +374,8 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     [[self class] KOs:kos analyzeAndReturnKeyImages:kosKeyImages invalidatedKeyImages:kosInvalidatedKeyImages invalidatedKOs:invalidatedKOs keyImagesPerKO:keyImagesPerKO];
     
     NSArray* keyImages = [[self class] keyImagesInStudy:study];
+    
+    DLog(@"Actual keyImages: %@", [keyImages valueForKey:@"pathSOPInstanceUIDAndFrameID"]);
     
     NSMutableArray* KOsToInvalidate = [NSMutableArray array];
     for (DicomImage* keyImage in kosKeyImages)
@@ -454,8 +393,12 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     
     if (KOsToInvalidate.count)
         [newDcmFiles addObject:[self createKeyObjectSelectionDocumentWithStudy:study codeValue:"113001" meaning:"Rejected for Quality Reasons" contentImages:KOsToInvalidate]];
-    
-    [newDcmFiles addObject:[self createKeyObjectSelectionDocumentWithStudy:study codeValue:"113000" meaning:"Of Interest" contentImages:keyImages]];
+    if (keyImages.count) {
+        NSMutableArray* temp = [[keyImages mutableCopy] autorelease];
+        [temp removeObjectsInArray:kosKeyImages];
+        if (temp.count)
+            [newDcmFiles addObject:[self createKeyObjectSelectionDocumentWithStudy:study codeValue:"113000" meaning:"Of Interest" contentImages:keyImages]];
+    }
     
     if (![NSUserDefaults.standardUserDefaults boolForKey:KOSSynchronizeKey]) // plugin isn't active
         return;
@@ -466,7 +409,7 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
             NSString* tAET = [NSUserDefaults.standardUserDefaults stringForKey:KOSAETKey];
             NSString* tHost = [NSUserDefaults.standardUserDefaults stringForKey:KOSNodeHostKey];
             NSInteger tPort = [NSUserDefaults.standardUserDefaults integerForKey:KOSNodePortKey];
-
+            
             NSThread* thread = [NSThread currentThread];
             thread.name = [NSString stringWithFormat:NSLocalizedString(@"KeyObjects for %@", nil), study.name];
             thread.status = [NSString stringWithFormat:NSLocalizedString(@"Sending to %@...", nil), tAET];
@@ -484,6 +427,132 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
         }];
 }
 
+- (void)finalizeSeriesViewingForViewerController:(ViewerController*)vc {
+    // this function is executed BEFORE -[ViewerController finalizeSeriesViewing]
+    
+    DicomStudy* study = [vc currentStudy];
+    
+    if (study)
+        [self saveKOsForStudy:study];
+}
+
+-(NSString*)DA:(NSDate*)date {
+    return [date descriptionWithCalendarFormat:@"%Y%m%d" timeZone:nil locale:nil];
+}
+
+-(NSString*)TM:(NSDate*)date {
+    return [date descriptionWithCalendarFormat:@"%H%M" timeZone:nil locale:nil];
+}
+
+-(NSString*)createKeyObjectSelectionDocumentWithStudy:(DicomStudy*)study codeValue:(const char*)codeValue meaning:(const char*)codeMeaning contentImages:(NSArray*)contentImages {
+    DicomDatabase* database = [DicomDatabase databaseForContext:study.managedObjectContext];
+    
+    NSMutableDictionary* contentImagesPerFile = [NSMutableDictionary dictionary];
+    for (DicomImage* image in contentImages) {
+        NSString* completePath = [image completePath];
+        NSMutableArray* images = [contentImagesPerFile objectForKey:completePath];
+        if (!images) [contentImagesPerFile setObject:(images = [NSMutableArray array]) forKey:completePath];
+        [images addObject:image];
+    }
+    
+    DicomSeries* series = nil; // series containing KO images
+    for (DicomImage* ko in [[self class] KOsInStudy:study]) {
+        series = ko.series;
+        break;
+    }
+    
+    // create KO file
+    
+    DSRDocument document(DSRTypes::DT_KeyObjectDoc);
+    DSRDocumentTree& dtree = document.getTree();
+
+    document.createNewSeriesInStudy(study.studyInstanceUID.UTF8String);
+    if (series) {
+        document.setSeriesNumber(series.id.stringValue.UTF8String);
+        document.setSeriesDescription(series.seriesDescription.UTF8String);
+    }
+    
+    document.setInstanceNumber("1");
+    document.setSpecificCharacterSetType(DSRTypes::CS_UTF8);
+	if (study.name) document.setPatientsName(study.name.UTF8String);
+	if (study.studyName) document.setStudyDescription(study.studyName.UTF8String);
+	if (study.dateOfBirth) document.setPatientsBirthDate([[self DA:study.dateOfBirth] UTF8String]);
+	if (study.patientSex) document.setPatientsSex(study.patientSex.UTF8String);
+	if (study.patientID) document.setPatientID(study.patientID.UTF8String);
+	if (study.referringPhysician) document.setReferringPhysiciansName(study.referringPhysician.UTF8String);
+	if (study.id) document.setStudyID(study.id.UTF8String);
+	if (study.accessionNumber) document.setAccessionNumber(study.accessionNumber.UTF8String);
+	document.setSeriesDescription("OsiriX KeyObjectSelection Plugin KO");
+    document.setManufacturer("OsiriX KeyObjectSelection Plugin");
+    
+    NSDate* now = [NSDate date];
+    document.setContentDate([[self DA:now] UTF8String]);
+    document.setContentTime([[self TM:now] UTF8String]);
+    
+    // KEY OBJECT DOCUMENT MODULE
+    
+    dtree.addContentItem(DSRTypes::RT_isRoot, DSRTypes::VT_Container);
+    DSRContentItem& dci = dtree.getCurrentContentItem();
+    
+    DSRCodedEntryValue* conceptName = dci.getConceptNamePtr();
+    if (conceptName != NULL)
+        conceptName->setCode(codeValue, "DCM", codeMeaning);
+
+    DSRTypes::E_AddMode addMode = DSRTypes::AM_belowCurrent;
+    for (NSString* path in contentImagesPerFile) {
+        NSArray* contentImages = [contentImagesPerFile objectForKey:path];
+        DicomImage* image0 = [contentImages objectAtIndex:0];
+        
+        DcmFileFormat iff;
+        iff.loadFile([[image0 completePath] fileSystemRepresentation]);
+        DcmDataset* idataset = iff.getDataset();
+        
+        const char* sopClassUID;
+        idataset->findAndGetString(DcmTagKey(DCM_SOPClassUID), sopClassUID);
+        const char* sopInstanceUID;
+        idataset->findAndGetString(DcmTagKey(DCM_SOPInstanceUID), sopInstanceUID);
+        
+        dtree.addContentItem(DSRTypes::RT_contains, DSRTypes::VT_Image, addMode);
+        DSRContentItem& ici = dtree.getCurrentContentItem();
+        DSRImageReferenceValue* ref = ici.getImageReferencePtr();
+        
+        ref->setValue(DSRImageReferenceValue(sopClassUID, sopInstanceUID));
+        
+        if (contentImages.count > 1 || [DCMAbstractSyntaxUID isMultiframe:[NSString stringWithCString:sopClassUID encoding:NSUTF8StringEncoding]])
+            for (DicomImage* image in contentImages)
+                ref->getFrameList().addItem(image.frameID.integerValue);
+        
+        addMode = DSRTypes::AM_afterCurrent;
+    }
+    
+    // save
+    
+    [NSFileManager.defaultManager confirmDirectoryAtPath:database.tempDirPath];
+    NSString* outputFilePath = [NSFileManager.defaultManager tmpFilePathInDir:database.tempDirPath];
+
+    DcmFileFormat dff;
+    DcmDataset* dataset = dff.getDataset();
+    document.write(*dataset);
+    
+    if (series) {
+        dataset->putAndInsertString(DCM_SeriesInstanceUID, series.seriesDICOMUID.UTF8String);
+    }
+    
+    OFCondition cond = dff.saveFile(outputFilePath.fileSystemRepresentation, EXS_LittleEndianExplicit);
+    if (cond.bad())
+        [NSException raise:NSGenericException format:@"Can't write KO file:\n%s", cond.text()];
+    
+    NSString* dbpath = [database uniquePathForNewDataFileWithExtension:@"dcm"];
+    [NSFileManager.defaultManager moveItemAtPath:outputFilePath toPath:dbpath error:NULL];
+    [database addFilesAtPaths:[NSArray arrayWithObject:dbpath]
+            postNotifications:NO
+                    dicomOnly:YES 
+          rereadExistingItems:YES
+            generatedByOsiriX:YES];
+    
+    return dbpath;
+}
+
 - (void)dicomImage:(DicomImage*)image setIsKeyImage:(NSNumber*)flag {
     // this function is executed AFTER -[DicomImage setIsKeyImage:] and only if the image's isKeyImage value has changed
     
@@ -492,7 +561,7 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     if ([thread.threadDictionary objectForKey:KOSIsApplyingKOsThreadKey])
         return; // it's the plugin that's assigning this flag, don't react...
     
-    [self saveKOsForStudy:image.series.study];
+    // DO SOMETHING? no, no
 }
 
 #pragma mark Swizzled methods
