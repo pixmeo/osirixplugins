@@ -7,7 +7,7 @@
 //  Distributed under GNU - GPL
 
 #import <Foundation/Foundation.h>
-#import "PluginFilter.h"
+#import <OsiriXAPI/PluginFilter.h>
 
 #define DQUOTE 0x22
 #define LF 0x0a

@@ -7,19 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71BD46A7157DF6CE009802C2 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71BD46A6157DF6CE009802C2 /* OsiriXAPI.framework */; };
 		8202B233092EC3930013789F /* FileTypeSelector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8202B232092EC3930013789F /* FileTypeSelector.nib */; };
 		82128236092EBCE20093B432 /* FileTypeSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 82128235092EBCE20093B432 /* FileTypeSelector.h */; };
 		82128238092EBD0A0093B432 /* FileTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 82128237092EBD0A0093B432 /* FileTypeSelector.m */; };
-		8253FEE1092DF8A4008956FB /* Wait.h in Headers */ = {isa = PBXBuildFile; fileRef = 8253FEE0092DF8A4008956FB /* Wait.h */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB76339067FB2A8000912C1 /* DCMPix.h */; };
-		ABB76341067FB2A8000912C1 /* DCMView.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633A067FB2A8000912C1 /* DCMView.h */; };
-		ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633B067FB2A8000912C1 /* dicomFile.h */; };
-		ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633C067FB2A8000912C1 /* MyPoint.h */; };
-		ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633D067FB2A8000912C1 /* PluginFilter.h */; };
-		ABB76345067FB2A8000912C1 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633E067FB2A8000912C1 /* ROI.h */; };
-		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
 		DB38E3AA08CDCFCB00E80768 /* ExportROIsPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = DB38E3A808CDCFCB00E80768 /* ExportROIsPlugin.h */; };
 		DB38E3AB08CDCFCB00E80768 /* ExportROIsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DB38E3A908CDCFCB00E80768 /* ExportROIsPlugin.m */; };
 		DB38E3AD08CDCFDE00E80768 /* ExportROIs_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DB38E3AC08CDCFDE00E80768 /* ExportROIs_Prefix.pch */; };
@@ -30,19 +23,12 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		71BD46A6157DF6CE009802C2 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		8202B232092EC3930013789F /* FileTypeSelector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = FileTypeSelector.nib; sourceTree = "<group>"; };
 		82128235092EBCE20093B432 /* FileTypeSelector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FileTypeSelector.h; sourceTree = "<group>"; };
 		82128237092EBD0A0093B432 /* FileTypeSelector.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FileTypeSelector.m; sourceTree = "<group>"; };
-		8253FEE0092DF8A4008956FB /* Wait.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Wait.h; sourceTree = "<group>"; };
 		82CD775408DDAB9100BDF92A /* ExportROIs.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExportROIs.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		ABB76339067FB2A8000912C1 /* DCMPix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMPix.h; sourceTree = "<group>"; };
-		ABB7633A067FB2A8000912C1 /* DCMView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMView.h; sourceTree = "<group>"; };
-		ABB7633B067FB2A8000912C1 /* dicomFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = dicomFile.h; sourceTree = "<group>"; };
-		ABB7633C067FB2A8000912C1 /* MyPoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyPoint.h; sourceTree = "<group>"; };
-		ABB7633D067FB2A8000912C1 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
-		ABB7633E067FB2A8000912C1 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
-		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
 		DB38E3A808CDCFCB00E80768 /* ExportROIsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExportROIsPlugin.h; sourceTree = "<group>"; };
 		DB38E3A908CDCFCB00E80768 /* ExportROIsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExportROIsPlugin.m; sourceTree = "<group>"; };
 		DB38E3AC08CDCFDE00E80768 /* ExportROIs_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExportROIs_Prefix.pch; sourceTree = "<group>"; };
@@ -54,6 +40,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				71BD46A7157DF6CE009802C2 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +63,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				71BD46A6157DF6CE009802C2 /* OsiriXAPI.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);
@@ -94,7 +82,6 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				ABB76338067FB2A8000912C1 /* OsiriX Headers */,
 				AB2C26750677B0C400A08910 /* ExportROIsPlugin */,
 			);
 			name = Classes;
@@ -144,27 +131,12 @@
 		AB2C26750677B0C400A08910 /* ExportROIsPlugin */ = {
 			isa = PBXGroup;
 			children = (
-				82128237092EBD0A0093B432 /* FileTypeSelector.m */,
-				82128235092EBCE20093B432 /* FileTypeSelector.h */,
 				DB38E3A808CDCFCB00E80768 /* ExportROIsPlugin.h */,
 				DB38E3A908CDCFCB00E80768 /* ExportROIsPlugin.m */,
+				82128235092EBCE20093B432 /* FileTypeSelector.h */,
+				82128237092EBD0A0093B432 /* FileTypeSelector.m */,
 			);
 			name = ExportROIsPlugin;
-			sourceTree = "<group>";
-		};
-		ABB76338067FB2A8000912C1 /* OsiriX Headers */ = {
-			isa = PBXGroup;
-			children = (
-				8253FEE0092DF8A4008956FB /* Wait.h */,
-				ABB7633D067FB2A8000912C1 /* PluginFilter.h */,
-				ABB76339067FB2A8000912C1 /* DCMPix.h */,
-				ABB7633A067FB2A8000912C1 /* DCMView.h */,
-				ABB7633B067FB2A8000912C1 /* dicomFile.h */,
-				ABB7633C067FB2A8000912C1 /* MyPoint.h */,
-				ABB7633E067FB2A8000912C1 /* ROI.h */,
-				ABB7633F067FB2A8000912C1 /* ViewerController.h */,
-			);
-			path = "OsiriX Headers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,16 +146,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABB76340067FB2A8000912C1 /* DCMPix.h in Headers */,
-				ABB76341067FB2A8000912C1 /* DCMView.h in Headers */,
-				ABB76342067FB2A8000912C1 /* dicomFile.h in Headers */,
-				ABB76343067FB2A8000912C1 /* MyPoint.h in Headers */,
-				ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */,
-				ABB76345067FB2A8000912C1 /* ROI.h in Headers */,
-				ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */,
 				DB38E3AA08CDCFCB00E80768 /* ExportROIsPlugin.h in Headers */,
 				DB38E3AD08CDCFDE00E80768 /* ExportROIs_Prefix.pch in Headers */,
-				8253FEE1092DF8A4008956FB /* Wait.h in Headers */,
 				82128236092EBCE20093B432 /* FileTypeSelector.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,7 +250,11 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix-trunk/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -322,14 +290,10 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					ppc64,
-					x86_64,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx10.6;
 			};
 			name = Development;
 		};
