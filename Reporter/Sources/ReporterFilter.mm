@@ -85,7 +85,7 @@
     return [NSString stringWithFormat:@"%@-%@", image.sopInstanceUID, image.frameID];
 }
 
--(void)processStudy:(DicomStudy*)study {
+-(void)processStudy:(DicomStudy*)study alsoImagesWithROIs:(BOOL)alsoImagesWithROIs {
     NSMutableArray* images = [NSMutableArray array];
     
     // save open viewers
@@ -102,22 +102,24 @@
     // saved ROIs
     for (DicomSeries* series in study.series)
         [allImages addObjectsFromArray:series.images.allObjects];
-    for (DicomImage* roi in [study.roiSRSeries images]) {
-        NSArray* robjs = [NSUnarchiver unarchiveObjectWithData:[SRAnnotation roiFromDICOM:[roi completePath]]];
-        if (!robjs.count) continue;
-        
-        NSInteger it = [roi.comment rangeOfString:@"-" options:NSLiteralSearch+NSBackwardsSearch].location;
-        NSString* uid = [roi.comment substringToIndex:it];
-        int fid = [[roi.comment substringFromIndex:it+1] intValue];
-        // find the image that uses these ROIs
-        NSPredicate* p;
-        if (fid)
-            p = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@ and frameID = %@", uid, [NSNumber numberWithInt:fid]];
-        else p = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@", uid];
-        NSArray* found = [allImages filteredArrayUsingPredicate:p];
-        if (found.count)
-            [images addObject:[found objectAtIndex:0]];
-    }
+    
+    if (alsoImagesWithROIs)
+        for (DicomImage* roi in [study.roiSRSeries images]) {
+            NSArray* robjs = [NSUnarchiver unarchiveObjectWithData:[SRAnnotation roiFromDICOM:[roi completePath]]];
+            if (!robjs.count) continue;
+            
+            NSInteger it = [roi.comment rangeOfString:@"-" options:NSLiteralSearch+NSBackwardsSearch].location;
+            NSString* uid = [roi.comment substringToIndex:it];
+            int fid = [[roi.comment substringFromIndex:it+1] intValue];
+            // find the image that uses these ROIs
+            NSPredicate* p;
+            if (fid)
+                p = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@ and frameID = %@", uid, [NSNumber numberWithInt:fid]];
+            else p = [NSPredicate predicateWithFormat:@"sopInstanceUID = %@", uid];
+            NSArray* found = [allImages filteredArrayUsingPredicate:p];
+            if (found.count)
+                [images addObject:[found objectAtIndex:0]];
+        }
     
     // remove double entries: first sort, then remove subsequent doubles
     [images sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
@@ -233,7 +235,9 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
         item.menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
         mi = [item.menu addItemWithTitle:NSLocalizedString(@"Add currently displayed image to the Report", nil) action:@selector(_toolbarActionImage:) keyEquivalent:@""];
         mi.target = ReporterInstance;
-        mi = [item.menu addItemWithTitle:NSLocalizedString(@"Add key images and images containing ROIs to the Report", nil) action:@selector(_toolbarActionImages:) keyEquivalent:@""];
+        mi = [item.menu addItemWithTitle:NSLocalizedString(@"Add key images to the Report", nil) action:@selector(_toolbarActionKeyImages:) keyEquivalent:@""];
+        mi.target = ReporterInstance;
+        mi = [item.menu addItemWithTitle:NSLocalizedString(@"Add key images and images containing ROIs to the Report", nil) action:@selector(_toolbarActionKeyImagesAndROIs:) keyEquivalent:@""];
         mi.target = ReporterInstance;
 //        [item.menu addItem:[NSMenuItem separatorItem]];
 //        mi = [item.menu addItemWithTitle:NSLocalizedString(@"Replace previously added images instead of adding them again", nil) action:@selector(_toggleReplaceImages:) keyEquivalent:@""];
@@ -270,9 +274,15 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
     viewerController = nil;
 }
 
--(void)_toolbarActionImages:(id)sender {
+-(void)_toolbarActionKeyImages:(id)sender {
     viewerController = [ViewerController frontMostDisplayed2DViewer];
-    [self processStudy:[viewerController currentStudy]];
+    [self processStudy:[viewerController currentStudy] alsoImagesWithROIs:NO];
+    viewerController = nil;
+}
+
+-(void)_toolbarActionKeyImagesAndROIs:(id)sender {
+    viewerController = [ViewerController frontMostDisplayed2DViewer];
+    [self processStudy:[viewerController currentStudy] alsoImagesWithROIs:YES];
     viewerController = nil;
 }
 
