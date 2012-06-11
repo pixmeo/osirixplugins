@@ -29,7 +29,8 @@
 	
 	// calibration
 	IBOutlet NSButton *_magnificationRadioCustom, *_magnificationRadioCalibrate;
-	IBOutlet NSTextField *_magnificationCustomFactor, *_magnificationCalibrateLength;
+	IBOutlet NSTextField* _magnificationCustomFactor;
+    IBOutlet NSTextField* _magnificationCalibrateLength;
 	CGFloat _appliedMagnification;
 	// axes
 	float _horizontalAngle, _femurAngle;
