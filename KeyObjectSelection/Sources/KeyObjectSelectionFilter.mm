@@ -27,6 +27,7 @@
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/N2MutableUInteger.h>
 #import <OsiriXAPI/DCMTKStoreSCU.h>
+#import <OsiriXAPI/MPRController.h>
 
 #undef XRay3DAngiographicImageStorage
 #undef XRay3DCraniofacialImageStorage
@@ -57,11 +58,11 @@ static NSString* const KOSIsApplyingKOsThreadKey = @"KOSIsApplyingKOs"; // plugi
 static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; // OsiriX is setting key image flag
 
 - (void)initPlugin {
-	[PreferencesWindowController addPluginPaneWithResourceNamed:@"KeyObjectSelectionPrefs" inBundle:[NSBundle bundleForClass:[self class]] withTitle:@"Key Object Selection" image:[NSImage imageNamed:@"NSUser"]];
-
-    // swizzle OsiriX methods
-    
     KeyObjectSelectionFilterInstance = self;
+
+	[PreferencesWindowController addPluginPaneWithResourceNamed:@"KeyObjectSelectionPrefs" inBundle:[NSBundle bundleForClass:[self class]] withTitle:@"Key Object Selection" image:[NSImage imageNamed:@"NSUser"]];
+    
+    // swizzle OsiriX methods
     
     Method method;
     IMP imp;
@@ -83,6 +84,12 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     class_addMethod(ViewerControllerClass, @selector(_ViewerController_finalizeSeriesViewing), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_finalizeSeriesViewing)));
     
+    method = class_getInstanceMethod(ViewerControllerClass, @selector(setKeyImage:));
+    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
+    imp = method_getImplementation(method);
+    class_addMethod(ViewerControllerClass, @selector(_ViewerController_setKeyImage:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_setKeyImage:)));
+    
     // DicomImage
     
     Class DicomImageClass = [DicomImage class];
@@ -93,9 +100,22 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     class_addMethod(DicomImageClass, @selector(_DicomImage_setIsKeyImage:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_DicomImage_setIsKeyImage:)));
 
+    /* 3D MPR
+    
+    Class MPRControllerClass = [MPRController class];
+    method = class_getInstanceMethod([self class], @selector(_MPRController_setKeyImage:));
+    class_addMethod(MPRControllerClass, @selector(setKeyImage:), method_getImplementation(method), method_getTypeEncoding(method));
+    
+    */
+    
+    
     // watch for added files notifications
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeAddNotification:) name:_O2AddToDBAnywayCompleteNotification object:nil];
+}
+
+-(void)dealloc {
+    [super dealloc];
 }
 
 - (long)filterImage:(NSString*)menuName {
@@ -564,6 +584,17 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     // DO SOMETHING? no, no
 }
 
+-(void)playGrabSound {
+    NSString* path = @"/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/system/Grab.aif";
+    NSSound* sound = [[NSSound alloc] initWithContentsOfFile:path byReference:NO];
+    sound.delegate = self;
+    [sound play];
+}
+
+- (void)sound:(NSSound*)sound didFinishPlaying:(BOOL)finishedPlaying {
+    [sound release];
+}
+
 #pragma mark Swizzled methods
 
 - (void)_ViewerController_changeImageData:(NSMutableArray*)f :(NSMutableArray*)d :(NSData*)v :(BOOL)newViewerWindow {
@@ -576,6 +607,90 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     [KeyObjectSelectionFilterInstance finalizeSeriesViewingForViewerController:(ViewerController*)self];
 //    NSLog(@"...finalizeSeriesViewing, react to save KeyObjectSelectionDocument series");
     [self _ViewerController_finalizeSeriesViewing];
+}
+
+static NSString* const KOSReconstructionsSeriesName = NSLocalizedString(@"OsiriX Screen Captures", nil);
+
+-(void)_ViewerController_setKeyImage:(id)sender {
+    //if ([(ViewerController*)self blendingController])
+    if (![[[(ViewerController*)self currentImage] isKeyImage] boolValue])
+    {
+        [KeyObjectSelectionFilterInstance playGrabSound];
+        
+        DicomStudy* study = [(ViewerController*)self currentStudy];
+        
+        // export the reconstruction as a new DICOM file
+        NSDictionary* result = [(ViewerController*)self exportDICOMFileInt:1 withName:KOSReconstructionsSeriesName allViewers:NO];
+        NSString* path = [result objectForKey:@"file"];
+        
+        // if a "OsiriX KOS Plugin Reconstructions" series already existed, put it in that series
+        DicomSeries* series = nil;
+        for (DicomSeries* iseries in study.series)
+            if ([iseries.name isEqualToString:KOSReconstructionsSeriesName])
+                series = iseries;
+        if (series) {
+            DcmFileFormat dfile;
+            DcmDataset* dset = dfile.getDataset(); // = &dfile;
+            if (dfile.loadFile(path.fileSystemRepresentation).good()) {
+                dfile.loadAllDataIntoMemory();
+                
+                // clone seriesinstanceUID and seriesNumber
+                dset->putAndInsertString(DCM_SeriesInstanceUID, series.seriesDICOMUID.UTF8String);
+                dset->putAndInsertString(DCM_SeriesNumber, series.id.stringValue.UTF8String);
+                
+                // find highest instanceNumber in the series
+                NSInteger instanceNumber = 0;
+                for (DicomImage* image in series.images)
+                    if (image.instanceNumber.integerValue > instanceNumber)
+                        instanceNumber = image.instanceNumber.integerValue;
+                ++instanceNumber;
+                
+                NSNumber* instanceNumberString = [NSNumber numberWithInteger:instanceNumber];
+                dset->putAndInsertString(DCM_InstanceNumber, instanceNumberString.stringValue.UTF8String);
+                dset->putAndInsertString(DCM_AcquisitionNumber, instanceNumberString.stringValue.UTF8String);
+                
+                dfile.saveFile(path.fileSystemRepresentation);
+            }
+        }
+        
+        // import the file into our DB
+        DicomDatabase* database = [DicomDatabase databaseForContext:study.managedObjectContext];
+        NSArray* images = [database addFilesAtPaths:[NSArray arrayWithObject:path]
+                                  postNotifications:YES
+                                          dicomOnly:YES 
+                                rereadExistingItems:YES
+                                  generatedByOsiriX:YES];
+        
+        // upload the new file to the DICOM node
+        if ([NSUserDefaults.standardUserDefaults boolForKey:KOSSynchronizeKey]) // plugin is active
+            [NSThread performBlockInBackground: ^{
+                NSString* myAET = [NSUserDefaults.standardUserDefaults stringForKey:@"AETITLE"];
+                NSString* tAET = [NSUserDefaults.standardUserDefaults stringForKey:KOSAETKey];
+                NSString* tHost = [NSUserDefaults.standardUserDefaults stringForKey:KOSNodeHostKey];
+                NSInteger tPort = [NSUserDefaults.standardUserDefaults integerForKey:KOSNodePortKey];
+                
+                NSThread* thread = [NSThread currentThread];
+                thread.name = [NSString stringWithFormat:NSLocalizedString(@"KeyObjects for %@", nil), study.name];
+                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Saving reconstruction to %@...", nil), tAET];
+                [ThreadsManager.defaultManager addThreadAndStart:thread];
+                
+                DCMTKStoreSCU* storescu = [[[DCMTKStoreSCU alloc] initWithCallingAET:myAET
+                                                                           calledAET:tAET
+                                                                            hostname:tHost
+                                                                                port:tPort
+                                                                         filesToSend:[NSArray arrayWithObject:path]
+                                                                      transferSyntax:0
+                                                                         compression:1.0
+                                                                     extraParameters:nil] autorelease];
+                [storescu run:self];
+            }];
+        
+        // set the new images as key images
+        for (DicomImage* image in images)
+            [image setIsKeyImage:[NSNumber numberWithBool:YES]];
+        
+    } else
+        [self _ViewerController_setKeyImage:sender];
 }
 
 - (void)_DicomImage_setIsKeyImage:(NSNumber*)flag {
@@ -601,5 +716,9 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     if (wasKeyImage != flag.boolValue)
         [KeyObjectSelectionFilterInstance dicomImage:(DicomImage*)self setIsKeyImage:flag];
 }
+
+/*-(void)_MPRController_setKeyImage:(id)sender {
+    NSLog(@"EUREKA MPRController");
+}*/
 
 @end

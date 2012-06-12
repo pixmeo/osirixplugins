@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <OsiriXAPI/PluginFilter.h>
 
-@interface KeyObjectSelectionFilter : PluginFilter {
+@interface KeyObjectSelectionFilter : PluginFilter<NSSoundDelegate> {
 }
 
 

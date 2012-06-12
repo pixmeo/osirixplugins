@@ -421,7 +421,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Resources/Plugin-Info.plist";
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
@@ -435,6 +434,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = KeyObjectSelection;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "\"../../osirix-trunk/build/Development/OsiriXAPI.framework/Versions/A/Headers\"";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -458,7 +458,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Resources/Plugin-Info.plist";
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
@@ -472,6 +471,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = KeyObjectSelection;
 				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "\"../../osirix-trunk/build/Development/OsiriXAPI.framework/Versions/A/Headers\"";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
