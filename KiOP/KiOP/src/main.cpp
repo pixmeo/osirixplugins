@@ -233,7 +233,7 @@ void handleState()
 				windowActiveTool->show();
 				//pixActive->show();
 				//pixActive->load(QPixmap(":/images/Resources/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
-				pixActive->load(QPixmap(":/images/Resources/"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
+				pixActive->load(QPixmap(":/images/"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
 				windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 				if (currentTool==totalTools)
 					currentState=2;
@@ -276,8 +276,11 @@ void handleState()
 					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
 					pix.operator[](i)->show();
 				}
+				cout << " bonjour  -------- " << currentState << " --- " << lastState << endl;
 				lastState = currentState;
 				telnet.connexion();
+				toolSelectable = false;
+				
 			}
 
 			if (!handClosed)
@@ -288,7 +291,7 @@ void handleState()
 
 			// Si la main est fermée, on choisi un outil
 			//if (0)
-			if (handClosed)
+			if (handClosed && toolSelectable)
 			{				
 				lastState = currentState;
 				currentState = -1;
@@ -440,7 +443,7 @@ void handleState()
 				case -5:
 					chooseTool(currentLayoutTool, lastLayoutTool, totalLayoutTools);
 					browse(currentLayoutTool,lastLayoutTool, pixL);
-					if (handClosed)
+					if (handClic)
 					{
 						viewLayouts->hide();
 						switch(currentLayoutTool)
@@ -482,9 +485,10 @@ void handleState()
 
 			// Pour quitter l'outil et revenir dans le menu
 			if ( ( steadyState && (!handClosed) && (currentState != 3) && (currentTool != -5) ) 
-					|| ((currentTool == -5) && (handClosed)) )
+					|| ((currentTool == -5) && (handClic)) )
 			{
-				lastState = currentState;
+				cout << "helllooooooooooo" << endl;
+				lastState = 0;
 				currentState = 1;
 				nFrames = 2;
 				moveThreshold = 4;
@@ -498,6 +502,7 @@ void handleState()
 				currentTool=totalTools;
 				lastTool=0;
 				lastPt = handPt;
+				toolSelectable = false;
 				//steadyState = false;
 			}
 			break;
@@ -928,13 +933,13 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(images);
 
 #if defined _OS_WIN_
-	Pixmap *p1 = new Pixmap(QPixmap(":/images/Resources/mouse.png").scaled(64,64));
-	Pixmap *p2 = new Pixmap(QPixmap(":/images/Resources/layout.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/images/Resources/move.png").scaled(64,64));
-	Pixmap *p4 = new Pixmap(QPixmap(":/images/Resources/zoom.png").scaled(64,64));
-	Pixmap *p5 = new Pixmap(QPixmap(":/images/Resources/scroll.png").scaled(64,64));
-	Pixmap *p6 = new Pixmap(QPixmap(":/images/Resources/contrast.png").scaled(64,64));
-	Pixmap *p7 = new Pixmap(QPixmap(":/images/Resources/stop.png").scaled(64,64));
+	Pixmap *p1 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
+	Pixmap *p2 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
+	Pixmap *p3 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
+	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
+	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
+	Pixmap *p6 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
+	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #elif defined _OS_MAC_
 	Pixmap *p1 = new Pixmap(QPixmap(":/../res/mouse.png").scaled(64,64));
 	Pixmap *p2 = new Pixmap(QPixmap(":/../res/images/layout.png").scaled(64,64));
@@ -992,12 +997,12 @@ int main(int argc, char *argv[])
 
 	////////////// LAYOUT
 #if defined _OS_WIN_
-	Pixmap *l1 = new Pixmap(QPixmap(":/images/Resources/layouts/_1x1.png").scaled(64,64));
-	Pixmap *l2 = new Pixmap(QPixmap(":/images/Resources/layouts/_1x2.png").scaled(64,64));
-	Pixmap *l3 = new Pixmap(QPixmap(":/images/Resources/layouts/_2x1.png").scaled(64,64));
-	Pixmap *l4 = new Pixmap(QPixmap(":/images/Resources/layouts/_3a.png").scaled(64,64));
-	Pixmap *l5 = new Pixmap(QPixmap(":/images/Resources/layouts/_3b.png").scaled(64,64));
-	Pixmap *l6 = new Pixmap(QPixmap(":/images/Resources/layouts/_2x2.png").scaled(64,64));
+	Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
+	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
+	Pixmap *l3 = new Pixmap(QPixmap(":/images/layouts/_2x1.png").scaled(64,64));
+	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
+	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
+	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
 #elif defined _OS_MAC_
 	Pixmap *l1 = new Pixmap(QPixmap(":/images/res/layouts/_1x1.png").scaled(64,64));
 	Pixmap *l2 = new Pixmap(QPixmap(":/images/res/layouts/_1x2.png").scaled(64,64));
@@ -1065,9 +1070,10 @@ Session started event handler. Session manager calls this when the session begin
 void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 {
 	activeSession = true;
-	cout << "Debut de la session" << endl;
+	cout << "Debut de la session " << currentState << endl;
 	window->show();
-	lastState = currentState;
+
+	lastState = 0;
 	currentState = 1;
 	toolSelectable = false;
 	steadyState = false;
@@ -1097,6 +1103,7 @@ void XN_CALLBACK_TYPE pointCreate(const XnVHandPointContext *pContext, const XnP
 	XnPoint3D coords(pContext->ptPosition);
 	dpGen.ConvertRealWorldToProjective(1,&coords,&handPt);
 	lastPt = handPt;
+	
 }
 /**********************************************************************************
 Following the point created method, any update in the hand point coordinates are 
