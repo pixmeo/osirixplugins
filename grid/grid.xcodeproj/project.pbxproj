@@ -8,16 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		4A173D1E1590AA5600DD8F17 /* html in Resources */ = {isa = PBXBuildFile; fileRef = 4A173D1D1590AA5600DD8F17 /* html */; };
-		4A5EE4DF158DEDF00055DB1D /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A5EE4DE158DEDF00055DB1D /* OsiriXAPI.framework */; };
 		4A5EE4E4158DF4270055DB1D /* grid.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CE465C10F4C848003D9CBC /* grid.m */; };
 		4AA282D5158DFD67000DE58B /* grid.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA282D4158DFD67000DE58B /* grid.pdf */; };
+		84DF9A341591ACA9003E0494 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DF9A331591ACA9003E0494 /* OsiriXAPI.framework */; };
 		C4CE465D10F4C848003D9CBC /* grid.h in Headers */ = {isa = PBXBuildFile; fileRef = C4CE465B10F4C848003D9CBC /* grid.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4A173D1D1590AA5600DD8F17 /* html */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = html; sourceTree = "<group>"; };
-		4A5EE4DE158DEDF00055DB1D /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = Library/Frameworks/OsiriXAPI.framework; sourceTree = SDKROOT; };
 		4AA282D4158DFD67000DE58B /* grid.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = grid.pdf; sourceTree = "<group>"; };
+		84DF9A331591ACA9003E0494 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* grid.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = grid.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4CE465B10F4C848003D9CBC /* grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = grid.h; sourceTree = "<group>"; };
@@ -29,7 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A5EE4DF158DEDF00055DB1D /* OsiriXAPI.framework in Frameworks */,
+				84DF9A341591ACA9003E0494 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,7 +50,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				4A5EE4DE158DEDF00055DB1D /* OsiriXAPI.framework */,
+				84DF9A331591ACA9003E0494 /* OsiriXAPI.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -167,7 +167,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
