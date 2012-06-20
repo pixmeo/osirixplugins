@@ -240,7 +240,7 @@ void handleState()
 				lastTool = currentTool;
 				lastState = currentState;
 
-				if ((currentTool != 1) || (currentTool != 6))
+				if ((currentTool != 0) || (currentTool != 6))
 				{
 					glutTimerFunc(1500,onTimerOut,12345);
 				}
@@ -362,7 +362,7 @@ void handleState()
 					}
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 					}
 					break;
 
@@ -374,19 +374,19 @@ void handleState()
 					} 
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 					}
 					break;
 
 				// Translation
-				case 2 :
+				case 1 :
 					if (handClosed)
 					{
 						telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg((int)(lastX-handPt.X)*6).arg((int)(lastY-handPt.Y)*6));
 					} 
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 					}
 					break;
 
@@ -414,12 +414,12 @@ void handleState()
 					} 
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 					}
 					break;
 
 				// Souris
-				case 0 :
+				case 2 :
 					if (!handClosed)
 					{
 						lastState = currentState;
@@ -429,7 +429,7 @@ void handleState()
 					break;
 
 				// Layouts (currentTool = 5 , -5, -55)
-				case 1 :
+				case 0 :
 					//window->hide();
 					pix.operator[](currentTool)->hide();
 					windowActiveTool->hide();
@@ -536,7 +536,7 @@ void handleState()
 			{
 				cursorQt.SetMoveDisable();
 				cursorQt.SetClicDisable();
-				windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+				windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 			}
 
 			// Appel de la méthode pour déplacer le curseur
@@ -933,9 +933,16 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(images);
 
 #if defined _OS_WIN_
-	Pixmap *p1 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
+	/*Pixmap *p1 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
 	Pixmap *p2 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
 	Pixmap *p3 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
+	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
+	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
+	Pixmap *p6 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
+	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));*/
+	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
+	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
+	Pixmap *p3 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
 	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
 	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
 	Pixmap *p6 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
@@ -950,9 +957,9 @@ int main(int argc, char *argv[])
 	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #endif
 
-	p1->setObjectName("mouse");
-	p2->setObjectName("layout");
-	p3->setObjectName("move");
+	p1->setObjectName("layout");
+	p2->setObjectName("move");
+	p3->setObjectName("mouse");
 	p4->setObjectName("zoom");
 	p5->setObjectName("scroll");
 	p6->setObjectName("contrast");
