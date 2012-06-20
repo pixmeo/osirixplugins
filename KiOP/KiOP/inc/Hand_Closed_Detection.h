@@ -29,8 +29,11 @@ using namespace cv;
 
 #define INTERVALLE_PROFONDEUR_DETECTION 200
 #define RAPPORT_DIM_ROI 0.6
-#define TAILLE 10
-#define NB_CASE_HAND_CLOSED_PREV 10
+#define NB_CASE_HAND_CLOSED_PREV 20
+
+#define SEUIL_BAS 0.85
+#define SEUIL_HAUT (1/SEUIL_BAS)
+
 
 //==========================================================================//
 //================================ CLASSES =================================//

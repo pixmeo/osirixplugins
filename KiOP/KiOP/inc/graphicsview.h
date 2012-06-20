@@ -15,10 +15,10 @@
 
 class GraphicsView : public QGraphicsView
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit GraphicsView(QGraphicsScene *scene, QWidget *parent = 0);
-    virtual void resizeEvent(QResizeEvent *event);
+	explicit GraphicsView(QGraphicsScene *scene, QWidget *parent = 0);
+	virtual void resizeEvent(QResizeEvent *event);
 	int getResX();
 	int getResY();
 	void setSize(int width, int height);
@@ -29,15 +29,14 @@ signals:
 public slots:
 
 private:
-    void createUI();
+	void createUI();
 	void moveBottom(GraphicsView* widget);
 	int WIDTH;
 	int HEIGHT;
 	
 protected:
-    void keyPressEvent(QKeyEvent * event);
+	void keyPressEvent(QKeyEvent * event);
 	/*void paintEvent(QPaintEvent * event);*/
-	
 
 };
 

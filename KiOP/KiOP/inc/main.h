@@ -11,6 +11,7 @@
 #include "Gestion_GLUT.h"
 #include "Control_Cursor_Qt.h"
 #include "Hand_Closed_Detection.h"
+#include "Hand_Point.h"
 #ifdef _OS_WIN_
 	#include "Gestion_Curseurs.h"
 #endif
@@ -116,7 +117,6 @@ void handleState();
 
 void glutKeyboard (unsigned char key, int x, int y);
 void onTimerOut(int value);
-void TimerTest(int value);
 void glutDisplay();
 void UpdateHandClosed(void);
 void initGL(int argc, char *argv[]);
@@ -129,12 +129,7 @@ void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt);
 void XN_CALLBACK_TYPE NoHands(void* UserCxt);
 void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus, const XnPoint3D& ptPosition, XnFloat fProgress, void* UserCxt);
 void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt);
-void XN_CALLBACK_TYPE Steady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt);
-void XN_CALLBACK_TYPE Steady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt);
-void XN_CALLBACK_TYPE Steady_Detected3(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt);
-void XN_CALLBACK_TYPE Steady_Detected02(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt);
-void XN_CALLBACK_TYPE NotSteady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt);
-void XN_CALLBACK_TYPE NotSteady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt);
+void SimulateSpaceBar(void);
 
 
 #endif //========================== FIN ====================================//

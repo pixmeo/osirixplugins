@@ -58,8 +58,8 @@ void HandClosedDetection::MethodeAireMain(const xn::DepthMetaData& dpmd)
 	morphologyEx(m_ROI_Data, dst1, MORPH_CLOSE, element1);
 	//morphologyEx(m_ROI_Data, dst2, MORPH_GRADIENT, element2);
 
-	//namedWindow("1234m_ROI_Data");
-	//imshow("1234m_ROI_Data", m_ROI_Data);
+	namedWindow("1234m_ROI_Data");
+	imshow("1234m_ROI_Data", m_ROI_Data);
 	//namedWindow("1234dst1");
 	//imshow("1234dst1", dst1);
 	//namedWindow("1234dst2");
@@ -87,12 +87,10 @@ void HandClosedDetection::MethodeAireMain(const xn::DepthMetaData& dpmd)
 	//cout << "deltaZ : " << deltaZ << "\trapport : " << rapport << endl;
 	//cout << "rapport : " << rapport << endl;
 
-	static const float seuilBas = 0.85, seuilHaut = 1/seuilBas;
-
 	// Détection de main fermée
-	if ((rapport < seuilBas ))
+	if ((rapport < SEUIL_BAS ))
 		m_handClosed = true;
-	else if ((rapport > seuilHaut))
+	else if ((rapport > SEUIL_HAUT))
 		m_handClosed = false;
 }
 
@@ -279,7 +277,7 @@ void HandClosedDetection::UpdateROI_Data(const xn::DepthMetaData& dpmd)
 
 void HandClosedDetection::Display_ROI(Mat& ROI)
 {
-	unsigned int i, j;
+	//int i, j;
 	unsigned int color = 127;
 
 	QPoint haut, bas, gauche, droite;
@@ -289,8 +287,8 @@ void HandClosedDetection::Display_ROI(Mat& ROI)
 	if (0)
 	{
 		unsigned int taille = 8;
-		for (i=0; i<taille; i++)
-			for (j=0; j<taille; j++)
+		for (unsigned int i=0; i<taille; i++)
+			for (unsigned int j=0; j<taille; j++)
 			{
 				ROI.at<unsigned char>(gauche.y()+j,gauche.x()+i) = color;
 				ROI.at<unsigned char>(droite.y()+j,droite.x()+i) = color;
@@ -302,8 +300,8 @@ void HandClosedDetection::Display_ROI(Mat& ROI)
 	// Affichage du cadre
 	if (1)
 	{
-		for (i=gauche.x(); i<=droite.x(); i++)
-			for (j=haut.y(); j<=bas.y(); j++)
+		for (int i=gauche.x(); i<=droite.x(); i++)
+			for (int j=haut.y(); j<=bas.y(); j++)
 			{
 				if ( (j==haut.y()) || (j==bas.y()) || (i==gauche.x()) || (i==droite.x()) )
 					ROI.at<unsigned char>(j,i) = color;
@@ -329,13 +327,13 @@ QSize HandClosedDetection::ROI_Size(void) const
 
 void HandClosedDetection::DefinitionPointsCadrage(Mat& ROI, QPoint& haut, QPoint& bas, QPoint& gauche, QPoint& droite)
 {
-	unsigned int i, j;
+	//unsigned int i, j;
 	droite.setX(m_handPtInROI.x());	droite.setY(m_handPtInROI.y());
 
 	// Point Haut //
 	haut.setX(0);		haut.setY(0);
-	for (j=0; j<m_handPtInROI.y(); j++)
-		for (i=0; i<m_ROI.Size().width(); i++)
+	for (int j=0; j<m_handPtInROI.y(); j++)
+		for (int i=0; i<m_ROI.Size().width(); i++)
 			if (ROI.at<unsigned char>(j,i) && !haut.y())
 			{
 				haut.setX(i); haut.setY(j);
@@ -346,8 +344,8 @@ void HandClosedDetection::DefinitionPointsCadrage(Mat& ROI, QPoint& haut, QPoint
 
 	// Point Gauche //
 	gauche.setX(0);		gauche.setY(0);
-	for (i=0; i<m_handPtInROI.x(); i++)
-		for (j=haut.y(); j<bas.y(); j++)
+	for (int i=0; i<m_handPtInROI.x(); i++)
+		for (int j=haut.y(); j<bas.y(); j++)
 			if (ROI.at<unsigned char>(j,i) && !gauche.x())
 			{
 				gauche.setX(i); gauche.setY(j);
@@ -355,8 +353,8 @@ void HandClosedDetection::DefinitionPointsCadrage(Mat& ROI, QPoint& haut, QPoint
 
 	// Point Droite //
 	droite.setX(0);		droite.setY(0);
-	for (i=m_ROI.Size().width(); i>m_handPtInROI.x(); i--)
-		for (j=haut.y(); j<bas.y(); j++)
+	for (int i=m_ROI.Size().width(); i>m_handPtInROI.x(); i--)
+		for (int j=haut.y(); j<bas.y(); j++)
 			if (ROI.at<unsigned char>(j,i) && !droite.x())
 			{
 				droite.setX(i); droite.setY(j);

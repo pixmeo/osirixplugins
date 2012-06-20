@@ -72,12 +72,8 @@ XnVSessionManager *sessionManager;
 XnVPointControl *pointControl;
 XnPoint3D handPt;
 XnPoint3D lastPt;
-XnVSteadyDetector sd;
-XnVSteadyDetector sd2;
-XnVSteadyDetector sd3;
-XnVSteadyDetector sd02;
 XnVFlowRouter* g_pFlowRouter;
-XnFloat g_fSmoothing = 0.2f;
+XnFloat g_fSmoothing = 0.0f;
 
 // Qt
 #ifdef _OS_WIN_
@@ -96,6 +92,7 @@ Pixmap* pixActive; //for activeTool
 // KiOP//
 CursorQt cursorQt(2);
 HandClosedDetection hCD;
+HandPoint hP;
 
 
 //==========================================================================//
@@ -126,43 +123,43 @@ void CleanupExit()
 
 inline bool isHandPointNull()
 {
-	return ((handPt.X == -1) ? true : false);
+	return ((hP.HandPt().X == -1) ? true : false);
 }
 bool detectLeft()
 {
-	return (((lastX-handPt.X) > moveThreshold) ? true : false);
+	return (((lastX-hP.HandPt().X) > moveThreshold) ? true : false);
 }
 bool detectRight()
 {
-	return (((lastX-handPt.X) < (-moveThreshold)) ? true : false);
+	return (((lastX-hP.HandPt().X) < (-moveThreshold)) ? true : false);
 }
 bool detectForward()
 {
-	return (((lastZ-handPt.Z) > (moveThreshold)) ? true : false);
+	return (((lastZ-hP.HandPt().Z) > (moveThreshold)) ? true : false);
 }
 bool detectBackward()
 {
-	return (((lastZ-handPt.Z) < (-moveThreshold)) ? true : false);
+	return (((lastZ-hP.HandPt().Z) < (-moveThreshold)) ? true : false);
 }
 bool detectClick()
 {
-	return (((lastZ-handPt.Z) > (5*moveThreshold)) ? true : false);
+	return (((lastZ-hP.HandPt().Z) > (5*moveThreshold)) ? true : false);
 }
 
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 {
-	if ((lastX-handPt.X)>0)
+	if ((lastX-hP.HandPt().X)>0)
 	{
 		if(moveCounter>0) 
 			moveCounter = 0;
-		moveCounter=moveCounter-(lastX-handPt.X);//+(handPt.Z/1000);
+		moveCounter=moveCounter-(lastX-hP.HandPt().X);//+(handPt.Z/1000);
 	}
-	else if((lastX-handPt.X)<0)
+	else if((lastX-hP.HandPt().X)<0)
 	{
 		if(moveCounter<0) 
 			moveCounter = 0;
-		moveCounter=moveCounter-(lastX-handPt.X);//+(handPt.Z/1000);
+		moveCounter=moveCounter-(lastX-hP.HandPt().X);//+(handPt.Z/1000);
 	}
 
 	//cout << handPt.Z << endl;
@@ -210,8 +207,8 @@ void handleState()
 	static TelnetClient telnet;
 	//cout << currentState << endl;
 
-	bool inIntervalleX = (handPt.X < handSurfaceLimit+handSurfaceThreshold)&&(handPt.X > handSurfaceLimit-handSurfaceThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en X
-	bool inIntervalleZ = (handPt.Z < handDepthLimit+handDepthThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en Z
+	bool inIntervalleX = (hP.HandPt().X < handSurfaceLimit+handSurfaceThreshold)&&(hP.HandPt().X > handSurfaceLimit-handSurfaceThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en X
+	bool inIntervalleZ = (hP.HandPt().Z < handDepthLimit+handDepthThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en Z
 
 	
 	switch(currentState)
@@ -253,8 +250,8 @@ void handleState()
 				//pixActive->load(QPixmap(":/images/Resources/activeTool/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
 				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
 				timerOut = false;
-				handDepthLimit = handPt.Z;
-				handSurfaceLimit = handPt.X;
+				handDepthLimit = hP.HandPt().Z;
+				handSurfaceLimit = hP.HandPt().X;
 			}
 			break;
 
@@ -304,23 +301,23 @@ void handleState()
 			//code à ameliorer/////////////////////////////
 			//quitter la session lorsqu'on baisse la main
 			handDown = false;
-			if (handPt.Z < 1500)
+			if (hP.HandPt().Z < 1500)
 			{
-				if (handPt.Y > lastPt.Y+150)
+				if (hP.HandPt().Y > lastPt.Y+150)
 				{
 					handDown = true;
 				}
 			}
-			else if((handPt.Z < 2100)&&(handPt.Z>=1500))
+			else if((hP.HandPt().Z < 2100)&&(hP.HandPt().Z>=1500))
 			{
-				if (handPt.Y > lastPt.Y+130)
+				if (hP.HandPt().Y > lastPt.Y+130)
 				{
 					handDown = true;
 				}
 			}
-			else if(handPt.Z > 2100)
+			else if(hP.HandPt().Z > 2100)
 			{
-				if (handPt.Y > lastPt.Y+100)
+				if (hP.HandPt().Y > lastPt.Y+100)
 				{
 					handDown = true;
 				}
@@ -340,7 +337,6 @@ void handleState()
 			{
 				// Zoom
 				case 3 :
-					//if ((handPt.X < handSurfaceLimit+handSurfaceThreshold)&&(handPt.X > handSurfaceLimit-handSurfaceThreshold)) { //&& (handDepthLimit-40 < handPt.Z)){
 					//if (handPt.Z < handDepthLimit+handDepthThreshold) 
 					if (handClosed)
 					{
@@ -370,7 +366,7 @@ void handleState()
 				case 5 :
 					if (handClosed)
 					{
-						telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg((int)(lastX-handPt.X)*6).arg((int)(lastY-handPt.Y)*6));
+						telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg((int)(lastX-hP.HandPt().X)*6).arg((int)(hP.LastHandPt().Y-hP.HandPt().Y)*6));
 					} 
 					else
 					{
@@ -382,7 +378,7 @@ void handleState()
 				case 1 :
 					if (handClosed)
 					{
-						telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg((int)(lastX-handPt.X)*6).arg((int)(lastY-handPt.Y)*6));
+						telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg((int)(lastX-hP.HandPt().X)*6).arg((int)(hP.LastHandPt().Y-hP.HandPt().Y)*6));
 					} 
 					else
 					{
@@ -396,16 +392,16 @@ void handleState()
 					//if (handPt.Z < handDepthLimit+handDepthThreshold) {
 					if (handClosed)
 					{
-						if ((lastZ-handPt.Z)<0)
+						if ((lastZ-hP.HandPt().Z)<0)
 						{
-							for (int i=0; i<-(lastZ-handPt.Z)/6; i++)
+							for (int i=0; i<-(lastZ-hP.HandPt().Z)/6; i++)
 							{
 								telnet.sendCommand(QString("\r\ndcmview2d:scroll -i 1\r\n"));
 							}
 						}
-						else if((lastZ-handPt.Z)>0)
+						else if((lastZ-hP.HandPt().Z)>0)
 						{
-							for (int i=0; i<(lastZ-handPt.Z)/6; i++)
+							for (int i=0; i<(lastZ-hP.HandPt().Z)/6; i++)
 							{
 								telnet.sendCommand(QString("\r\ndcmview2d:scroll -d 1\r\n"));
 							}
@@ -501,7 +497,7 @@ void handleState()
 				}
 				currentTool=totalTools;
 				lastTool=0;
-				lastPt = handPt;
+				lastPt = hP.HandPt();
 				toolSelectable = false;
 				//steadyState = false;
 			}
@@ -510,8 +506,28 @@ void handleState()
 		// Mouse control
 		case 3 :
 
+			if (cursorQt.InCursorSession())
+			{
+				// Distance limite de la main au capteur
+				if (hP.HandPt().Z < (handDepthLimit + handDepthThreshold))
+				{
+					cursorQt.SetMoveEnable();
+					cursorQt.SetClicEnable();
+					windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+				}
+				else
+				{
+					cursorQt.SetMoveDisable();
+					cursorQt.SetClicDisable();
+					windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+				}
+
+				// Appel de la méthode pour déplacer le curseur
+				cursorQt.MoveCursor(hP.HandPt());
+			}
+
 			// Sortie du mode souris
-			if (!cursorQt.InCursorSession())
+			else
 			{
 				lastState = currentState;
 				currentState = 1;
@@ -522,7 +538,7 @@ void handleState()
 				{
 					pix.operator[](i)->show();
 				}
-				break;
+				//break;
 			}
 
 			// Distance limite de la main au capteur
@@ -539,8 +555,6 @@ void handleState()
 				windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
 			}
 
-			// Appel de la méthode pour déplacer le curseur
-			cursorQt.MoveCursor((int)(handPt.X),(int)(handPt.Y),(int)(handPt.Z));
 			break;
 	}
 }
@@ -558,19 +572,25 @@ void glutKeyboard (unsigned char key, int x, int y)
 		#ifdef _OS_WIN_
 			ChangeCursor(0);
 		#endif
-		context.Shutdown();
+		CleanupExit();
 		break;
 	case 'i' :
 		//increase smoothing
-		tmp = g_fSmoothing + 0.1;
-		g_fSmoothing = tmp;
-		myHandsGenerator.SetSmoothing(g_fSmoothing);
+		//tmp = g_fSmoothing + 0.1;
+		//g_fSmoothing = tmp;
+		//myHandsGenerator.SetSmoothing(g_fSmoothing);
+		hP.IncrementSmooth(1,1,1);
+		cout << " s.x : " << hP.Smooth().X << " s.y : " << hP.Smooth().Y << " s.z : " << hP.Smooth().Z << endl;
+
 		break;
 	case 'o' :
 		//decrease smoothing
-		tmp = g_fSmoothing - 0.1;
-		g_fSmoothing = tmp;
-		myHandsGenerator.SetSmoothing(g_fSmoothing);
+		//tmp = g_fSmoothing - 0.1;
+		//g_fSmoothing = tmp;
+		//myHandsGenerator.SetSmoothing(g_fSmoothing);
+		hP.IncrementSmooth(-1,-1,-1);
+		cout << " s.x : " << hP.Smooth().X << " s.y : " << hP.Smooth().Y << " s.z : " << hP.Smooth().Z << endl;
+
 		break;
 	case 's' :
 		// Toggle smoothing
@@ -582,7 +602,7 @@ void glutKeyboard (unsigned char key, int x, int y)
 		break;
 	case 'a' :
 		//show some data for debugging purposes
-		cout << "x= " << handPt.X << " ; y= " << handPt.Y << " ; z= " << handPt.Z << " ;   " << g_fSmoothing << " ;   " << currentState << endl;
+		cout << "x= " << hP.HandPt().X << " ; y= " << hP.HandPt().Y << " ; z= " << hP.HandPt().Z << " ;   " << g_fSmoothing << " ;   " << currentState << endl;
 		break;
 	case 'y' :
 		//show tools position
@@ -615,14 +635,6 @@ void glutKeyboard (unsigned char key, int x, int y)
 	case '4' :
 		RepositionnementFenetre(4);
 		break;
-
-	case '5' :
-
-		// Enclenchement du timer
-		glutTimerFunc(1000,TimerTest,12345);
-				// Parametre1 : nombre de miliseconde
-				// Parametre2 : nom de la fonction à appeler
-				// Parametre3 : valeur passée en paramètre (p.ex numéro de l'outil?)
 		break;
 	}
 }
@@ -632,10 +644,7 @@ void onTimerOut(int value)
 {
 	timerOut = true;
 }
-void TimerTest(int value)
-{
-	cout << "\n TIMER : " << value << endl;
-}
+
 
 
 void glutDisplay()
@@ -689,6 +698,56 @@ void glutDisplay()
 		}
 		glEnd();	// End drawing sequence
 
+
+
+		if (hP.Steady2())
+		{
+			//cout << "  STEADY 02\n";
+			toolSelectable = true;
+		}
+		if (hP.Steady10())
+		{
+			//cout << "  STEADY 1\n";
+			if (currentState != 4)
+			{
+				// Mode souris
+				if (currentState == 3)
+				{
+					cursorQt.SteadyDetected(10);
+				}
+				else
+				{
+					steadyState = true;
+				}
+			}
+		}
+		if (hP.Steady20())
+		{
+			//cout << "  STEADY 2\n";
+			// Mode souris
+			if (currentState == 3)
+			{
+				cursorQt.SteadyDetected(20);
+			}
+
+			// Autres outils
+			else if (currentState == 2)
+			{
+				steady2 = true;
+			}
+		}
+		if (hP.NotSteady())
+		{
+			//cout << "\n NOT STEADY \n";
+			steadyState = false;
+
+			// Mode souris
+			if (currentState == 3)
+			{
+				//cursor.NotSteadyDetected();
+			}
+		}
+
 		// Mise à jour de la detection de la main fermee
 		if	( activeSession && (isHandPointNull() == false))
 			UpdateHandClosed();
@@ -702,11 +761,23 @@ void glutDisplay()
 		{
 			glColor3f(255,255,255);	// Set the color to white
 			glBegin(GL_QUADS);
-			int size = 4;						// Size of the box
-				glVertex2i(handPt.X-size,handPt.Y-size);
-				glVertex2i(handPt.X+size,handPt.Y-size);
-				glVertex2i(handPt.X+size,handPt.Y+size);
-				glVertex2i(handPt.X-size,handPt.Y+size);
+			int size = 5;						// Size of the box
+				//glVertex2i(handPt.X-size,handPt.Y-size);
+				//glVertex2i(handPt.X+size,handPt.Y-size);
+				//glVertex2i(handPt.X+size,handPt.Y+size);
+				//glVertex2i(handPt.X-size,handPt.Y+size);
+				glVertex2i(hP.HandPtBrut().X-size,hP.HandPtBrut().Y-size);
+				glVertex2i(hP.HandPtBrut().X+size,hP.HandPtBrut().Y-size);
+				glVertex2i(hP.HandPtBrut().X+size,hP.HandPtBrut().Y+size);
+				glVertex2i(hP.HandPtBrut().X-size,hP.HandPtBrut().Y+size);
+				glEnd();
+			glColor3f(255,0,0);	// Set the color to red
+			glBegin(GL_QUADS);
+			size = 5;						// Size of the box
+				glVertex2i(hP.HandPt().X-size,hP.HandPt().Y-size);
+				glVertex2i(hP.HandPt().X+size,hP.HandPt().Y-size);
+				glVertex2i(hP.HandPt().X+size,hP.HandPt().Y+size);
+				glVertex2i(hP.HandPt().X-size,hP.HandPt().Y+size);
 			glEnd();
 		
 			// Cadre de la main
@@ -722,8 +793,8 @@ void glutDisplay()
 
 			if (handStateChanged)
 			{
-				steadyState = false; sd.Reset();
-				steady2 = false; sd2.Reset();
+				steadyState = false; //sd.Reset();
+				steady2 = false; //sd2.Reset();
 			}
 
 			// mode Souris
@@ -766,9 +837,9 @@ void glutDisplay()
 	}
 	else if(actualFrame == 0)
 	{
-		lastX = handPt.X;
-		lastY = handPt.Y;
-		lastZ = handPt.Z;
+		lastX = hP.HandPt().X;
+		lastY = hP.HandPt().Y;
+		lastZ = hP.HandPt().Z;
 	}
 	actualFrame = actualFrame+1;
 }
@@ -778,12 +849,12 @@ void UpdateHandClosed(void)
 {
 	if (toolSelectable)
 	{
-		hCD.Update((methodeMainFermeeSwitch?2:1),dpMD,handPt);
+		hCD.Update((methodeMainFermeeSwitch?2:1),dpMD,hP.HandPtBrut());
 		handStateChanged = hCD.HandClosedStateChanged();
 		handFlancMont = hCD.HandClosedFlancMont();
 		handFlancDesc = hCD.HandClosedFlancDesc();
 		handClosed = hCD.HandClosed();
-		handClic = hCD.HandClosedClic(9);
+		handClic = hCD.HandClosedClic(19); //9
 
 		//// Controle de detection de la main fermee //
 		//if (handStateChanged)
@@ -795,9 +866,9 @@ void UpdateHandClosed(void)
 		////if (handClosed)
 		////	cout << endl << "\t\tMain Fermee!" << endl;
 		////else
-		////	cout << endl << "\t\tMain Ouverte!" << endl;
-		//if (handClic)
-		//	cout << endl << "\t\tClic de la main!" << endl;
+		//	cout << endl << "\t\tMain Ouverte!" << endl;
+		if (handClic)
+			cout << endl << "\t\tClic de la main!" << endl;
 	}
 }
 
@@ -828,7 +899,7 @@ int main(int argc, char *argv[])
 {
 	Initialisation();
 
-	///////////////////// OPEN_NI / NITE / OPENGL ////////////////
+	//------ OPEN_NI / NITE / OPENGL ------//
 	xn::EnumerationErrors errors;
 
 	status = context.InitFromXmlFile(XML_FILE);
@@ -858,34 +929,6 @@ int main(int argc, char *argv[])
 	pointControl->RegisterPrimaryPointDestroy(&context,pointDestroy);
 	pointControl->RegisterPrimaryPointUpdate(&context,pointUpdate);
 
-//======================= STEADY ================================//
-
-	// Steady
-	sd.RegisterSteady(NULL,&Steady_Detected);
-	sd.RegisterNotSteady(NULL,&NotSteady_Detected);
-	sd.SetDetectionDuration(1200);
-	sd.SetMaximumStdDevForSteady(MAX_STD_DEV_FOR_STEADY);
-	sd.SetMinimumStdDevForNotSteady(MAX_STD_DEV_FOR_NOT_STEADY);
-
-	// Steady 2
-	sd2.RegisterSteady(NULL,&Steady_Detected2);
-	sd2.RegisterNotSteady(NULL,&NotSteady_Detected2);
-	sd2.SetDetectionDuration(2000);
-	sd2.SetMaximumStdDevForSteady(MAX_STD_DEV_FOR_STEADY);
-	sd2.SetMinimumStdDevForNotSteady(MAX_STD_DEV_FOR_NOT_STEADY);
-
-	// Steady 3
-	sd3.RegisterSteady(NULL,&Steady_Detected3);
-	sd3.SetDetectionDuration(3000);
-	sd3.SetMaximumStdDevForSteady(MAX_STD_DEV_FOR_STEADY);
-	sd3.SetMinimumStdDevForNotSteady(MAX_STD_DEV_FOR_NOT_STEADY);
-
-		// Steady 02
-	sd02.RegisterSteady(NULL,&Steady_Detected02);
-	sd02.SetDetectionDuration(200);
-	sd02.SetMaximumStdDevForSteady(MAX_STD_DEV_FOR_STEADY);
-	sd02.SetMinimumStdDevForNotSteady(MAX_STD_DEV_FOR_NOT_STEADY);
-
 	// Wave detector
 	XnVWaveDetector waveDetect;
 	waveDetect.RegisterWave(&context,&Wave_Detected);
@@ -895,10 +938,6 @@ int main(int argc, char *argv[])
 
 	// Add Listener
 	sessionManager->AddListener(pointControl);
-	sessionManager->AddListener(&sd);
-	sessionManager->AddListener(&sd2);
-	sessionManager->AddListener(&sd3);
-	sessionManager->AddListener(&sd02);
 	sessionManager->AddListener(g_pFlowRouter);
 	sessionManager->AddListener(&waveDetect);
 		
@@ -933,16 +972,9 @@ int main(int argc, char *argv[])
 	Q_INIT_RESOURCE(images);
 
 #if defined _OS_WIN_
-	/*Pixmap *p1 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
-	Pixmap *p2 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
-	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
-	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
-	Pixmap *p6 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
-	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));*/
 	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
 	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
+	Pixmap *p3 = new Pixmap(QPixmap(":/images/hand.png").scaled(64,64));
 	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
 	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
 	Pixmap *p6 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
@@ -1110,7 +1142,8 @@ void XN_CALLBACK_TYPE pointCreate(const XnVHandPointContext *pContext, const XnP
 	XnPoint3D coords(pContext->ptPosition);
 	dpGen.ConvertRealWorldToProjective(1,&coords,&handPt);
 	lastPt = handPt;
-	
+
+	hP.Update(handPt);
 }
 /**********************************************************************************
 Following the point created method, any update in the hand point coordinates are 
@@ -1120,6 +1153,8 @@ void XN_CALLBACK_TYPE pointUpdate(const XnVHandPointContext *pContext, void *cxt
 {
 	XnPoint3D coords(pContext->ptPosition);
 	dpGen.ConvertRealWorldToProjective(1,&coords,&handPt);
+
+	hP.Update(handPt);
 }
 /**********************************************************************************
 when the point can no longer be tracked, this event handler is invoked. Here we 
@@ -1154,13 +1189,7 @@ void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus,
 	//			<< ptPosition.Y << "," << ptPosition.Z << "): " << fProgress << "\n" << endl;
 
 	/// Pour réafficher l'écran s'il s'est éteint
-//	POINT temp;
-//	GetCursorPos(&temp);
-//	int test = ((temp.x < SCRSZW/2) ? 1 : -1);
-//	for (int i=1; i<50; i++)
-//		SetCursorPos(temp.x + i*test, temp.y);
-	//SetCursorPos(temp.x, temp.y);
-	//cout << "AAAAAAAAA" << endl;
+	SimulateSpaceBar();
 }
 
 
@@ -1170,76 +1199,13 @@ void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt)
 	cout << "\n WAVE \n";
 }
 
-// Callback for steady
-void XN_CALLBACK_TYPE Steady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
+
+void SimulateSpaceBar(void)
 {
-	cout << "  STEADY 1\n";
-	if (currentState != 4)
-	{
-		// Mode souris
-		if (currentState == 3)
-		{
-			cursorQt.SteadyDetected(10);
-			//sd.Reset();
-		}
-		else
-		{
-			steadyState = true;
-		}
-	}
+	// Simulate a key press
+	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | 0,0);
+
+	// Simulate a key release
+	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
 }
-
-void XN_CALLBACK_TYPE Steady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
-{
-	cout << "  STEADY 2\n";
-	// Mode souris
-	if (currentState == 3)
-	{
-		cursorQt.SteadyDetected(20);
-	}
-
-	// Autres outils
-	else if (currentState == 2)
-	{
-		steady2 = true;
-	}
-}
-
-void XN_CALLBACK_TYPE Steady_Detected3(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
-{
-	cout << "  STEADY 3\n";
-	// Mode souris
-	if (currentState == 3)
-	{
-		cursorQt.SteadyDetected(30);
-	}
-}
-
-void XN_CALLBACK_TYPE Steady_Detected02(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
-{
-	cout << "  STEADY 02\n";
-	toolSelectable = true;
-}
-
-// Callback for not steady
-void XN_CALLBACK_TYPE NotSteady_Detected(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
-{
-	cout << "\n NOT STEADY \n";
-	steadyState = false;
-
-	// Mode souris
-	if (currentState == 3)
-	{
-		//cursor.NotSteadyDetected();
-	}
-}
-
-void XN_CALLBACK_TYPE NotSteady_Detected2(XnUInt32 nId, XnFloat fStdDev, void *pUserCxt)
-{
-	steady2 = false;
-}
-
-
-
-
 

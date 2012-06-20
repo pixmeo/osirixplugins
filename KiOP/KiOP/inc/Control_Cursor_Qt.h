@@ -13,6 +13,7 @@
 	#include "Gestion_Curseurs.h"
 #endif
 
+#include <XnTypes.h>
 #include <QPoint>
 #include <QCursor>
 #include <QMouseEvent>
@@ -84,7 +85,7 @@ public :
 	void EndCursorSession(void);
 	bool InCursorSession(void);
 
-	void MoveCursor(unsigned int handPosX, unsigned int handPosY, unsigned int handPosZ);
+	void MoveCursor(XnPoint3D handPt);
 
 	void SteadyDetected(unsigned short nSteady);
 

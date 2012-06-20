@@ -38,11 +38,11 @@ void InitGestionCurseurs(void)
 	BOOL btest = 0;
 	int i;
 
-	LoadCursorFromCURFile(TEXT("../res/cursors/aero_arrow.cur"),&hCurDefault,32,32);
-	LoadCursorFromCURFile(TEXT("../res/cursors/aero_arrow.cur"),&hCurWindows,32,32);
-	LoadCursorFromCURFile(TEXT("../res/cursors/aero_arrow_xl.cur"),&hCurWhite,32,32);
-	LoadCursorFromCURFile(TEXT("../res/cursors/main_ouverte.cur"),&hCurHandOpen,64,64);
-	LoadCursorFromCURFile(TEXT("../res/cursors/main_fermee.cur"),&hCurHandClose,64,64);
+	LoadCursorFromCURFile(TEXT("res/cursors/aero_arrow.cur"),&hCurDefault,32,32);
+	LoadCursorFromCURFile(TEXT("res/cursors/aero_arrow.cur"),&hCurWindows,32,32);
+	LoadCursorFromCURFile(TEXT("res/cursors/aero_arrow_xl.cur"),&hCurWhite,32,32);
+	LoadCursorFromCURFile(TEXT("res/cursors/main_ouverte.cur"),&hCurHandOpen,64,64);
+	LoadCursorFromCURFile(TEXT("res/cursors/main_fermee.cur"),&hCurHandClose,64,64);
 
 }
 

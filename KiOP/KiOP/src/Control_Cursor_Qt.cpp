@@ -208,6 +208,9 @@ void CursorQt::NewCursorSession(void)
 	SetPos(SCRSZW/2,SCRSZH/2);
 
 	SetCursorInitialised(true);
+	#ifdef _OS_WIN_
+		ChangeCursor(4);
+	#endif
 	cout << "-- Mode curseur initialise --" << endl;
 }
 
@@ -216,7 +219,9 @@ void CursorQt::EndCursorSession(void)
 	m_notInCursorSession = true;
 	SetMoveDisable();
 	SetClicDisable();
-
+	#ifdef _OS_WIN_
+		ChangeCursor(0);
+	#endif
 	cout << "-- Mode curseur termine --" << endl;
 }
 
@@ -226,11 +231,10 @@ bool CursorQt::InCursorSession(void)
 }
 
 
-void CursorQt::MoveCursor(unsigned int handPosX, unsigned int handPosY, unsigned int handPosZ)
+void CursorQt::MoveCursor(XnPoint3D handPt)
 {
-
-	static QPoint posPrev(handPosX, handPosY);
-	QPoint pos(handPosX, handPosY);
+	static QPoint posPrev(handPt.X, handPt.Y);
+	QPoint pos(handPt.X, handPt.Y);
 	QPoint deltaPos(pos - posPrev);
 	posPrev = pos;
 
@@ -241,8 +245,8 @@ void CursorQt::MoveCursor(unsigned int handPosX, unsigned int handPosY, unsigned
 		int dxs = (COEFF_LIN_1X*deltaPos.x()) / ((double)handPosZ + COEFF_LIN_2);
 		int dys = (COEFF_LIN_1Y*deltaPos.y()) / ((double)handPosZ + COEFF_LIN_2);
 	#else
-		int dxs = (COEFF_EXP_X*deltaPos.x()) / exp((double)handPosZ*COEFF_D);
-		int dys = (COEFF_EXP_Y*deltaPos.y()) / exp((double)handPosZ*COEFF_D);
+		int dxs = (COEFF_EXP_X*deltaPos.x()) / exp((double)handPt.Z*COEFF_D);
+		int dys = (COEFF_EXP_Y*deltaPos.y()) / exp((double)handPt.Z*COEFF_D);
 	#endif
 
 	int dxt = 0, dyt = 0;

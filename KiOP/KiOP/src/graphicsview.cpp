@@ -4,45 +4,47 @@
 
 GraphicsView::GraphicsView(QGraphicsScene *scene, QWidget *parent) : QGraphicsView(scene, parent)
 {
-	Q_INIT_RESOURCE(images);	
-    
+	Q_INIT_RESOURCE(images);
+
 	this->setWindowOpacity(1.0);
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    this->setStyleSheet("background: transparent");
+	this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+	this->setAttribute(Qt::WA_TranslucentBackground);
+	this->setStyleSheet("background: transparent");
 	//this->setStyleSheet("background: green");
 	//this->setStyleSheet("background-color: rgba(139,137,137,0.5);");
 	//this->setStyleSheet("background-image: url(:/images/Resources/background.png)");
 	this->setFrameStyle(0);
-    this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+	this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	//QColor bgColor = palette().light().color();
 	//bgColor.setAlpha(50);
 	
 }
 
-void GraphicsView::createUI(){
+void GraphicsView::createUI()
+{
 	//this->show();
 }
 
 void GraphicsView::keyPressEvent(QKeyEvent *event)
 {
-   if (event->key() == Qt::Key_Escape) {
-       qApp->quit();
-   }
+	if (event->key() == Qt::Key_Escape)
+	{
+		qApp->quit();
+	}
 }
 void GraphicsView::resizeEvent(QResizeEvent *event)
 {
-    fitInView(sceneRect(), Qt::KeepAspectRatio);
+	fitInView(sceneRect(), Qt::KeepAspectRatio);
 }
 
 //void GraphicsView::paintEvent(QPaintEvent *event)
 //{
-//  QColor backgroundColor = palette().light().color();
-//  backgroundColor.setAlpha(50);
-//  QPainter customPainter(this);
-//  customPainter.fillRect(rect(),backgroundColor);
+//	QColor backgroundColor = palette().light().color();
+//	backgroundColor.setAlpha(50);
+//	QPainter customPainter(this);
+//	customPainter.fillRect(rect(),backgroundColor);
 //}
 
 
@@ -89,11 +91,12 @@ int GraphicsView::getResY()
 	return SCRSZH;
 }
 
-void GraphicsView::setSize(int width, int height){
+void GraphicsView::setSize(int width, int height)
+{
 	this->WIDTH = width;
 	this->HEIGHT = height;
 
-    this->createUI();
+	this->createUI();
 	this->moveBottom(this);
 }
 
@@ -105,6 +108,7 @@ QPoint GraphicsView::Size(void)
 	return temp;
 }
 
-void GraphicsView::setPosition(int x, int y){
+void GraphicsView::setPosition(int x, int y)
+{
 
 }
