@@ -363,7 +363,7 @@ void handleState()
 					break;
 
 				// Contraste
-				case 5 :
+				case 2 :
 					if (handClosed)
 					{
 						telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg((int)(lastX-hP.HandPt().X)*6).arg((int)(hP.LastHandPt().Y-hP.HandPt().Y)*6));
@@ -415,7 +415,7 @@ void handleState()
 					break;
 
 				// Souris
-				case 2 :
+				case 5 :
 					if (!handClosed)
 					{
 						lastState = currentState;
@@ -980,21 +980,21 @@ int main(int argc, char *argv[])
 	Pixmap *p6 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
 	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #elif defined _OS_MAC_
-	Pixmap *p1 = new Pixmap(QPixmap(":/../res/mouse.png").scaled(64,64));
-	Pixmap *p2 = new Pixmap(QPixmap(":/../res/images/layout.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/../images/move.png").scaled(64,64));
+	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
+	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
+	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
 	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
 	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
-	Pixmap *p6 = new Pixmap(QPixmap(":contrast.png").scaled(64,64));
+	Pixmap *p6 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
 	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #endif
 
 	p1->setObjectName("layout");
 	p2->setObjectName("move");
-	p3->setObjectName("mouse");
+	p3->setObjectName("contrast");
 	p4->setObjectName("zoom");
 	p5->setObjectName("scroll");
-	p6->setObjectName("contrast");
+	p6->setObjectName("mouse");
 	p7->setObjectName("stop");
 
 	p1->setGeometry(QRectF(  0.0, 192.0, 64.0, 64.0));
@@ -1043,12 +1043,12 @@ int main(int argc, char *argv[])
 	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
 	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
 #elif defined _OS_MAC_
-	Pixmap *l1 = new Pixmap(QPixmap(":/images/res/layouts/_1x1.png").scaled(64,64));
-	Pixmap *l2 = new Pixmap(QPixmap(":/images/res/layouts/_1x2.png").scaled(64,64));
-	Pixmap *l3 = new Pixmap(QPixmap(":/images/res/layouts/_2x1.png").scaled(64,64));
-	Pixmap *l4 = new Pixmap(QPixmap(":/images/res/layouts/_3a.png").scaled(64,64));
-	Pixmap *l5 = new Pixmap(QPixmap(":/images/res/layouts/_3b.png").scaled(64,64));
-	Pixmap *l6 = new Pixmap(QPixmap(":/images/res/layouts/_2x2.png").scaled(64,64));
+	Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
+	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
+	Pixmap *l3 = new Pixmap(QPixmap(":/images/layouts/_2x1.png").scaled(64,64));
+	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
+	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
+	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
 #endif
 
 	l1->setObjectName("1x1");
@@ -1203,9 +1203,9 @@ void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt)
 void SimulateSpaceBar(void)
 {
 	// Simulate a key press
-	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | 0,0);
+//	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | 0,0);
 
 	// Simulate a key release
-	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
+//	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
 }
 

@@ -17,6 +17,7 @@
 #include <QPoint>
 #include <QCursor>
 #include <QMouseEvent>
+#include <math.h>
 
 
 //==========================================================================//

@@ -81,9 +81,9 @@ void HandPoint::FiltreSmooth(void)
 	sgn.Y = (m_diffHandPt.Y >= 0 ? 1 : -1);
 	sgn.Z = (m_diffHandPt.Z >= 0 ? 1 : -1);
 
-	m_handPt.X = (abs(m_diffHandPt.X) > m_smooth.X ? m_handPtBrut.X - sgn.X*(m_smooth.X) : m_handPt.X);
-	m_handPt.Y = (abs(m_diffHandPt.Y) > m_smooth.Y ? m_handPtBrut.Y - sgn.Y*(m_smooth.Y) : m_handPt.Y);
-	m_handPt.Z = (abs(m_diffHandPt.Z) > m_smooth.Z ? m_handPtBrut.Z - sgn.Z*(m_smooth.Z) : m_handPt.Z);
+	m_handPt.X = (fabs(m_diffHandPt.X) > m_smooth.X ? m_handPtBrut.X - sgn.X*(m_smooth.X) : m_handPt.X);
+	m_handPt.Y = (fabs(m_diffHandPt.Y) > m_smooth.Y ? m_handPtBrut.Y - sgn.Y*(m_smooth.Y) : m_handPt.Y);
+	m_handPt.Z = (fabs(m_diffHandPt.Z) > m_smooth.Z ? m_handPtBrut.Z - sgn.Z*(m_smooth.Z) : m_handPt.Z);
 }
 
 void HandPoint::SetSmooth(XnPoint3D smooth)

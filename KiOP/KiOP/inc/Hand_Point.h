@@ -11,6 +11,7 @@ using namespace std;
 
 #include "Steady_Class.h"
 #include <XnTypes.h>
+#include <math.h>
 
 
 //==========================================================================//
