@@ -31,8 +31,8 @@
     return self;
 }
 
--(BOOL)isEqual:(id)other {
-    return [self x] == [other x] && [self y] == [other y];
+-(BOOL)isEqual:(HipAT2DIntegerPoint*)other {
+    return [other isKindOfClass:[HipAT2DIntegerPoint class]] && _x == other.x && _y == other.y;
 }
 
 -(NSArray*)neighbors {
@@ -44,8 +44,20 @@
             nil];
 }
 
--(CGFloat)distanceTo:(HipAT2DIntegerPoint*)p {
+/*-(CGFloat)distanceTo:(HipAT2DIntegerPoint*)p {
     return std::sqrt(std::pow((CGFloat)_x-p.x, 2)+std::pow((CGFloat)_y-p.y, 2));
+}*/
+
+-(CGFloat)distanceToNoSqrt:(HipAT2DIntegerPoint*)p {
+    return std::pow((CGFloat)_x-p.x, 2)+std::pow((CGFloat)_y-p.y, 2);
+}
+
+-(NSString*)description {
+    return [NSString stringWithFormat:@"[%d,%d]", (int)_x, (int)_y];
+}
+
+-(NSPoint)nsPoint {
+    return NSMakePoint(_x, _y);
 }
 
 @end
@@ -53,48 +65,50 @@
 @implementation HipAT2D
 
 #define data(p) data[p.x+p.y*w]
+#define mask(p) mask[p.x+p.y*w]
 
-+ (void)growRegionFromPoint:(HipAT2DIntegerPoint*)p0 onDCMPix:(DCMPix*)pix outputPoints:(NSMutableSet*)points outputContour:(NSMutableSet*)contour {
++ (void)growRegionFromPoint:(HipAT2DIntegerPoint*)p0 onDCMPix:(DCMPix*)pix outputPoints:(NSMutableArray*)points outputContour:(NSMutableArray*)contour {
     const NSInteger w = pix.pwidth, h = pix.pheight;
     float* data = pix.fImage;
     
     float threshold = data(p0)/2;
     
-    NSMutableSet* toBeVisited = [NSMutableSet setWithObject:p0];
-    NSMutableSet* alreadyVisited = [NSMutableSet set];
+    NSMutableArray* toBeVisited = [NSMutableArray arrayWithObject:p0];
+    BOOL mask[w*h];
+    memset(mask, 0, w*h*sizeof(BOOL));
+    mask(p0) = YES;
     
     while (toBeVisited.count) {
-        HipAT2DIntegerPoint* p = [toBeVisited anyObject];
-        [toBeVisited removeObject:p];
-        [alreadyVisited addObject:p];
+        HipAT2DIntegerPoint* p = [toBeVisited lastObject];
+        [toBeVisited removeLastObject];
         [points addObject:p];
         for (HipAT2DIntegerPoint* t in p.neighbors)
-            if (t.x >= 0 && t.y >= 0 && t.x < w && t.y < h && ![alreadyVisited containsObject:t])
+            if (t.x >= 0 && t.y >= 0 && t.x < w && t.y < h && !mask(t)) {
+                mask(t) = YES;
                 if (data(t) >= threshold)
                     [toBeVisited addObject:t];
                 else [contour addObject:p];
+            }
     }
 }
 
-+ (NSSet*)mostDistantPairOfPointsInSet:(NSSet*)set {
-    if (set.count < 2)
++ (NSArray*)mostDistantPairOfPointsInSet:(NSArray*)points {
+    if (points.count < 2)
         return nil;
     
     NSUInteger p1i, p2i;
     CGFloat rd = 0;
     
-    NSArray* points = [set allObjects];
-    
-    NSUInteger ilimit = points.count-1, jlimit = points.count;
+    NSUInteger ilimit = points.count-2, jlimit = points.count-1;
     for (NSUInteger i = 0; i < ilimit; ++i)
         for (NSUInteger j = i+1; j <= jlimit; ++j) {
-            CGFloat ijd = [[points objectAtIndex:i] distanceTo:[points objectAtIndex:j]];
+            CGFloat ijd = [[points objectAtIndex:i] distanceToNoSqrt:[points objectAtIndex:j]];
             if (ijd > rd) {
                 rd = ijd; p1i = i; p2i = j;
             }
         }
     
-    return [NSSet setWithObjects: [points objectAtIndex:p1i], [points objectAtIndex:p2i], nil];
+    return [NSArray arrayWithObjects: [points objectAtIndex:p1i], [points objectAtIndex:p2i], nil];
 }
 
 @end

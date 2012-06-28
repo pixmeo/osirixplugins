@@ -19,13 +19,15 @@
 +(id)pointWithX:(NSInteger)x y:(NSInteger)y;
 -(id)initWithX:(NSInteger)x y:(NSInteger)y;
 
+-(NSPoint)nsPoint;
+
 @end
 
 @class DCMPix;
 
 @interface HipAT2D : NSObject
 
-+ (void)growRegionFromPoint:(HipAT2DIntegerPoint*)p onDCMPix:(DCMPix*)pix outputPoints:(NSMutableSet*)points outputContour:(NSMutableSet*)contour;
-+ (NSSet*)mostDistantPairOfPointsInSet:(NSSet*)set;
++ (void)growRegionFromPoint:(HipAT2DIntegerPoint*)p0 onDCMPix:(DCMPix*)pix outputPoints:(NSMutableArray*)points outputContour:(NSMutableArray*)contour;
++ (NSArray*)mostDistantPairOfPointsInSet:(NSArray*)points;
 
 @end
