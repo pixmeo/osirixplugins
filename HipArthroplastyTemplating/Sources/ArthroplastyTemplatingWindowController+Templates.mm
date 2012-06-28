@@ -9,20 +9,20 @@
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplateFamily.h"
 #import "InfoTxtTemplate.h"
+#import <OsiriXAPI/NSFileManager+N2.h>
 
 @implementation ArthroplastyTemplatingWindowController (Templates)
 
 -(void)awakeTemplates {
 	[_templates removeAllObjects];
-	// [_templates addObjectsFromArray:[ZimmerTemplate bundledTemplates]];
-	// [_templates addObjectsFromArray:[MEDACTATemplate bundledTemplates]];
-	NSString* path = [[NSBundle bundleForClass:[self class]] resourcePath];
-	NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:path];
-	while (NSString* sub = [e nextObject])
-		if ([sub hasSuffix:@"Templates"])
-			if ([sub rangeOfString:@"Zimmer"].location != NSNotFound)
-				[_templates addObjectsFromArray:[InfoTxtTemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
-			else [_templates addObjectsFromArray:[InfoTxtTemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
+    
+    NSArray* paths = [NSArray arrayWithObjects:
+                      [[NSBundle bundleForClass:[self class]] resourcePath],
+                      [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:@"HipArthroplastyTemplating"], nil];
+	for (NSString* path in paths)
+        for (NSString* sub in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL])
+            if ([sub hasSuffix:@"Templates"])
+                [_templates addObjectsFromArray:[InfoTxtTemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
 	
 	// fill _families from _templates
 	for (unsigned i = 0; i < [_templates count]; ++i) {

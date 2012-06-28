@@ -12,7 +12,7 @@
 
 @implementation InfoTxtTemplate
 
-id First(id a, id b) {
+static id First(id a, id b) {
 	return a? a : b;
 }
 
@@ -216,7 +216,6 @@ id First(id a, id b) {
 		return ATRightSide;
 	if ([orientation compare:@"LEFT" options:NSCaseInsensitiveSearch+NSLiteralSearch] == NSOrderedSame)
 		return ATLeftSide;
-	[NSException raise:NSGenericException format:@"Invalid ORIENTATION value in template data file"];
 	return ATRightSide;
 }
 

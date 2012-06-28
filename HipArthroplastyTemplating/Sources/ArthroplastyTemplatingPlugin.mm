@@ -12,6 +12,7 @@
 #import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/Notifications.h>
 #import <OsiriXAPI/NSPanel+N2.h>
+#import <objc/runtime.h>
 
 
 @implementation ArthroplastyTemplatingPlugin
@@ -32,6 +33,20 @@
 	//[[_templatesWindowController window] makeKeyAndOrderFront:self];
 	
 //	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewerWillClose:) name:@"CloseViewerNotification" object:viewerController];
+    
+    // swizzle OsiriX methods
+    
+    Method method;
+    IMP imp;
+
+    Class DCMViewClass = [DCMView class];
+    
+    // this is an instance method: -[N2ManagedObjectContext save:]
+    method = class_getInstanceMethod(DCMViewClass, @selector(acceptsFirstMouse:));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    imp = method_getImplementation(method);
+    class_addMethod(DCMViewClass, @selector(_ArthroplastyTemplatingPlugin_DCMView_acceptsFirstMouse:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ArthroplastyTemplatingPlugin_DCMView_acceptsFirstMouse:)));
 }
 
 - (long)filterImage:(NSString*)menuName {
@@ -118,5 +133,14 @@
 //		}
 //	}
 //}
+
+-(BOOL)_ArthroplastyTemplatingPlugin_DCMView_acceptsFirstMouse:(NSEvent*)event {
+    for (NSWindow* window in [NSApplication.sharedApplication windows])
+        if ([window.windowController isKindOfClass:[ArthroplastyTemplatingStepsController class]]) {
+            if ([[(DCMView*)self window] windowController] == [window.windowController viewerController])
+                return YES;
+        }
+    return [self _ArthroplastyTemplatingPlugin_DCMView_acceptsFirstMouse:event];
+}
 
 @end

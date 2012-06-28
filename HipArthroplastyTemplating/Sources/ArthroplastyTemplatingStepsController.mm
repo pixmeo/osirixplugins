@@ -23,6 +23,7 @@
 #import <OsiriXAPI/N2Operators.h>
 #import <OsiriXAPI/Notifications.h>
 #import "ArthroplastyTemplateFamily.h"
+#import "HipAT2D.h"
 // #include "vImage/Convolution.h"
 #include <vector>
 
@@ -302,11 +303,12 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	// step dependant
 	if (!wasKnown) {
-		if ([_steps currentStep] == _stepCalibration)
+		if ([_steps currentStep] == _stepCalibration) {
 			if (!_magnificationLine && [roi type] == tMesure) {
 				_magnificationLine = roi;
 				[roi setName:@"Calibration Line"];
 			}
+        }
 		
 		if ([_steps currentStep] == _stepAxes)
 			if (!_horizontalAxis && [roi type] == tMesure) {
@@ -380,10 +382,26 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	[_knownRois removeObject:roi];
 
-	if (roi == _magnificationLine) {
+    if (roi == _magnificationLine) {
 		_magnificationLine = NULL;
 		[_stepCalibration setDone:NO];
 		[_steps setCurrentStep:_stepCalibration];
+        NSArray* ps = [roi points];
+        if (ps.count) {
+            BOOL go = YES;
+            MyPoint* p = [ps objectAtIndex:0];
+            for (int i = 1; go && i < ps.count; ++i) {
+                MyPoint* q = [ps objectAtIndex:i];
+                if (p.x != q.x || p.y != q.y)
+                    go = NO;
+            }
+            
+            if (go) {
+                NSMutableSet* contour = [NSMutableSet set];
+                [HipAT2D growRegionFromPoint:[HipAT2DIntegerPoint pointWith:roundf(p.x):roundf(p.y)] onDCMPix:[self.viewerController.pixList objectAtIndex:self.viewerController.imageView.curImage] outputPoints:nil outputContour:contour];
+                NSLog(@"asafasfasffasfss %@", contour);
+            }
+        }
 	}
 	
 	if (roi == _horizontalAxis) {
@@ -763,6 +781,9 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_stemLayer setGroupID:[_femurLayer groupID]];
 		[_viewerController setMode:ROI_selected toROIGroupWithID:[_femurLayer groupID]];
 		[_viewerController bringToFrontROI:_stemLayer];
+        if ([_stemTemplate.modularity isEqualToString:@"Modular"]) {
+            //[steps insertObject:_stepDistalStem atIndex:[steps indexOfObject:_stepStem]+1];
+        }
 	}
 	else if (step == _stepSave) {
 		[[[_plugin templatesWindowController] userDefaults] setObject:[_plannersNameTextField stringValue] forKey:PlannersNameUserDefaultKey];
