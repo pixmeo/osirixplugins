@@ -400,13 +400,14 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
                 NSMutableArray* contour = [NSMutableArray array];
                 [HipAT2D growRegionFromPoint:[HipAT2DIntegerPoint pointWith:roundf(p.x):roundf(p.y)] onDCMPix:[self.viewerController.pixList objectAtIndex:self.viewerController.imageView.curImage] outputPoints:nil outputContour:contour];
                 NSArray* ps = [HipAT2D mostDistantPairOfPointsInSet:contour];
-                // 
-                ROI* nroi = [[ROI alloc] initWithType:tMesure :roi.pixelSpacingX :roi.pixelSpacingY :roi.imageOrigin];
-                [nroi addPoint:[[ps objectAtIndex:0] nsPoint]];
-                [nroi addPoint:[[ps objectAtIndex:1] nsPoint]];
-                [[_viewerController imageView] roiSet:nroi];
-                [[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:nroi];
-                [[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:nroi userInfo:NULL];
+                if (ps) { // create the ROI
+                    ROI* nroi = [[ROI alloc] initWithType:tMesure :roi.pixelSpacingX :roi.pixelSpacingY :roi.imageOrigin];
+                    [nroi addPoint:[[ps objectAtIndex:0] nsPoint]];
+                    [nroi addPoint:[[ps objectAtIndex:1] nsPoint]];
+                    [[_viewerController imageView] roiSet:nroi];
+                    [[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:nroi];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:nroi userInfo:NULL];
+                }
             }
         }
 	}
