@@ -28,6 +28,6 @@
 @interface HipAT2D : NSObject
 
 + (void)growRegionFromPoint:(HipAT2DIntegerPoint*)p0 onDCMPix:(DCMPix*)pix outputPoints:(NSMutableArray*)points outputContour:(NSMutableArray*)contour;
-+ (NSArray*)mostDistantPairOfPointsInSet:(NSArray*)points;
++ (NSArray*)mostDistantPairOfPointsInArray:(NSArray*)points;
 
 @end

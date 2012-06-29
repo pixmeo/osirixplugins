@@ -96,7 +96,10 @@
     }
 }
 
-+ (NSArray*)mostDistantPairOfPointsInSet:(NSArray*)points {
+#undef data
+#undef mask
+
++ (NSArray*)mostDistantPairOfPointsInArray:(NSArray*)points {
     if (points.count < 2)
         return nil;
     

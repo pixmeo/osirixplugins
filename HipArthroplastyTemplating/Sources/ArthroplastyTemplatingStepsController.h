@@ -22,7 +22,7 @@
 	
 	NSMutableSet* _knownRois;
 	ROI *_magnificationLine, *_horizontalAxis, *_femurAxis, *_landmark1, *_landmark2, *_femurRoi;
-	ROI *_landmark1Axis, *_landmark2Axis, *_legInequality, *_originalLegInequality, *_originalFemurOpacityLayer, *_femurLayer, *_cupLayer, *_stemLayer, *_infoBox;
+	ROI *_landmark1Axis, *_landmark2Axis, *_legInequality, *_originalLegInequality, *_originalFemurOpacityLayer, *_femurLayer, *_cupLayer, *_stemLayer, *_distalStemLayer, *_infoBox;
 	ROI *_femurLandmark, *_femurLandmarkAxis, *_femurLandmarkOther, *_femurLandmarkOriginal;
 	
 	CGFloat _legInequalityValue, _originalLegInequalityValue, _lateralOffsetValue;
@@ -44,6 +44,8 @@
 	float _stemAngle;
 	BOOL _stemRotated;
 	ArthroplastyTemplate *_stemTemplate;
+    // distal stem
+	ArthroplastyTemplate *_distalStemTemplate;
 	// placement
 	IBOutlet NSPopUpButton* _neckSizePopUpButton;
 	IBOutlet NSTextField* _verticalOffsetTextField;
@@ -59,6 +61,7 @@
 	IBOutlet NSButton* _sendToPACSButton;
 	NSString* _imageToSendName;
 	NSEvent* _isMyMouse;
+    NSInteger _isMyRoiManupulation;
 }
 
 

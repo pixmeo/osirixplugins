@@ -291,6 +291,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	ROI* roi = [notification object];
 	if (!roi) return;
 	
+    if (_isMyRoiManupulation) return;
+    
 	// verify that the ROI is on our viewer
 	if (![_viewerController containsROI:roi]) return;
 	
@@ -342,14 +344,24 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 				_cupTemplate = [[_plugin templatesWindowController] templateAtPath:[roi layerReferenceFilePath]];
 			}
 		
-		if ([_steps currentStep] == _stepStem)
+		if ([_steps currentStep] == _stepStem) {
 			if (!_stemLayer && [roi type] == tLayerROI) {
 				_stemLayer = roi;
 				_stemTemplate = [[_plugin templatesWindowController] templateAtPath:[roi layerReferenceFilePath]];
 				NSArray* points = [_stemTemplate headRotationPointsForDirection:ArthroplastyTemplateAnteriorPosteriorDirection];
 				for (int i = 0; i < [_neckSizePopUpButton numberOfItems]; ++i)
 					[[_neckSizePopUpButton itemAtIndex:i] setEnabled:(i+1 <= (int)[points count])];
+                if ([_stemTemplate isProximal] && !_distalStemLayer)
+                    [[_plugin templatesWindowController] setFilter:@"Distal Stem"];
 			}
+            if ([_stemTemplate isProximal] && !_distalStemLayer && [roi type] == tLayerROI) {
+                ArthroplastyTemplate* t = [[_plugin templatesWindowController] templateAtPath:[roi layerReferenceFilePath]];
+                if ([t isDistal]) {
+                    _distalStemLayer = roi;
+                    _distalStemTemplate = t;
+                }
+            }
+        }
 	}
 	
 	if (roi == _landmark1 || roi == _landmark2 || roi == _horizontalAxis || roi == _femurLandmark) {
@@ -373,7 +385,10 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			_stemRotated = YES;
 			[_stemLayer rotate:(fabs(_femurAngle)-pi/2)/pi*180 :[[[_stemLayer points] objectAtIndex:4] point]];
 		}
-	
+    
+    if (roi == _stemLayer || roi == _distalStemLayer)
+        [self adjustDistalToProximal];
+
 	[self computeValues];
 }
 
@@ -399,7 +414,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
             if (go) {
                 NSMutableArray* contour = [NSMutableArray array];
                 [HipAT2D growRegionFromPoint:[HipAT2DIntegerPoint pointWith:roundf(p.x):roundf(p.y)] onDCMPix:[self.viewerController.pixList objectAtIndex:self.viewerController.imageView.curImage] outputPoints:nil outputContour:contour];
-                NSArray* ps = [HipAT2D mostDistantPairOfPointsInSet:contour];
+                NSArray* ps = [HipAT2D mostDistantPairOfPointsInArray:contour];
                 if (ps) { // create the ROI
                     ROI* nroi = [[ROI alloc] initWithType:tMesure :roi.pixelSpacingX :roi.pixelSpacingY :roi.imageOrigin];
                     [nroi addPoint:[[ps objectAtIndex:0] nsPoint]];
@@ -473,11 +488,20 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (roi == _stemLayer) {
 		_stemLayer = nil;
 		_stemTemplate = NULL;
+        _distalStemLayer = nil;
+        _distalStemTemplate = nil;
 		[_stepStem setDone:NO];
 		[_steps setCurrentStep:_stepStem];
 		_stemRotated = NO;
 		[_neckSizePopUpButton setEnabled:NO];
 	}
+    
+    if (roi == _distalStemLayer) {
+        _distalStemLayer = nil;
+        _distalStemTemplate = nil;
+		[_stepStem setDone:NO];
+		[_steps setCurrentStep:_stepStem];
+    }
 	
 	if (roi == _infoBox)
 		_infoBox = NULL;
@@ -587,7 +611,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	} else if (step == _stepStem) {
 		if (_stemLayer)
 			[_stemLayer setGroupID:0];
-		showTemplates = [[_plugin templatesWindowController] setFilter:@"Stem"];
+		showTemplates = [[_plugin templatesWindowController] setFilter:@"Stem !Distal"];
 		[[_plugin templatesWindowController] setSide: ([_cupLayer pointAtIndex:4].x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSide : ATRightSide ];
 	} else if (step == _stepPlacement)
 		[self adjustStemToCup];
@@ -671,6 +695,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	else if (step == _stepStem) {
 		if (!_stemLayer)
 			errorMessage = @"Please select a femoral template, drag it and drop it into the proximal femur, then rotate it.";
+        if ([_stemTemplate isProximal] && !_distalStemLayer)
+            errorMessage = @"The selected femoral template requires a distal component.";
 	}
 	else if (step == _stepSave) {
 		if ([[_plannersNameTextField stringValue] length] == 0)
@@ -787,11 +813,9 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	}
 	else if (step == _stepStem) {
 		[_stemLayer setGroupID:[_femurLayer groupID]];
+		[_distalStemLayer setGroupID:[_femurLayer groupID]];
 		[_viewerController setMode:ROI_selected toROIGroupWithID:[_femurLayer groupID]];
 		[_viewerController bringToFrontROI:_stemLayer];
-        if ([_stemTemplate.modularity isEqualToString:@"Modular"]) {
-            //[steps insertObject:_stepDistalStem atIndex:[steps indexOfObject:_stepStem]+1];
-        }
 	}
 	else if (step == _stepSave) {
 		[[[_plugin templatesWindowController] userDefaults] setObject:[_plannersNameTextField stringValue] forKey:PlannersNameUserDefaultKey];
@@ -898,6 +922,12 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 							[self replaceLayer:_stemLayer with:t];
 							handled = YES;
 						}
+						if (_distalStemLayer && [_distalStemLayer ROImode] == ROI_selected && _distalStemTemplate) {
+							ArthroplastyTemplate* t = next? [[_distalStemTemplate family] templateAfter:_distalStemTemplate] : [[_distalStemTemplate family] templateBefore:_distalStemTemplate];
+							[self replaceLayer:_distalStemLayer with:t];
+                            [self adjustDistalToProximal];
+							handled = YES;
+						}
 						
 						return handled;
 					}
@@ -911,8 +941,9 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 							[self rotateLayer:_cupLayer by:cw? 1 : -1];
 							handled = YES;
 						}
-						if (_stemLayer && [_stemLayer ROImode] == ROI_selected) {
+						if ((_stemLayer && [_stemLayer ROImode] == ROI_selected) || (_distalStemLayer && [_distalStemLayer ROImode] == ROI_selected)) {
 							[self rotateLayer:_stemLayer by:cw? 1 : -1];
+                            [self adjustDistalToProximal];
 							handled = YES;
 						}
 						
@@ -949,14 +980,14 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 -(void)adjustStemToCup {
 	if (!_cupLayer || !_stemLayer)
 		return;
-	
+    
 	NSPoint cupCenter = [[[_cupLayer points] objectAtIndex:4] point];
 	
-	unsigned magnetsCount = [[_stemLayer points] count]-6;
+	unsigned magnetsCount = 5;
 	NSPoint magnets[magnetsCount];
 	CGFloat distances[magnetsCount];
 	for (unsigned i = 0; i < magnetsCount; ++i) {
-		magnets[i] = [[[_stemLayer points] objectAtIndex:i+6] point];
+		magnets[i] = [[[_stemLayer points] objectAtIndex:6+i] point];
 		distances[i] = NSDistance(cupCenter, magnets[i]);
 	}
 	
@@ -972,6 +1003,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (!_cupLayer || !_stemLayer)
 		return;
 	
+    ++_isMyRoiManupulation;
+
 	_stemNeckSizeIndex = index;
 	
 	NSPoint cupCenter = [[[_cupLayer points] objectAtIndex:4] point];
@@ -987,6 +1020,34 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	[_neckSizePopUpButton setEnabled:YES];
 	[_neckSizePopUpButton selectItemAtIndex:index];
+    
+    --_isMyRoiManupulation;
+}
+
+-(void)adjustDistalToProximal {
+	if (!_stemLayer || !_distalStemLayer || [[_distalStemLayer points] count] < 13)
+        return;
+    
+    // mating is done based on point A (and A2)... The purpose of points B and B2 is unknown (we only were able to check this on Revitan stems)
+    
+    ++_isMyRoiManupulation;
+
+    CGFloat angle = NSAngle([_stemLayer pointAtIndex:4], [_stemLayer pointAtIndex:5]);
+
+    CGFloat curr = NSAngle([_distalStemLayer pointAtIndex:4], [_distalStemLayer pointAtIndex:5]);
+    CGFloat dr = angle-curr;
+    if (dr)
+        [_distalStemLayer rotate:dr/pi*180 :[_distalStemLayer pointAtIndex:4]];
+    
+    NSPoint dp = [_stemLayer pointAtIndex:11]-[_distalStemLayer pointAtIndex:11]; // 11 is A, 13 is B
+    if (dp != NSZeroPoint) {
+        long m = [_distalStemLayer ROImode];
+        [_distalStemLayer setROIMode:ROI_selected];
+        [_distalStemLayer roiMove:dp];
+        [_distalStemLayer setROIMode:m];
+    }
+    
+    --_isMyRoiManupulation;
 }
 
 // dicom was added to database, send it to PACS

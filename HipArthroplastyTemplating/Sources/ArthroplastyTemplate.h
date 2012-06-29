@@ -43,4 +43,7 @@ typedef enum {
 -(NSArray*)headRotationPointsForDirection:(ArthroplastyTemplateViewDirection)direction;
 -(NSArray*)matingPointsForDirection:(ArthroplastyTemplateViewDirection)direction;
 
+-(BOOL)isProximal;
+-(BOOL)isDistal;
+
 @end

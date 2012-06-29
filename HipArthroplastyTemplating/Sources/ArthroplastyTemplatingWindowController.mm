@@ -176,7 +176,7 @@
 		image = [temp retain];
 	}
 	
-	if ([self mustFlipHorizontally])
+	if ([self mustFlipHorizontally:templat])
 		[image flipImageHorizontally];
 
 	N2Image* temp = [[N2Image alloc] initWithSize:[image size] inches:[image inchSize] portion:[image portion]];
@@ -236,9 +236,13 @@
 	}
 }
 
+-(BOOL)mustFlipHorizontally:(ArthroplastyTemplate*)t {
+    //	NSLog(@"mfh if %d != %d", [self side], [[self currentTemplate] side]);
+	return [self side] != [t side];
+}
+
 -(BOOL)mustFlipHorizontally {
-	//NSLog(@"mfh if %d != %d", [self side], [[self currentTemplate] side]);
-	return [self side] != [[self currentTemplate] side];
+	return [self mustFlipHorizontally:[self currentTemplate]];
 }
 
 #pragma mark Drag&Drop
@@ -265,7 +269,7 @@
 	NSPoint o = NSMakePoint(size)/2;
 	if ([templat origin:&o forDirection:_viewDirection]) { // origin in inches
 		o = [image convertPointFromPageInches:o];
-		if ([self mustFlipHorizontally])
+		if ([self mustFlipHorizontally:templat])
 			o.x = size.width-o.x;
 	}
 
@@ -292,7 +296,7 @@
 	NSPoint o;
 	if ([templat origin:&o forDirection:_viewDirection]) { // origin in inches
 		o = [image convertPointFromPageInches:o];
-		if ([self mustFlipHorizontally])
+		if ([self mustFlipHorizontally:templat])
 			o.x = imageSize.width-o.x;
 		imageCenter = o;
 		imageCenter.y = imageSize.height-imageCenter.y;
@@ -305,7 +309,7 @@
 	[[newLayer points] addObject:[MyPoint point:layerCenter]]; // center, index 4
 
 	[newLayer setROIMode:ROI_selected]; // in order to make the roiMove method possible
-	[newLayer rotate:[templat rotation]/pi*180*([self mustFlipHorizontally]?-1:1) :layerCenter];
+	[newLayer rotate:[templat rotation]/pi*180*([self mustFlipHorizontally:templat]?-1:1) :layerCenter];
 
 	[[newLayer points] addObject:[MyPoint point:layerCenter+NSMakePoint(1,0)]]; // rotation reference, index 5
 	
@@ -313,7 +317,7 @@
 	for (NSValue* value in [templat headRotationPointsForDirection:_viewDirection]) {
 		NSPoint point = [value pointValue];
 		point = [image convertPointFromPageInches:point];
-		if ([self mustFlipHorizontally])
+		if ([self mustFlipHorizontally:templat])
 			point.x = imageSize.width-point.x;
 		point.y = imageSize.height-point.y;
 		point = point/imageSize*layerSize;
@@ -324,7 +328,7 @@
 	for (NSValue* value in [templat matingPointsForDirection:_viewDirection]) {
 		NSPoint point = [value pointValue];
 		point = [image convertPointFromPageInches:point];
-		if ([self mustFlipHorizontally])
+		if ([self mustFlipHorizontally:templat])
 			point.x = imageSize.width-point.x;
 		point.y = imageSize.height-point.y;
 		point = point/imageSize*layerSize;

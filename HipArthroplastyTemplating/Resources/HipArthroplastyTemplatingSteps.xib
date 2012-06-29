@@ -59,7 +59,6 @@
 					<int key="NSvFlags">274</int>
 					<string key="NSFrameSize">{200, 70}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
@@ -80,7 +79,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{124, -1}, {50, 17}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="209877840">
@@ -111,7 +109,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{16, 76}, {87, 18}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="833992798"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="39195528">
@@ -140,7 +137,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{16, 63}, {103, 18}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="608059128"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="1032633725">
@@ -164,7 +160,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{110, 76}, {50, 16}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="453598795"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="365342067">
@@ -188,7 +183,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{90, 21}, {50, 16}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1008961174"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="702982586">
@@ -206,7 +200,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{0, 41}, {180, 22}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="307673223"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="647253656">
@@ -235,7 +228,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{17, 24}, {68, 11}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="744090685"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="818937864">
@@ -253,7 +245,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{145, 24}, {18, 11}}</string>
 						<reference key="NSSuperview" ref="399905757"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="29898074"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1006973066">
@@ -269,7 +260,6 @@
 				</object>
 				<string key="NSFrameSize">{180, 95}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="579041570"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
@@ -284,7 +274,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{0, 21}, {180, 33}}</string>
 						<reference key="NSSuperview" ref="1024790317"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="630109298"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="1009824934">
@@ -302,7 +291,6 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{124, -1}, {50, 17}}</string>
 						<reference key="NSSuperview" ref="1024790317"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="759586741">
@@ -323,7 +311,6 @@
 				</object>
 				<string key="NSFrameSize">{180, 58}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="918205882"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
@@ -537,7 +524,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="92588525">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -546,11 +533,12 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{0, 47}, {180, 22}}</string>
 						<reference key="NSSuperview" ref="92588525"/>
+						<reference key="NSNextKeyView" ref="563272158"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="495867310">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272891904</int>
-							<string key="NSContents">Select the femoral component rotate and insert into the extracted femur.</string>
+							<string key="NSContents">Select the femoral component, rotate and insert into the extracted femur.</string>
 							<reference key="NSSupport" ref="22"/>
 							<reference key="NSControlView" ref="853715158"/>
 							<reference key="NSBackgroundColor" ref="1003745507"/>
@@ -562,6 +550,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{124, -1}, {50, 17}}</string>
 						<reference key="NSSuperview" ref="92588525"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="140858170">
 							<int key="NSCellFlags">67239424</int>
@@ -583,6 +572,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{0, 22}, {180, 11}}</string>
 						<reference key="NSSuperview" ref="92588525"/>
+						<reference key="NSNextKeyView" ref="487880105"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="821856802">
 							<int key="NSCellFlags">67239424</int>
@@ -599,6 +589,7 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{0, 33}, {180, 11}}</string>
 						<reference key="NSSuperview" ref="92588525"/>
+						<reference key="NSNextKeyView" ref="545036009"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="444568095">
 							<int key="NSCellFlags">67239424</int>
@@ -615,6 +606,7 @@
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{44, -1}, {72, 17}}</string>
 						<reference key="NSSuperview" ref="92588525"/>
+						<reference key="NSNextKeyView" ref="1044414669"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="979715806">
 							<int key="NSCellFlags">67239424</int>
@@ -635,6 +627,8 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{180, 72}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSNextKeyView" ref="853715158"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -2341,296 +2335,9 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">508</int>
+			<int key="maxID">522</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">ArthroplastyTemplatingStepsController</string>
-					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_cupAngleTextField</string>
-							<string>_horizontalOffsetTextField</string>
-							<string>_magnificationCalibrateLength</string>
-							<string>_magnificationCustomFactor</string>
-							<string>_magnificationRadioCalibrate</string>
-							<string>_magnificationRadioCustom</string>
-							<string>_neckSizePopUpButton</string>
-							<string>_plannersNameTextField</string>
-							<string>_sendToPACSButton</string>
-							<string>_stemAngleTextField</string>
-							<string>_steps</string>
-							<string>_stepsView</string>
-							<string>_verticalOffsetTextField</string>
-							<string>_viewAxes</string>
-							<string>_viewCalibration</string>
-							<string>_viewCup</string>
-							<string>_viewCutting</string>
-							<string>_viewLandmarks</string>
-							<string>_viewPlacement</string>
-							<string>_viewSave</string>
-							<string>_viewStem</string>
-							<string>doneAxes</string>
-							<string>doneCalibration</string>
-							<string>doneCup</string>
-							<string>doneCutting</string>
-							<string>doneLandmarks</string>
-							<string>donePlacement</string>
-							<string>doneSave</string>
-							<string>doneStem</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSPopUpButton</string>
-							<string>NSTextField</string>
-							<string>NSButton</string>
-							<string>NSTextField</string>
-							<string>N2Steps</string>
-							<string>N2StepsView</string>
-							<string>NSTextField</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSButton</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_cupAngleTextField</string>
-							<string>_horizontalOffsetTextField</string>
-							<string>_magnificationCalibrateLength</string>
-							<string>_magnificationCustomFactor</string>
-							<string>_magnificationRadioCalibrate</string>
-							<string>_magnificationRadioCustom</string>
-							<string>_neckSizePopUpButton</string>
-							<string>_plannersNameTextField</string>
-							<string>_sendToPACSButton</string>
-							<string>_stemAngleTextField</string>
-							<string>_steps</string>
-							<string>_stepsView</string>
-							<string>_verticalOffsetTextField</string>
-							<string>_viewAxes</string>
-							<string>_viewCalibration</string>
-							<string>_viewCup</string>
-							<string>_viewCutting</string>
-							<string>_viewLandmarks</string>
-							<string>_viewPlacement</string>
-							<string>_viewSave</string>
-							<string>_viewStem</string>
-							<string>doneAxes</string>
-							<string>doneCalibration</string>
-							<string>doneCup</string>
-							<string>doneCutting</string>
-							<string>doneLandmarks</string>
-							<string>donePlacement</string>
-							<string>doneSave</string>
-							<string>doneStem</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_cupAngleTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_horizontalOffsetTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_magnificationCalibrateLength</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_magnificationCustomFactor</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_magnificationRadioCalibrate</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_magnificationRadioCustom</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_neckSizePopUpButton</string>
-								<string key="candidateClassName">NSPopUpButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_plannersNameTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_sendToPACSButton</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_stemAngleTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_steps</string>
-								<string key="candidateClassName">N2Steps</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_stepsView</string>
-								<string key="candidateClassName">N2StepsView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_verticalOffsetTextField</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewAxes</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewCalibration</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewCup</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewCutting</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewLandmarks</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewPlacement</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewSave</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewStem</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneAxes</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneCalibration</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneCup</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneCutting</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneLandmarks</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">donePlacement</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneSave</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">doneStem</string>
-								<string key="candidateClassName">NSButton</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/ArthroplastyTemplatingStepsController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">N2Panel</string>
-					<string key="superclassName">NSPanel</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/N2Panel.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">N2Steps</string>
-					<string key="superclassName">NSArrayController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/N2Steps.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">N2StepsView</string>
-					<string key="superclassName">N2View</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_steps</string>
-						<string key="NS.object.0">N2Steps</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_steps</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_steps</string>
-							<string key="candidateClassName">N2Steps</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/N2StepsView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">N2View</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/N2View.h</string>
-					</object>
-				</object>
-			</object>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">

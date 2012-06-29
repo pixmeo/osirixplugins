@@ -76,14 +76,26 @@
 }
 
 -(void)filterTemplates {
-	NSString* filter = [_searchField stringValue];
-	
-	if ([filter length] == 0) {
-		[_familiesArrayController setFilterPredicate:[NSPredicate predicateWithValue:YES]];
-	} else {
-		NSPredicate* predicate = [NSPredicate predicateWithFormat:@"(fixation contains[c] %@) OR (group contains[c] %@) OR (manufacturer contains[c] %@) OR (modularity contains[c] %@) OR (name contains[c] %@) OR (placement contains[c] %@) OR (surgery contains[c] %@) OR (type contains[c] %@)", filter, filter, filter, filter, filter, filter, filter, filter];
-		[_familiesArrayController setFilterPredicate:predicate];
-	}
+    NSMutableArray* subpredicates = [NSMutableArray arrayWithObject:[NSPredicate predicateWithValue:YES]];
+    
+    for (NSString* str in [[_searchField stringValue] componentsSeparatedByString:@" "]) {
+        str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if (str.length) {
+            BOOL no = NO;
+            if ([str characterAtIndex:0] == '!') {
+                no = YES;
+                str = [str substringFromIndex:1];
+            }
+
+            NSPredicate* subpredicate = [NSPredicate predicateWithFormat:@"((fixation contains[c] %@) OR (group contains[c] %@) OR (manufacturer contains[c] %@) OR (modularity contains[c] %@) OR (name contains[c] %@) OR (placement contains[c] %@) OR (surgery contains[c] %@) OR (type contains[c] %@))", str, str, str, str, str, str, str, str];
+            if (no)
+                subpredicate = [NSCompoundPredicate notPredicateWithSubpredicate:subpredicate];
+            
+            [subpredicates addObject:subpredicate];
+        }
+    }
+    
+    [_familiesArrayController setFilterPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:subpredicates]];
 	
 	//	[_familiesArrayController rearrangeObjects];
 	[_familiesTableView noteNumberOfRowsChanged];

@@ -118,7 +118,7 @@ static id First(id a, id b) {
 		NSString* sx = [_properties objectForKey:[NSString stringWithFormat:@"%@%d_X", prefix, i]];
 		NSString* sy = [_properties objectForKey:[NSString stringWithFormat:@"%@%d_Y", prefix, i]];
 		NSPoint point = {0,0};
-		if ([sx length] && [sy length])
+		if (sx && sy && [sx length] && [sy length])
 			point = NSMakePoint([sx floatValue], [sy floatValue])/25.4;
 		[points addObject:[NSValue valueWithPoint:point+origin]];
 	}
@@ -218,5 +218,14 @@ static id First(id a, id b) {
 		return ATLeftSide;
 	return ATRightSide;
 }
+
+-(BOOL)isProximal {
+    return [[self.type lowercaseString] contains:@"proximal"];
+}
+
+-(BOOL)isDistal {
+    return [[self.type lowercaseString] contains:@"distal"];
+}
+
 
 @end
