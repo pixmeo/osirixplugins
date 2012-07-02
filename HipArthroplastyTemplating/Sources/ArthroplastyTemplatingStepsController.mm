@@ -919,7 +919,10 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 						}
 						if (_stemLayer && [_stemLayer ROImode] == ROI_selected && _stemTemplate) {
 							ArthroplastyTemplate* t = next? [[_stemTemplate family] templateAfter:_stemTemplate] : [[_stemTemplate family] templateBefore:_stemTemplate];
+                            id distalLayer = _distalStemLayer, distalTemplate = _distalStemTemplate;
 							[self replaceLayer:_stemLayer with:t];
+                            _distalStemLayer = distalLayer; _distalStemTemplate = distalTemplate;
+                            [self adjustDistalToProximal];
 							handled = YES;
 						}
 						if (_distalStemLayer && [_distalStemLayer ROImode] == ROI_selected && _distalStemTemplate) {
@@ -1061,7 +1064,6 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 //		NSLog(@"[seriesArray count] : %d", [seriesArray count]);
 		NSString *pathOfImageToSend;
 		
-		
 		NSManagedObject* imageToSend = NULL;
 		
 		for (unsigned i = 0; i < [seriesArray count]; i++)
@@ -1179,14 +1181,21 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	}
 	
 	if (_stemTemplate) {
-		[str appendFormat:@"\nStem: %@\n", [_stemTemplate name]];
+		[str appendFormat:@"\n%@: %@\n", ([_stemTemplate isProximal]? @"Stem Proximal Component" : @"Stem"), [_stemTemplate name]];
 		[str appendFormat:@"\tManufacturer: %@\n", [_stemTemplate manufacturer]];
 		[str appendFormat:@"\tSize: %@\n", [_stemTemplate size]];
 		[str appendFormat:@"\tReference: %@\n", [_stemTemplate referenceNumber]];
 	}
-
+    
 	if ([_neckSizePopUpButton isEnabled])
-		[str appendFormat:@"\nNeck size: %@\n", [[_neckSizePopUpButton selectedItem] title]];
+		[str appendFormat:@"\tNeck size: %@\n", [[_neckSizePopUpButton selectedItem] title]];
+
+    if (_distalStemTemplate) {
+		[str appendFormat:@"Stem Distal Component: %@\n", [_distalStemTemplate name]];
+		[str appendFormat:@"\tManufacturer: %@\n", [_distalStemTemplate manufacturer]];
+		[str appendFormat:@"\tSize: %@\n", [_distalStemTemplate size]];
+		[str appendFormat:@"\tReference: %@\n", [_distalStemTemplate referenceNumber]];
+    }
  
 	if ([[_plannersNameTextField stringValue] length])
 		[str appendFormat:@"\nPlanified by: %@\n", [_plannersNameTextField stringValue]];

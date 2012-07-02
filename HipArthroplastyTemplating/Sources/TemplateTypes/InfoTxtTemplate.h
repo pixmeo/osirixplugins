@@ -13,8 +13,6 @@
 	NSDictionary* _properties;
 }
 
-+(NSArray*)templatesAtPath:(NSString*)path;
-+(NSArray*)templatesAtPath:(NSString*)path usingClass:(Class)classs;
 -(id)initFromFileAtPath:(NSString*)path;
 
 @end

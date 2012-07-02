@@ -19,7 +19,7 @@
 -(id)initWithTemplate:(ArthroplastyTemplate*)templat;
 -(BOOL)matches:(ArthroplastyTemplate*)templat;
 -(void)add:(ArthroplastyTemplate*)templat;
--(ArthroplastyTemplate*)template:(NSInteger)index;
+-(ArthroplastyTemplate*)templateMatchingSize:(NSString*)size;
 
 -(ArthroplastyTemplate*)templateAfter:(ArthroplastyTemplate*)t;
 -(ArthroplastyTemplate*)templateBefore:(ArthroplastyTemplate*)t;

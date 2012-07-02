@@ -43,6 +43,8 @@
 		59F6A17210564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F6A17010564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm */; };
 		59F6A17610564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F6A17410564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h */; };
 		59F6A17710564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F6A17510564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm */; };
+		7100F2DC15A1841B004BB13F /* SQLiteTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7100F2DA15A1841B004BB13F /* SQLiteTemplate.h */; };
+		7100F2DD15A1841B004BB13F /* SQLiteTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7100F2DB15A1841B004BB13F /* SQLiteTemplate.m */; };
 		712BC55E15871807005460E6 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712BC55D15871807005460E6 /* OsiriXAPI.framework */; };
 		718D0AEA159C8E9A00F27CE9 /* HipAT2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 718D0AE8159C8E9A00F27CE9 /* HipAT2D.h */; };
 		718D0AEB159C8E9A00F27CE9 /* HipAT2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 718D0AE9159C8E9A00F27CE9 /* HipAT2D.mm */; };
@@ -105,6 +107,8 @@
 		59F6A17010564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+OsiriX.mm"; sourceTree = "<group>"; };
 		59F6A17410564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ArthroplastyTemplatingWindowController+Templates.h"; sourceTree = "<group>"; };
 		59F6A17510564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+Templates.mm"; sourceTree = "<group>"; };
+		7100F2DA15A1841B004BB13F /* SQLiteTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteTemplate.h; sourceTree = "<group>"; };
+		7100F2DB15A1841B004BB13F /* SQLiteTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteTemplate.m; sourceTree = "<group>"; };
 		712BC55D15871807005460E6 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		718D0AE8159C8E9A00F27CE9 /* HipAT2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HipAT2D.h; sourceTree = "<group>"; };
 		718D0AE9159C8E9A00F27CE9 /* HipAT2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HipAT2D.mm; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 			children = (
 				599A23C9138648C50086168F /* InfoTxtTemplate.h */,
 				599A23CA138648C50086168F /* InfoTxtTemplate.mm */,
+				7100F2DA15A1841B004BB13F /* SQLiteTemplate.h */,
+				7100F2DB15A1841B004BB13F /* SQLiteTemplate.m */,
 			);
 			path = TemplateTypes;
 			sourceTree = "<group>";
@@ -268,6 +274,7 @@
 				5912DF3C118F24F1007F7D40 /* Prefix.pch in Headers */,
 				599A23CB138648C50086168F /* InfoTxtTemplate.h in Headers */,
 				718D0AEA159C8E9A00F27CE9 /* HipAT2D.h in Headers */,
+				7100F2DC15A1841B004BB13F /* SQLiteTemplate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +408,7 @@
 				595B975911172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm in Sources */,
 				599A23CC138648C50086168F /* InfoTxtTemplate.mm in Sources */,
 				718D0AEB159C8E9A00F27CE9 /* HipAT2D.mm in Sources */,
+				7100F2DD15A1841B004BB13F /* SQLiteTemplate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

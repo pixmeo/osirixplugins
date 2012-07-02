@@ -37,8 +37,11 @@
 @property(readonly) BOOL mustFlipHorizontally;
 @property(readonly) ArthroplastyTemplatingUserDefaults* userDefaults;
 @property(readonly) ArthroplastyTemplatingPlugin* plugin;
+@property(readonly) ArthroplastyTemplateViewDirection templateDirection;
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin;
+
+-(BOOL)mustFlipHorizontally:(ArthroplastyTemplate*)t;
 
 -(NSString*)pdfPathForFamilyAtIndex:(int)index;
 -(N2Image*)dragImageForTemplate:(ArthroplastyTemplate*)templat;

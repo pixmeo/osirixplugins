@@ -16,25 +16,8 @@ static id First(id a, id b) {
 	return a? a : b;
 }
 
-+(NSArray*)templatesAtPath:(NSString*)dirpath {
-	return [[self class] templatesAtPath:dirpath usingClass:[self class]];
-}
-
-+(NSArray*)templatesAtPath:(NSString*)dirpath usingClass:(Class)classs {
-	NSMutableArray* templates = [NSMutableArray array];
-	
-	BOOL isDirectory, exists = [[NSFileManager defaultManager] fileExistsAtPath:dirpath isDirectory:&isDirectory];
-	if (exists && isDirectory) {
-		NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:dirpath];
-		NSString* sub; while (sub = [e nextObject]) {
-			NSString* subpath = [dirpath stringByAppendingPathComponent:sub];
-			[[NSFileManager defaultManager] fileExistsAtPath:subpath isDirectory:&isDirectory];
-			if (!isDirectory && [subpath rangeOfString:@".disabled/"].location == NSNotFound && [[subpath pathExtension] isEqualToString:@"txt"])
-				[templates addObject:[[[classs alloc] initFromFileAtPath:subpath] autorelease]];
-		}
-	}
-	
-	return templates;
++(NSArray*)templatesFromFileAtPath:(NSString*)path {
+    return [NSArray arrayWithObject:[[[[self class] alloc] initFromFileAtPath:path] autorelease]];
 }
 
 +(NSDictionary*)propertiesFromInfoFileAtPath:(NSString*)path {

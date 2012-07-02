@@ -24,7 +24,9 @@
 #import "NSBitmapImageRep+ArthroplastyTemplating.h"
 
 @implementation ArthroplastyTemplatingWindowController
+
 @synthesize userDefaults = _userDefaults, plugin = _plugin;
+@synthesize templateDirection = _viewDirection;
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin {
 	self = [self initWithWindowNibName:@"HipArthroplastyTemplatingWindow"];
@@ -76,7 +78,7 @@
 #pragma mark PDF preview
 
 -(NSString*)pdfPathForFamilyAtIndex:(int)index {
-	return index != -1? [[[self familyAtIndex:index] template:[_sizes indexOfSelectedItem]] pdfPathForDirection:_viewDirection] : NULL;//[[NSBundle bundleForClass:[self class]] pathForResource:@"empty" ofType:@"pdf"];
+	return index != -1? [[[self familyAtIndex:index] templateMatchingSize:[_sizes titleOfSelectedItem]] pdfPathForDirection:_viewDirection] : NULL;//[[NSBundle bundleForClass:[self class]] pathForResource:@"empty" ofType:@"pdf"];
 }
 
 -(void)setFamily:(id)sender {
@@ -200,7 +202,6 @@
 }
 
 -(N2Image*)templateImage:(ArthroplastyTemplate*)templat {
-	if ([_familiesTableView selectedRow] == -1) return NULL;
 	PDFPage* page = [_pdfView currentPage];
 	NSRect pageBox = [_pdfView convertRect:[page boundsForBox:kPDFDisplayBoxMediaBox] fromPage:page];
 	pageBox.size = n2::round(pageBox.size);
@@ -253,7 +254,7 @@
 }
 
 - (BOOL)tableView:(NSTableView*)tv writeRowsWithIndexes:(NSIndexSet*)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-	[self addTemplate:[[self familyAtIndex:[rowIndexes firstIndex]] template:[_sizes indexOfSelectedItem]] toPasteboard:pboard];
+	[self addTemplate:[[self familyAtIndex:[rowIndexes firstIndex]] templateMatchingSize:[_sizes titleOfSelectedItem]] toPasteboard:pboard];
 	return YES;
 }
 

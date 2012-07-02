@@ -9,9 +9,35 @@
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplateFamily.h"
 #import "InfoTxtTemplate.h"
+#import "SQLiteTemplate.h"
 #import <OsiriXAPI/NSFileManager+N2.h>
 
 @implementation ArthroplastyTemplatingWindowController (Templates)
+
++(NSArray*)templatesAtPath:(NSString*)dirpath {
+	NSMutableArray* templates = [NSMutableArray array];
+	
+    NSDictionary* classes = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [InfoTxtTemplate class], @"txt",
+                             [SQLiteTemplate class], @"psij",
+                             nil];
+    
+	BOOL isDirectory, exists = [[NSFileManager defaultManager] fileExistsAtPath:dirpath isDirectory:&isDirectory];
+	if (exists && isDirectory) {
+		NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:dirpath];
+		NSString* sub; while (sub = [e nextObject]) {
+			NSString* subpath = [dirpath stringByAppendingPathComponent:sub];
+			[[NSFileManager defaultManager] fileExistsAtPath:subpath isDirectory:&isDirectory];
+			if (!isDirectory && [subpath rangeOfString:@".disabled/"].location == NSNotFound) {
+                for (NSString* ext in classes)
+                    if ([[subpath pathExtension] isEqualToString:ext])
+                        [templates addObjectsFromArray:[[classes objectForKey:ext] templatesFromFileAtPath:subpath]];
+            }
+		}
+	}
+	
+	return templates;
+}
 
 -(void)awakeTemplates {
 	[_templates removeAllObjects];
@@ -22,7 +48,7 @@
 	for (NSString* path in paths)
         for (NSString* sub in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL])
             if ([sub hasSuffix:@"Templates"])
-                [_templates addObjectsFromArray:[InfoTxtTemplate templatesAtPath:[path stringByAppendingPathComponent:sub]]];
+                [_templates addObjectsFromArray:[[self class] templatesAtPath:[path stringByAppendingPathComponent:sub]]];
 	
 	// fill _families from _templates
 	for (unsigned i = 0; i < [_templates count]; ++i) {
@@ -72,7 +98,7 @@
 }
 
 -(ArthroplastyTemplate*)currentTemplate {
-	return [[self selectedFamily] template:[_sizes indexOfSelectedItem]];
+	return [[self selectedFamily] templateMatchingSize:[_sizes titleOfSelectedItem]];
 }
 
 -(void)filterTemplates {

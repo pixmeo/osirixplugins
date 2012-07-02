@@ -7,6 +7,7 @@
 
 #import "ArthroplastyTemplateFamily.h"
 #import "ArthroplastyTemplate.h"
+#import <cmath>
 
 
 @implementation ArthroplastyTemplateFamily
@@ -37,50 +38,87 @@
 	[templat setFamily:self];
 }
 
--(ArthroplastyTemplate*)template:(NSInteger)index {
++(CGFloat)numberForSize:(NSString*)size {
+    NSRange r = [size rangeOfCharacterFromSet:[NSCharacterSet.decimalDigitCharacterSet invertedSet]];
+    if (r.location == 0)
+        return 0;
+    if (r.location != NSNotFound)
+        size = [size substringToIndex:r.location];
+    return [size floatValue];
+}
+
+-(ArthroplastyTemplate*)templateMatchingSize:(NSString*)size {
+    // 1) by compairing strings
+    for (ArthroplastyTemplate* at in _templates)
+        if ([at.size isEqualToString:size])
+            return at;
+    
+    // 2) by compairing numbers...
+    NSInteger closestIndex = -1;
+    CGFloat closestDelta;
+    CGFloat nin = [[self class] numberForSize:size];
+    for (NSInteger i = 0; i < _templates.count; ++i) {
+        ArthroplastyTemplate* at = [_templates objectAtIndex:i];
+        
+        CGFloat nat = [[self class] numberForSize:at.size];
+        if (nin == nat)
+            return at;
+        
+        CGFloat delta = std::pow(nat-nin, 2); // actially this is delta pow 2, but we don't need the actual value so avoid sqrt to save time
+        
+        if (closestIndex == -1 || closestDelta > delta) {
+            closestIndex = i;
+            closestDelta = delta;
+        }
+    }
+    
+    return [_templates objectAtIndex:closestIndex];
+}
+
+-(ArthroplastyTemplate*)templateForIndex:(NSInteger)index {
 	return [_templates objectAtIndex:index];
 }
 
 -(ArthroplastyTemplate*)templateAfter:(ArthroplastyTemplate*)t {
-	return [self template:([_templates indexOfObject:t]+1)%[_templates count]];
+	return [self templateForIndex:([_templates indexOfObject:t]+1)%[_templates count]];
 }
 
 -(ArthroplastyTemplate*)templateBefore:(ArthroplastyTemplate*)t {
 	int index = [_templates indexOfObject:t]-1;
 	if (index < 0) index = [_templates count]-1;
-	return [self template:index];
+	return [self templateForIndex:index];
 }
 
 -(NSString*)fixation {
-	return [[self template:0] fixation];
+	return [[self templateForIndex:0] fixation];
 }
 
 -(NSString*)group {
-	return [[self template:0] group];
+	return [[self templateForIndex:0] group];
 }
 
 -(NSString*)manufacturer {
-	return [[self template:0] manufacturer];
+	return [[self templateForIndex:0] manufacturer];
 }
 
 -(NSString*)modularity {
-	return [[self template:0] modularity];
+	return [[self templateForIndex:0] modularity];
 }
 
 -(NSString*)name {
-	return [[self template:0] name];
+	return [[self templateForIndex:0] name];
 }
 
 -(NSString*)placement {
-	return [[self template:0] placement];
+	return [[self templateForIndex:0] placement];
 }
 
 -(NSString*)surgery {
-	return [[self template:0] surgery];
+	return [[self templateForIndex:0] surgery];
 }
 
 -(NSString*)type {
-	return [[self template:0] type];
+	return [[self templateForIndex:0] type];
 }
 
 @end
