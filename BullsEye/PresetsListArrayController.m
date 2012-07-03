@@ -14,7 +14,7 @@
 
 - (void)add:(id)sender
 {
-	[self addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys: @"perfusion", @"name", nil]];
+	[self addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys: @"New Preset", @"name", nil]];
 	
 	[[BullsEyeView view] refresh];
 }

@@ -129,6 +129,53 @@ const NSString* FileTypeCSV = @"csv";
 	[panel beginSheetForDirectory:NULL file: [[presetsList selection] valueForKey: @"name"] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
 }
 
+-(IBAction) savePresets:(id)sender
+{
+	NSSavePanel *panel = [NSSavePanel savePanel];
+	[panel setRequiredFileType: @"bullsEyePresets"];
+    
+    if( [panel runModalForDirectory:nil file: @"preset.bullsEyePresets"] == NSFileHandlingPanelOKButton)
+    {
+        NSArray *array = [[NSUserDefaults standardUserDefaults] objectForKey: @"presetsBullsEyeList"];
+        
+        [[NSFileManager defaultManager] removeItemAtPath: [[panel URL] path] error: nil];
+        [[NSKeyedArchiver archivedDataWithRootObject: array] writeToFile: [[panel URL] path] atomically: YES];
+    }
+}
+
+-(IBAction) loadPresets:(id)sender
+{
+	NSOpenPanel *panel = [NSOpenPanel openPanel];
+    
+	if ([panel runModalForDirectory: nil file:nil types:[NSArray arrayWithObject:@"bullsEyePresets"]] == NSFileHandlingPanelOKButton)
+	{
+        NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithFile: [[panel URL] path]];
+        
+        NSInteger response = NSRunInformationalAlertPanel(  NSLocalizedString(@"Presets", nil),
+                                                            NSLocalizedString(@"Do you want to add these presets or replace the current presets", nil),
+                                                            NSLocalizedString(@"Add",nil),
+                                                            NSLocalizedString(@"Replace",nil),
+                                                            NSLocalizedString(@"Cancel",nil));
+        
+        if( response == NSAlertDefaultReturn)
+        {
+            NSArray *existingPresets = [[[[NSUserDefaults standardUserDefaults] objectForKey: @"presetsBullsEyeList"] mutableCopy] autorelease];
+            
+            [[NSUserDefaults standardUserDefaults] setObject: [existingPresets arrayByAddingObjectsFromArray: array] forKey: @"presetsBullsEyeList"];
+        }
+        
+        if( response == NSAlertAlternateReturn)
+        {
+            [[NSUserDefaults standardUserDefaults] setObject: array forKey: @"presetsBullsEyeList"];
+        }
+        
+        if( response == NSAlertOtherReturn)
+        {
+            
+        }
+    }
+}
+
 -(IBAction) saveDICOM:(id)sender
 {
 	[self dicomSave: [[presetsList selection] valueForKey: @"name"] backgroundColor: [NSColor whiteColor] toFile: nil];

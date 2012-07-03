@@ -204,7 +204,8 @@ static BullsEyeView *bullsEyeView= nil;
 		
 		segRadius += 60;
 		
-		[[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
+        if( segments.count > a)
+            [[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
 	}
 	segRadius = 60;
 	for( int i = 0 ; i < 6; i++)
@@ -218,7 +219,8 @@ static BullsEyeView *bullsEyeView= nil;
 		
 		segRadius += 60;
 		
-		[[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
+        if( segments.count > a)
+            [[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
 	}
 	segRadius = 45;
 	for( int i = 0 ; i < 4; i++)
@@ -232,7 +234,8 @@ static BullsEyeView *bullsEyeView= nil;
 		
 		segRadius += 90;
 		
-		[[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
+        if( segments.count > a)
+            [[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
 	}
 	
 	NSBezierPath* s = [[[NSBezierPath alloc] init] autorelease];
@@ -242,7 +245,8 @@ static BullsEyeView *bullsEyeView= nil;
 	[s setLineWidth: 0.5];
 	[s setLineJoinStyle:NSRoundLineJoinStyle];
 	
-	[[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
+    if( segments.count > a)
+        [[segments objectAtIndex: a++] setObject: s forKey: @"drawing"];
 	
 	// Font style
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Helvetica" traits:NSBoldFontMask weight:9 size:12.];
@@ -266,7 +270,7 @@ static BullsEyeView *bullsEyeView= nil;
 		
 		NSColor *color = [NSColor whiteColor];
 		
-		if( [[c presetBullsEyeArray] count])
+		if( [[c presetBullsEyeArray] count] > [[s objectForKey: @"state"] intValue])
 			color = [NSUnarchiver unarchiveObjectWithData: [[[c presetBullsEyeArray] objectAtIndex: [[s objectForKey: @"state"] intValue]] objectForKey: @"color"]];
 		
 		[color set];
@@ -314,8 +318,11 @@ static BullsEyeView *bullsEyeView= nil;
 		{
 			maxTotal += maxScore;
 			
-			NSDictionary *d = [[c presetBullsEyeArray] objectAtIndex: [[[segments objectAtIndex: i] objectForKey: @"state"] intValue]];
-			total += [[d objectForKey: @"score"] intValue];
+            if( [[c presetBullsEyeArray] count] > [[[segments objectAtIndex: i] objectForKey: @"state"] intValue])
+            {
+                NSDictionary *d = [[c presetBullsEyeArray] objectAtIndex: [[[segments objectAtIndex: i] objectForKey: @"state"] intValue]];
+                total += [[d objectForKey: @"score"] intValue];
+            }
 		}
 		
 		if( maxTotal > 0)

@@ -16,6 +16,8 @@
 
 @property (readonly) NSArrayController *presetsList, *presetBullsEye;
 
+-(IBAction) savePresets:(id)sender;
+-(IBAction) loadPresets:(id)sender;
 - (NSArray*) presetBullsEyeArray;
 - (IBAction) refresh: (id) sender;
 - (void) saveAs:(NSString*) format accessoryView: (NSView*) accessoryView;
