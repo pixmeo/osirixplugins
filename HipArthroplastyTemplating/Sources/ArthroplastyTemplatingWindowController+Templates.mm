@@ -9,7 +9,6 @@
 #import "ArthroplastyTemplatingWindowController+Templates.h"
 #import "ArthroplastyTemplateFamily.h"
 #import "InfoTxtTemplate.h"
-#import "SQLiteTemplate.h"
 #import <OsiriXAPI/NSFileManager+N2.h>
 
 @implementation ArthroplastyTemplatingWindowController (Templates)
@@ -19,7 +18,6 @@
 	
     NSDictionary* classes = [NSDictionary dictionaryWithObjectsAndKeys:
                              [InfoTxtTemplate class], @"txt",
-                             [SQLiteTemplate class], @"psij",
                              nil];
     
 	BOOL isDirectory, exists = [[NSFileManager defaultManager] fileExistsAtPath:dirpath isDirectory:&isDirectory];
@@ -47,8 +45,12 @@
                       [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:@"HipArthroplastyTemplating"], nil];
 	for (NSString* path in paths)
         for (NSString* sub in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL])
-            if ([sub hasSuffix:@"Templates"])
+            if ([sub hasSuffix:@"Templates"]) {
                 [_templates addObjectsFromArray:[[self class] templatesAtPath:[path stringByAppendingPathComponent:sub]]];
+                NSString* plistpath = [[path stringByAppendingPathComponent:sub] stringByAppendingPathComponent:@"_Selection.plist"];
+                if ([NSFileManager.defaultManager fileExistsAtPath:plistpath])
+                    [_presets addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:plistpath]];
+            }
 	
 	// fill _families from _templates
 	for (unsigned i = 0; i < [_templates count]; ++i) {

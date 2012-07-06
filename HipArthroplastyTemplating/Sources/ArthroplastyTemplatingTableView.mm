@@ -31,20 +31,6 @@
     
     *offset = o-image.size/2-NSMakePoint(1,-3);
     
-//    NSPoint click = [self convertPoint:[event locationInWindow] fromView:NULL];
-//	
-//	NSSize size = [image size];
-//	NSPoint o = NSMakePoint(size)/2;
-//	
-//    
-//	[view dragImage:image at:click-o-NSMakePoint(1,-3) offset:NSMakeSize(0,0) event:event pasteboard:pboard source:view slideBack:YES];
-
-    
-    
-    
-    
-    
-    
     return image;
 }
 

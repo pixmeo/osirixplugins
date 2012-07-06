@@ -90,35 +90,52 @@
 }
 
 -(NSString*)fixation {
-	return [[self templateForIndex:0] fixation];
+	return [self templatesValueForKey:@"fixation"];
 }
 
 -(NSString*)group {
-	return [[self templateForIndex:0] group];
+	return [self templatesValueForKey:@"group"];
 }
 
 -(NSString*)manufacturer {
-	return [[self templateForIndex:0] manufacturer];
+	return [self templatesValueForKey:@"manufacturer"];
 }
 
 -(NSString*)modularity {
-	return [[self templateForIndex:0] modularity];
+	return [self templatesValueForKey:@"modularity"];
 }
 
 -(NSString*)name {
-	return [[self templateForIndex:0] name];
+	return [self templatesValueForKey:@"name"];
 }
 
 -(NSString*)placement {
-	return [[self templateForIndex:0] placement];
+	return [self templatesValueForKey:@"placement"];
 }
 
 -(NSString*)surgery {
-	return [[self templateForIndex:0] surgery];
+	return [self templatesValueForKey:@"surgery"];
 }
 
 -(NSString*)type {
-	return [[self templateForIndex:0] type];
+	return [self templatesValueForKey:@"type"];
+}
+
+-(NSString*)templatesValueForKey:(NSString*)key {
+    NSArray* values = [_templates valueForKey:key];
+    
+    NSMutableArray* usedValues = [NSMutableArray array];
+    NSMutableString* str = [NSMutableString string];
+    
+    for (NSString* value in values)
+        if ([value isKindOfClass:[NSString class]] && ![usedValues containsObject:value]) {
+            [usedValues addObject:value];
+            if (!str.length)
+                [str appendString:value];
+            else [str appendFormat:@", %@", value];
+        }
+    
+    return str;
 }
 
 @end

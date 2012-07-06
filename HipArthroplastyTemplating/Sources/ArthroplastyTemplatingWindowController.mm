@@ -36,8 +36,10 @@
 	
 	_userDefaults = [[ArthroplastyTemplatingUserDefaults alloc] init];
 	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
-	_presets = [[NSDictionary alloc] initWithContentsOfFile:[bundle pathForResource:[bundle bundleIdentifier] ofType:@"plist"]];
-	
+	_presets = [[NSMutableDictionary alloc] init];
+    
+    [_presets addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:[bundle pathForResource:[bundle bundleIdentifier] ofType:@"plist"]]];
+
 	_templates = [[NSMutableArray arrayWithCapacity:0] retain];
 	_familiesArrayController = [[NSArrayController alloc] init];
 	

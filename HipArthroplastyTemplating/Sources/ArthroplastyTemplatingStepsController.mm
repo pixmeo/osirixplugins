@@ -349,8 +349,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 				_stemLayer = roi;
 				_stemTemplate = [[_plugin templatesWindowController] templateAtPath:[roi layerReferenceFilePath]];
 				NSArray* points = [_stemTemplate headRotationPointsForDirection:ArthroplastyTemplateAnteriorPosteriorDirection];
-				for (int i = 0; i < [_neckSizePopUpButton numberOfItems]; ++i)
-					[[_neckSizePopUpButton itemAtIndex:i] setEnabled:(i+1 <= (int)[points count])];
+				for (int i = 0; i < 5; ++i) // S = 0 to XXL = 4
+					[[_neckSizePopUpButton itemAtIndex:i] setHidden:NSEqualPoints([[points objectAtIndex:i] pointValue], NSZeroPoint)];
                 if ([_stemTemplate isProximal] && !_distalStemLayer)
                     [[_plugin templatesWindowController] setFilter:@"Distal Stem"];
 			}

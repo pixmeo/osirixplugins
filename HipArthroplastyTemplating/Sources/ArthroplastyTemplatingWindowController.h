@@ -31,7 +31,7 @@
 	IBOutlet NSSegmentedControl* _sideControl;
 	
 	ArthroplastyTemplatingUserDefaults* _userDefaults;
-	NSDictionary* _presets;
+	NSMutableDictionary* _presets;
 }
 
 @property(readonly) BOOL mustFlipHorizontally;

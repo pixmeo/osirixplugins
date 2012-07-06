@@ -76,8 +76,8 @@ static id First(id a, id b) {
 	return direction == ArthroplastyTemplateAnteriorPosteriorDirection? @"AP" : @"ML";
 }
 
--(BOOL)origin:(NSPoint*)point forDirection:(ArthroplastyTemplateViewDirection)direction {
-	NSString* prefix = [NSString stringWithFormat:@"%@_ORIGIN_", [self prefixForDirection:direction]];
+-(BOOL)point:(NSPoint*)point forEntry:(NSString*)entry direction:(ArthroplastyTemplateViewDirection)dir {
+	NSString* prefix = [NSString stringWithFormat:@"%@_%@_", [self prefixForDirection:dir], entry];
 	
 	NSString* key = [NSString stringWithFormat:@"%@X", prefix];
 	NSString *xs = [_properties objectForKey:key];
@@ -91,29 +91,39 @@ static id First(id a, id b) {
 	return YES;
 }
 
--(NSArray*)headRotationPointsForDirection:(ArthroplastyTemplateViewDirection)direction {
+-(BOOL)origin:(NSPoint*)point forDirection:(ArthroplastyTemplateViewDirection)dir {
+	return [self point:point forEntry:@"ORIGIN" direction:dir];
+}
+
+-(BOOL)csys:(NSPoint*)point forDirection:(ArthroplastyTemplateViewDirection)dir {
+	return [self point:point forEntry:@"PRODUCT_FAMILY_CSYS" direction:dir];
+}
+
+-(NSArray*)headRotationPointsForDirection:(ArthroplastyTemplateViewDirection)dir {
 	NSMutableArray* points = [NSMutableArray arrayWithCapacity:5];
-	NSString* prefix = [NSString stringWithFormat:@"%@_HEAD_ROTATION_POINT_", [self prefixForDirection:direction]];
 	
-	NSPoint origin; [self origin:&origin forDirection:direction];
-	
+	NSPoint origin; [self origin:&origin forDirection:dir];
+//	NSPoint csys; BOOL hasCsys = [self csys:&csys forDirection:dir];
+    
 	for (unsigned i = 1; i <= 5; ++i) {
-		NSString* sx = [_properties objectForKey:[NSString stringWithFormat:@"%@%d_X", prefix, i]];
-		NSString* sy = [_properties objectForKey:[NSString stringWithFormat:@"%@%d_Y", prefix, i]];
 		NSPoint point = {0,0};
-		if (sx && sy && [sx length] && [sy length])
-			point = NSMakePoint([sx floatValue], [sy floatValue])/25.4;
-		[points addObject:[NSValue valueWithPoint:point+origin]];
+        
+        BOOL hasPoint = [self point:&point forEntry:[NSString stringWithFormat:@"HEAD_ROTATION_POINT_%d", i] direction:dir];
+        if (hasPoint)
+/*            if (hasCsys)
+                point = (point+csys);
+            else*/ point += origin;
+        
+		[points addObject:[NSValue valueWithPoint:point]];
 	}
 	
 	return points;
 }
 
--(NSArray*)matingPointsForDirection:(ArthroplastyTemplateViewDirection)direction {
+-(NSArray*)matingPointsForDirection:(ArthroplastyTemplateViewDirection)dir {
 	NSMutableArray* points = [NSMutableArray arrayWithCapacity:5];
-	NSString* prefix = [NSString stringWithFormat:@"%@_MATING_POINT_", [self prefixForDirection:direction]];
 	
-	NSPoint origin; [self origin:&origin forDirection:direction];
+	NSPoint origin; [self origin:&origin forDirection:dir];
 	
 	for (unsigned i = 0; i < 4; ++i) {
 		NSString* ki = NULL;
@@ -123,11 +133,13 @@ static id First(id a, id b) {
 			case 2: ki = @"B"; break;
 			case 3: ki = @"B2"; break;
 		}
+        
 		NSPoint point = {0,0};
-		NSString* sx = [_properties objectForKey:[NSString stringWithFormat:@"%@%@_X", prefix, ki]];
-		NSString* sy = [_properties objectForKey:[NSString stringWithFormat:@"%@%@_Y", prefix, ki]];
-		if ([sx length] && [sy length])
-			point = NSMakePoint([sx floatValue], [sy floatValue])/25.4;
+        
+        BOOL hasPoint = [self point:&point forEntry:[NSString stringWithFormat:@"MATING_POINT_%@", ki] direction:dir];
+        if (hasPoint)
+            point += origin;
+        
 		[points addObject:[NSValue valueWithPoint:point+origin]];
 	}
 	
@@ -165,7 +177,7 @@ static id First(id a, id b) {
 }
 
 -(NSString*)placement {
-	return [_properties objectForKey:@"LEFT_RIGHT"];
+	return First([_properties objectForKey:@"PATIENT_SIDE"], [_properties objectForKey:@"LEFT_RIGHT"]);
 }
 
 -(NSString*)surgery {
@@ -181,7 +193,7 @@ static id First(id a, id b) {
 }
 
 -(NSString*)referenceNumber {
-	return [_properties objectForKey:@"REF_NO"];
+	return First([_properties objectForKey:@"PRODUCT_ID"], [_properties objectForKey:@"REF_NO"]);
 }
 
 -(CGFloat)scale {

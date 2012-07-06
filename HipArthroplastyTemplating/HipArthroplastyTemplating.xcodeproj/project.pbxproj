@@ -43,8 +43,6 @@
 		59F6A17210564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F6A17010564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm */; };
 		59F6A17610564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F6A17410564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h */; };
 		59F6A17710564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F6A17510564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm */; };
-		7100F2DC15A1841B004BB13F /* SQLiteTemplate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7100F2DA15A1841B004BB13F /* SQLiteTemplate.h */; };
-		7100F2DD15A1841B004BB13F /* SQLiteTemplate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7100F2DB15A1841B004BB13F /* SQLiteTemplate.m */; };
 		712BC55E15871807005460E6 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 712BC55D15871807005460E6 /* OsiriXAPI.framework */; };
 		718D0AEA159C8E9A00F27CE9 /* HipAT2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 718D0AE8159C8E9A00F27CE9 /* HipAT2D.h */; };
 		718D0AEB159C8E9A00F27CE9 /* HipAT2D.mm in Sources */ = {isa = PBXBuildFile; fileRef = 718D0AE9159C8E9A00F27CE9 /* HipAT2D.mm */; };
@@ -107,8 +105,6 @@
 		59F6A17010564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+OsiriX.mm"; sourceTree = "<group>"; };
 		59F6A17410564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ArthroplastyTemplatingWindowController+Templates.h"; sourceTree = "<group>"; };
 		59F6A17510564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+Templates.mm"; sourceTree = "<group>"; };
-		7100F2DA15A1841B004BB13F /* SQLiteTemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteTemplate.h; sourceTree = "<group>"; };
-		7100F2DB15A1841B004BB13F /* SQLiteTemplate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteTemplate.m; sourceTree = "<group>"; };
 		712BC55D15871807005460E6 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		718D0AE8159C8E9A00F27CE9 /* HipAT2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HipAT2D.h; sourceTree = "<group>"; };
 		718D0AE9159C8E9A00F27CE9 /* HipAT2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HipAT2D.mm; sourceTree = "<group>"; };
@@ -189,8 +185,6 @@
 			children = (
 				599A23C9138648C50086168F /* InfoTxtTemplate.h */,
 				599A23CA138648C50086168F /* InfoTxtTemplate.mm */,
-				7100F2DA15A1841B004BB13F /* SQLiteTemplate.h */,
-				7100F2DB15A1841B004BB13F /* SQLiteTemplate.m */,
 			);
 			path = TemplateTypes;
 			sourceTree = "<group>";
@@ -216,10 +210,10 @@
 				598E1E320FFB3E7E00BC313C /* ArthroplastyTemplatingSplitView.mm */,
 				5995728E0FDD3E2B007C151F /* SelectablePDFView.h */,
 				5995728F0FDD3E2B007C151F /* SelectablePDFView.mm */,
-				595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */,
 				5952527F0FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.mm */,
-				595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */,
+				595252800FDF9B06009A14DD /* ArthroplastyTemplatingUserDefaults.h */,
 				595B975711172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm */,
+				595B975611172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -274,7 +268,6 @@
 				5912DF3C118F24F1007F7D40 /* Prefix.pch in Headers */,
 				599A23CB138648C50086168F /* InfoTxtTemplate.h in Headers */,
 				718D0AEA159C8E9A00F27CE9 /* HipAT2D.h in Headers */,
-				7100F2DC15A1841B004BB13F /* SQLiteTemplate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +362,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
-			shellScript = "use strict;\n\nmy $source = \"$ENV{HOME}/Library/Development/Arthroplasty Templating/Templates\";\nmy $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n\nopendir(TEMPLATES, $source);\nforeach (readdir(TEMPLATES)) {\n\tif ($_ !~ /^\\./i) {\n\t\tmy $name = $_;\n\t\tmy $path = \"$source/$_\";\n        \n\t\tmy $linkpath = readlink($path);\n\t\tprint \"$path is $linkpath\\n\";\n\t\tif ($linkpath) {\n\t\t\t$path = $linkpath;\n\t\t}\n        else { # maybe an alias?\n            #            my $osa = \"tell application \\\"Finder\\\"\\nposix path of (original item of alias file (posix file \\\"$path\\\") as text)\\nend tell\";\n            open(FH, \"osascript -e 'tell application \\\"Finder\\\"' -e 'posix path of (original item of alias file (posix file \\\"$path\\\") as text)' -e 'end tell' |\");\n            my $linkpath;\n            while (<FH>) {\n                s:\\n::g;\n                $linkpath = $_;\n                chop($linkpath); # remove last /\n            }\n            close(FH);\n            \n            if ($linkpath) {\n                $path = $linkpath;\n            }\n        }\n        \n        print \"cp -Rfp $path $target\\n\";\n\t\tmy @args = (\"cp\", \"-Rfp\", $path, $target);\n\t\tsystem(@args);\n\t}\n}\n\nclosedir(TEMPLATES);\n\nexit 0;";
+			shellScript = "use strict;\n\nmy $source = \"$ENV{HOME}/Library/Development/HipArthroplastyTemplating/Templates\";\nmy $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n\nopendir(TEMPLATES, $source);\nforeach (readdir(TEMPLATES)) {\n\tif ($_ !~ /^\\./i) {\n\t\tmy $name = $_;\n\t\tmy $path = \"$source/$_\";\n        \n\t\tmy $linkpath = readlink($path);\n\t\tprint \"$path is $linkpath\\n\";\n\t\tif ($linkpath) {\n\t\t\t$path = $linkpath;\n\t\t}\n        else { # maybe an alias?\n            #            my $osa = \"tell application \\\"Finder\\\"\\nposix path of (original item of alias file (posix file \\\"$path\\\") as text)\\nend tell\";\n            open(FH, \"osascript -e 'tell application \\\"Finder\\\"' -e 'posix path of (original item of alias file (posix file \\\"$path\\\") as text)' -e 'end tell' |\");\n            my $linkpath;\n            while (<FH>) {\n                s:\\n::g;\n                $linkpath = $_;\n                chop($linkpath); # remove last /\n            }\n            close(FH);\n            \n            if ($linkpath) {\n                $path = $linkpath;\n            }\n        }\n        \n        print \"cp -Rfp $path $target\\n\";\n\t\tmy @args = (\"cp\", \"-Rfp\", $path, $target);\n\t\tsystem(@args);\n\t}\n}\n\nclosedir(TEMPLATES);\n\nexit 0;";
 		};
 		59F510221054F3FA009B6D89 /* Clean Templates Directories */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -384,7 +377,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
-			shellScript = "#/usr/bin/perl\n\nuse strict;\nuse subs qw(process);\n\nmy $path = \"$ENV{TARGET_BUILD_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}\";\n\nsub process {\n\tmy ($path) = @_;\n\treturn if $path =~ /\\/(?:\\.|\\.\\.)$/;\n\tunlink $path if -f $path && $path !~ /\\.(?:pdf|txt)$/i;\n\tunlink $path if -f $path && $path =~ /readme/i;\n\n\tif (-d $path) {\n\t\topendir(DIR, $path);\n\t\tprocess \"$path/$_\" foreach readdir(DIR);\n\t\tclosedir(DIR);\n\t}\n}\n\nopendir(RESOURCES, $path);\nforeach (readdir(RESOURCES)) {\n\tmy $resource = \"$path/$_\";\n\tnext unless -d $resource && $resource =~ /templates/i;\n\tprocess $resource;\n}\n\nclosedir(RESOURCES);\n\nexit 0;\n";
+			shellScript = "#/usr/bin/perl\n\nuse strict;\nuse subs qw(process);\n\nmy $path = \"$ENV{TARGET_BUILD_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}\";\n\nsub process {\n\tmy ($path) = @_;\n\treturn if $path =~ /\\/(?:\\.|\\.\\.)$/;\n\tunlink $path if -f $path && $path !~ /\\.(?:pdf|txt|plist)$/i;\n\tunlink $path if -f $path && $path =~ /readme/i;\n\n\tif (-d $path) {\n\t\topendir(DIR, $path);\n\t\tprocess \"$path/$_\" foreach readdir(DIR);\n\t\tclosedir(DIR);\n\t}\n}\n\nopendir(RESOURCES, $path);\nforeach (readdir(RESOURCES)) {\n\tmy $resource = \"$path/$_\";\n\tnext unless -d $resource && $resource =~ /templates/i;\n\tprocess $resource;\n}\n\nclosedir(RESOURCES);\n\nexit 0;\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -408,7 +401,6 @@
 				595B975911172AD30026B899 /* NSBitmapImageRep+ArthroplastyTemplating.mm in Sources */,
 				599A23CC138648C50086168F /* InfoTxtTemplate.mm in Sources */,
 				718D0AEB159C8E9A00F27CE9 /* HipAT2D.mm in Sources */,
-				7100F2DD15A1841B004BB13F /* SQLiteTemplate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
