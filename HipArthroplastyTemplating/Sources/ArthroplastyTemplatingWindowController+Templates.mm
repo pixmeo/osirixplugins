@@ -47,7 +47,7 @@
         for (NSString* sub in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL])
             if ([sub hasSuffix:@"Templates"]) {
                 [_templates addObjectsFromArray:[[self class] templatesAtPath:[path stringByAppendingPathComponent:sub]]];
-                NSString* plistpath = [[path stringByAppendingPathComponent:sub] stringByAppendingPathComponent:@"_Selection.plist"];
+                NSString* plistpath = [[path stringByAppendingPathComponent:sub] stringByAppendingPathComponent:@"_Bounds.plist"];
                 if ([NSFileManager.defaultManager fileExistsAtPath:plistpath])
                     [_presets addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:plistpath]];
             }

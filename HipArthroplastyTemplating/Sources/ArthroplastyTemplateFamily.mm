@@ -132,7 +132,7 @@
             [usedValues addObject:value];
             if (!str.length)
                 [str appendString:value];
-            else [str appendFormat:@", %@", value];
+            else [str appendFormat:@"| %@", value];
         }
     
     return str;
