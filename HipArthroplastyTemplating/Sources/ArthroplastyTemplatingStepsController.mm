@@ -607,12 +607,12 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		for (MyPoint* p in [_femurRoi points])
 			pt += [p point];
 		pt /= [[_femurRoi points] count];
-		[[_plugin templatesWindowController] setSide: (pt.x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSide : ATRightSide ];
+		[[_plugin templatesWindowController] setSide: (pt.x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSideMask : ATRightSideMask ];
 	} else if (step == _stepStem) {
 		if (_stemLayer)
 			[_stemLayer setGroupID:0];
 		showTemplates = [[_plugin templatesWindowController] setFilter:@"Stem !Distal"];
-		[[_plugin templatesWindowController] setSide: ([_cupLayer pointAtIndex:4].x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSide : ATRightSide ];
+		[[_plugin templatesWindowController] setSide: ([_cupLayer pointAtIndex:4].x > [[[_viewerController imageView] curDCM] pwidth]/2)? ATLeftSideMask : ATRightSideMask ];
 	} else if (step == _stepPlacement)
 		[self adjustStemToCup];
 	else if (step == _stepSave)

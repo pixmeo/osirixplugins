@@ -80,17 +80,18 @@
 #pragma mark PDF preview
 
 -(NSString*)pdfPathForFamilyAtIndex:(int)index {
-	return index != -1? [[[self familyAtIndex:index] templateMatchingSize:[_sizes titleOfSelectedItem]] pdfPathForDirection:_viewDirection] : NULL;//[[NSBundle bundleForClass:[self class]] pathForResource:@"empty" ofType:@"pdf"];
+	return index != -1? [[[self familyAtIndex:index] templateMatchingSize:[_sizes titleOfSelectedItem] side:self.side] pdfPathForDirection:_viewDirection] : NULL;//[[NSBundle bundleForClass:[self class]] pathForResource:@"empty" ofType:@"pdf"];
 }
 
 -(void)setFamily:(id)sender {
-	if (sender == _familiesTableView) { // update sizes menu
+    ArthroplastyTemplateFamily* family = [self selectedFamily];
+
+    if (sender == _familiesTableView) { // update sizes menu
 		if ([_familiesTableView numberOfRows]) {
 			[_familiesArrayController setSelectionIndex:[_familiesTableView selectedRow]];
 			
 			float selectedSize = [[_sizes titleOfSelectedItem] floatValue];
 			[_sizes removeAllItems];
-			ArthroplastyTemplateFamily* family = [self selectedFamily];
 			float diffs[[[family templates] count]];
 			for (NSUInteger fti = 0; fti < [[family templates] count]; ++fti) {
 				ArthroplastyTemplate* ft = [[family templates] objectAtIndex:fti];
@@ -125,6 +126,21 @@
 		[_viewDirectionControl setSelectedSegment:ArthroplastyTemplateAnteriorPosteriorDirection];
 		[self setViewDirection:_viewDirectionControl];
 	}
+    
+    ArthroplastyTemplate* t = [family templateMatchingSize:[_sizes titleOfSelectedItem] side:self.side];
+    [_viewDirectionControl setEnabled:[NSFileManager.defaultManager fileExistsAtPath:[t pdfPathForDirection:ArthroplastyTemplateLateralDirection]] forSegment:ArthroplastyTemplateLateralDirection];
+    
+    ATSide allowedSides = [t allowedSides];
+    if ((allowedSides&ATBothSidesMask) != ATBothSidesMask) { // this template doesnt support both sides... look for the other side's template
+        if ([t templateForOtherPatientSide])
+            allowedSides = ATBothSidesMask;
+    }
+    
+    [_sideControl setEnabled:allowedSides&ATLeftSideMask forSegment:ATLeftSideMask-1];
+    [_sideControl setEnabled:allowedSides&ATRightSideMask forSegment:ATRightSideMask-1];
+//    [self setSideAction:_sideControl];
+    
+    [_sizes selectItemWithTitle:t.size];
 }
 
 -(NSString*)idForTemplate:(ArthroplastyTemplate*)templat {
@@ -224,17 +240,30 @@
 
 #pragma mark Flip Left/Right
 
--(IBAction)setSideAction:(id)sender; {
-	[_pdfView setNeedsDisplay:YES];
+-(IBAction)setSideAction:(id)sender {
+//    ArthroplastyTemplate* t = [self currentTemplate];
+//    ATSide side = self.side;
+//    
+//    ATSide allowedSides = [t allowedSides];
+//    if ((allowedSides&side) != side) { // this template doesnt support the current side.....
+//        if ([t templateForOtherPatientSide]) {
+//            giugoiug
+//        }
+//    }
+//    
+    
+    [self setFamily:_familiesTableView];
+	
+//    [_pdfView setNeedsDisplay:YES];
 }
 
 -(ATSide)side {
-	return ATSide([_sideControl selectedSegment]);
+	return [_sideControl selectedSegment]+1;
 }
 
 -(void)setSide:(ATSide)side {
 	if (side != [self side]) {
-		[_sideControl setSelectedSegment:side];
+		[_sideControl setSelectedSegment:side-1];
 		[self setSideAction:_sideControl];
 	}
 }
@@ -256,7 +285,7 @@
 }
 
 - (BOOL)tableView:(NSTableView*)tv writeRowsWithIndexes:(NSIndexSet*)rowIndexes toPasteboard:(NSPasteboard*)pboard {
-	[self addTemplate:[[self familyAtIndex:[rowIndexes firstIndex]] templateMatchingSize:[_sizes titleOfSelectedItem]] toPasteboard:pboard];
+	[self addTemplate:[[self familyAtIndex:[rowIndexes firstIndex]] templateMatchingSize:[_sizes titleOfSelectedItem] side:self.side] toPasteboard:pboard];
 	return YES;
 }
 

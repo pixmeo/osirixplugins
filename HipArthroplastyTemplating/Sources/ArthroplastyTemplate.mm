@@ -48,8 +48,8 @@
 	return NULL;
 }
 
--(NSString*)placement {
-	[NSException raise:NSInternalInconsistencyException format:@"[ArthroplastyTemplate placement] must be implemented"];
+-(NSString*)patientSide {
+	[NSException raise:NSInternalInconsistencyException format:@"[ArthroplastyTemplate patientSide] must be implemented"];
 	return NULL;
 }
 
@@ -83,8 +83,16 @@
 	return 0;
 }
 
+-(NSString*)referenceNumberForOtherPatientSide {
+    return nil;
+}
+
+-(ArthroplastyTemplate*)templateForOtherPatientSide {
+    return nil;
+}
+
 -(ATSide)side {
-	return ATRightSide;
+	return ATRightSideMask;
 }
 
 @end

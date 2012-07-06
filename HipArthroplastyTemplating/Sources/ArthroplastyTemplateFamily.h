@@ -14,14 +14,16 @@
 }
 
 @property(readonly) NSArray* templates;
-@property(readonly) NSString *fixation, *group, *manufacturer, *modularity, *name, *placement, *surgery, *type;
+@property(readonly) NSString *fixation, *group, *manufacturer, *modularity, *name, *patientSide, *surgery, *type;
 
 -(id)initWithTemplate:(ArthroplastyTemplate*)templat;
 -(BOOL)matches:(ArthroplastyTemplate*)templat;
 -(void)add:(ArthroplastyTemplate*)templat;
--(ArthroplastyTemplate*)templateMatchingSize:(NSString*)size;
+-(ArthroplastyTemplate*)templateMatchingSize:(NSString*)size side:(ATSide)side;
 
 -(ArthroplastyTemplate*)templateAfter:(ArthroplastyTemplate*)t;
 -(ArthroplastyTemplate*)templateBefore:(ArthroplastyTemplate*)t;
+
++(CGFloat)numberForSize:(NSString*)size;
 
 @end

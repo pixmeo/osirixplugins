@@ -7,6 +7,7 @@
 //
 
 #import "InfoTxtTemplate.h"
+#import "ArthroplastyTemplateFamily.h"
 #import <OsiriXAPI/NSString+N2.h>
 #import <OsiriXAPI/N2Operators.h>
 
@@ -176,8 +177,20 @@ static id First(id a, id b) {
 	return First([_properties objectForKey:@"COMPONENT_FAMILY_NAME"], [_properties objectForKey:@"PRODUCT_FAMILY_NAME"]);
 }
 
--(NSString*)placement {
+-(NSString*)patientSide {
 	return First([_properties objectForKey:@"PATIENT_SIDE"], [_properties objectForKey:@"LEFT_RIGHT"]);
+}
+
+-(ATSide)allowedSides {
+	NSString* patientSide = [[self patientSide] lowercaseString];
+    ATSide r = 0;
+    if ([patientSide contains:@"left"])
+        r |= ATLeftSideMask;
+    if ([patientSide contains:@"right"])
+        r |= ATRightSideMask;
+    if (r)
+        return r;
+    return ATBothSidesMask;
 }
 
 -(NSString*)surgery {
@@ -207,11 +220,31 @@ static id First(id a, id b) {
 
 -(ATSide)side {
 	NSString* orientation = [_properties objectForKey:@"ORIENTATION"];
-	if (!orientation || ([orientation compare:@"RIGHT" options:NSCaseInsensitiveSearch+NSLiteralSearch] == NSOrderedSame))
-		return ATRightSide;
-	if ([orientation compare:@"LEFT" options:NSCaseInsensitiveSearch+NSLiteralSearch] == NSOrderedSame)
-		return ATLeftSide;
-	return ATRightSide;
+	if (orientation && [orientation compare:@"left" options:NSCaseInsensitiveSearch+NSLiteralSearch] == NSOrderedSame)
+		return ATLeftSideMask;
+	return ATRightSideMask;
+}
+
+-(NSString*)referenceNumberForOtherPatientSide {
+    return [_properties objectForKey:@"OTHER_SIDE_REF_NO"];
+}
+
+-(ArthroplastyTemplate*)templateForOtherPatientSide {
+    NSString* otherSideRefNo = [self referenceNumberForOtherPatientSide];
+    if (otherSideRefNo.length) {
+        NSInteger i = [[self.family.templates valueForKey:@"referenceNumber"] indexOfObject:otherSideRefNo];
+        if (i != NSNotFound)
+            return [self.family.templates objectAtIndex:i];
+    }
+    
+    // try looking for another template with same COMPONENT_FAMILY_NAME and SIZE and other PATIENT_SIDE
+    for (ArthroplastyTemplate* it in self.family.templates)
+        if (it != self)
+            if ([ArthroplastyTemplateFamily numberForSize:it.size] == [ArthroplastyTemplateFamily numberForSize:self.size])
+                if (![it.patientSide isEqualToString:self.patientSide])
+                    return it;
+    
+    return nil;
 }
 
 -(BOOL)isProximal {

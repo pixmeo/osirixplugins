@@ -253,7 +253,7 @@
 															<string key="NSFrameSize">{965, 444}</string>
 															<reference key="NSSuperview" ref="58620459"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="639287217"/>
+															<reference key="NSNextKeyView" ref="376591994"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="318297083">
 																<reference key="NSNextResponder" ref="66190873"/>
@@ -319,7 +319,7 @@
 																	<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
 																		<string key="NSKey">name</string>
 																		<bool key="NSAscending">YES</bool>
-																		<string key="NSSelector">compare:</string>
+																		<string key="NSSelector">caseInsensitiveCompare:</string>
 																	</object>
 																</object>
 																<object class="NSTableColumn" id="282421121">
@@ -383,14 +383,14 @@
 																	</object>
 																</object>
 																<object class="NSTableColumn" id="862602370">
-																	<string key="NSIdentifier">placement</string>
+																	<string key="NSIdentifier">patientSide</string>
 																	<double key="NSWidth">94</double>
 																	<double key="NSMinWidth">10</double>
 																	<double key="NSMaxWidth">1000</double>
 																	<object class="NSTableHeaderCell" key="NSHeaderCell">
 																		<int key="NSCellFlags">75628096</int>
 																		<int key="NSCellFlags2">2048</int>
-																		<string key="NSContents">Placement</string>
+																		<string key="NSContents">Patient Side</string>
 																		<reference key="NSSupport" ref="26"/>
 																		<reference key="NSBackgroundColor" ref="431647260"/>
 																		<reference key="NSTextColor" ref="1033990097"/>
@@ -407,7 +407,7 @@
 																	<bool key="NSIsResizeable">YES</bool>
 																	<reference key="NSTableView" ref="538123787"/>
 																	<object class="NSSortDescriptor" key="NSSortDescriptorPrototype">
-																		<string key="NSKey">placement</string>
+																		<string key="NSKey">patientSide</string>
 																		<bool key="NSAscending">YES</bool>
 																		<string key="NSSelector">compare:</string>
 																	</object>
@@ -551,13 +551,6 @@
 															<reference key="NSDataSource"/>
 															<string key="NSAutosaveName">ArthroplastyTemplatingTableView</string>
 															<int key="NSGridStyleMask">1</int>
-															<array key="NSSortDescriptors">
-																<object class="NSSortDescriptor">
-																	<string key="NSKey">name</string>
-																	<bool key="NSAscending">YES</bool>
-																	<string key="NSSelector">compare:</string>
-																</object>
-															</array>
 															<int key="NSColumnAutoresizingStyle">4</int>
 															<int key="NSDraggingSourceMaskForLocal">15</int>
 															<int key="NSDraggingSourceMaskForNonLocal">0</int>
@@ -581,7 +574,7 @@
 													<string key="NSFrame">{{408, 17}, {15, 438}}</string>
 													<reference key="NSSuperview" ref="900028615"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView" ref="376591994"/>
+													<reference key="NSNextKeyView"/>
 													<reference key="NSTarget" ref="900028615"/>
 													<string key="NSAction">_doScroller:</string>
 													<double key="NSPercent">0.98376629999999998</double>
@@ -592,7 +585,7 @@
 													<string key="NSFrame">{{1, 446}, {382, 15}}</string>
 													<reference key="NSSuperview" ref="900028615"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView"/>
+													<reference key="NSNextKeyView" ref="639287217"/>
 													<bool key="NSEnabled">YES</bool>
 													<int key="NSsFlags">1</int>
 													<reference key="NSTarget" ref="900028615"/>

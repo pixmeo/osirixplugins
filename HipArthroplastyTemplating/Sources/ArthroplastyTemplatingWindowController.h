@@ -60,4 +60,6 @@
 -(BOOL)selectionForCurrentTemplate:(NSRect*)rect;
 -(void)setSelectionForCurrentTemplate:(NSRect)rect;
 
+-(ATSide)side;
+
 @end

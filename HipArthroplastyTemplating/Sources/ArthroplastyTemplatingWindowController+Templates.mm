@@ -100,7 +100,7 @@
 }
 
 -(ArthroplastyTemplate*)currentTemplate {
-	return [[self selectedFamily] templateMatchingSize:[_sizes titleOfSelectedItem]];
+	return [[self selectedFamily] templateMatchingSize:[_sizes titleOfSelectedItem] side:self.side];
 }
 
 -(void)filterTemplates {
@@ -115,7 +115,7 @@
                 str = [str substringFromIndex:1];
             }
 
-            NSPredicate* subpredicate = [NSPredicate predicateWithFormat:@"((fixation contains[c] %@) OR (group contains[c] %@) OR (manufacturer contains[c] %@) OR (modularity contains[c] %@) OR (name contains[c] %@) OR (placement contains[c] %@) OR (surgery contains[c] %@) OR (type contains[c] %@))", str, str, str, str, str, str, str, str];
+            NSPredicate* subpredicate = [NSPredicate predicateWithFormat:@"((fixation contains[c] %@) OR (group contains[c] %@) OR (manufacturer contains[c] %@) OR (modularity contains[c] %@) OR (name contains[c] %@) OR (patientSide contains[c] %@) OR (surgery contains[c] %@) OR (type contains[c] %@))", str, str, str, str, str, str, str, str];
             if (no)
                 subpredicate = [NSCompoundPredicate notPredicateWithSubpredicate:subpredicate];
             
@@ -124,11 +124,13 @@
     }
     
     [_familiesArrayController setFilterPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:subpredicates]];
-	
+
 	//	[_familiesArrayController rearrangeObjects];
 	[_familiesTableView noteNumberOfRowsChanged];
 	//	[_familiesTableView reloadData];
-	[self setFamily:_familiesTableView];
+
+    [self.window orderFront:self];
+    [self setFamily:_familiesTableView];
 }
 
 -(BOOL)setFilter:(NSString*)string {
