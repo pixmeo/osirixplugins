@@ -13,6 +13,9 @@
 #include <algorithm>
 #include <cmath>
 
+#import <objc/runtime.h>
+
+
 NSString* SelectablePDFViewDocumentDidChangeNotification = @"SelectablePDFViewDocumentDidChangeNotification";
 
 
@@ -20,6 +23,26 @@ NSString* SelectablePDFViewDocumentDidChangeNotification = @"SelectablePDFViewDo
 
 -(void)awakeFromNib {
 	[self setMenu:NULL];
+    
+    static BOOL justOnce = YES;
+    if (justOnce) {
+        justOnce = NO;
+        
+        // swizzle PDFView documentView methods
+        
+        Method method;
+        IMP imp;
+        
+        Class c = [self.documentView class];
+        
+        // this is an instance method: -[N2ManagedObjectContext save:]
+        method = class_getInstanceMethod(c, @selector(acceptsFirstMouse:));
+        if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+        imp = method_getImplementation(method);
+        class_addMethod(c, @selector(_ArthroplastyTemplatingPlugin_PDFDocumentView_acceptsFirstMouse:), imp, method_getTypeEncoding(method));
+        method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ArthroplastyTemplatingPlugin_PDFDocumentView_acceptsFirstMouse:)));
+    }
+    
 }
 
 -(NSPoint)convertPointTo01:(NSPoint)point forPage:(PDFPage*)page {
@@ -129,6 +152,16 @@ NSString* SelectablePDFViewDocumentDidChangeNotification = @"SelectablePDFViewDo
 	}
 	
 	[context restoreGraphicsState];
+}
+
+-(BOOL)acceptsFirstMouse:(NSEvent*)theEvent {
+    return YES;
+}
+
+-(BOOL)_ArthroplastyTemplatingPlugin_PDFDocumentView_acceptsFirstMouse:(NSEvent*)e {
+    if ([self.window.windowController isKindOfClass:[ArthroplastyTemplatingWindowController class]])
+        return YES;
+    return [super acceptsFirstMouse:e];
 }
 
 @end

@@ -141,7 +141,7 @@ static id First(id a, id b) {
         if (hasPoint)
             point += origin;
         
-		[points addObject:[NSValue valueWithPoint:point+origin]];
+		[points addObject:[NSValue valueWithPoint:point]];
 	}
 	
 	return points;
