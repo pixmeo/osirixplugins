@@ -8,6 +8,7 @@
 
 #include <iostream>
 
+#include "Point_3D.h"
 #include "Parametres.h"
 #include "Region_Of_Interest.h"
 
@@ -43,7 +44,7 @@ class HandClosedDetection
 public :
 
 	HandClosedDetection();
-	void Update(unsigned int methode, const xn::DepthMetaData& dpmd, const XnPoint3D handPt);
+	void Update(unsigned int methode, const xn::DepthMetaData& dpmd, const Point3D handPt);
 
 	//void ExtractionROI(const xn::DepthMetaData& dpmd);
 	void UpdateROI_Data(const xn::DepthMetaData& dpmd);
@@ -52,7 +53,7 @@ public :
 	void UpdateDepthLimits(void);
 	void UpdateDepthLimits(unsigned int handPtZ);
 
-	void UpdateHandPt(XnPoint3D handPoint);
+	void UpdateHandPt(Point3D handPoint);
 	void UpdateHandPtInROI(void);
 
 	void UpdateROI_Pt(void);
@@ -90,7 +91,7 @@ private :
 	bool m_ROI_OutOfCamera;
 
 	unsigned int m_depthLimitMin, m_depthLimitMax;
-	XnPoint3D m_handPt;
+	Point3D m_handPt;
 	QPoint m_handPtInROI;
 
 	unsigned int m_compteurFrame;

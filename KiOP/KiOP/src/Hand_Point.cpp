@@ -10,119 +10,129 @@
 
 // -------------- Constructeur(s) ---------------- //
 
-HandPoint::HandPoint(void)
+HandPoint::HandPoint(void) :
+	m_compteurFrame(0),
+	m_handPt("m_handPt"),
+	m_lastHandPt("m_lastHandPt"),
+	m_handPtBrut("m_handPtBrut0"),
+	m_lastHandPtBrut(),
+	m_handPtBrutFiltre("m_handPtBrut1"),
+	m_diffHandPt("m_diffHandPt"),
+	m_smooth(5,5,5,"m_smooth")
 {
-	m_compteurFrame = 0;
-
-	m_handPt.X = 0; m_handPt.Y = 0; m_handPt.Z = 0;
-	m_lastHandPt.X = 0; m_lastHandPt.Y = 0; m_lastHandPt.Z = 0;
-	m_handPtBrut.X = 0; m_handPtBrut.Y = 0; m_handPtBrut.Z = 0;
-	m_deltaHandPt.X = 0; m_deltaHandPt.Y = 0; m_deltaHandPt.Z = 0;
-	m_diffHandPt.X = 0; m_diffHandPt.Y = 0; m_diffHandPt.Z = 0;
-
-	m_smooth.X = 10; m_smooth.Y = 10; m_smooth.Z = 10;
+	std::ostringstream oss;
+	for (int i=0; i<NB_CASE; i++)
+	{
+		oss << i;
+		m_lastHandPtBrut[i].Rename("m_lastHandPtBrut1[" + oss.str() + "]");
+		oss.seekp(0);
+	}
 }
 
 
 // ------------------- Main ---------------------- //
-
 void HandPoint::Update(XnPoint3D handPt)
 {
+	if (CompteurFrame() < 1)
+	{
+		for (int i=0; i<NB_CASE; i++)
+		{
+			m_lastHandPtBrut[i].Print();
+		}
+	}
+
 	IncrementCompteurFrame();
+	m_lastHandPt.SetCoordinate(m_handPt);
+	m_handPtBrut.SetCoordinate(handPt);
 
-	m_lastHandPt = m_handPt;
-	m_handPtBrut = handPt;
 
+	PushListPt3D(m_handPtBrut,m_lastHandPtBrut,NB_CASE);
+	m_handPtBrutFiltre.SetCoordinate(MeanListPt3D(m_lastHandPtBrut,NB_CASE));
+	//m_handPtBrut.Print();
+	//m_handPtBrutFiltre.Print(); cout << endl;
+
+	//FiltreBruit();
 	FiltreSmooth();
 
-	m_deltaHandPt.X = m_handPt.X - m_lastHandPt.X;
-	m_deltaHandPt.Y = m_handPt.Y - m_lastHandPt.Y;
-	m_deltaHandPt.Z = m_handPt.Z - m_lastHandPt.Z;
-
-	m_diffHandPt.X = m_handPtBrut.X - m_handPt.X;
-	m_diffHandPt.Y = m_handPtBrut.Y - m_handPt.Y;
-	m_diffHandPt.Z = m_handPtBrut.Z - m_handPt.Z;
-
-	//cout << "\tdiffX : " << m_diffHandPt.X << "\tdiffY : " << m_diffHandPt.Y << "\tdiffZ : " << m_diffHandPt.Z << endl;
-
+	m_diffHandPt.SetCoordinate(m_handPtBrut - m_handPt);
+	
 	// Check for steadies
 	sTD.SteadyCheck(m_handPt,m_lastHandPt);
 }
 
-// ---------------- Coordonnées ------------------ //
 
-XnPoint3D HandPoint::HandPt(void) const
+// ---------------- Coordonnées ------------------ //
+Point3D HandPoint::HandPt(void) const
 {
 	return m_handPt;
 }
 
-XnPoint3D HandPoint::HandPtBrut(void) const
+Point3D HandPoint::HandPtBrut(void) const
 {
 	return m_handPtBrut;
 }
 
-XnPoint3D HandPoint::LastHandPt(void) const
+Point3D HandPoint::HandPtBrutFiltre(void) const
+{
+	return m_handPtBrutFiltre;
+}
+
+Point3D HandPoint::LastHandPt(void) const
 {
 	return m_lastHandPt;
 }
 
-XnPoint3D HandPoint::DeltaHandPt(void) const
+
+// ------------------- Filtres ------------------- //
+
+void HandPoint::FiltreBruit(void)
 {
-	return m_deltaHandPt;
+
+
+	//m_handPtBrutFiltre.SetCoordinate(MeanListPt3D(m_lastHandPtBrut,NB_CASE));
+
 }
-
-
-// ------------------- Smooth -------------------- //
 
 void HandPoint::FiltreSmooth(void)
 {
-	XnPoint3D sgn;
-	sgn.X = (m_diffHandPt.X >= 0 ? 1 : -1);
-	sgn.Y = (m_diffHandPt.Y >= 0 ? 1 : -1);
-	sgn.Z = (m_diffHandPt.Z >= 0 ? 1 : -1);
+	Point3D sgn = m_diffHandPt.Sgn();
 
-	m_handPt.X = (fabs(m_diffHandPt.X) > m_smooth.X ? m_handPtBrut.X - sgn.X*(m_smooth.X) : m_handPt.X);
-	m_handPt.Y = (fabs(m_diffHandPt.Y) > m_smooth.Y ? m_handPtBrut.Y - sgn.Y*(m_smooth.Y) : m_handPt.Y);
-	m_handPt.Z = (fabs(m_diffHandPt.Z) > m_smooth.Z ? m_handPtBrut.Z - sgn.Z*(m_smooth.Z) : m_handPt.Z);
+	m_handPt.SetX(abs(m_diffHandPt.X()) > m_smooth.X() ? m_handPtBrutFiltre.X() - sgn.X()*(m_smooth.X()) : m_handPt.X());
+	m_handPt.SetY(abs(m_diffHandPt.Y()) > m_smooth.Y() ? m_handPtBrutFiltre.Y() - sgn.Y()*(m_smooth.Y()) : m_handPt.Y());
+	m_handPt.SetZ(abs(m_diffHandPt.Z()) > m_smooth.Z() ? m_handPtBrutFiltre.Z() - sgn.Z()*(m_smooth.Z()) : m_handPt.Z());
+
+	m_handPt.Print();
 }
 
-void HandPoint::SetSmooth(XnPoint3D smooth)
+// ------------------- Smooth -------------------- //
+
+void HandPoint::SetSmooth(Point3D smooth)
 {
-	m_smooth = smooth;
+	m_smooth.SetCoordinate(smooth);
 }
 void HandPoint::SetSmooth(unsigned int smoothX, unsigned int smoothY, unsigned int smoothZ)
 {
-	m_smooth.X = smoothX;
-	m_smooth.Y = smoothY;
-	m_smooth.Z = smoothZ;
+	Point3D temp(smoothX,smoothY,smoothZ,"temp");
+	SetSmooth(temp);
 }
 
-void HandPoint::IncrementSmooth(XnPoint3D increment)
+void HandPoint::IncrementSmooth(Point3D increment)
 {
-	m_smooth.X += increment.X;
-	if (m_smooth.X < MIN_SMOOTH_VALUE) m_smooth.X = MIN_SMOOTH_VALUE;
-	if (m_smooth.X > MAX_SMOOTH_VALUE) m_smooth.X = MAX_SMOOTH_VALUE;
-	m_smooth.Y += increment.Y;
-	if (m_smooth.Y < MIN_SMOOTH_VALUE) m_smooth.Y = MIN_SMOOTH_VALUE;
-	if (m_smooth.Y > MAX_SMOOTH_VALUE) m_smooth.Y = MAX_SMOOTH_VALUE;
-	m_smooth.Z += increment.Z;
-	if (m_smooth.Z < MIN_SMOOTH_VALUE) m_smooth.Z = MIN_SMOOTH_VALUE;
-	if (m_smooth.Z > MAX_SMOOTH_VALUE) m_smooth.Z = MAX_SMOOTH_VALUE;
+	m_smooth += increment;
+	if (m_smooth.X() < MIN_SMOOTH_VALUE) m_smooth.SetX(MIN_SMOOTH_VALUE);
+	if (m_smooth.X() > MAX_SMOOTH_VALUE) m_smooth.SetX(MAX_SMOOTH_VALUE);
+	if (m_smooth.Y() < MIN_SMOOTH_VALUE) m_smooth.SetY(MIN_SMOOTH_VALUE);
+	if (m_smooth.Y() > MAX_SMOOTH_VALUE) m_smooth.SetY(MAX_SMOOTH_VALUE);
+	if (m_smooth.Z() < MIN_SMOOTH_VALUE) m_smooth.SetZ(MIN_SMOOTH_VALUE);
+	if (m_smooth.Z() > MAX_SMOOTH_VALUE) m_smooth.SetZ(MAX_SMOOTH_VALUE);
 }
 void HandPoint::IncrementSmooth(int x, int y, int z)
 {
-	m_smooth.X += x;
-	if (m_smooth.X < MIN_SMOOTH_VALUE) m_smooth.X = MIN_SMOOTH_VALUE;
-	if (m_smooth.X > MAX_SMOOTH_VALUE) m_smooth.X = MAX_SMOOTH_VALUE;
-	m_smooth.Y += y;
-	if (m_smooth.Y < MIN_SMOOTH_VALUE) m_smooth.Y = MIN_SMOOTH_VALUE;
-	if (m_smooth.Y > MAX_SMOOTH_VALUE) m_smooth.Y = MAX_SMOOTH_VALUE;
-	m_smooth.Z += z;
-	if (m_smooth.Z < MIN_SMOOTH_VALUE) m_smooth.Z = MIN_SMOOTH_VALUE;
-	if (m_smooth.Z > MAX_SMOOTH_VALUE) m_smooth.Z = MAX_SMOOTH_VALUE;
+	Point3D temp(x,y,z,"temp");
+	IncrementSmooth(temp);
 }
 
-XnPoint3D HandPoint::Smooth(void) const
+Point3D HandPoint::Smooth(void) const
 {
 	return m_smooth;
 }
@@ -160,6 +170,8 @@ unsigned int HandPoint::CompteurFrame(void) const
 {
 	return m_compteurFrame;
 }
+
+
 
 
 //================================= FIN ====================================//

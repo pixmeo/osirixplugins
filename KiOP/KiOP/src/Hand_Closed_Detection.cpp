@@ -19,7 +19,7 @@ HandClosedDetection::HandClosedDetection()
 
 // Méthode principale pour la détection de la main fermée :
 // Met à jours tous les attributs et appelle les méthodes pour définir le handClosed
-void HandClosedDetection::Update(unsigned int methode, const xn::DepthMetaData& dpmd, const XnPoint3D handPt)
+void HandClosedDetection::Update(unsigned int methode, const xn::DepthMetaData& dpmd, const Point3D handPt)
 {
 	IncrementCompteurFrame();
 	UpdateHandClosedPrev();
@@ -79,7 +79,7 @@ void HandClosedDetection::MethodeAireMain(const xn::DepthMetaData& dpmd)
 	profS4 = profS3;
 	profS3 = profS2;
 	profS2 = profS1;
-	profS1 = m_handPt.Z;
+	profS1 = m_handPt.Z();
 	int deltaZ = profS1 - profSPrec;
 
 	//float rapport = 1.0;
@@ -122,7 +122,7 @@ void HandClosedDetection::MethodeSurfaceRect(const xn::DepthMetaData& dpmd)
 	profS4 = profS3;
 	profS3 = profS2;
 	profS2 = profS1;
-	profS1 = m_handPt.Z;
+	profS1 = m_handPt.Z();
 	int deltaZ = profS1 - profSPrec;
 	//cout << "DeltaZ : " << deltaZ;
 
@@ -141,8 +141,8 @@ void HandClosedDetection::MethodeSurfaceRect(const xn::DepthMetaData& dpmd)
 // Défini l'intervalle de distances dans lequel il faut regarder
 void HandClosedDetection::UpdateDepthLimits(void)
 {
-	m_depthLimitMin = m_handPt.Z - INTERVALLE_PROFONDEUR_DETECTION/2;
-	m_depthLimitMax = m_handPt.Z + INTERVALLE_PROFONDEUR_DETECTION/2;
+	m_depthLimitMin = m_handPt.Z() - INTERVALLE_PROFONDEUR_DETECTION/2;
+	m_depthLimitMax = m_handPt.Z() + INTERVALLE_PROFONDEUR_DETECTION/2;
 }
 void HandClosedDetection::UpdateDepthLimits(unsigned int handPtZ)
 {
@@ -151,7 +151,7 @@ void HandClosedDetection::UpdateDepthLimits(unsigned int handPtZ)
 }
 
 // Récupère les coordonnées 3D du handPoint
-void HandClosedDetection::UpdateHandPt(XnPoint3D handPt)
+void HandClosedDetection::UpdateHandPt(Point3D handPt)
 {
 	m_handPt = handPt;
 }
@@ -159,8 +159,8 @@ void HandClosedDetection::UpdateHandPt(XnPoint3D handPt)
 // Défini les coordonnées de handPointInROI
 void HandClosedDetection::UpdateHandPtInROI(void)
 {
-	m_handPtInROI.setX(m_handPt.X - m_ROI.Pt().x());
-	m_handPtInROI.setY(m_handPt.Y - m_ROI.Pt().y());
+	m_handPtInROI.setX(m_handPt.X() - m_ROI.Pt().x());
+	m_handPtInROI.setY(m_handPt.Y() - m_ROI.Pt().y());
 }
 
 // Défini les dimensions du ROI
@@ -172,7 +172,7 @@ void HandClosedDetection::UpdateROI_Size(void)
 	static const int ROI_SizeOffset = 60;
 	static const float ROI_SizeCoeffA = (x1*x2) * (y1-y2)/(x2-x1);
 	static const float ROI_SizeCoeffB = y1 - ROI_SizeCoeffA/x1 + ROI_SizeOffset;
-	int val = (ROI_SizeCoeffA/m_handPt.Z) + ROI_SizeCoeffB;
+	int val = (ROI_SizeCoeffA/m_handPt.Z()) + ROI_SizeCoeffB;
 
 	m_ROI.SetSize(val,RAPPORT_DIM_ROI*val); // Un peu moins haut que large
 
@@ -182,8 +182,8 @@ void HandClosedDetection::UpdateROI_Size(void)
 // Défini les coordonnées haut-gauche du ROI
 void HandClosedDetection::UpdateROI_Pt(void)
 {
-	m_ROI.SetPt(m_handPt.X - m_ROI.Size().width() /2,
-							m_handPt.Y - m_ROI.Size().height()/2);
+	m_ROI.SetPt(m_handPt.X() - m_ROI.Size().width() /2,
+							m_handPt.Y() - m_ROI.Size().height()/2);
 
 	// Si le ROI est hors de la résolution de la caméra
 	if ( (m_ROI.Pt().x() <= 0) || (m_ROI.Pt().y() <= 0) 

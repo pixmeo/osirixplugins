@@ -7,6 +7,7 @@
 //============================ FICHIERS INCLUS =============================//
 
 #include "Parametres.h"
+#include "Point_3D.h"
 
 #ifdef _OS_WIN_
 	#include <windows.h>
@@ -14,9 +15,14 @@
 #endif
 
 #include <XnTypes.h>
+#include <QApplication>
 #include <QPoint>
 #include <QCursor>
+#include <Qt>
+#include <QEvent>
 #include <QMouseEvent>
+#include <qgraphicsscene.h>
+#include <qgraphicssceneevent.h>
 #include <math.h>
 
 
@@ -62,19 +68,19 @@ public :
 	void SetPos(QPoint newPos);
 	void IncrementPos(int dx, int dy);
 	void IncrementPos(QPoint deltaPos);
-	QPoint Pos(void);
-	QPoint PreviousPos(void);
+	QPoint Pos(void) const;
+	QPoint PreviousPos(void) const;
 
 	void SetMoveEnable(void);
 	void SetMoveDisable(void);
-	bool MoveEnable(void);
+	bool MoveEnable(void) const;
 
 	void SetClicEnable(void);
 	void SetClicDisable(void);
-	bool ClicEnable(void);
+	bool ClicEnable(void) const;
 
 	void SetHandClosed(bool handClosed);
-	bool HandClosed(void);
+	bool HandClosed(void) const;
 
 	void PressLeftClic(void);
 	void ReleaseLeftClic(void);
@@ -86,7 +92,7 @@ public :
 	void EndCursorSession(void);
 	bool InCursorSession(void);
 
-	void MoveCursor(XnPoint3D handPt);
+	void MoveCursor(Point3D handPt);
 
 	void SteadyDetected(unsigned short nSteady);
 
@@ -104,6 +110,9 @@ private :
 	bool m_notInCursorSession;
 
 	double m_courbeDeplacement[1001];
+
+
+	QDesktopWidget *m_desktop;
 
 };
 

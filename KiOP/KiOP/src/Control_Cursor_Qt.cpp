@@ -12,6 +12,11 @@
 // Constructeur
 CursorQt::CursorQt(short type)
 {
+	m_desktop = QApplication::desktop();
+
+
+
+
 	m_type = type;
 	m_moveEnable = false;
 	m_clicEnable = false;
@@ -101,12 +106,12 @@ void CursorQt::IncrementPos(QPoint deltaPos)
 }
 
 
-QPoint CursorQt::Pos(void)
+QPoint CursorQt::Pos(void) const
 {
 	return m_cursor.pos();
 }
 
-QPoint CursorQt::PreviousPos(void)
+QPoint CursorQt::PreviousPos(void) const
 {
 	return m_previousPos;
 }
@@ -121,7 +126,7 @@ void CursorQt::SetMoveDisable(void)
 	m_moveEnable = false;
 }
 
-bool CursorQt::MoveEnable(void)
+bool CursorQt::MoveEnable(void) const
 {
 	return m_moveEnable;
 }
@@ -136,7 +141,7 @@ void CursorQt::SetClicDisable(void)
 	m_clicEnable = false;
 }
 
-bool CursorQt::ClicEnable(void)
+bool CursorQt::ClicEnable(void) const
 {
 	return m_clicEnable;
 }
@@ -155,7 +160,7 @@ void CursorQt::SetHandClosed(bool handClosed)
 	}
 }
 
-bool CursorQt::HandClosed(void)
+bool CursorQt::HandClosed(void) const
 {
 	return m_handClosed;
 }
@@ -231,10 +236,10 @@ bool CursorQt::InCursorSession(void)
 }
 
 
-void CursorQt::MoveCursor(XnPoint3D handPt)
+void CursorQt::MoveCursor(Point3D handPt)
 {
-	static QPoint posPrev(handPt.X, handPt.Y);
-	QPoint pos(handPt.X, handPt.Y);
+	static QPoint posPrev(handPt.X(), handPt.Y());
+	QPoint pos(handPt.X(), handPt.Y());
 	QPoint deltaPos(pos - posPrev);
 	posPrev = pos;
 
@@ -245,8 +250,8 @@ void CursorQt::MoveCursor(XnPoint3D handPt)
 		int dxs = (COEFF_LIN_1X*deltaPos.x()) / ((double)handPosZ + COEFF_LIN_2);
 		int dys = (COEFF_LIN_1Y*deltaPos.y()) / ((double)handPosZ + COEFF_LIN_2);
 	#else
-		int dxs = (COEFF_EXP_X*deltaPos.x()) / exp((double)handPt.Z*COEFF_D);
-		int dys = (COEFF_EXP_Y*deltaPos.y()) / exp((double)handPt.Z*COEFF_D);
+		int dxs = (COEFF_EXP_X*deltaPos.x()) / exp((double)handPt.Z()*COEFF_D);
+		int dys = (COEFF_EXP_Y*deltaPos.y()) / exp((double)handPt.Z()*COEFF_D);
 	#endif
 
 	int dxt = 0, dyt = 0;

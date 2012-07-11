@@ -18,6 +18,7 @@ QRect rect = desktop2->screenGeometry(0);
 //unsigned int scrszw = rc.right;
 //unsigned int scrszh = rc.bottom;
 
+
 //==========================================================================//
 //============================== FONCTIONS =================================//
 

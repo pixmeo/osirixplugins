@@ -12,6 +12,8 @@ using namespace std;
 #include <XnTypes.h>
 #include <GL/glut.h>
 
+#include "Point_3D.h"
+
 
 //==========================================================================//
 //================================ CLASSES =================================//
@@ -22,7 +24,7 @@ public :
 
 	SteadyClass(void);
 
-	void SteadyCheck(XnPoint3D handPt, XnPoint3D lastHandPt);
+	void SteadyCheck(Point3D handPt, Point3D lastHandPt);
 
 	void ResetSteadies(void);
 	bool Steady2(void) const;

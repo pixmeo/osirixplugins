@@ -26,10 +26,11 @@ SteadyClass::SteadyClass(void)
 
 // ------------------- Main ---------------------- //
 
-void SteadyClass::SteadyCheck(XnPoint3D handPt, XnPoint3D lastHandPt)
+void SteadyClass::SteadyCheck(Point3D handPt, Point3D lastHandPt)
 {
 	// Si le handPoint n'a pas bougé (sur une frame)
-	if ((lastHandPt.X == handPt.X) && (lastHandPt.Y == handPt.Y) && (lastHandPt.Z == handPt.Z))
+	//if (lastHandPt == handPt)
+	if ( (lastHandPt.X() == handPt.X()) && (lastHandPt.Y() == handPt.Y()) )
 	{
 		g_notSteady = false;
 		EnclenchementTimer(m_compteurTimer);
