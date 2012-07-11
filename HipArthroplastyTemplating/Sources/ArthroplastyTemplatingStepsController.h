@@ -28,7 +28,7 @@
 	CGFloat _legInequalityValue, _originalLegInequalityValue, _lateralOffsetValue;
 	
 	// calibration
-	IBOutlet NSButton *_magnificationRadioCustom, *_magnificationRadioCalibrate;
+	IBOutlet NSMatrix *_magnificationRadio;
 	IBOutlet NSTextField* _magnificationCustomFactor;
     IBOutlet NSTextField* _magnificationCalibrateLength;
 	CGFloat _appliedMagnification;

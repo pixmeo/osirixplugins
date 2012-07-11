@@ -95,8 +95,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_stepSave setDefaultButton:doneSave];
 	}
 	
-	[_magnificationRadioCustom setAttributedTitle:[[[NSAttributedString alloc] initWithString:[_magnificationRadioCustom title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [_magnificationRadioCustom font], NSFontAttributeName, NULL]] autorelease]];
-	[_magnificationRadioCalibrate setAttributedTitle:[[[NSAttributedString alloc] initWithString:[_magnificationRadioCalibrate title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [_magnificationRadioCalibrate font], NSFontAttributeName, NULL]] autorelease]];
+    for (NSButtonCell* cell in _magnificationRadio.cells)
+        [cell setAttributedTitle:[[[NSAttributedString alloc] initWithString:[cell title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [cell font], NSFontAttributeName, NULL]] autorelease]];
 	[_magnificationCustomFactor setBackgroundColor:[[self window] backgroundColor]];
 	[_magnificationCalibrateLength setBackgroundColor:[[self window] backgroundColor]];
 	[_plannersNameTextField setBackgroundColor:[[self window] backgroundColor]];
@@ -587,7 +587,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	int tool = tROISelector;
 
 	if (step == _stepCalibration) {
-		tool = [_magnificationRadioCalibrate state]? tMesure : tROISelector;
+		tool = [_magnificationRadio selectedTag]? tMesure : tROISelector;
 		selfKey = YES;
 	} else if (step == _stepAxes)
 		tool = tMesure;
@@ -632,14 +632,13 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
 -(void)steps:(N2Steps*)steps valueChanged:(id)sender {
 	// calibration
-	if (sender == _magnificationRadioCustom)
-		[_magnificationRadioCalibrate setState:![_magnificationRadioCustom state]];
-	if (sender == _magnificationRadioCalibrate)
-		[_magnificationRadioCustom setState:![_magnificationRadioCalibrate state]];
-	if (sender == _magnificationRadioCustom || sender == _magnificationRadioCalibrate) {
-		BOOL calibrate = [_magnificationRadioCalibrate state];
+	if (sender == _magnificationRadio) {
+		BOOL calibrate = [_magnificationRadio selectedTag] == 1;
 		[_magnificationCustomFactor setEnabled:!calibrate];
 		[_magnificationCalibrateLength setEnabled:calibrate];
+        if (calibrate)
+            [self.window makeFirstResponder:_magnificationCalibrateLength];
+        else [self.window makeFirstResponder:_magnificationCustomFactor];
 	}
 	// placement
 	if (sender == _neckSizePopUpButton)
@@ -649,8 +648,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 }
 
 -(void)advanceAfterInput:(id)sender {
-	if (sender == _magnificationRadioCustom || sender == _magnificationRadioCalibrate) {
-		BOOL calibrate = [_magnificationRadioCalibrate state];
+	if (sender == _magnificationRadio) {
+		BOOL calibrate = [_magnificationRadio selectedTag] == 1;
 		[_viewerController setROIToolTag: calibrate? tMesure : tROISelector];
 		[[self window] makeKeyWindow];
 		if (calibrate)
@@ -659,15 +658,13 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	}
 	
 	[_neckSizePopUpButton setEnabled: _stemLayer != NULL];
-
-	
 }
 
 -(BOOL)steps:(N2Steps*)steps shouldValidateStep:(N2Step*)step {
 	NSString* errorMessage = NULL;
 	
 	if (step == _stepCalibration) {
-		if ([_magnificationRadioCustom state]) {
+		if (![_magnificationRadio selectedTag]) {
 			if ([_magnificationCustomFactor floatValue] <= 0)
 				errorMessage = @"Please specify a custom magnification factor value.";
 		} else
@@ -730,7 +727,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
 -(void)steps:(N2Steps*)steps validateStep:(N2Step*)step {
 	if (step == _stepCalibration) {
-		if ([_magnificationRadioCalibrate state]) {
+		if ([_magnificationRadio selectedTag]) {
 			if (!_magnificationLine || [[_magnificationLine points] count] != 2) return;
 //			NSLog(@"_magnificationCalibrateLength %f", [_magnificationCalibrateLength floatValue]);
 			[_magnificationCustomFactor setFloatValue:[_magnificationLine MesureLength:NULL]/[_magnificationCalibrateLength floatValue]];
