@@ -22,7 +22,7 @@ int positionTool[7]; //position des outils dans le menu
 int afficheTool[7]; //affichage des outils
 
 //Layout
-int totalLayoutTools = 5; //+1
+int totalLayoutTools = 6; //+1
 int currentLayout = 0;
 int currentLayoutTool = 0;
 int lastLayoutTool = 0;
@@ -221,6 +221,35 @@ void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
 	}
 }
 
+void detectHandDown()
+{
+	//code à ameliorer/////////////////////////////
+	//quitter la session lorsqu'on baisse la main
+	handDown = false;
+	if (hP.HandPt().Z() < 1500)
+	{
+		if (hP.HandPt().Y() > lastPt.Y+150)
+		{
+			handDown = true;
+		}
+	}
+	else if((hP.HandPt().Z() < 2100)&&(hP.HandPt().Z()>=1500))
+	{
+		if (hP.HandPt().Y() > lastPt.Y+130)
+		{
+			handDown = true;
+		}
+	}
+	else if(hP.HandPt().Z() > 2100)
+	{
+		if (hP.HandPt().Y() > lastPt.Y+100)
+		{
+			handDown = true;
+		}
+	}
+	
+}
+
 void handleState()
 {
 	static TelnetClient telnet;
@@ -229,7 +258,7 @@ void handleState()
 	bool inIntervalleX = (hP.HandPt().X() < handSurfaceLimit+handSurfaceThreshold)&&(hP.HandPt().X() > handSurfaceLimit-handSurfaceThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en X
 	bool inIntervalleZ = (hP.HandPt().Z() < handDepthLimit+handDepthThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en Z
 
-	
+	detectHandDown();
 	switch(currentState)
 	{
 		case -2 :
@@ -273,6 +302,30 @@ void handleState()
 				timerOut = false;
 				handDepthLimit = hP.HandPt().Z();
 				handSurfaceLimit = hP.HandPt().X();
+				switch(currentTool){
+					case 0:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+						break;
+					case 1:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction pan\r\n"));
+						break;
+					case 2:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction winLevel\r\n"));
+						break;
+					case 3:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction zoom\r\n"));
+						break;
+					case 4:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sequence\r\n"));
+						break;
+					case 5:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+						break;
+					case 6:
+						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+						break;
+
+				}
 			}
 			break;
 
@@ -320,35 +373,10 @@ void handleState()
 				telnet.connexion();
 			}
 
-			//code à ameliorer/////////////////////////////
-			//quitter la session lorsqu'on baisse la main
-			handDown = false;
-			if (hP.HandPt().Z() < 1500)
-			{
-				if (hP.HandPt().Y() > lastPt.Y+150)
-				{
-					handDown = true;
-				}
-			}
-			else if((hP.HandPt().Z() < 2100)&&(hP.HandPt().Z()>=1500))
-			{
-				if (hP.HandPt().Y() > lastPt.Y+130)
-				{
-					handDown = true;
-				}
-			}
-			else if(hP.HandPt().Z() > 2100)
-			{
-				if (hP.HandPt().Y() > lastPt.Y+100)
-				{
-					handDown = true;
-				}
-			}
-			if (handDown)
-			{
-				telnet.deconnexion();
-				sessionManager->EndSession();
-				currentState=0;
+			if (!toolSelectable){
+				window->setWindowOpacity(qreal(0.4));
+			}else{
+				window->setWindowOpacity(qreal(1.0));
 			}
 			break;
 
@@ -449,7 +477,7 @@ void handleState()
 				// Layouts (currentTool = 5 , -5, -55)
 				case 0 :
 					//window->hide();
-					pix.operator[](currentTool)->hide();
+					//pix.operator[](currentTool)->hide();
 					windowActiveTool->hide();
 					viewLayouts->show();
 					if (!handClosed)
@@ -461,7 +489,7 @@ void handleState()
 				case -5:
 					chooseTool(currentLayoutTool, lastLayoutTool, totalLayoutTools);
 					browse(currentLayoutTool,lastLayoutTool, pixL);
-					if (handClic)
+					if (handClosed)
 					{
 						viewLayouts->hide();
 						switch(currentLayoutTool)
@@ -484,6 +512,8 @@ void handleState()
 							case 5 :
 								telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x2\r\n"));
 								break;
+							case 6 :
+								break;
 						}
 					}
 					break;
@@ -504,7 +534,7 @@ void handleState()
 
 			// Pour quitter l'outil et revenir dans le menu
 			if ( ( steadyState && (!handClosed) && (currentState != 3) && (currentTool != -5) ) 
-					|| ((currentTool == -5) && (handClic)) )
+					|| ((currentTool == -5) && (handClosed)) )
 			{
 				cout << "helllooooooooooo" << endl;
 				lastState = 0;
@@ -587,6 +617,22 @@ void handleState()
 //			}
 
 			break;
+	}
+	if (handDown)
+	{
+		telnet.deconnexion();
+		sessionManager->EndSession();
+		currentState=0;
+		windowActiveTool->hide();
+		viewLayouts->hide();
+		currentTool=totalTools;
+		lastTool=0;
+		XnPoint3D ptTemp;
+		ptTemp.X = hP.HandPt().X();
+		ptTemp.Y = hP.HandPt().Y();
+		ptTemp.Z = hP.HandPt().Z();
+		lastPt = ptTemp;
+		toolSelectable = false;
 	}
 }
 
@@ -853,7 +899,7 @@ void glutDisplay()
 			// Affichage des carrés de couleurs pour indiquer l'etat de la main
 			if (handClosed)
 				glColor3ub(255,0,0);
-			else
+			else 
 				glColor3ub(0,0,255);
 			int cote = 50;
 			int carreX = xSize-(cote+10), carreY = 10;
@@ -1075,6 +1121,7 @@ int main(int argc, char *argv[])
 	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
 	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
 	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
+	Pixmap *l7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #elif defined _OS_MAC_
 	Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
 	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
@@ -1082,6 +1129,7 @@ int main(int argc, char *argv[])
 	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
 	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
 	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
+	Pixmap *l7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
 #endif
 
 	l1->setObjectName("1x1");
@@ -1090,6 +1138,7 @@ int main(int argc, char *argv[])
 	l4->setObjectName("3a");
 	l5->setObjectName("3b");
 	l6->setObjectName("2x2");
+	l7->setObjectName("stop");
 	
 	l1->setGeometry(QRectF(  0.0, 192.0, 64.0, 64.0));
 	l2->setGeometry(QRectF(128.0, 192.0, 64.0, 64.0));
@@ -1097,6 +1146,7 @@ int main(int argc, char *argv[])
 	l4->setGeometry(QRectF(384.0, 192.0, 64.0, 64.0));
 	l5->setGeometry(QRectF(512.0, 192.0, 64.0, 64.0));
 	l6->setGeometry(QRectF(640.0, 192.0, 64.0, 64.0));
+	l7->setGeometry(QRectF(768.0, 192.0, 64.0, 64.0));
 
 	pixL.push_back(l1);
 	pixL.push_back(l2);
@@ -1104,15 +1154,17 @@ int main(int argc, char *argv[])
 	pixL.push_back(l4);
 	pixL.push_back(l5);
 	pixL.push_back(l6);
+	pixL.push_back(l7);
 
-	viewLayouts->setSize(768,256);
-	QGraphicsScene *sceneLayout = new QGraphicsScene(0,0,768,256);
+	viewLayouts->setSize(896,256);
+	QGraphicsScene *sceneLayout = new QGraphicsScene(0,0,896,256);
 	sceneLayout->addItem(l1);
 	sceneLayout->addItem(l2);
 	sceneLayout->addItem(l3);
 	sceneLayout->addItem(l4);
 	sceneLayout->addItem(l5);
 	sceneLayout->addItem(l6);
+	sceneLayout->addItem(l7);
 	viewLayouts->setScene(sceneLayout);
 
 	//viewLayouts->show();
