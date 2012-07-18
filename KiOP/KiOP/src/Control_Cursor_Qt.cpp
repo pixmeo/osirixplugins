@@ -10,6 +10,8 @@
 
 
 // Constructeur
+CursorQt::CursorQt(){}
+
 CursorQt::CursorQt(short type)
 {
 	m_desktop = QApplication::desktop();
@@ -174,6 +176,7 @@ void CursorQt::PressLeftClic(void)
 			mouse_event(MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
 			ChangeCursor(5); // main fermée
 		#endif
+
 		cout << "Clic gauche maintenu\n" << endl;
 	}
 }

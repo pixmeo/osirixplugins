@@ -88,11 +88,15 @@ GraphicsView *viewLayouts;
 vector<Pixmap*> pix; //for main tools
 vector<Pixmap*> pixL; //for layouts
 Pixmap* pixActive; //for activeTool
+QColor toolColorActive = Qt::green;
+QColor toolColorInactive = Qt::gray;
 
 // KiOP//
-CursorQt cursorQt(2);
+CursorQt cursorQt;
 HandClosedDetection hCD;
 HandPoint hP;
+
+
 
 
 //==========================================================================//
@@ -205,11 +209,15 @@ void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
 	//only set the pixmap geometry when needed 
 	if (lastTool != currentTool)
 	{
+        //pix.operator[](lastTool)->hide();
+        pix.operator[](currentTool)->hide();
 		if (currentTool == 0)
 			pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0), iconIdlePt-64, 128.0, 128.0));//for zooming on the tool
 		else
 			pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0)-32, iconIdlePt-64, 128.0, 128.0));//for zooming on the tool
+        pix.operator[](currentTool)->show();
 		pix.operator[](lastTool)->setGeometry(QRectF( lastTool*128.0, iconIdlePt, 64.0, 64.0));
+        //pix.operator[](lastTool)->show();
 	}
 }
 
@@ -234,15 +242,17 @@ void handleState()
 		case -1 :
 			if (lastState == 1)
 			{
-				for (int i=0; i<=totalTools; i++)
-				{
-					pix.operator[](i)->hide();
-				} 
+//				for (int i=0; i<=totalTools; i++)
+//				{
+//					pix.operator[](i)->hide();
+//				} 
+                pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
+                window->hide();
 				windowActiveTool->show();
 				//pixActive->show();
 				//pixActive->load(QPixmap(":/images/Resources/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
 				pixActive->load(QPixmap(":/images/"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
-				windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
+				windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 				if (currentTool==totalTools)
 					currentState=2;
 				lastTool = currentTool;
@@ -259,7 +269,7 @@ void handleState()
 				currentState = 2;
 				windowActiveTool->show();
 				//pixActive->load(QPixmap(":/images/Resources/activeTool/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
-				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+				windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
 				timerOut = false;
 				handDepthLimit = hP.HandPt().Z();
 				handSurfaceLimit = hP.HandPt().X();
@@ -279,11 +289,12 @@ void handleState()
 			{
 				viewLayouts->hide();
 				windowActiveTool->hide();
-				for (int i=0; i<=totalTools; i++)
-				{
-					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
-					pix.operator[](i)->show();
-				}
+                window->show();
+//				for (int i=0; i<=totalTools; i++)
+//				{
+//					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
+//					pix.operator[](i)->show();
+//				}
 				cout << " bonjour  -------- " << currentState << " --- " << lastState << endl;
 				lastState = currentState;
 				telnet.connexion();
@@ -343,7 +354,7 @@ void handleState()
 
 		// L'outil a été selectionné
 		case 2 :
-			windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+			windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
 			switch(currentTool)
 			{
 				// Zoom
@@ -369,7 +380,7 @@ void handleState()
 					}
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 					}
 					break;
 
@@ -381,7 +392,7 @@ void handleState()
 					} 
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 					}
 					break;
 
@@ -393,7 +404,7 @@ void handleState()
 					} 
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 					}
 					break;
 
@@ -421,7 +432,7 @@ void handleState()
 					} 
 					else
 					{
-						windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
+						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 					}
 					break;
 
@@ -484,6 +495,7 @@ void handleState()
 					telnet.deconnexion();
 					windowActiveTool->hide();
 					viewLayouts->hide();
+                    window->hide();
 					//currentTool = 0;
 					//currentState = 0;
 					//switch(currentLayoutTool)
@@ -501,11 +513,12 @@ void handleState()
 				moveThreshold = 4;
 				windowActiveTool->hide();
 				viewLayouts->hide();
-				for (int i=0; i<=totalTools; i++)
-				{
-					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
-					pix.operator[](i)->show();
-				}
+                window->show();
+//				for (int i=0; i<=totalTools; i++)
+//				{
+//					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
+//					pix.operator[](i)->show();
+//				}
 				currentTool=totalTools;
 				lastTool=0;
 				XnPoint3D ptTemp;
@@ -528,13 +541,13 @@ void handleState()
 				{
 					cursorQt.SetMoveEnable();
 					cursorQt.SetClicEnable();
-					windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+					windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
 				}
 				else
 				{
 					cursorQt.SetMoveDisable();
 					cursorQt.SetClicDisable();
-					windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+					windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 				}
 
 				// Appel de la méthode pour déplacer le curseur
@@ -550,27 +563,28 @@ void handleState()
 				currentTool = totalTools;
 				lastTool = 0;
 				windowActiveTool->hide();
-				for (int i=0; i<=totalTools; i++)
-				{
-					pix.operator[](i)->show();
-				}
+                window->show();
+//				for (int i=0; i<=totalTools; i++)
+//				{
+//					pix.operator[](i)->show();
+//				}
 				
 				//break;
 			}
 
-			// Distance limite de la main au capteur
-			if (handPt.Z < (handDepthLimit + handDepthThreshold))
-			{
-				cursorQt.SetMoveEnable();
-				cursorQt.SetClicEnable();
-				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
-			}
-			else
-			{
-				cursorQt.SetMoveDisable();
-				cursorQt.SetClicDisable();
-				windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
-			}
+//			// Distance limite de la main au capteur
+//			if (handPt.Z < (handDepthLimit + handDepthThreshold))
+//			{
+//				cursorQt.SetMoveEnable();
+//				cursorQt.SetClicEnable();
+//				windowActiveTool->setBackgroundBrush(QBrush(Qt::green, Qt::SolidPattern));
+//			}
+//			else
+//			{
+//				cursorQt.SetMoveDisable();
+//				cursorQt.SetClicDisable();
+//				windowActiveTool->setBackgroundBrush(QBrush(Qt::gray, Qt::SolidPattern));
+//			}
 
 			break;
 	}
@@ -975,6 +989,7 @@ int main(int argc, char *argv[])
 	char **qargv = NULL;
 	QApplication app(qargc,qargv);
 #endif
+    cursorQt = CursorQt(2);
 	window = new GraphicsView(NULL);
 	windowActiveTool = new GraphicsView(NULL);
 	sceneActiveTool = new QGraphicsScene(0,0,128,128);
@@ -1183,10 +1198,10 @@ void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 	lastState = currentState;
 	currentState = 0;
 	windowActiveTool->hide();
-	for (int i=0; i<=totalTools; i++)
-	{
-		pix.operator[](i)->show();
-	}
+//	for (int i=0; i<=totalTools; i++)
+//	{
+//		pix.operator[](i)->show();
+//	}
 	window->hide();
 	nullifyHandPoint();
 	cout << "Point detruit" << endl;
