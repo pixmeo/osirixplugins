@@ -24,7 +24,7 @@ public :
 
 	SteadyClass(void);
 
-	void SteadyCheck(Point3D handPt, Point3D lastHandPt);
+	void SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt);
 
 	void ResetSteadies(void);
 	bool Steady2(void) const;
@@ -51,7 +51,13 @@ void Steady2(int ticFrame);
 void Steady10(int ticFrame);
 void Steady20(int ticFrame);
 
+void Steady2Enable(void);
+void Steady10Enable(void);
+void Steady20Enable(void);
 
+void Steady2Disable(void);
+void Steady10Disable(void);
+void Steady20Disable(void);
 
 #endif //========================== FIN ====================================//
 

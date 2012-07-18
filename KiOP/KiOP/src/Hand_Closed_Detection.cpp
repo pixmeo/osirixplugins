@@ -29,7 +29,7 @@ void HandClosedDetection::Update(unsigned int methode, const xn::DepthMetaData& 
 	UpdateROI_Pt();
 	UpdateHandPtInROI();
 
-	if (!m_ROI_OutOfCamera)
+	if (!m_ROI_OutOfCamera && handPt.Z() < DISTANCE_MAX_DETECTION)
 	{
 		UpdateROI_Data(dpmd);
 
@@ -40,7 +40,7 @@ void HandClosedDetection::Update(unsigned int methode, const xn::DepthMetaData& 
 	}
 	else
 	{
-		m_handClosed = false;
+		//m_handClosed = false;
 	}
 
 	if (m_compteurFrame < 10)
@@ -58,8 +58,8 @@ void HandClosedDetection::MethodeAireMain(const xn::DepthMetaData& dpmd)
 	morphologyEx(m_ROI_Data, dst1, MORPH_CLOSE, element1);
 	//morphologyEx(m_ROI_Data, dst2, MORPH_GRADIENT, element2);
 
-	namedWindow("1234m_ROI_Data");
-	imshow("1234m_ROI_Data", m_ROI_Data);
+	//namedWindow("1234m_ROI_Data");
+	//imshow("1234m_ROI_Data", m_ROI_Data);
 	//namedWindow("1234dst1");
 	//imshow("1234dst1", dst1);
 	//namedWindow("1234dst2");

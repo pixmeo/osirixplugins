@@ -97,6 +97,8 @@ Point3D operator>=(const Point3D &pt1, const Point3D &pt2);
 // ----------- Opérateurs de Flux ------------ //
 ostream &operator<<(ostream &flux, const Point3D &pt);
 
+bool EstDansZone(const Point3D& pt, const Point3D& ptLim1, const Point3D& ptLim2);
+
 // ----------- Fonctions pour listes ------------ //
 Point3D MeanListPt3D(const Point3D list[], unsigned short size);
 void PushListPt3D(const Point3D &pt, Point3D list[], unsigned short size);

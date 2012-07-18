@@ -28,6 +28,7 @@ using namespace cv;
 //==========================================================================//
 //=============================== CONSTANTES ===============================//
 
+#define DISTANCE_MAX_DETECTION 1800
 #define INTERVALLE_PROFONDEUR_DETECTION 200
 #define RAPPORT_DIM_ROI 0.6
 #define NB_CASE_HAND_CLOSED_PREV 20

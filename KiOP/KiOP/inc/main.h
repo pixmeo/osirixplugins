@@ -106,19 +106,15 @@ if (rc == XN_STATUS_NO_NODE_PRESENT)		\
 void Initialisation(void);
 void CleanupExit();
 
+void IcrWithLimits(int &val, const int icr, const int limUp, const int limDown);
+
 inline bool isHandPointNull();
-bool detectLeft();
-bool detectRight();
-bool detectForward();
-bool detectBackward();
-bool detectClick();
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools);
 void browse(int currentTool, int lastTool, vector<Pixmap*> pix);
 void handleState();
 
 void glutKeyboard (unsigned char key, int x, int y);
-void onTimerOut(int value);
 void glutDisplay();
 void UpdateHandClosed(void);
 void initGL(int argc, char *argv[]);

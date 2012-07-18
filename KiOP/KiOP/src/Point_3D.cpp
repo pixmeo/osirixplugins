@@ -262,6 +262,21 @@ ostream &operator<<(ostream &flux, const Point3D &pt)
 }
 
 
+// ----------- AAAAAA ------------ //
+// Renvoie true si le point pt est situé à l'intérieur de la zone formée par les points ptLim1 et ptLim2.
+bool EstDansZone(const Point3D& pt, const Point3D& ptLim1, const Point3D& ptLim2)
+{
+	Point3D temp(ptLim1.X() <= ptLim2.X(), ptLim1.Y() <= ptLim2.Y(), ptLim1.Z() <= ptLim2.Z(), "temp");
+	
+	if ( pt.X() < (temp.X() ? ptLim1.X() : ptLim2.X()) || pt.X() > (temp.X() ? ptLim2.X() : ptLim1.X())
+		|| pt.Y() < (temp.Y() ? ptLim1.Y() : ptLim2.Y()) || pt.Y() > (temp.Y() ? ptLim2.Y() : ptLim1.Y())
+		|| pt.Z() < (temp.Z() ? ptLim1.Z() : ptLim2.Z()) || pt.Z() > (temp.Z() ? ptLim2.Z() : ptLim1.Z()) )
+		return false;
+
+	return true;
+}
+
+
 // ----------- Fonctions pour listes ------------ //
 Point3D MeanListPt3D(const Point3D list[], unsigned short size)
 {

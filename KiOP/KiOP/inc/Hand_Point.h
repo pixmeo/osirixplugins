@@ -11,6 +11,7 @@
 #include <string>
 using namespace std;
 
+#include "Parametres.h"
 #include "Point_3D.h"
 #include "Steady_Class.h"
 #include <XnTypes.h>
@@ -42,6 +43,7 @@ public :
 	Point3D HandPtBrut(void) const;
 	Point3D HandPtBrutFiltre(void) const;
 	Point3D LastHandPt(void) const;
+	Point3D HandVirtualPt(void) const;
 
 	void FiltreBruit(void);
 
@@ -60,6 +62,13 @@ public :
 	void IncrementCompteurFrame(void);
 	unsigned int CompteurFrame(void) const;
 
+	bool DetectLeft(void);
+	bool DetectRight(void);
+	bool DetectUp(void);
+	bool DetectDown(void);
+	bool DetectForward(void);
+	bool DetectBackward(void);
+	bool DetectStatic(void);
 
 private :
 
@@ -71,6 +80,8 @@ private :
 	Point3D m_lastHandPt;
 	Point3D m_lastHandPtBrut[NB_CASE];
 	Point3D m_diffHandPt;
+
+	Point3D m_handVirtualPt;
 
 	Point3D m_smooth;
 
