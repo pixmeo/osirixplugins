@@ -17,6 +17,7 @@ int moveCounter = 0;
 // 0: Zoom; 1: Contrast; 2: Move
 int currentTool = 3; 
 int lastTool = 3;
+int toolToChoose = -1; 
 int totalTools = 6; // +1
 int positionTool[7]; //position des outils dans le menu
 int afficheTool[7]; //affichage des outils
@@ -26,6 +27,7 @@ int totalLayoutTools = 6; //+1
 int currentLayout = 0;
 int currentLayoutTool = 0;
 int lastLayoutTool = 0;
+bool layoutSelected = false;
 
 float iconIdlePt = 192.0;
 float iconActivePt = 64.0;
@@ -59,6 +61,7 @@ bool handStateChanged = false;
 bool handFlancMont = false;
 bool handFlancDesc = false;
 bool handClic = false;
+bool lastHandClosed = false;
 
 bool toolSelectable = false;
 bool methodeMainFermeeSwitch = false;
@@ -322,15 +325,15 @@ void handleState()
 //					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
 //					pix.operator[](i)->show();
 //				}
-				cout << " bonjour  -------- " << currentState << " --- " << lastState << endl;
 				lastState = currentState;
 				telnet.connexion();
 				toolSelectable = false;
-				
+				toolToChoose = -1;
+				layoutSelected = false;
 			}
 
-			if (!handClosed)
-			{
+			//if (!handClosed)
+			//{
 				if (!toolSelectable){
 					window->setWindowOpacity(qreal(0.4));
 				}else{
@@ -338,18 +341,26 @@ void handleState()
 					browse(currentTool,lastTool, pix);
 					window->setWindowOpacity(qreal(1.0));
 				}
-			}
+			/*}*/
 
 			// Si la main est fermée, on choisi un outil
 			//if (0)
-			if (handClosed && toolSelectable)
-			{				
-				lastState = currentState;
-				currentState = -1;
-				nFrames = 2;
-				moveThreshold = 4;
-				cout << "Tool selected" << endl;
-				telnet.connexion();
+			//cout << "handClosed: " << handClosed << " ; lastHandClosed: " << lastHandClosed << endl;
+			if (toolSelectable)
+			{	
+				if (handClosed && !lastHandClosed){
+					toolToChoose = currentTool;
+				}
+				if (lastHandClosed && !handClosed){
+					if (currentTool == toolToChoose){
+						lastState = currentState;
+						currentState = -1;
+						nFrames = 2;
+						moveThreshold = 4;
+						cout << "Tool selected" << endl;
+						telnet.connexion();
+					}
+				}
 			}
 
 			/*if (!toolSelectable){
@@ -472,46 +483,54 @@ void handleState()
 					if (!handClosed)
 					{
 						currentTool = -5;
+						toolToChoose = -1;
+						cout << "Menu des Layouts" << endl;
 					}
 					break;
 
 				case -5:
-					cout << "Menu des Layouts" << endl;
+					//cout << "Menu des Layouts" << endl;
 					chooseTool(currentLayoutTool, lastLayoutTool, totalLayoutTools);
 					browse(currentLayoutTool,lastLayoutTool, pixL);
 					//if (handClosed)
-					if (handClic)
-					{
-						cout << "Layout selectionne" << endl;
-						viewLayouts->hide();
-						switch(currentLayoutTool)
-						{
-							case 0 :
-								telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x1\r\n"));
-								break;
-							case 1 :
-								telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x2\r\n"));
-								break;
-							case 2 :
-								telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x1\r\n"));
-								break;
-							case 3 :
-								telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c1x2\r\n"));
-								break;
-							case 4 :
-								telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c2x1\r\n"));
-								break;
-							case 5 :
-								telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x2\r\n"));
-								break;
-							case 6 :
-								currentTool = -55;
-								break;
+					if (handClosed && !lastHandClosed){
+						toolToChoose = currentLayoutTool;
+					}
+					if (lastHandClosed && !handClosed){
+						if (currentLayoutTool == toolToChoose){
+							cout << "Layout selectionne" << endl;
+							viewLayouts->hide();
+							switch(currentLayoutTool)
+							{
+								case 0 :
+									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x1\r\n"));
+									break;
+								case 1 :
+									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x2\r\n"));
+									break;
+								case 2 :
+									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x1\r\n"));
+									break;
+								case 3 :
+									telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c1x2\r\n"));
+									break;
+								case 4 :
+									telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c2x1\r\n"));
+									break;
+								case 5 :
+									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x2\r\n"));
+									break;
+								case 6 :
+									currentTool = -55;
+									break;
+							}
+							layoutSelected = true;
+							if (currentLayoutTool != 6){
+								currentTool = 0;
+								//layoutSelected = false;
+							}
+							
 						}
-						if (currentLayoutTool != 6){
-							currentTool = 0;
-						}
-						
 					}
 					break;
 
@@ -536,7 +555,7 @@ void handleState()
 
 			// Pour quitter l'outil et revenir dans le menu
 			if ( ( steadyState && (!handClosed) && (currentState != 3) && (currentTool != -5) && (currentTool != -55)) 
-					|| ((currentTool == -55) && (!handClic)) )
+					|| ((currentTool == -55) && (layoutSelected)) )
 			{
 				cout << "Sortie de l'outil, retour au menu" << endl;
 				lastState = 0;
@@ -559,6 +578,7 @@ void handleState()
 				ptTemp.Z = hP.HandPt().Z();
 				lastPt = ptTemp;
 				toolSelectable = false;
+				layoutSelected = false;
 				Steady2Disable();
 				//handClosed = false;
 
@@ -947,6 +967,7 @@ void UpdateHandClosed(void)
 		handStateChanged = hCD.HandClosedStateChanged();
 		handFlancMont = hCD.HandClosedFlancMont();
 		handFlancDesc = hCD.HandClosedFlancDesc();
+		lastHandClosed = handClosed;
 		handClosed = hCD.HandClosed();
 		handClic = hCD.HandClosedClic(19); //9
 
