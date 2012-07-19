@@ -45,6 +45,8 @@ public :
 	Point3D LastHandPt(void) const;
 	Point3D HandVirtualPt(void) const;
 
+	Point3D Speed(void) const;
+
 	void FiltreBruit(void);
 
 	void FiltreSmooth(void);

@@ -67,6 +67,8 @@ using namespace cv;
 //==========================================================================//
 //============================== CONSTANTES ================================//
 
+#define TEST_FLUIDITE 1
+
 #define XML_FILE "openni.xml"
 #define TITLE "KinectOP"
 

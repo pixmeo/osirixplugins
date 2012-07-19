@@ -164,7 +164,11 @@ void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 		moveCounter -= (hP.LastHandPt().X() - hP.HandPt().X());
 	}
 
+	#if TEST_FLUIDITE
+	int seuil = 15;
+	#else
 	int seuil = 6;
+	#endif
 	if (moveCounter <= -seuil)
 	{
 		// Go left in the menu
@@ -248,15 +252,10 @@ void handleState()
 		case -1 :
 			if (lastState == 1)
 			{
-//				for (int i=0; i<=totalTools; i++)
-//				{
-//					pix.operator[](i)->hide();
-//				} 
-                pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
-                window->hide();
+				pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
+				window->hide();
 				windowActiveTool->show();
 				//pixActive->show();
-				//pixActive->load(QPixmap(":/images/Resources/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
 				pixActive->load(QPixmap(":/images/"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
 				windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
 				if (currentTool==totalTools)
@@ -264,14 +263,6 @@ void handleState()
 				lastTool = currentTool;
 				lastState = currentState;
 			}
-
-			//windowActiveTool->hide();
-			//currentState = 2;
-			//windowActiveTool->show();
-			////pixActive->load(QPixmap(":/images/Resources/activeTool/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
-			//windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
-			//handDepthLimit = hP.HandPt().Z();
-			//handSurfaceLimit = hP.HandPt().X();
 
 			if (1)
 			{
@@ -382,14 +373,18 @@ void handleState()
 					{
 						if (hP.DetectForward())
 						{
+							#if !TEST_FLUIDITE
 							for (int i=0; i<3; i++)
+							#endif
 							{
 								telnet.sendCommand(QString("\r\ndcmview2d:zoom -i 1\r\n"));
 							}
 						}
 						else if(hP.DetectBackward())
 						{
+							#if !TEST_FLUIDITE
 							for (int i=0; i<3; i++)
+							#endif
 							{
 								telnet.sendCommand(QString("\r\ndcmview2d:zoom -d 1\r\n"));
 							}
@@ -432,18 +427,20 @@ void handleState()
 					//if (handPt.Z < handDepthLimit+handDepthThreshold) {
 					if (handClosed)
 					{
-						//if ((lastZ-hP.HandPt().Z())<0)
 						if (hP.DetectBackward())
 						{
+							#if !TEST_FLUIDITE
 							for (int i=0; i<-(lastZ-hP.HandPt().Z())/6; i++)
+							#endif
 							{
 								telnet.sendCommand(QString("\r\ndcmview2d:scroll -i 1\r\n"));
 							}
 						}
-						//else if((lastZ-hP.HandPt().Z())>0)
 						else if (hP.DetectForward())
 						{
+							#if !TEST_FLUIDITE
 							for (int i=0; i<(lastZ-hP.HandPt().Z())/6; i++)
+							#endif
 							{
 								telnet.sendCommand(QString("\r\ndcmview2d:scroll -d 1\r\n"));
 							}
@@ -482,7 +479,8 @@ void handleState()
 					cout << "Menu des Layouts" << endl;
 					chooseTool(currentLayoutTool, lastLayoutTool, totalLayoutTools);
 					browse(currentLayoutTool,lastLayoutTool, pixL);
-					if (handClosed)
+					//if (handClosed)
+					if (handClic)
 					{
 						cout << "Layout selectionne" << endl;
 						viewLayouts->hide();
@@ -538,7 +536,7 @@ void handleState()
 
 			// Pour quitter l'outil et revenir dans le menu
 			if ( ( steadyState && (!handClosed) && (currentState != 3) && (currentTool != -5) && (currentTool != -55)) 
-					|| ((currentTool == -55) && (!handClosed)) )
+					|| ((currentTool == -55) && (!handClic)) )
 			{
 				cout << "Sortie de l'outil, retour au menu" << endl;
 				lastState = 0;
@@ -579,6 +577,10 @@ void handleState()
 					cursorQt.SetMoveEnable();
 					cursorQt.SetClicEnable();
 					windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
+					if (handFlancMont)
+						pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
+					else if (handFlancDesc)
+						pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
 				}
 				else
 				{
@@ -826,6 +828,10 @@ void glutDisplay()
 
 		if	( activeSession && (isHandPointNull() == false))
 		{
+
+			cout << "Vitesse : " << hP.Speed() << endl;
+
+
 			int size = 5;						// Size of the box
 			glColor3f(255,255,255);	// Set the color to white
 			glBegin(GL_QUADS);
@@ -911,6 +917,12 @@ void glutDisplay()
 	}
 	glutSwapBuffers();
 
+#if TEST_FLUIDITE
+	handleState();
+	lastX = hP.HandPt().X();
+	lastY = hP.HandPt().Y();
+	lastZ = hP.HandPt().Z();
+#else
 	if (actualFrame >= nFrames)
 	{
 		handleState();
@@ -923,6 +935,7 @@ void glutDisplay()
 		lastZ = hP.HandPt().Z();
 	}
 	actualFrame = actualFrame+1;
+#endif
 }
 
 
@@ -947,9 +960,9 @@ void UpdateHandClosed(void)
 		////if (handClosed)
 		////	cout << endl << "\t\tMain Fermee!" << endl;
 		////else
-		//	cout << endl << "\t\tMain Ouverte!" << endl;
-		if (handClic)
-			cout << endl << "\t\tClic de la main!" << endl;
+		////	cout << endl << "\t\tMain Ouverte!" << endl;
+		//if (handClic)
+		//	cout << endl << "\t\tClic de la main!" << endl;
 	}
 }
 

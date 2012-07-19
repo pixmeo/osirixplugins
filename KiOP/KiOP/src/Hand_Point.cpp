@@ -118,6 +118,11 @@ Point3D HandPoint::HandVirtualPt(void) const
 	return m_handVirtualPt;
 }
 
+Point3D HandPoint::Speed(void) const
+{
+	return (HandPt() - LastHandPt());
+}
+
 
 // ------------------- Filtres ------------------- //
 
