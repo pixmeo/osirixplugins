@@ -41,7 +41,7 @@ using namespace std;
 //==========================================================================//
 //============================== PARAMETRES ================================//
 
-#define RAPPORT_SCRSZW_WINSZW 2.5		// Rapport de la largeur de l'écran sur la largeur de la fenêtre
+#define RAPPORT_SCRSZW_WINSZW 5		// Rapport de la largeur de l'écran sur la largeur de la fenêtre
 #define RES_WINDOW_GLUT 1
 #define INIT_POS_WINDOW 1					// Position initiale de la fenêtre
 

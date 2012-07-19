@@ -119,7 +119,7 @@ void Initialisation(void)
 	}
 
 	cout << "= = = = = = = = = = = = = = = =" << endl;
-	cout << "\tINITIALISATION" << endl;
+	cout << "\tINITIALISAAAAAAAATION" << endl;
 	cout << "= = = = = = = = = = = = = = = =" << endl << endl;
 	cout << "Resolution d'ecran : " << SCRSZW << "x" << SCRSZH << endl << endl;
 
@@ -363,11 +363,14 @@ void handleState()
 				}
 			}
 
-			/*if (!toolSelectable){
-				window->setWindowOpacity(qreal(0.4));
-			}else{
-				window->setWindowOpacity(qreal(1.0));
-			}*/
+			//if (!toolSelectable)
+			//{
+			//	MenuTransparent();
+			//}
+			//else
+			//{
+			//	MenuOpaque();
+			//}
 			break;
 
 		// L'outil a été selectionné
@@ -577,10 +580,9 @@ void handleState()
 				ptTemp.Y = hP.HandPt().Y();
 				ptTemp.Z = hP.HandPt().Z();
 				lastPt = ptTemp;
-				toolSelectable = false;
+				//toolSelectable = false;
 				layoutSelected = false;
 				Steady2Disable();
-				//handClosed = false;
 
 				//steadyState = false;
 			}
@@ -710,10 +712,10 @@ void glutKeyboard (unsigned char key, int x, int y)
 		sessionManager->EndSession();
 		break;
 
-	case 't' :
-		methodeMainFermeeSwitch = !methodeMainFermeeSwitch;
-		cout << "Switch Methode main fermee (" << (methodeMainFermeeSwitch?2:1) << ")" << endl;
-		break;
+	//case 't' :
+	//	methodeMainFermeeSwitch = !methodeMainFermeeSwitch;
+	//	cout << "Switch Methode main fermee (" << (methodeMainFermeeSwitch?2:1) << ")" << endl;
+	//	break;
 
 	case '1' :
 		RepositionnementFenetre(1);
@@ -1237,6 +1239,7 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	lastState = 0;
 	currentState = 1;
 	toolSelectable = false;
+	//MenuTransparent();
 	steadyState = false;
 	steady2 = false;
 	Steady2Enable();
@@ -1317,7 +1320,7 @@ void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus,
 	//			<< ptPosition.Y << "," << ptPosition.Z << "): " << fProgress << "\n" << endl;
 
 	/// Pour réafficher l'écran s'il s'est éteint
-	SimulateSpaceBar();
+	SimulateCtrlBar();
 }
 
 
@@ -1328,13 +1331,25 @@ void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt)
 }
 
 
-void SimulateSpaceBar(void)
+void SimulateCtrlBar(void)
 {
 #if defined _OS_WIN_
 	// Simulate a key press
-	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | 0,0);
+	keybd_event(VK_LCONTROL,0x45,KEYEVENTF_EXTENDEDKEY | 0,0);
 	// Simulate a key release
-	keybd_event(VK_SPACE,0x45,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
+	keybd_event(VK_LCONTROL,0x45,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
 #endif
 }
+
+
+void MenuTransparent(void)
+{
+	window->setWindowOpacity(qreal(0.4));
+}
+
+void MenuOpaque(void)
+{
+	window->setWindowOpacity(qreal(1.0));
+}
+
 

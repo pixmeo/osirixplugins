@@ -70,7 +70,7 @@ using namespace cv;
 #define TEST_FLUIDITE 1
 
 #define XML_FILE "openni.xml"
-#define TITLE "KinectOP"
+#define TITLE "KiOP v1.0.0 beta"
 
 #define DP_FAR 5000
 #define DP_CLOSE 0
@@ -129,7 +129,9 @@ void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt);
 void XN_CALLBACK_TYPE NoHands(void* UserCxt);
 void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus, const XnPoint3D& ptPosition, XnFloat fProgress, void* UserCxt);
 void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt);
-void SimulateSpaceBar(void);
+void SimulateCtrlBar(void);
+void MenuTransparent(void);
+void MenuOpaque(void);
 
 
 #endif //========================== FIN ====================================//
