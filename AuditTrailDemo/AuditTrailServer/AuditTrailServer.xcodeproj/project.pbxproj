@@ -1,0 +1,333 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F9E84FB15AB2F930014D46F /* AuditTrailModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E84F415AB2F930014D46F /* AuditTrailModel.xcdatamodeld */; };
+		4F9E84FC15AB2F930014D46F /* AuditTrailRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E84F715AB2F930014D46F /* AuditTrailRecord.m */; };
+		4F9E84FD15AB2F930014D46F /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E84F915AB2F930014D46F /* HTTPServer.m */; };
+		4F9E850515AB2FA00014D46F /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E850215AB2FA00014D46F /* TCPServer.m */; };
+		4FA31BD415A9B8A200EE4C8D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FA31BD315A9B8A200EE4C8D /* Cocoa.framework */; };
+		4FA31BDE15A9B8A200EE4C8D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FA31BDC15A9B8A200EE4C8D /* InfoPlist.strings */; };
+		4FA31BE015A9B8A200EE4C8D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA31BDF15A9B8A200EE4C8D /* main.m */; };
+		4FA31BE415A9B8A200EE4C8D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 4FA31BE215A9B8A200EE4C8D /* Credits.rtf */; };
+		4FA31BE715A9B8A200EE4C8D /* ATSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA31BE615A9B8A200EE4C8D /* ATSAppDelegate.m */; };
+		4FA31BEA15A9B8A200EE4C8D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FA31BE815A9B8A200EE4C8D /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4F9E84F515AB2F930014D46F /* AuditTrailModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AuditTrailModel.xcdatamodel; sourceTree = "<group>"; };
+		4F9E84F615AB2F930014D46F /* AuditTrailRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditTrailRecord.h; sourceTree = "<group>"; };
+		4F9E84F715AB2F930014D46F /* AuditTrailRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditTrailRecord.m; sourceTree = "<group>"; };
+		4F9E84F815AB2F930014D46F /* HTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServer.h; sourceTree = "<group>"; };
+		4F9E84F915AB2F930014D46F /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
+		4F9E84FA15AB2F930014D46F /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCPServer.h; sourceTree = "<group>"; };
+		4F9E850115AB2FA00014D46F /* CocoaHTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaHTTPServer.m; sourceTree = "<group>"; };
+		4F9E850215AB2FA00014D46F /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCPServer.m; sourceTree = "<group>"; };
+		4FA31BCF15A9B8A200EE4C8D /* AuditTrailServer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuditTrailServer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FA31BD315A9B8A200EE4C8D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		4FA31BD615A9B8A200EE4C8D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4FA31BD715A9B8A200EE4C8D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4FA31BD815A9B8A200EE4C8D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4FA31BDB15A9B8A200EE4C8D /* AuditTrailServer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuditTrailServer-Info.plist"; sourceTree = "<group>"; };
+		4FA31BDD15A9B8A200EE4C8D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4FA31BDF15A9B8A200EE4C8D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4FA31BE115A9B8A200EE4C8D /* AuditTrailServer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AuditTrailServer-Prefix.pch"; sourceTree = "<group>"; };
+		4FA31BE315A9B8A200EE4C8D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		4FA31BE515A9B8A200EE4C8D /* ATSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ATSAppDelegate.h; sourceTree = "<group>"; };
+		4FA31BE615A9B8A200EE4C8D /* ATSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ATSAppDelegate.m; sourceTree = "<group>"; };
+		4FA31BE915A9B8A200EE4C8D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4FA31BCC15A9B8A200EE4C8D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FA31BD415A9B8A200EE4C8D /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4FA31BC415A9B8A100EE4C8D = {
+			isa = PBXGroup;
+			children = (
+				4FA31BD915A9B8A200EE4C8D /* AuditTrailServer */,
+				4FA31BD215A9B8A200EE4C8D /* Frameworks */,
+				4FA31BD015A9B8A200EE4C8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4FA31BD015A9B8A200EE4C8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FA31BCF15A9B8A200EE4C8D /* AuditTrailServer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FA31BD215A9B8A200EE4C8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FA31BD315A9B8A200EE4C8D /* Cocoa.framework */,
+				4FA31BD515A9B8A200EE4C8D /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FA31BD515A9B8A200EE4C8D /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FA31BD615A9B8A200EE4C8D /* AppKit.framework */,
+				4FA31BD715A9B8A200EE4C8D /* CoreData.framework */,
+				4FA31BD815A9B8A200EE4C8D /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		4FA31BD915A9B8A200EE4C8D /* AuditTrailServer */ = {
+			isa = PBXGroup;
+			children = (
+				4F9E850115AB2FA00014D46F /* CocoaHTTPServer.m */,
+				4F9E84F415AB2F930014D46F /* AuditTrailModel.xcdatamodeld */,
+				4F9E84F615AB2F930014D46F /* AuditTrailRecord.h */,
+				4F9E84F715AB2F930014D46F /* AuditTrailRecord.m */,
+				4F9E84F815AB2F930014D46F /* HTTPServer.h */,
+				4F9E84F915AB2F930014D46F /* HTTPServer.m */,
+				4F9E84FA15AB2F930014D46F /* TCPServer.h */,
+				4F9E850215AB2FA00014D46F /* TCPServer.m */,
+				4FA31BE615A9B8A200EE4C8D /* ATSAppDelegate.m */,
+				4FA31BE515A9B8A200EE4C8D /* ATSAppDelegate.h */,
+				4FA31BE815A9B8A200EE4C8D /* MainMenu.xib */,
+				4FA31BDA15A9B8A200EE4C8D /* Supporting Files */,
+			);
+			path = AuditTrailServer;
+			sourceTree = "<group>";
+		};
+		4FA31BDA15A9B8A200EE4C8D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4FA31BDB15A9B8A200EE4C8D /* AuditTrailServer-Info.plist */,
+				4FA31BDC15A9B8A200EE4C8D /* InfoPlist.strings */,
+				4FA31BDF15A9B8A200EE4C8D /* main.m */,
+				4FA31BE115A9B8A200EE4C8D /* AuditTrailServer-Prefix.pch */,
+				4FA31BE215A9B8A200EE4C8D /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4FA31BCE15A9B8A200EE4C8D /* AuditTrailServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FA31BED15A9B8A200EE4C8D /* Build configuration list for PBXNativeTarget "AuditTrailServer" */;
+			buildPhases = (
+				4FA31BCB15A9B8A200EE4C8D /* Sources */,
+				4FA31BCC15A9B8A200EE4C8D /* Frameworks */,
+				4FA31BCD15A9B8A200EE4C8D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuditTrailServer;
+			productName = AuditTrailServer;
+			productReference = 4FA31BCF15A9B8A200EE4C8D /* AuditTrailServer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4FA31BC615A9B8A100EE4C8D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ATS;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "Spaltenstein Natural Image";
+			};
+			buildConfigurationList = 4FA31BC915A9B8A100EE4C8D /* Build configuration list for PBXProject "AuditTrailServer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4FA31BC415A9B8A100EE4C8D;
+			productRefGroup = 4FA31BD015A9B8A200EE4C8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4FA31BCE15A9B8A200EE4C8D /* AuditTrailServer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4FA31BCD15A9B8A200EE4C8D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FA31BDE15A9B8A200EE4C8D /* InfoPlist.strings in Resources */,
+				4FA31BE415A9B8A200EE4C8D /* Credits.rtf in Resources */,
+				4FA31BEA15A9B8A200EE4C8D /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4FA31BCB15A9B8A200EE4C8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FA31BE015A9B8A200EE4C8D /* main.m in Sources */,
+				4FA31BE715A9B8A200EE4C8D /* ATSAppDelegate.m in Sources */,
+				4F9E84FB15AB2F930014D46F /* AuditTrailModel.xcdatamodeld in Sources */,
+				4F9E84FC15AB2F930014D46F /* AuditTrailRecord.m in Sources */,
+				4F9E84FD15AB2F930014D46F /* HTTPServer.m in Sources */,
+				4F9E850515AB2FA00014D46F /* TCPServer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4FA31BDC15A9B8A200EE4C8D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FA31BDD15A9B8A200EE4C8D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4FA31BE215A9B8A200EE4C8D /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FA31BE315A9B8A200EE4C8D /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		4FA31BE815A9B8A200EE4C8D /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4FA31BE915A9B8A200EE4C8D /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4FA31BEB15A9B8A200EE4C8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		4FA31BEC15A9B8A200EE4C8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		4FA31BEE15A9B8A200EE4C8D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AuditTrailServer/AuditTrailServer-Prefix.pch";
+				INFOPLIST_FILE = "AuditTrailServer/AuditTrailServer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		4FA31BEF15A9B8A200EE4C8D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AuditTrailServer/AuditTrailServer-Prefix.pch";
+				INFOPLIST_FILE = "AuditTrailServer/AuditTrailServer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4FA31BC915A9B8A100EE4C8D /* Build configuration list for PBXProject "AuditTrailServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FA31BEB15A9B8A200EE4C8D /* Debug */,
+				4FA31BEC15A9B8A200EE4C8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FA31BED15A9B8A200EE4C8D /* Build configuration list for PBXNativeTarget "AuditTrailServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FA31BEE15A9B8A200EE4C8D /* Debug */,
+				4FA31BEF15A9B8A200EE4C8D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4F9E84F415AB2F930014D46F /* AuditTrailModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F9E84F515AB2F930014D46F /* AuditTrailModel.xcdatamodel */,
+			);
+			currentVersion = 4F9E84F515AB2F930014D46F /* AuditTrailModel.xcdatamodel */;
+			path = AuditTrailModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 4FA31BC615A9B8A100EE4C8D /* Project object */;
+}

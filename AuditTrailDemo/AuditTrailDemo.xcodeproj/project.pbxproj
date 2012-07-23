@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		069B439114FE5F96000B0085 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 069B439014FE5F96000B0085 /* CoreFoundation.framework */; };
+		4F0CD2E912F964B8001AD5CF /* AuditTrailDemoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0CD2E812F964B8001AD5CF /* AuditTrailDemoPlugin.m */; };
+		4FB5216615AB4477003B78DE /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5216515AB4477003B78DE /* OsiriXAPI.framework */; };
+		4FB5216F15AB4CAD003B78DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5216E15AB4CAD003B78DE /* Foundation.framework */; };
+		4FB5217115AB4CDD003B78DE /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5217015AB4CDD003B78DE /* AppKit.framework */; };
+		4FB5217815AB6053003B78DE /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB5217715AB6053003B78DE /* CoreServices.framework */; };
+		4FB5218315AB87FE003B78DE /* ViewerController+AuditTrailOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB5218215AB87FE003B78DE /* ViewerController+AuditTrailOverride.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4F9FC33514421028003E30D3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		069B439014FE5F96000B0085 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		4F0CD2E712F964B8001AD5CF /* AuditTrailDemoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditTrailDemoPlugin.h; sourceTree = "<group>"; };
+		4F0CD2E812F964B8001AD5CF /* AuditTrailDemoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditTrailDemoPlugin.m; sourceTree = "<group>"; };
+		4FB5216515AB4477003B78DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OsiriXAPI.framework; sourceTree = "<group>"; };
+		4FB5216E15AB4CAD003B78DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4FB5217015AB4CDD003B78DE /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/AppKit.framework; sourceTree = DEVELOPER_DIR; };
+		4FB5217715AB6053003B78DE /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		4FB5218115AB87FE003B78DE /* ViewerController+AuditTrailOverride.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewerController+AuditTrailOverride.h"; sourceTree = "<group>"; };
+		4FB5218215AB87FE003B78DE /* ViewerController+AuditTrailOverride.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewerController+AuditTrailOverride.m"; sourceTree = "<group>"; };
+		4FE8943712F8575000B78E25 /* AuditTrailDemo.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AuditTrailDemo.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FE8943912F8575000B78E25 /* AuditTrailDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AuditTrailDemo-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4FE8943512F8575000B78E25 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FB5217815AB6053003B78DE /* CoreServices.framework in Frameworks */,
+				4FB5217115AB4CDD003B78DE /* AppKit.framework in Frameworks */,
+				4FB5216F15AB4CAD003B78DE /* Foundation.framework in Frameworks */,
+				4FB5216615AB4477003B78DE /* OsiriXAPI.framework in Frameworks */,
+				069B439114FE5F96000B0085 /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F0CD2E412F964A3001AD5CF /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4F0CD2E712F964B8001AD5CF /* AuditTrailDemoPlugin.h */,
+				4F0CD2E812F964B8001AD5CF /* AuditTrailDemoPlugin.m */,
+				4FB5218115AB87FE003B78DE /* ViewerController+AuditTrailOverride.h */,
+				4FB5218215AB87FE003B78DE /* ViewerController+AuditTrailOverride.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		4F0CD4B812F97E37001AD5CF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8943912F8575000B78E25 /* AuditTrailDemo-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		4FE8942212F8565F00B78E25 = {
+			isa = PBXGroup;
+			children = (
+				4F0CD4B812F97E37001AD5CF /* Resources */,
+				4F0CD2E412F964A3001AD5CF /* Classes */,
+				4FE8944012F8576D00B78E25 /* Frameworks and libraries */,
+				4FE8943812F8575000B78E25 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4FE8943812F8575000B78E25 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FE8943712F8575000B78E25 /* AuditTrailDemo.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FE8944012F8576D00B78E25 /* Frameworks and libraries */ = {
+			isa = PBXGroup;
+			children = (
+				4FB5217715AB6053003B78DE /* CoreServices.framework */,
+				4FB5217015AB4CDD003B78DE /* AppKit.framework */,
+				4FB5216E15AB4CAD003B78DE /* Foundation.framework */,
+				4FB5216515AB4477003B78DE /* OsiriXAPI.framework */,
+				069B439014FE5F96000B0085 /* CoreFoundation.framework */,
+			);
+			name = "Frameworks and libraries";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4FE8943612F8575000B78E25 /* AuditTrailDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FE8943C12F8575100B78E25 /* Build configuration list for PBXNativeTarget "AuditTrailDemo" */;
+			buildPhases = (
+				4FE8943312F8575000B78E25 /* Resources */,
+				4FE8943412F8575000B78E25 /* Sources */,
+				4FE8943512F8575000B78E25 /* Frameworks */,
+				4F9FC33514421028003E30D3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuditTrailDemo;
+			productName = OSIDemo;
+			productReference = 4FE8943712F8575000B78E25 /* AuditTrailDemo.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4FE8942412F8565F00B78E25 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 4FE8942712F8565F00B78E25 /* Build configuration list for PBXProject "AuditTrailDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 4FE8942212F8565F00B78E25;
+			productRefGroup = 4FE8943812F8575000B78E25 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4FE8943612F8575000B78E25 /* AuditTrailDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4FE8943312F8575000B78E25 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4FE8943412F8575000B78E25 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F0CD2E912F964B8001AD5CF /* AuditTrailDemoPlugin.m in Sources */,
+				4FB5218315AB87FE003B78DE /* ViewerController+AuditTrailOverride.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4FE8942512F8565F00B78E25 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				SDKROOT = macosx;
+			};
+			name = Development;
+		};
+		4FE8942612F8565F00B78E25 /* Deployment 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = "Deployment 32-bit";
+		};
+		4FE8943A12F8575100B78E25 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"\"$(SRCROOT)\"",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "AuditTrailDemo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = AuditTrailDemo;
+				SDKROOT = macosx10.6;
+				WRAPPER_EXTENSION = osirixplugin;
+			};
+			name = Development;
+		};
+		4FE8943B12F8575100B78E25 /* Deployment 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"\"$(SRCROOT)\"",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)\"";
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "AuditTrailDemo-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = AuditTrailDemo;
+				SDKROOT = macosx10.6;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = all;
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = "Deployment 32-bit";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4FE8942712F8565F00B78E25 /* Build configuration list for PBXProject "AuditTrailDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FE8942512F8565F00B78E25 /* Development */,
+				4FE8942612F8565F00B78E25 /* Deployment 32-bit */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		4FE8943C12F8575100B78E25 /* Build configuration list for PBXNativeTarget "AuditTrailDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FE8943A12F8575100B78E25 /* Development */,
+				4FE8943B12F8575100B78E25 /* Deployment 32-bit */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4FE8942412F8565F00B78E25 /* Project object */;
+}
