@@ -168,10 +168,13 @@ void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 	}
 
 	#if TEST_FLUIDITE
-	int seuil = 15;
+		//vitesse dans le menu en fonction de la distance
+		int seuil = 20 - (abs(hP.Speed().X())+(hP.HandPt().Z()/300))/3;
 	#else
-	int seuil = 6;
+		int seuil = 6;
 	#endif
+
+	//cout << "Seuil : " << seuil << endl;
 	if (moveCounter <= -seuil)
 	{
 		// Go left in the menu
@@ -231,6 +234,9 @@ void detectHandDown()
 			handDown = true;
 		}
 	}
+
+	//test de la vitesse
+	//int detectHighSpeed = 20 - (abs(hP.Speed().X())+(hP.HandPt().Z()/300))/3;
 	
 }
 
@@ -243,6 +249,12 @@ void handleState()
 	bool inIntervalleZ = (hP.HandPt().Z() < handDepthLimit+handDepthThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en Z
 
 	detectHandDown();
+	if (toolSelectable){
+		if(abs((hP.Speed().X())+(hP.HandPt().Z()/300)) > 40){
+			handDown = true;	
+			cout << abs(hP.Speed().X())+(hP.HandPt().Z()/300) << endl;
+		}
+	}
 	switch(currentState)
 	{
 		case -2 :
@@ -385,7 +397,7 @@ void handleState()
 					//if (handPt.Z < handDepthLimit+handDepthThreshold)
 					if (handClosed)
 					{
-						if (hP.DetectForward())
+						if (hP.DetectBackward())
 						{
 							#if !TEST_FLUIDITE
 							for (int i=0; i<3; i++)
@@ -394,7 +406,7 @@ void handleState()
 								telnet.sendCommand(QString("\r\ndcmview2d:zoom -i 1\r\n"));
 							}
 						}
-						else if(hP.DetectBackward())
+						else if(hP.DetectForward())
 						{
 							#if !TEST_FLUIDITE
 							for (int i=0; i<3; i++)
@@ -628,6 +640,7 @@ void handleState()
 //				for (int i=0; i<=totalTools; i++)
 //				{
 //					pix.operator[](i)->show();
+				//	pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
 //				}
 				
 				//break;
@@ -649,6 +662,9 @@ void handleState()
 		ptTemp.Z = hP.HandPt().Z();
 		lastPt = ptTemp;
 		toolSelectable = false;
+		for (int i=0; i<=totalTools; i++){
+			pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
+		}
 	}
 }
 
@@ -851,7 +867,8 @@ void glutDisplay()
 		if	( activeSession && (isHandPointNull() == false))
 		{
 
-			cout << "Vitesse : " << hP.Speed() << endl;
+			//cout << "Vitesse : " << hP.Speed() << endl;
+			//cout << "handpt : " << hP.HandPt().Z() << endl;
 
 
 			int size = 5;						// Size of the box
@@ -1115,13 +1132,13 @@ int main(int argc, char *argv[])
 	p6->setObjectName("mouse");
 	p7->setObjectName("stop");
 
-	p1->setGeometry(QRectF(  0.0, 192.0, 64.0, 64.0));
-	p2->setGeometry(QRectF(128.0, 192.0, 64.0, 64.0));
-	p3->setGeometry(QRectF(256.0, 192.0, 64.0, 64.0));
-	p4->setGeometry(QRectF(384.0, 192.0, 64.0, 64.0));
-	p5->setGeometry(QRectF(512.0, 192.0, 64.0, 64.0));
-	p6->setGeometry(QRectF(640.0, 192.0, 64.0, 64.0));
-	p7->setGeometry(QRectF(768.0, 192.0, 64.0, 64.0));
+	p1->setGeometry(QRectF(  0.0, iconIdlePt, 64.0, 64.0));
+	p2->setGeometry(QRectF(128.0, iconIdlePt, 64.0, 64.0));
+	p3->setGeometry(QRectF(256.0, iconIdlePt, 64.0, 64.0));
+	p4->setGeometry(QRectF(384.0, iconIdlePt, 64.0, 64.0));
+	p5->setGeometry(QRectF(512.0, iconIdlePt, 64.0, 64.0));
+	p6->setGeometry(QRectF(640.0, iconIdlePt, 64.0, 64.0));
+	p7->setGeometry(QRectF(768.0, iconIdlePt, 64.0, 64.0));
 
 	pix.push_back(p1);
 	pix.push_back(p2);
@@ -1179,13 +1196,13 @@ int main(int argc, char *argv[])
 	l6->setObjectName("2x2");
 	l7->setObjectName("stop");
 	
-	l1->setGeometry(QRectF(  0.0, 192.0, 64.0, 64.0));
-	l2->setGeometry(QRectF(128.0, 192.0, 64.0, 64.0));
-	l3->setGeometry(QRectF(256.0, 192.0, 64.0, 64.0));
-	l4->setGeometry(QRectF(384.0, 192.0, 64.0, 64.0));
-	l5->setGeometry(QRectF(512.0, 192.0, 64.0, 64.0));
-	l6->setGeometry(QRectF(640.0, 192.0, 64.0, 64.0));
-	l7->setGeometry(QRectF(768.0, 192.0, 64.0, 64.0));
+	l1->setGeometry(QRectF(  0.0, iconIdlePt, 64.0, 64.0));
+	l2->setGeometry(QRectF(128.0, iconIdlePt, 64.0, 64.0));
+	l3->setGeometry(QRectF(256.0, iconIdlePt, 64.0, 64.0));
+	l4->setGeometry(QRectF(384.0, iconIdlePt, 64.0, 64.0));
+	l5->setGeometry(QRectF(512.0, iconIdlePt, 64.0, 64.0));
+	l6->setGeometry(QRectF(640.0, iconIdlePt, 64.0, 64.0));
+	l7->setGeometry(QRectF(768.0, iconIdlePt, 64.0, 64.0));
 
 	pixL.push_back(l1);
 	pixL.push_back(l2);
