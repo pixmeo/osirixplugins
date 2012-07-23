@@ -5,6 +5,12 @@
 //  Copyright (c) 2012 KiOP. All rights reserved.
 //
 
+#import "KiOPFilter.h"
+#import <OsiriXAPI/N2Connection.h>
+#import <OsiriXAPI/N2ConnectionListener.h>
+#import <OsiriXAPI/NSString+N2.h>
+#import <OsiriXAPI/N2Debug.h>
+
 
 
 //@implementation KiOPFilter
@@ -26,15 +32,6 @@
 //}
 //
 //@end
-
-
-#import "KiOPFilter.h"
-#import <OsiriXAPI/N2Connection.h>
-#import <OsiriXAPI/N2ConnectionListener.h>
-#import <OsiriXAPI/NSString+N2.h>
-#import <OsiriXAPI/N2Debug.h>
-
-
 
 
 @interface MyConn : N2Connection{
@@ -74,7 +71,7 @@
         if (r.location != NSNotFound){
             value = [[cmd substringWithRange:NSMakeRange(r.location+3, [cmd length] - r.location-3)] intValue];
             NSLog(@"i: %d",value);
-            [v setScaleValue:[v scaleValue]*(1+((float)value/20.0))];
+            [v setScaleValue:[v scaleValue]*(1+((float)value/30.0))];
             NSLog(@"%f",(1-(((float)value/10))));
         }
         else{
@@ -82,7 +79,7 @@
             if (r2.location != NSNotFound){
                 value = [[cmd substringWithRange:NSMakeRange(r2.location+3, [cmd length] - r2.location-3)] intValue];
                 NSLog(@"d: %d",value);
-                [v setScaleValue:[v scaleValue]*(1-((float)value/20.0))];
+                [v setScaleValue:[v scaleValue]*(1-((float)value/30.0))];
                 NSLog(@"%f",(1-((float)value/10)));
             }
         }
