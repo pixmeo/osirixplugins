@@ -270,7 +270,10 @@
 
 -(BOOL)mustFlipHorizontally:(ArthroplastyTemplate*)t {
     //	NSLog(@"mfh if %d != %d", [self side], [[self currentTemplate] side]);
-	return [self side] != [t side];
+	if ((t.allowedSides&ATBothSidesMask) != ATBothSidesMask)
+        return NO; // cant flip!
+    
+    return ([self side]&ATBothSidesMask) != ([t side]&ATBothSidesMask);
 }
 
 -(BOOL)mustFlipHorizontally {

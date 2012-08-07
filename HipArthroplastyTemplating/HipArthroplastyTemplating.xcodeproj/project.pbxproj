@@ -366,7 +366,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
-			shellScript = "use strict;\n\nmy $source = \"$ENV{HOME}/Library/Development/HipArthroplastyTemplating/Templates\";\nmy $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n\nopendir(TEMPLATES, $source);\nforeach (readdir(TEMPLATES)) {\n\tif ($_ !~ /^\\./i) {\n\t\tmy $name = $_;\n\t\tmy $path = \"$source/$_\";\n        \n\t\tmy $linkpath = readlink($path);\n\t\tprint \"$path is $linkpath\\n\";\n\t\tif ($linkpath) {\n\t\t\t$path = $linkpath;\n\t\t}\n        else { # maybe an alias?\n            #            my $osa = \"tell application \\\"Finder\\\"\\nposix path of (original item of alias file (posix file \\\"$path\\\") as text)\\nend tell\";\n            open(FH, \"osascript -e 'tell application \\\"Finder\\\"' -e 'posix path of (original item of alias file (posix file \\\"$path\\\") as text)' -e 'end tell' |\");\n            my $linkpath;\n            while (<FH>) {\n                s:\\n::g;\n                $linkpath = $_;\n                chop($linkpath); # remove last /\n            }\n            close(FH);\n            \n            if ($linkpath) {\n                $path = $linkpath;\n            }\n        }\n        \n        print \"cp -Rfp $path $target\\n\";\n\t\tmy @args = (\"cp\", \"-Rfp\", $path, $target);\n\t\tsystem(@args);\n\t}\n}\n\nclosedir(TEMPLATES);\n\nexit 0;";
+			shellScript = "use strict;\n#\n#my $source = \"$ENV{HOME}/Library/Development/HipArthroplastyTemplating/Templates\";\n#my $target = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}/\";\n#\n#opendir(TEMPLATES, $source);\n#foreach (readdir(TEMPLATES)) {\n#\tif ($_ !~ /^\\./i) {\n#\t\tmy $name = $_;\n#\t\tmy $path = \"$source/$_\";\n#\n#\t\tmy $linkpath = readlink($path);\n#\t\tprint \"$path is $linkpath\\n\";\n#\t\tif ($linkpath) {\n#\t\t\t$path = $linkpath;\n#\t\t}\n#       else { # maybe an alias?\n#           #            my $osa = \"tell application \\\"Finder\\\"\\nposix path of (original item of alias file (posix file \\\"$path\\\") as text)\\nend tell\";\n#           open(FH, \"osascript -e 'tell application \\\"Finder\\\"' -e 'posix path of (original item of alias file (posix file \\\"$path\\\") as text)' -e 'end tell' |\");\n#           my $linkpath;\n#           while (<FH>) {\n#               s:\\n::g;\n#               $linkpath = $_;\n#               chop($linkpath); # remove last /\n#           }\n#            close(FH);\n#\n#            if ($linkpath) {\n#                $path = $linkpath;\n#            }\n#        }\n#\n#        print \"cp -Rfp $path $target\\n\";\n#\t\tmy @args = (\"cp\", \"-Rfp\", $path, $target);\n#\t\tsystem(@args);\n#\t}\n#}\n#\n#closedir(TEMPLATES);\n#\nexit 0;";
 		};
 		59F510221054F3FA009B6D89 /* Clean Templates Directories */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -414,7 +414,6 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -448,7 +447,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = HipArthroplastyTemplating;
-				SDKROOT = macosx10.6;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -465,7 +463,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};

@@ -21,6 +21,8 @@
 #import <OsiriXAPI/N2Panel.h>
 #import <OsiriXAPI/NSBitmapImageRep+N2.h>
 #import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/NSThread+N2.h>
+#import <OsiriXAPI/ThreadModalForWindowController.h>
 #import <OsiriXAPI/Notifications.h>
 #import "ArthroplastyTemplateFamily.h"
 #import "HipAT2D.h"
@@ -279,7 +281,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (_horizontalAxis && _femurLandmarkOriginal && _femurLandmarkAxis) {
 		NSVector horizontalDir = NSMakeVector([[[_horizontalAxis points] objectAtIndex:0] point], [[[_horizontalAxis points] objectAtIndex:1] point]);
 		NSLine horizontalAxis = NSMakeLine([[[_horizontalAxis points] objectAtIndex:0] point], horizontalDir);
-		_lateralOffsetValue = std::abs([_horizontalAxis Length:horizontalAxis*NSMakeLine([[[_femurLandmarkOriginal points] objectAtIndex:0] point], !horizontalDir) :horizontalAxis*NSMakeLine([[[_femurLandmarkAxis points] objectAtIndex:0] point], !horizontalDir)]);
+		_lateralOffsetValue = fabs([_horizontalAxis Length:horizontalAxis*NSMakeLine([[[_femurLandmarkOriginal points] objectAtIndex:0] point], !horizontalDir) :horizontalAxis*NSMakeLine([[[_femurLandmarkAxis points] objectAtIndex:0] point], !horizontalDir)]);
 	}
 	
 //	NSVector horizontalVector = NSMakeVector([[[_horizontalAxis points] objectAtIndex:0] point], [[[_horizontalAxis points] objectAtIndex:1] point]);
@@ -412,17 +414,39 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
             }
             
             if (go) {
-                NSMutableArray* contour = [NSMutableArray array];
-                [HipAT2D growRegionFromPoint:[HipAT2DIntegerPoint pointWith:roundf(p.x):roundf(p.y)] onDCMPix:[self.viewerController.pixList objectAtIndex:self.viewerController.imageView.curImage] outputPoints:nil outputContour:contour];
-                NSArray* ps = [HipAT2D mostDistantPairOfPointsInArray:contour];
-                if (ps) { // create the ROI
-                    ROI* nroi = [[ROI alloc] initWithType:tMesure :roi.pixelSpacingX :roi.pixelSpacingY :roi.imageOrigin];
-                    [nroi addPoint:[[ps objectAtIndex:0] nsPoint]];
-                    [nroi addPoint:[[ps objectAtIndex:1] nsPoint]];
-                    [[_viewerController imageView] roiSet:nroi];
-                    [[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:nroi];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:nroi userInfo:NULL];
+                NSThread* thread = [NSThread performBlockInBackground:^{
+                    NSThread* thread = [NSThread currentThread];
+                    thread.name = NSLocalizedString(@"Calculating object diameter...", nil);
+                    thread.status = NSLocalizedString(@"If you didn't click inside a calibration object, you better cancel this calculation.", nil);
+                    thread.supportsCancel = YES;
+                    
+                    NSMutableArray* contour = [NSMutableArray array];
+                    BOOL r = [HipAT2D growRegionFromPoint:[HipAT2DIntegerPoint pointWith:roundf(p.x):roundf(p.y)] onDCMPix:[self.viewerController.pixList objectAtIndex:self.viewerController.imageView.curImage] outputPoints:nil outputContour:contour];
+                    if (!r) return;
+                    
+                    NSArray* ps = [HipAT2D mostDistantPairOfPointsInArray:contour];
+                    
+                    if (ps)
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            // create the ROI
+                            ROI* nroi = [[ROI alloc] initWithType:tMesure :roi.pixelSpacingX :roi.pixelSpacingY :roi.imageOrigin];
+                            [nroi addPoint:[[ps objectAtIndex:0] nsPoint]];
+                            [nroi addPoint:[[ps objectAtIndex:1] nsPoint]];
+                            [[_viewerController imageView] roiSet:nroi];
+                            [[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:nroi];
+                            [[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:nroi userInfo:NULL];
+                        }];
+                }];
+                
+                NSTimeInterval z = [NSDate timeIntervalSinceReferenceDate];
+                while ([NSDate timeIntervalSinceReferenceDate] < z+1) {
+                    if ([thread isExecuting])
+                        [NSThread sleepForTimeInterval:0.01];
+                    else break;
                 }
+                
+                if ([thread isExecuting])
+                    [thread startModalForWindow:nil];
             }
         }
 	}
@@ -1118,6 +1142,8 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_stemAngleTextField setStringValue:[NSString stringWithFormat:@"Rotation angle: %.2f°", _stemAngle]];
  	}
 	
+    [self updateLegInequality];
+    
 	[self updateInfo];
 }
 
@@ -1158,7 +1184,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		if (_legInequality)
 			[str appendFormat:@"\tFinal: %.2f cm\n", _legInequalityValue];
 		if (_originalLegInequality && _legInequality) {
-			CGFloat change = std::abs(_originalLegInequalityValue - _legInequalityValue);
+			CGFloat change = fabs(_originalLegInequalityValue - _legInequalityValue);
 			[str appendFormat:@"\tVariation: %.2f cm\n", change];
 			[_verticalOffsetTextField setStringValue:[NSString stringWithFormat:@"Vertical offset variation: %.2f cm", change]];
 		}

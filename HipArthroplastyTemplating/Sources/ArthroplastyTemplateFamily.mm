@@ -11,6 +11,7 @@
 
 
 @implementation ArthroplastyTemplateFamily
+
 @synthesize templates = _templates;
 
 -(id)initWithTemplate:(ArthroplastyTemplate*)templat {
@@ -20,6 +21,12 @@
 	[self add:templat];
 	
 	return self;
+}
+
+-(NSArray*)templates {
+    return [_templates sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj1 name] compare:[obj2 name] options:NSNumericSearch|NSLiteralSearch];
+    }];
 }
 
 -(void)dealloc {
@@ -80,16 +87,16 @@
 }
 
 -(ArthroplastyTemplate*)templateForIndex:(NSInteger)index {
-	return [_templates objectAtIndex:index];
+	return [self.templates objectAtIndex:index];
 }
 
 -(ArthroplastyTemplate*)templateAfter:(ArthroplastyTemplate*)t {
-    NSArray* ts = [_templates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"patientSide = %@", t.patientSide]];
+    NSArray* ts = [self.templates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"patientSide = %@", t.patientSide]];
 	return [ts objectAtIndex:([ts indexOfObject:t]+1)%[ts count]];
 }
 
 -(ArthroplastyTemplate*)templateBefore:(ArthroplastyTemplate*)t {
-    NSArray* ts = [_templates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"patientSide = %@", t.patientSide]];
+    NSArray* ts = [self.templates filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"patientSide = %@", t.patientSide]];
     int index = [ts indexOfObject:t]-1;
 	if (index < 0) index = [ts count]-1;
 	return [ts objectAtIndex:index];

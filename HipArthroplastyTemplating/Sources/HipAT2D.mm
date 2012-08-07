@@ -67,22 +67,24 @@
 #define data(p) data[p.x+p.y*w]
 #define mask(p) mask[p.x+p.y*w]
 
-+ (void)growRegionFromPoint:(HipAT2DIntegerPoint*)p0 onDCMPix:(DCMPix*)pix outputPoints:(NSMutableArray*)points outputContour:(NSMutableArray*)contour {
++ (BOOL)growRegionFromPoint:(HipAT2DIntegerPoint*)p0 onDCMPix:(DCMPix*)pix outputPoints:(NSMutableArray*)points outputContour:(NSMutableArray*)contour {
+    NSThread* thread = [NSThread currentThread];
+    
     const NSInteger w = pix.pwidth, h = pix.pheight;
     float* data = pix.fImage;
     
     float threshold = data(p0);
     if (threshold < pix.fullwl)
-        return;
+        return NO;
     
     threshold /= 2;
     
     NSMutableArray* toBeVisited = [NSMutableArray arrayWithObject:p0];
-    BOOL mask[w*h];
-    memset(mask, 0, w*h*sizeof(BOOL));
+    BOOL* mask = (BOOL*)malloc(sizeof(BOOL)*w*h);
+    memset(mask, 0, sizeof(BOOL)*w*h);
     mask(p0) = YES;
     
-    while (toBeVisited.count) {
+    while (toBeVisited.count && !thread.isCancelled) {
         HipAT2DIntegerPoint* p = [toBeVisited lastObject];
         [toBeVisited removeLastObject];
         [points addObject:p];
@@ -94,6 +96,10 @@
                 else [contour addObject:p];
             }
     }
+    
+    free(mask);
+    
+    return !thread.isCancelled;
 }
 
 #undef data
@@ -102,13 +108,17 @@
 + (NSArray*)mostDistantPairOfPointsInArray:(NSArray*)points {
     if (points.count < 2)
         return nil;
-    
+
+    NSThread* thread = [NSThread currentThread];
+
     NSUInteger p1i, p2i;
     CGFloat rd = 0;
     
     NSUInteger ilimit = points.count-2, jlimit = points.count-1;
     for (NSUInteger i = 0; i < ilimit; ++i)
         for (NSUInteger j = i+1; j <= jlimit; ++j) {
+            if (thread.isCancelled)
+                return nil;
             CGFloat ijd = [[points objectAtIndex:i] distanceToNoSqrt:[points objectAtIndex:j]];
             if (ijd > rd) {
                 rd = ijd; p1i = i; p2i = j;

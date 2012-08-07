@@ -116,7 +116,7 @@
 		float* f = (float*)&temp;
 		for (int i = 0; i < 4; ++i)
 			f[i] = d[i];
-	} else [NSException raise:NSGenericException format:@"NSRect cannot be extracted from data of size %d", [data length]];
+	} else [NSException raise:NSGenericException format:@"NSRect cannot be extracted from data of size %d", (int)[data length]];
 	
 	return temp;
 }

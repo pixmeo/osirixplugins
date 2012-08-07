@@ -51,14 +51,16 @@
                       [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:@"HipArthroplastyTemplating"],
                       [[self _localApplicationSupportFolderForApp] stringByAppendingPathComponent:@"HipArthroplastyTemplating"],
                       nil];
-	for (NSString* path in paths)
+	for (NSString* path in paths) {
         for (NSString* sub in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL])
             if ([sub hasSuffix:@"Templates"]) {
-                [_templates addObjectsFromArray:[[self class] templatesAtPath:[path stringByAppendingPathComponent:sub]]];
-                NSString* plistpath = [[path stringByAppendingPathComponent:sub] stringByAppendingPathComponent:@"_Bounds.plist"];
+                NSString* tdpath = [NSFileManager.defaultManager destinationOfAliasOrSymlinkAtPath:[path stringByAppendingPathComponent:sub]];
+                [_templates addObjectsFromArray:[[self class] templatesAtPath:tdpath]];
+                NSString* plistpath = [tdpath stringByAppendingPathComponent:@"_Bounds.plist"];
                 if ([NSFileManager.defaultManager fileExistsAtPath:plistpath])
                     [_presets addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:plistpath]];
             }
+    }
 	
 	// fill _families from _templates
 	for (unsigned i = 0; i < [_templates count]; ++i) {
