@@ -427,7 +427,11 @@ void handleState()
 				case 2 :
 					if (handClosed)
 					{
-						telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg((int)(lastX-hP.HandPt().X())*6).arg((int)(hP.LastHandPt().Y()-hP.HandPt().Y())*6));
+						int valX = (int)(lastX-hP.HandPt().X());//((hP.Speed().X())+(hP.HandPt().Z()/300));
+						int valY = (int)(hP.LastHandPt().Y()-hP.HandPt().Y());//((hP.Speed().Y())+(hP.HandPt().Z()/300));
+						cout << valX << " ; " << valY << endl;
+						telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg(valX).arg(valY));
+						//telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg(valX).arg(valY));
 					} 
 					else
 					{
@@ -439,7 +443,11 @@ void handleState()
 				case 1 :
 					if (handClosed)
 					{
-						telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg((int)(lastX-hP.HandPt().X())*6).arg((int)(hP.LastHandPt().Y()-hP.HandPt().Y())*6));
+						int valX = (int)(lastX-hP.HandPt().X());//((hP.Speed().X())+(hP.HandPt().Z()/300))/2;
+						int valY = (int)(hP.LastHandPt().Y()-hP.HandPt().Y());	//-((hP.Speed().Y())+(hP.HandPt().Z()/300))/2;
+						cout << valX << " ; " << valY << endl;
+						telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg(valX).arg(valY));
+						//telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg(valX).arg(valY));
 					} 
 					else
 					{
