@@ -1,4 +1,7 @@
-1.2.3
+1.2.4
+- OS X 10.7 and OsiriX 5.0 required
+
+1.2.3 - This is the last version that supports OS X 10.6
 - Fixes a double release bug
 - Adds a security layer around tool calls (try/catch)
 - Fixes an infinite loop bug when launching the publishing process without a robot

@@ -176,9 +176,10 @@ int main(int argc, const char* argv[]) {
 		@try {
 			_discPublisher = [[DiscPublisher alloc] init];
 			
-			for (NSNumber* robotId in _discPublisher.status.robotIds)
+			for (NSNumber* robotId in _discPublisher.status.robotIds) {
 				[_discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_IGNOREINKLOW];
-			
+			}
+            
 			while (![thread isCancelled]) @try {
 				if ([_discPublisher.status allRobotsAreIdle])
 					break;
@@ -218,7 +219,7 @@ int main(int argc, const char* argv[]) {
             if (!errorS) {
                 NSArray* windows = [NSApp windows];
                 if (windows.count && windows.count != _lastNumberOfWindows) {
-                    DLog(@"Warning: we shouldn't display any windows, and somwhow we're currently displaying %d", windows.count);
+                    DLog(@"Warning: we shouldn't display any windows, and somehow we're currently displaying %d", windows.count);
                     
                     // TODO: this is where we may want to use the PowerRelay
 

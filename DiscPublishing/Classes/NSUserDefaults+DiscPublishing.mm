@@ -6,7 +6,7 @@
 //  Copyright 2010 OsiriX Team. All rights reserved.
 //
 
-#import "NSUserDefaultsController+DiscPublishing.h"
+#import "NSUserDefaults+DiscPublishing.h"
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <OsiriXAPI/N2UserDefaults.h>
 #import <OsiriXAPI/Anonymization.h>
@@ -40,7 +40,7 @@
 @end
 
 
-@implementation NSUserDefaultsController (DiscPublishing)
+@implementation NSUserDefaults (DiscPublishing)
 
 NSString* const DiscPublishingActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
 

@@ -16,7 +16,7 @@ enum BurnMode {
 	BurnModePatient = 1
 };
 
-@interface NSUserDefaultsController (DiscPublishing)
+@interface NSUserDefaults (DiscPublishing)
 
 extern NSString* const DiscPublishingActiveFlagDefaultsKey;
 

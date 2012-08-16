@@ -8,7 +8,7 @@
 
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
-#import "NSUserDefaultsController+DiscPublishing.h"
+#import "NSUserDefaults+DiscPublishing.h"
 #import "DiscPublisher.h"
 #import "DiscPublisher+Constants.h"
 #import <OsiriXAPI/ThreadsManager.h>

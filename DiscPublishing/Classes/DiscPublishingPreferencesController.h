@@ -10,13 +10,14 @@
 
 
 @interface DiscPublishingPreferencesController : NSPreferencePane {
-	IBOutlet NSMatrix* burnModeMatrix;
 	IBOutlet NSBox* burnModeOptionsBox;
 //	IBOutlet NSTextField* mediaCapacityTextField;
 //	IBOutlet NSPopUpButton* mediaCapacityMeasurePopUpButton;
 	
 	IBOutlet NSView* patientModeOptionsView;
-	IBOutlet NSView* archivingModeOptionsView;
+	IBOutlet NSView* archivingModeOptionsView; // currently unused
+    
+    IBOutlet NSPopUpButton* servicesPopUpButton;
 	
 	IBOutlet NSImageView* patientModeZipPasswordWarningView;
 	IBOutlet NSImageView* archivingModeZipPasswordWarningView;
@@ -28,8 +29,16 @@
 	IBOutlet NSPathControl* patientModeAuxDirPathControl;
 	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
 	
+    IBOutlet NSWindow* servicesWindow;
+    
 	NSSize deltaFromPathControlBRToButtonTL;
 	
+    //
+    
+    NSString* _serviceControllerId;
+    id _serviceController;
+    NSArrayController* _services;
+
 	// RobotOptions
 	IBOutlet NSBox* robotOptionsBox;
 	NSView* unavailableRobotOptionsView;
@@ -50,5 +59,14 @@
 -(IBAction)editArchivingModeDiscCoverFile:(id)sender;
 
 -(IBAction)mediaCapacityValueChanged:(id)sender;
+
+-(IBAction)manageServices:(id)sender;
+-(IBAction)selectService:(id)sender;
+
+-(NSString*)selectedServiceId;
+-(IBAction)addService:(id)sender;
+-(IBAction)removeService:(id)sender;
+
+-(IBAction)endSheet:(id)sender;
 
 @end
