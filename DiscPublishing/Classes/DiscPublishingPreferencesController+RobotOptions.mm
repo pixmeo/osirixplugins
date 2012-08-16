@@ -13,7 +13,7 @@
 #import <OsiriXAPI/NSXMLNode+N2.h>
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <OsiriXAPI/NSView+N2.h>
-#import "NSUserDefaults+DiscPublishing.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 
 
 @implementation DiscPublishingPreferencesController (RobotOptions)

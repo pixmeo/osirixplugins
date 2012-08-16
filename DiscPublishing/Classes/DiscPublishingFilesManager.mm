@@ -10,7 +10,7 @@
 #import "NSString+DiscPublishing.h"
 #import <OsiriXAPI/Notifications.h>
 #import <OsiriXAPI/ThreadsManager.h>
-#import "NSUserDefaults+DiscPublishing.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import "NSArray+DiscPublishing.h"
 #import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/DicomStudy.h>

@@ -10,7 +10,7 @@
 #import <OsiriXAPI/N2Shell.h>
 #import <OsiriXAPI/ThreadsManager.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
-#import "NSUserDefaults+DiscPublishing.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <QTKit/QTKit.h>
 #import <OsiriXAPI/PreferencesWindowController.h>

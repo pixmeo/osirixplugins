@@ -8,7 +8,7 @@
 
 #import "DiscPublishingPreferencesController.h"
 #import "DiscPublishingPreferencesController+RobotOptions.h"
-#import "NSUserDefaults+DiscPublishing.h"
+#import "NSUserDefaultsController+DiscPublishing.h"
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <OsiriXAPI/N2Shell.h>
 #import <OsiriXAPI/DiscBurningOptions.h>
