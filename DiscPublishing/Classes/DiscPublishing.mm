@@ -18,6 +18,7 @@
 #import <OsiriXAPI/DicomAlbum.h>
 #import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/DicomSeries.h>
+#import <OsiriXAPI/DicomDatabase.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingTasksManager.h"
 #import "DiscPublishingOptions.h"
@@ -277,7 +278,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
         
         if (!err)
             @try {
-                NSManagedObjectContext* context = [BrowserController.currentBrowser defaultManagerObjectContext];
+                NSManagedObjectContext* context = [[DicomDatabase defaultDatabase] managedObjectContext];
                 
                 NSFetchRequest* fr = [[[NSFetchRequest alloc] init] autorelease];
                 fr.entity = [NSEntityDescription entityForName:entity inManagedObjectContext:context];

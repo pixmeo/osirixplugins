@@ -10,7 +10,7 @@
 
 
 @class DiscPublishingOptions, DiscBurningOptions;//, DicomSeries;
-// @class DicomDatabase;
+@class DicomDatabase;
 
 
 @interface DiscPublishingPatientDisc : NSThread {
@@ -26,6 +26,6 @@
 
 -(id)initWithImages:(NSArray*)images options:(DiscPublishingOptions*)options;
 
-+(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options context:(NSManagedObjectContext*)managedObjectContext seriesPaths:(NSMutableDictionary*)seriesPaths;
++(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options database:(DicomDatabase*)db seriesPaths:(NSMutableDictionary*)seriesPaths;
 
 @end

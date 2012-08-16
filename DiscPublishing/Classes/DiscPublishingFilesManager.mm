@@ -16,6 +16,7 @@
 #import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/DicomDatabase.h>
 #import "DiscPublishingPatientDisc.h"
 #import "DiscPublishingOptions.h"
 #import <OsiriXAPI/NSThread+N2.h>
@@ -193,7 +194,7 @@
 	
 	for (DicomImage* image in addedImages)
         @try {
-            if ([image managedObjectContext] == [[BrowserController currentBrowser] managedObjectContext]) {
+            if ([image managedObjectContext] == [[DicomDatabase defaultDatabase] managedObjectContext]) {
                 DiscPublishingPatientStack* dpps = [self stackForImage:image];
                 if (![dpps.images containsObject:image])
                     if (image.modality && ![image.modality isEqual:@"SR"]) // TODO: why?
