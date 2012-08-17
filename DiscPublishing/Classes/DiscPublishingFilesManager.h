@@ -11,7 +11,7 @@
 
 @interface DiscPublishingFilesManager : NSObject {
 	@private
-	NSMutableDictionary* _patientStacks;
+	NSMutableDictionary* _serviceStacks;
     NSTimer* _publishTimer;
 }
 

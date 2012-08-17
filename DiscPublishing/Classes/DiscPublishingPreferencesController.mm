@@ -8,6 +8,7 @@
 
 #import "DiscPublishingPreferencesController.h"
 #import "DiscPublishingPreferencesController+RobotOptions.h"
+#import "DiscPublishingOptions.h"
 #import "NSUserDefaultsController+DiscPublishing.h"
 #import <OsiriXAPI/NSUserDefaultsController+N2.h>
 #import <OsiriXAPI/N2Shell.h>
@@ -54,6 +55,8 @@
 @interface DiscPublishingPreferencesController ()
 
 -(void)updateBindings;
+-(void)menuWillOpen:(NSMenu*)menu;
+-(NSArrayController*)services;
 
 @end
 
@@ -69,7 +72,7 @@
 	NSUserDefaultsController* defaultsController = [NSUserDefaultsController sharedUserDefaultsController];
 	[defaultsController addObserver:self forValuesKey:DiscPublishingBurnModeDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
 	[defaultsController addObserver:self forValuesKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
-	[defaultsController addObserver:self forValuesKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
+//	[defaultsController addObserver:self forValuesKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
 	
 	NSString* zipPasswordToolTip = NSLocalizedString(@"The password must be at least 8 characters long. If this condition is not met then the password will not be applied.", @"Preferences password warning");
 	[patientModeZipPasswordWarningView setToolTip:zipPasswordToolTip];
@@ -91,7 +94,7 @@
 	[self robotOptionsDealloc];
 	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingBurnModeDefaultsKey];
 	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
-	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+//	[[NSUserDefaultsController sharedUserDefaultsController] removeObserver:self forValuesKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
 	[super dealloc];
 }
 
@@ -102,7 +105,7 @@
 	if (obj == defaultsController) {
 		if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingBurnModeDefaultsKey)]) {
 			switch ([[defaultsController valueForKeyPath:keyPath] intValue]) {
-				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
+//				case BurnModeArchiving: [burnModeOptionsBox setContentView:archivingModeOptionsView]; break;
 				case BurnModePatient: [burnModeOptionsBox setContentView:patientModeOptionsView]; break;
 			}
 			return;
@@ -110,11 +113,11 @@
 		if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey)]) {
 			[patientModeLabelTemplateEditButton setFrameOrigin:RectBR([patientModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
 			return;
-		} else
+		} /*else
 		if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey)]) {
 			[archivingModeLabelTemplateEditButton setFrameOrigin:RectBR([archivingModeLabelTemplatePathControl usedFrame])+deltaFromPathControlBRToButtonTL];
 			return;
-		}
+		}*/
 	}
 	
 	if ([self robotOptionsObserveValueForKeyPath:keyPath ofObject:obj change:change context:context])
@@ -150,7 +153,7 @@
 }
 
 -(IBAction)showArchivingModeAuxiliaryDirSelectionSheet:(id)sender {
-	[self showDirSelectionSheetForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
+	//[self showDirSelectionSheetForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
 }
 
 -(void)showFileSelectionSheetForKey:(NSString*)key fileTypes:(NSArray*)types defaultLocation:(NSString*)defaultLocation {
@@ -175,7 +178,7 @@
 }
 
 -(IBAction)showArchivingModeDiscCoverFileSelectionSheet:(id)sender {
-	[self showDiscCoverFileSelectionSheetForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+//	[self showDiscCoverFileSelectionSheetForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
 }
 
 -(void)editDiscCoverFileWithKey:(NSString*)key {
@@ -184,7 +187,7 @@
 	if (!location || ![[NSFileManager defaultManager] fileExistsAtPath:location]) {
 		location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:@"Template.dcover"];
 		if (![[NSFileManager defaultManager] fileExistsAtPath:location])
-			[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaultsController discPublishingDefaultDiscCoverPath] toPath:location error:NULL];
+			[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaults DPDefaultDiscCoverPath] toPath:location error:NULL];
 		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
@@ -197,7 +200,7 @@
 }
 
 -(IBAction)editArchivingModeDiscCoverFile:(id)sender {
-	[self editDiscCoverFileWithKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+//	[self editDiscCoverFileWithKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
 }
 
 -(IBAction)mediaCapacityValueChanged:(id)sender {
@@ -215,17 +218,35 @@
 }
 
 -(IBAction)manageServices:(id)sender {
-    [NSApp beginSheet:servicesWindow modalForWindow:servicesPopUpButton.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    [NSApp beginSheet:servicesWindow modalForWindow:servicesPopUpButton.window modalDelegate:nil didEndSelector:@selector(servicesSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
     [servicesWindow makeKeyAndOrderFront:self];
 }
 
--(NSString*)userDefaultsKeyForServiceId:(NSString*)sid {
-    return [@"DiscPublishing Service " stringByAppendingString:sid];
+- (void)servicesSheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo {
+    NSArray* ss = [self.services selectedObjects];
+    if (ss.count) {
+        NSDictionary* ssd = [ss objectAtIndex:0];
+        NSString* ssid = [ssd objectForKey:@"id"];
+        
+        [self menuWillOpen:servicesPopUpButton.menu];
+        
+        NSInteger i = 0;
+        for (NSInteger j = 0; j < servicesPopUpButton.numberOfItems; ++i) {
+            NSMenuItem* mi = [servicesPopUpButton itemAtIndex:j];
+            if ([[mi representedObject] isEqualToString:ssid]) {
+                i = j; break;
+            }
+        }
+        
+        [servicesPopUpButton selectItemAtIndex:i];
+    } else [servicesPopUpButton selectItemAtIndex:0];
+    
+    [sheet orderOut:self];
 }
 
 -(NSArrayController*)services {
     if (!_services) {
-        NSMutableArray* ma = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:@"DiscPublishingServicesList"];
+        NSMutableArray* ma = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:DiscPublishingServicesListDefaultsKey];
         _services = [[NSArrayController alloc] initWithContent:ma];
         _services.automaticallyRearrangesObjects = NO;
         
@@ -237,8 +258,13 @@
 -(IBAction)addService:(id)sender {
     NSString* uid = [[self class] stringWithUUID];
     NSDictionary* dic = [NSMutableDictionary dictionaryWithObjectsAndKeys: uid, @"id", nil];
-    [NSUserDefaults.standardUserDefaults setValue:[NSDictionary dictionary] forKey:[self userDefaultsKeyForServiceId:uid]];
     [self.services addObject:dic];
+    
+    NSUserDefaultsController* sudc = [NSUserDefaultsController sharedUserDefaultsController];
+    
+    NSMutableDictionary* iv = [[[sudc initialValues] mutableCopy] autorelease];
+    [iv addEntriesFromDictionary:[NSUserDefaults initialValuesForDPServiceWithId:uid]];
+    [sudc setInitialValues:iv];
 }
 
 -(IBAction)removeService:(id)sender {
@@ -246,13 +272,11 @@
     
     [self.services remove:sender];
     
-    for (NSDictionary* dict in dicts)
-        [NSUserDefaults.standardUserDefaults removeObjectForKey:[self userDefaultsKeyForServiceId:[dict objectForKey:@"id"]]];
+    // we should remove the related initialValues from NSUserDefaultsController... but whatever...
 }
 
 -(IBAction)endSheet:(id)sender {
     [NSApp endSheet:[sender window]];
-    [[sender window] orderOut:self];
 }
 
 -(void)menuWillOpen:(NSMenu*)menu {
@@ -305,7 +329,7 @@
 }
 
 -(void)updateBindings {
-    NSArray* sk = [NSArray arrayWithObjects:
+    /*NSArray* sk = [NSArray arrayWithObjects:
                     @"IncludeAuxiliaryDirectoryFlag",
                     @"IncludeReportsFlag",
                     @"AnonymizeFlag",
@@ -322,17 +346,10 @@
                     @"Compression",
                     @"CompressJPEGNotJPEG2000",
                     @"MatchedAETs",
-                   nil];
+                   nil];*/
     
-    NSString* prefix = @"values.DiscPublishingPatientMode";
     NSString* ssid = self.selectedServiceId;
-    if (ssid.length) {
-        prefix = [NSString stringWithFormat:@"values.DiscPublishingPatientMode_%@_", [ssid stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
         
-        
-        
-    }
-    
 /*	NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithBool:TRUE], NSRaisesForNotApplicableKeysBindingOption, NULL];
 
     for (NSString* isk in sk) {
@@ -356,19 +373,9 @@
         for (NSString* binding in [view exposedBindings]) {
             NSDictionary* bindingInfo = [view infoForBinding:binding];
             if (bindingInfo) {
-                NSString* okp = [bindingInfo objectForKey:NSObservedKeyPathKey];
-                if (![okp hasPrefix:@"values.DiscPublishingPatientMode"])
+                NSString* nkp = [NSUserDefaults transformKeyPath:[bindingInfo objectForKey:NSObservedKeyPathKey] forDPServiceId:ssid];
+                if (!nkp)
                     continue;
-                
-                NSString* sk = [okp substringFromIndex:[@"values.DiscPublishingPatientMode" length]];
-                NSInteger skspace = [sk rangeOfString:@"_" options:NSBackwardsSearch].location;
-                if (skspace != NSNotFound)
-                    sk = [sk substringFromIndex:skspace+1];
-                
-                NSString* nkp = [prefix stringByAppendingString:sk];
-                
-                NSLog(@"%@ %@: %@ -> %@ ", view, binding, okp, nkp);
-                
                 [view unbind:binding];
                 [view bind:binding toObject:[bindingInfo objectForKey:NSObservedObjectKey] withKeyPath:nkp options:[bindingInfo objectForKey:NSOptionsKey]];
             }
@@ -495,7 +502,7 @@
 
 -(id)transformedValue:(id)value {
 	switch ([value intValue]) {
-		case BurnModeArchiving: return NSLocalizedString(@"Options for Archiving mode", NULL);
+//		case BurnModeArchiving: return NSLocalizedString(@"Options for Archiving mode", NULL);
 		case BurnModePatient: return NSLocalizedString(@"Options for Patient mode", NULL);
 	}
 	

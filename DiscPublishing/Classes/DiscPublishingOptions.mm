@@ -11,13 +11,16 @@
 
 @implementation DiscPublishingOptions
 
+static NSString* const DiscPublishingOptionsBurnModeArchivingKey = @"burnMode";
 static NSString* const DiscPublishingOptionsDiscCoverTemplatePathArchivingKey = @"discCoverTemplatePath";
 
+@synthesize mode;
 @synthesize discCoverTemplatePath;
 
 -(id)copyWithZone:(NSZone*)zone {
 	DiscPublishingOptions* copy = [super copyWithZone:zone];
 	
+    copy.mode = self.mode;
 	copy.discCoverTemplatePath = [self.discCoverTemplatePath copyWithZone:zone];
 	
 	return copy;
@@ -30,11 +33,13 @@ static NSString* const DiscPublishingOptionsDiscCoverTemplatePathArchivingKey = 
 
 -(void)encodeWithCoder:(NSCoder*)encoder {
 	[super encodeWithCoder:encoder];
+	[encoder encodeObject:[NSNumber numberWithInteger:self.mode] forKey:DiscPublishingOptionsBurnModeArchivingKey];
 	[encoder encodeObject:self.discCoverTemplatePath forKey:DiscPublishingOptionsDiscCoverTemplatePathArchivingKey];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder {
 	self = [super initWithCoder:decoder];
+	self.mode = [[decoder decodeObjectForKey:DiscPublishingOptionsBurnModeArchivingKey] integerValue];
 	self.discCoverTemplatePath = [decoder decodeObjectForKey:DiscPublishingOptionsDiscCoverTemplatePathArchivingKey];
 	return self;
 }

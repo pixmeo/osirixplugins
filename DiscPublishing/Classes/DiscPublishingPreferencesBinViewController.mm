@@ -25,15 +25,15 @@
 @synthesize bin, discTypePopup;
 
 -(NSString*)mediaTypeTagBindingKey {
-	return [NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:self.bin];
+	return [NSUserDefaults DPMediaTypeTagKVOKeyForBin:self.bin];
 }
 
 -(NSString*)mediaCapacityBindingKey {
-	return [NSUserDefaultsController discPublishingMediaCapacityBindingKeyForBin:self.bin];
+	return [NSUserDefaults DPMediaCapacityKVOKeyForBin:self.bin];
 }
 
 -(NSString*)mediaCapacityMeasureTagBindingKey {
-	return [NSUserDefaultsController discPublishingMediaCapacityMeasureTagBindingKeyForBin:self.bin];
+	return [NSUserDefaults DPMediaCapacityMeasureTagKVOKeyForBin:self.bin];
 }
 
 -(id)initWithName:(NSString*)name bin:(NSUInteger)bind {

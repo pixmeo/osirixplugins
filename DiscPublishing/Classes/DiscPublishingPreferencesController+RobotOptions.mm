@@ -106,7 +106,7 @@
 -(BOOL)robotOptionsObserveValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 //	NSLog(@"prefs+robot observeValueForKeyPath:%@", keyPath);
 
-	if ([keyPath hasSuffix:DiscPublishingMediaTypeTagSuffix]) {
+	if ([keyPath hasSuffix:DPMediaTypeTagKVOKeySuffix]) {
 		[self enableDisableMediaTypes];
 		return YES;
 	}

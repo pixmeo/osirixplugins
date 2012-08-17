@@ -21,6 +21,7 @@
 #import "DiscPublishingOptions.h"
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/N2Stuff.h>
+#import <OsiriXAPI/NSString+N2.h>
 
 
 @interface DiscPublishingFilesManager (Private)
@@ -65,10 +66,12 @@
 
 @synthesize lastAdditionDate = _lastAdditionDate;
 
--(id)initWithPatientName:(NSString*)patientName {
+-(id)initWithPatientName:(NSString*)patientName serviceId:(NSString*)sid {
     if ((self = [super init])) {
         _dummyThread = [[DiscPublishingDummyThread alloc] init];
-        _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"Receiving images for %@", nil), patientName];
+        if (!sid)
+            _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"Receiving images for %@", nil), patientName];
+        else _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"[%@] Receiving images for %@", nil), [NSUserDefaultsController.sharedUserDefaultsController DPServiceNameForId:sid], patientName];
         _dummyThread.status = NSLocalizedString(@"Initializing...", nil);
         _dummyThread.supportsCancel = YES;
         [ThreadsManager.defaultManager addThreadAndStart:_dummyThread];
@@ -105,7 +108,7 @@
 -(void)_timerRefresh:(NSTimer*)timer {
     if (_lastAdditionDate) {
         CGFloat s = floorf(-[_lastAdditionDate timeIntervalSinceNow]);
-        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, @"image", @"images"), N2LocalizedSingularPluralCount(s, @"second", @"seconds")];
+        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, @"image", @"images"), [NSString timeString:s maxUnits:2]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
     }
 }
 
@@ -119,7 +122,7 @@
 
 -(id)init {
 	if ((self = [super init])) {
-        _patientStacks = [[NSMutableDictionary alloc] init];
+        _serviceStacks = [[NSMutableDictionary alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeDatabaseAddition:) name:OsirixAddToDBCompleteNotification object:NULL];
         _publishTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(_timerPublish:) userInfo:nil repeats:YES];
 	}
@@ -129,7 +132,7 @@
 
 -(void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixAddToDBCompleteNotification object:NULL];
-	[_patientStacks release];
+	[_serviceStacks release];
 	[super dealloc];
 }
 
@@ -140,40 +143,50 @@
 }
 
 -(void)_timerPublish:(NSTimer*)timer {
-	NSTimeInterval burnDelay = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeDelay];
-    
-    @synchronized (_patientStacks) {
-        for (NSString* key in _patientStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
-            DiscPublishingPatientStack* dpps = [_patientStacks objectForKey:key];
+    @synchronized (_serviceStacks) {
+        for (NSString* sid in _serviceStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
+            NSMutableDictionary* serviceStacks = [_serviceStacks objectForKey:sid];
+            NSTimeInterval serviceDelay = [NSUserDefaultsController.sharedUserDefaultsController DPDelayForServiceId:sid];
             
-            if (dpps.isCancelled) {
-                [_patientStacks removeObjectForKey:key];
-                continue;
-            }
-            
-            if (-[dpps.lastAdditionDate timeIntervalSinceNow] > burnDelay) {
-                [dpps retain];
+            for (NSString* key in serviceStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
+                DiscPublishingPatientStack* dpps = [serviceStacks objectForKey:key];
                 
-                [dpps invalidate];
-                [_patientStacks removeObjectForKey:key];
+                if (dpps.isCancelled) {
+                    [serviceStacks removeObjectForKey:key];
+                    continue;
+                }
                 
-                DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:dpps.images options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
-                [[ThreadsManager defaultManager] addThreadAndStart:dppd];
-                
-                [dpps release];
+                if (-[dpps.lastAdditionDate timeIntervalSinceNow] > serviceDelay) {
+                    [dpps retain];
+                    
+                    [dpps invalidate];
+                    [serviceStacks removeObjectForKey:key];
+                    
+                    DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:dpps.images options:[NSUserDefaultsController.sharedUserDefaultsController DPOptionsForServiceId:sid]] autorelease];
+                    [[ThreadsManager defaultManager] addThreadAndStart:dppd];
+                    
+                    [dpps release];
+                }
             }
         }
     }
 }
 
--(DiscPublishingPatientStack*)stackForImage:(DicomImage*)image {
-    @synchronized (_patientStacks) {
-        DiscPublishingPatientStack* dpps = [_patientStacks objectForKey:image.series.study.patientUID];
+-(DiscPublishingPatientStack*)stackForImage:(DicomImage*)image serviceId:(NSString*)sid {
+    @synchronized (_serviceStacks) {
+        id sidk = sid;
+        if (!sidk)
+            sidk = [NSNull null];
+        NSMutableDictionary* serviceStacks = [_serviceStacks objectForKey:sidk];
+        if (!serviceStacks)
+            [_serviceStacks setObject:(serviceStacks = [NSMutableDictionary dictionary]) forKey:sidk];
+        
+        DiscPublishingPatientStack* dpps = [serviceStacks objectForKey:image.series.study.patientUID];
         if (dpps)
             return dpps;
         
-        dpps = [[[DiscPublishingPatientStack alloc] initWithPatientName:image.series.study.name] autorelease];
-        [_patientStacks setObject:dpps forKey:image.series.study.patientUID];
+        dpps = [[[DiscPublishingPatientStack alloc] initWithPatientName:image.series.study.name serviceId:sid] autorelease];
+        [serviceStacks setObject:dpps forKey:image.series.study.patientUID];
         
         return dpps;
     }
@@ -190,19 +203,40 @@
     if (![[NSUserDefaultsController sharedUserDefaultsController] discPublishingIsActive])
 		return;
     
-	NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBNotificationImagesArray];
-	
-	for (DicomImage* image in addedImages)
-        @try {
-            if ([image managedObjectContext] == [[DicomDatabase defaultDatabase] managedObjectContext]) {
-                DiscPublishingPatientStack* dpps = [self stackForImage:image];
-                if (![dpps.images containsObject:image])
-                    if (image.modality && ![image.modality isEqual:@"SR"]) // TODO: why?
-                        [dpps addImage:image];
-            }
-        } @catch (NSException* e) {
-            NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e.reason);
+	//NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBNotificationImagesArray];
+	NSDictionary* addedImagesByAET = [[notification userInfo] objectForKey:OsirixAddToDBNotificationImagesPerAETDictionary];
+    
+    for (NSString* aet in addedImagesByAET) {
+        NSArray* addedImages = [addedImagesByAET objectForKey:aet];
+        
+        NSString* sid = nil;
+        for (NSDictionary* sd in [NSUserDefaults.standardUserDefaults objectForKey:DiscPublishingServicesListDefaultsKey]) {
+            NSString* isid = [sd objectForKey:@"id"];
+            NSString* matchedAETsString = [NSUserDefaults.standardUserDefaults objectForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeMatchedAETsDefaultsKey forDPServiceId:isid]];
+            
+            NSArray* matchedAETs = [matchedAETsString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", ;"]];
+            for (NSString* m in matchedAETs)
+                if ([[m stringByTrimmingStartAndEnd] isEqualToString:aet]) {
+                    sid = isid;
+                    break;
+                }
         }
+        
+        for (DicomImage* image in addedImages)
+            @try {
+                if ([image managedObjectContext] == [[DicomDatabase defaultDatabase] managedObjectContext]) {
+                    DiscPublishingPatientStack* dpps = [self stackForImage:image serviceId:sid];
+                    if (![dpps.images containsObject:image])
+                        if (image.modality && ![image.modality isEqual:@"SR"]) // TODO: why?
+                            [dpps addImage:image];
+                }
+            } @catch (NSException* e) {
+                NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e.reason);
+            }
+    }
+    
+    
+    
 }
 
 /*-(NSArray*)namesForStudies:(NSArray*)studies {

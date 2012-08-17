@@ -242,7 +242,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	BrowserController* bc = [BrowserController currentBrowser];
 	NSArray* sel = [bc databaseSelection];
 	
-	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:[self imagesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:[self imagesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] DPOptionsForServiceId:nil]] autorelease];
     dppd.window = bc.window;
 	[[ThreadsManager defaultManager] addThreadAndStart:dppd];
 	
@@ -293,7 +293,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
                     NSArray* images = [self imagesIn:matches];
                     
                     if (images.count) {
-                        DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:images options:[[NSUserDefaultsController sharedUserDefaultsController] discPublishingPatientModeOptions]] autorelease];
+                        DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:images options:[[NSUserDefaultsController sharedUserDefaultsController] DPOptionsForServiceId:nil]] autorelease];
                         [[ThreadsManager defaultManager] addThreadAndStart:dppd];
                         
                         [result setObject:[NSNumber numberWithInt:images.count] forKey:@"count"];
@@ -395,10 +395,10 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
         _robotIsReady = YES;
         [self updateBinSelection];
         NSXMLDocument* doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
-        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:0] options:NULL context:NULL];
+        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaults DPMediaTypeTagKVOKeyForBin:0] options:NULL context:NULL];
         //#warning: this MUST be enabled when releasing
         if ([[doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL] count] > 1)
-            [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaultsController discPublishingMediaTypeTagBindingKeyForBin:1] options:NULL context:NULL];
+            [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forValuesKey:[NSUserDefaults DPMediaTypeTagKVOKeyForBin:1] options:NULL context:NULL];
     } @catch (NSException* e) {
         // N2LogExceptionWithStackTrace(e);
     }
@@ -407,7 +407,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)obj change:(NSDictionary*)change context:(void*)context {
 //	NSLog(@"plugin observeValueForKeyPath:%@", keyPath);
 	
-	if ([keyPath hasSuffix:DiscPublishingMediaTypeTagSuffix]) {
+	if ([keyPath hasSuffix:DPMediaTypeTagKVOKeySuffix]) {
 		[self updateBinSelection];
 	}
 }
