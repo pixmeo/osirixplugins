@@ -22,6 +22,7 @@
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/N2Stuff.h>
 #import <OsiriXAPI/NSString+N2.h>
+#include <cmath>
 
 
 @interface DiscPublishingFilesManager (Private)
@@ -70,8 +71,8 @@
     if ((self = [super init])) {
         _dummyThread = [[DiscPublishingDummyThread alloc] init];
         if (!sid)
-            _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"Receiving images for %@", nil), patientName];
-        else _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"[%@] Receiving images for %@", nil), [NSUserDefaultsController.sharedUserDefaultsController DPServiceNameForId:sid], patientName];
+            _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"[DP] %@", nil), patientName];
+        else _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"[DP %@] %@", nil), [NSUserDefaultsController.sharedUserDefaultsController DPServiceNameForId:sid], patientName];
         _dummyThread.status = NSLocalizedString(@"Initializing...", nil);
         _dummyThread.supportsCancel = YES;
         [ThreadsManager.defaultManager addThreadAndStart:_dummyThread];
@@ -100,6 +101,43 @@
     return _images;
 }
 
++ (NSString*)timeString:(NSTimeInterval)time {
+    NSMutableArray* rs = [NSMutableArray array];
+    
+    do {
+        NSString* unit; unsigned value;
+        if (time < 60) {
+            unit = NSLocalizedString(@"s", @"short for second/seconds");
+            value = std::floor(time);
+            time -= value;
+        } else if (time < 3600) {
+            unit = NSLocalizedString(@"m", @"short for minute/minutes");
+            value = std::floor(time/60);
+            time -= value*60;
+        } else {
+            unit = NSLocalizedString(@"h", @"short for hour/hours");
+            value = std::floor(time/3600);
+            time -= value*3600;
+        }
+        
+        NSString* s = [NSString stringWithFormat:@"%d%@", value, unit];
+        [rs addObject:s];
+    } while (/*rs.count < maxUnits && */time >= 1);
+    
+    NSMutableString* s = [NSMutableString string];
+    for (NSInteger i = 0; i < rs.count; ++i)
+    {
+        if (i > 0)
+        {
+            [s appendString:@" "];
+        }
+        
+        [s appendString:[rs objectAtIndex:i]];
+    }
+    
+    return s;
+}
+
 -(void)addImage:(DicomImage*)image {
     [_images addObject:image];
     self.lastAdditionDate = [NSDate date];
@@ -108,7 +146,7 @@
 -(void)_timerRefresh:(NSTimer*)timer {
     if (_lastAdditionDate) {
         CGFloat s = floorf(-[_lastAdditionDate timeIntervalSinceNow]);
-        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, @"image", @"images"), [NSString timeString:s maxUnits:2]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
+        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, @"image", @"images"), [[self class] timeString:s]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
     }
 }
 
@@ -146,6 +184,9 @@
     @synchronized (_serviceStacks) {
         for (NSString* sid in _serviceStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
             NSMutableDictionary* serviceStacks = [_serviceStacks objectForKey:sid];
+            
+            if ([sid isKindOfClass:[NSNull class]])
+                sid = nil;
             NSTimeInterval serviceDelay = [NSUserDefaultsController.sharedUserDefaultsController DPDelayForServiceId:sid];
             
             for (NSString* key in serviceStacks.allKeys) { // allKeys in not mutable, so we can safely iterate

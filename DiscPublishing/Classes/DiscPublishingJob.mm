@@ -20,7 +20,7 @@
 
 +(void)renderDiscCover:(NSString*)dcoverPath merge:(NSString*)mergePath into:(NSString*)outputJpgPath {
 	// make sure the system knows where to find Disc Cover 3 PE.app, (com.belightsoft.DiscCover3.pe)
-	
+	/*
     NSString* myPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/Disc Cover 3 PE.app"];
     
     NSString* knownBundlePath = nil;
@@ -39,7 +39,7 @@
         // [NSWorkspace.sharedWorkspace launchApplication:myPath];
         [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", myPath, @"--args", @"--no-assistant", nil]];
     }
-    
+    */
     // execute applescript
     
     NSDictionary* errors = [NSDictionary dictionary];

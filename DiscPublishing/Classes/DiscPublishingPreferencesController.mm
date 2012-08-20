@@ -139,21 +139,27 @@
 
 -(void)showDirSelectionSheetForKey:(NSString*)key {
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-	[openPanel setCanChooseFiles:NO];
-	[openPanel setCanChooseDirectories:YES];
-	[openPanel setAllowsMultipleSelection:NO];
-	
-	NSString* location = [[NSUserDefaultsController sharedUserDefaultsController] stringForKey:key];
-	
+    openPanel.canChooseFiles = NO;
+    openPanel.canChooseDirectories = YES;
+    openPanel.allowsMultipleSelection = NO;
+    
+    NSString* location = [NSUserDefaultsController.sharedUserDefaultsController stringForKey:key];
+ /*
+    openPanel.directoryURL = [NSURL fileURLWithPath:[location stringByDeletingLastPathComponent]];
+    openPanel.URL = [NSURL fileURLWithPath:location];
+\    [openPanel beginSheetModalForWindow:self.mainView.window completionHandler: ^(NSInteger result) {
+        
+    }];*/
+    
 	[openPanel beginSheetForDirectory:[location stringByDeletingLastPathComponent] file:[location lastPathComponent] types:NULL modalForWindow:self.mainView.window modalDelegate:self didEndSelector:@selector(fileSelectionSheetDidEnd:returnCode:contextInfo:) contextInfo:key];	
 }
 
 -(IBAction)showPatientModeAuxiliaryDirSelectionSheet:(id)sender {
-	[self showDirSelectionSheetForKey:DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey];
+	[self showDirSelectionSheetForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey forDPServiceId:[self selectedServiceId]]];
 }
 
 -(IBAction)showArchivingModeAuxiliaryDirSelectionSheet:(id)sender {
-	//[self showDirSelectionSheetForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
+	//[self showDirSelectionSheetForKey:[NSUserDefaults DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey forDPServiceId:[self selectedServiceId]]];
 }
 
 -(void)showFileSelectionSheetForKey:(NSString*)key fileTypes:(NSArray*)types defaultLocation:(NSString*)defaultLocation {
@@ -174,33 +180,36 @@
 }
 
 -(IBAction)showPatientModeDiscCoverFileSelectionSheet:(id)sender {
-	[self showDiscCoverFileSelectionSheetForKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+	[self showDiscCoverFileSelectionSheetForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey forDPServiceId:[self selectedServiceId]]];
 }
 
 -(IBAction)showArchivingModeDiscCoverFileSelectionSheet:(id)sender {
-//	[self showDiscCoverFileSelectionSheetForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+//	[self showDiscCoverFileSelectionSheetForKey:[NSUserDefaults transformKeyPath:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey forDPServiceId:[self selectedServiceId]]];
 }
 
 -(void)editDiscCoverFileWithKey:(NSString*)key {
 	NSString* location = [[NSUserDefaultsController sharedUserDefaultsController] stringForKey:key];
 	
 	if (!location || ![[NSFileManager defaultManager] fileExistsAtPath:location]) {
-		location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:@"Template.dcover"];
-		if (![[NSFileManager defaultManager] fileExistsAtPath:location])
-			[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaults DPDefaultDiscCoverPath] toPath:location error:NULL];
+		NSInteger i = 0;
+        do {
+            location = [[DiscPublishing discCoverTemplatesDirPath] stringByAppendingPathComponent:(i? [NSString stringWithFormat:@"Template %d.dcover", (int)i] : @"Template.dcover")];
+            ++i;
+        } while ([NSFileManager.defaultManager fileExistsAtPath:location]);
+		[[NSFileManager defaultManager] copyItemAtPath:[NSUserDefaults DPDefaultDiscCoverPath] toPath:location error:NULL];
 		[[NSUserDefaultsController sharedUserDefaultsController] setValue:location forValuesKey:key];
 	}
 	
-	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: location, @"-a", [[[NSBundle bundleForClass:[self class]] bundlePath] stringByAppendingPathComponent:@"../DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 3 PE.app"], NULL]];
+	[N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: location, /*@"-a", [[[NSBundle bundleForClass:[DiscPublishing class]] bundlePath] stringByAppendingPathComponent:@"Contents/MacOS/DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 3 PE.app"],*/ NULL]];
 	[[NSWorkspace sharedWorkspace] openFile:location];
 }
 
 -(IBAction)editPatientModeDiscCoverFile:(id)sender {
-	[self editDiscCoverFileWithKey:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey];
+	[self editDiscCoverFileWithKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey forDPServiceId:[self selectedServiceId]]];
 }
 
 -(IBAction)editArchivingModeDiscCoverFile:(id)sender {
-//	[self editDiscCoverFileWithKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
+//	[self editDiscCoverFileWithKey:[NSUserDefaults transformKeyPath:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey forDPServiceId:[self selectedServiceId]]];
 }
 
 -(IBAction)mediaCapacityValueChanged:(id)sender {

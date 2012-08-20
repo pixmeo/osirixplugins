@@ -102,6 +102,17 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
     class_addMethod(AppControllerClass, @selector(_AppControllerDisplayListenerError:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_AppControllerDisplayListenerError:)));
     
+    // register DP3 app
+    NSString* dp3path = [[[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"DiscPublishingTool.app"] stringByAppendingPathComponent:@"Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 3 PE.app"];
+    FSRef dp3ref;
+    FSPathMakeRef((uint8*)dp3path.fileSystemRepresentation, &dp3ref, NULL);
+    LSRegisterFSRef(&dp3ref, true);
+    // use DP3 to open dcover files
+    NSString* uti = [(id)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)@"dcover", NULL) autorelease];
+    LSSetDefaultRoleHandlerForContentType((CFStringRef)uti, kLSRolesAll, (CFStringRef)@"com.belightsoft.DiscCover3.pe");
+
+    // ...
+    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeXMLRPCMessageNotification:) name:OsirixXMLRPCMessageNotification object:nil];
