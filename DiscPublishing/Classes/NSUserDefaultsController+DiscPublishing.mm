@@ -62,9 +62,9 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	[defaults addObserver:helper forValuesKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
 }
 
--(BOOL)discPublishingIsActive {
+/*-(BOOL)discPublishingIsActive {
 	return [[self valueForValuesKey:DiscPublishingActiveFlagDefaultsKey] boolValue];
-}
+}*/
 
 - (NSString*)DPServiceNameForId:(NSString*)sid {
 	for (NSDictionary* d in [[NSUserDefaults standardUserDefaults] valueForKey:DiscPublishingServicesListDefaultsKey])

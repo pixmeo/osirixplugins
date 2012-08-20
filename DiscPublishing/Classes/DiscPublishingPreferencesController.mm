@@ -18,6 +18,9 @@
 #import <OsiriXAPI/NSUserDefaultsController+OsiriX.h>
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/Anonymization.h>
+#import <OsiriXAPI/NSFileManager+N2.h>
+#import <OsiriXAPI/NSString+N2.h>
+#import <OsiriX/DCMTagDictionary.h>
 #import "DiscPublishingUtils.h"
 
 @interface NSPathControl (DiscPublishing)
@@ -214,6 +217,43 @@
 
 -(IBAction)mediaCapacityValueChanged:(id)sender {
 	// do nothing
+}
+
+- (NSArray*)tokenField:(NSTokenField*)tokenField completionsForSubstring:(NSString*)Substring indexOfToken:(NSInteger)tokenIndex indexOfSelectedItem:(NSInteger*)selectedIndex {
+    if ([Substring isEqualToString:@"*"]) {
+        *selectedIndex = 0;
+        return [NSArray arrayWithObject:@"*"];
+    }
+    
+    DCMTagDictionary* dcmtd = [DCMTagDictionary sharedTagDictionary];
+    NSString* substring = [Substring lowercaseString];
+    
+    NSMutableArray* r = [NSMutableArray array];
+    
+    for (NSString* Key in dcmtd) {
+        NSString* key = [Key lowercaseString];
+        if ([key contains:substring])
+            [r addObject:key];
+        NSString* Desc = [[dcmtd objectForKey:Key] objectForKey:@"Description"];
+        NSString* desc = [Desc lowercaseString];
+        if ([desc contains:substring])
+            [r addObject:Desc];
+    }
+    
+    [r sortUsingComparator:^NSComparisonResult(id Obj1, id Obj2) {
+        NSString* obj1 = [Obj1 lowercaseString];
+        NSString* obj2 = [Obj2 lowercaseString];
+        
+        BOOL beg1 = [obj1 hasPrefix:substring], beg2 = [obj2 hasPrefix:substring];
+        if (beg1 != beg2)
+            return beg1 < beg2;
+        
+        return [obj1 compare:obj2];
+    }];
+    
+    *selectedIndex = -1;
+    
+    return r;
 }
 
 #pragma mark Services
@@ -450,6 +490,47 @@
 -(id)transformedValue:(NSString*)value {
 	BOOL isDir, exists = [[NSFileManager defaultManager] fileExistsAtPath:value isDirectory:&isDir];
     return [NSNumber numberWithBool: exists&&isDir];
+}
+
+@end
+
+
+@interface DiscPublishingIsValidMountPath: NSValueTransformer
+@end
+@implementation DiscPublishingIsValidMountPath
+
++(Class)transformedValueClass {
+	return [NSNumber class];
+}
+
++(BOOL)allowsReverseTransformation {
+	return NO;
+}
+
+-(id)transformedValue:(NSString*)value {
+    if (value.length < 1) return [NSNumber numberWithBool:NO];
+    
+    BOOL ok = YES;
+    
+    /*NSURL* url = [NSURL URLWithString:value];
+    if (!url) return [NSNumber numberWithBool:NO];
+    
+    NSString* mountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
+    [NSFileManager.defaultManager createDirectoryAtPath:mountPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    BOOL ok = NO;
+    
+    FSVolumeRefNum volumeRefNum = -1;
+    OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:mountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
+    if (err == noErr) {
+        ok = YES;
+        pid_t dissenter;
+        FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
+    }
+    
+    [NSFileManager.defaultManager removeItemAtPath:mountPath error:NULL];*/
+    
+    return [NSNumber numberWithBool:ok];
 }
 
 @end

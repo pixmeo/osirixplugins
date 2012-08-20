@@ -19,14 +19,15 @@
 #import "DiscPublishingUtils.h"
 
 
-NSString* const DiscPublishingActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
+//NSString* const DiscPublishingActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
 
 NSString* const DiscPublishingBurnSpeedDefaultsKey = @"DiscPublishingBurnSpeed";
 
 NSString* const DiscPublishingServicesListDefaultsKey = @"DiscPublishingServicesList";
 
-NSString* const DiscPublishingBurnModeDefaultsKey = @"DiscPublishingBurnMode";
+NSString* const DiscPublishingBurnModeDefaultsKey = @"DiscPublishingBurnMode"; // kind of unused....
 
+NSString* const DiscPublishingPatientModeActiveFlagDefaultsKey = @"DiscPublishingPatientModeActiveFlag";
 NSString* const DiscPublishingPatientModeMatchedAETsDefaultsKey = @"DiscPublishingPatientModeMatchedAETs";
 NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey = @"DiscPublishingPatientModeBurnDelay";
 NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey = @"DiscPublishingPatientModeDiscCoverTemplatePath";
@@ -77,6 +78,7 @@ NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey = @"Dis
 
 + (NSDictionary*)initialValuesForDPServiceWithId:(NSString*)sid {
     NSDictionary* theValues = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeActiveFlagDefaultsKey,
                                 [NSNumber numberWithUnsignedInt:60], DiscPublishingPatientModeBurnDelayDefaultsKey,
                                 [NSNumber numberWithBool:NO], DiscPublishingPatientModeAnonymizeFlagDefaultsKey,
                                 [NSDictionary dictionaryWithObjectsAndKeys:
@@ -137,19 +139,19 @@ NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey = @"Dis
 }
 
 NSString* const DPMediaTypeTagKVOKeySuffix = @"_MediaTypeTag";
-NSString* const DPKVOMediaCapacitySuffix = @"_MediaCapacity";
-NSString* const DPKVOMediaCapacityMeasureTagSuffix = @"_MediaCapacityMeasureTag";
+NSString* const DPMediaCapacityKVOKeySuffix = @"_MediaCapacity";
+NSString* const DPMediaCapacityMeasureTagKVOKeySuffix = @"_MediaCapacityMeasureTag";
 
 + (NSString*)DPMediaTypeTagKVOKeyForBin:(NSUInteger)bin {
 	return [[self DPKVOBinPrefixForBin:bin] stringByAppendingString:DPMediaTypeTagKVOKeySuffix];
 }
 
 + (NSString*)DPMediaCapacityKVOKeyForBin:(NSUInteger)bin {
-	return [[self DPKVOBinPrefixForBin:bin] stringByAppendingString:DPKVOMediaCapacitySuffix];
+	return [[self DPKVOBinPrefixForBin:bin] stringByAppendingString:DPMediaCapacityKVOKeySuffix];
 }
 
 + (NSString*)DPMediaCapacityMeasureTagKVOKeyForBin:(NSUInteger)bin {
-	return [[self DPKVOBinPrefixForBin:bin] stringByAppendingString:DPKVOMediaCapacityMeasureTagSuffix];
+	return [[self DPKVOBinPrefixForBin:bin] stringByAppendingString:DPMediaCapacityMeasureTagKVOKeySuffix];
 }
 
 + (NSString*)DPDefaultDiscCoverPath {

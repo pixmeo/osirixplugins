@@ -13,7 +13,7 @@
 
 + (void)discPublishingInitialize;
 
-- (BOOL)discPublishingIsActive;
+//- (BOOL)discPublishingIsActive;
 
 - (NSString*)DPServiceNameForId:(NSString*)sid;
 - (NSUInteger)DPDelayForServiceId:(NSString*)sid;

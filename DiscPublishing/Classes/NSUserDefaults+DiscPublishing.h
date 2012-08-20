@@ -11,14 +11,15 @@
 
 @class DiscPublishingOptions;
 
-extern NSString* const DiscPublishingActiveFlagDefaultsKey;
+//extern NSString* const DiscPublishingActiveFlagDefaultsKey; // moved into the Service group (DiscPublishingPatientMode*)
 
 extern NSString* const DiscPublishingBurnSpeedDefaultsKey;
 
 extern NSString* const DiscPublishingServicesListDefaultsKey;
 
-extern NSString* const DiscPublishingBurnModeDefaultsKey;
+extern NSString* const DiscPublishingBurnModeDefaultsKey; // kind of unused....
 
+extern NSString* const DiscPublishingPatientModeActiveFlagDefaultsKey;
 extern NSString* const DiscPublishingPatientModeMatchedAETsDefaultsKey;
 extern NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey;
 extern NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey;

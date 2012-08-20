@@ -125,15 +125,8 @@
     } while (/*rs.count < maxUnits && */time >= 1);
     
     NSMutableString* s = [NSMutableString string];
-    for (NSInteger i = 0; i < rs.count; ++i)
-    {
-        if (i > 0)
-        {
-            [s appendString:@" "];
-        }
-        
+    for (NSUInteger i = 0; i < rs.count; ++i)
         [s appendString:[rs objectAtIndex:i]];
-    }
     
     return s;
 }
@@ -262,6 +255,8 @@
                     break;
                 }
         }
+        
+        BOOL active = [NSUserDefaultsController.sharedUserDefaultsController boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeActiveFlagDefaultsKey forDPServiceId:sid]];
         
         for (DicomImage* image in addedImages)
             @try {
