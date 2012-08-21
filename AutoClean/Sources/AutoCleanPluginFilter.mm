@@ -12,6 +12,7 @@
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/browserController.h>
 #import <OsiriXAPI/ThreadsManager.h>
+#import <OsiriXAPI/DicomDatabase.h>
 
 @implementation AutoCleanPluginFilter
 
@@ -21,6 +22,7 @@
 
 -(void)dealloc {
     [self unscheduleAutoClean];
+    [super dealloc];
 }
 
 -(void)scheduleAutoCleanAt:(NSDate*)date {
@@ -53,22 +55,9 @@
             thread.name = NSLocalizedString(@"AutoClean Plugin", nil);
             [ThreadsManager.defaultManager addThreadAndStart:thread];
             
-            Class DD = NSClassFromString(@"DicomDatabase");
-            if (DD)
-            {
-                id dd = [DD valueForKey:@"defaultDatabase"];
-                [dd performSelector:@selector(cleanForFreeSpaceMB:) withObject:[NSNumber numberWithInteger:124000]]; // TODO: 124000 -> -AutoCleanPluginThreshold/100*disksize
-            }
-            else // old OsiriX has @selector(autoCleanDatabaseFreeSpaceThread:)... but this will return without doing anything if autoclean is already running! and we cannot know
-            {
-                [NSUserDefaults.standardUserDefaults setBool:YES forKey:@"AUTOCLEANINGSPACE"];
-                NSInteger threshold = [[NSUserDefaults.standardUserDefaults objectForKey:AutoCleanPluginThresholdDefaultsKey] integerValue];
-                [NSUserDefaults.standardUserDefaults setInteger:threshold forKey:@"AUTOCLEANINGSPACE"];
-                
-                [[BrowserController currentBrowser] performSelector:@selector(autoCleanDatabaseFreeSpaceThread:) withObject:self];
-                
-                [NSUserDefaults.standardUserDefaults setObject:date forKey:AutoCleanPluginLastExecutionDefaultsKey];
-            }
+            id dd = [DicomDatabase defaultDatabase];
+            [dd performSelector:@selector(cleanForFreeSpaceMB:) withObject:[NSNumber numberWithInteger:124000]]; // TODO: 124000 -> -AutoCleanPluginThreshold/100*disksize
+
         } @catch (NSException* e) {
             N2LogExceptionWithStackTrace(e);
         } @finally {

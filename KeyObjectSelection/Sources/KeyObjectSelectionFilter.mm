@@ -612,8 +612,9 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
 static NSString* const KOSReconstructionsSeriesName = NSLocalizedString(@"OsiriX Screen Captures", nil);
 
 -(void)_ViewerController_setKeyImage:(id)sender {
+    DicomImage* image = [(ViewerController*)self currentImage];
     //if ([(ViewerController*)self blendingController])
-    if (![[[(ViewerController*)self currentImage] isKeyImage] boolValue])
+    if (![image.modality isEqualToString:@"SC"] && ![[image isKeyImage] boolValue])
     {
         [KeyObjectSelectionFilterInstance playGrabSound];
         

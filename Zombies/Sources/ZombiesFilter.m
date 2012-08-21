@@ -14,6 +14,7 @@
 #import <OsiriXAPI/ThreadsManager.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <OsiriXAPI/N2Stuff.h>
+#import <OsiriXAPI/ThreadModalForWindowController.h>
 #import <objc/runtime.h>
 
 @implementation ZombiesFilter
@@ -33,7 +34,8 @@
             thread.name = NSLocalizedString(@"Scanning for zombies...", nil);
             thread.status = NSLocalizedString(@"Preparing...", nil);
             thread.supportsCancel = YES;
-            [ThreadsManager.defaultManager addThreadAndStart:thread];
+            
+            [thread startModalForWindow:nil];
             
             thread.threadPriority = 0.0;
             
@@ -81,6 +83,9 @@
             }
             
             thread.progress = -1;
+            [ThreadsManager.defaultManager addThreadAndStart:thread];
+            thread.supportsBackgrounding = YES;
+            [[thread.threadDictionary objectForKey:NSThreadModalForWindowControllerKey] invalidate];
             
 //            NSString* base = [idatabase dataDirPath];
             NSFileManager* fm = [NSFileManager defaultManager];
@@ -91,7 +96,7 @@
                 [NSThread sleepForTimeInterval:0.001];
                 
                 NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Zombies found: %d of %@", nil), zombiesCount, N2LocalizedSingularPluralCount(filesCount, @"file", @"files")];
+                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Zombies found: %@ of %@", nil), N2LocalizedDecimal(zombiesCount), N2LocalizedSingularPluralCount(filesCount, @"file", @"files")];
                 @try {
                     NSString* path = [base stringByAppendingPathComponent:sub]; 
                     BOOL isDir;
@@ -151,6 +156,8 @@
                     [pool release];
                 }
             }
+            
+            NSLog(@"Zombies done. Count of revived Zombies is: %d", (int)zombiesCount);
         } @catch (NSException* e) {
             N2LogExceptionWithStackTrace(e);
         } @finally {
