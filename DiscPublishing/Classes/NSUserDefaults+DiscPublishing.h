@@ -11,41 +11,48 @@
 
 @class DiscPublishingOptions;
 
-//extern NSString* const DiscPublishingActiveFlagDefaultsKey; // moved into the Service group (DiscPublishingPatientMode*)
+//extern NSString* const DPActiveFlagDefaultsKey; // moved into the Service group (DiscPublishingPatientMode*)
 
-extern NSString* const DiscPublishingBurnSpeedDefaultsKey;
+extern NSString* const DPBurnSpeedDefaultsKey;
 
-extern NSString* const DiscPublishingServicesListDefaultsKey;
+extern NSString* const DPServicesListDefaultsKey;
 
-extern NSString* const DiscPublishingBurnModeDefaultsKey; // kind of unused....
+extern NSString* const DPBurnModeDefaultsKey; // kind of unused....
 
-extern NSString* const DiscPublishingPatientModeActiveFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeMatchedAETsDefaultsKey;
-extern NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey;
-extern NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey;
-extern NSString* const DiscPublishingPatientModeAnonymizeFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeAnonymizationTagsDefaultsKey;
-extern NSString* const DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeIncludeReportsFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey;
-extern NSString* const DiscPublishingPatientModeCompressionDefaultsKey;
-extern NSString* const DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey;
-extern NSString* const DiscPublishingPatientModeZipFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeZipEncryptFlagDefaultsKey;
-extern NSString* const DiscPublishingPatientModeZipEncryptPasswordDefaultsKey;
+extern NSString* const DPServiceDefaultsKeyPrefix;
+extern NSString* const DPServiceActiveFlagDefaultsKey;
+extern NSString* const DPServiceMatchedAETsDefaultsKey;
+extern NSString* const DPServiceBurnDelayDefaultsKey;
+extern NSString* const DPServiceDiscCoverTemplatePathDefaultsKey;
+extern NSString* const DPServiceAnonymizeFlagDefaultsKey;
+extern NSString* const DPServiceAnonymizationTagsDefaultsKey;
+extern NSString* const DPServiceIncludeWeasisFlagDefaultsKey;
+extern NSString* const DPServiceIncludeOsirixLiteFlagDefaultsKey;
+extern NSString* const DPServiceIncludeHTMLQTFlagDefaultsKey;
+extern NSString* const DPServiceIncludeReportsFlagDefaultsKey;
+extern NSString* const DPServiceIncludeAuxiliaryDirectoryFlagDefaultsKey;
+extern NSString* const DPServiceAuxiliaryDirectoryPathDefaultsKey;
+extern NSString* const DPServiceCompressionDefaultsKey;
+extern NSString* const DPServiceCompressJPEGNotJPEG2000DefaultsKey;
+extern NSString* const DPServiceZipFlagDefaultsKey;
+extern NSString* const DPServiceZipEncryptFlagDefaultsKey;
+extern NSString* const DPServiceZipEncryptPasswordDefaultsKey;
+extern NSString* const DPServiceFSMatchFlagDefaultsKey;
+extern NSString* const DPServiceFSMatchMountPathDefaultsKey;
+extern NSString* const DPServiceFSMatchTokensDefaultsKey;
+extern NSString* const DPServiceFSMatchConditionDefaultsKey;
+extern NSString* const DPServiceFSMatchDeleteDefaultsKey;
+extern NSString* const DPServiceDeletePublishedDefaultsKey;
 
 /*
-extern NSString* const DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey;
-extern NSString* const DiscPublishingArchivingModeIncludeReportsFlagDefaultsKey;
-extern NSString* const DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey;
-extern NSString* const DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey;
-extern NSString* const DiscPublishingArchivingModeCompressionDefaultsKey;
-extern NSString* const DiscPublishingArchivingModeCompressJPEGNotJPEG2000DefaultsKey;
-extern NSString* const DiscPublishingArchivingModeZipEncryptFlagDefaultsKey;
-extern NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey;
+extern NSString* const DPArchivingModeDiscCoverTemplatePathDefaultsKey;
+extern NSString* const DPArchivingModeIncludeReportsFlagDefaultsKey;
+extern NSString* const DPArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey;
+extern NSString* const DPArchivingModeAuxiliaryDirectoryPathDefaultsKey;
+extern NSString* const DPArchivingModeCompressionDefaultsKey;
+extern NSString* const DPArchivingModeCompressJPEGNotJPEG2000DefaultsKey;
+extern NSString* const DPArchivingModeZipEncryptFlagDefaultsKey;
+extern NSString* const DPArchivingModeZipEncryptPasswordDefaultsKey;
 */
 
 extern NSString* const DPMediaTypeTagKVOKeySuffix;

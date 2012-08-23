@@ -15,19 +15,19 @@
 //	IBOutlet NSPopUpButton* mediaCapacityMeasurePopUpButton;
 	
 	IBOutlet NSView* patientModeOptionsView;
-	IBOutlet NSView* archivingModeOptionsView; // currently unused
+//	IBOutlet NSView* archivingModeOptionsView; // currently unused
     
     IBOutlet NSPopUpButton* servicesPopUpButton;
 	
 	IBOutlet NSImageView* patientModeZipPasswordWarningView;
-	IBOutlet NSImageView* archivingModeZipPasswordWarningView;
+//	IBOutlet NSImageView* archivingModeZipPasswordWarningView;
 	IBOutlet NSImageView* patientModeAuxiliaryDirWarningView;
-	IBOutlet NSImageView* archivingModeAuxiliaryDirWarningView;
+//	IBOutlet NSImageView* archivingModeAuxiliaryDirWarningView;
 	IBOutlet NSButton* patientModeLabelTemplateEditButton;
-	IBOutlet NSButton* archivingModeLabelTemplateEditButton;
+//	IBOutlet NSButton* archivingModeLabelTemplateEditButton;
 	IBOutlet NSPathControl* patientModeLabelTemplatePathControl;
 	IBOutlet NSPathControl* patientModeAuxDirPathControl;
-	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
+//	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
 	
     IBOutlet NSWindow* servicesWindow;
     
@@ -50,13 +50,13 @@
 -(IBAction)showPatientModeAnonymizationOptionsSheet:(id)sender;
 
 -(IBAction)showPatientModeAuxiliaryDirSelectionSheet:(id)sender;
--(IBAction)showArchivingModeAuxiliaryDirSelectionSheet:(id)sender;
+//-(IBAction)showArchivingModeAuxiliaryDirSelectionSheet:(id)sender;
 
 -(IBAction)showPatientModeDiscCoverFileSelectionSheet:(id)sender;
--(IBAction)showArchivingModeDiscCoverFileSelectionSheet:(id)sender;
+//-(IBAction)showArchivingModeDiscCoverFileSelectionSheet:(id)sender;
 
 -(IBAction)editPatientModeDiscCoverFile:(id)sender;
--(IBAction)editArchivingModeDiscCoverFile:(id)sender;
+//-(IBAction)editArchivingModeDiscCoverFile:(id)sender;
 
 -(IBAction)mediaCapacityValueChanged:(id)sender;
 

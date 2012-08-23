@@ -234,9 +234,6 @@
         return;
     }
     
-    if (![[NSUserDefaultsController sharedUserDefaultsController] discPublishingIsActive])
-		return;
-    
 	//NSArray* addedImages = [[notification userInfo] objectForKey:OsirixAddToDBNotificationImagesArray];
 	NSDictionary* addedImagesByAET = [[notification userInfo] objectForKey:OsirixAddToDBNotificationImagesPerAETDictionary];
     
@@ -244,9 +241,9 @@
         NSArray* addedImages = [addedImagesByAET objectForKey:aet];
         
         NSString* sid = nil;
-        for (NSDictionary* sd in [NSUserDefaults.standardUserDefaults objectForKey:DiscPublishingServicesListDefaultsKey]) {
+        for (NSDictionary* sd in [NSUserDefaults.standardUserDefaults objectForKey:DPServicesListDefaultsKey]) {
             NSString* isid = [sd objectForKey:@"id"];
-            NSString* matchedAETsString = [NSUserDefaults.standardUserDefaults objectForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeMatchedAETsDefaultsKey forDPServiceId:isid]];
+            NSString* matchedAETsString = [NSUserDefaults.standardUserDefaults objectForKey:[NSUserDefaults transformKeyPath:DPServiceMatchedAETsDefaultsKey forDPServiceId:isid]];
             
             NSArray* matchedAETs = [matchedAETsString componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", ;"]];
             for (NSString* m in matchedAETs)
@@ -256,7 +253,9 @@
                 }
         }
         
-        BOOL active = [NSUserDefaultsController.sharedUserDefaultsController boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeActiveFlagDefaultsKey forDPServiceId:sid]];
+        BOOL active = [NSUserDefaultsController.sharedUserDefaultsController boolForKey:[NSUserDefaults transformKeyPath:DPServiceActiveFlagDefaultsKey forDPServiceId:sid]];
+        if (!active)
+            return;
         
         for (DicomImage* image in addedImages)
             @try {
@@ -270,9 +269,6 @@
                 NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e.reason);
             }
     }
-    
-    
-    
 }
 
 /*-(NSArray*)namesForStudies:(NSArray*)studies {

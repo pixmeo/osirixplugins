@@ -19,48 +19,56 @@
 #import "DiscPublishingUtils.h"
 
 
-//NSString* const DiscPublishingActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
+//NSString* const DPActiveFlagDefaultsKey = @"DiscPublishingActiveFlag";
 
-NSString* const DiscPublishingBurnSpeedDefaultsKey = @"DiscPublishingBurnSpeed";
+NSString* const DPBurnSpeedDefaultsKey = @"DiscPublishingBurnSpeed";
 
-NSString* const DiscPublishingServicesListDefaultsKey = @"DiscPublishingServicesList";
+NSString* const DPServicesListDefaultsKey = @"DiscPublishingServicesList";
 
-NSString* const DiscPublishingBurnModeDefaultsKey = @"DiscPublishingBurnMode"; // kind of unused....
+NSString* const DPBurnModeDefaultsKey = @"DiscPublishingBurnMode"; // kind of unused....
 
-NSString* const DiscPublishingPatientModeActiveFlagDefaultsKey = @"DiscPublishingPatientModeActiveFlag";
-NSString* const DiscPublishingPatientModeMatchedAETsDefaultsKey = @"DiscPublishingPatientModeMatchedAETs";
-NSString* const DiscPublishingPatientModeBurnDelayDefaultsKey = @"DiscPublishingPatientModeBurnDelay";
-NSString* const DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey = @"DiscPublishingPatientModeDiscCoverTemplatePath";
-NSString* const DiscPublishingPatientModeAnonymizeFlagDefaultsKey = @"DiscPublishingPatientModeAnonymizeFlag";
-NSString* const DiscPublishingPatientModeAnonymizationTagsDefaultsKey = @"DiscPublishingPatientModeAnonymizationTags";
-NSString* const DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey = @"DiscPublishingPatientModeIncludeWeasisFlag";
-NSString* const DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey = @"DiscPublishingPatientModeIncludeOsirixLiteFlag";
-NSString* const DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey = @"DiscPublishingPatientModeIncludeHTMLQTFlag";
-NSString* const DiscPublishingPatientModeIncludeReportsFlagDefaultsKey = @"DiscPublishingPatientModeIncludeReportsFlag";
-NSString* const DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey = @"DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag";
-NSString* const DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey = @"DiscPublishingPatientModeAuxiliaryDirectoryPathData";
-NSString* const DiscPublishingPatientModeCompressionDefaultsKey = @"DiscPublishingPatientModeCompression";
-NSString* const DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey = @"DiscPublishingPatientModeCompressJPEGNotJPEG2000";
-NSString* const DiscPublishingPatientModeZipFlagDefaultsKey = @"DiscPublishingPatientModeZipFlag";
-NSString* const DiscPublishingPatientModeZipEncryptFlagDefaultsKey = @"DiscPublishingPatientModeZipEncryptFlag";
-NSString* const DiscPublishingPatientModeZipEncryptPasswordDefaultsKey = @"DiscPublishingPatientModeZipEncryptPassword";
+NSString* const DPServiceDefaultsKeyPrefix = @"DiscPublishingPatientMode";
+NSString* const DPServiceActiveFlagDefaultsKey = @"DiscPublishingPatientModeActiveFlag";
+NSString* const DPServiceMatchedAETsDefaultsKey = @"DiscPublishingPatientModeMatchedAETs";
+NSString* const DPServiceBurnDelayDefaultsKey = @"DiscPublishingPatientModeBurnDelay";
+NSString* const DPServiceDiscCoverTemplatePathDefaultsKey = @"DiscPublishingPatientModeDiscCoverTemplatePath";
+NSString* const DPServiceDeletePublishedDefaultsKey = @"DiscPublishingPatientModeDeletePublished";
+NSString* const DPServiceAnonymizeFlagDefaultsKey = @"DiscPublishingPatientModeAnonymizeFlag";
+NSString* const DPServiceAnonymizationTagsDefaultsKey = @"DiscPublishingPatientModeAnonymizationTags";
+NSString* const DPServiceIncludeWeasisFlagDefaultsKey = @"DiscPublishingPatientModeIncludeWeasisFlag";
+NSString* const DPServiceIncludeOsirixLiteFlagDefaultsKey = @"DiscPublishingPatientModeIncludeOsirixLiteFlag";
+NSString* const DPServiceIncludeHTMLQTFlagDefaultsKey = @"DiscPublishingPatientModeIncludeHTMLQTFlag";
+NSString* const DPServiceIncludeReportsFlagDefaultsKey = @"DiscPublishingPatientModeIncludeReportsFlag";
+NSString* const DPServiceIncludeAuxiliaryDirectoryFlagDefaultsKey = @"DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlag";
+NSString* const DPServiceAuxiliaryDirectoryPathDefaultsKey = @"DiscPublishingPatientModeAuxiliaryDirectoryPathData";
+NSString* const DPServiceCompressionDefaultsKey = @"DiscPublishingPatientModeCompression";
+NSString* const DPServiceCompressJPEGNotJPEG2000DefaultsKey = @"DiscPublishingPatientModeCompressJPEGNotJPEG2000";
+NSString* const DPServiceZipFlagDefaultsKey = @"DiscPublishingPatientModeZipFlag";
+NSString* const DPServiceZipEncryptFlagDefaultsKey = @"DiscPublishingPatientModeZipEncryptFlag";
+NSString* const DPServiceZipEncryptPasswordDefaultsKey = @"DiscPublishingPatientModeZipEncryptPassword";
+NSString* const DPServiceFSMatchFlagDefaultsKey = @"DiscPublishingPatientModeFSMatchFlag";
+NSString* const DPServiceFSMatchMountPathDefaultsKey = @"DiscPublishingPatientModeFSMatchMountPath";
+NSString* const DPServiceFSMatchTokensDefaultsKey = @"DiscPublishingPatientModeFSMatchTokens";
+NSString* const DPServiceFSMatchConditionDefaultsKey = @"DiscPublishingPatientModeFSMatchCondition";
+NSString* const DPServiceFSMatchDeleteDefaultsKey = @"DiscPublishingPatientModeFSMatchDelete";
+NSString* const DPServiceFSMatchDelayDefaultsKey = @"DiscPublishingPatientModeFSMatchDelay";
 
 /*
-NSString* const DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey = @"DiscPublishingArchivingModeDiscCoverTemplatePath";
-NSString* const DiscPublishingArchivingModeIncludeReportsFlagDefaultsKey = @"DiscPublishingArchivingModeIncludeReportsFlag";
-NSString* const DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey = @"DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag";
-NSString* const DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey = @"DiscPublishingArchivingModeAuxiliaryDirectoryPathData";
-NSString* const DiscPublishingArchivingModeCompressionDefaultsKey = @"DiscPublishingArchivingModeCompression";
-NSString* const DiscPublishingArchivingModeCompressJPEGNotJPEG2000DefaultsKey = @"DiscPublishingArchivingModeCompressJPEGNotJPEG2000";
-NSString* const DiscPublishingArchivingModeZipFlagDefaultsKey = @"DiscPublishingArchivingModeZipFlag";
-NSString* const DiscPublishingArchivingModeZipEncryptFlagDefaultsKey = @"DiscPublishingArchivingModeZipEncryptFlag";
-NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey = @"DiscPublishingArchivingModeZipEncryptPassword";
+NSString* const DPArchivingModeDiscCoverTemplatePathDefaultsKey = @"DiscPublishingArchivingModeDiscCoverTemplatePath";
+NSString* const DPArchivingModeIncludeReportsFlagDefaultsKey = @"DiscPublishingArchivingModeIncludeReportsFlag";
+NSString* const DPArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey = @"DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlag";
+NSString* const DPArchivingModeAuxiliaryDirectoryPathDefaultsKey = @"DiscPublishingArchivingModeAuxiliaryDirectoryPathData";
+NSString* const DPArchivingModeCompressionDefaultsKey = @"DiscPublishingArchivingModeCompression";
+NSString* const DPArchivingModeCompressJPEGNotJPEG2000DefaultsKey = @"DiscPublishingArchivingModeCompressJPEGNotJPEG2000";
+NSString* const DPArchivingModeZipFlagDefaultsKey = @"DiscPublishingArchivingModeZipFlag";
+NSString* const DPArchivingModeZipEncryptFlagDefaultsKey = @"DiscPublishingArchivingModeZipEncryptFlag";
+NSString* const DPArchivingModeZipEncryptPasswordDefaultsKey = @"DiscPublishingArchivingModeZipEncryptPassword";
 */
 
 @implementation NSUserDefaults (DiscPublishing)
 
 + (NSString*)transformKeyPath:(NSString*)okp forDPServiceId:(NSString*)sid {
-    NSRange r = [okp rangeOfString:@"DiscPublishingPatientMode"];
+    NSRange r = [okp rangeOfString:DPServiceDefaultsKeyPrefix];
     if (r.location == NSNotFound)
         return nil;
     
@@ -78,26 +86,26 @@ NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey = @"Dis
 
 + (NSDictionary*)initialValuesForDPServiceWithId:(NSString*)sid {
     NSDictionary* theValues = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeActiveFlagDefaultsKey,
-                                [NSNumber numberWithUnsignedInt:60], DiscPublishingPatientModeBurnDelayDefaultsKey,
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeAnonymizeFlagDefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceActiveFlagDefaultsKey,
+                                [NSNumber numberWithUnsignedInt:60], DPServiceBurnDelayDefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceAnonymizeFlagDefaultsKey,
                                 [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"Anonymous", @"PatientsName",
                                 /*		@"", @"PatientsSex",
                                 @"", @"PatientsWeight",
                                 @"", @"ReferringPhysiciansName",
                                 @"", @"PerformingPhysiciansName",*/
-                                NULL], DiscPublishingPatientModeAnonymizationTagsDefaultsKey,
-                                [NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey,
-                                [NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey,
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey,
-                                [NSNumber numberWithBool:YES], DiscPublishingPatientModeIncludeReportsFlagDefaultsKey,
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey,
-                                //		[[NSFileManager defaultManager] findSystemFolderOfType:kMusicDocumentsFolderType forDomain:kUserDomain], DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey, // TODO: check and fix
-                                [NSNumber numberWithUnsignedInt:CompressionCompress], DiscPublishingPatientModeCompressionDefaultsKey,
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey,
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeZipFlagDefaultsKey,
-                                [NSNumber numberWithBool:NO], DiscPublishingPatientModeZipEncryptFlagDefaultsKey,
+                                NULL], DPServiceAnonymizationTagsDefaultsKey,
+                                [NSNumber numberWithBool:YES], DPServiceIncludeOsirixLiteFlagDefaultsKey,
+                                [NSNumber numberWithBool:YES], DPServiceIncludeWeasisFlagDefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceIncludeHTMLQTFlagDefaultsKey,
+                                [NSNumber numberWithBool:YES], DPServiceIncludeReportsFlagDefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceIncludeAuxiliaryDirectoryFlagDefaultsKey,
+                                //		[[NSFileManager defaultManager] findSystemFolderOfType:kMusicDocumentsFolderType forDomain:kUserDomain], DPServiceAuxiliaryDirectoryPathDefaultsKey, // TODO: check and fix
+                                [NSNumber numberWithUnsignedInt:CompressionCompress], DPServiceCompressionDefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceCompressJPEGNotJPEG2000DefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceZipFlagDefaultsKey,
+                                [NSNumber numberWithBool:NO], DPServiceZipEncryptFlagDefaultsKey,
                                nil];
     if (!sid.length)
         return theValues;
@@ -112,8 +120,8 @@ NSString* const DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey = @"Dis
 
 + (NSDictionary*)initialValuesForDP {
     return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [NSNumber numberWithUnsignedInt:BurnModePatient], DiscPublishingBurnModeDefaultsKey,
-            [NSNumber numberWithUnsignedInt:100], DiscPublishingBurnSpeedDefaultsKey,
+            [NSNumber numberWithUnsignedInt:BurnModePatient], DPBurnModeDefaultsKey,
+            [NSNumber numberWithUnsignedInt:100], DPBurnSpeedDefaultsKey,
             [NSNumber numberWithUnsignedInt:DISCTYPE_CD], [self DPMediaTypeTagKVOKeyForBin:0],           // this value is related to...
             [NSNumber numberWithFloat:700], [self DPMediaCapacityKVOKeyForBin:0],							// this one and...
             [NSNumber numberWithUnsignedInt:1000000], [self DPMediaCapacityMeasureTagKVOKeyForBin:0], // ...this one, together they mean "CD capacity is 700 MB" (see +mediaCapacityBytesForMediaType)

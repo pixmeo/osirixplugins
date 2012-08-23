@@ -551,7 +551,7 @@ static NSString* PreventNullString(NSString* s) {
                   //				  _options, DiscPublishingJobInfoOptionsKey,
                                       _options.discCoverTemplatePath, DiscPublishingJobInfoTemplatePathKey,
                                       pickedMediaKey, DiscPublishingJobInfoMediaTypeKey,
-                                      [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DiscPublishingBurnSpeedDefaultsKey], DiscPublishingJobInfoBurnSpeedKey,
+                                      [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DPBurnSpeedDefaultsKey], DiscPublishingJobInfoBurnSpeedKey,
                                       [NSArray arrayWithObjects:
                                         /* 1 */	PreventNullString(discName),
                                         /* 2 */ PreventNullString([dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth]),

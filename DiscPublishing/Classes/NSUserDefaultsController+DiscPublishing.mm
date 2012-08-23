@@ -31,9 +31,9 @@
 		[defaults setValue:[NSNumber numberWithFloat:bytes/measure] forKeyPath:DP_valuesKeyPath(DiscPublishingBurnMediaCapacityDefaultsKey)];
 		[defaults setValue:[NSNumber numberWithUnsignedInt:measure] forKeyPath:DP_valuesKeyPath(DiscPublishingBurnMediaCapacityMeasureTagDefaultsKey)];
 	} else*/
-	if ([keyPath isEqual:DP_valuesKeyPath(DiscPublishingPatientModeAnonymizeFlagDefaultsKey)]) {
+	if ([keyPath isEqual:DP_valuesKeyPath(DPServiceAnonymizeFlagDefaultsKey)]) {
 		if ([[defaults valueForValuesKey:keyPath] boolValue])
-			[defaults setValue:[NSNumber numberWithBool:NO] forValuesKey:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey];	
+			[defaults setValue:[NSNumber numberWithBool:NO] forValuesKey:DPServiceIncludeReportsFlagDefaultsKey];
 	}
 }
 
@@ -53,13 +53,13 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
     NSMutableDictionary* iv = [[[defaults initialValues] mutableCopy] autorelease];
     [iv addEntriesFromDictionary:[NSUserDefaults initialValuesForDP]];
     [iv addEntriesFromDictionary:[NSUserDefaults initialValuesForDPServiceWithId:nil]];
-	for (NSDictionary* d in [[NSUserDefaults standardUserDefaults] valueForKey:DiscPublishingServicesListDefaultsKey])
+	for (NSDictionary* d in [[NSUserDefaults standardUserDefaults] valueForKey:DPServicesListDefaultsKey])
         [iv addEntriesFromDictionary:[NSUserDefaults initialValuesForDPServiceWithId:[d objectForKey:@"id"]]];
     [defaults setInitialValues:iv];
 	
 	helper = [[NSUserDefaultsControllerDiscPublishingHelper alloc] init];
 //	[defaults addObserver:helper forValuesKey:DiscPublishingBurnMediaTypeDefaultsKey options:NULL context:NULL];
-	[defaults addObserver:helper forValuesKey:DiscPublishingPatientModeAnonymizeFlagDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
+	[defaults addObserver:helper forValuesKey:DPServiceAnonymizeFlagDefaultsKey options:NSKeyValueObservingOptionInitial context:NULL];
 }
 
 /*-(BOOL)discPublishingIsActive {
@@ -67,14 +67,14 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 }*/
 
 - (NSString*)DPServiceNameForId:(NSString*)sid {
-	for (NSDictionary* d in [[NSUserDefaults standardUserDefaults] valueForKey:DiscPublishingServicesListDefaultsKey])
+	for (NSDictionary* d in [[NSUserDefaults standardUserDefaults] valueForKey:DPServicesListDefaultsKey])
         if ([[d objectForKey:@"id"] isEqualToString:sid])
             return [d objectForKey:@"name"];
     return nil;
 }
 
 - (NSUInteger)DPDelayForServiceId:(NSString*)sid {
-	return [[self.values valueForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeBurnDelayDefaultsKey forDPServiceId:sid]] unsignedIntValue];
+	return [[self.values valueForKey:[NSUserDefaults transformKeyPath:DPServiceBurnDelayDefaultsKey forDPServiceId:sid]] unsignedIntValue];
 }
 
 -(DiscPublishingOptions*)DPOptionsForServiceId:(NSString*)sid {
@@ -82,23 +82,23 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	
 //	NSLog(@"dic %@", self.defaults.dictionaryRepresentation.description);
 	
-//	id xxx = [self valueForValuesKey:DiscPublishingPatientModeAnonymizationTagsDefaultsKey];
+//	id xxx = [self valueForValuesKey:DPServiceAnonymizationTagsDefaultsKey];
 	
-	options.anonymize = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeAnonymizeFlagDefaultsKey forDPServiceId:sid]];
-	options.anonymizationTags = [Anonymization tagsValuesArrayFromDictionary:[self dictionaryForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeAnonymizationTagsDefaultsKey forDPServiceId:sid]]];
-	options.includeWeasis = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeIncludeWeasisFlagDefaultsKey forDPServiceId:sid]];
-	options.includeOsirixLite = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeIncludeOsirixLiteFlagDefaultsKey forDPServiceId:sid]];
-	options.includeHTMLQT = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeIncludeHTMLQTFlagDefaultsKey forDPServiceId:sid]];
-	options.includeReports = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeIncludeReportsFlagDefaultsKey forDPServiceId:sid]];
-	options.includeAuxiliaryDir = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeIncludeAuxiliaryDirectoryFlagDefaultsKey forDPServiceId:sid]];
-	options.auxiliaryDirPath = [self stringForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeAuxiliaryDirectoryPathDefaultsKey forDPServiceId:sid]];
-	options.compression = (Compression)[self integerForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeCompressionDefaultsKey forDPServiceId:sid]];
-	options.compressJPEGNotJPEG2000 = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeCompressJPEGNotJPEG2000DefaultsKey forDPServiceId:sid]];
-	options.zip = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeZipFlagDefaultsKey forDPServiceId:sid]];
-	options.zipEncrypt = [self boolForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeZipEncryptFlagDefaultsKey forDPServiceId:sid]];
-	options.zipEncryptPassword = [self stringForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeZipEncryptPasswordDefaultsKey forDPServiceId:sid]];
+	options.anonymize = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceAnonymizeFlagDefaultsKey forDPServiceId:sid]];
+	options.anonymizationTags = [Anonymization tagsValuesArrayFromDictionary:[self dictionaryForKey:[NSUserDefaults transformKeyPath:DPServiceAnonymizationTagsDefaultsKey forDPServiceId:sid]]];
+	options.includeWeasis = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceIncludeWeasisFlagDefaultsKey forDPServiceId:sid]];
+	options.includeOsirixLite = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceIncludeOsirixLiteFlagDefaultsKey forDPServiceId:sid]];
+	options.includeHTMLQT = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceIncludeHTMLQTFlagDefaultsKey forDPServiceId:sid]];
+	options.includeReports = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceIncludeReportsFlagDefaultsKey forDPServiceId:sid]];
+	options.includeAuxiliaryDir = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceIncludeAuxiliaryDirectoryFlagDefaultsKey forDPServiceId:sid]];
+	options.auxiliaryDirPath = [self stringForKey:[NSUserDefaults transformKeyPath:DPServiceAuxiliaryDirectoryPathDefaultsKey forDPServiceId:sid]];
+	options.compression = (Compression)[self integerForKey:[NSUserDefaults transformKeyPath:DPServiceCompressionDefaultsKey forDPServiceId:sid]];
+	options.compressJPEGNotJPEG2000 = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceCompressJPEGNotJPEG2000DefaultsKey forDPServiceId:sid]];
+	options.zip = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceZipFlagDefaultsKey forDPServiceId:sid]];
+	options.zipEncrypt = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceZipEncryptFlagDefaultsKey forDPServiceId:sid]];
+	options.zipEncryptPassword = [self stringForKey:[NSUserDefaults transformKeyPath:DPServiceZipEncryptPasswordDefaultsKey forDPServiceId:sid]];
 	
-	options.discCoverTemplatePath = [self stringForKey:[NSUserDefaults transformKeyPath:DiscPublishingPatientModeDiscCoverTemplatePathDefaultsKey forDPServiceId:sid]];
+	options.discCoverTemplatePath = [self stringForKey:[NSUserDefaults transformKeyPath:DPServiceDiscCoverTemplatePathDefaultsKey forDPServiceId:sid]];
 	if (!options.discCoverTemplatePath) options.discCoverTemplatePath = [NSUserDefaults DPDefaultDiscCoverPath];
 	
 	return options;
