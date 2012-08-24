@@ -23,6 +23,8 @@
 
 +(DiscPublishing*)instance;
 
++(BOOL)testing;
+
 +(NSString*)baseDirPath;
 +(NSString*)discsDirPath;
 +(NSString*)discCoverTemplatesDirPath;

@@ -91,6 +91,10 @@ static DiscPublishing* discPublishingInstance = NULL;
 const static NSString* const RobotReadyTimerCallbackUserInfoWindowKey = @"Window";
 const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"StartDate";
 
++(BOOL)testing {
+    return [NSProcessInfo.processInfo.arguments containsObject:@"--TestDiscPublishing"];
+}
+
 -(void)initPlugin {
 	if (![AppController hasMacOSXSnowLeopard])
 		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
@@ -154,7 +158,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	}
     
 	NSPanel* w = nil;
-    if (!xml) {
+    if (!xml && ![DiscPublishing testing]) {
         w = [[NSPanel alertWithTitle:NSLocalizedString(@"Disc Publishing Error", NULL) message:NSLocalizedString(@"OsiriX was unable to communicate with the Disc Publishing robot. Please check that the robot is on and connected to the computer. This dialog will automatically disappear if the plugin finds a usable robot.", NULL) defaultButton:NSLocalizedString(@"Ignore", NULL) alternateButton:NULL icon:[[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"Icon" ofType:@"png"]] autorelease]] retain];
 		[w setLevel:NSModalPanelWindowLevel];
 		[[w defaultButtonCell] setAction:@selector(close)];

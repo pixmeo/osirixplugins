@@ -51,6 +51,9 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	
 	// merge our initial values with the existing ones
     NSMutableDictionary* iv = [[[defaults initialValues] mutableCopy] autorelease];
+    if (!iv)
+        iv = [NSMutableDictionary dictionary];
+    
     [iv addEntriesFromDictionary:[NSUserDefaults initialValuesForDP]];
     [iv addEntriesFromDictionary:[NSUserDefaults initialValuesForDPServiceWithId:nil]];
 	for (NSDictionary* d in [[NSUserDefaults standardUserDefaults] valueForKey:DPServicesListDefaultsKey])
@@ -104,27 +107,6 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	return options;
 }
 
-/*
--(DiscPublishingOptions*)discPublishingArchivingModeOptions {
-	DiscPublishingOptions* options = [[DiscPublishingOptions alloc] init];
-	
-	options.anonymize = NO;
-	options.includeOsirixLite = NO;
-	options.includeHTMLQT = NO;
-	options.includeReports = [self boolForKey:DiscPublishingArchivingModeIncludeReportsFlagDefaultsKey];
-	options.includeAuxiliaryDir = [self boolForKey:DiscPublishingArchivingModeIncludeAuxiliaryDirectoryFlagDefaultsKey];
-	options.auxiliaryDirPath = [self stringForKey:DiscPublishingArchivingModeAuxiliaryDirectoryPathDefaultsKey];
-	options.compression = (Compression)[self integerForKey:DiscPublishingArchivingModeCompressionDefaultsKey];
-	options.compressJPEGNotJPEG2000 = [self boolForKey:DiscPublishingArchivingModeCompressJPEGNotJPEG2000DefaultsKey];
-	options.zip = [self boolForKey:DiscPublishingArchivingModeZipFlagDefaultsKey];
-	options.zipEncrypt = [self boolForKey:DiscPublishingArchivingModeZipEncryptFlagDefaultsKey];
-	options.zipEncryptPassword = [self stringForKey:DiscPublishingArchivingModeZipEncryptPasswordDefaultsKey];
-	
-	options.discCoverTemplatePath = [self stringForKey:DiscPublishingArchivingModeDiscCoverTemplatePathDefaultsKey];
-	if (!options.discCoverTemplatePath) options.discCoverTemplatePath = [NSUserDefaults DPDefaultDiscCoverPath];
-
-	return [options autorelease];
-}*/
 
 +(BOOL)discPublishingIsValidPassword:(NSString*)value {
 	return value.length >= 8;	
@@ -148,7 +130,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 		NSString* xml = [DiscPublishing.instance.tool getStatusXML];
 		doc = [[NSXMLDocument alloc] initWithXMLString:xml options:NSXMLNodePreserveWhitespace|NSXMLNodePreserveCDATA error:NULL];
 	} @catch (...) {
-		if ([NSProcessInfo.processInfo.arguments containsObject:@"--TestDiscPublishing"]) // for testing purposes
+		if ([DiscPublishing testing])
             return [NSDictionary dictionaryWithObjectsAndKeys: [NSNumber numberWithFloat:700*1000000], [NSNumber numberWithUnsignedInt:0], [NSNumber numberWithFloat:4.7*1000000000], [NSNumber numberWithUnsignedInt:1], nil];
         [NSException raise:NSGenericException format:@"%@", NSLocalizedString(@"Unable to communicate with robot.", NULL)];
 	}

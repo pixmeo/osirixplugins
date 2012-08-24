@@ -271,7 +271,7 @@
 }
 
 -(IBAction)manageServices:(id)sender {
-    [NSApp beginSheet:servicesWindow modalForWindow:servicesPopUpButton.window modalDelegate:nil didEndSelector:@selector(servicesSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [NSApp beginSheet:servicesWindow modalForWindow:servicesPopUpButton.window modalDelegate:self didEndSelector:@selector(servicesSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
     [servicesWindow makeKeyAndOrderFront:self];
 }
 
@@ -284,7 +284,7 @@
         [self menuWillOpen:servicesPopUpButton.menu];
         
         NSInteger i = 0;
-        for (NSInteger j = 0; j < servicesPopUpButton.numberOfItems; ++i) {
+        for (NSInteger j = 0; j < servicesPopUpButton.numberOfItems; ++j) {
             NSMenuItem* mi = [servicesPopUpButton itemAtIndex:j];
             if ([[mi representedObject] isEqualToString:ssid]) {
                 i = j; break;
