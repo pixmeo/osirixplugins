@@ -25,7 +25,15 @@
 
 -(NSArray*)templates {
     return [_templates sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 name] compare:[obj2 name] options:NSNumericSearch|NSLiteralSearch];
+        NSString* n1 = [(ArthroplastyTemplate*)obj1 size];
+        NSString* n2 = [(ArthroplastyTemplate*)obj2 size];
+        unichar c10 = [n1 characterAtIndex:0];
+        if (c10 >= '0' && c10 <= '9' && [n1 floatValue] == [n2 floatValue]) {
+            if (n1.length > n2.length)
+                return NSOrderedAscending;
+            return NSOrderedDescending;
+        }
+        return [n1 compare:n2 options:NSNumericSearch|NSLiteralSearch];
     }];
 }
 
