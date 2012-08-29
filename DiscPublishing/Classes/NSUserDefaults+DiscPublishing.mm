@@ -26,6 +26,7 @@ NSString* const DPServicesListDefaultsKey = @"DiscPublishingServicesList";
 NSString* const DPBurnModeDefaultsKey = @"DiscPublishingBurnMode"; // kind of unused....
 
 NSString* const DPServiceDefaultsKeyPrefix = @"DiscPublishingPatientMode";
+
 NSString* const DPServiceActiveFlagDefaultsKey = @"DiscPublishingPatientModeActiveFlag";
 NSString* const DPServiceMatchedAETsDefaultsKey = @"DiscPublishingPatientModeMatchedAETs";
 NSString* const DPServiceBurnDelayDefaultsKey = @"DiscPublishingPatientModeBurnDelay";

@@ -139,7 +139,7 @@
 -(void)_timerRefresh:(NSTimer*)timer {
     if (_lastAdditionDate) {
         CGFloat s = floorf(-[_lastAdditionDate timeIntervalSinceNow]);
-        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, @"image", @"images"), [[self class] timeString:s]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
+        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil)), [[self class] timeString:s]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
     }
 }
 

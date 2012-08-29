@@ -20,9 +20,12 @@ extern NSString* const DPServicesListDefaultsKey;
 extern NSString* const DPBurnModeDefaultsKey; // kind of unused....
 
 extern NSString* const DPServiceDefaultsKeyPrefix;
+
 extern NSString* const DPServiceActiveFlagDefaultsKey;
 extern NSString* const DPServiceMatchedAETsDefaultsKey;
 extern NSString* const DPServiceBurnDelayDefaultsKey;
+extern NSString* const DPServiceDeletePublishedDefaultsKey;
+
 extern NSString* const DPServiceDiscCoverTemplatePathDefaultsKey;
 extern NSString* const DPServiceAnonymizeFlagDefaultsKey;
 extern NSString* const DPServiceAnonymizationTagsDefaultsKey;
@@ -37,12 +40,13 @@ extern NSString* const DPServiceCompressJPEGNotJPEG2000DefaultsKey;
 extern NSString* const DPServiceZipFlagDefaultsKey;
 extern NSString* const DPServiceZipEncryptFlagDefaultsKey;
 extern NSString* const DPServiceZipEncryptPasswordDefaultsKey;
+
 extern NSString* const DPServiceFSMatchFlagDefaultsKey;
 extern NSString* const DPServiceFSMatchMountPathDefaultsKey;
 extern NSString* const DPServiceFSMatchTokensDefaultsKey;
 extern NSString* const DPServiceFSMatchConditionDefaultsKey;
 extern NSString* const DPServiceFSMatchDeleteDefaultsKey;
-extern NSString* const DPServiceDeletePublishedDefaultsKey;
+extern NSString* const DPServiceFSMatchDelayDefaultsKey;
 
 /*
 extern NSString* const DPArchivingModeDiscCoverTemplatePathDefaultsKey;

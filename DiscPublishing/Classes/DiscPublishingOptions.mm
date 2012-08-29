@@ -11,8 +11,15 @@
 
 @implementation DiscPublishingOptions
 
-static NSString* const DiscPublishingOptionsBurnModeArchivingKey = @"burnMode";
-static NSString* const DiscPublishingOptionsDiscCoverTemplatePathArchivingKey = @"discCoverTemplatePath";
+static NSString* const DPOptionsBurnModeArchivingKey = @"burnMode";
+static NSString* const DPOptionsDiscCoverTemplatePathArchivingKey = @"discCoverTemplatePath";
+static NSString* const DPOptionsFSMatchFlagArchivingKey = @"fsMatchFlag";
+static NSString* const DPOptionsFSMatchMountPathArchivingKey = @"fsMatchMountPath";
+static NSString* const DPOptionsFSMatchTokensArchivingKey = @"fsMatchTokens";
+static NSString* const DPOptionsFSMatchConditionArchivingKey = @"fsMatchCondition";
+static NSString* const DPOptionsFSMatchDeleteArchivingKey = @"fsMatchDelete";
+static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
+
 
 @synthesize mode;
 @synthesize discCoverTemplatePath;
@@ -33,14 +40,31 @@ static NSString* const DiscPublishingOptionsDiscCoverTemplatePathArchivingKey = 
 
 -(void)encodeWithCoder:(NSCoder*)encoder {
 	[super encodeWithCoder:encoder];
-	[encoder encodeObject:[NSNumber numberWithInteger:self.mode] forKey:DiscPublishingOptionsBurnModeArchivingKey];
-	[encoder encodeObject:self.discCoverTemplatePath forKey:DiscPublishingOptionsDiscCoverTemplatePathArchivingKey];
+    
+	[encoder encodeObject:[NSNumber numberWithInteger:self.mode] forKey:DPOptionsBurnModeArchivingKey];
+	[encoder encodeObject:self.discCoverTemplatePath forKey:DPOptionsDiscCoverTemplatePathArchivingKey];
+    
+	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchFlag] forKey:DPOptionsFSMatchFlagArchivingKey];
+	[encoder encodeObject:self.fsMatchShareUrl forKey:DPOptionsFSMatchMountPathArchivingKey];
+	[encoder encodeObject:self.fsMatchTokens forKey:DPOptionsFSMatchTokensArchivingKey];
+	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchCondition] forKey:DPOptionsFSMatchConditionArchivingKey];
+	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchDelete] forKey:DPOptionsFSMatchDeleteArchivingKey];
+	[encoder encodeObject:[NSNumber numberWithInteger:self.fsMatchDelay] forKey:DPOptionsFSMatchDelayArchivingKey];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder {
 	self = [super initWithCoder:decoder];
-	self.mode = [[decoder decodeObjectForKey:DiscPublishingOptionsBurnModeArchivingKey] integerValue];
-	self.discCoverTemplatePath = [decoder decodeObjectForKey:DiscPublishingOptionsDiscCoverTemplatePathArchivingKey];
+    
+	self.mode = [[decoder decodeObjectForKey:DPOptionsBurnModeArchivingKey] integerValue];
+	self.discCoverTemplatePath = [decoder decodeObjectForKey:DPOptionsDiscCoverTemplatePathArchivingKey];
+    
+    self.fsMatchFlag = [[decoder decodeObjectForKey:DPOptionsFSMatchFlagArchivingKey] boolValue];
+    self.fsMatchShareUrl = [decoder decodeObjectForKey:DPOptionsFSMatchMountPathArchivingKey];
+    self.fsMatchTokens = [decoder decodeObjectForKey:DPOptionsFSMatchTokensArchivingKey];
+    self.fsMatchCondition = [[decoder decodeObjectForKey:DPOptionsFSMatchConditionArchivingKey] boolValue];
+    self.fsMatchDelete = [[decoder decodeObjectForKey:DPOptionsFSMatchDeleteArchivingKey] boolValue];
+    self.fsMatchDelay = [[decoder decodeObjectForKey:DPOptionsFSMatchDelayArchivingKey] integerValue];
+    
 	return self;
 }
 

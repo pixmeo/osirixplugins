@@ -220,10 +220,10 @@
 }
 
 - (NSArray*)tokenField:(NSTokenField*)tokenField completionsForSubstring:(NSString*)Substring indexOfToken:(NSInteger)tokenIndex indexOfSelectedItem:(NSInteger*)selectedIndex {
-    if ([Substring isEqualToString:@"*"]) {
+   /* if ([Substring isEqualToString:@"*"]) {
         *selectedIndex = 0;
         return [NSArray arrayWithObject:@"*"];
-    }
+    }*/
     
     DCMTagDictionary* dcmtd = [DCMTagDictionary sharedTagDictionary];
     NSString* substring = [Substring lowercaseString];
@@ -368,14 +368,14 @@
     [self didChangeValueForKey:@"selectedServiceId"];
 }
 
-+ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
+/*+ (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
     NSSet* keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
     
     if ([key hasPrefix:@"Service"])
         return [keyPaths setByAddingObject:@"selectedServiceId"];
     
     return keyPaths;
-}
+}*/
 
 -(void)updateBindings {
     NSString* ssid = self.selectedServiceId;
