@@ -96,7 +96,7 @@
                 [NSThread sleepForTimeInterval:0.001];
                 
                 NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Zombies found: %@ of %@", nil), N2LocalizedDecimal(zombiesCount), N2LocalizedSingularPluralCount(filesCount, @"file", @"files")];
+                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Zombies found: %@ of %@", nil), N2LocalizedDecimal(zombiesCount), N2LocalizedSingularPluralCount(filesCount, NSLocalizedString(@"file", nil), NSLocalizedString(@"files", nil))];
                 @try {
                     NSString* path = [base stringByAppendingPathComponent:sub]; 
                     BOOL isDir;

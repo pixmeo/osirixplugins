@@ -77,7 +77,7 @@
         [caption appendString:NSLocalizedString(@"Key image: ", @"prefix of report image caption for key images")];
     [caption appendFormat:NSLocalizedString(@"Frame %@ of series %@", @"caption"), image.instanceNumber, image.series.name];
     if (rois.count)
-        [caption appendFormat:NSLocalizedString(@", containing %@", @"suffix of report image caption for ROIs count"), N2LocalizedSingularPluralCount(rois.count, @"ROI", @"ROIs")];
+        [caption appendFormat:NSLocalizedString(@", containing %@", @"suffix of report image caption for ROIs count"), N2LocalizedSingularPluralCount(rois.count, NSLocalizedString(@"ROI", nil), NSLocalizedString(@"ROIs", nil))];
     return caption;
 }
 
