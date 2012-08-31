@@ -103,6 +103,14 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	
 	options.discCoverTemplatePath = [self stringForKey:[NSUserDefaults transformKeyPath:DPServiceDiscCoverTemplatePathDefaultsKey forDPServiceId:sid]];
 	if (!options.discCoverTemplatePath) options.discCoverTemplatePath = [NSUserDefaults DPDefaultDiscCoverPath];
+	options.deleteOnCompletition = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceDeletePublishedDefaultsKey forDPServiceId:sid]];
+    
+    options.fsMatchFlag = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchFlagDefaultsKey forDPServiceId:sid]];
+    options.fsMatchShareUrl = [self stringForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchMountPathDefaultsKey forDPServiceId:sid]];
+    options.fsMatchTokens = [self arrayForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchTokensDefaultsKey forDPServiceId:sid]];
+    options.fsMatchCondition = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchConditionDefaultsKey forDPServiceId:sid]];
+    options.fsMatchDelete = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchDeleteDefaultsKey forDPServiceId:sid]];
+    options.fsMatchDelay = [self integerForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchDelayDefaultsKey forDPServiceId:sid]];
 	
 	return options;
 }

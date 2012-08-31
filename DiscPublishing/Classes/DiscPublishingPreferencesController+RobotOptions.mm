@@ -25,7 +25,6 @@
 	[robotOptionsTimer fire];
 }
 
-// In fact, if the users want the same media in the 2 bins, just let them
 -(void)enableDisableMediaTypes {
 	NSLog(@"enableDisableMediaTypes with %@ %@", [[[robotOptionsBins objectAtIndex:0] discTypePopup] titleOfSelectedItem], [[[robotOptionsBins objectAtIndex:1] discTypePopup] titleOfSelectedItem]);
 	for (DiscPublishingPreferencesBinViewController* bin in robotOptionsBins)

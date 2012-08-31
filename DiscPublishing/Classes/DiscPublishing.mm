@@ -17,6 +17,7 @@
 #import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/DicomAlbum.h>
 #import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/DicomDatabase.h>
 #import "DiscPublishingPatientDisc.h"
@@ -24,6 +25,7 @@
 #import "DiscPublishingOptions.h"
 #import <OsiriXAPI/NSAppleEventDescriptor+N2.h>
 #import <PTRobot/PTRobot.h>
+#import <JobManager/PTJobManager.h>
 #import <OsiriXAPI/NSPanel+N2.h>
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/AppController.h>
@@ -96,8 +98,8 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 }
 
 -(void)initPlugin {
-	if (![AppController hasMacOSXSnowLeopard])
-		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.6. Please upgrade your system."];
+	if (![AppController hasMacOSXLion])
+		[NSException raise:NSGenericException format:@"The DiscPublishing Plugin requires Mac OS 10.7. Please upgrade your system."];
     
     // swizzle the -[AppController displayListenerError:] method to growl instead of showing modal dialogs
     Class AppControllerClass = NSClassFromString(@"AppController");
@@ -107,7 +109,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_AppControllerDisplayListenerError:)));
     
     // register DP3 app
-    NSString* dp3path = [[[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"DiscPublishingTool.app"] stringByAppendingPathComponent:@"Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 3 PE.app"];
+    NSString* dp3path = [[[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"DiscPublishingTool.app"] stringByAppendingPathComponent:@"Contents/MacOS/Disc Cover 3 PE.app"]; // was DiscPublishingTool.app/Contents/Frameworks/PTRobot.framework/Resources/Disc Cover 3 PE.app
     FSRef dp3ref;
     FSPathMakeRef((uint8*)dp3path.fileSystemRepresentation, &dp3ref, NULL);
     LSRegisterFSRef(&dp3ref, true);
@@ -118,7 +120,6 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
     // ...
     
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeOsirixWillTerminate:) name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
-    
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(observeXMLRPCMessageNotification:) name:OsirixXMLRPCMessageNotification object:nil];
     
 	discPublishingInstance = self;
@@ -226,8 +227,11 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
     [_robotReadyThreadLock release];
 	[_robotReadyTimer invalidate]; _robotReadyTimer = NULL;
 	[[_filesManager invalidate] release];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:[NSApplication sharedApplication]];
-	[super dealloc];
+    
+	[NSNotificationCenter.defaultCenter removeObserver:self];
+    [NSDistributedNotificationCenter.defaultCenter removeObserver:self];
+	
+    [super dealloc];
 }
 
 -(void)imagesIn:(id)obj into:(NSMutableArray*)files {
@@ -357,8 +361,8 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 		[self.tool setBinSelectionEnabled:NO leftBinType:0 rightBinType:0 defaultBin:LOCATION_REJECT];
 	} else
 	if (bins.count == 2) {
-		NSUserDefaultsController* defaultsC = [NSUserDefaultsController sharedUserDefaultsController];
-		[self.tool setBinSelectionEnabled:YES leftBinType:[defaultsC discPublishingMediaTypeTagForBin:1] rightBinType:[defaultsC discPublishingMediaTypeTagForBin:0] defaultBin:LOCATION_REJECT];
+        NSUserDefaultsController* defaultsC = [NSUserDefaultsController sharedUserDefaultsController];
+        [self.tool setBinSelectionEnabled:YES leftBinType:[defaultsC discPublishingMediaTypeTagForBin:1] rightBinType:[defaultsC discPublishingMediaTypeTagForBin:0] defaultBin:LOCATION_REJECT];
 	} else {
 		NSLog(@"Warning: we didn't expect having to handle more than 2 bins...");
 	}

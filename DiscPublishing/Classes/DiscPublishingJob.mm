@@ -21,7 +21,7 @@
 +(void)renderDiscCover:(NSString*)dcoverPath merge:(NSString*)mergePath into:(NSString*)outputJpgPath {
 	// make sure the system knows where to find Disc Cover 3 PE.app, (com.belightsoft.DiscCover3.pe)
 	/*
-    NSString* myPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/Disc Cover 3 PE.app"];
+    NSString* myPath = [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"Disc Cover 3 PE.app"];
     
     NSString* knownBundlePath = nil;
     @try {
@@ -69,7 +69,7 @@
 }
 
 /*+(void)renderDiscCover:(NSString*)dcoverPath merge:(NSString*)mergePath into:(NSString*)outputJpgPath {
-    NSString* appPath = [[[NSBundle bundleForClass:[self class]] privateFrameworksPath] stringByAppendingPathComponent:@"PTRobot.framework/Resources/Disc Cover 3 PE.app"];
+    NSString* appPath = [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"Disc Cover 3 PE.app"];
     
     [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", appPath, @"--args", @"--no-assistant", nil]];
     NSMutableString* source = [NSMutableString string];
@@ -96,11 +96,11 @@
 	[self.info writeToFile:[self.root stringByAppendingPathExtension:@"plist"] atomically:YES];
 	
 //	DiscPublishingOptions* options = [self.info objectForKey:DiscPublishingJobInfoOptionsKey];
-	NSString* templatePath = [self.info objectForKey:DiscPublishingJobInfoTemplatePathKey];
+	NSString* templatePath = [self.info objectForKey:DPJobInfoTemplatePathKey];
 
-	self.discType = [[self.info objectForKey:DiscPublishingJobInfoMediaTypeKey] unsignedIntValue];
-	self.volumeName = [self.info objectForKey:DiscPublishingJobInfoDiscNameKey];
-	self.writeSpeed = [[self.info objectForKey:DiscPublishingJobInfoBurnSpeedKey] intValue]*10;
+	self.discType = [[self.info objectForKey:DPJobInfoMediaTypeKey] unsignedIntValue];
+	self.volumeName = [self.info objectForKey:DPJobInfoDiscNameKey];
+	self.writeSpeed = [[self.info objectForKey:DPJobInfoBurnSpeedKey] intValue]*10;
 	
 //	NSLog(@"starting %@ (%@)", [NSString stringWithContentsOfFile:[[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DiscPublishingMode.switch"] encoding:NSUTF8StringEncoding error:NULL], [[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DiscPublishingMode.switch"]);
 	if ([@"TEST" isEqual:[NSString stringWithContentsOfFile:[[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"DiscPublishingMode.switch"] encoding:NSUTF8StringEncoding error:NULL]])
@@ -115,9 +115,9 @@
 	
 	// the merging of the template and csv is buggy in the framework, we do this ourselves
 	NSString* csvFile = [self.root stringByAppendingPathExtension:@"csv"];
-    NSArray* mergeValues = [self.info objectForKey:DiscPublishingJobInfoMergeValuesKey];
+    NSArray* mergeValues = [self.info objectForKey:DPJobInfoMergeValuesKey];
 //    NSLog(@"Merge values: %@", mergeValues);
-    NSString* mergeString = [N2CSV stringFromArray:[self.info objectForKey:DiscPublishingJobInfoMergeValuesKey]];
+    NSString* mergeString = [N2CSV stringFromArray:[self.info objectForKey:DPJobInfoMergeValuesKey]];
 //    NSLog(@"Merge string: %@", mergeString);
 	[mergeString writeToFile:csvFile atomically:YES encoding:NSUTF8StringEncoding error:NULL];
 	self.printFile = [self.root stringByAppendingPathExtension:@"jpg"];

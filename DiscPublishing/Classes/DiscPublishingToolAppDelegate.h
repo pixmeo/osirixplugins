@@ -21,8 +21,7 @@
 	NSThread* _statusThread;
 	NSString* _lastErr;
     NSInteger _lastNumberOfWindows;
-    JM_BinSelection _binSelection;
-    BOOL _hasBinSelection;
+    NSMutableDictionary* _prevValues;
     NSConnection* _connection;
 }
 

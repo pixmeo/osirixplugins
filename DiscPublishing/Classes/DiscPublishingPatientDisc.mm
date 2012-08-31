@@ -42,6 +42,21 @@ static NSString* PreventNullString(NSString* s) {
 	return s? s : @"";
 }
 
+@interface DPPhantomDicomDatabase : DicomDatabase
+@end
+@implementation DPPhantomDicomDatabase : DicomDatabase
+
+-(void)dealloc {
+    if (self.isMainDatabase) {
+        NSString* path = self.baseDirPath;
+        if ([path.lastPathComponent isEqualToString:OsirixDataDirName])
+            path = [path stringByDeletingLastPathComponent];
+        [NSFileManager.defaultManager removeItemAtPath:path error:NULL];
+    }
+    [super dealloc];
+}
+
+@end
 
 @implementation DiscPublishingPatientDisc
 
@@ -64,7 +79,7 @@ static NSString* PreventNullString(NSString* s) {
             [_images addObject:iimage];
     }
 
-	_tmpPath = [[[NSFileManager defaultManager] tmpFilePathInDir:@"/tmp"] retain];
+	_tmpPath = [[NSFileManager.defaultManager tmpFilePathInTmp] retain];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:_tmpPath];
 	
 	return self;
@@ -200,7 +215,7 @@ static NSString* PreventNullString(NSString* s) {
 			[studies addObject:image.series.study];
 	}
 	
-    DicomDatabase* database = [DicomDatabase databaseAtPath:[[NSFileManager defaultManager] tmpFilePathInTmp]];
+    DicomDatabase* database = [DPPhantomDicomDatabase databaseAtPath:[NSFileManager.defaultManager tmpFilePathInTmp]];
 
 /*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
 	NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
@@ -231,25 +246,28 @@ static NSString* PreventNullString(NSString* s) {
             if (!url)
                 [NSException raise:NSGenericException format:@"Can't match data: invalid URL: %@", _options.fsMatchShareUrl];
             
-            NSString* mountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
-            [NSFileManager.defaultManager createDirectoryAtPath:mountPath withIntermediateDirectories:YES attributes:nil error:nil];
-            
             FSVolumeRefNum volumeRefNum = -1;
-            OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:mountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
+            OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:shareMountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
             if (err != noErr)
                 [NSException raise:NSGenericException format:@"Can't match data: FSMountServerVolumeSync error %d, URL was %@", (int)err, url];
+            
+            NSString* inShareMountPath = shareMountPath;
+            NSArray* pathComponents = [url pathComponents];
+            pathComponents = [pathComponents subarrayWithRange:NSMakeRange(2, pathComponents.count-2)];
+            if (pathComponents.count)
+                inShareMountPath = [shareMountPath stringByAppendingPathComponent:[pathComponents componentsJoinedByString:@"/"]];
             
             // mounted, now look for the data
             self.status = NSLocalizedString(@"Matching share data...", nil);
             
             for (DicomStudy* study in studies) {
-                NSString* studyMatchesDirPath = [matchesDirPath stringByAppendingPathComponent:[NSFileManager.defaultManager tmpFilePathInDir:matchesDirPath]];
+                NSString* studyMatchesDirPath = [NSFileManager.defaultManager tmpFilePathInDir:matchesDirPath];
 
                 DicomImage* image = [[study images] anyObject];
                 DCMObject* obj = [[[DCMObject alloc] initWithContentsOfFile:[image completePath] decodingPixelData:NO] autorelease];
                 
                 NSMutableArray* tokens = [[[_options fsMatchTokens] mutableCopy] autorelease];
-                for (NSInteger i = 0; i < tokens.count; ++i) {
+                for (NSInteger i = 0; i < (int)tokens.count; ++i) {
                     NSString* token = [tokens objectAtIndex:i];
                     DCMAttributeTag* tag = [DCMAttributeTag tagWithName:token];
                     if (!tag)
@@ -261,14 +279,23 @@ static NSString* PreventNullString(NSString* s) {
                     if (!attr)
                         [NSException raise:NSGenericException format:@"No value for token %@", token];
                     
-                    [tokens replaceObjectAtIndex:i withObject:[attr valuesAsString]];
+                    id value = [attr value];
+                    if ([value respondsToSelector:@selector(stringValue)])
+                        value = [value stringValue];
+                    if (![value isKindOfClass:[NSString class]])
+                        [NSException raise:NSGenericException format:@"Invalid token value class %@", [value className]];
+                    
+                    [tokens replaceObjectAtIndex:i withObject:value];
                 }
                 
                 NSString* match = [tokens componentsJoinedByString:@""];
 
                 BOOL studyOk = NO;
-                while (!studyOk) {
-                    NSArray* contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:shareMountPath error:NULL];
+                while (!studyOk && !self.isCancelled) {
+                    NSArray* contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:inShareMountPath error:NULL];
+                    
+                    if (!contents)
+                        [NSException raise:NSGenericException format:@"Share mount problem, maybe the share is already mounted?"];
                     
                     @try {
                         for (NSString* content in contents)
@@ -277,9 +304,9 @@ static NSString* PreventNullString(NSString* s) {
                                 // destination folder...
                                 [NSFileManager.defaultManager confirmDirectoryAtPath:studyMatchesDirPath];
                                 // copy
-                                [NSFileManager.defaultManager copyItemAtPath:[shareMountPath stringByAppendingPathComponent:content] toPath:[studyMatchesDirPath stringByAppendingPathComponent:content] error:NULL];
+                                [NSFileManager.defaultManager copyItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] toPath:[studyMatchesDirPath stringByAppendingPathComponent:content] error:NULL];
                                 if (_options.fsMatchDelete)
-                                    [NSFileManager.defaultManager removeItemAtPath:[shareMountPath stringByAppendingPathComponent:content] error:NULL];
+                                    [NSFileManager.defaultManager removeItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] error:NULL];
                             }
                         
                         // if found at least a document/folder, done with this study
@@ -296,7 +323,7 @@ static NSString* PreventNullString(NSString* s) {
                         break;
                     }
                     
-                    if (!studyOk)
+                    if (!studyOk && !self.isCancelled)
                         [NSThread sleepForTimeInterval:1];
                 }
                 
@@ -305,9 +332,14 @@ static NSString* PreventNullString(NSString* s) {
                 
                 if ([NSFileManager.defaultManager fileExistsAtPath:studyMatchesDirPath])
                     [matchedDataPerStudy setObject:studyMatchesDirPath forKey:[NSValue valueWithPointer:study]];
+                
+                if (self.isCancelled)
+                    break;
             }
             
             // done, unmount
+            
+            self.status = NSLocalizedString(@"Unmounting match share...", nil);
             
             pid_t dissenter;
             FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
@@ -320,7 +352,7 @@ static NSString* PreventNullString(NSString* s) {
         }
         
         if (!ok) { // match failure!
-            self.status = NSLocalizedString(@"Error: no match found, canceled!", nil);
+            self.status = NSLocalizedString(@"Error: no match found, aborting...", nil);
             NSLog(@"Error: no match found, publishment aborted");
             NSDate* date = [NSDate date];
             while (!self.isCancelled && -[date timeIntervalSinceNow] < 60)
@@ -438,8 +470,10 @@ static NSString* PreventNullString(NSString* s) {
                 if (_options.fsMatchFlag) {
                     for (NSString* matchDir in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchesDirPath error:NULL]) {
                         NSString* matchDirPath = [matchesDirPath stringByAppendingPathComponent:matchDir];
-                        for (NSString* matchItem in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchDirPath error:NULL])
+                        for (NSString* matchItem in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchDirPath error:NULL]) {
                             [NSFileManager.defaultManager copyItemAtPath:[matchDirPath stringByAppendingPathComponent:matchItem] toPath:[discBaseDirPath stringByAppendingPathComponent:matchItem] error:NULL];
+                            [privateFiles addObject:matchItem];
+                        }
                     }
                 }
                 
@@ -679,11 +713,12 @@ static NSString* PreventNullString(NSString* s) {
                     return;
                 
                 NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      safeDiscName, DiscPublishingJobInfoDiscNameKey,
+                                      safeDiscName, DPJobInfoDiscNameKey,
+                                      [NSNumber numberWithBool:_options.deleteOnCompletition], DPJobInfoDeleteWhenCompletedKey,
                   //				  _options, DiscPublishingJobInfoOptionsKey,
-                                      _options.discCoverTemplatePath, DiscPublishingJobInfoTemplatePathKey,
-                                      pickedMediaKey, DiscPublishingJobInfoMediaTypeKey,
-                                      [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DPBurnSpeedDefaultsKey], DiscPublishingJobInfoBurnSpeedKey,
+                                      _options.discCoverTemplatePath, DPJobInfoTemplatePathKey,
+                                      pickedMediaKey, DPJobInfoMediaTypeKey,
+                                      [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DPBurnSpeedDefaultsKey], DPJobInfoBurnSpeedKey,
                                       [NSArray arrayWithObjects:
                                         /* 1 */	PreventNullString(discName),
                                         /* 2 */ PreventNullString([dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth]),
@@ -691,7 +726,8 @@ static NSString* PreventNullString(NSString* s) {
                                         /* 4 */	PreventNullString(modalities),
                                         /* 5 */ PreventNullString(studyDates),
                                         /* 6 */	PreventNullString([dateFormatter stringFromDate:[NSDate date]]),
-                                       NULL], DiscPublishingJobInfoMergeValuesKey,
+                                       NULL], DPJobInfoMergeValuesKey,
+                                      [_images valueForKeyPath:@"objectID.URIRepresentation.absoluteString"], DPJobInfoObjectIDsKey,
                                       NULL];
                 [[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
             } @catch (NSException* e) {
@@ -733,7 +769,7 @@ static NSString* PreventNullString(NSString* s) {
 	NSString* baseStatus = currentThread.status;
 //	CGFloat baseProgress = currentThread.progress;
 	
-	NSString* dirPath = [[NSFileManager defaultManager] tmpFilePathInDir:basePath];
+	NSString* dirPath = [NSFileManager.defaultManager tmpFilePathInDir:basePath];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:dirPath];
 	
 	DLog(@"dirPath is %@", dirPath);

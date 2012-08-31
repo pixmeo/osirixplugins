@@ -8,15 +8,18 @@
 
 #import "DiscPublishingTool.h"
 
-NSString* const DiscPublishingJobInfoDiscNameKey = @"DiscName";
-NSString* const DiscPublishingJobInfoTemplatePathKey = @"TemplatePath";
-NSString* const DiscPublishingJobInfoMergeValuesKey = @"MergeValues";
-NSString* const DiscPublishingJobInfoMediaTypeKey = @"MediaType";
-NSString* const DiscPublishingJobInfoBurnSpeedKey = @"BurnSpeed";
+NSString* const DPJobInfoDiscNameKey = @"DiscName";
+NSString* const DPJobInfoTemplatePathKey = @"TemplatePath";
+NSString* const DPJobInfoMergeValuesKey = @"MergeValues";
+NSString* const DPJobInfoMediaTypeKey = @"MediaType";
+NSString* const DPJobInfoBurnSpeedKey = @"BurnSpeed";
+NSString* const DPJobInfoObjectIDsKey = @"ObjectIDs";
+NSString* const DPJobInfoDeleteWhenCompletedKey = @"DeleteCompleted";
 
-NSString* const DiscPublishingToolWillFinishLaunchingNotification = @"DiscPublishingToolWillFinishLaunchingNotification";
-NSString* const DiscPublishingToolWillTerminateNotification = @"DiscPublishingToolWillTerminateNotification";
-NSString* const DiscPublishingToolThreadInfoChangeNotification = @"DiscPublishingToolThreadInfoChangeNotification";
-NSString* const DiscPublishingToolThreadChangedInfoKey = @"DiscPublishingToolThreadChangedInfoKey";
+NSString* const DPTWillFinishLaunchingNotification = @"DPTWillFinishLaunchingNotification";
+NSString* const DPTWillTerminateNotification = @"DPTWillTerminateNotification";
+NSString* const DPTThreadInfoChangeNotification = @"DPTThreadInfoChangeNotification";
+NSString* const DPTThreadChangedInfoKey = @"DPTThreadChangedInfoKey";
+NSString* const DPTJobCompletedNotification = @"DPTJobCompletedNotification";
 
 NSString* const DiscPublishingToolProxyName = @"DiscPublishingTool";

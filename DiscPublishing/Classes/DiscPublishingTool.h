@@ -8,16 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString* const DiscPublishingJobInfoDiscNameKey;
-extern NSString* const DiscPublishingJobInfoTemplatePathKey;
-extern NSString* const DiscPublishingJobInfoMergeValuesKey;
-extern NSString* const DiscPublishingJobInfoMediaTypeKey;
-extern NSString* const DiscPublishingJobInfoBurnSpeedKey;
+extern NSString* const DPJobInfoDiscNameKey;
+extern NSString* const DPJobInfoTemplatePathKey;
+extern NSString* const DPJobInfoMergeValuesKey;
+extern NSString* const DPJobInfoMediaTypeKey;
+extern NSString* const DPJobInfoBurnSpeedKey;
+extern NSString* const DPJobInfoObjectIDsKey;
+extern NSString* const DPJobInfoDeleteWhenCompletedKey;
 
-extern NSString* const DiscPublishingToolWillFinishLaunchingNotification;
-extern NSString* const DiscPublishingToolWillTerminateNotification;
-extern NSString* const DiscPublishingToolThreadInfoChangeNotification;
-extern NSString* const DiscPublishingToolThreadChangedInfoKey;
+extern NSString* const DPTWillFinishLaunchingNotification;
+extern NSString* const DPTWillTerminateNotification;
+extern NSString* const DPTThreadInfoChangeNotification;
+extern NSString* const DPTThreadChangedInfoKey;
+extern NSString* const DPTJobCompletedNotification;
 
 extern NSString* const DiscPublishingToolProxyName;
 

@@ -1,9 +1,12 @@
 1.3.0
-- OS X 10.7 and OsiriX 5.0 required
+- Mac OS X 10.7 and OsiriX 5.0 required
 - Allows different behaviors depending on the called AET
+- Almost/empty input bins and ink cartridge warnings
+- Better temporary data cleanup
 - Option: include files by matching DICOM meta values against file ordirectory names in a mounted share
 - Option: delete DICOM files after publishing them
-- Support for same media in both bins
+- Upgraded Primera frameworks to versions from PTPublisher 2.5, make sure you update your printer drivers: http://www.primera.com/downloads/support/MacMountainLion.html
+  --> http://www.primera.com/downloads/support/PTPMac/PTPublisherMac2_0.txt
 
 1.2.3 - This is the last version that supports OS X 10.6
 - Fixes a double release bug
@@ -33,7 +36,7 @@
 - Fixed disc cover merge text encoding bug
 - No longer relying on dcmmkdir for DICOMDIR generation, depending on the version of OsiriX
 
-1.1
+1.1.0
 - Upgrade to Primera SDK 2.2, which includes support for DP 4100 Series
 - DICOMDIR is now generated in a cleaner way: a lot of warnings will no longer be output from dcmmkdir
 

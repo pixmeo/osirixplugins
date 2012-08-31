@@ -13,6 +13,7 @@
 
 static NSString* const DPOptionsBurnModeArchivingKey = @"burnMode";
 static NSString* const DPOptionsDiscCoverTemplatePathArchivingKey = @"discCoverTemplatePath";
+static NSString* const DPOptionsDeleteOnCompletitionArchivingKey = @"deleteOnCompletition";
 static NSString* const DPOptionsFSMatchFlagArchivingKey = @"fsMatchFlag";
 static NSString* const DPOptionsFSMatchMountPathArchivingKey = @"fsMatchMountPath";
 static NSString* const DPOptionsFSMatchTokensArchivingKey = @"fsMatchTokens";
@@ -23,6 +24,15 @@ static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
 
 @synthesize mode;
 @synthesize discCoverTemplatePath;
+@synthesize deleteOnCompletition;
+
+@synthesize fsMatchFlag;
+@synthesize fsMatchShareUrl;
+@synthesize fsMatchTokens;
+@synthesize fsMatchCondition;
+@synthesize fsMatchDelete;
+@synthesize fsMatchDelay;
+
 
 -(id)copyWithZone:(NSZone*)zone {
 	DiscPublishingOptions* copy = [super copyWithZone:zone];
@@ -43,6 +53,7 @@ static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
     
 	[encoder encodeObject:[NSNumber numberWithInteger:self.mode] forKey:DPOptionsBurnModeArchivingKey];
 	[encoder encodeObject:self.discCoverTemplatePath forKey:DPOptionsDiscCoverTemplatePathArchivingKey];
+	[encoder encodeObject:[NSNumber numberWithBool:self.deleteOnCompletition] forKey:DPOptionsDeleteOnCompletitionArchivingKey];
     
 	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchFlag] forKey:DPOptionsFSMatchFlagArchivingKey];
 	[encoder encodeObject:self.fsMatchShareUrl forKey:DPOptionsFSMatchMountPathArchivingKey];
@@ -57,6 +68,7 @@ static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
     
 	self.mode = [[decoder decodeObjectForKey:DPOptionsBurnModeArchivingKey] integerValue];
 	self.discCoverTemplatePath = [decoder decodeObjectForKey:DPOptionsDiscCoverTemplatePathArchivingKey];
+	self.deleteOnCompletition = [[decoder decodeObjectForKey:DPOptionsDeleteOnCompletitionArchivingKey] boolValue];
     
     self.fsMatchFlag = [[decoder decodeObjectForKey:DPOptionsFSMatchFlagArchivingKey] boolValue];
     self.fsMatchShareUrl = [decoder decodeObjectForKey:DPOptionsFSMatchMountPathArchivingKey];

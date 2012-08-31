@@ -14,6 +14,8 @@
 @interface DiscPublishingOptions : DiscBurningOptions {
     NSInteger mode;
 	NSString* discCoverTemplatePath;
+    BOOL deleteOnCompletition;
+    
     BOOL fsMatchFlag;
     NSString* fsMatchShareUrl;
     NSArray* fsMatchTokens;
@@ -24,6 +26,7 @@
 
 @property(assign) NSInteger mode;
 @property(retain) NSString* discCoverTemplatePath;
+@property(assign) BOOL deleteOnCompletition;
 
 @property(assign) BOOL fsMatchFlag;
 @property(retain) NSString* fsMatchShareUrl;

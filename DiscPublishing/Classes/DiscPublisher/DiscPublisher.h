@@ -14,9 +14,12 @@
 	@private
 	NSMutableArray* _jobs;
 	DiscPublisherStatus* _status;
+    JM_BinSelection _binSelection;
 }
 
 @property(readonly) DiscPublisherStatus* status;
+
+-(JM_BinSelection&)binSelection;
 
 +(NSString*)baseDirPath;
 +(NSString*)jobsDirPath;
@@ -29,5 +32,7 @@
 -(DiscPublisherJob*)createPrintOnlyJob;
 
 -(void)robot:(UInt32)robot systemAction:(UInt32)action;
+
+-(void)applyBinSelection:(JM_BinSelection*)binsel;
 
 @end

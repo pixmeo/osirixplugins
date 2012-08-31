@@ -82,6 +82,7 @@
 		7124007A14C588880023BD31 /* DiscPublishingTool.app in Copy Executables */ = {isa = PBXBuildFile; fileRef = 5900F64B11906667001E899B /* DiscPublishingTool.app */; };
 		7195995115DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 7195994F15DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.h */; };
 		7195995215DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7195995015DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.mm */; };
+		71E2F68E15F09C88004DDC99 /* Disc Cover 3 PE.app in Copy Executables */ = {isa = PBXBuildFile; fileRef = 71E2F68A15F09B9B004DDC99 /* Disc Cover 3 PE.app */; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +151,17 @@
 			dstSubfolderSpec = 6;
 			files = (
 				7124007A14C588880023BD31 /* DiscPublishingTool.app in Copy Executables */,
+			);
+			name = "Copy Executables";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71E2F68D15F09C71004DDC99 /* Copy Executables */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				71E2F68E15F09C88004DDC99 /* Disc Cover 3 PE.app in Copy Executables */,
 			);
 			name = "Copy Executables";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,6 +237,7 @@
 		71327A8A14683DBD007E49BE /* Versions.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Versions.txt; sourceTree = "<group>"; };
 		7195994F15DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+DiscPublishing.h"; path = "Classes/NSUserDefaults+DiscPublishing.h"; sourceTree = "<group>"; };
 		7195995015DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSUserDefaults+DiscPublishing.mm"; path = "Classes/NSUserDefaults+DiscPublishing.mm"; sourceTree = "<group>"; };
+		71E2F68A15F09B9B004DDC99 /* Disc Cover 3 PE.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "Disc Cover 3 PE.app"; path = "Libs/Disc Cover 3 PE.app"; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -341,6 +354,7 @@
 		5900F7C811906A71001E899B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				71E2F68A15F09B9B004DDC99 /* Disc Cover 3 PE.app */,
 				5900F7C911906B1E001E899B /* DiscPublishingToolApplication.xib */,
 			);
 			name = Resources;
@@ -485,6 +499,7 @@
 			buildConfigurationList = 5900F65811906667001E899B /* Build configuration list for PBXNativeTarget "DiscPublishingTool" */;
 			buildPhases = (
 				5900F64711906667001E899B /* Resources */,
+				71E2F68D15F09C71004DDC99 /* Copy Executables */,
 				5900F64811906667001E899B /* Sources */,
 				5900F64911906667001E899B /* Frameworks */,
 				5900F92311916363001E899B /* Copy Frameworks */,

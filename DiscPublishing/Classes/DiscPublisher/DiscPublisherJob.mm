@@ -165,7 +165,7 @@
 
 -(void)start {
 	NSString* jobsDirPath = [DiscPublisher jobsDirPath];
-	self.xmlFilePath = [[NSFileManager defaultManager] tmpFilePathInDir:jobsDirPath];
+	self.xmlFilePath = [NSFileManager.defaultManager tmpFilePathInDir:jobsDirPath];
 	
 	NSError* error = NULL;
 	[[NSFileManager defaultManager] createDirectoryAtPath:jobsDirPath withIntermediateDirectories:YES attributes:NULL error:&error];

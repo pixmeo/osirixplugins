@@ -71,8 +71,8 @@
     if ((self = [super init])) {
         _dummyThread = [[DiscPublishingDummyThread alloc] init];
         if (!sid)
-            _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"[DP] %@", nil), patientName];
-        else _dummyThread.name = [NSString stringWithFormat:NSLocalizedString(@"[DP %@] %@", nil), [NSUserDefaultsController.sharedUserDefaultsController DPServiceNameForId:sid], patientName];
+            _dummyThread.name = patientName;
+        else _dummyThread.name = [NSString stringWithFormat:@"%@ [%@]", patientName, [NSUserDefaultsController.sharedUserDefaultsController DPServiceNameForId:sid]];
         _dummyThread.status = NSLocalizedString(@"Initializing...", nil);
         _dummyThread.supportsCancel = YES;
         [ThreadsManager.defaultManager addThreadAndStart:_dummyThread];

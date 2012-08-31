@@ -19,6 +19,10 @@
 
 @synthesize status = _status;
 
+-(JM_BinSelection&)binSelection {
+    return _binSelection;
+}
+
 +(NSString*)baseDirPath {
 	NSString* path = [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:[self className]];
 	return [[NSFileManager defaultManager] confirmDirectoryAtPath:path];
@@ -66,6 +70,8 @@
 #pragma mark Wrapper methods for c functions
 
 +(void)initializeJobManager {
+    [NSFileManager.defaultManager removeItemAtPath:[DiscPublisher baseDirPath] error:NULL];
+    
 	UInt32 err = JM_Initialize((char*)[DiscPublisher baseDirPath].UTF8String,
 							   (char*)[[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey] UTF8String],
 							   (char*)[[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey] UTF8String],
@@ -97,6 +103,14 @@
 -(void)robot:(UInt32)robot systemAction:(UInt32)action {
 	UInt32 err = JM_RobotSystemAction(robot, action);
 	ConditionalDiscPublisherJMErrorException(err);
+}
+
+-(void)applyBinSelection:(JM_BinSelection*)bs {
+    NSLog(@"Applying bin selection: %d,%d,%d,%d", bs->fEnabled, bs->nLeftBinType, bs->nRightBinType, bs->nDefaultBin);
+    memcpy(&_binSelection, bs, sizeof(JM_BinSelection));
+    UInt32 err = JM_SetBinSelection(bs);
+    if (err != JM_OK)
+        [NSException raise:NSGenericException format:@"JM_SetBinSelection returned %d", (int)err];
 }
 
 @end

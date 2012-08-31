@@ -16,6 +16,7 @@
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <Growl/GrowlDefines.h>
 #import "DiscPublishingJob.h"
+#import "DiscPublisherJob.h"
 
 int main(int argc, const char* argv[]) {
 	return NSApplicationMain(argc, argv);
@@ -35,6 +36,8 @@ int main(int argc, const char* argv[]) {
 
 -(void)applicationWillFinishLaunching:(NSNotification*)n {
 	[GrowlApplicationBridge setGrowlDelegate:self];
+    
+    _prevValues = [[NSMutableDictionary alloc] init];
     
     _connection = [[NSConnection alloc] init];
     if ([self.connection registerName:DiscPublishingToolProxyName])
@@ -63,11 +66,11 @@ int main(int argc, const char* argv[]) {
     
 	NSLog(@"Welcome to DiscPublishingTool.");
     
-    [NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolWillFinishLaunchingNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
+    [NSDistributedNotificationCenter.defaultCenter postNotificationName:DPTWillFinishLaunchingNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
 }
 
 -(void)applicationWillTerminate:(NSNotification*)n {
-    [NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolWillTerminateNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
+    [NSDistributedNotificationCenter.defaultCenter postNotificationName:DPTWillTerminateNotification object:nil userInfo:nil options:NSNotificationDeliverImmediately];
 
 	NSLog(@"DiscPublishingTool says Goodbye.");
 }
@@ -80,6 +83,8 @@ int main(int argc, const char* argv[]) {
     while (_statusThread.isExecuting)
         [NSThread sleepForTimeInterval:0.01];
     [_statusThread release];
+    
+    [_prevValues release];
     
 	self.lastErr = nil;
 	[_threads release];
@@ -131,8 +136,8 @@ int main(int argc, const char* argv[]) {
 -(void)threadWillExit:(NSNotification*)notification {
 	NSThread* thread = notification.object;
 	
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:NSThreadWillExitNotification forKey:DiscPublishingToolThreadChangedInfoKey];
-	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
+	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:NSThreadWillExitNotification forKey:DPTThreadChangedInfoKey];
+	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:DPTThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
 
 	[self stopDistributingNotificationsForThread:thread];
 //	NSLog(@"%d threads left, quit? %d", threads.count, !threads.count && quitWhenDone);
@@ -149,9 +154,9 @@ int main(int argc, const char* argv[]) {
 		
 		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 									  [thread valueForKeyPath:keyPath], keyPath,
-									  keyPath, DiscPublishingToolThreadChangedInfoKey,
+									  keyPath, DPTThreadChangedInfoKey,
 								  NULL];
-		[NSDistributedNotificationCenter.defaultCenter postNotificationName:DiscPublishingToolThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
+		[NSDistributedNotificationCenter.defaultCenter postNotificationName:DPTThreadInfoChangeNotification object:thread.uniqueId userInfo:userInfo options:NSNotificationDeliverImmediately];
 	}
 }
 
@@ -176,9 +181,11 @@ int main(int argc, const char* argv[]) {
 		@try {
 			_discPublisher = [[DiscPublisher alloc] init];
 			
-			for (NSNumber* robotId in _discPublisher.status.robotIds) {
+			for (NSNumber* robotId in _discPublisher.status.robotIds)
+                [_discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_CHECKDISCS];
+            
+			for (NSNumber* robotId in _discPublisher.status.robotIds)
 				[_discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_IGNOREINKLOW];
-			}
             
 			while (![thread isCancelled]) @try {
 				if ([_discPublisher.status allRobotsAreIdle])
@@ -203,23 +210,45 @@ int main(int argc, const char* argv[]) {
     while (![thread isCancelled])
         @try {
             UInt32 errorS = 0;
-        
+
             if (_discPublisher) {
                 [_discPublisher.status refresh];
-                //		NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
-                for (NSXMLNode* robot in [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
-                    UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
-                    if (error) {
-                        [self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[[robot childNamed:@"SYSTEM_STATUS"] stringValue] uniqueContext:[NSString stringWithFormat:@"Robot%@SystemError", [[robot childNamed:@"ROBOT_ID"] stringValue]]];
-                        errorS += error;
-                    }
-                }
+                // NSLog(@"Status: %@", discPublisher.status.doc.XMLString);
             }
+            
+            if (_discPublisher)
+                for (NSXMLNode* robot in [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT" constants:NULL error:NULL]) {
+                    UInt32 state = [[[robot childNamed:@"SYSTEM_STATE"] stringValue] intValue];
+                    UInt32 error = [[[robot childNamed:@"SYSTEM_ERROR"] stringValue] intValue];
+                    
+                    NSNumber* lastStateNS = [_prevValues objectForKey:@"STATE"];
+                    int lastState = lastStateNS? [lastStateNS intValue] : 0;
+                    NSNumber* lastErrorNS = [_prevValues objectForKey:@"ERROR"];
+                    int lastError = lastErrorNS? [lastErrorNS intValue] : 0;
+                    
+                    if (state != lastState || error != lastError) {
+                        if (error) {
+                            [self errorWithTitle:NSLocalizedString(@"Robot System Error", NULL) description:[[robot childNamed:@"SYSTEM_STATUS"] stringValue] uniqueContext:@"STATUS"];
+                            errorS += error;
+                        }
+
+                        if (lastState == SYSSTATE_ERROR && lastError == SYSERR_COVER_OPEN) {
+                            for (NSNumber* robotId in _discPublisher.status.robotIds)
+                                [_discPublisher robot:robotId.unsignedIntValue systemAction:PTACT_CHECKDISCS];
+                        }
+                        
+                        if (lastState == SYSSTATE_ERROR && state != SYSSTATE_ERROR)
+                            [self errorWithTitle:NSLocalizedString(@"Robot System Error Cleared", NULL) description:NSLocalizedString(@"Previous robot errors were cleared", nil) uniqueContext:@"STATUS"];
+                    }
+                    
+                    [_prevValues setObject:[NSNumber numberWithInt:state] forKey:@"STATE"];
+                    [_prevValues setObject:[NSNumber numberWithInt:error] forKey:@"ERROR"];
+                }
             
             if (!errorS) {
                 NSArray* windows = [NSApp windows];
                 if (windows.count && windows.count != _lastNumberOfWindows) {
-                    DLog(@"Warning: we shouldn't display any windows, and somehow we're currently displaying %d", windows.count);
+                    NSLog(@"Warning: we shouldn't display any windows, and somehow we're currently displaying %d", windows.count);
                     
                     // TODO: this is where we may want to use the PowerRelay
 
@@ -242,6 +271,92 @@ int main(int argc, const char* argv[]) {
                 _lastNumberOfWindows = windows.count;
             }
             
+            // warn when bins are running low
+            if (_discPublisher) {
+                NSArray* bins = [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL];
+                for (NSXMLNode* bin in bins) {
+                    UInt32 location = [[[bin childNamed:@"LOCATION"] stringValue] intValue];
+                    
+                    NSString* locationString = NSLocalizedString(@"input bin", nil);
+                    if (bins.count > 1)
+                        switch (location) {
+                            case 0: locationString = NSLocalizedString(@"left input bin", nil); break;
+                            case 1: locationString = NSLocalizedString(@"right input bin", nil); break;
+                        }
+                    
+                    NSString* disc = NSLocalizedString(@"disc", nil);
+                    NSString* discs = NSLocalizedString(@"discs", nil);
+                    
+                    if (_discPublisher.binSelection.fEnabled) {
+                        UInt32 type = 5;
+                        switch (location) {
+                            case 0: type = _discPublisher.binSelection.nLeftBinType; break;
+                            case 1: type = _discPublisher.binSelection.nRightBinType; break;
+                        }
+                        
+                        if (type != DISCTYPE_UNKNOWN) {
+                            disc = [DiscPublisherJob DiscType:type];
+                            discs = [disc stringByAppendingString:NSLocalizedString(@"s", @"plural suffix for 'CD' or 'DVD' (-> 'CDs' or 'DVDs')")];
+                        }
+                    }
+                    
+                    UInt32 dib = [[[bin childNamed:@"DISCS_IN_BIN"] stringValue] intValue];
+                    
+                    NSString* context = [NSString stringWithFormat:@"BIN-%d", (int)location];
+
+                    NSNumber* lastDibNS = [_prevValues objectForKey:context];
+                    int lastDib = lastDibNS? [lastDibNS intValue] : -1;
+
+                    if (dib != lastDib) {
+                        [_prevValues setObject:[NSNumber numberWithInt:dib] forKey:context];
+                        if (dib <= 5) {
+                            NSString* title = NSLocalizedString(@"Robot Bin Warning", NULL);
+                            
+                            NSString* desc = nil;
+                            if (dib == 0)
+                                desc = [NSString stringWithFormat:NSLocalizedString(@"The %@ is empty, please load it with some %@", nil), locationString, discs];
+                            else if (dib == 1)
+                                desc = [NSString stringWithFormat:NSLocalizedString(@"Only %d %@ is left in the %@", nil), (int)dib, disc, locationString];
+                            else
+                                desc = [NSString stringWithFormat:NSLocalizedString(@"Only %d %@ are left in the %@", nil), (int)dib, discs, locationString];
+                            
+                            [self errorWithTitle:title description:desc uniqueContext:context];
+                        } else {
+                            if (lastDib != -1 && lastDib <= 5)
+                                [self errorWithTitle:NSLocalizedString(@"Robot Bin Warning Cleared", NULL) description:[NSString stringWithFormat:NSLocalizedString(@"The %@ now has %d %@, thank you!", nil), locationString, dib, discs] uniqueContext:context];
+                        }
+                    }
+                }
+            }
+            
+            // warn when ink is running low
+            if (_discPublisher) {
+                NSArray* cartridges = [_discPublisher.status.doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/CARTRIDGES/CARTRIDGE" constants:NULL error:NULL];
+                for (NSXMLNode* cartridge in cartridges) {
+                    NSString* type = [[cartridge childNamed:@"TYPE"] stringValue];
+                    int fill = [[[cartridge childNamed:@"FILL"] stringValue] intValue];
+                    int status = [[[cartridge childNamed:@"STATUS"] stringValue] intValue];
+                    
+                    NSString* context = [NSString stringWithFormat:@"INK-%@", type];
+                    
+                    NSNumber* lastFillNS = [_prevValues objectForKey:context];
+                    int lastFill = lastFillNS? [lastFillNS intValue] : -1;
+                    
+                    if (fill != lastFill) {
+                        [_prevValues setObject:[NSNumber numberWithInt:fill] forKey:context];
+                        if (fill == 20 ||
+                            fill == 10 ||
+                            fill <= 5) {
+                            [self errorWithTitle:NSLocalizedString(@"Robot Ink Warning", nil) description:[NSString stringWithFormat:NSLocalizedString(@"Ink level in the %@ cartridge is %d%%", nil), type, fill] uniqueContext:context];
+                        } else {
+                            if (lastFill != -1 && fill > lastFill+10)
+                                [self errorWithTitle:NSLocalizedString(@"Robot Ink Warning Cleared", nil) description:[NSString stringWithFormat:NSLocalizedString(@"Ink level in the %@ cartridge is %d%%, thank you!", nil), type, fill] uniqueContext:context];
+                        }
+                    }
+                }
+            }
+            
+            
             if (!errorS)
                 self.lastErr = NULL;
         } @catch (NSException* e) {
@@ -251,16 +366,6 @@ int main(int argc, const char* argv[]) {
         }
     
     [pool release];
-}
-
--(void)applyBinSelection {
-    if (_hasBinSelection) {
-        DLog(@"Applying bin selection: %d,%d,%d,%d", _binSelection.fEnabled, _binSelection.nLeftBinType, _binSelection.nRightBinType, _binSelection.nDefaultBin);
-        UInt32 err = JM_SetBinSelection(&_binSelection);
-        if (err != JM_OK)
-            [NSException raise:NSGenericException format:@"JM_SetBinSelection returned %d", err];
-    } else
-        DLog(@"Should apply bin selection, but it is undefined!");
 }
 
 #pragma mark Growl
@@ -302,7 +407,7 @@ int main(int argc, const char* argv[]) {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
 	NSThread* thread = [NSThread currentThread];
-	thread.name = [NSString stringWithFormat:@"Publishing disc %@...", [job.info objectForKey:DiscPublishingJobInfoDiscNameKey]];
+	thread.name = [NSString stringWithFormat:@"Publishing disc %@...", [job.info objectForKey:DPJobInfoDiscNameKey]];
 	
 	@try {
 		thread.status = @"Starting job...";
@@ -311,11 +416,14 @@ int main(int argc, const char* argv[]) {
 		while (YES) {
 			if (job.status.dwJobState == JOB_FAILED) {
 				// TODO: recover job, retry, whatever!!
-				thread.status = [NSString stringWithFormat:@"Job failed with error: %d", job.status.dwLastError];
+				thread.status = [NSString stringWithFormat:@"Job failed with error: %d", (int)job.status.dwLastError];
 			} else
 				thread.status = job.statusString;
 			
-			if (job.status.dwJobState == JOB_COMPLETED) break;
+			if (job.status.dwJobState == JOB_COMPLETED) {
+                [NSDistributedNotificationCenter.defaultCenter postNotificationName:DPTJobCompletedNotification object:thread.uniqueId userInfo:job.info];
+                break;
+            }
 			[NSThread sleepForTimeInterval:1];
 		}
 		
@@ -337,12 +445,12 @@ int main(int argc, const char* argv[]) {
 }
 
 -(void)setBinSelectionEnabled:(BOOL)enabled leftBinType:(NSUInteger)leftBinType rightBinType:(NSUInteger)rightBinType defaultBin:(NSUInteger)defaultBin {
-    _hasBinSelection = YES;
-	_binSelection.fEnabled = enabled;
-	_binSelection.nLeftBinType = leftBinType;
-	_binSelection.nRightBinType = rightBinType;
-	_binSelection.nDefaultBin = defaultBin;
-    [self applyBinSelection];
+    JM_BinSelection bs;
+	bs.fEnabled = enabled;
+	bs.nLeftBinType = leftBinType;
+	bs.nRightBinType = rightBinType;
+	bs.nDefaultBin = defaultBin;
+    [_discPublisher applyBinSelection:&bs];
 }
 
 -(NSString*)publishDiscWithRoot:(NSString*)root info:(NSDictionary*)info {
