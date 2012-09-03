@@ -11,12 +11,12 @@
 #import "DiscPublishingTool.h"
 #import <OsiriXAPI/ThreadsManager.h>
 #import <OsiriXAPI/NSThread+N2.h>
-#import <OsiriXAPI/browserController.h>
+/*#import <OsiriXAPI/browserController.h>
 #import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/DicomStudy.h>
-#import <OsiriX/DCMAbstractSyntaxUID.h>
+#import <OsiriX/DCMAbstractSyntaxUID.h>*/
 
 @interface ToolThread : NSThread
 
@@ -39,7 +39,6 @@
 	self = [super init];
 	
 	_threadsManager = [threadsManager retain];
-    [NSDistributedNotificationCenter.defaultCenter addObserver:self selector:@selector(observeJobCompletedNotification:) name:DPTJobCompletedNotification object:nil suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 	
 	for (NSString* threadId in [DiscPublishing.instance.tool listTasks]) {
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(observeThreadInfoChange:) name:DPTThreadInfoChangeNotification object:threadId suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
@@ -123,56 +122,6 @@
 	else NSLog(@"unexpected thread info change with key %@", key);
 }
 
--(void)observeJobCompletedNotification:(NSNotification*)n {
-    if ([[n.userInfo objectForKey:DPJobInfoDeleteWhenCompletedKey] boolValue]) {
-        NSArray* objectIDs = [n.userInfo objectForKey:DPJobInfoObjectIDsKey];
-        
-        DicomDatabase* db = [DicomDatabase defaultDatabase];
-        
-        NSArray* images = [db objectsWithIDs:objectIDs];
-        
-        // TODO: filter away objects used by queued jobs
-        
-        NSMutableArray* series = [NSMutableArray array];
-        NSMutableArray* studies = [NSMutableArray array];
-        for (DicomImage* image in images) {
-            DicomSeries* serie = [image series];
-            if (![series containsObject:serie])
-                [series addObject:serie];
-        }
-        for (DicomSeries* serie in series) {
-            DicomStudy* study = [serie study];
-            if (![studies containsObject:study])
-                [studies addObject:study];
-        }
-        
-        [[BrowserController currentBrowser] proceedDeleteObjects:images];
-        
-        NSMutableArray* dels = [NSMutableArray array];
-        for (DicomStudy* study in studies)
-            if (!study.isDeleted) {
-                BOOL allNonImage = YES;
-                for (DicomSeries* serie in study.series) {
-                    NSString* uid = [serie seriesSOPClassUID];
-                    if ([DCMAbstractSyntaxUID isImageStorage: uid] || [DCMAbstractSyntaxUID isRadiotherapy:uid] || [DCMAbstractSyntaxUID isWaveform:uid])
-                        allNonImage = NO;
-                }
-                if (allNonImage)
-                    [dels addObject:study];
-            }
-
-        [[BrowserController currentBrowser] proceedDeleteObjects:dels];
-         
-       /*  for (DicomImage* image in images)
-         [db.managedObjectContext deleteObject:image];
-         for (DicomSeries* serie in series)
-         if (!serie.images.count)
-         [db.managedObjectContext deleteObject:serie];
-         for (DicomStudy* study in studies)
-         if (!study.series.count)
-         [db.managedObjectContext deleteObject:study];*/
-    }
-}
 
 
 

@@ -22,6 +22,8 @@
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/N2Stuff.h>
 #import <OsiriXAPI/NSString+N2.h>
+#import "DiscPublishingTool.h"
+#import <OsiriX/DCMAbstractSyntaxUID.h>
 #include <cmath>
 
 
@@ -156,12 +158,15 @@
         _serviceStacks = [[NSMutableDictionary alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(observeDatabaseAddition:) name:OsirixAddToDBCompleteNotification object:NULL];
         _publishTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(_timerPublish:) userInfo:nil repeats:YES];
+        
+        [NSDistributedNotificationCenter.defaultCenter addObserver:self selector:@selector(observeJobCompletedNotification:) name:DPTJobCompletedNotification object:nil suspensionBehavior:NSNotificationSuspensionBehaviorDeliverImmediately];
 	}
     
 	return self;
 }
 
 -(void)dealloc {
+    [NSDistributedNotificationCenter.defaultCenter removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:OsirixAddToDBCompleteNotification object:NULL];
 	[_serviceStacks release];
 	[super dealloc];
@@ -270,6 +275,68 @@
             }
     }
 }
+
+-(void)observeJobCompletedNotification:(NSNotification*)n {
+    if ([[n.userInfo objectForKey:DPJobInfoDeleteWhenCompletedKey] boolValue]) {
+        NSArray* objectIDs = [n.userInfo objectForKey:DPJobInfoObjectIDsKey];
+        
+        DicomDatabase* db = [DicomDatabase defaultDatabase];
+        
+        NSMutableArray* images = [[[db objectsWithIDs:objectIDs] mutableCopy] autorelease];
+        
+        // filter away objects used by queued jobs
+        @synchronized (_serviceStacks) {
+            for (NSString* sid in _serviceStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
+                NSMutableDictionary* serviceStacks = [_serviceStacks objectForKey:sid]; // by patient
+                for (DiscPublishingPatientStack* dpps in [serviceStacks allValues]) {
+                    for (DicomImage* image in dpps.images)
+                        if ([images containsObject:image])
+                            [images removeObject:image];
+                }
+            }
+        }
+        
+        NSMutableArray* series = [NSMutableArray array];
+        NSMutableArray* studies = [NSMutableArray array];
+        for (DicomImage* image in images) {
+            DicomSeries* serie = [image series];
+            if (![series containsObject:serie])
+                [series addObject:serie];
+        }
+        for (DicomSeries* serie in series) {
+            DicomStudy* study = [serie study];
+            if (![studies containsObject:study])
+                [studies addObject:study];
+        }
+        
+        [[BrowserController currentBrowser] proceedDeleteObjects:images];
+        
+        NSMutableArray* dels = [NSMutableArray array];
+        for (DicomStudy* study in studies)
+            if (!study.isDeleted) {
+                BOOL allNonImage = YES;
+                for (DicomSeries* serie in study.series) {
+                    NSString* uid = [serie seriesSOPClassUID];
+                    if ([DCMAbstractSyntaxUID isImageStorage: uid] || [DCMAbstractSyntaxUID isRadiotherapy:uid] || [DCMAbstractSyntaxUID isWaveform:uid])
+                        allNonImage = NO;
+                }
+                if (allNonImage)
+                    [dels addObject:study];
+            }
+        
+        [[BrowserController currentBrowser] proceedDeleteObjects:dels];
+        
+        /*  for (DicomImage* image in images)
+         [db.managedObjectContext deleteObject:image];
+         for (DicomSeries* serie in series)
+         if (!serie.images.count)
+         [db.managedObjectContext deleteObject:serie];
+         for (DicomStudy* study in studies)
+         if (!study.series.count)
+         [db.managedObjectContext deleteObject:study];*/
+    }
+}
+
 
 /*-(NSArray*)namesForStudies:(NSArray*)studies {
 	NSMutableArray* names = [[NSMutableArray alloc] initWithCapacity:studies.count];
