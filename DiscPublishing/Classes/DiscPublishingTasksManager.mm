@@ -11,12 +11,6 @@
 #import "DiscPublishingTool.h"
 #import <OsiriXAPI/ThreadsManager.h>
 #import <OsiriXAPI/NSThread+N2.h>
-/*#import <OsiriXAPI/browserController.h>
-#import <OsiriXAPI/DicomDatabase.h>
-#import <OsiriXAPI/DicomImage.h>
-#import <OsiriXAPI/DicomSeries.h>
-#import <OsiriXAPI/DicomStudy.h>
-#import <OsiriX/DCMAbstractSyntaxUID.h>*/
 
 @interface ToolThread : NSThread
 

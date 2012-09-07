@@ -22,6 +22,7 @@
 #import <OsiriXAPI/NSString+N2.h>
 #import <OsiriX/DCMTagDictionary.h>
 #import "DiscPublishingUtils.h"
+#import <OsiriXAPI/N2CustomTitledPopUpButtonCell.h>
 
 @interface NSPathControl (DiscPublishing)
 -(NSRect)usedFrame;
@@ -57,10 +58,10 @@
 
 @interface DiscPublishingPreferencesController ()
 
--(void)updateBindings;
--(void)menuWillOpen:(NSMenu*)menu;
--(NSArrayController*)services;
--(void)repositionEditTemplateButton;
+- (void)updateBindings;
+- (void)menuWillOpen:(NSMenu*)menu;
+- (NSArrayController*)services;
+- (void)repositionEditTemplateButton;
 
 @end
 
@@ -85,13 +86,12 @@
 
 	[self robotOptionsInit];
     
-    [self updateBindings];
+    [self selectService:nil];
 }
 
 -(void)dealloc {
     [_serviceControllerId release];
     [_serviceController release];
-    [_services dealloc];
     
 	[self robotOptionsDealloc];
 	[NSUserDefaultsController.sharedUserDefaultsController removeObserver:self forValuesKey:DPBurnModeDefaultsKey];
@@ -276,6 +276,8 @@
 }
 
 - (void)servicesSheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo {
+    [sheet makeFirstResponder:servicesTable];
+    
     NSArray* ss = [self.services selectedObjects];
     if (ss.count) {
         NSDictionary* ssd = [ss objectAtIndex:0];
@@ -283,35 +285,37 @@
         
         [self menuWillOpen:servicesPopUpButton.menu];
         
-        NSInteger i = 0;
+        NSInteger i = -1;
         for (NSInteger j = 0; j < servicesPopUpButton.numberOfItems; ++j) {
             NSMenuItem* mi = [servicesPopUpButton itemAtIndex:j];
             if ([[mi representedObject] isEqualToString:ssid]) {
-                i = j; break;
+                i = j;
+                [self selectService:mi];
+                break;
             }
         }
         
-        [servicesPopUpButton selectItemAtIndex:i];
-    } else [servicesPopUpButton selectItemAtIndex:0];
+        if (i == -1)
+            [self selectService:nil];
+        
+    } else [self selectService:nil];
     
     [sheet orderOut:self];
 }
 
 -(NSArrayController*)services {
-    if (!_services) {
-        NSMutableArray* ma = [[NSUserDefaults standardUserDefaults] mutableArrayValueForKey:DPServicesListDefaultsKey];
-        _services = [[NSArrayController alloc] initWithContent:ma];
-        _services.automaticallyRearrangesObjects = NO;
-        
-        [_services setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)]]];
-    }
-    return _services;
+    return services;
 }
 
 -(IBAction)addService:(id)sender {
     NSString* uid = [[self class] stringWithUUID];
-    NSDictionary* dic = [NSMutableDictionary dictionaryWithObjectsAndKeys: uid, @"id", nil];
+    NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithObjectsAndKeys: uid, @"id", nil];
     [self.services addObject:dic];
+    
+    [servicesTable reloadData];
+    
+    [self.services setSelectedObjects:[NSArray arrayWithObject:dic]];
+    [servicesTable editColumn:0 row:[self.services.arrangedObjects indexOfObject:dic] withEvent:nil select:YES];
     
     NSUserDefaultsController* sudc = [NSUserDefaultsController sharedUserDefaultsController];
     
@@ -325,6 +329,8 @@
     
     [self.services remove:sender];
     
+    [servicesTable reloadData];
+
     // we should remove the related initialValues from NSUserDefaultsController... but whatever...
 }
 
@@ -333,7 +339,9 @@
 }
 
 -(void)menuWillOpen:(NSMenu*)menu {
-    NSArray* services = [[self services] arrangedObjects];
+    NSString* ssid = [self selectedServiceId];
+    
+    NSArray* ss = [[self services] arrangedObjects];
 
     // remove services and separators from menu
     while ([[menu itemAtIndex:1] representedObject] || [[menu itemAtIndex:1] isSeparatorItem])
@@ -341,19 +349,29 @@
     
     // add items
     
-    if (!services.count)
+    if (!ss.count)
         return; // no items...
     
 //    [menu insertItem:[NSMenuItem separatorItem] atIndex:menu.numberOfItems-1];
     
-    for (NSDictionary* service in services) {
+    for (NSMenuItem* mi in menu.itemArray)
+        [mi setState:NSOffState];
+    
+    for (NSDictionary* service in ss) {
         NSString* title = [service objectForKey:@"name"];
         if (!title.length) title = NSLocalizedString(@"No Name", nil);
         NSMenuItem* mi = [[NSMenuItem alloc] initWithTitle:title action:@selector(selectService:) keyEquivalent:@""];
         mi.target = self;
         mi.representedObject = [service objectForKey:@"id"];
+        
+        if ([mi.representedObject isEqualToString:ssid])
+            [mi setState:NSOnState];
+            
         [menu insertItem:mi atIndex:menu.numberOfItems-1];
     }
+    
+    if (!ssid)
+        [[menu itemAtIndex:0] setState:NSOnState];
     
     [menu insertItem:[NSMenuItem separatorItem] atIndex:menu.numberOfItems-1];
 }
@@ -361,8 +379,13 @@
 -(IBAction)selectService:(NSMenuItem*)sender {
     [self willChangeValueForKey:@"selectedServiceId"];
     
+    if (!sender)
+        sender = [servicesPopUpButton itemAtIndex:0];
+    
     [servicesPopUpButton selectItem:sender];
-   // [servicesPopUpButton setTitle:[sender title]];
+    
+    [servicesPopUpButton.cell setDisplayedTitle:sender.title];
+
     [self updateBindings];
 
     [self didChangeValueForKey:@"selectedServiceId"];
@@ -411,6 +434,24 @@
     }
     
     [self repositionEditTemplateButton];
+}
+
+#pragma mark Table View Delegate
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
+    return [services.arrangedObjects count];
+}
+
+- (id)tableView:(NSTableView*)aTableView objectValueForTableColumn:(NSTableColumn*)aTableColumn row:(NSInteger)rowIndex {
+    return [[services.arrangedObjects objectAtIndex:rowIndex] objectForKey:@"name"];
+}
+
+- (void)tableView:(NSTableView*)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn*)aTableColumn row:(NSInteger)rowIndex {
+    NSMutableDictionary* md = [services.arrangedObjects objectAtIndex:rowIndex];
+    
+    [[services.arrangedObjects objectAtIndex:rowIndex] setObject:anObject forKey:@"name"];
+    
+    [NSUserDefaults.standardUserDefaults setObject:services.content forKey:DPServicesListDefaultsKey];
 }
 
 
@@ -476,9 +517,9 @@
 @end
 
 
-@interface DiscPublishingIsValidMountPath: NSValueTransformer
+@interface DiscPublishingIsInvalidMountPath: NSValueTransformer
 @end
-@implementation DiscPublishingIsValidMountPath
+@implementation DiscPublishingIsInvalidMountPath
 
 +(Class)transformedValueClass {
 	return [NSNumber class];
@@ -493,10 +534,10 @@
     
     BOOL ok = YES;
     
-    /*NSURL* url = [NSURL URLWithString:value];
+    NSURL* url = [NSURL URLWithString:value];
     if (!url) return [NSNumber numberWithBool:NO];
     
-    NSString* mountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
+    /*NSString* mountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
     [NSFileManager.defaultManager createDirectoryAtPath:mountPath withIntermediateDirectories:YES attributes:nil error:nil];
     
     BOOL ok = NO;

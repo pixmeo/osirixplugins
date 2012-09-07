@@ -138,7 +138,7 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	
 	[QTMovie movie]; // this initializes the QT kit on the main thread
 	[NSUserDefaultsController discPublishingInitialize];
-	
+    
 	NSBundle* bundle = [NSBundle bundleForClass:[self class]];
 	
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"DiscPublishingPreferences" inBundle:bundle withTitle:NSLocalizedString(@"Disc Publishing", NULL) image:[[[NSImage alloc] initWithContentsOfFile:[bundle pathForResource:@"Icon" ofType:@"png"]] autorelease]]; // TODO: icon

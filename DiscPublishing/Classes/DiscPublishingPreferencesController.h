@@ -29,7 +29,11 @@
 	IBOutlet NSPathControl* patientModeAuxDirPathControl;
 //	IBOutlet NSPathControl* archivingModeLabelTemplatePathControl;
 	
+    IBOutlet NSTableView* servicesTable;
+    
     IBOutlet NSWindow* servicesWindow;
+    
+    IBOutlet NSArrayController* services;
     
 	NSSize deltaFromPathControlBRToButtonTL;
 	
@@ -37,7 +41,6 @@
     
     NSString* _serviceControllerId;
     id _serviceController;
-    NSArrayController* _services;
 
 	// RobotOptions
 	IBOutlet NSBox* robotOptionsBox;
