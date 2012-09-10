@@ -10,6 +10,7 @@
 #import <OsiriXAPI/N2ConnectionListener.h>
 #import <OsiriXAPI/NSString+N2.h>
 #import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/N2Shell.h>
 
 
 
@@ -47,7 +48,6 @@
 -(id)initWithAddress:(NSString *)address port:(NSInteger)port is:(NSInputStream *)is os:(NSOutputStream *)os {
     if ((self = [super initWithAddress:address port:port is:is os:os])) {
         NSLog(@"Client connected");
-        
     }
     
     return self;
@@ -175,7 +175,7 @@
     
     NSString* cmd = [line substringToIndex:r.location];
     NSArray *tokens = [line componentsSeparatedByString: @":"];
-    NSLog(@"%d",(NSUInteger)[tokens count]);
+    NSLog(@"%d",(int)[tokens count]);
     for (int i = 0; i<[tokens count]; i++) {
         
         [self handleCommand:[tokens objectAtIndex:i]];
@@ -233,6 +233,9 @@
     origin.x = 0.0;
     origin.y = 0.0;
     N2ConnectionListener* cl = [[N2ConnectionListener alloc] initWithPort:17179 connectionClass:[MyConn class]];
+    
+    [N2Shell execute:@"/usr/bin/open" arguments:[NSArray arrayWithObjects: @"-a", [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"KiOP.app"], nil]];
+    
     
     /*ViewerController	*new2DViewer;
      
