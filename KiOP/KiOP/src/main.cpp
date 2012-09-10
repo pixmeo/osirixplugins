@@ -1044,7 +1044,11 @@ int main(int argc, char *argv[])
 	//------ OPEN_NI / NITE / OPENGL ------//
 	xn::EnumerationErrors errors;
 
-	status = context.InitFromXmlFile(XML_FILE);
+    String path = argv[0];
+    int p = path.find(".app");
+    path = path.substr(0,p+4).append("/Contents/Resources/openni.xml");
+    
+	status = context.InitFromXmlFile(path.c_str());
 	CHECK_ERRORS(status, errors, "InitFromXmlFile");
 	CHECK_STATUS(status, "InitFromXml");
 
