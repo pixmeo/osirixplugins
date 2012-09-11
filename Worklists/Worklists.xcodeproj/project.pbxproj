@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		592685BF11D2053D00CFA81F /* WorklistsPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 592685BE11D2053D00CFA81F /* WorklistsPreferences.xib */; };
+		592685C311D2056D00CFA81F /* WorklistsPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592685C211D2056D00CFA81F /* WorklistsPreferencesController.m */; };
+		592685DF11D2089100CFA81F /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 592685DE11D2089100CFA81F /* PreferencePanes.framework */; };
+		5926860711D2098C00CFA81F /* WorklistsPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 592685B011D204D100CFA81F /* WorklistsPreferences.prefPane */; };
+		59A3C9ED130D6BB5001937EB /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		59A3CBB2130D704E001937EB /* WorklistsPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */; };
+		71546BE615FF6343004B154B /* Worklists.png in Resources */ = {isa = PBXBuildFile; fileRef = 71546BE515FF6343004B154B /* Worklists.png */; };
+		71546BED15FF7949004B154B /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8D5B49AE048680CD000E48DA /* Worklists_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Worklists_Prefix.pch */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		ABA48A650680BB600089EB4F /* WorklistsPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* WorklistsPlugin.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		592685B611D204DC00CFA81F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 592685AF11D204D100CFA81F;
+			remoteInfo = HelloWorldPreferences;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* Worklists_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Worklists_Prefix.pch; path = Sources/Worklists_Prefix.pch; sourceTree = "<group>"; };
+		592685B011D204D100CFA81F /* WorklistsPreferences.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorklistsPreferences.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		592685B111D204D100CFA81F /* WorklistsPreferences-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "WorklistsPreferences-Info.plist"; path = "Resources/WorklistsPreferences-Info.plist"; sourceTree = "<group>"; };
+		592685BE11D2053D00CFA81F /* WorklistsPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WorklistsPreferences.xib; path = Resources/WorklistsPreferences.xib; sourceTree = "<group>"; };
+		592685C111D2056D00CFA81F /* WorklistsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorklistsPreferencesController.h; path = Sources/WorklistsPreferencesController.h; sourceTree = "<group>"; };
+		592685C211D2056D00CFA81F /* WorklistsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorklistsPreferencesController.m; path = Sources/WorklistsPreferencesController.m; sourceTree = "<group>"; };
+		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
+		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
+		59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = WorklistsPlugin.mm; path = Sources/WorklistsPlugin.mm; sourceTree = "<group>"; };
+		71546BE515FF6343004B154B /* Worklists.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Worklists.png; path = Resources/Worklists.png; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* Worklists.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Worklists.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA48A640680BB600089EB4F /* WorklistsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WorklistsPlugin.h; path = Sources/WorklistsPlugin.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		592685AE11D204D100CFA81F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				592685DF11D2089100CFA81F /* PreferencePanes.framework in Frameworks */,
+				71546BED15FF7949004B154B /* OsiriXAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				59A3C9ED130D6BB5001937EB /* OsiriXAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* HelloWorld */ = {
+			isa = PBXGroup;
+			children = (
+				592685BC11D2051900CFA81F /* Preferences */,
+				AB2C26750677B0C400A08910 /* Plugin */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = HelloWorld;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				71546BE515FF6343004B154B /* Worklists.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				ABA48A640680BB600089EB4F /* WorklistsPlugin.h */,
+				59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				592685DE11D2089100CFA81F /* PreferencePanes.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* Worklists.osirixplugin */,
+				592685B011D204D100CFA81F /* WorklistsPreferences.prefPane */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* Worklists_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		592685BC11D2051900CFA81F /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				592685B111D204D100CFA81F /* WorklistsPreferences-Info.plist */,
+				71546BDF15FF59A7004B154B /* Sources */,
+				71546BE015FF59C1004B154B /* Resources */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		71546BDF15FF59A7004B154B /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				592685C111D2056D00CFA81F /* WorklistsPreferencesController.h */,
+				592685C211D2056D00CFA81F /* WorklistsPreferencesController.m */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		71546BE015FF59C1004B154B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				592685BE11D2053D00CFA81F /* WorklistsPreferences.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		AB2C26750677B0C400A08910 /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				08FB77AFFE84173DC02AAC07 /* Sources */,
+			);
+			name = Plugin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49AE048680CD000E48DA /* Worklists_Prefix.pch in Headers */,
+				ABA48A650680BB600089EB4F /* WorklistsPlugin.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		592685AF11D204D100CFA81F /* WorklistsPreferences */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 592685B511D204D100CFA81F /* Build configuration list for PBXNativeTarget "WorklistsPreferences" */;
+			buildPhases = (
+				592685AC11D204D100CFA81F /* Resources */,
+				592685AD11D204D100CFA81F /* Sources */,
+				592685AE11D204D100CFA81F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WorklistsPreferences;
+			productName = HelloWorldPreferences;
+			productReference = 592685B011D204D100CFA81F /* WorklistsPreferences.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
+		8D5B49AC048680CD000E48DA /* Worklists */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Worklists" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				592685B711D204DC00CFA81F /* PBXTargetDependency */,
+			);
+			name = Worklists;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* Worklists.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Worklists" */;
+			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* HelloWorld */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* Worklists */,
+				592685AF11D204D100CFA81F /* WorklistsPreferences */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		592685AC11D204D100CFA81F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				592685BF11D2053D00CFA81F /* WorklistsPreferences.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5926860711D2098C00CFA81F /* WorklistsPreferences.prefPane in Resources */,
+				71546BE615FF6343004B154B /* Worklists.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		592685AD11D204D100CFA81F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				592685C311D2056D00CFA81F /* WorklistsPreferencesController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				59A3CBB2130D704E001937EB /* WorklistsPlugin.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		592685B711D204DC00CFA81F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 592685AF11D204D100CFA81F /* WorklistsPreferences */;
+			targetProxy = 592685B611D204DC00CFA81F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		592685B211D204D100CFA81F /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Resources/WorklistsPreferences-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-undefined",
+					dynamic_lookup,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WorklistsPreferences;
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Development;
+		};
+		592685B311D204D100CFA81F /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "Resources/WorklistsPreferences-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+					"-undefined",
+					dynamic_lookup,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = WorklistsPreferences;
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Worklists_Prefix.pch;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "@executable_path/../PlugIns";
+				LIBRARY_STYLE = Bundle;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Worklists;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Worklists_Prefix.pch;
+				INFOPLIST_FILE = Resources/Info.plist;
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = Bundle;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = Worklists;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.7;
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.7;
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		592685B511D204D100CFA81F /* Build configuration list for PBXNativeTarget "WorklistsPreferences" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				592685B211D204D100CFA81F /* Development */,
+				592685B311D204D100CFA81F /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Worklists" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Worklists" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
