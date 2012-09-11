@@ -842,7 +842,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<string key="NSFrame">{{104, 52}, {319, 18}}</string>
 											<reference key="NSSuperview" ref="746034"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="612065429"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="384726074">
 												<int key="NSCellFlags">-2080374784</int>
@@ -2212,7 +2211,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<reference key="NSNextKeyView" ref="825488629"/>
 					<string key="NSReuseIdentifierKey">_NS:20</string>
 				</object>
-				<string key="NSScreenRect">{{-1050, -160}, {1050, 1680}}</string>
+				<string key="NSScreenRect">{{-1050, -159}, {1050, 1680}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
@@ -3090,28 +3089,37 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<int key="connectionID">1281</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">dataSource</string>
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">content: arrangedObjects</string>
 						<reference key="source" ref="77153438"/>
-						<reference key="destination" ref="1001"/>
+						<reference key="destination" ref="28772923"/>
+						<object class="NSNibBindingConnector" key="connector" id="225493197">
+							<reference key="NSSource" ref="77153438"/>
+							<reference key="NSDestination" ref="28772923"/>
+							<string key="NSLabel">content: arrangedObjects</string>
+							<string key="NSBinding">content</string>
+							<string key="NSKeyPath">arrangedObjects</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
 					</object>
-					<int key="connectionID">1595</int>
+					<int key="connectionID">1604</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">selectionIndexes: selectionIndexes</string>
 						<reference key="source" ref="77153438"/>
 						<reference key="destination" ref="28772923"/>
-						<object class="NSNibBindingConnector" key="connector" id="207231192">
+						<object class="NSNibBindingConnector" key="connector" id="296667058">
 							<reference key="NSSource" ref="77153438"/>
 							<reference key="NSDestination" ref="28772923"/>
 							<string key="NSLabel">selectionIndexes: selectionIndexes</string>
 							<string key="NSBinding">selectionIndexes</string>
 							<string key="NSKeyPath">selectionIndexes</string>
+							<reference key="NSPreviousConnector" ref="225493197"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1600</int>
+					<int key="connectionID">1605</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3124,11 +3132,27 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSLabel">sortDescriptors: sortDescriptors</string>
 							<string key="NSBinding">sortDescriptors</string>
 							<string key="NSKeyPath">sortDescriptors</string>
-							<reference key="NSPreviousConnector" ref="207231192"/>
+							<reference key="NSPreviousConnector" ref="296667058"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1602</int>
+					<int key="connectionID">1606</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: arrangedObjects.name</string>
+						<reference key="source" ref="1016363874"/>
+						<reference key="destination" ref="28772923"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1016363874"/>
+							<reference key="NSDestination" ref="28772923"/>
+							<string key="NSLabel">value: arrangedObjects.name</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">arrangedObjects.name</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">1608</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3433,10 +3457,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSLabel">contentArray: values.DiscPublishingServicesList</string>
 							<string key="NSBinding">contentArray</string>
 							<string key="NSKeyPath">values.DiscPublishingServicesList</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSHandlesContentAsCompoundValue</string>
+								<boolean value="YES" key="NS.object.0"/>
+							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">1575</int>
+					<int key="connectionID">1603</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -4682,6 +4710,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>1220.NSWindowTemplate.visibleAtLaunch</string>
 					<string>1221.IBPluginDependency</string>
 					<string>1226.IBPluginDependency</string>
+					<string>1227.CustomClassName</string>
 					<string>1227.IBPluginDependency</string>
 					<string>1228.IBPluginDependency</string>
 					<string>1230.IBPluginDependency</string>
@@ -4856,6 +4885,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>DiscPublishingPreferencesTableView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4979,7 +5009,7 @@ ZQ</string>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1602</int>
+			<int key="maxID">1608</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5187,6 +5217,14 @@ ZQ</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/DiscPublishingPreferencesController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">DiscPublishingPreferencesTableView</string>
+					<string key="superclassName">NSTableView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/DiscPublishingPreferencesTableView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

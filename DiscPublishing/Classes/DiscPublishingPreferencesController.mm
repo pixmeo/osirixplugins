@@ -84,6 +84,8 @@
 	[patientModeAuxiliaryDirWarningView setToolTip:auxDirToolTip];
 //	[archivingModeAuxiliaryDirWarningView setToolTip:auxDirToolTip];
 
+    [self.services setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    
 	[self robotOptionsInit];
     
     [self selectService:nil];
@@ -312,8 +314,6 @@
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithObjectsAndKeys: uid, @"id", nil];
     [self.services addObject:dic];
     
-    [servicesTable reloadData];
-    
     [self.services setSelectedObjects:[NSArray arrayWithObject:dic]];
     [servicesTable editColumn:0 row:[self.services.arrangedObjects indexOfObject:dic] withEvent:nil select:YES];
     
@@ -328,8 +328,6 @@
     NSArray* dicts = [self.services selectedObjects];
     
     [self.services remove:sender];
-    
-    [servicesTable reloadData];
 
     // we should remove the related initialValues from NSUserDefaultsController... but whatever...
 }
@@ -436,24 +434,9 @@
     [self repositionEditTemplateButton];
 }
 
-#pragma mark Table View Delegate
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView*)aTableView {
-    return [services.arrangedObjects count];
+-(void)tableViewTextDidEndEditing:(NSNotification*)n {
+    [self.services rearrangeObjects];
 }
-
-- (id)tableView:(NSTableView*)aTableView objectValueForTableColumn:(NSTableColumn*)aTableColumn row:(NSInteger)rowIndex {
-    return [[services.arrangedObjects objectAtIndex:rowIndex] objectForKey:@"name"];
-}
-
-- (void)tableView:(NSTableView*)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn*)aTableColumn row:(NSInteger)rowIndex {
-    NSMutableDictionary* md = [services.arrangedObjects objectAtIndex:rowIndex];
-    
-    [[services.arrangedObjects objectAtIndex:rowIndex] setObject:anObject forKey:@"name"];
-    
-    [NSUserDefaults.standardUserDefaults setObject:services.content forKey:DPServicesListDefaultsKey];
-}
-
 
 @end
 
@@ -731,9 +714,19 @@
 */
 
 
+@interface DiscPublishingPreferencesTableView : NSTableView
 
+@end
 
+@implementation DiscPublishingPreferencesTableView
 
+- (void)textDidEndEditing:(NSNotification*)n {
+    [super textDidEndEditing:n];
+    if ([self.delegate respondsToSelector:@selector(tableViewTextDidEndEditing:)])
+        [self.delegate performSelector:@selector(tableViewTextDidEndEditing:) withObject:n];
+}
+
+@end
 
 
 
