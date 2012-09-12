@@ -14,6 +14,7 @@
 #include "Hand_Point.h"
 #include "Point_3D.h"
 #include "Point_2D.h"
+
 #ifdef _OS_WIN_
 	#include "Gestion_Curseurs.h"
 #endif
@@ -69,7 +70,7 @@ using namespace cv;
 
 #define TEST_FLUIDITE 1
 
-#define XML_FILE "openni.xml"
+//#define XML_FILE "openni.xml"
 #define TITLE "KiOP v1.0.0 beta"
 
 #define DP_FAR 5000

@@ -98,7 +98,7 @@ CursorQt cursorQt;
 HandClosedDetection hCD;
 HandPoint hP;
 
-
+string openNi_XML_FilePath;
 
 
 //==========================================================================//
@@ -119,7 +119,7 @@ void Initialisation(void)
 	}
 
 	cout << "= = = = = = = = = = = = = = = =" << endl;
-	cout << "\tINITIALISAAAAAAAATION" << endl;
+	cout << "\tINIATISILATION" << endl;
 	cout << "= = = = = = = = = = = = = = = =" << endl << endl;
 	cout << "Resolution d'ecran : " << SCRSZW << "x" << SCRSZH << endl << endl;
 
@@ -1041,14 +1041,21 @@ int main(int argc, char *argv[])
 {
 	Initialisation();
 
+	openNi_XML_FilePath = argv[0];
+#if defined _OS_WIN_
+	int p = openNi_XML_FilePath.find(".exe");
+	openNi_XML_FilePath = openNi_XML_FilePath.substr(0,p-4).append("openni.xml");
+#elif defined _OS_MAC_
+	int p = openNi_XML_FilePath.find(".app");
+	openNi_XML_FilePath = openNi_XML_FilePath.substr(0,p+4).append("/Contents/Resources/openni.xml");
+#endif
+
+	cout << "Chemin de openni.xml : " << openNi_XML_FilePath << endl << endl;
+
 	//------ OPEN_NI / NITE / OPENGL ------//
 	xn::EnumerationErrors errors;
 
-    String path = argv[0];
-    int p = path.find(".app");
-    path = path.substr(0,p+4).append("/Contents/Resources/openni.xml");
-    
-	status = context.InitFromXmlFile(path.c_str());
+	status = context.InitFromXmlFile(openNi_XML_FilePath.c_str());
 	CHECK_ERRORS(status, errors, "InitFromXmlFile");
 	CHECK_STATUS(status, "InitFromXml");
 
@@ -1112,7 +1119,6 @@ int main(int argc, char *argv[])
 
 
 
-
 	//================== QT ===================//
 
 	// Initialisation des ressources et création de la fenêtre avec les icônes
@@ -1121,7 +1127,7 @@ int main(int argc, char *argv[])
 #if defined _OS_WIN_
 	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
 	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64)); 
+	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
 	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
 	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
 	Pixmap *p6 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));

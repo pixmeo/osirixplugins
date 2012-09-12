@@ -19,7 +19,7 @@ bool g_notSteady = false;
 
 // -------------- Constructeur(s) ---------------- //
 
-SteadyClass::SteadyClass(void) 
+SteadyClass::SteadyClass(void)
 {
 	m_compteurTimer = 0;
 }

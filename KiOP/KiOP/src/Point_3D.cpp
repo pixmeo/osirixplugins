@@ -54,7 +54,7 @@ void Point3D::Rename(string newName)
 {	m_name = newName;	}
 
 
-// ---------------- Accesseur(s) ------------------ //
+// ---------------- Getter(s) ------------------ //
 short Point3D::X(void) const
 {	return m_x;	}
 short Point3D::Y(void) const

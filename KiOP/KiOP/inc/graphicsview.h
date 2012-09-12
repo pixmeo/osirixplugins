@@ -16,6 +16,7 @@
 class GraphicsView : public QGraphicsView
 {
 	Q_OBJECT
+
 public:
 	explicit GraphicsView(QGraphicsScene *scene, QWidget *parent = 0);
 	virtual void resizeEvent(QResizeEvent *event);
@@ -24,6 +25,7 @@ public:
 	void setSize(int width, int height);
 	QPoint Size(void);
 	void setPosition(int x, int y);
+
 signals:
 
 public slots:
