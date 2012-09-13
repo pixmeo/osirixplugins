@@ -104,7 +104,7 @@ void EnclenchementTimer(unsigned int ticFrame)
 	if (g_steady2Enable)
 		glutTimerFunc( 200, Steady2,ticFrame);
 	if (g_steady10Enable)
-		glutTimerFunc(1000,Steady10,ticFrame);
+		glutTimerFunc(1500,Steady10,ticFrame);
 	if (g_steady20Enable)
 		glutTimerFunc(2000,Steady20,ticFrame);
 }
