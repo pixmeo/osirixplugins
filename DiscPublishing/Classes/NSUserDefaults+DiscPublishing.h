@@ -47,6 +47,7 @@ extern NSString* const DPServiceFSMatchTokensDefaultsKey;
 extern NSString* const DPServiceFSMatchConditionDefaultsKey;
 extern NSString* const DPServiceFSMatchDeleteDefaultsKey;
 extern NSString* const DPServiceFSMatchDelayDefaultsKey;
+extern NSString* const DPServiceFSMatchToDicomDefaultsKey;
 
 /*
 extern NSString* const DPArchivingModeDiscCoverTemplatePathDefaultsKey;

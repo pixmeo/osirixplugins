@@ -111,6 +111,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
     options.fsMatchCondition = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchConditionDefaultsKey forDPServiceId:sid]];
     options.fsMatchDelete = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchDeleteDefaultsKey forDPServiceId:sid]];
     options.fsMatchDelay = [self integerForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchDelayDefaultsKey forDPServiceId:sid]];
+    options.fsMatchToDicom = [self boolForKey:[NSUserDefaults transformKeyPath:DPServiceFSMatchToDicomDefaultsKey forDPServiceId:sid]];
 	
 	return options;
 }
@@ -145,7 +146,7 @@ static NSUserDefaultsControllerDiscPublishingHelper* helper = NULL;
 	
 	NSMutableDictionary* dic = [NSMutableDictionary dictionary];
 	NSArray* bins = [doc objectsForXQuery:@"/PTRECORD_STATUS/ROBOTS/ROBOT/BINS/BIN" constants:NULL error:NULL];
-	NSLog(@"bins %@", bins);
+//	NSLog(@"bins %@", bins);
 //	for (NSUInteger i = 0; i < 2; ++i) {
 //#warning: this MUST be enabled when releasing
 	for (NSUInteger i = 0; i < bins.count; ++i) {

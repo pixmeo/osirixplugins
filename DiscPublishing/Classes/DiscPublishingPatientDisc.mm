@@ -36,6 +36,7 @@
 #import <OsiriX/DCMObject.h>
 #import <OsiriX/DCMAttribute.h>
 #import <OsiriX/DCMAttributeTag.h>
+#import <OsiriXAPI/DicomStudy+Report.h>
 
 
 static NSString* PreventNullString(NSString* s) {
@@ -332,6 +333,24 @@ static NSString* PreventNullString(NSString* s) {
                 
                 if ([NSFileManager.defaultManager fileExistsAtPath:studyMatchesDirPath])
                     [matchedDataPerStudy setObject:studyMatchesDirPath forKey:[NSValue valueWithPointer:study]];
+
+                if (_options.fsMatchToDicom) // make DICOM files from PDFs
+                    for (NSString* filename in [NSFileManager.defaultManager contentsOfDirectoryAtPath:studyMatchesDirPath error:NULL]) {
+                        NSString* path = [studyMatchesDirPath stringByAppendingPathComponent:filename];
+                        if ([[path pathExtension] caseInsensitiveCompare:@"pdf"] == NSOrderedSame) {
+                            // make dicom...
+                            NSString* dcmpath = [[DicomDatabase defaultDatabase] uniquePathForNewDataFileWithExtension:nil];
+                            [study transformPdfAtPath:path toDicomAtPath:dcmpath];
+                            // add it to the db
+                            NSArray* reportImages = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
+                            
+                            // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
+                            [_images addObjectsFromArray:reportImages];
+                            for (DicomImage* image in reportImages)
+                                if (![series containsObject:image.series])
+                                    [series addObject:image.series];
+                        }
+                    }
                 
                 if (self.isCancelled)
                     break;
@@ -341,10 +360,11 @@ static NSString* PreventNullString(NSString* s) {
             
             self.status = NSLocalizedString(@"Unmounting match share...", nil);
             
-            pid_t dissenter;
-            FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
-            
-            [NSFileManager.defaultManager removeItemAtPath:shareMountPath error:NULL];
+            [NSThread performBlockInBackground:^{ // unmounting is sometimes slow (probably because of spotlight), so we do it in a background thread
+                pid_t dissenter;
+                FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
+                [NSFileManager.defaultManager removeItemAtPath:shareMountPath error:NULL];
+            }];
         }
         @catch (NSException* e) {
             ok = NO;
@@ -458,6 +478,7 @@ static NSString* PreventNullString(NSString* s) {
                 
                 if ([_options respondsToSelector:@selector(includeWeasis)] && _options.includeWeasis)
                     [DiscPublishingPatientDisc copyWeasisToPath:discBaseDirPath];
+                
                 if (_options.includeOsirixLite)
                     [DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
                 if (_options.includeAuxiliaryDir)
@@ -523,6 +544,18 @@ static NSString* PreventNullString(NSString* s) {
                 
                 NSString* discName = [DiscPublishingPatientDisc discNameForSeries:discSeries];
                 NSString* safeDiscName = [discName filenameString];
+                
+                // change label in Autorun.inf because ppl don't like "Weasis" to be the label in windows...
+                NSString* autorunInfPath = [discBaseDirPath stringByAppendingPathComponent:@"Autorun.inf"];
+                if ([NSFileManager.defaultManager fileExistsAtPath:autorunInfPath]) {
+                    NSStringEncoding encoding;
+                    NSString* autorunInf = [NSString stringWithContentsOfFile:autorunInfPath usedEncoding:&encoding error:nil];
+                    if (autorunInf.length) {
+                        autorunInf = [autorunInf stringByReplacingOccurrencesOfString:@"Label=Weasis" withString:[NSString stringWithFormat:@"Label=%@", safeDiscName]];
+                        [NSFileManager.defaultManager removeItemAtPath:autorunInfPath error:nil];
+                        [autorunInf writeToFile:autorunInfPath atomically:YES encoding:encoding error:nil];
+                    }
+                }
                 
                 NSMutableArray* discModalities = [NSMutableArray array];
                 for (DicomSeries* serie in discSeries)
@@ -759,7 +792,17 @@ static NSString* PreventNullString(NSString* s) {
 }
 
 -(void)_reportError:(NSString*)err {
-    [[NSAlert alertWithMessageText:NSLocalizedString(@"Disc Publishing Error", nil) defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", err] beginSheetModalForWindow:self.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    NSString* title = NSLocalizedString(@"Disc Publishing Error", nil);
+
+    @try {
+        [[[DiscPublishing instance] tool] growlWithTitle:title message:err];
+    } @catch (...) {
+        // an exception occurred while trying to growl an error... we're displaying it anyway, so nevermind
+    }
+    
+    NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:nil alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", err];
+    [alert.window center];
+    [alert.window makeKeyAndOrderFront:self];
 }
 
 +(NSArray*)prepareSeriesDataForImages:(NSArray*)imagesIn inDirectory:(NSString*)basePath options:(DiscBurningOptions*)options database:(DicomDatabase*)database seriesPaths:(NSMutableDictionary*)seriesPaths

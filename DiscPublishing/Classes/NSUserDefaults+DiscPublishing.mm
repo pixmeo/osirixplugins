@@ -53,7 +53,7 @@ NSString* const DPServiceFSMatchTokensDefaultsKey = @"DiscPublishingPatientModeF
 NSString* const DPServiceFSMatchConditionDefaultsKey = @"DiscPublishingPatientModeFSMatchCondition";
 NSString* const DPServiceFSMatchDeleteDefaultsKey = @"DiscPublishingPatientModeFSMatchDelete";
 NSString* const DPServiceFSMatchDelayDefaultsKey = @"DiscPublishingPatientModeFSMatchDelay";
-
+NSString* const DPServiceFSMatchToDicomDefaultsKey = @"DiscPublishingPatientModeFSMatchToDICOM";
 
 @implementation NSUserDefaults (DiscPublishing)
 

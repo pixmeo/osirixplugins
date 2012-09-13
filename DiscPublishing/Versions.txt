@@ -3,8 +3,10 @@
 - Allows different behaviors depending on the called AET
 - (Almost)Empty input bins and ink cartridge warnings
 - Better temporary data cleanup
-- Option: include files by matching DICOM meta values against file ordirectory names in a mounted share
+- Option: include files by matching DICOM meta values against file ordirectory names in a mounted share, with the possibility of converting PDFs to DICOM
 - Option: delete DICOM files after publishing them
+- Autorun.inf label changed from Weasis to the disc name
+- OsiriX side errors (when preparing disc data) are growled through the Tool, so they can be routed to email or SMS like other errors and warnings
 - Upgraded Primera frameworks to versions from PTPublisher 2.5, make sure you update your printer drivers: http://www.primera.com/downloads/support/MacMountainLion.html
 - The frameworks update includes a bunch of bug fixes: http://www.primera.com/downloads/support/PTPMac/PTPublisherMac2_0.txt
 

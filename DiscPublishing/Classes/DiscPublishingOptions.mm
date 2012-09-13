@@ -20,6 +20,7 @@ static NSString* const DPOptionsFSMatchTokensArchivingKey = @"fsMatchTokens";
 static NSString* const DPOptionsFSMatchConditionArchivingKey = @"fsMatchCondition";
 static NSString* const DPOptionsFSMatchDeleteArchivingKey = @"fsMatchDelete";
 static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
+static NSString* const DPOptionsFSMatchToDicomArchivingKey = @"fsMatchToDicom";
 
 
 @synthesize mode;
@@ -32,6 +33,7 @@ static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
 @synthesize fsMatchCondition;
 @synthesize fsMatchDelete;
 @synthesize fsMatchDelay;
+@synthesize fsMatchToDicom;
 
 
 -(id)copyWithZone:(NSZone*)zone {
@@ -61,6 +63,7 @@ static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
 	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchCondition] forKey:DPOptionsFSMatchConditionArchivingKey];
 	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchDelete] forKey:DPOptionsFSMatchDeleteArchivingKey];
 	[encoder encodeObject:[NSNumber numberWithInteger:self.fsMatchDelay] forKey:DPOptionsFSMatchDelayArchivingKey];
+	[encoder encodeObject:[NSNumber numberWithBool:self.fsMatchToDicom] forKey:DPOptionsFSMatchToDicomArchivingKey];
 }
 
 -(id)initWithCoder:(NSCoder*)decoder {
@@ -76,6 +79,7 @@ static NSString* const DPOptionsFSMatchDelayArchivingKey = @"fsMatchDelay";
     self.fsMatchCondition = [[decoder decodeObjectForKey:DPOptionsFSMatchConditionArchivingKey] boolValue];
     self.fsMatchDelete = [[decoder decodeObjectForKey:DPOptionsFSMatchDeleteArchivingKey] boolValue];
     self.fsMatchDelay = [[decoder decodeObjectForKey:DPOptionsFSMatchDelayArchivingKey] integerValue];
+    self.fsMatchToDicom = [[decoder decodeObjectForKey:DPOptionsFSMatchToDicomArchivingKey] integerValue];
     
 	return self;
 }

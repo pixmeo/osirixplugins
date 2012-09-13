@@ -22,6 +22,7 @@
     BOOL fsMatchCondition;
     BOOL fsMatchDelete;
     NSInteger fsMatchDelay;
+    BOOL fsMatchToDicom;
 }
 
 @property(assign) NSInteger mode;
@@ -34,5 +35,6 @@
 @property(assign) BOOL fsMatchCondition;
 @property(assign) BOOL fsMatchDelete;
 @property(assign) NSInteger fsMatchDelay;
+@property(assign) BOOL fsMatchToDicom;
 
 @end
