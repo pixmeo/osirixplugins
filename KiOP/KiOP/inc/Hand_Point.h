@@ -43,6 +43,7 @@ public :
 	Point3D HandPtBrut(void) const;
 	Point3D HandPtBrutFiltre(void) const;
 	Point3D LastHandPt(void) const;
+	Point3D DeltaHandPt(void) const;
 	Point3D HandVirtualPt(void) const;
 
 	Point3D Speed(void) const;
@@ -87,7 +88,7 @@ private :
 
 	Point3D m_smooth;
 
-	SteadyClass sTD;
+	SteadyClass m_sTD;
 };
 
 

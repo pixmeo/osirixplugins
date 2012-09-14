@@ -176,8 +176,7 @@ void CursorQt::PressLeftClic(void)
 			mouse_event(MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
 			ChangeCursor(5); // main fermée
 		#endif
-
-		cout << "Clic gauche maintenu\n" << endl;
+		//cout << "Clic gauche maintenu\n" << endl;
 	}
 }
 
@@ -189,7 +188,7 @@ void CursorQt::ReleaseLeftClic(void)
 			mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
 			ChangeCursor(4); // main ouverte
 		#endif
-		cout << "Clic gauche relache\n" << endl;
+		//cout << "Clic gauche relache\n" << endl;
 	}
 }
 

@@ -8,7 +8,7 @@
 //==========================================================================//
 //=========================== VARIABLES GLOBALES ===========================//
 
-unsigned int g_tocFrame = 0;
+int g_tocFrame = 0;
 bool g_steady2 = false, g_steady10 = false, g_steady20 = false;
 bool g_steady2Enable = false, g_steady10Enable = false, g_steady20Enable = false;
 bool g_notSteady = false;
@@ -29,7 +29,7 @@ SteadyClass::SteadyClass(void)
 
 void SteadyClass::SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt)
 {
-	Point3D seuil(2,2,2,"seuil");
+	static const Point3D seuil(2,2,2,"seuil");
 
 	Point3D lim1(lastHandPt-seuil/2,"lim1");
 	Point3D lim2(lastHandPt+seuil/2,"lim2");
@@ -137,7 +137,7 @@ void Steady2Enable(void)
 	if (!g_steady2Enable)
 	{
 		g_steady2Enable = true;
-		cout << "Steady 2 Enable" << endl;
+		cout << "-- Steady 2 Enable" << endl;
 	}
 }
 void Steady10Enable(void)
@@ -145,7 +145,7 @@ void Steady10Enable(void)
 	if (!g_steady10Enable)
 	{
 		g_steady10Enable = true;
-		cout << "Steady 10 Enable" << endl;
+		cout << "-- Steady 10 Enable" << endl;
 	}
 }
 void Steady20Enable(void)
@@ -153,7 +153,7 @@ void Steady20Enable(void)
 	if (!g_steady20Enable)
 	{
 		g_steady20Enable = true;
-		cout << "Steady 20 Enable" << endl;
+		cout << "-- Steady 20 Enable" << endl;
 	}
 }
 
@@ -162,7 +162,7 @@ void Steady2Disable(void)
 	if (g_steady2Enable)
 	{
 		g_steady2Enable = false;
-		cout << "Steady 2 Disable" << endl;
+		cout << "-- Steady 2 Disable" << endl;
 	}
 }
 void Steady10Disable(void)
@@ -170,7 +170,7 @@ void Steady10Disable(void)
 	if (g_steady10Enable)
 	{
 		g_steady10Enable = false;
-		cout << "Steady 10 Disable" << endl;
+		cout << "-- Steady 10 Disable" << endl;
 	}
 }
 void Steady20Disable(void)
@@ -178,7 +178,7 @@ void Steady20Disable(void)
 	if (g_steady20Enable)
 	{
 		g_steady20Enable = false;
-		cout << "Steady 20 Disable" << endl;
+		cout << "-- Steady 20 Disable" << endl;
 	}
 }
 

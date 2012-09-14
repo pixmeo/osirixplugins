@@ -9,71 +9,52 @@
 //==========================================================================//
 //=========================== VARIABLES GLOBALES ===========================//
 
-// 0: Inactive; 1: in menu; 2: tool chosen
-int currentState = 0;
-int lastState = 0;
-int moveCounter = 0;
+// 0: Inactive; 1: Hand calibrating; 2: Main menu; 3: Normal tool mode; 4: Layout mode; 5: Mouse mode; 9: Return to main menu.
+int g_currentState = 0;
+int g_lastState = 0;
+int g_moveCounter = 0;
 
-// 0: Zoom; 1: Contrast; 2: Move
-int currentTool = 3; 
-int lastTool = 3;
-int toolToChoose = -1; 
-int totalTools = 6; // +1
-int positionTool[7]; //position des outils dans le menu
-int afficheTool[7]; //affichage des outils
+// 0: Layout; 1: Move; 2: Contrast; 3: Zoom; 4: Scroll; 5: Mouse; 6: RedCross.
+int g_currentTool = 3;
+int g_lastTool = 3;
+int g_toolToChoose = -1;
+int g_totalTools = 6; // +1
+int g_positionTool[7]; //position des outils dans le menu
 
-//Layout
-int totalLayoutTools = 6; //+1
-int currentLayout = 0;
-int currentLayoutTool = 0;
-int lastLayoutTool = 0;
-bool layoutSelected = false;
+// Layout
+int g_totalLayoutTools = 6; //+1
+int g_currentLayoutTool = 0;
+int g_lastLayoutTool = 0;
+bool g_layoutSelected = false;
 
-float iconIdlePt = 192.0;
-float iconActivePt = 64.0;
-xn::Context context;
-xn::DepthGenerator dpGen;
-xn::DepthMetaData dpMD;
-xn::HandsGenerator myHandsGenerator;
-XnStatus status;
+float g_iconIdlePt = 192.0;
+//float g_iconActivePt = 64.0; // ?
+xn::Context g_context;
+xn::DepthGenerator g_dpGen;
+xn::DepthMetaData g_dpMD;
+xn::HandsGenerator g_myHandsGenerator;
+XnStatus g_status;
 
-int depthRefVal = 0;
-bool realDepth = false;
-float lastX = 0.0;
-float lastY = 0.0;
-float lastZ = 0.0;
-//number of frames after which we collect point data
-int nFrames = 2; 
-//actual frame number
-int actualFrame = 0; 
-int moveThreshold = 4;
-float handDepthLimit;
-float handSurfaceLimit;
 // Paramètre de profondeur de la main
-float handDepthThreshold = 50.0;
-float handSurfaceThreshold = 50.0;
-bool handDown = false;
-int cptHand = 0;
-int handFrames = 5;
+float g_handDepthLimit;
+float g_handDepthThreshold = 50.0;
 
-bool handClosed = false;
-bool handStateChanged = false;
-bool handFlancMont = false;
-bool handFlancDesc = false;
-bool handClic = false;
-bool lastHandClosed = false;
+bool g_handClosed = false;
+bool g_handStateChanged = false;
+bool g_handFlancMont = false;
+bool g_handFlancDesc = false;
+bool g_handClic = false;
+bool g_lastHandClosed = false;
 
-bool toolSelectable = false;
-bool methodeMainFermeeSwitch = false;
+bool g_toolSelectable = false;
+bool g_methodeMainFermeeSwitch = false;
 
 // NITE
-bool activeSession = false;
-bool steadyState = false;
-bool steady2 = false;
-XnVSessionManager *sessionManager;
-XnVPointControl *pointControl;
-XnPoint3D handPt;
-XnPoint3D lastPt;
+bool g_activeSession = false;
+XnVSessionManager *gp_sessionManager;
+XnVPointControl *gp_pointControl;
+XnPoint3D g_handPt;
+XnPoint3D g_lastPt;
 XnVFlowRouter* g_pFlowRouter;
 XnFloat g_fSmoothing = 0.0f;
 
@@ -83,22 +64,24 @@ XnFloat g_fSmoothing = 0.0f;
 	char **qargv = NULL;
 	QApplication app(qargc,qargv);
 #endif
-GraphicsView *window;
-GraphicsView *windowActiveTool;
-QGraphicsScene *sceneActiveTool;
-GraphicsView *viewLayouts;
-vector<Pixmap*> pix; //for main tools
-vector<Pixmap*> pixL; //for layouts
-Pixmap* pixActive; //for activeTool
-QColor toolColorActive = Qt::green;
-QColor toolColorInactive = Qt::gray;
+GraphicsView *gp_window;
+GraphicsView *gp_windowActiveTool;
+QGraphicsScene *gp_sceneActiveTool;
+GraphicsView *gp_viewLayouts;
+vector<Pixmap*> g_pix; //for main tools
+vector<Pixmap*> g_pixL; //for layouts
+Pixmap* gp_pixActive; //for activeTool
+QColor g_toolColorActive = Qt::green;
+QColor g_toolColorInactive = Qt::gray;
+
+TelnetClient g_telnet;
 
 // KiOP //
-CursorQt cursorQt;
-HandClosedDetection hCD;
-HandPoint hP;
+CursorQt g_cursorQt;
+HandClosedDetection g_hCD;
+HandPoint g_hP;
 
-string openNi_XML_FilePath;
+string g_openNi_XML_FilePath;
 
 
 //==========================================================================//
@@ -132,13 +115,13 @@ void Initialisation(void)
 // Fonction de fermeture du programme
 void CleanupExit()
 {
-	context.Shutdown();
+	g_context.Shutdown();
 	exit(1);
 }
 
 
 // Incrémente une valeur sans jamais dépasser les bornes sup et inf
-void IcrWithLimits(int &val, const int icr, const int limUp, const int limDown)
+void IcrWithLimits(int &val, const int icr, const int limDown, const int limUp)
 {
 	val += icr;
 	if (val > limUp) val = limUp;
@@ -148,532 +131,393 @@ void IcrWithLimits(int &val, const int icr, const int limUp, const int limDown)
 
 inline bool isHandPointNull()
 {
-	return ((handPt.X == -1) ? true : false);
+	return ((g_handPt.X == -1) ? true : false);
 }
 
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 {
-	if (hP.DetectLeft())
+	if (g_hP.DetectLeft())
 	{
-		if (moveCounter > 0)
-			moveCounter = 0;
-		moveCounter -= (hP.LastHandPt().X() - hP.HandPt().X());
+		if (g_moveCounter > 0)
+			g_moveCounter = 0;
+		g_moveCounter += g_hP.DeltaHandPt().X();
 	}
-	else if (hP.DetectRight())
+	else if (g_hP.DetectRight())
 	{
-		if (moveCounter < 0)
-			moveCounter = 0;
-		moveCounter -= (hP.LastHandPt().X() - hP.HandPt().X());
+		if (g_moveCounter < 0)
+			g_moveCounter = 0;
+		g_moveCounter += g_hP.DeltaHandPt().X();
 	}
 
 	#if TEST_FLUIDITE
 		//vitesse dans le menu en fonction de la distance
-		int seuil = 20 - (abs(hP.Speed().X())+(hP.HandPt().Z()/300))/3;
+		int seuil = 20 - (abs(g_hP.Speed().X())+(g_hP.HandPt().Z()/300))/3;
 	#else
 		int seuil = 6;
 	#endif
 
+	int temp = currentTool;
+
 	//cout << "Seuil : " << seuil << endl;
-	if (moveCounter <= -seuil)
+	if (g_moveCounter <= -seuil)
 	{
 		// Go left in the menu
 		lastTool = currentTool;
-		IcrWithLimits(currentTool,-1,totalTools,0);
-		moveCounter = 0;
+		IcrWithLimits(currentTool,-1,0,totalTools);
+		g_moveCounter = 0;
 	}
-	else if (moveCounter >= seuil)
+	else if (g_moveCounter >= seuil)
 	{
 		// Go right in the menu
 		lastTool = currentTool;
-		IcrWithLimits(currentTool,1,totalTools,0);
-		moveCounter = 0;
+		IcrWithLimits(currentTool,1,0,totalTools);
+		g_moveCounter = 0;
 	}
 }
+
+
 
 void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
 {
-	//only set the pixmap geometry when needed 
+	//only set the pixmap geometry when needed
 	if (lastTool != currentTool)
 	{
-        //pix.operator[](lastTool)->hide();
-        pix.operator[](currentTool)->hide();
-		if (currentTool == 0)
-			pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0), iconIdlePt-64, 128.0, 128.0));//for zooming on the tool
-		else
-			pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0)-32, iconIdlePt-64, 128.0, 128.0));//for zooming on the tool
-        pix.operator[](currentTool)->show();
-		pix.operator[](lastTool)->setGeometry(QRectF( lastTool*128.0, iconIdlePt, 64.0, 64.0));
-        //pix.operator[](lastTool)->show();
+		// On réduit l'outil précédent
+		pix.operator[](lastTool)->setGeometry(QRectF(lastTool*128.0, g_iconIdlePt, 64.0, 64.0));
+
+		// On aggrandi l'outil courant
+		pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0)-(currentTool==0?0:32), g_iconIdlePt-64, 128.0, 128.0));
 	}
 }
 
-void detectHandDown()
+
+void CheckHandDown()
 {
-	//code à ameliorer/////////////////////////////
-	//quitter la session lorsqu'on baisse la main
-	handDown = false;
-	if (hP.HandPt().Z() < 1500)
+	if (g_activeSession && g_toolSelectable)
 	{
-		if (hP.HandPt().Y() > lastPt.Y+150)
+		if (g_hP.Speed().Y() > 24)
 		{
-			handDown = true;
+			cout << "-- Main baissee, vitesse : " << g_hP.Speed().Y() << endl;
+			gp_sessionManager->EndSession();
 		}
 	}
-	else if((hP.HandPt().Z() < 2100)&&(hP.HandPt().Z()>=1500))
+}
+
+void CheckBaffe()
+{
+	if (g_activeSession && g_toolSelectable)
 	{
-		if (hP.HandPt().Y() > lastPt.Y+130)
+		static int vitesseBaffe = abs(g_hP.Speed().X()) + abs(g_hP.HandPt().Z()/300);
+		if (vitesseBaffe > 34)
 		{
-			handDown = true;
+			cout << "-- Baffe detectee, vitesse : " << vitesseBaffe << endl;
+			gp_sessionManager->EndSession();
 		}
 	}
-	else if(hP.HandPt().Z() > 2100)
+}
+
+
+void ChangeState(int newState)
+{
+	if (newState != g_lastState)
 	{
-		if (hP.HandPt().Y() > lastPt.Y+100)
-		{
-			handDown = true;
-		}
+		g_lastState = g_currentState;
+		g_currentState = newState;
+
+		cout << "- Entree dans l'etat no" << g_currentState << endl;
+	}
+}
+
+
+bool SelectionDansUnMenu(short currentIcon)
+{
+	static short s_toolClic = 10;
+	bool temp = false;
+
+	if (g_handFlancMont)
+	{
+		// On enregistre l'outil sur lequel on a fermé la main
+		s_toolClic = currentIcon;
 	}
 
-	//test de la vitesse
-	//int detectHighSpeed = 20 - (abs(hP.Speed().X())+(hP.HandPt().Z()/300))/3;
-	
+	// Si l'outil change, on annule
+	if (currentIcon != s_toolClic)
+	{
+		s_toolClic = 10;
+		temp =  false;
+	}
+	else
+	{
+		// Sinon on entre dans l'outil selectionné dès que l'on ouvre la main
+		if (g_handFlancDesc)
+			temp =  true;
+		else
+			temp =  false;
+	}
+
+	return temp;
 }
+
 
 void handleState()
 {
-	static TelnetClient telnet;
-	//cout << currentState << endl;
+	static short s_toolClic = 10;
 
-	bool inIntervalleX = (hP.HandPt().X() < handSurfaceLimit+handSurfaceThreshold)&&(hP.HandPt().X() > handSurfaceLimit-handSurfaceThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en X
-	bool inIntervalleZ = (hP.HandPt().Z() < handDepthLimit+handDepthThreshold); // Booléen pour indiquer si la main est dans le bon intervelle de distance en Z
+	CheckHandDown();
+	CheckBaffe();
 
-	detectHandDown();
-	if (toolSelectable){
-		if(abs((hP.Speed().X())+(hP.HandPt().Z()/300)) > 40){
-			handDown = true;	
-			cout << abs(hP.Speed().X())+(hP.HandPt().Z()/300) << endl;
-		}
-	}
-	switch(currentState)
+	switch (g_currentState)
 	{
-		case -2 :
-			if (!handClosed) // ?
+	// Session inactive
+	case 0 :
+
+		break; // case 0
+
+	// Coucou effectué, passage par sessionStart, calibrage de la main (200ms)
+	case 1 :
+
+		if (g_hP.Steady2())
+		{
+			ChangeState(2);
+			Steady2Disable();
+
+			g_toolSelectable = true;
+			MenuOpaque();
+		}
+		break; // case 1
+
+	// Après le calibrage de la main, menu des outils
+	case 2 :
+
+		chooseTool(g_currentTool, g_lastTool, g_totalTools);
+		browse(g_currentTool, g_lastTool, g_pix);
+
+		if (SelectionDansUnMenu(g_currentTool))
+		{
+			g_telnet.connexion();
+			switch(g_currentTool)
 			{
-				currentState = 1;
+			case 0:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+				break;
+			case 1:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction pan\r\n"));
+				break;
+			case 2:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction winLevel\r\n"));
+				break;
+			case 3:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction zoom\r\n"));
+				break;
+			case 4:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sequence\r\n"));
+				break;
+			case 5:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+				break;
+			case 6:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+				break;
 			}
 
-		// L'outil a été sélectionné
-		case -1 :
-			if (lastState == 1)
+			// Si un des outils "normaux" a été selectionné
+			if ( (g_currentTool == 1) || (g_currentTool == 2) || (g_currentTool == 3) || (g_currentTool == 4) )
 			{
-				pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
-				window->hide();
-				windowActiveTool->show();
-				//pixActive->show();
-				pixActive->load(QPixmap(":/images/"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
-				windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
-				if (currentTool==totalTools)
-					currentState = 2;
-				lastTool = currentTool;
-				lastState = currentState;
+				ChangeState(3);
+				cout << "--- Selection de l'outil : " << g_currentTool << endl;
+
+				gp_window->hide();
+				gp_windowActiveTool->show();
+				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(128,128));
+			}
+			
+			// Si l'outil layout a été selectionné
+			else if (g_currentTool == 0)
+			{
+				ChangeState(4);
+				g_currentLayoutTool = 0;
+				g_lastLayoutTool = 6;
 			}
 
-			if (1)
+			// Si l'outil souris a été selectionné
+			else if (g_currentTool == 5)
 			{
-				windowActiveTool->hide();
-				currentState = 2;
-				windowActiveTool->show();
-				//pixActive->load(QPixmap(":/images/Resources/activeTool/_"+pix.operator[](currentTool)->objectName()+".png").scaled(128,128));
-				windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
-				//timerOut = false;
-				handDepthLimit = hP.HandPt().Z();
-				handSurfaceLimit = hP.HandPt().X();
-				switch(currentTool){
-					case 0:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
-						break;
-					case 1:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction pan\r\n"));
-						break;
-					case 2:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction winLevel\r\n"));
-						break;
-					case 3:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction zoom\r\n"));
-						break;
-					case 4:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sequence\r\n"));
-						break;
-					case 5:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
-						break;
-					case 6:
-						telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
-						break;
+				ChangeState(5);
+				g_telnet.deconnexion();
+				g_cursorQt.NewCursorSession();
+				g_handDepthLimit = g_hP.HandPt().Z();
 
-				}
+				Steady20Enable();
+
+				gp_window->hide();
+				gp_windowActiveTool->show();
 			}
-			break;
 
-		// En attente d'un coucou
-		case 0 :
-			steady2 = false;
-			steadyState = false;
-			break;
+			// Si la croix a été selectionnée
+			else if (g_currentTool == g_totalTools)
+			{
+				cout << "-- Croix selectionnee" << endl;
+				gp_sessionManager->EndSession();
+			}
+		}
 
-		// Coucou effectué, afficher le menu
-		case 1 :
-			Steady2Enable();
+		break; // case 2
+
+	// Outil "normal" selectionné
+	case 3 :
+
+		if (g_handClosed)
+		{
+			// On désactive les steadys
 			Steady10Disable();
 			Steady20Disable();
-			if (lastState == 0)
+
+			gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorActive, Qt::SolidPattern));
+
+			switch (g_currentTool)
 			{
-				viewLayouts->hide();
-				windowActiveTool->hide();
-                window->show();
-//				for (int i=0; i<=totalTools; i++)
-//				{
-//					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
-//					pix.operator[](i)->show();
-//				}
-				lastState = currentState;
-				telnet.connexion();
-				toolSelectable = false;
-				toolToChoose = -1;
-				layoutSelected = false;
-			}
+			// Move
+			case 1 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n")
+				.arg(-SENSIBILITE_MOVE_X*g_hP.DeltaHandPt().X()).arg(-SENSIBILITE_MOVE_Y*g_hP.DeltaHandPt().Y()));
+				break;
 
-			//if (!handClosed)
-			//{
-				if (!toolSelectable){
-					window->setWindowOpacity(qreal(0.4));
-				}else{
-					chooseTool(currentTool, lastTool, totalTools);
-					browse(currentTool,lastTool, pix);
-					window->setWindowOpacity(qreal(1.0));
-				}
-			/*}*/
+			// Contrast
+			case 2 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n")
+				.arg(-SENSIBILITE_CONTRAST_X*g_hP.DeltaHandPt().X()).arg(-SENSIBILITE_CONTRAST_Y*g_hP.DeltaHandPt().Y()));
+				break;
 
-			// Si la main est fermée, on choisi un outil
-			//if (0)
-			//cout << "handClosed: " << handClosed << " ; lastHandClosed: " << lastHandClosed << endl;
-			if (toolSelectable)
-			{	
-				if (handClosed && !lastHandClosed){
-					toolToChoose = currentTool;
-				}
-				if (lastHandClosed && !handClosed){
-					if (currentTool == toolToChoose){
-						lastState = currentState;
-						currentState = -1;
-						nFrames = 2;
-						moveThreshold = 4;
-						cout << "Tool selected" << endl;
-						telnet.connexion();
-					}
-				}
-			}
+			// Zoom
+			case 3 :
+				if (g_hP.DetectBackward())
+					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -i 1\r\n"));
+				if (g_hP.DetectForward())
+					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -d 1\r\n"));
+				break;
 
-			//if (!toolSelectable)
-			//{
-			//	MenuTransparent();
-			//}
-			//else
-			//{
-			//	MenuOpaque();
-			//}
-			break;
+			// Scroll
+			case 4 :
+				if (g_hP.DetectBackward())
+					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i 1\r\n"));
+				if (g_hP.DetectForward())
+					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d 1\r\n"));
+				break;
 
-		// L'outil a été selectionné
-		case 2 :
+			} // end switch (g_currentTool)
+		}
+
+		// Si la main est ouverte
+		else
+		{
+			gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+
 			Steady10Enable();
 			Steady20Enable();
-			windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
-			switch(currentTool)
+			if (g_hP.Steady10())
+				ChangeState(9); // Préparation pour le retour au menu
+		}
+
+		break; // case 3
+
+	// Outil layout selectionné
+	case 4 :
+
+		gp_window->hide();
+		gp_windowActiveTool->hide();
+		gp_viewLayouts->show();
+
+		chooseTool(g_currentLayoutTool, g_lastLayoutTool, g_totalLayoutTools);
+		browse(g_currentLayoutTool,g_lastLayoutTool, g_pixL);
+
+		if (SelectionDansUnMenu(g_currentLayoutTool))
+		{
+			switch(g_currentLayoutTool)
 			{
-				// Zoom
-				case 3 :
-					//if (handPt.Z < handDepthLimit+handDepthThreshold)
-					if (handClosed)
-					{
-						if (hP.DetectBackward())
-						{
-							#if !TEST_FLUIDITE
-							for (int i=0; i<3; i++)
-							#endif
-							{
-								telnet.sendCommand(QString("\r\ndcmview2d:zoom -i 1\r\n"));
-							}
-						}
-						else if(hP.DetectForward())
-						{
-							#if !TEST_FLUIDITE
-							for (int i=0; i<3; i++)
-							#endif
-							{
-								telnet.sendCommand(QString("\r\ndcmview2d:zoom -d 1\r\n"));
-							}
-						}
-						else { }
-					}
-					else
-					{
-						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
-					}
-					break;
-
-				// Contraste
-				case 2 :
-					if (handClosed)
-					{
-						int valX = (int)(lastX-hP.HandPt().X());//((hP.Speed().X())+(hP.HandPt().Z()/300));
-						int valY = (int)(hP.LastHandPt().Y()-hP.HandPt().Y());//((hP.Speed().Y())+(hP.HandPt().Z()/300));
-						cout << valX << " ; " << valY << endl;
-						telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg(valX).arg(valY));
-						//telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n").arg(valX).arg(valY));
-					} 
-					else
-					{
-						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
-					}
-					break;
-
-				// Translation
-				case 1 :
-					if (handClosed)
-					{
-						int valX = (int)(lastX-hP.HandPt().X());//((hP.Speed().X())+(hP.HandPt().Z()/300))/2;
-						int valY = (int)(hP.LastHandPt().Y()-hP.HandPt().Y());	//-((hP.Speed().Y())+(hP.HandPt().Z()/300))/2;
-						cout << valX << " ; " << valY << endl;
-						telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg(valX).arg(valY));
-						//telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n").arg(valX).arg(valY));
-					} 
-					else
-					{
-						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
-					}
-					break;
-
-				// Scroll
-				case 4 :
-					//if (handPt.Z < handSurfaceLimit+handSurfaceThreshold) //&& (handDepthLimit-40 < handPt.Z)){
-					//if (handPt.Z < handDepthLimit+handDepthThreshold) {
-					if (handClosed)
-					{
-						if (hP.DetectBackward())
-						{
-							#if !TEST_FLUIDITE
-							for (int i=0; i<-(lastZ-hP.HandPt().Z())/6; i++)
-							#endif
-							{
-								telnet.sendCommand(QString("\r\ndcmview2d:scroll -i 1\r\n"));
-							}
-						}
-						else if (hP.DetectForward())
-						{
-							#if !TEST_FLUIDITE
-							for (int i=0; i<(lastZ-hP.HandPt().Z())/6; i++)
-							#endif
-							{
-								telnet.sendCommand(QString("\r\ndcmview2d:scroll -d 1\r\n"));
-							}
-						}
-						else { }
-					} 
-					else
-					{
-						windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
-					}
-					break;
-
-				// Souris
-				case 5 :
-					if (!handClosed)
-					{
-						lastState = currentState;
-						currentState = 3;						// MODE SOURIS
-						cursorQt.NewCursorSession();
-					}
-					break;
-
-				// Layouts (currentTool = 5 , -5, -55)
-				case 0 :
-					//window->hide();
-					//pix.operator[](currentTool)->hide();
-					windowActiveTool->hide();
-					viewLayouts->show();
-					if (!handClosed)
-					{
-						currentTool = -5;
-						toolToChoose = -1;
-						cout << "Menu des Layouts" << endl;
-					}
-					break;
-
-				case -5:
-					//cout << "Menu des Layouts" << endl;
-					chooseTool(currentLayoutTool, lastLayoutTool, totalLayoutTools);
-					browse(currentLayoutTool,lastLayoutTool, pixL);
-					//if (handClosed)
-					if (handClosed && !lastHandClosed){
-						toolToChoose = currentLayoutTool;
-					}
-					if (lastHandClosed && !handClosed){
-						if (currentLayoutTool == toolToChoose){
-							cout << "Layout selectionne" << endl;
-							viewLayouts->hide();
-							switch(currentLayoutTool)
-							{
-								case 0 :
-									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x1\r\n"));
-									break;
-								case 1 :
-									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x2\r\n"));
-									break;
-								case 2 :
-									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x1\r\n"));
-									break;
-								case 3 :
-									telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c1x2\r\n"));
-									break;
-								case 4 :
-									telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c2x1\r\n"));
-									break;
-								case 5 :
-									telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x2\r\n"));
-									break;
-								case 6 :
-									currentTool = -55;
-									break;
-							}
-							layoutSelected = true;
-							if (currentLayoutTool != 6){
-								currentTool = 0;
-								//layoutSelected = false;
-							}
-							
-						}
-					}
-					break;
-
-				case -55:
-					if (!handClosed){
-						cout << "quit layout" << endl;
-					}
-					break;
-				// Croix (exit)
-				case 6 :
-					cout << lastTool << endl;
-					sessionManager->EndSession();
-					telnet.deconnexion();
-					windowActiveTool->hide();
-					viewLayouts->hide();
-                    window->hide();
-					//currentTool = 0;
-					//currentState = 0;
-					//switch(currentLayoutTool)
-					break;
+			case 0 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x1\r\n"));
+				break;
+			case 1 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i 1x2\r\n"));
+				break;
+			case 2 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x1\r\n"));
+				break;
+			case 3 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c1x2\r\n"));
+				break;
+			case 4 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i layout_c2x1\r\n"));
+				break;
+			case 5 :
+				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x2\r\n"));
+				break;
+			case 6 :
+				ChangeState(9);
+				break;
 			}
+		}
 
-			// Pour quitter l'outil et revenir dans le menu
-			if ( ( steadyState && (!handClosed) && (currentState != 3) && (currentTool != -5) && (currentTool != -55)) 
-					|| ((currentTool == -55) && (layoutSelected)) )
+		break; // case 4
+
+	// Outil souris selectionné
+	case 5 :
+
+		if (g_cursorQt.InCursorSession())
+		{
+			// Distance limite de la main au capteur
+			if (g_hP.HandPt().Z() < (g_handDepthLimit + g_handDepthThreshold))
 			{
-				cout << "Sortie de l'outil, retour au menu" << endl;
-				lastState = 0;
-				currentState = 1;
-				nFrames = 2;
-				moveThreshold = 4;
-				windowActiveTool->hide();
-				viewLayouts->hide();
-                window->show();
-//				for (int i=0; i<=totalTools; i++)
-//				{
-//					pix.operator[](i)->setGeometry(QRectF( i*128.0, iconIdlePt, 64.0, 64.0));
-//					pix.operator[](i)->show();
-//				}
-				currentTool=totalTools;
-				lastTool=0;
-				XnPoint3D ptTemp;
-				ptTemp.X = hP.HandPt().X();
-				ptTemp.Y = hP.HandPt().Y();
-				ptTemp.Z = hP.HandPt().Z();
-				lastPt = ptTemp;
-				//toolSelectable = false;
-				layoutSelected = false;
-				Steady2Disable();
-
-				//steadyState = false;
+				g_cursorQt.SetMoveEnable();
+				g_cursorQt.SetClicEnable();
+				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorActive, Qt::SolidPattern));
+				if (g_handFlancMont)
+					gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
+				else if (g_handFlancDesc)
+					gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
 			}
-			break;
-
-		// Mouse control
-		case 3 :
-
-			if (cursorQt.InCursorSession())
-			{
-				// Distance limite de la main au capteur
-				if (hP.HandPt().Z() < (handDepthLimit + handDepthThreshold))
-				{
-					cursorQt.SetMoveEnable();
-					cursorQt.SetClicEnable();
-					windowActiveTool->setBackgroundBrush(QBrush(toolColorActive, Qt::SolidPattern));
-					if (handFlancMont)
-						pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
-					else if (handFlancDesc)
-						pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
-				}
-				else
-				{
-					cursorQt.SetMoveDisable();
-					cursorQt.SetClicDisable();
-					windowActiveTool->setBackgroundBrush(QBrush(toolColorInactive, Qt::SolidPattern));
-				}
-
-				// Appel de la méthode pour déplacer le curseur
-				cursorQt.MoveCursor(hP.HandPt());
-			}
-
-			// Sortie du mode souris
 			else
 			{
-				lastState = currentState;
-				currentState = 1;
-				pix.operator[](currentTool)->setGeometry(QRectF( lastTool*128.0, iconIdlePt, 64.0, 64.0));
-				currentTool = totalTools;
-				lastTool = 0;
-				windowActiveTool->hide();
-                window->show();
-//				for (int i=0; i<=totalTools; i++)
-//				{
-//					pix.operator[](i)->show();
-				//	pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
-//				}
-				
-				//break;
+				g_cursorQt.SetMoveDisable();
+				g_cursorQt.SetClicDisable();
+				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
 			}
-			break;
-	}
-	if (handDown)
-	{
-		telnet.deconnexion();
-		sessionManager->EndSession();
-		currentState=0;
-		windowActiveTool->hide();
-		viewLayouts->hide();
-		currentTool=totalTools;
-		lastTool=0;
-		XnPoint3D ptTemp;
-		ptTemp.X = hP.HandPt().X();
-		ptTemp.Y = hP.HandPt().Y();
-		ptTemp.Z = hP.HandPt().Z();
-		lastPt = ptTemp;
-		toolSelectable = false;
-		for (int i=0; i<=totalTools; i++){
-			pix.operator[](currentTool)->setGeometry(QRectF( currentTool*128.0, iconIdlePt, 64.0, 64.0));
+
+			// Appel de la méthode pour déplacer le curseur
+			g_cursorQt.MoveCursor(g_hP.HandPt());
 		}
-	}
+
+		// Sortie du mode souris
+		else
+		{
+			ChangeState(9);
+		}
+
+		break; // case 5
+
+	// Préparation pour le retour au menu
+	case 9 :
+
+		ChangeState(2);
+		g_telnet.deconnexion();
+
+		g_lastTool = g_currentTool;
+		g_currentTool = g_totalTools;
+
+		browse(g_currentTool,g_lastTool,g_pix);
+
+		gp_window->show();
+		gp_viewLayouts->hide();
+		gp_windowActiveTool->hide();
+
+		Steady10Disable();
+		Steady20Disable();
+
+		break; // case 9
+
+	} // end switch (g_currentState)
 }
 
 
@@ -693,18 +537,18 @@ void glutKeyboard (unsigned char key, int x, int y)
 		break;
 
 	case 'i' :
-		hP.IncrementSmooth(1,1,1);
-		//hP.Smooth().Print();
-		//hP.HandPt().Print();
-		IcrWithLimits(test,3,10,0);
-		cout << "test : " << test << endl;
+		g_hP.IncrementSmooth(1,1,1);
+		//g_hP.Smooth().Print();
+		//g_hP.HandPt().Print();
+		IcrWithLimits(test,3,0,10);
+		cout << "-- test : " << test << endl;
 		break;
 
 	case 'o' :
-		hP.IncrementSmooth(-1,-1,-1);
-		//hP.Smooth().Print();
-		IcrWithLimits(test,-3,10,0);
-		cout << "test : " << test << endl;
+		g_hP.IncrementSmooth(-1,-1,-1);
+		//g_hP.Smooth().Print();
+		IcrWithLimits(test,-3,0,10);
+		cout << "-- test : " << test << endl;
 		break;
 
 	case 's' :
@@ -713,32 +557,30 @@ void glutKeyboard (unsigned char key, int x, int y)
 			g_fSmoothing = 0.1;
 		else 
 			g_fSmoothing = 0;
-		myHandsGenerator.SetSmoothing(g_fSmoothing);
+		g_myHandsGenerator.SetSmoothing(g_fSmoothing);
 		break;
 
 	case 'a' :
 		//show some data for debugging purposes
-		cout << "x= " << hP.HandPt().X() << " ; y= " << hP.HandPt().Y() << " ; z= " << hP.HandPt().Z() << " ;   " << g_fSmoothing << " ;   " << currentState << endl;
+		cout << "x= " << g_hP.HandPt().X() << " ; y= " << g_hP.HandPt().Y() << " ; z= " << g_hP.HandPt().Z() << " ;   " << g_fSmoothing << " ;   " << g_currentState << endl;
 		break;
 
 	case 'y' :
 		//show tools position
-		for (int i=0; i<=totalTools; i++)
+		for (int i=0; i<=g_totalTools; i++)
 		{
-			cout << "tool" << i << " : " << positionTool[i] << endl;
+			cout << "tool" << i << " : " << g_positionTool[i] << endl;
 		}
 		break;
 
 	case 'e' :
 		// end current session
-		lastState = currentState;
-		currentState = 0;
-		sessionManager->EndSession();
+		gp_sessionManager->EndSession();
 		break;
 
 	//case 't' :
-	//	methodeMainFermeeSwitch = !methodeMainFermeeSwitch;
-	//	cout << "Switch Methode main fermee (" << (methodeMainFermeeSwitch?2:1) << ")" << endl;
+	//	g_methodeMainFermeeSwitch = !g_methodeMainFermeeSwitch;
+	//	cout << "-- Switch Methode main fermee (" << (g_methodeMainFermeeSwitch?2:1) << ")" << endl;
 	//	break;
 
 	case '1' :
@@ -763,25 +605,25 @@ void glutDisplay()
 	static unsigned compteurFrame = 0; compteurFrame++;
 
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	//clear the gl buffers
-	status = context.WaitAnyUpdateAll();	//first update the context - refresh the depth/image data coming from the sensor
+	g_status = g_context.WaitAnyUpdateAll();	//first update the g_context - refresh the depth/image data coming from the sensor
 	
 	// if the update failed, i.e. couldn't be read
-	if(status != XN_STATUS_OK)
+	if(g_status != XN_STATUS_OK)
 	{
 		cout << "\nERROR:Read failed... Quitting!\n" << endl;	//print error message
 		exit(0);	//exit the program
 	}
 	else
 	{
-		if(activeSession)
-			sessionManager->Update(&context);
-		dpGen.GetMetaData(dpMD);
-		long xSize = dpMD.XRes();
-		long ySize = dpMD.YRes();
+		if(g_activeSession)
+			gp_sessionManager->Update(&g_context);
+		g_dpGen.GetMetaData(g_dpMD);
+		long xSize = g_dpMD.XRes();
+		long ySize = g_dpMD.YRes();
 		long totalSize = xSize * ySize;
 
 		const XnDepthPixel*	depthMapData;
-		depthMapData = dpMD.Data();
+		depthMapData = g_dpMD.Data();
 
 		int i, j, colorToSet;
 		int depth;
@@ -794,14 +636,14 @@ void glutDisplay()
 		{
 			for(j=0;j<ySize;j+=RES_WINDOW_GLUT)	// height
 			{
-				depth = dpMD(i,j);
+				depth = g_dpMD(i,j);
 				colorToSet = MAX_COLOR - (depth/COLORS);
 
 				if((depth < DP_FAR) && (depth > DP_CLOSE))
 				{
-					if (activeSession)
+					if (g_activeSession)
 					{
-						if (hP.HandPt().Z() < DISTANCE_MAX_DETECTION)
+						if (g_hP.HandPt().Z() < DISTANCE_MAX_DETECTION)
 						{
 							glColor3ub(0,colorToSet,0);
 						}
@@ -820,140 +662,127 @@ void glutDisplay()
 
 
 
-		if (hP.Steady2())
+		if (g_hP.Steady2())
 		{
-			//cout << "  STEADY 02\n";
-			toolSelectable = true;
+			//cout << "--- Steady 2" << endl;
+			g_toolSelectable = true;
 		}
-		if (hP.Steady10())
+		if (g_hP.Steady10())
 		{
-			//cout << "  STEADY 1\n";
-			if (currentState != 4)
-			{
-				// Mode souris
-				if (currentState == 3)
-				{
-					cursorQt.SteadyDetected(10);
-				}
-				else
-				{
-					steadyState = true;
-				}
-			}
-		}
-		if (hP.Steady20())
-		{
-			//cout << "  STEADY 2\n";
-			// Mode souris
-			if (currentState == 3)
-			{
-				cursorQt.SteadyDetected(20);
-			}
+			//cout << "--- Steady 10" << endl;
 
-			// Autres outils
-			else if (currentState == 2)
+			// Si mode souris
+			if (g_currentState == 5)
 			{
-				steady2 = true;
+				g_cursorQt.SteadyDetected(10);
 			}
 		}
-		if (hP.NotSteady())
+		if (g_hP.Steady20())
 		{
-			//cout << "\n NOT STEADY \n";
-			steadyState = false;
+			//cout << "--- Steady 20" << endl;
+
+			// Si mode souris
+			if (g_currentState == 5)
+			{
+				g_cursorQt.SteadyDetected(20);
+			}
+		}
+		if (g_hP.NotSteady())
+		{
+			//cout << "--- Not Steady" << endl;
 
 			// Mode souris
-			if (currentState == 3)
+			if (g_currentState == 5)
 			{
 				//cursor.NotSteadyDetected();
 			}
 		}
 
 		// Mise à jour de la detection de la main fermee
-		if	( activeSession && (isHandPointNull() == false))
+		if	( g_activeSession && (isHandPointNull() == false))
 			UpdateHandClosed();
 
-		if	( activeSession && (isHandPointNull() == false))
+		if	( g_activeSession && (isHandPointNull() == false))
 		{
 
-			//cout << "Vitesse : " << hP.Speed() << endl;
-			//cout << "handpt : " << hP.HandPt().Z() << endl;
+			//cout << "Vitesse : " << g_hP.Speed() << endl;
+			//cout << "handpt : " << g_hP.HandPt().Z() << endl;
 
 
 			int size = 5;						// Size of the box
 			glColor3f(255,255,255);	// Set the color to white
 			glBegin(GL_QUADS);
-				glVertex2i(hP.HandPtBrut().X()-size,hP.HandPtBrut().Y()-size);
-				glVertex2i(hP.HandPtBrut().X()+size,hP.HandPtBrut().Y()-size);
-				glVertex2i(hP.HandPtBrut().X()+size,hP.HandPtBrut().Y()+size);
-				glVertex2i(hP.HandPtBrut().X()-size,hP.HandPtBrut().Y()+size);
+				glVertex2i(g_hP.HandPtBrut().X()-size,g_hP.HandPtBrut().Y()-size);
+				glVertex2i(g_hP.HandPtBrut().X()+size,g_hP.HandPtBrut().Y()-size);
+				glVertex2i(g_hP.HandPtBrut().X()+size,g_hP.HandPtBrut().Y()+size);
+				glVertex2i(g_hP.HandPtBrut().X()-size,g_hP.HandPtBrut().Y()+size);
 			glEnd();
 
 			size = 4;
 			glColor3f(0,0,255);
 			glBegin(GL_QUADS);
-				glVertex2i(hP.HandPtBrutFiltre().X()-size,hP.HandPtBrutFiltre().Y()-size);
-				glVertex2i(hP.HandPtBrutFiltre().X()+size,hP.HandPtBrutFiltre().Y()-size);
-				glVertex2i(hP.HandPtBrutFiltre().X()+size,hP.HandPtBrutFiltre().Y()+size);
-				glVertex2i(hP.HandPtBrutFiltre().X()-size,hP.HandPtBrutFiltre().Y()+size);
+				glVertex2i(g_hP.HandPtBrutFiltre().X()-size,g_hP.HandPtBrutFiltre().Y()-size);
+				glVertex2i(g_hP.HandPtBrutFiltre().X()+size,g_hP.HandPtBrutFiltre().Y()-size);
+				glVertex2i(g_hP.HandPtBrutFiltre().X()+size,g_hP.HandPtBrutFiltre().Y()+size);
+				glVertex2i(g_hP.HandPtBrutFiltre().X()-size,g_hP.HandPtBrutFiltre().Y()+size);
 			glEnd();
 
 			size = 5;
 			glColor3f(255,0,0);
 			glBegin(GL_QUADS);
-				glVertex2i(hP.HandPt().X()-size,hP.HandPt().Y()-size);
-				glVertex2i(hP.HandPt().X()+size,hP.HandPt().Y()-size);
-				glVertex2i(hP.HandPt().X()+size,hP.HandPt().Y()+size);
-				glVertex2i(hP.HandPt().X()-size,hP.HandPt().Y()+size);
+				glVertex2i(g_hP.HandPt().X()-size,g_hP.HandPt().Y()-size);
+				glVertex2i(g_hP.HandPt().X()+size,g_hP.HandPt().Y()-size);
+				glVertex2i(g_hP.HandPt().X()+size,g_hP.HandPt().Y()+size);
+				glVertex2i(g_hP.HandPt().X()-size,g_hP.HandPt().Y()+size);
 			glEnd();
 		}
 
 		//========== HAND POINT ==========//
-		if	( activeSession && (isHandPointNull() == false)
-				&& (hCD.ROI_Pt().x() >= 0)
-				&& (hCD.ROI_Pt().y() >= 0)
-				&& (hCD.ROI_Pt().x() <= (RES_X - hCD.ROI_Size().width()))
-				&& (hCD.ROI_Pt().y() <= (RES_Y - hCD.ROI_Size().height())) )
+		if	( g_activeSession && (isHandPointNull() == false)
+				&& (g_hCD.ROI_Pt().x() >= 0)
+				&& (g_hCD.ROI_Pt().y() >= 0)
+				&& (g_hCD.ROI_Pt().x() <= (RES_X - g_hCD.ROI_Size().width()))
+				&& (g_hCD.ROI_Pt().y() <= (RES_Y - g_hCD.ROI_Size().height())) )
 		{
 			// Cadre de la main
 			glColor3f(255,255,255);
 			glBegin(GL_LINE_LOOP);
-				glVertex2i(hCD.ROI_Pt().x(), hCD.ROI_Pt().y());
-				glVertex2i(hCD.ROI_Pt().x()+hCD.ROI_Size().width(), hCD.ROI_Pt().y());
-				glVertex2i(hCD.ROI_Pt().x()+hCD.ROI_Size().width(), hCD.ROI_Pt().y()+hCD.ROI_Size().height());
-				glVertex2i(hCD.ROI_Pt().x(), hCD.ROI_Pt().y()+hCD.ROI_Size().height());
+				glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y());
+				glVertex2i(g_hCD.ROI_Pt().x()+g_hCD.ROI_Size().width(), g_hCD.ROI_Pt().y());
+				glVertex2i(g_hCD.ROI_Pt().x()+g_hCD.ROI_Size().width(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
+				glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
 			glEnd();
 
 
 
-			if (handStateChanged)
+			if (g_handStateChanged)
 			{
-				steadyState = false; //sd.Reset();
-				steady2 = false; //sd2.Reset();
+				//
 			}
 
 			// mode Souris
-			if ((currentState == 3) && (cursorQt.InCursorSession()))
+			if ( (g_currentState == 5) && (g_cursorQt.InCursorSession()) )
 			{
 				// Souris SteadyClic
-				if			(cursorQt.CursorType() == 1)
+				if			(g_cursorQt.CursorType() == 1)
 				{
 					//if (cursor.CheckExitMouseMode())
-					//if (cursorQt.ExitMouseMode())
+					//if (g_cursorQt.ExitMouseMode())
 						//cursor.ChangeState(0);
 				}
 
 				//Souris HandClosedClic
-				else if ((cursorQt.CursorType() == 2) && (cursorQt.CursorInitialised()))
+				else if ((g_cursorQt.CursorType() == 2) && (g_cursorQt.CursorInitialised()))
 				{
-					if (handFlancMont)
-						cursorQt.SetHandClosed(true);
-					else if (handFlancDesc)
-						cursorQt.SetHandClosed(false);
+					if (g_handFlancMont)
+						g_cursorQt.SetHandClosed(true);
+					else if (g_handFlancDesc)
+						g_cursorQt.SetHandClosed(false);
 				}
 			}
 
 			// Affichage des carrés de couleurs pour indiquer l'etat de la main
-			if (handClosed)
+			if (g_handClosed)
 				glColor3ub(255,0,0);
 			else 
 				glColor3ub(0,0,255);
@@ -964,53 +793,36 @@ void glutDisplay()
 	}
 	glutSwapBuffers();
 
-#if TEST_FLUIDITE
+	// Gestion des états
 	handleState();
-	lastX = hP.HandPt().X();
-	lastY = hP.HandPt().Y();
-	lastZ = hP.HandPt().Z();
-#else
-	if (actualFrame >= nFrames)
-	{
-		handleState();
-		actualFrame = -1;
-	}
-	else if(actualFrame == 0)
-	{
-		lastX = hP.HandPt().X();
-		lastY = hP.HandPt().Y();
-		lastZ = hP.HandPt().Z();
-	}
-	actualFrame = actualFrame+1;
-#endif
 }
 
 
 void UpdateHandClosed(void)
 {
-	if (toolSelectable)
+	if (g_toolSelectable)
 	{
-		hCD.Update((methodeMainFermeeSwitch?2:1),dpMD,hP.HandPtBrut());
-		handStateChanged = hCD.HandClosedStateChanged();
-		handFlancMont = hCD.HandClosedFlancMont();
-		handFlancDesc = hCD.HandClosedFlancDesc();
-		lastHandClosed = handClosed;
-		handClosed = hCD.HandClosed();
-		handClic = hCD.HandClosedClic(19); //9
+		g_hCD.Update((g_methodeMainFermeeSwitch?2:1),g_dpMD,g_hP.HandPtBrut());
+		g_handStateChanged = g_hCD.HandClosedStateChanged();
+		g_handFlancMont = g_hCD.HandClosedFlancMont();
+		g_handFlancDesc = g_hCD.HandClosedFlancDesc();
+		g_lastHandClosed = g_handClosed;
+		g_handClosed = g_hCD.HandClosed();
+		g_handClic = g_hCD.HandClosedClic(19); //9
 
 		//// Controle de detection de la main fermee //
-		//if (handStateChanged)
-		//	cout << endl << "\t\tChgmt d'etat de la main!" << endl;
-		//if (handFlancMont)
-		//	cout << endl << "\t\tFermeture de la main!" << endl;
-		//if (handFlancDesc)
-		//	cout << endl << "\t\tOuverture de la main!" << endl;
-		////if (handClosed)
-		////	cout << endl << "\t\tMain Fermee!" << endl;
-		////else
-		////	cout << endl << "\t\tMain Ouverte!" << endl;
-		//if (handClic)
-		//	cout << endl << "\t\tClic de la main!" << endl;
+		//if (g_handStateChanged)
+		//	cout << endl << "---- Chgmt d'etat de la main!" << endl;
+		//if (g_handFlancMont)
+		//	cout << endl << "---- Fermeture de la main!" << endl;
+		//if (g_handFlancDesc)
+		//	cout << endl << "---- Ouverture de la main!" << endl;
+		//if (g_handClosed)
+		//	cout << endl << "---- Main Fermee!" << endl;
+		//else
+		//	cout << endl << "---- Main Ouverte!" << endl;
+		//if (g_handClic)
+		//	cout << endl << "---- Clic de la main!" << endl;
 	}
 }
 
@@ -1041,65 +853,65 @@ int main(int argc, char *argv[])
 {
 	Initialisation();
 
-	openNi_XML_FilePath = argv[0];
+	g_openNi_XML_FilePath = argv[0];
 #if defined _OS_WIN_
-	int p = openNi_XML_FilePath.find(".exe");
-	openNi_XML_FilePath = openNi_XML_FilePath.substr(0,p-4).append("openni.xml");
+	int p = g_openNi_XML_FilePath.find(".exe");
+	g_openNi_XML_FilePath = g_openNi_XML_FilePath.substr(0,p-4).append("openni.xml");
 #elif defined _OS_MAC_
-	int p = openNi_XML_FilePath.find(".app");
-	openNi_XML_FilePath = openNi_XML_FilePath.substr(0,p+4).append("/Contents/Resources/openni.xml");
+	int p = g_openNi_XML_FilePath.find(".app");
+	g_openNi_XML_FilePath = g_openNi_XML_FilePath.substr(0,p+4).append("/Contents/Resources/openni.xml");
 #endif
 
-	cout << "Chemin de openni.xml : " << openNi_XML_FilePath << endl << endl;
+	cout << "Chemin de openni.xml : " << g_openNi_XML_FilePath << endl << endl;
 
 	//------ OPEN_NI / NITE / OPENGL ------//
 	xn::EnumerationErrors errors;
 
-	status = context.InitFromXmlFile(openNi_XML_FilePath.c_str());
-	CHECK_ERRORS(status, errors, "InitFromXmlFile");
-	CHECK_STATUS(status, "InitFromXml");
+	g_status = g_context.InitFromXmlFile(g_openNi_XML_FilePath.c_str());
+	CHECK_ERRORS(g_status, errors, "InitFromXmlFile");
+	CHECK_STATUS(g_status, "InitFromXml");
 
-	//si le context a été initialisé correctement
-	status = context.FindExistingNode(XN_NODE_TYPE_DEPTH, dpGen);
-	CHECK_STATUS(status, "Find depth generator");
-	status = context.FindExistingNode(XN_NODE_TYPE_HANDS, myHandsGenerator);
-	CHECK_STATUS(status, "Find hands generator");
+	//si le g_context a été initialisé correctement
+	g_status = g_context.FindExistingNode(XN_NODE_TYPE_DEPTH, g_dpGen);
+	CHECK_STATUS(g_status, "Find depth generator");
+	g_status = g_context.FindExistingNode(XN_NODE_TYPE_HANDS, g_myHandsGenerator);
+	CHECK_STATUS(g_status, "Find hands generator");
 
 	// NITE 
-	sessionManager = new XnVSessionManager();
+	gp_sessionManager = new XnVSessionManager();
 
 	//Focus avec un coucou et Refocus avec "RaiseHand" 
-	status = sessionManager->Initialize(&context,"Wave","Wave,RaiseHand");
-	CHECK_STATUS(status,"Session manager");
+	g_status = gp_sessionManager->Initialize(&g_context,"Wave","Wave,RaiseHand");
+	CHECK_STATUS(g_status,"Session manager");
 
-	sessionManager->RegisterSession(&context,sessionStart,sessionEnd, FocusProgress);
-	sessionManager->SetQuickRefocusTimeout(5000);
+	gp_sessionManager->RegisterSession(&g_context,sessionStart,sessionEnd,FocusProgress);
+	gp_sessionManager->SetQuickRefocusTimeout(3000);
 
 	g_pFlowRouter = new XnVFlowRouter;
 
-	pointControl = new XnVPointControl("Point Tracker");
-	pointControl->RegisterPrimaryPointCreate(&context,pointCreate);
-	pointControl->RegisterPrimaryPointDestroy(&context,pointDestroy);
-	pointControl->RegisterPrimaryPointUpdate(&context,pointUpdate);
+	gp_pointControl = new XnVPointControl("Point Tracker");
+	gp_pointControl->RegisterPrimaryPointCreate(&g_context,pointCreate);
+	gp_pointControl->RegisterPrimaryPointDestroy(&g_context,pointDestroy);
+	gp_pointControl->RegisterPrimaryPointUpdate(&g_context,pointUpdate);
 
 	// Wave detector
 	XnVWaveDetector waveDetect;
-	waveDetect.RegisterWave(&context,&Wave_Detected);
+	waveDetect.RegisterWave(&g_context,&Wave_Detected);
 	//waveDetect.SetFlipCount(10);
 	//waveDetect.SetMaxDeviation(1);
 	//waveDetect.SetMinLength(100);
 
 	// Add Listener
-	sessionManager->AddListener(pointControl);
-	sessionManager->AddListener(g_pFlowRouter);
-	sessionManager->AddListener(&waveDetect);
+	gp_sessionManager->AddListener(gp_pointControl);
+	gp_sessionManager->AddListener(g_pFlowRouter);
+	gp_sessionManager->AddListener(&waveDetect);
 		
 	nullifyHandPoint();
-	myHandsGenerator.SetSmoothing(g_fSmoothing);
+	g_myHandsGenerator.SetSmoothing(g_fSmoothing);
 
 	// Initialization done. Start generating
-	status = context.StartGeneratingAll();
-	CHECK_STATUS(status, "StartGenerating");
+	g_status = g_context.StartGeneratingAll();
+	CHECK_STATUS(g_status, "StartGenerating");
 
 	initGL(argc,argv);
 
@@ -1110,12 +922,12 @@ int main(int argc, char *argv[])
 	char **qargv = NULL;
 	QApplication app(qargc,qargv);
 #endif
-    cursorQt = CursorQt(2);
-	window = new GraphicsView(NULL);
-	windowActiveTool = new GraphicsView(NULL);
-	sceneActiveTool = new QGraphicsScene(0,0,128,128);
-	viewLayouts = new GraphicsView(NULL);
-	pixActive = new Pixmap(QPixmap()); //for activeTool
+    g_cursorQt = CursorQt(2);
+	gp_window = new GraphicsView(NULL);
+	gp_windowActiveTool = new GraphicsView(NULL);
+	gp_sceneActiveTool = new QGraphicsScene(0,0,128,128);
+	gp_viewLayouts = new GraphicsView(NULL);
+	gp_pixActive = new Pixmap(QPixmap()); //for activeTool
 
 
 
@@ -1150,28 +962,28 @@ int main(int argc, char *argv[])
 	p6->setObjectName("mouse");
 	p7->setObjectName("stop");
 
-	p1->setGeometry(QRectF(  0.0, iconIdlePt, 64.0, 64.0));
-	p2->setGeometry(QRectF(128.0, iconIdlePt, 64.0, 64.0));
-	p3->setGeometry(QRectF(256.0, iconIdlePt, 64.0, 64.0));
-	p4->setGeometry(QRectF(384.0, iconIdlePt, 64.0, 64.0));
-	p5->setGeometry(QRectF(512.0, iconIdlePt, 64.0, 64.0));
-	p6->setGeometry(QRectF(640.0, iconIdlePt, 64.0, 64.0));
-	p7->setGeometry(QRectF(768.0, iconIdlePt, 64.0, 64.0));
+	p1->setGeometry(QRectF(  0.0, g_iconIdlePt, 64.0, 64.0));
+	p2->setGeometry(QRectF(128.0, g_iconIdlePt, 64.0, 64.0));
+	p3->setGeometry(QRectF(256.0, g_iconIdlePt, 64.0, 64.0));
+	p4->setGeometry(QRectF(384.0, g_iconIdlePt, 64.0, 64.0));
+	p5->setGeometry(QRectF(512.0, g_iconIdlePt, 64.0, 64.0));
+	p6->setGeometry(QRectF(640.0, g_iconIdlePt, 64.0, 64.0));
+	p7->setGeometry(QRectF(768.0, g_iconIdlePt, 64.0, 64.0));
 
-	pix.push_back(p1);
-	pix.push_back(p2);
-	pix.push_back(p3);
-	pix.push_back(p4);
-	pix.push_back(p5);
-	pix.push_back(p6);
-	pix.push_back(p7);
+	g_pix.push_back(p1);
+	g_pix.push_back(p2);
+	g_pix.push_back(p3);
+	g_pix.push_back(p4);
+	g_pix.push_back(p5);
+	g_pix.push_back(p6);
+	g_pix.push_back(p7);
 
-	//window->setSize(1024,288);
-	window->setSize(896,256);
+	//gp_window->setSize(1024,288);
+	gp_window->setSize(896,256);
 	
-	//window->setSize(548,window->getResY()-100);
+	//gp_window->setSize(548,gp_window->getResY()-100);
 	QGraphicsScene *scene = new QGraphicsScene(0,0,896,256);
-	//QGraphicsScene *scene = new QGraphicsScene(0,(-window->getResY())+488,548,window->getResY()-100);
+	//QGraphicsScene *scene = new QGraphicsScene(0,(-gp_window->getResY())+488,548,gp_window->getResY()-100);
 	scene->addItem(p1);
 	scene->addItem(p2);
 	scene->addItem(p3);
@@ -1179,12 +991,12 @@ int main(int argc, char *argv[])
 	scene->addItem(p5);
 	scene->addItem(p6);
 	scene->addItem(p7);
-	window->setScene(scene);
+	gp_window->setScene(scene);
 
-	sceneActiveTool->addItem(pixActive);
-	//windowActiveTool->setSize(126,126);
-	windowActiveTool->setScene(sceneActiveTool);
-	windowActiveTool->setGeometry(window->getResX()-128,window->getResY()-168,128,128);
+	gp_sceneActiveTool->addItem(gp_pixActive);
+	//gp_windowActiveTool->setSize(126,126);
+	gp_windowActiveTool->setScene(gp_sceneActiveTool);
+	gp_windowActiveTool->setGeometry(gp_window->getResX()-128,gp_window->getResY()-168,128,128);
 
 
 	////////////// LAYOUT
@@ -1214,23 +1026,23 @@ int main(int argc, char *argv[])
 	l6->setObjectName("2x2");
 	l7->setObjectName("stop");
 	
-	l1->setGeometry(QRectF(  0.0, iconIdlePt, 64.0, 64.0));
-	l2->setGeometry(QRectF(128.0, iconIdlePt, 64.0, 64.0));
-	l3->setGeometry(QRectF(256.0, iconIdlePt, 64.0, 64.0));
-	l4->setGeometry(QRectF(384.0, iconIdlePt, 64.0, 64.0));
-	l5->setGeometry(QRectF(512.0, iconIdlePt, 64.0, 64.0));
-	l6->setGeometry(QRectF(640.0, iconIdlePt, 64.0, 64.0));
-	l7->setGeometry(QRectF(768.0, iconIdlePt, 64.0, 64.0));
+	l1->setGeometry(QRectF(  0.0, g_iconIdlePt, 64.0, 64.0));
+	l2->setGeometry(QRectF(128.0, g_iconIdlePt, 64.0, 64.0));
+	l3->setGeometry(QRectF(256.0, g_iconIdlePt, 64.0, 64.0));
+	l4->setGeometry(QRectF(384.0, g_iconIdlePt, 64.0, 64.0));
+	l5->setGeometry(QRectF(512.0, g_iconIdlePt, 64.0, 64.0));
+	l6->setGeometry(QRectF(640.0, g_iconIdlePt, 64.0, 64.0));
+	l7->setGeometry(QRectF(768.0, g_iconIdlePt, 64.0, 64.0));
 
-	pixL.push_back(l1);
-	pixL.push_back(l2);
-	pixL.push_back(l3);
-	pixL.push_back(l4);
-	pixL.push_back(l5);
-	pixL.push_back(l6);
-	pixL.push_back(l7);
+	g_pixL.push_back(l1);
+	g_pixL.push_back(l2);
+	g_pixL.push_back(l3);
+	g_pixL.push_back(l4);
+	g_pixL.push_back(l5);
+	g_pixL.push_back(l6);
+	g_pixL.push_back(l7);
 
-	viewLayouts->setSize(896,256);
+	gp_viewLayouts->setSize(896,256);
 	QGraphicsScene *sceneLayout = new QGraphicsScene(0,0,896,256);
 	sceneLayout->addItem(l1);
 	sceneLayout->addItem(l2);
@@ -1239,17 +1051,17 @@ int main(int argc, char *argv[])
 	sceneLayout->addItem(l5);
 	sceneLayout->addItem(l6);
 	sceneLayout->addItem(l7);
-	viewLayouts->setScene(sceneLayout);
+	gp_viewLayouts->setScene(sceneLayout);
 
-	//viewLayouts->show();
+	//gp_viewLayouts->show();
 
 	
-	/*for(int i=0; i<=totalTools; i++){
-		QString chemin = ":/images/Resources/_"+pix.operator[](i)->objectName()+".png";
+	/*for(int i=0; i<=g_totalTools; i++){
+		QString chemin = ":/images/Resources/_"+g_pix.operator[](i)->objectName()+".png";
 		//printf("\n"+chemin.toAscii()+"\n");
-		int posi = positionTool[i];
-		pix.operator[](i)->setGeometry(QRectF( posi*60.0, posi*(-10.0), 128.0, 128.0));
-		pix.operator[](i)->load(QPixmap(chemin).scaled(78+(posi*(10)),78+(posi*(10))));
+		int posi = g_positionTool[i];
+		g_pix.operator[](i)->setGeometry(QRectF( posi*60.0, posi*(-10.0), 128.0, 128.0));
+		g_pix.operator[](i)->load(QPixmap(chemin).scaled(78+(posi*(10)),78+(posi*(10))));
 	}*/
 
 	// Boucle principale
@@ -1267,20 +1079,30 @@ Session started event handler. Session manager calls this when the session begin
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 {
-	activeSession = true;
-	cout << "Debut de la session " << currentState << endl;
-	window->show();
+	g_activeSession = true;
+	g_toolSelectable = false;
 
-	lastState = 0;
-	currentState = 1;
-	toolSelectable = false;
-	//MenuTransparent();
-	steadyState = false;
-	steady2 = false;
+	ChangeState(1);
+
+	g_currentTool = g_totalTools;
+	g_lastTool = 0;
+
+	gp_window->show();
+	MenuTransparent();
+	gp_viewLayouts->hide();
+	gp_windowActiveTool->hide();
+
 	Steady2Enable();
 	Steady10Disable();
 	Steady20Disable();
-	hCD.ResetCompteurFrame();
+
+	g_hCD.ResetCompteurFrame();
+
+	static int compteurSession = 0;
+	compteurSession++;
+
+	cout << endl << "Debut de la session : " << compteurSession 
+		<< "e" << (compteurSession==1?"re":"") << " fois" << endl << endl;
 }
 
 /**********************************************************************************
@@ -1288,28 +1110,48 @@ session end event handler. Session manager calls this when session ends
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 {
-	activeSession = false;
-	cout << "Fin de la session" << endl;
-	window->hide();
-	viewLayouts->hide();
-	lastState = currentState;
-	currentState = 0;
+	g_telnet.deconnexion();
+
+	g_activeSession = false;
+	g_toolSelectable = false;
+
+	ChangeState(0);
+
+	g_currentTool = g_totalTools;
+	g_lastTool = 0;
+
+	gp_window->hide();
+	gp_viewLayouts->hide();
+	gp_windowActiveTool->hide();
+
 	Steady2Disable();
 	Steady10Disable();
 	Steady20Disable();
+
+	XnPoint3D ptTemp;
+	ptTemp.X = g_hP.HandPt().X();
+	ptTemp.Y = g_hP.HandPt().Y();
+	ptTemp.Z = g_hP.HandPt().Z();
+	g_lastPt = ptTemp;
+
+	for (int i=0; i<=g_totalTools; i++)
+		g_pix.operator[](g_currentTool)->setGeometry(QRectF( g_currentTool*128.0, g_iconIdlePt, 64.0, 64.0));
+
+	cout << endl << "Fin de la session" << endl << endl;
 }
 
+
 /**********************************************************************************
-point created event handler. this is called when the pointControl detects the creation
+point created event handler. this is called when the gp_pointControl detects the creation
 of the hand point. This is called only once when the hand point is detected
 **********************************************************************************/
 void XN_CALLBACK_TYPE pointCreate(const XnVHandPointContext *pContext, const XnPoint3D &ptFocus, void *cxt)
 {
 	XnPoint3D coords(pContext->ptPosition);
-	dpGen.ConvertRealWorldToProjective(1,&coords,&handPt);
-	lastPt = handPt;
+	g_dpGen.ConvertRealWorldToProjective(1,&coords,&g_handPt);
+	g_lastPt = g_handPt;
 
-	hP.Update(handPt);
+	g_hP.Update(g_handPt);
 }
 /**********************************************************************************
 Following the point created method, any update in the hand point coordinates are 
@@ -1318,9 +1160,9 @@ reflected through this event handler
 void XN_CALLBACK_TYPE pointUpdate(const XnVHandPointContext *pContext, void *cxt)
 {
 	XnPoint3D coords(pContext->ptPosition);
-	dpGen.ConvertRealWorldToProjective(1,&coords,&handPt);
+	g_dpGen.ConvertRealWorldToProjective(1,&coords,&g_handPt);
 
-	hP.Update(handPt);
+	g_hP.Update(g_handPt);
 }
 /**********************************************************************************
 when the point can no longer be tracked, this event handler is invoked. Here we 
@@ -1328,23 +1170,16 @@ nullify the hand point variable
 **********************************************************************************/
 void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 {
-	lastState = currentState;
-	currentState = 0;
-	windowActiveTool->hide();
-//	for (int i=0; i<=totalTools; i++)
-//	{
-//		pix.operator[](i)->show();
-//	}
-	window->hide();
-	nullifyHandPoint();
 	cout << "Point detruit" << endl;
+
+	nullifyHandPoint();
 }
 
 
 // Callback for no hand detected
 void XN_CALLBACK_TYPE NoHands(void* UserCxt)
 {
-	cursorQt.EndCursorSession();
+	g_cursorQt.EndCursorSession();
 }
 
 // Callback for when the focus is in progress
@@ -1362,7 +1197,7 @@ void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus,
 // Callback for wave
 void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt)
 {
-	cout << "\n WAVE \n";
+	cout << "-- Wave detected" << endl;
 }
 
 
@@ -1379,12 +1214,12 @@ void SimulateCtrlBar(void)
 
 void MenuTransparent(void)
 {
-	window->setWindowOpacity(qreal(0.4));
+	gp_window->setWindowOpacity(qreal(0.4));
 }
 
 void MenuOpaque(void)
 {
-	window->setWindowOpacity(qreal(1.0));
+	gp_window->setWindowOpacity(qreal(1.0));
 }
 
 

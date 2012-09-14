@@ -60,7 +60,7 @@
 class CursorQt
 {
 public :
-    CursorQt();
+	CursorQt();
 	CursorQt(short type); // 1 : Souris SteadyClic
 												// 2 : Souris HandClosedClic
 												// 3 : Souris NoClic (Pointeur)
