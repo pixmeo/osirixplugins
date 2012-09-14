@@ -8,6 +8,7 @@
 
 #import "WorklistsPreferencesController.h"
 #import "WorklistsPlugin.h"
+#import "Worklist.h"
 
 
 @implementation WorklistsPreferencesController
@@ -15,7 +16,7 @@
 @synthesize worklistsTable = _worklistsTable;
 
 - (NSArrayController*)worklists {
-    return [[WorklistsPlugin instance] worklists]; // NSClassFromString(@"WorklistsPlugin")
+    return [[WorklistsPlugin instance] worklists];
 }
 
 + (NSString*)stringWithUUID {
@@ -28,7 +29,9 @@
 
 - (IBAction)add:(id)caller {
     NSString* uid = [[self class] stringWithUUID];
-    NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithObjectsAndKeys: uid, @"id", nil];
+    
+    NSMutableDictionary* dic = [[[[self.worklists objectClass] alloc] init] autorelease];
+    [dic setObject:uid forKey:WorklistIDKey];
     
     [self.worklists addObject:dic];
     
@@ -39,6 +42,7 @@
 
 - (void)tableViewTextDidEndEditing:(NSNotification*)n {
     [self.worklists rearrangeObjects];
+    [self.worklists didChangeValueForKey:@"content"];
 }
 
 @end

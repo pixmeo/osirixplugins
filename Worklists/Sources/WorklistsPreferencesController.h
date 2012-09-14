@@ -8,9 +8,12 @@
 
 #import <PreferencePanes/PreferencePanes.h>
 
+
 @interface WorklistsPreferencesController : NSPreferencePane {
     NSTableView* _worklistsTable;
 }
+
+@property(readonly) IBOutlet NSArrayController* worklists;
 
 @property(assign) IBOutlet NSTableView* worklistsTable;
 

@@ -15,6 +15,8 @@
 		59A3CBB2130D704E001937EB /* WorklistsPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */; };
 		71546BE615FF6343004B154B /* Worklists.png in Resources */ = {isa = PBXBuildFile; fileRef = 71546BE515FF6343004B154B /* Worklists.png */; };
 		71546BED15FF7949004B154B /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		71F739ED1603175B00AA2DD3 /* Worklist.h in Headers */ = {isa = PBXBuildFile; fileRef = 71F739EB1603175B00AA2DD3 /* Worklist.h */; };
+		71F739EE1603175B00AA2DD3 /* Worklist.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F739EC1603175B00AA2DD3 /* Worklist.m */; };
 		8D5B49AE048680CD000E48DA /* Worklists_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Worklists_Prefix.pch */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		ABA48A650680BB600089EB4F /* WorklistsPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* WorklistsPlugin.h */; };
@@ -44,6 +46,8 @@
 		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
 		59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = WorklistsPlugin.mm; path = Sources/WorklistsPlugin.mm; sourceTree = "<group>"; };
 		71546BE515FF6343004B154B /* Worklists.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Worklists.png; path = Resources/Worklists.png; sourceTree = "<group>"; };
+		71F739EB1603175B00AA2DD3 /* Worklist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Worklist.h; path = Sources/Worklist.h; sourceTree = "<group>"; };
+		71F739EC1603175B00AA2DD3 /* Worklist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Worklist.m; path = Sources/Worklist.m; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* Worklists.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Worklists.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA48A640680BB600089EB4F /* WorklistsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WorklistsPlugin.h; path = Sources/WorklistsPlugin.h; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 			children = (
 				ABA48A640680BB600089EB4F /* WorklistsPlugin.h */,
 				59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */,
+				71F739EB1603175B00AA2DD3 /* Worklist.h */,
+				71F739EC1603175B00AA2DD3 /* Worklist.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -191,6 +197,7 @@
 			files = (
 				8D5B49AE048680CD000E48DA /* Worklists_Prefix.pch in Headers */,
 				ABA48A650680BB600089EB4F /* WorklistsPlugin.h in Headers */,
+				71F739ED1603175B00AA2DD3 /* Worklist.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59A3CBB2130D704E001937EB /* WorklistsPlugin.mm in Sources */,
+				71F739EE1603175B00AA2DD3 /* Worklist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
