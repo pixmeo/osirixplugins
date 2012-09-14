@@ -10,6 +10,7 @@
 
 
 extern NSString* const WorklistIDKey;
+extern NSString* const WorklistAlbumIDKey;
 extern NSString* const WorklistNameKey;
 extern NSString* const WorklistHostKey;
 extern NSString* const WorklistPortKey;
@@ -23,12 +24,11 @@ extern NSString* const WorklistAutoRetrieveKey;
     NSMutableDictionary* _properties;
 }
 
+@property(retain,nonatomic) NSMutableDictionary* properties;
 @property(retain,readonly) NSDate* lastRefreshDate;
 
 + (id)worklistWithProperties:(NSMutableDictionary*)properties;
 - (id)initWithProperties:(NSMutableDictionary*)properties;
-
-- (void)setProperties:(NSMutableDictionary*)properties;
 
 - (void)delete;
 

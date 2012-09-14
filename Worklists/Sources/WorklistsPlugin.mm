@@ -9,6 +9,10 @@
 #import "WorklistsPlugin.h"
 #import "Worklist.h"
 #import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/browserController.h>
+#import <OsiriXAPI/PrettyCell.h>
+#import <OsiriXAPI/DicomAlbum.h>
+#import <objc/runtime.h>
 
 
 @interface WorklistsArrayController : NSArrayController
@@ -55,6 +59,18 @@ NSString* const WorklistsDefaultsKey = Worklists;
 - (void)initPlugin {
     NSImage* image = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForImageResource:Worklists]] autorelease];
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"WorklistsPreferences" inBundle:[NSBundle bundleForClass:[self class]] withTitle:Worklists image:image];
+    
+    Method method;
+    IMP imp;
+    
+    Class BrowserControllerClass = [BrowserController class];
+    
+    method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:willDisplayCell:forTableColumn:row:));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    imp = method_getImplementation(method);
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:)));
+
 }
 
 - (long)filterImage:(NSString*)menuName {
@@ -87,6 +103,27 @@ NSString* const WorklistsDefaultsKey = Worklists;
         [[_worklistObjs objectForKey:wid] delete];
         [_worklistObjs removeObjectForKey:wid];
     }
+}
+
+#pragma mark BrowserController
+
+- (void)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
+    NSArray* albums = [bc albums];
+    if (row-1 > albums.count-1)
+        return;
+    
+    DicomAlbum* album = [[bc albums] objectAtIndex:row-1];
+    NSString* albumId = [album.objectID.URIRepresentation absoluteString];
+    
+    if ([[[_worklistObjs allValues] valueForKeyPath:@"properties.album_id"] containsObject:albumId]) {
+        static NSImage* image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album"]];
+        [cell setImage:image];
+    }
+}
+
+- (void)_Worklists_BrowserController_tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
+    [self _Worklists_BrowserController_tableView:table willDisplayCell:cell forTableColumn:column row:row];
+    [WorklistsPluginInstance _BrowserController:(id)self tableView:table willDisplayCell:cell forTableColumn:column row:row];
 }
 
 @end

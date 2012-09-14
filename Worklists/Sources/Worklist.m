@@ -11,6 +11,7 @@
 #import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/DicomAlbum.h>
 #import <OsiriXAPI/browserController.h>
+#import <OsiriXAPI/Notifications.h>
 
 
 NSString* const WorklistIDKey = @"id";
@@ -35,6 +36,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 @implementation Worklist
 
 @synthesize lastRefreshDate = _lastRefreshDate;
+@synthesize properties = _properties;
 
 + (id)worklistWithProperties:(NSMutableDictionary*)properties {
     return [[[[self class] alloc] initWithProperties:properties] autorelease];
@@ -52,6 +54,10 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     self.lastRefreshDate = nil;
     self.properties = nil;
     [super dealloc];
+}
+
++ (void)invaludateAlbumsCacheForDatabase:(DicomDatabase*)db {
+    [NSNotificationCenter.defaultCenter postNotificationName:O2DatabaseInvalidateAlbumsCacheNotification object:db];
 }
 
 - (void)setProperties:(NSMutableDictionary*)properties {
@@ -87,6 +93,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
         [_properties setObject:albumId forKey:WorklistAlbumIDKey];
     }
     
+    [[self class] invaludateAlbumsCacheForDatabase:db];
     [BrowserController.currentBrowser refreshAlbums];
 
 }
@@ -94,11 +101,14 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 - (void)delete {
     DicomDatabase* db = [DicomDatabase defaultDatabase];
     
+    // TODO: if album is selected, select database
+    
     // delete the album
     NSString* albumId = [_properties objectForKey:WorklistAlbumIDKey];
     DicomAlbum* album = [db objectWithID:albumId];
     [db.managedObjectContext deleteObject:album];
 
+    [[self class] invaludateAlbumsCacheForDatabase:db];
     [BrowserController.currentBrowser refreshAlbums];
 }
 
