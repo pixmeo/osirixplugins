@@ -898,7 +898,6 @@ double basis_matrix_tmp ( int left, int n, double mbasis[], int ndata,
   int first;
   int i;
   int j;
-  double temp;
   double tm;
   double *tvec;
   double yval;

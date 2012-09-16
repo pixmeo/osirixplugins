@@ -2034,6 +2034,8 @@ zoomFixedPoint = [sender floatValue] / [sender maxValue] * drawingRect.size.widt
 				return nil;
 		}
 	}*/
+    
+    return nil;
 }
 
 - (void)loadFromFileWithName:(NSString*)name;
