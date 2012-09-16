@@ -31,9 +31,10 @@
 #include <math.h>
 
 // Headers for OpenGL
-#include <GL/glut.h>
-#include <GL/GLU.h>
-#include <GL/gl.h>
+//#include <GL/glut.h>
+//#include <GL/GLU.h>
+//#include <GL/gl.h>
+#include <GLUT/glut.h>
 
 // Headers for OpenNI
 #include <XnOpenNI.h>

@@ -71,16 +71,16 @@
         if (r.location != NSNotFound){
             value = [[cmd substringWithRange:NSMakeRange(r.location+3, [cmd length] - r.location-3)] intValue];
             NSLog(@"i: %d",value);
-            [v setScaleValue:[v scaleValue]*(1+((float)value/30.0))];
-            NSLog(@"%f",(1-(((float)value/10))));
+            [v setScaleValue:[v scaleValue]*(1+((float)value/50.0))];
+//            NSLog(@"%f",(1-(((float)value/10))));
         }
         else{
             NSRange r2 = [cmd rangeOfString:@"-d"];
             if (r2.location != NSNotFound){
                 value = [[cmd substringWithRange:NSMakeRange(r2.location+3, [cmd length] - r2.location-3)] intValue];
                 NSLog(@"d: %d",value);
-                [v setScaleValue:[v scaleValue]*(1-((float)value/30.0))];
-                NSLog(@"%f",(1-((float)value/10)));
+                [v setScaleValue:[v scaleValue]*(1-((float)value/50.0))];
+//                NSLog(@"%f",(1-((float)value/10)));
             }
         }
         
@@ -128,7 +128,7 @@
             NSLog(@"valueX: [%f]",valueX);
             NSLog(@"valueY: [%f]",valueY);
             
-            origin.x = origin.x + valueX;
+            origin.x = origin.x - valueX;
             origin.y = origin.y + valueY;
             //            NSPoint pt;
             //            pt.x = valueX;

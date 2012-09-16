@@ -12,7 +12,8 @@
 #ifdef _OS_WIN_
 	#include <windows.h>
 #endif
-#include <GL/glut.h>
+//#include <GL/glut.h>
+#include <GLUT/glut.h>
 
 
 //==========================================================================//

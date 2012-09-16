@@ -10,6 +10,7 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <GLUT/glut.h>
 
 // Définition du système d'exploitation
 #if defined (_WIN32)
@@ -33,10 +34,9 @@ using namespace std;
 #	define SCRSZH (SCRSZHeight())
 #endif
 #ifdef _OS_MAC_
-#	define SCRSZW 2560
-#	define SCRSZH 1440
+#	define SCRSZW (SCRSZWidth())
+#	define SCRSZH (SCRSZHeight())
 #endif
-
 
 //==========================================================================//
 //============================== PARAMETRES ================================//
@@ -45,8 +45,8 @@ using namespace std;
 #define RES_WINDOW_GLUT 4
 #define INIT_POS_WINDOW 1					// Position initiale de la fenêtre
 
-#define RES_X 640
-#define RES_Y 480
+#define RES_X 480 //640
+#define RES_Y 320 //480
 #define INIT_WIDTH_WINDOW (SCRSZW/RAPPORT_SCRSZW_WINSZW)
 #define INIT_HEIGHT_WINDOW (INIT_WIDTH_WINDOW*((float)RES_Y/(float)RES_X))
 

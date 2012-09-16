@@ -10,7 +10,8 @@
 using namespace std;
 
 #include <XnTypes.h>
-#include <GL/glut.h>
+//#include <GL/glut.h>
+#include <GLUT/glut.h>
 
 #include "Point_3D.h"
 

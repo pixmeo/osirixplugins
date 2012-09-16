@@ -37,7 +37,16 @@ unsigned int SCRSZHeight(void)
 #endif
 
 
+#if defined _OS_MAC_
+unsigned int SCRSZWidth(void)
+{
+	return glutGet(GLUT_SCREEN_WIDTH);
+}
 
-
+unsigned int SCRSZHeight(void)
+{
+	return glutGet(GLUT_SCREEN_HEIGHT);
+}
+#endif
 
 

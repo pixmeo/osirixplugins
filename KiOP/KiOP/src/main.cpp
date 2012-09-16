@@ -56,6 +56,8 @@ bool handDown = false;
 int cptHand = 0;
 int handFrames = 5;
 
+int resGLWin = RES_WINDOW_GLUT;
+
 bool handClosed = false;
 bool handStateChanged = false;
 bool handFlancMont = false;
@@ -728,6 +730,13 @@ void glutKeyboard (unsigned char key, int x, int y)
 			cout << "tool" << i << " : " << positionTool[i] << endl;
 		}
 		break;
+            
+    case 't' :
+        // "turbo" mode (lol)
+        // n'affiche qu'un pixel sur quatre dans la fentre graphique 
+            if (resGLWin == 1) resGLWin = 4;
+            else resGLWin = 1;
+        break;
 
 	case 'e' :
 		// end current session
@@ -790,9 +799,9 @@ void glutDisplay()
 		glOrtho(0, xSize, ySize, 0, -1, 1);
 
 		glBegin(GL_POINTS);
-		for(i=0;i<xSize;i+=RES_WINDOW_GLUT)	// width
+		for(i=0;i<xSize;i+=resGLWin)	// width
 		{
-			for(j=0;j<ySize;j+=RES_WINDOW_GLUT)	// height
+			for(j=0;j<ySize;j+=resGLWin)	// height
 			{
 				depth = dpMD(i,j);
 				colorToSet = MAX_COLOR - (depth/COLORS);
