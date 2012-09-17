@@ -9,6 +9,8 @@
 
 @implementation DCMJpegImportFilter
 
+@synthesize selectedStudyAvailable;
+
 - (id)init
 {
     [super init];
@@ -22,112 +24,140 @@
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-    NSMutableArray *images = [NSMutableArray array];
-    
-    if( [[[BrowserController currentBrowser] window] firstResponder] == [[BrowserController currentBrowser] oMatrix]) [[BrowserController currentBrowser] filesForDatabaseMatrixSelection: images];
-    else [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
-    
-    NSString *source = nil;
-    
-    if( [images count])
-        source = [[images objectAtIndex: 0] valueForKey:@"completePath"];
-    
-    if( e == nil)
+    @try
     {
-        e = [[DICOMExport alloc] init];
-        [e setSeriesNumber: 86532 + [[NSCalendarDate date] minuteOfHour] + [[NSCalendarDate date] secondOfMinute]];
-    }
-
-    BOOL supportCustomMetaData = NO;
-    
-    if( [e respondsToSelector: @selector( metaDataDict)])
-        supportCustomMetaData = YES;
-    
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    
-    [openPanel setCanChooseDirectories: YES];
-    [openPanel setAllowsMultipleSelection: YES];
-    [openPanel setTitle:NSLocalizedString( @"Import", nil)];
-    [openPanel setMessage:NSLocalizedString( @"Select image or folder of images to convert to DICOM", nil)];
-    
-    if( supportCustomMetaData)
-        [openPanel setAccessoryView: accessoryView];
-    
-    if([openPanel runModalForTypes:[NSImage imageFileTypes]] == NSOKButton)
-    {
-        BOOL valid = YES;
+        NSMutableArray *images = [NSMutableArray array];
         
-        if( supportCustomMetaData && [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 0)
+        if( [[[BrowserController currentBrowser] window] firstResponder] == [[BrowserController currentBrowser] oMatrix]) [[BrowserController currentBrowser] filesForDatabaseMatrixSelection: images];
+        else [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
+        
+        NSString *source = nil;
+        
+        if( [images count])
         {
-            source = nil;
-            
-            NSMutableDictionary *metaData = e.metaDataDict;
-            NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
-            
-            [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsName"] forKey: @"patientsName"];
-            [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsID"] forKey: @"patientID"];
-            [metaData setValue: [d objectForKey: @"JPEGtoDICOMPatientsDOB"] forKey: @"patientsBirthdate"];
-            if( [d integerForKey: @"JPEGtoDICOMPatientsSex"])
-                [metaData setValue: @"F" forKey: @"patientsSex"];
-            else
-                [metaData setValue: @"M" forKey: @"patientsSex"];
-            
-            [metaData setValue: [d objectForKey: @"JPEGtoDICOMStudyDate"] forKey: @"studyDate"];
-            
-            [metaData setValue: [d valueForKey: @"JPEGtoDICOMStudyDescription"] forKey: @"studyDescription"];
-            [metaData setValue: [d valueForKey: @"JPEGtoDICOMModality"] forKey: @"modality"];
-            
-            [e setModalityAsSource: YES];
-        }
-        else if( [images count] == 0)
-        {
-            NSRunAlertPanel( @"JPEG to DICOM", @"Select a study in the database where to put the image.", @"OK", nil, nil);
-            valid = NO;
+            self.selectedStudyAvailable = YES;
+            source = [[images objectAtIndex: 0] valueForKey:@"completePath"];
         }
         else
-            [e setModalityAsSource: NO];
+            self.selectedStudyAvailable = NO;
         
-        if( valid)
+        if( e == nil)
         {
-            imageNumber = 0;
-            NSEnumerator *enumerator = [[openPanel filenames] objectEnumerator];
-            NSString *fpath;
-            BOOL isDir;
-            while(fpath = [enumerator nextObject])
+            e = [[DICOMExport alloc] init];
+            [e setSeriesNumber: 86532 + [[NSCalendarDate date] minuteOfHour] + [[NSCalendarDate date] secondOfMinute]];
+        }
+
+        BOOL supportCustomMetaData = NO;
+        
+        if( [e respondsToSelector: @selector( metaDataDict)])
+            supportCustomMetaData = YES;
+        
+        if( self.selectedStudyAvailable == NO)
+        {
+            if( supportCustomMetaData == NO)
             {
-                [[NSFileManager defaultManager] fileExistsAtPath:fpath isDirectory:&isDir];
+                NSRunAlertPanel( @"JPEG to DICOM", @"First, select a study in the database where to put the image.", @"OK", nil, nil);
+                return -1;
+            }
+            
+            [[NSUserDefaults standardUserDefaults] setInteger: 0 forKey: @"JPEGtoDICOMMetaDataTag"];
+        }
+        
+        NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+        
+        [openPanel setCanChooseDirectories: YES];
+        [openPanel setAllowsMultipleSelection: YES];
+        [openPanel setTitle:NSLocalizedString( @"Import", nil)];
+        [openPanel setMessage:NSLocalizedString( @"Select image or folder of images to convert to DICOM", nil)];
+        
+        if( supportCustomMetaData)
+            [openPanel setAccessoryView: accessoryView];
+        
+        if( [openPanel runModalForTypes:[NSImage imageFileTypes]] == NSOKButton)
+        {
+            BOOL valid = YES;
+            
+            if( supportCustomMetaData && [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 0)
+            {
+                source = nil;
                 
-                if (isDir)
-                {
-                    [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
-                    
-                    NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath: fpath];
-                    NSString *path;
-                    while( path = [dirEnumerator nextObject])
-                        if( [[NSImage imageFileTypes] containsObject: [path pathExtension]] 
-                        || [[NSImage imageFileTypes] containsObject: NSFileTypeForHFSTypeCode( [[[[NSFileManager defaultManager] attributesOfFileSystemForPath: path error: nil] objectForKey: NSFileHFSTypeCode] longValue])])
-                            [self convertImageToDICOM:[fpath stringByAppendingPathComponent:path] source: source];
-                }
+                NSMutableDictionary *metaData = e.metaDataDict;
+                NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
+                
+                [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsName"] forKey: @"patientsName"];
+                [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsID"] forKey: @"patientID"];
+                [metaData setValue: [d objectForKey: @"JPEGtoDICOMPatientsDOB"] forKey: @"patientsBirthdate"];
+                if( [d integerForKey: @"JPEGtoDICOMPatientsSex"])
+                    [metaData setValue: @"F" forKey: @"patientsSex"];
                 else
+                    [metaData setValue: @"M" forKey: @"patientsSex"];
+                
+                [metaData setValue: [d objectForKey: @"JPEGtoDICOMStudyDate"] forKey: @"studyDate"];
+                
+                [metaData setValue: [d valueForKey: @"JPEGtoDICOMStudyDescription"] forKey: @"studyDescription"];
+                [metaData setValue: [d valueForKey: @"JPEGtoDICOMModality"] forKey: @"modality"];
+                
+                [e setModalityAsSource: YES];
+            }
+            else
+                [e setModalityAsSource: NO];
+            
+            if( valid)
+            {
+                imageNumber = 0;
+                
+                for( NSString *fpath in [openPanel filenames])
                 {
-                    [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
+                    BOOL isDir;
+                    [[NSFileManager defaultManager] fileExistsAtPath:fpath isDirectory:&isDir];
+                    
+                    if (isDir)
+                    {
+                        [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
                         
-                    [self convertImageToDICOM: fpath source: source];
+                        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath: fpath];
+                        NSString *path;
+                        while( path = [dirEnumerator nextObject])
+                            if( [[NSImage imageFileTypes] containsObject: [path pathExtension]] 
+                            || [[NSImage imageFileTypes] containsObject: NSFileTypeForHFSTypeCode( [[[[NSFileManager defaultManager] attributesOfFileSystemForPath: path error: nil] objectForKey: NSFileHFSTypeCode] longValue])])
+                            {
+                                [e setSeriesDescription: [[[fpath stringByAppendingPathComponent:path] lastPathComponent] stringByDeletingPathExtension]];
+                                
+                                NSString *f = [self convertImageToDICOM:[fpath stringByAppendingPathComponent:path] source: source];
+                                
+                                if( source == nil)
+                                    source = f;
+                            }
+                    }
+                    else
+                    {
+                        [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
+                            
+                        NSString *f = [self convertImageToDICOM: fpath source: source];
+                        
+                        if( source == nil)
+                            source = f;
+                    }
                 }
             }
         }
-        
+    }
+    @catch ( NSException *ex) {
+        NSLog( @"%@", ex);
+    }
+    @finally {
         [e release];
         e = nil;
-    }
+        [pool release];
+	}
     
-	[pool release];
-	
-	return -1;
+	return 0;
 }
 
-- (void)convertImageToDICOM:(NSString *)path source:(NSString *)src
+- (NSString*) convertImageToDICOM:(NSString *)path source:(NSString *)src
 {
+    NSString *createdFile = nil;
+    
 	//create image
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSImage *image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
@@ -155,10 +185,10 @@
 			if( [rep isPlanar])
 				NSLog( @"********** DCMJpegImportFilter Planar is not yet supported....");
 			
-			NSString *f = [e writeDCMFile: nil];
+            createdFile = [[e writeDCMFile: nil] retain];
 	
-			if( f)
-				[BrowserController addFiles: [NSArray arrayWithObject: f]
+			if( createdFile)
+				[BrowserController addFiles: [NSArray arrayWithObject: createdFile]
 							 toContext: [[BrowserController currentBrowser] managedObjectContext]
 							toDatabase: [BrowserController currentBrowser]
 							 onlyDICOM: YES 
@@ -169,5 +199,7 @@
 		}
 	}
 	[pool release];
+    
+    return [createdFile autorelease];
 }
 @end

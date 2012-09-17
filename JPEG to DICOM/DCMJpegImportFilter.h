@@ -13,9 +13,12 @@
 	int imageNumber;
 	DICOMExport *e;
     IBOutlet NSView *accessoryView;
+    BOOL selectedStudyAvailable;
 }
 
+@property BOOL selectedStudyAvailable;
+
 - (long) filterImage:(NSString*) menuName;
-- (void) convertImageToDICOM:(NSString *)path source:(NSString *)src;
+- (NSString*) convertImageToDICOM:(NSString *)path source:(NSString *)src;
 
 @end
