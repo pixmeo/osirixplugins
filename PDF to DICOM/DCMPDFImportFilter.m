@@ -56,6 +56,7 @@
 			}
 		}
 	}
+    else NSRunAlertPanel( @"PDF to DICOM", @"First, select a study in the database where to put the PDF.", @"OK", nil, nil);
 	
 	[pool release];
 	
