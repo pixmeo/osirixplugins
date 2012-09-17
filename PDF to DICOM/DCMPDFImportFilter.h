@@ -14,6 +14,6 @@
 }
 
 - (long) filterImage:(NSString*) menuName;
-- (NSString*)convertImageToDICOM:(NSString *)path source:(NSString *) source;
+- (void)convertImageToDICOM:(NSString *)path source:(NSString *) source;
 
 @end
