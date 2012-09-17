@@ -12,6 +12,7 @@
 #import <OsiriXAPI/browserController.h>
 #import <OsiriXAPI/PrettyCell.h>
 #import <OsiriXAPI/DicomAlbum.h>
+#import <OsiriXAPI/DicomDatabase.h>
 #import <objc/runtime.h>
 
 
@@ -70,7 +71,12 @@ NSString* const WorklistsDefaultsKey = Worklists;
     imp = method_getImplementation(method);
     class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:)));
-
+    
+    method = class_getInstanceMethod(BrowserControllerClass, @selector(menuWillOpen:));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    imp = method_getImplementation(method);
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_menuWillOpen:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_menuWillOpen:)));
 }
 
 - (long)filterImage:(NSString*)menuName {
@@ -105,17 +111,39 @@ NSString* const WorklistsDefaultsKey = Worklists;
     }
 }
 
+- (Worklist*)worklistForAlbum:(DicomAlbum*)album {
+    NSString* albumId = [album.objectID.URIRepresentation absoluteString];
+    NSArray* worklists = [_worklistObjs allValues];
+    NSInteger i = [[worklists valueForKeyPath:@"albumId"] indexOfObject:albumId];
+    return i != NSNotFound ? [worklists objectAtIndex:i] : nil;
+}
+
+- (void)deselectAlbumOfWorklist:(Worklist*)worklist {
+    NSString* albumId = [worklist valueForKeyPath:@"albumId"];
+    
+    DicomDatabase* db = [DicomDatabase defaultDatabase];
+    if ([[BrowserController currentBrowser] database] != db) // the database is not selected, no need to delect the album
+        return;
+    
+    DicomAlbum* album = [db objectWithID:albumId];
+    if (!album) // album not found...
+        return;
+    
+    if (![[[BrowserController currentBrowser] albumTable] isRowSelected:[db.albums indexOfObject:album]+1]) // album is not selected
+        return;
+    
+    [[[BrowserController currentBrowser] albumTable] selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+}
+
 #pragma mark BrowserController
 
 - (void)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
     NSArray* albums = [bc albums];
+    
     if (row-1 > albums.count-1)
         return;
     
-    DicomAlbum* album = [[bc albums] objectAtIndex:row-1];
-    NSString* albumId = [album.objectID.URIRepresentation absoluteString];
-    
-    if ([[[_worklistObjs allValues] valueForKeyPath:@"properties.album_id"] containsObject:albumId]) {
+    if ([self worklistForAlbum:[[bc albums] objectAtIndex:row-1]]) {
         static NSImage* image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album"]];
         [cell setImage:image];
     }
@@ -126,10 +154,45 @@ NSString* const WorklistsDefaultsKey = Worklists;
     [WorklistsPluginInstance _BrowserController:(id)self tableView:table willDisplayCell:cell forTableColumn:column row:row];
 }
 
+- (void)_BrowserController:(BrowserController*)bc menuWillOpen:(NSMenu*)menu {
+    if (menu == [[bc albumTable] menu]) {
+        NSInteger i = [bc.albumTable clickedRow];
+        if (i == -1)
+            return;
+        
+        DicomAlbum* album = [bc.albums objectAtIndex:i-1];
+
+        Worklist* worklist = [self worklistForAlbum:album];
+        if (!worklist)
+            return;
+        
+        i = 0;
+        NSMenuItem* mi;
+        
+        mi = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh Worklist", nil) action:@selector(_refreshWorklist:) keyEquivalent:@""];
+        mi.target = self;
+        mi.representedObject = worklist;
+        [menu insertItem:mi atIndex:i++];
+        
+        [menu insertItem:[NSMenuItem separatorItem] atIndex:i++];
+    }
+}
+
+- (void)_refreshWorklist:(NSMenuItem*)mi {
+    [mi.representedObject refresh];
+}
+
+- (void)_Worklists_BrowserController_menuWillOpen:(NSMenu*)menu {
+    [self _Worklists_BrowserController_menuWillOpen:menu];
+    [WorklistsPluginInstance _BrowserController:(id)self menuWillOpen:menu];
+}
+
 @end
 
 
 @implementation WorklistsArrayController
+
+// send KVO notifications for content value changes done through views bound to this object
 
 -(void)setValue:(id)value forKey:(NSString *)key {
     [self willChangeValueForKey:@"content"];

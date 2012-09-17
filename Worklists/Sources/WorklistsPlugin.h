@@ -9,7 +9,7 @@
 #import <OsiriXAPI/PluginFilter.h>
 
 
-@class WorklistsPlugin;
+@class Worklist;
 
 
 extern NSString* const WorklistsDefaultsKey;
@@ -23,5 +23,7 @@ extern NSString* const WorklistsDefaultsKey;
 @property(readonly,retain) NSArrayController* worklists;
 
 + (WorklistsPlugin*)instance;
+
+- (void)deselectAlbumOfWorklist:(Worklist*)worklist;
 
 @end

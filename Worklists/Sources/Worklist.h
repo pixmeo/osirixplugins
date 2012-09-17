@@ -10,11 +10,11 @@
 
 
 extern NSString* const WorklistIDKey;
-extern NSString* const WorklistAlbumIDKey;
 extern NSString* const WorklistNameKey;
 extern NSString* const WorklistHostKey;
 extern NSString* const WorklistPortKey;
-extern NSString* const WorklistAETKey;
+extern NSString* const WorklistCalledAETKey;
+extern NSString* const WorklistCallingAETKey;
 extern NSString* const WorklistRefreshSecondsKey;
 extern NSString* const WorklistAutoRetrieveKey;
 
@@ -31,5 +31,7 @@ extern NSString* const WorklistAutoRetrieveKey;
 - (id)initWithProperties:(NSMutableDictionary*)properties;
 
 - (void)delete;
+
+-(void)refresh;
 
 @end
