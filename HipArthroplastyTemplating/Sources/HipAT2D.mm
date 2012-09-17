@@ -73,11 +73,7 @@
     const NSInteger w = pix.pwidth, h = pix.pheight;
     float* data = pix.fImage;
     
-    float threshold = data(p0);
-    if (threshold < pix.fullwl)
-        return NO;
-    
-    threshold /= 2;
+    float threshold = ( data(p0) + ((2*pix.fullwl-pix.fullww) / 2) ) / 2;
     
     NSMutableArray* toBeVisited = [NSMutableArray arrayWithObject:p0];
     BOOL* mask = (BOOL*)malloc(sizeof(BOOL)*w*h);
