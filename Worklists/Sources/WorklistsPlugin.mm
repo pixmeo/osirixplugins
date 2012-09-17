@@ -169,7 +169,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
         i = 0;
         NSMenuItem* mi;
         
-        mi = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh Worklist", nil) action:@selector(_refreshWorklist:) keyEquivalent:@""];
+        mi = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh Worklist", nil) action:@selector(_updateWorklist:) keyEquivalent:@""];
         mi.target = self;
         mi.representedObject = worklist;
         [menu insertItem:mi atIndex:i++];
@@ -178,8 +178,8 @@ NSString* const WorklistsDefaultsKey = Worklists;
     }
 }
 
-- (void)_refreshWorklist:(NSMenuItem*)mi {
-    [mi.representedObject refresh];
+- (void)_updateWorklist:(NSMenuItem*)mi {
+    [mi.representedObject update];
 }
 
 - (void)_Worklists_BrowserController_menuWillOpen:(NSMenu*)menu {

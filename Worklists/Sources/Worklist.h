@@ -20,18 +20,18 @@ extern NSString* const WorklistAutoRetrieveKey;
 
 
 @interface Worklist : NSObject {
-    NSDate* _lastRefreshDate;
+    NSDate* _lastUpdateDate;
     NSMutableDictionary* _properties;
 }
 
 @property(retain,nonatomic) NSMutableDictionary* properties;
-@property(retain,readonly) NSDate* lastRefreshDate;
+@property(retain,readonly) NSDate* lastUpdateDate;
 
 + (id)worklistWithProperties:(NSMutableDictionary*)properties;
 - (id)initWithProperties:(NSMutableDictionary*)properties;
 
 - (void)delete;
 
--(void)refresh;
+-(void)update;
 
 @end

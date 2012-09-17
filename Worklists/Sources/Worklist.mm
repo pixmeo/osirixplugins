@@ -34,7 +34,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 
 @interface Worklist ()
 
-@property(retain,readwrite) NSDate* lastRefreshDate;
+@property(retain,readwrite) NSDate* lastUpdateDate;
 
 //+ (void)worklistWithID:(NSString*)wid setAlbumID:(NSString*)aid;
 
@@ -43,7 +43,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 
 @implementation Worklist
 
-@synthesize lastRefreshDate = _lastRefreshDate;
+@synthesize lastUpdateDate = _lastUpdateDate;
 @synthesize properties = _properties;
 
 + (id)worklistWithProperties:(NSMutableDictionary*)properties {
@@ -53,14 +53,14 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 -(id)initWithProperties:(NSMutableDictionary*)properties {
     if ((self = [super init])) {
         self.properties = properties;
-        [self refresh];
+        [self update];
     }
     
     return self;
 }
 
 - (void)dealloc {
-    self.lastRefreshDate = nil;
+    self.lastUpdateDate = nil;
     self.properties = nil;
     [super dealloc];
 }
@@ -244,7 +244,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     return study;
 }
 
-- (void)refresh {
+- (void)update {
     OFCondition cond;
     
     NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
@@ -372,6 +372,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     else {
         [[self class] invalidateAlbumsCacheForDatabase:[DicomDatabase defaultDatabase]];
         [BrowserController.currentBrowser refreshAlbums];
+        [BrowserController.currentBrowser outlineViewRefresh];
     }
 }
 
