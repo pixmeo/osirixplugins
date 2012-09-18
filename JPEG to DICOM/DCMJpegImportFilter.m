@@ -42,10 +42,10 @@
             self.selectedStudyAvailable = NO;
         
         if( e == nil)
-        {
             e = [[DICOMExport alloc] init];
-            [e setSeriesNumber: 86532 + [[NSCalendarDate date] minuteOfHour] + [[NSCalendarDate date] secondOfMinute]];
-        }
+        
+        int seriesNumber = 86532 + [[NSCalendarDate date] minuteOfHour] + [[NSCalendarDate date] secondOfMinute];
+        [e setSeriesNumber: seriesNumber];
 
         BOOL supportCustomMetaData = NO;
         
@@ -105,38 +105,43 @@
             if( valid)
             {
                 imageNumber = 0;
+                BOOL seriesDescriptionSet = NO;
                 
                 for( NSString *fpath in [openPanel filenames])
                 {
                     BOOL isDir;
-                    [[NSFileManager defaultManager] fileExistsAtPath:fpath isDirectory:&isDir];
-                    
-                    if (isDir)
+                    if( [[NSFileManager defaultManager] fileExistsAtPath:fpath isDirectory:&isDir])
                     {
-                        [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
-                        
-                        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath: fpath];
-                        NSString *path;
-                        while( path = [dirEnumerator nextObject])
-                            if( [[NSImage imageFileTypes] containsObject: [path pathExtension]] 
-                            || [[NSImage imageFileTypes] containsObject: NSFileTypeForHFSTypeCode( [[[[NSFileManager defaultManager] attributesOfFileSystemForPath: path error: nil] objectForKey: NSFileHFSTypeCode] longValue])])
-                            {
-                                [e setSeriesDescription: [[[fpath stringByAppendingPathComponent:path] lastPathComponent] stringByDeletingPathExtension]];
-                                
-                                NSString *f = [self convertImageToDICOM:[fpath stringByAppendingPathComponent:path] source: source];
-                                
-                                if( source == nil)
-                                    source = f;
-                            }
-                    }
-                    else
-                    {
-                        [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
+                        if (isDir)
+                        {
+                            [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
+                            [e setSeriesNumber: seriesNumber++];
                             
-                        NSString *f = [self convertImageToDICOM: fpath source: source];
-                        
-                        if( source == nil)
-                            source = f;
+                            NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtPath: fpath];
+                            NSString *path;
+                            while( path = [dirEnumerator nextObject])
+                                if( [[NSImage imageFileTypes] containsObject: [path pathExtension]] 
+                                || [[NSImage imageFileTypes] containsObject: NSFileTypeForHFSTypeCode( [[[[NSFileManager defaultManager] attributesOfFileSystemForPath: path error: nil] objectForKey: NSFileHFSTypeCode] longValue])])
+                                {
+                                    NSString *f = [self convertImageToDICOM:[fpath stringByAppendingPathComponent:path] source: source];
+                                    
+                                    if( source == nil)
+                                        source = f;
+                                }
+                        }
+                        else
+                        {
+                            if( seriesDescriptionSet == NO)
+                            {
+                                [e setSeriesDescription: [[fpath lastPathComponent] stringByDeletingPathExtension]];
+                                seriesDescriptionSet = YES;
+                            }
+                            
+                            NSString *f = [self convertImageToDICOM: fpath source: source];
+                            
+                            if( source == nil)
+                                source = f;
+                        }
                     }
                 }
             }
