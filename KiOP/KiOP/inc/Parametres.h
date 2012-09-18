@@ -38,6 +38,7 @@ using namespace std;
 #	define SCRSZH (SCRSZHeight())
 #endif
 
+
 //==========================================================================//
 //============================== PARAMETRES ================================//
 
@@ -45,8 +46,14 @@ using namespace std;
 #define RES_WINDOW_GLUT 4
 #define INIT_POS_WINDOW 1					// Position initiale de la fenêtre
 
-#define RES_X 480 //640
-#define RES_Y 320 //480
+#if 1
+	#define RES_X 640
+	#define RES_Y 480
+#else
+	#define RES_X 480
+	#define RES_Y 320
+#endif
+
 #define INIT_WIDTH_WINDOW (SCRSZW/RAPPORT_SCRSZW_WINSZW)
 #define INIT_HEIGHT_WINDOW (INIT_WIDTH_WINDOW*((float)RES_Y/(float)RES_X))
 

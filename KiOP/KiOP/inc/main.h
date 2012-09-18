@@ -71,20 +71,26 @@ using namespace cv;
 
 #define TEST_FLUIDITE 1
 
-//#define XML_FILE "openni.xml"
-#define TITLE "KiOP v1.0.0 beta"
+
+#define TITLE "KiOP v1.0.0-beta"
 
 #define DP_FAR 5000
 #define DP_CLOSE 0
 #define MAX_COLOR 255
 #define COLORS 20
 
+#define SENSIBILITE_MOVE 1
+#define SENSIBILITE_MOVE_X (SENSIBILITE_MOVE)
+#define SENSIBILITE_MOVE_Y (SENSIBILITE_MOVE)
+#define SENSIBILITE_CONTRAST 8
+#define SENSIBILITE_CONTRAST_X (SENSIBILITE_CONTRAST)
+#define SENSIBILITE_CONTRAST_Y (SENSIBILITE_CONTRAST)
 
 #define nullifyHandPoint()	\
 {														\
-	handPt.X = -1;						\
-	handPt.Y = -1;						\
-	handPt.Z = -1;						\
+	g_handPt.X = -1;						\
+	g_handPt.Y = -1;						\
+	g_handPt.Z = -1;						\
 }
 
 #define CHECK_STATUS(rc, what)																	\
@@ -116,6 +122,10 @@ inline bool isHandPointNull();
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools);
 void browse(int currentTool, int lastTool, vector<Pixmap*> pix);
+void CheckHandDown();
+void detectHandDown();
+
+void ChangeState(int newState);
 void handleState();
 
 void glutKeyboard (unsigned char key, int x, int y);

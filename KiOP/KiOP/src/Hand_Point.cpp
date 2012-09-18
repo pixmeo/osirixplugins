@@ -58,7 +58,7 @@ void HandPoint::Update(XnPoint3D handPt)
 	m_diffHandPt.SetCoordinate(m_handPtBrut - m_handPt);
 	
 	// Check for steadies
-	sTD.SteadyCheck(m_handPt,m_lastHandPt);
+	m_sTD.SteadyCheck(m_handPt,m_lastHandPt);
 
 
 	//if (DetectLeft())
@@ -113,10 +113,17 @@ Point3D HandPoint::LastHandPt(void) const
 	return m_lastHandPt;
 }
 
+Point3D HandPoint::DeltaHandPt(void) const
+{
+	return HandPt() - LastHandPt();
+}
+
 Point3D HandPoint::HandVirtualPt(void) const
 {
 	return m_handVirtualPt;
 }
+
+
 
 Point3D HandPoint::Speed(void) const
 {
@@ -183,21 +190,20 @@ Point3D HandPoint::Smooth(void) const
 
 bool HandPoint::Steady2(void) const
 {
-	return sTD.Steady2();
+	return m_sTD.Steady2();
 }
 bool HandPoint::Steady10(void) const
 {
-	return sTD.Steady10();
+	return m_sTD.Steady10();
 }
 bool HandPoint::Steady20(void) const
 {
-	return sTD.Steady20();
+	return m_sTD.Steady20();
 }
 bool HandPoint::NotSteady(void) const
 {
-	return sTD.NotSteady();
+	return m_sTD.NotSteady();
 }
-
 
 
 // ------------------ Compteur ------------------- //
