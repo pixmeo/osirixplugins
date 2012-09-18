@@ -91,7 +91,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
     
     NSMutableDictionary* existingWorklistObjs = [[_worklistObjs mutableCopy] autorelease];
     
-    for (NSMutableDictionary* wp in _worklists.content) {
+    for (NSDictionary* wp in _worklists.content) {
         NSString* wid = [wp objectForKey:WorklistIDKey];
         if (!wid) continue;
         
@@ -171,7 +171,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
         i = 0;
         NSMenuItem* mi;
         
-        mi = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh Worklist", nil) action:@selector(_updateWorklist:) keyEquivalent:@""];
+        mi = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh Worklist", nil) action:@selector(_refreshWorklist:) keyEquivalent:@""];
         mi.target = self;
         mi.representedObject = worklist;
         [menu insertItem:mi atIndex:i++];
@@ -180,8 +180,8 @@ NSString* const WorklistsDefaultsKey = Worklists;
     }
 }
 
-- (void)_updateWorklist:(NSMenuItem*)mi {
-    [mi.representedObject initiateUpdate];
+- (void)_refreshWorklist:(NSMenuItem*)mi {
+    [mi.representedObject initiateRefresh];
 }
 
 - (void)_Worklists_BrowserController_menuWillOpen:(NSMenu*)menu {

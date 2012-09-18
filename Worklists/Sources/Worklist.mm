@@ -20,6 +20,7 @@
 #import <OsiriXAPI/dctag.h>
 #import <OsiriXAPI/dcdeftag.h>
 #import <OsiriXAPI/NSDate+N2.h>
+#import <OsiriXAPI/DicomFile.h>
 #import <OsiriXAPI/N2Debug.h>
 
 
@@ -77,14 +78,13 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 @synthesize properties = _properties;
 @synthesize refreshTimer = _refreshTimer;
 
-+ (id)worklistWithProperties:(NSMutableDictionary*)properties {
++ (id)worklistWithProperties:(NSDictionary*)properties {
     return [[[[self class] alloc] initWithProperties:properties] autorelease];
 }
 
--(id)initWithProperties:(NSMutableDictionary*)properties {
+-(id)initWithProperties:(NSDictionary*)properties {
     if ((self = [super init])) {
         self.properties = properties;
-//        [self initiateUpdate];
     }
     
     return self;
@@ -147,8 +147,8 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     return album;
 }
 
-- (void)setProperties:(NSMutableDictionary*)properties {
-    if (properties != _properties) {
+- (void)setProperties:(NSDictionary*)properties {
+    if (properties != _properties && ![properties isEqual:_properties]) {
         [_properties release];
         _properties = [properties retain];
     }
@@ -164,7 +164,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     if (!ti) ti = 300; // the default
     
     if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
-        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistTimerInvoker invokerWithTarget:self selector:@selector(initiateUpdate)] selector:@selector(fire:) userInfo:nil repeats:YES];
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
     
     [_refreshTimer fire];
 }
@@ -274,6 +274,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     DicomStudy* study = [db newObjectForEntity:db.studyEntity];
     
     NSString* name = [entry objectForKey:@"PatientsName"];
+    NSString* oname = name;
     name = [name stringByReplacingOccurrencesOfString:@", " withString:@" "];
     name = [name stringByReplacingOccurrencesOfString:@"," withString:@" "];
     name = [name stringByReplacingOccurrencesOfString:@"^ " withString:@" "];
@@ -282,7 +283,6 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     study.name = name;
     
     study.patientID = [entry objectForKey:@"PatientID"];
-    study.patientUID = [entry objectForKey:@"PatientID"];
     
     study.studyInstanceUID = [entry objectForKey:@"StudyInstanceUID"];
     study.dateOfBirth = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"PatientsBirthDate"] HHMMss:nil];
@@ -290,6 +290,12 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     study.date = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"ScheduledProcedureStepStartDate"] HHMMss:[entry objectForKey:@"ScheduledProcedureStepStartTime"]]; 
     study.modality = [entry objectForKey:@"Modality"];
     study.accessionNumber = [entry objectForKey:@"AccessionNumber"];
+    
+    study.patientUID = [DicomFile patientUID:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              oname, @"patientName",
+                                              study.patientID, @"patientID",
+                                              study.dateOfBirth, @"patientBirthDate",
+                                              nil]];
     
     DicomSeries* series = [db newObjectForEntity:db.seriesEntity];
     
@@ -301,89 +307,92 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     return study;
 }
 
-- (void)update {
+- (void)refresh {
     @synchronized (self) {
-        OFCondition cond;
-        
-        NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
-        NSString* callingAet = [_properties objectForKey:WorklistCallingAETKey]; // QSSCT2
-        NSString* peerAddress = [_properties objectForKey:WorklistHostKey];
-        NSInteger peerPort = [[_properties objectForKey:WorklistPortKey] intValue];
-        if (!peerPort) peerPort = 104;
-        
-        if (!calledAet || !callingAet || !peerAddress)
-            return; // TODO: report errors, somehow....
-        
-        T_ASC_Network* net;
-        int acse_timeout = 30;
-
-        cond = ASC_initializeNetwork(NET_REQUESTOR, 0, acse_timeout, &net);
-        if (cond.bad()) {
-            DimseCondition::dump(cond); // TODO: report errors, somehow....
-        }
-        
-        T_ASC_Parameters* params;
-        ASC_createAssociationParameters(&params, ASC_DEFAULTMAXPDU);
-
-        ASC_setAPTitles(params, callingAet.UTF8String, calledAet.UTF8String, NULL);
-        
-        cond = ASC_setTransportLayerType(params, false);
-        if (cond.bad()) {
-            DimseCondition::dump(cond); // TODO: report errors, somehow....
-        }
-        
-        DIC_NODENAME localHost;
-        DIC_NODENAME peerHost;
-        gethostname(localHost, sizeof(localHost)-1);
-        sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
-        ASC_setPresentationAddresses(params, localHost, peerHost);
-
-        const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
-        cond = ASC_addPresentationContext(params, 1, UID_FINDModalityWorklistInformationModel, transferSyntaxes, 3);
-        if (cond.bad()) {
-            DimseCondition::dump(cond); // TODO: report errors, somehow....
-        }
-        
-        T_ASC_Association* assoc;
-        cond = ASC_requestAssociation(net, params, &assoc);
-        if (cond.bad()) {
-            DimseCondition::dump(cond); // TODO: report errors, somehow....
-        }
-        
-        DIC_US msgId = assoc->nextMsgID++;
-        
-        T_ASC_PresentationContextID presId = ASC_findAcceptedPresentationContextID(assoc, UID_FINDModalityWorklistInformationModel);
-        if (presId == 0) {
-            //("No presentation context");
-        }
-
-        T_DIMSE_C_FindRQ req;
-        bzero((char*)&req, sizeof(req));
-        req.MessageID = msgId;
-        strcpy(req.AffectedSOPClassUID, UID_FINDModalityWorklistInformationModel);
-        req.DataSetType = DIMSE_DATASET_PRESENT;
-        req.Priority = DIMSE_PRIORITY_LOW;
-        
-        DcmFileFormat dcmff;
-        dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
-        
+        T_ASC_Network* net = nil;
+        T_ASC_Association* assoc = nil;
         NSMutableArray* entries = [NSMutableArray array];
-        
-        T_DIMSE_C_FindRSP rsp;
         DcmDataset* statusDetail = nil;
-        cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
-        if (cond.bad()) {
-            DimseCondition::dump(cond); // TODO: report errors, somehow....
+        
+        @try {
+            OFCondition cond;
+            
+            NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
+            NSString* callingAet = [_properties objectForKey:WorklistCallingAETKey]; // QSSCT2
+            NSString* peerAddress = [_properties objectForKey:WorklistHostKey];
+            NSInteger peerPort = [[_properties objectForKey:WorklistPortKey] intValue];
+            if (!peerPort) peerPort = 104;
+            
+            if (!calledAet || !callingAet || !peerAddress)
+                [NSException raise:NSGenericException format:@"Incomplete worklist setup"];
+            
+            int acse_timeout = 30;
+
+            cond = ASC_initializeNetwork(NET_REQUESTOR, 0, acse_timeout, &net);
+            if (cond.bad())
+                [NSException raise:NSGenericException format:@"%s", cond.text()];
+            
+            T_ASC_Parameters* params;
+            ASC_createAssociationParameters(&params, ASC_DEFAULTMAXPDU);
+
+            ASC_setAPTitles(params, callingAet.UTF8String, calledAet.UTF8String, NULL);
+            
+            cond = ASC_setTransportLayerType(params, false);
+            if (cond.bad())
+                [NSException raise:NSGenericException format:@"%s", cond.text()];
+            
+            DIC_NODENAME localHost;
+            DIC_NODENAME peerHost;
+            gethostname(localHost, sizeof(localHost)-1);
+            sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
+            ASC_setPresentationAddresses(params, localHost, peerHost);
+
+            const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
+            cond = ASC_addPresentationContext(params, 1, UID_FINDModalityWorklistInformationModel, transferSyntaxes, 3);
+            if (cond.bad())
+                [NSException raise:NSGenericException format:@"%s", cond.text()];
+            
+            cond = ASC_requestAssociation(net, params, &assoc);
+            if (cond.bad())
+                [NSException raise:NSGenericException format:@"%s", cond.text()];
+            
+            DIC_US msgId = assoc->nextMsgID++;
+            
+            T_ASC_PresentationContextID presId = ASC_findAcceptedPresentationContextID(assoc, UID_FINDModalityWorklistInformationModel);
+            if (presId == 0)
+                [NSException raise:NSGenericException format:@"No presentation contexts"];
+
+            T_DIMSE_C_FindRQ req;
+            bzero((char*)&req, sizeof(req));
+            req.MessageID = msgId;
+            strcpy(req.AffectedSOPClassUID, UID_FINDModalityWorklistInformationModel);
+            req.DataSetType = DIMSE_DATASET_PRESENT;
+            req.Priority = DIMSE_PRIORITY_LOW;
+            
+            DcmFileFormat dcmff;
+            dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
+            
+            T_DIMSE_C_FindRSP rsp;
+            cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
+            if (cond.bad())
+                [NSException raise:NSGenericException format:@"%s", cond.text()];
+
+            // NSLog(@"Results: %@", entries);
+            NSLog(@"Worklist: %d studies in %@", (int)entries.count, [_properties objectForKey:WorklistNameKey]);
+        } @catch (...) {
+            @throw;
+        } @finally {
+            if (statusDetail)
+                delete statusDetail;
+            
+            if (assoc) {
+                ASC_releaseAssociation(assoc);
+                ASC_destroyAssociation(&assoc);
+            }
+            
+            if (net)
+                ASC_dropNetwork(&net);
         }
-        
-        if (statusDetail)
-            delete statusDetail;
-        
-        ASC_releaseAssociation(assoc); // release association
-        ASC_destroyAssociation(&assoc); // delete assoc structure
-        ASC_dropNetwork(&net); // delete net structure
-        
-        // NSLog(@"Results: %@", entries);
         
         // for every entry, have a valid DicomStudy instance
         
@@ -421,16 +430,15 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 }
             }
         
-        NSLog(@"Worklist: %d studies in %@", (int)wstudies.count, [_properties objectForKey:WorklistNameKey]);
-        
-        [self performSelector:@selector(_afterDelayRefresh) withObject:nil afterDelay:0.001];
+        [db save]; // this is a secondary db, make sure the changes are applied to the main db before refreshing...
+        [self performSelectorOnMainThread:@selector(_mainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
     }
 }
 
--(void)_threadUpdate {
+-(void)_threadRefresh {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     @try {
-        [self update];
+        [self refresh];
     } @catch (NSException* e) {
         N2LogExceptionWithStackTrace(e);
     } @finally {
@@ -438,18 +446,21 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     }
 }
 
-- (void)initiateUpdate {
-    [self performSelectorInBackground:@selector(_threadUpdate) withObject:nil];
+- (void)initiateRefresh {
+    [self performSelectorInBackground:@selector(_threadRefresh) withObject:nil];
 }
 
-- (void)_afterDelayRefresh {
-    if (![NSThread isMainThread])
-        [self performSelectorOnMainThread:@selector(_afterDelayRefresh) withObject:nil waitUntilDone:NO];
-    else {
-        [[self class] invalidateAlbumsCacheForDatabase:[DicomDatabase defaultDatabase]];
-        [BrowserController.currentBrowser refreshAlbums];
-        [BrowserController.currentBrowser outlineViewRefresh];
-    }
+- (void)_mainThreadGUIRefresh {
+    DicomDatabase* db = [DicomDatabase defaultDatabase];
+    
+    [[self class] invalidateAlbumsCacheForDatabase:db];
+    [BrowserController.currentBrowser refreshAlbums];
+    [BrowserController.currentBrowser outlineViewRefresh];
+    
+    // if album is selected, refresh the study list
+    DicomAlbum* album = [db objectWithID:self.albumId];
+    if (album && [[[BrowserController currentBrowser] albumTable] isRowSelected:[db.albums indexOfObject:album]+1]) // album is selected
+        [BrowserController.currentBrowser tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:[BrowserController.currentBrowser albumTable]]];
 }
 
 
