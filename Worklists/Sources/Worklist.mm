@@ -20,6 +20,7 @@
 #import <OsiriXAPI/dctag.h>
 #import <OsiriXAPI/dcdeftag.h>
 #import <OsiriXAPI/NSDate+N2.h>
+#import <OsiriXAPI/N2Debug.h>
 
 
 NSString* const WorklistIDKey = @"id";
@@ -32,19 +33,49 @@ NSString* const WorklistRefreshSecondsKey = @"refreshSeconds";
 NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 
 
+@interface WorklistTimerInvoker : NSObject {
+    id _target;
+    SEL _sel;
+}
+
++ (id)invokerWithTarget:(id)target selector:(SEL)sel;
+
+@end
+
+
+@implementation WorklistTimerInvoker
+
+- (id)initWithTarget:(id)target selector:(SEL)sel {
+    if ((self = [super init])) {
+        _target = target; // no retain!
+        _sel = sel;
+    }
+    
+    return self;
+}
+
++ (id)invokerWithTarget:(id)target selector:(SEL)sel {
+    return [[[[self class] alloc] initWithTarget:target selector:sel] autorelease];
+}
+
+- (void)fire:(NSTimer*)timer {
+    [_target performSelector:_sel withObject:timer];
+}
+
+@end
+
+
 @interface Worklist ()
 
-@property(retain,readwrite) NSDate* lastUpdateDate;
-
-//+ (void)worklistWithID:(NSString*)wid setAlbumID:(NSString*)aid;
+@property (nonatomic,retain) NSTimer* refreshTimer;
 
 @end
 
 
 @implementation Worklist
 
-@synthesize lastUpdateDate = _lastUpdateDate;
 @synthesize properties = _properties;
+@synthesize refreshTimer = _refreshTimer;
 
 + (id)worklistWithProperties:(NSMutableDictionary*)properties {
     return [[[[self class] alloc] initWithProperties:properties] autorelease];
@@ -53,16 +84,24 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 -(id)initWithProperties:(NSMutableDictionary*)properties {
     if ((self = [super init])) {
         self.properties = properties;
-        [self update];
+//        [self initiateUpdate];
     }
     
     return self;
 }
 
 - (void)dealloc {
-    self.lastUpdateDate = nil;
+    self.refreshTimer = nil;
     self.properties = nil;
     [super dealloc];
+}
+
+- (void)setRefreshTimer:(NSTimer*)refreshTimer {
+    if (refreshTimer != _refreshTimer) {
+        [_refreshTimer invalidate];
+        [_refreshTimer release];
+        _refreshTimer = [refreshTimer retain];
+    }
 }
 
 + (void)invalidateAlbumsCacheForDatabase:(DicomDatabase*)db {
@@ -121,9 +160,13 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     
     [self albumInDatabase:db];
     
-    [[self class] invalidateAlbumsCacheForDatabase:db];
-    [BrowserController.currentBrowser refreshAlbums];
-
+    NSTimeInterval ti = [[properties objectForKey:WorklistRefreshSecondsKey] integerValue];
+    if (!ti) ti = 300; // the default
+    
+    if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistTimerInvoker invokerWithTarget:self selector:@selector(initiateUpdate)] selector:@selector(fire:) userInfo:nil repeats:YES];
+    
+    [_refreshTimer fire];
 }
 
 - (void)delete {
@@ -143,11 +186,50 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     [BrowserController.currentBrowser refreshAlbums];
 }
 
+// TODO: CDStringEncoding only supports part of the needed encodings, we should switch to iconv...
+#define WorklistsEncodingType CFStringEncoding
+#define WorklistsDefaultEncoding kCFStringEncodingISOLatin1
+
+static WorklistsEncodingType WorklistEncodingWithDicomName(const OFString& string) {
+    if (string == "ISO_IR 6")
+        return kCFStringEncodingASCII;
+    if (string == "ISO_IR 100")
+        return kCFStringEncodingISOLatin1;
+    if (string == "ISO_IR 101")
+        return kCFStringEncodingISOLatin2;
+    if (string == "ISO_IR 109")
+        return kCFStringEncodingISOLatin3;
+    if (string == "ISO_IR 110")
+        return kCFStringEncodingISOLatin4;
+    if (string == "ISO_IR 144")
+        return kCFStringEncodingISOLatinCyrillic;
+    if (string == "ISO_IR 127")
+        return kCFStringEncodingISOLatinArabic;
+    if (string == "ISO_IR 126")
+        return kCFStringEncodingISOLatinGreek;
+    if (string == "ISO_IR 138")
+        return kCFStringEncodingISOLatinHebrew;
+    if (string == "ISO_IR 148")
+        return kCFStringEncodingISOLatin5;
+    if (string == "ISO_IR 13")
+        return kCFStringEncodingDOSJapanese; // TODO: ???
+    if (string == "ISO_IR 166")
+        return kCFStringEncodingISOLatinThai;
+    if (string == "ISO_IR 192")
+        return kCFStringEncodingUTF8;
+    
+    return kCFStringEncodingISOLatin1; // hmmm
+}
+
+static NSString* WorklistsString(const OFString& string, WorklistsEncodingType encoding) {
+    return [(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease];
+}
+
 static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int responseCount, T_DIMSE_C_FindRSP* rsp, DcmDataset* response) {
     NSMutableArray* entries = (id)callbackData;
     
     // NSLog(@"_findUserCallback %d", responseCount);
-    response->print(COUT);
+    // response->print(COUT);
     
     NSMutableDictionary* entry = [NSMutableDictionary dictionary];
     [entries addObject:entry];
@@ -155,79 +237,54 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     OFString string;
     DcmItem* item;
     
-    CFStringEncoding encoding = kCFStringEncodingASCII;
-    if (response->findAndGetOFString(DCM_SpecificCharacterSet, string).good()) {
-        if (strcmp(string.c_str(), "ISO_IR 6") == 0)
-            encoding = kCFStringEncodingASCII;
-        if (strcmp(string.c_str(), "ISO_IR 100") == 0)
-            encoding = kCFStringEncodingISOLatin1;
-        if (strcmp(string.c_str(), "ISO_IR 101") == 0)
-            encoding = kCFStringEncodingISOLatin2;
-        if (strcmp(string.c_str(), "ISO_IR 109") == 0)
-            encoding = kCFStringEncodingISOLatin3;
-        if (strcmp(string.c_str(), "ISO_IR 110") == 0)
-            encoding = kCFStringEncodingISOLatin4;
-        if (strcmp(string.c_str(), "ISO_IR 144") == 0)
-            encoding = kCFStringEncodingISOLatinCyrillic;
-        if (strcmp(string.c_str(), "ISO_IR 127") == 0)
-            encoding = kCFStringEncodingISOLatinArabic;
-        if (strcmp(string.c_str(), "ISO_IR 126") == 0)
-            encoding = kCFStringEncodingISOLatinGreek;
-        if (strcmp(string.c_str(), "ISO_IR 138") == 0)
-            encoding = kCFStringEncodingISOLatinHebrew;
-        if (strcmp(string.c_str(), "ISO_IR 148") == 0)
-            encoding = kCFStringEncodingISOLatin5;
-        if (strcmp(string.c_str(), "ISO_IR 13") == 0)
-            encoding = kCFStringEncodingDOSJapanese; // TODO: ???
-        if (strcmp(string.c_str(), "ISO_IR 166") == 0)
-            encoding = kCFStringEncodingISOLatinThai;
-        if (strcmp(string.c_str(), "ISO_IR 192") == 0)
-            encoding = kCFStringEncodingUTF8;
-    }
+    WorklistsEncodingType encoding = WorklistsDefaultEncoding;
+    if (response->findAndGetOFString(DCM_SpecificCharacterSet, string).good())
+        encoding = WorklistEncodingWithDicomName(string);
     
     if (response->findAndGetOFString(DCM_AccessionNumber, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"AccessionNumber"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"AccessionNumber"];
     if (response->findAndGetOFString(DCM_ReferringPhysiciansName, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"ReferringPhysiciansName"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"ReferringPhysiciansName"];
     if (response->findAndGetOFString(DCM_PatientsName, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"PatientsName"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientsName"];
     if (response->findAndGetOFString(DCM_PatientID, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"PatientID"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientID"];
     if (response->findAndGetOFString(DCM_PatientsBirthDate, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"PatientsBirthDate"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientsBirthDate"];
     if (response->findAndGetOFString(DCM_PatientsSex, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"PatientsSex"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientsSex"];
     if (response->findAndGetOFString(DCM_StudyInstanceUID, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"StudyInstanceUID"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"StudyInstanceUID"];
     if (response->findAndGetOFString(DCM_RequestedProcedureDescription, string).good())
-        [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"RequestedProcedureDescription"];
+        [entry setObject:WorklistsString(string, encoding) forKey:@"RequestedProcedureDescription"];
     
     if (response->findAndGetSequenceItem(DCM_ScheduledProcedureStepSequence, item).good()) {
         if (item->findAndGetOFString(DCM_Modality, string).good())
-            [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"Modality"];
+            [entry setObject:WorklistsString(string, encoding) forKey:@"Modality"];
         if (item->findAndGetOFString(DCM_ScheduledPerformingPhysiciansName, string).good())
-            [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"ScheduledPerformingPhysiciansName"];
+            [entry setObject:WorklistsString(string, encoding) forKey:@"ScheduledPerformingPhysiciansName"];
         if (item->findAndGetOFString(DCM_ScheduledProcedureStepStartDate, string).good())
-            [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"ScheduledProcedureStepStartDate"];
+            [entry setObject:WorklistsString(string, encoding) forKey:@"ScheduledProcedureStepStartDate"];
         if (item->findAndGetOFString(DCM_ScheduledProcedureStepStartTime, string).good())
-            [entry setObject:[(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease] forKey:@"ScheduledProcedureStepStartTime"];
+            [entry setObject:WorklistsString(string, encoding) forKey:@"ScheduledProcedureStepStartTime"];
     }
 }
 
 - (DicomStudy*)database:(DicomDatabase*)db createEmptyStudy:(NSDictionary*)entry {
     DicomStudy* study = [db newObjectForEntity:db.studyEntity];
     
-    study.studyInstanceUID = [entry objectForKey:@"StudyInstanceUID"];
-    
     NSString* name = [entry objectForKey:@"PatientsName"];
     name = [name stringByReplacingOccurrencesOfString:@", " withString:@" "];
     name = [name stringByReplacingOccurrencesOfString:@"," withString:@" "];
     name = [name stringByReplacingOccurrencesOfString:@"^ " withString:@" "];
     name = [name stringByReplacingOccurrencesOfString:@"^" withString:@" "];
+    
     study.name = name;
     
     study.patientID = [entry objectForKey:@"PatientID"];
-    //study.patientUID = [entry objectForKey:@"patientUID"];
+    study.patientUID = [entry objectForKey:@"PatientID"];
+    
+    study.studyInstanceUID = [entry objectForKey:@"StudyInstanceUID"];
     study.dateOfBirth = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"PatientsBirthDate"] HHMMss:nil];
     study.studyName = [entry objectForKey:@"RequestedProcedureDescription"];
     study.date = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"ScheduledProcedureStepStartDate"] HHMMss:[entry objectForKey:@"ScheduledProcedureStepStartTime"]]; 
@@ -245,125 +302,144 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
 }
 
 - (void)update {
-    OFCondition cond;
-    
-    NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
-    NSString* callingAet = [_properties objectForKey:WorklistCallingAETKey]; // QSSCT2
-    NSString* peerAddress = [_properties objectForKey:WorklistHostKey];
-    NSInteger peerPort = [[_properties objectForKey:WorklistPortKey] intValue];
-    if (!peerPort) peerPort = 104;
-    
-    if (!calledAet || !callingAet || !peerAddress)
-        return; // TODO: report errors, somehow....
-    
-    T_ASC_Network* net;
-    int acse_timeout = 30;
-
-    cond = ASC_initializeNetwork(NET_REQUESTOR, 0, acse_timeout, &net);
-    if (cond.bad()) {
-        DimseCondition::dump(cond); // TODO: report errors, somehow....
-    }
-    
-    T_ASC_Parameters* params;
-    ASC_createAssociationParameters(&params, ASC_DEFAULTMAXPDU);
-
-    ASC_setAPTitles(params, callingAet.UTF8String, calledAet.UTF8String, NULL);
-    
-    cond = ASC_setTransportLayerType(params, false);
-    if (cond.bad()) {
-        DimseCondition::dump(cond); // TODO: report errors, somehow....
-    }
-    
-    DIC_NODENAME localHost;
-    DIC_NODENAME peerHost;
-    gethostname(localHost, sizeof(localHost)-1);
-    sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
-    ASC_setPresentationAddresses(params, localHost, peerHost);
-
-    const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
-    cond = ASC_addPresentationContext(params, 1, UID_FINDModalityWorklistInformationModel, transferSyntaxes, 3);
-    if (cond.bad()) {
-        DimseCondition::dump(cond); // TODO: report errors, somehow....
-    }
-    
-    T_ASC_Association* assoc;
-    cond = ASC_requestAssociation(net, params, &assoc);
-    if (cond.bad()) {
-        DimseCondition::dump(cond); // TODO: report errors, somehow....
-    }
-    
-    DIC_US msgId = assoc->nextMsgID++;
-    
-    T_ASC_PresentationContextID presId = ASC_findAcceptedPresentationContextID(assoc, UID_FINDModalityWorklistInformationModel);
-    if (presId == 0) {
-        //("No presentation context");
-    }
-
-    T_DIMSE_C_FindRQ req;
-    bzero((char*)&req, sizeof(req));
-    req.MessageID = msgId;
-    strcpy(req.AffectedSOPClassUID, UID_FINDModalityWorklistInformationModel);
-    req.DataSetType = DIMSE_DATASET_PRESENT;
-    req.Priority = DIMSE_PRIORITY_LOW;
-    
-    DcmFileFormat dcmff;
-    dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
-    
-    NSMutableArray* entries = [NSMutableArray array];
-    
-    T_DIMSE_C_FindRSP rsp;
-    DcmDataset* statusDetail = nil;
-    cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
-    if (cond.bad()) {
-        DimseCondition::dump(cond); // TODO: report errors, somehow....
-    }
-    
-    if (statusDetail)
-        delete statusDetail;
-    
-    ASC_releaseAssociation(assoc); // release association
-    ASC_destroyAssociation(&assoc); // delete assoc structure
-    ASC_dropNetwork(&net); // delete net structure
-    
-    NSLog(@"Results: %@", entries);
-    
-    // for every entry, have a valid DicomStudy instance
-    
-    NSMutableArray* wstudies = [NSMutableArray array];
-    DicomDatabase* db = [[DicomDatabase defaultDatabase] independentDatabase];
-    
-    NSPredicate* predicateTemplate = [NSPredicate predicateWithFormat:@"patientID = $PatientID AND accessionNumber = $AccessionNumber AND studyInstanceUID = $StudyInstanceUID"];
-    
-    for (NSDictionary* entry in entries) {
-        NSArray* studies = [db objectsForEntity:db.studyEntity predicate:[predicateTemplate predicateWithSubstitutionVariables:entry]];
+    @synchronized (self) {
+        OFCondition cond;
         
-        if (!studies.count)
-            studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:entry]];
+        NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
+        NSString* callingAet = [_properties objectForKey:WorklistCallingAETKey]; // QSSCT2
+        NSString* peerAddress = [_properties objectForKey:WorklistHostKey];
+        NSInteger peerPort = [[_properties objectForKey:WorklistPortKey] intValue];
+        if (!peerPort) peerPort = 104;
         
-        [wstudies addObjectsFromArray:studies];
-    }
-    
-    // synchronize the album studies with the studies array
-    
-    DicomAlbum* album = [self albumInDatabase:db];
-    NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
-    
-    for (DicomStudy* study in wstudies)
-        if (![astudies containsObject:study])
-            [astudies addObject:study];
-    for (DicomStudy* study in [[astudies copy] autorelease])
-        if (![wstudies containsObject:study]) {
-            [astudies removeObject:study];
-            // if the study is empty, delete it
-            NSSet* series = [study series];
-            if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
-                for (DicomSeries* s in [series.copy autorelease])
-                    [db.managedObjectContext deleteObject:s];
-                [db.managedObjectContext deleteObject:study];
-            }
+        if (!calledAet || !callingAet || !peerAddress)
+            return; // TODO: report errors, somehow....
+        
+        T_ASC_Network* net;
+        int acse_timeout = 30;
+
+        cond = ASC_initializeNetwork(NET_REQUESTOR, 0, acse_timeout, &net);
+        if (cond.bad()) {
+            DimseCondition::dump(cond); // TODO: report errors, somehow....
         }
-    
-    [self performSelector:@selector(_afterDelayRefresh) withObject:nil afterDelay:0.001];
+        
+        T_ASC_Parameters* params;
+        ASC_createAssociationParameters(&params, ASC_DEFAULTMAXPDU);
+
+        ASC_setAPTitles(params, callingAet.UTF8String, calledAet.UTF8String, NULL);
+        
+        cond = ASC_setTransportLayerType(params, false);
+        if (cond.bad()) {
+            DimseCondition::dump(cond); // TODO: report errors, somehow....
+        }
+        
+        DIC_NODENAME localHost;
+        DIC_NODENAME peerHost;
+        gethostname(localHost, sizeof(localHost)-1);
+        sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
+        ASC_setPresentationAddresses(params, localHost, peerHost);
+
+        const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
+        cond = ASC_addPresentationContext(params, 1, UID_FINDModalityWorklistInformationModel, transferSyntaxes, 3);
+        if (cond.bad()) {
+            DimseCondition::dump(cond); // TODO: report errors, somehow....
+        }
+        
+        T_ASC_Association* assoc;
+        cond = ASC_requestAssociation(net, params, &assoc);
+        if (cond.bad()) {
+            DimseCondition::dump(cond); // TODO: report errors, somehow....
+        }
+        
+        DIC_US msgId = assoc->nextMsgID++;
+        
+        T_ASC_PresentationContextID presId = ASC_findAcceptedPresentationContextID(assoc, UID_FINDModalityWorklistInformationModel);
+        if (presId == 0) {
+            //("No presentation context");
+        }
+
+        T_DIMSE_C_FindRQ req;
+        bzero((char*)&req, sizeof(req));
+        req.MessageID = msgId;
+        strcpy(req.AffectedSOPClassUID, UID_FINDModalityWorklistInformationModel);
+        req.DataSetType = DIMSE_DATASET_PRESENT;
+        req.Priority = DIMSE_PRIORITY_LOW;
+        
+        DcmFileFormat dcmff;
+        dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
+        
+        NSMutableArray* entries = [NSMutableArray array];
+        
+        T_DIMSE_C_FindRSP rsp;
+        DcmDataset* statusDetail = nil;
+        cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
+        if (cond.bad()) {
+            DimseCondition::dump(cond); // TODO: report errors, somehow....
+        }
+        
+        if (statusDetail)
+            delete statusDetail;
+        
+        ASC_releaseAssociation(assoc); // release association
+        ASC_destroyAssociation(&assoc); // delete assoc structure
+        ASC_dropNetwork(&net); // delete net structure
+        
+        // NSLog(@"Results: %@", entries);
+        
+        // for every entry, have a valid DicomStudy instance
+        
+        NSMutableArray* wstudies = [NSMutableArray array];
+        DicomDatabase* db = [[DicomDatabase defaultDatabase] independentDatabase];
+        
+        NSPredicate* predicateTemplate = [NSPredicate predicateWithFormat:@"patientID = $PatientID AND accessionNumber = $AccessionNumber AND studyInstanceUID = $StudyInstanceUID"];
+        
+        for (NSDictionary* entry in entries) {
+            NSArray* studies = [db objectsForEntity:db.studyEntity predicate:[predicateTemplate predicateWithSubstitutionVariables:entry]];
+            
+            if (!studies.count)
+                studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:entry]];
+            
+            [wstudies addObjectsFromArray:studies];
+        }
+        
+        // synchronize the album studies with the studies array
+        
+        DicomAlbum* album = [self albumInDatabase:db];
+        NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
+        
+        for (DicomStudy* study in wstudies)
+            if (![astudies containsObject:study])
+                [astudies addObject:study];
+        for (DicomStudy* study in [[astudies copy] autorelease])
+            if (![wstudies containsObject:study]) {
+                [astudies removeObject:study];
+                // if the study is empty, delete it
+                NSSet* series = [study series];
+                if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
+                    for (DicomSeries* s in [series.copy autorelease])
+                        [db.managedObjectContext deleteObject:s];
+                    [db.managedObjectContext deleteObject:study];
+                }
+            }
+        
+        NSLog(@"Worklist: %d studies in %@", (int)wstudies.count, [_properties objectForKey:WorklistNameKey]);
+        
+        [self performSelector:@selector(_afterDelayRefresh) withObject:nil afterDelay:0.001];
+    }
+}
+
+-(void)_threadUpdate {
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    @try {
+        [self update];
+    } @catch (NSException* e) {
+        N2LogExceptionWithStackTrace(e);
+    } @finally {
+        [pool release];
+    }
+}
+
+- (void)initiateUpdate {
+    [self performSelectorInBackground:@selector(_threadUpdate) withObject:nil];
 }
 
 - (void)_afterDelayRefresh {

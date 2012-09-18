@@ -37,7 +37,6 @@
     
     [self.worklists setSelectedObjects:[NSArray arrayWithObject:dic]];
     [self.worklistsTable editColumn:0 row:[self.worklists.arrangedObjects indexOfObject:dic] withEvent:nil select:YES];
-
 }
 
 - (void)tableViewTextDidEndEditing:(NSNotification*)n {

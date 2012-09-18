@@ -138,14 +138,16 @@ NSString* const WorklistsDefaultsKey = Worklists;
 #pragma mark BrowserController
 
 - (void)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
-    NSArray* albums = [bc albums];
-    
-    if (row-1 > albums.count-1)
-        return;
-    
-    if ([self worklistForAlbum:[[bc albums] objectAtIndex:row-1]]) {
-        static NSImage* image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album"]];
-        [cell setImage:image];
+    if (table == bc.albumTable) {
+        NSArray* albums = [bc albums];
+        
+        if (row-1 > albums.count-1)
+            return;
+        
+        if ([self worklistForAlbum:[[bc albums] objectAtIndex:row-1]]) {
+            static NSImage* image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album"]];
+            [cell setImage:image];
+        }
     }
 }
 
@@ -179,7 +181,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
 }
 
 - (void)_updateWorklist:(NSMenuItem*)mi {
-    [mi.representedObject update];
+    [mi.representedObject initiateUpdate];
 }
 
 - (void)_Worklists_BrowserController_menuWillOpen:(NSMenu*)menu {
