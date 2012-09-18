@@ -262,12 +262,13 @@ bool SelectionDansUnMenu(short currentIcon)
 }
 
 
+
 void handleState()
 {
 #ifdef _OS_MAC_
-	TelnetClient g_telnet;
+	static TelnetClient g_telnet;
 #endif
-	static short s_toolClic = 10;
+	//static short s_toolClic = 10;
 
 	CheckHandDown();
 	CheckBaffe();
@@ -398,17 +399,23 @@ void handleState()
 			// Zoom
 			case 3 :
 				if (g_hP.DetectBackward())
-					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -i 1\r\n"));
+                {
+					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -i %1\r\n").arg(SENSIBILITE_ZOOM));
+                    cout << "--- Command sent : zoom+1" << endl;
+                }
 				if (g_hP.DetectForward())
-					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -d 1\r\n"));
+                {
+					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -d %1\r\n").arg(SENSIBILITE_ZOOM));
+                    cout << "--- Command sent : zoom-1" << endl;
+                }
 				break;
 
 			// Scroll
 			case 4 :
 				if (g_hP.DetectBackward())
-					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i 1\r\n"));
+					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i %1\r\n").arg(SENSIBILITE_SCROLL));
 				if (g_hP.DetectForward())
-					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d 1\r\n"));
+					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d %1\r\n").arg(SENSIBILITE_SCROLL));
 				break;
 
 			} // end switch (g_currentTool)

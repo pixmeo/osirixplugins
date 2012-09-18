@@ -42,11 +42,11 @@ void TelnetClient::sendCommand(QString cmd){//char cmd[]){
 }
 
 void TelnetClient::socketConnected(){
-	cout << "connected to the server!" << endl;
+	cout << "-- Connected to the server!" << endl;
 }
 
 void TelnetClient::socketDisconnected(){
-	cout << "disconnected!! ._. " << endl;
+	cout << "-- Disconnected!! ._. " << endl;
 }
 
 void TelnetClient::displayError(QAbstractSocket::SocketError socketError){
