@@ -19,9 +19,15 @@ extern NSString* const WorklistRefreshSecondsKey;
 extern NSString* const WorklistAutoRetrieveKey;
 
 
+@class DicomAlbum;
+@class DicomDatabase;
+
+
 @interface Worklist : NSObject {
     NSDictionary* _properties;
     NSTimer* _refreshTimer;
+    NSTimer* _autoretrieveTimer;
+    NSRecursiveLock* _refreshLock;
 }
 
 @property(retain,nonatomic) NSDictionary* properties;
@@ -31,6 +37,8 @@ extern NSString* const WorklistAutoRetrieveKey;
 
 - (void)delete;
 
--(void)initiateRefresh;
+- (DicomAlbum*)albumInDatabase:(DicomDatabase*)db;
+
+- (void)initiateRefresh;
 
 @end

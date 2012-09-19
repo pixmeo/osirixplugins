@@ -7,6 +7,7 @@
 //
 
 #import "Worklist.h"
+#import "Worklist+POD.h"
 #import "WorklistsPlugin.h"
 #import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/DicomAlbum.h>
@@ -22,6 +23,9 @@
 #import <OsiriXAPI/NSDate+N2.h>
 #import <OsiriXAPI/DicomFile.h>
 #import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/NSThread+N2.h>
+#import <OsiriXAPI/ThreadsManager.h>
+#import <OsiriXAPI/DICOMToNSString.h>
 
 
 NSString* const WorklistIDKey = @"id";
@@ -34,7 +38,7 @@ NSString* const WorklistRefreshSecondsKey = @"refreshSeconds";
 NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 
 
-@interface WorklistTimerInvoker : NSObject {
+@interface WorklistNonretainingTimerInvoker : NSObject {
     id _target;
     SEL _sel;
 }
@@ -44,7 +48,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 @end
 
 
-@implementation WorklistTimerInvoker
+@implementation WorklistNonretainingTimerInvoker
 
 - (id)initWithTarget:(id)target selector:(SEL)sel {
     if ((self = [super init])) {
@@ -69,6 +73,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 @interface Worklist ()
 
 @property (nonatomic,retain) NSTimer* refreshTimer;
+@property (nonatomic,retain) NSTimer* autoretrieveTimer;
 
 @end
 
@@ -77,6 +82,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 
 @synthesize properties = _properties;
 @synthesize refreshTimer = _refreshTimer;
+@synthesize autoretrieveTimer = _autoretrieveTimer;
 
 + (id)worklistWithProperties:(NSDictionary*)properties {
     return [[[[self class] alloc] initWithProperties:properties] autorelease];
@@ -84,6 +90,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 
 -(id)initWithProperties:(NSDictionary*)properties {
     if ((self = [super init])) {
+        _refreshLock = [[NSRecursiveLock alloc] init];
         self.properties = properties;
     }
     
@@ -91,7 +98,9 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 }
 
 - (void)dealloc {
+    self.autoretrieveTimer = nil;
     self.refreshTimer = nil;
+    [_refreshLock release];
     self.properties = nil;
     [super dealloc];
 }
@@ -101,6 +110,14 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
         [_refreshTimer invalidate];
         [_refreshTimer release];
         _refreshTimer = [refreshTimer retain];
+    }
+}
+
+- (void)setAutoretrieveTimer:(NSTimer *)autoretrieveTimer {
+    if (autoretrieveTimer != _autoretrieveTimer) {
+        [_autoretrieveTimer invalidate];
+        [_autoretrieveTimer release];
+        _autoretrieveTimer = [autoretrieveTimer retain];
     }
 }
 
@@ -116,7 +133,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     return [NSUserDefaults.standardUserDefaults objectForKey:self.albumIdDefaultsKey];
 }
 
--(void)setAlbumId:(NSString*)value {
+- (void)setAlbumId:(NSString*)value {
     [NSUserDefaults.standardUserDefaults setObject:value forKey:self.albumIdDefaultsKey];
 }
 
@@ -164,8 +181,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     if (!ti) ti = 300; // the default
     
     if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
-        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
-    
+        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
     [_refreshTimer fire];
 }
 
@@ -186,45 +202,6 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     [BrowserController.currentBrowser refreshAlbums];
 }
 
-// TODO: CDStringEncoding only supports part of the needed encodings, we should switch to iconv...
-#define WorklistsEncodingType CFStringEncoding
-#define WorklistsDefaultEncoding kCFStringEncodingISOLatin1
-
-static WorklistsEncodingType WorklistEncodingWithDicomName(const OFString& string) {
-    if (string == "ISO_IR 6")
-        return kCFStringEncodingASCII;
-    if (string == "ISO_IR 100")
-        return kCFStringEncodingISOLatin1;
-    if (string == "ISO_IR 101")
-        return kCFStringEncodingISOLatin2;
-    if (string == "ISO_IR 109")
-        return kCFStringEncodingISOLatin3;
-    if (string == "ISO_IR 110")
-        return kCFStringEncodingISOLatin4;
-    if (string == "ISO_IR 144")
-        return kCFStringEncodingISOLatinCyrillic;
-    if (string == "ISO_IR 127")
-        return kCFStringEncodingISOLatinArabic;
-    if (string == "ISO_IR 126")
-        return kCFStringEncodingISOLatinGreek;
-    if (string == "ISO_IR 138")
-        return kCFStringEncodingISOLatinHebrew;
-    if (string == "ISO_IR 148")
-        return kCFStringEncodingISOLatin5;
-    if (string == "ISO_IR 13")
-        return kCFStringEncodingDOSJapanese; // TODO: ???
-    if (string == "ISO_IR 166")
-        return kCFStringEncodingISOLatinThai;
-    if (string == "ISO_IR 192")
-        return kCFStringEncodingUTF8;
-    
-    return kCFStringEncodingISOLatin1; // hmmm
-}
-
-static NSString* WorklistsString(const OFString& string, WorklistsEncodingType encoding) {
-    return [(id)CFStringCreateWithCString(nil, string.c_str(), encoding) autorelease];
-}
-
 static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int responseCount, T_DIMSE_C_FindRSP* rsp, DcmDataset* response) {
     NSMutableArray* entries = (id)callbackData;
     
@@ -237,36 +214,36 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     OFString string;
     DcmItem* item;
     
-    WorklistsEncodingType encoding = WorklistsDefaultEncoding;
+    NSStringEncoding encoding = NSISOLatin1StringEncoding;
     if (response->findAndGetOFString(DCM_SpecificCharacterSet, string).good())
-        encoding = WorklistEncodingWithDicomName(string);
+        encoding = [NSString encodingForDICOMCharacterSet:[NSString stringWithUTF8String:string.c_str()]];
     
     if (response->findAndGetOFString(DCM_AccessionNumber, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"AccessionNumber"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"AccessionNumber"];
     if (response->findAndGetOFString(DCM_ReferringPhysiciansName, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"ReferringPhysiciansName"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ReferringPhysiciansName"];
     if (response->findAndGetOFString(DCM_PatientsName, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientsName"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientsName"];
     if (response->findAndGetOFString(DCM_PatientID, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientID"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientID"];
     if (response->findAndGetOFString(DCM_PatientsBirthDate, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientsBirthDate"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientsBirthDate"];
     if (response->findAndGetOFString(DCM_PatientsSex, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"PatientsSex"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientsSex"];
     if (response->findAndGetOFString(DCM_StudyInstanceUID, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"StudyInstanceUID"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"StudyInstanceUID"];
     if (response->findAndGetOFString(DCM_RequestedProcedureDescription, string).good())
-        [entry setObject:WorklistsString(string, encoding) forKey:@"RequestedProcedureDescription"];
+        [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"RequestedProcedureDescription"];
     
     if (response->findAndGetSequenceItem(DCM_ScheduledProcedureStepSequence, item).good()) {
         if (item->findAndGetOFString(DCM_Modality, string).good())
-            [entry setObject:WorklistsString(string, encoding) forKey:@"Modality"];
+            [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"Modality"];
         if (item->findAndGetOFString(DCM_ScheduledPerformingPhysiciansName, string).good())
-            [entry setObject:WorklistsString(string, encoding) forKey:@"ScheduledPerformingPhysiciansName"];
+            [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ScheduledPerformingPhysiciansName"];
         if (item->findAndGetOFString(DCM_ScheduledProcedureStepStartDate, string).good())
-            [entry setObject:WorklistsString(string, encoding) forKey:@"ScheduledProcedureStepStartDate"];
+            [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ScheduledProcedureStepStartDate"];
         if (item->findAndGetOFString(DCM_ScheduledProcedureStepStartTime, string).good())
-            [entry setObject:WorklistsString(string, encoding) forKey:@"ScheduledProcedureStepStartTime"];
+            [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ScheduledProcedureStepStartTime"];
     }
 }
 
@@ -309,6 +286,11 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
 
 - (void)refresh {
     @synchronized (self) {
+        NSThread* thread = [NSThread isMainThread]? nil : [NSThread currentThread];
+        thread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing Worklist: %@", nil), [_properties objectForKey:WorklistNameKey]];
+        thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), [_properties objectForKey:WorklistCalledAETKey]];
+        if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
+        
         T_ASC_Network* net = nil;
         T_ASC_Association* assoc = nil;
         NSMutableArray* entries = [NSMutableArray array];
@@ -378,7 +360,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 [NSException raise:NSGenericException format:@"%s", cond.text()];
 
             // NSLog(@"Results: %@", entries);
-            NSLog(@"Worklist: %d studies in %@", (int)entries.count, [_properties objectForKey:WorklistNameKey]);
+            // NSLog(@"Worklist: %d studies in %@", (int)entries.count, [_properties objectForKey:WorklistNameKey]);
         } @catch (...) {
             @throw;
         } @finally {
@@ -394,6 +376,8 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 ASC_dropNetwork(&net);
         }
         
+        thread.status = NSLocalizedString(@"Synchronizing...", nil);
+
         // for every entry, have a valid DicomStudy instance
         
         NSMutableArray* wstudies = [NSMutableArray array];
@@ -432,15 +416,29 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
         
         [db save]; // this is a secondary db, make sure the changes are applied to the main db before refreshing...
         [self performSelectorOnMainThread:@selector(_mainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
+        
+        // auto-retrieve
+        
+        NSTimeInterval ti = 20;
+        if ([[_properties objectForKey:WorklistAutoRetrieveKey] boolValue]) {
+            if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {
+                self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
+                [NSRunLoop.mainRunLoop addTimer:_autoretrieveTimer forMode:NSDefaultRunLoopMode];
+            }
+            [self autoretrieveWithDatabase:db];
+        } else
+            self.autoretrieveTimer = nil;
     }
 }
 
--(void)_threadRefresh {
+- (void)_threadRefresh {
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     @try {
         [self refresh];
+        [[WorklistsPlugin instance] clearErrorOnWorklist:self];
     } @catch (NSException* e) {
         N2LogExceptionWithStackTrace(e);
+        [[WorklistsPlugin instance] setError:e onWorklist:self];
     } @finally {
         [pool release];
     }
@@ -462,13 +460,6 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     if (album && [[[BrowserController currentBrowser] albumTable] isRowSelected:[db.albums indexOfObject:album]+1]) // album is selected
         [BrowserController.currentBrowser tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:[BrowserController.currentBrowser albumTable]]];
 }
-
-
-
-
-
-
-
 
 
 

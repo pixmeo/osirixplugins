@@ -18,6 +18,7 @@ extern NSString* const WorklistsDefaultsKey;
 @interface WorklistsPlugin : PluginFilter {
     NSArrayController* _worklists; // this is binded to the NSUserDefaults array of dictionaries
     NSMutableDictionary* _worklistObjs;
+    NSMutableDictionary* _errors;
 }
 
 @property(readonly,retain) NSArrayController* worklists;
@@ -25,5 +26,8 @@ extern NSString* const WorklistsDefaultsKey;
 + (WorklistsPlugin*)instance;
 
 - (void)deselectAlbumOfWorklist:(Worklist*)worklist;
+
+- (void)setError:(id)error onWorklist:(Worklist*)worklist;
+- (void)clearErrorOnWorklist:(Worklist*)worklist;
 
 @end

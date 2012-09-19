@@ -38,6 +38,8 @@ NSString* const WorklistsDefaultsKey = Worklists;
         if (WorklistsPluginInstance == nil)
             WorklistsPluginInstance = [self retain];
         
+        _errors = [[NSMutableDictionary alloc] init];
+        
         _worklistObjs = [[NSMutableDictionary alloc] init];
         
         _worklists = [[WorklistsArrayController alloc] init];
@@ -54,6 +56,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
 - (void)dealloc {
     [_worklistObjs release];
     [_worklists release];
+    [_errors release];
     [super dealloc];
 }
 
@@ -72,6 +75,12 @@ NSString* const WorklistsDefaultsKey = Worklists;
     class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:)));
     
+    method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    imp = method_getImplementation(method);
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:)));
+
     method = class_getInstanceMethod(BrowserControllerClass, @selector(menuWillOpen:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
     imp = method_getImplementation(method);
@@ -135,18 +144,29 @@ NSString* const WorklistsDefaultsKey = Worklists;
     [[[BrowserController currentBrowser] albumTable] selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 }
 
+- (void)setError:(id)error onWorklist:(Worklist*)worklist {
+    [_errors setObject:error forKey:[worklist.properties objectForKey:WorklistIDKey]];
+}
+
+- (void)clearErrorOnWorklist:(Worklist*)worklist {
+    [_errors removeObjectForKey:[worklist.properties objectForKey:WorklistIDKey]];
+}
+
 #pragma mark BrowserController
 
 - (void)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
     if (table == bc.albumTable) {
         NSArray* albums = [bc albums];
-        
         if (row-1 > albums.count-1)
             return;
         
-        if ([self worklistForAlbum:[[bc albums] objectAtIndex:row-1]]) {
+        Worklist* worklist = [self worklistForAlbum:[[bc albums] objectAtIndex:row-1]];
+        if (worklist) {
             static NSImage* image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album"]];
-            [cell setImage:image];
+            static NSImage* eimage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album_err"]];
+            if ([_errors objectForKey:[worklist.properties objectForKey:WorklistIDKey]])
+                [cell setImage:eimage];
+            else [cell setImage:image];
         }
     }
 }
@@ -154,6 +174,29 @@ NSString* const WorklistsDefaultsKey = Worklists;
 - (void)_Worklists_BrowserController_tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
     [self _Worklists_BrowserController_tableView:table willDisplayCell:cell forTableColumn:column row:row];
     [WorklistsPluginInstance _BrowserController:(id)self tableView:table willDisplayCell:cell forTableColumn:column row:row];
+}
+
+- (NSString*)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table toolTipForCell:(NSCell*)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
+    if (table == bc.albumTable) {
+        NSArray* albums = [bc albums];
+        if (row-1 > albums.count-1)
+            return nil;
+        
+        Worklist* worklist = [self worklistForAlbum:[[bc albums] objectAtIndex:row-1]];
+        if (worklist) {
+            id e = [_errors objectForKey:[worklist.properties objectForKey:WorklistIDKey]];
+            if ([e isKindOfClass:[NSException class]])
+                return [e reason];
+        }
+    }
+    
+    return nil;
+}
+
+- (NSString*)_Worklists_BrowserController_tableView:(NSTableView*)table toolTipForCell:(NSCell*)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
+    NSString* r = [WorklistsPluginInstance _BrowserController:(id)self tableView:table toolTipForCell:cell rect:rect tableColumn:tableColumn row:row mouseLocation:mouseLocation];
+    if (r) return r;
+    return [self _Worklists_BrowserController_tableView:table toolTipForCell:cell rect:rect tableColumn:tableColumn row:row mouseLocation:mouseLocation];
 }
 
 - (void)_BrowserController:(BrowserController*)bc menuWillOpen:(NSMenu*)menu {
