@@ -11,11 +11,15 @@
 
 @interface WorklistsPreferencesController : NSPreferencePane {
     NSTableView* _worklistsTable;
+    NSPopUpButton* _refreshButton;
+    NSPopUpButton* _autoretrieveButton;
 }
 
 @property(readonly) IBOutlet NSArrayController* worklists;
 
 @property(assign) IBOutlet NSTableView* worklistsTable;
+@property(assign) IBOutlet NSPopUpButton* refreshButton;
+@property(assign) IBOutlet NSPopUpButton* autoretrieveButton;
 
 - (IBAction)add:(id)caller;
 

@@ -11,9 +11,34 @@
 #import "Worklist.h"
 
 
+@interface WorklistsPreferencesController ()
+
+- (void)adjustRefreshDelays;
+
+@end
+
+
 @implementation WorklistsPreferencesController
 
 @synthesize worklistsTable = _worklistsTable;
+@synthesize refreshButton = _refreshButton;
+@synthesize autoretrieveButton = _autoretrieveButton;
+
+- (void)awakeFromNib {
+    [self.worklists addObserver:self forKeyPath:@"content" options:NSKeyValueObservingOptionInitial context:[self class]];
+}
+
+- (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    if (context != [self class])
+        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    
+    [self performSelector:@selector(adjustRefreshDelays) withObject:nil afterDelay:0.01]; // wait a moment to make sure the bindings affect the views...
+}
+
+- (void)dealloc {
+    [self.worklists removeObserver:self forKeyPath:@"content"];
+    [super dealloc];
+}
 
 - (NSArrayController*)worklists {
     return [[WorklistsPlugin instance] worklists];
@@ -42,6 +67,20 @@
 - (void)tableViewTextDidEndEditing:(NSNotification*)n {
     [self.worklists rearrangeObjects];
     [self.worklists didChangeValueForKey:@"content"];
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification*)notification {
+    [self performSelector:@selector(adjustRefreshDelays) withObject:nil afterDelay:0.01]; // wait a moment to make sure the bindings affect the views...
+}
+
+- (void)adjustRefreshDelays {
+    NSInteger refresh = _refreshButton.selectedTag;
+
+    if (_autoretrieveButton.selectedTag > refresh)
+        [_autoretrieveButton selectItemWithTag:refresh];
+    
+    for (NSMenuItem* mi in _autoretrieveButton.itemArray)
+        [mi setHidden:(mi.tag > refresh)];
 }
 
 @end

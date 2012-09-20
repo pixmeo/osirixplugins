@@ -180,9 +180,12 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     NSTimeInterval ti = [[properties objectForKey:WorklistRefreshSecondsKey] integerValue];
     if (!ti) ti = 300; // the default
     
-    if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
-        self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
-    [_refreshTimer fire];
+    if (ti != -1) {
+        if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
+            self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
+        [_refreshTimer fire];
+    } else
+        self.refreshTimer = nil;
 }
 
 - (void)delete {
@@ -419,8 +422,10 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
         
         // auto-retrieve
         
-        NSTimeInterval ti = 20;
-        if ([[_properties objectForKey:WorklistAutoRetrieveKey] boolValue]) {
+        NSTimeInterval ti = [[_properties objectForKey:WorklistAutoRetrieveKey] integerValue];
+        if (!ti) ti = 30; // the default
+        
+        if (ti != -1) {
             if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {
                 self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
                 [NSRunLoop.mainRunLoop addTimer:_autoretrieveTimer forMode:NSDefaultRunLoopMode];

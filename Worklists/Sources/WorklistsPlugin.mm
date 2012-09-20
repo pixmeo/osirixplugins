@@ -96,7 +96,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
     if (context != [self class])
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         
-    NSLog(@"observe %@, %@", keyPath, change);
+    //NSLog(@"observe %@, %@", keyPath, change);
     
     NSMutableDictionary* existingWorklistObjs = [[_worklistObjs mutableCopy] autorelease];
     
