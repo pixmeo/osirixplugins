@@ -91,6 +91,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 -(id)initWithProperties:(NSDictionary*)properties {
     if ((self = [super init])) {
         _refreshLock = [[NSRecursiveLock alloc] init];
+        _autoretrieveLock = [[NSRecursiveLock alloc] init];
         _currentAutoretrieves = [[NSMutableDictionary alloc] init];
         self.properties = properties;
     }
@@ -103,6 +104,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
     self.autoretrieveTimer = nil;
     self.refreshTimer = nil;
     [_currentAutoretrieves release];
+    [_autoretrieveLock release];
     [_refreshLock release];
     [super dealloc];
 }
@@ -290,151 +292,159 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
 }
 
 - (void)refresh {
-    @synchronized (self) {
-        NSThread* thread = [NSThread isMainThread]? nil : [NSThread currentThread];
-        thread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing Worklist: %@", nil), [_properties objectForKey:WorklistNameKey]];
-        thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), [_properties objectForKey:WorklistCalledAETKey]];
-        if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
-        
-        T_ASC_Network* net = nil;
-        T_ASC_Association* assoc = nil;
-        NSMutableArray* entries = [NSMutableArray array];
-        DcmDataset* statusDetail = nil;
-        
-        @try {
-            OFCondition cond;
+    if (![_refreshLock tryLock])
+        return;
+    @try {
+        @synchronized (self) {
+            NSThread* thread = [NSThread isMainThread]? nil : [NSThread currentThread];
+            thread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing Worklist: %@", nil), [_properties objectForKey:WorklistNameKey]];
+            thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), [_properties objectForKey:WorklistCalledAETKey]];
+            if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
             
-            NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
-            NSString* callingAet = [_properties objectForKey:WorklistCallingAETKey]; // QSSCT2
-            NSString* peerAddress = [_properties objectForKey:WorklistHostKey];
-            NSInteger peerPort = [[_properties objectForKey:WorklistPortKey] intValue];
-            if (!peerPort) peerPort = 104;
+            T_ASC_Network* net = nil;
+            T_ASC_Association* assoc = nil;
+            NSMutableArray* entries = [NSMutableArray array];
+            DcmDataset* statusDetail = nil;
             
-            if (!calledAet || !callingAet || !peerAddress)
-                [NSException raise:NSGenericException format:@"Incomplete worklist setup"];
-            
-            int acse_timeout = 30;
+            @try {
+                OFCondition cond;
+                
+                NSString* calledAet = [_properties objectForKey:WorklistCalledAETKey]; // XPLORE
+                NSString* callingAet = [_properties objectForKey:WorklistCallingAETKey]; // QSSCT2
+                NSString* peerAddress = [_properties objectForKey:WorklistHostKey];
+                NSInteger peerPort = [[_properties objectForKey:WorklistPortKey] intValue];
+                if (!peerPort) peerPort = 104;
+                
+                if (!calledAet || !callingAet || !peerAddress)
+                    [NSException raise:NSGenericException format:@"Incomplete worklist setup"];
+                
+                int acse_timeout = 30;
 
-            cond = ASC_initializeNetwork(NET_REQUESTOR, 0, acse_timeout, &net);
-            if (cond.bad())
-                [NSException raise:NSGenericException format:@"%s", cond.text()];
-            
-            T_ASC_Parameters* params;
-            ASC_createAssociationParameters(&params, ASC_DEFAULTMAXPDU);
+                cond = ASC_initializeNetwork(NET_REQUESTOR, 0, acse_timeout, &net);
+                if (cond.bad())
+                    [NSException raise:NSGenericException format:@"%s", cond.text()];
+                
+                T_ASC_Parameters* params;
+                ASC_createAssociationParameters(&params, ASC_DEFAULTMAXPDU);
 
-            ASC_setAPTitles(params, callingAet.UTF8String, calledAet.UTF8String, NULL);
-            
-            cond = ASC_setTransportLayerType(params, false);
-            if (cond.bad())
-                [NSException raise:NSGenericException format:@"%s", cond.text()];
-            
-            DIC_NODENAME localHost;
-            DIC_NODENAME peerHost;
-            gethostname(localHost, sizeof(localHost)-1);
-            sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
-            ASC_setPresentationAddresses(params, localHost, peerHost);
+                ASC_setAPTitles(params, callingAet.UTF8String, calledAet.UTF8String, NULL);
+                
+                cond = ASC_setTransportLayerType(params, false);
+                if (cond.bad())
+                    [NSException raise:NSGenericException format:@"%s", cond.text()];
+                
+                DIC_NODENAME localHost;
+                DIC_NODENAME peerHost;
+                gethostname(localHost, sizeof(localHost)-1);
+                sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
+                ASC_setPresentationAddresses(params, localHost, peerHost);
 
-            const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
-            cond = ASC_addPresentationContext(params, 1, UID_FINDModalityWorklistInformationModel, transferSyntaxes, 3);
-            if (cond.bad())
-                [NSException raise:NSGenericException format:@"%s", cond.text()];
-            
-            cond = ASC_requestAssociation(net, params, &assoc);
-            if (cond.bad())
-                [NSException raise:NSGenericException format:@"%s", cond.text()];
-            
-            DIC_US msgId = assoc->nextMsgID++;
-            
-            T_ASC_PresentationContextID presId = ASC_findAcceptedPresentationContextID(assoc, UID_FINDModalityWorklistInformationModel);
-            if (presId == 0)
-                [NSException raise:NSGenericException format:@"No presentation contexts"];
+                const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
+                cond = ASC_addPresentationContext(params, 1, UID_FINDModalityWorklistInformationModel, transferSyntaxes, 3);
+                if (cond.bad())
+                    [NSException raise:NSGenericException format:@"%s", cond.text()];
+                
+                cond = ASC_requestAssociation(net, params, &assoc);
+                if (cond.bad())
+                    [NSException raise:NSGenericException format:@"%s", cond.text()];
+                
+                DIC_US msgId = assoc->nextMsgID++;
+                
+                T_ASC_PresentationContextID presId = ASC_findAcceptedPresentationContextID(assoc, UID_FINDModalityWorklistInformationModel);
+                if (presId == 0)
+                    [NSException raise:NSGenericException format:@"No presentation contexts"];
 
-            T_DIMSE_C_FindRQ req;
-            bzero((char*)&req, sizeof(req));
-            req.MessageID = msgId;
-            strcpy(req.AffectedSOPClassUID, UID_FINDModalityWorklistInformationModel);
-            req.DataSetType = DIMSE_DATASET_PRESENT;
-            req.Priority = DIMSE_PRIORITY_LOW;
-            
-            DcmFileFormat dcmff;
-            dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
-            
-            T_DIMSE_C_FindRSP rsp;
-            cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
-            if (cond.bad())
-                [NSException raise:NSGenericException format:@"%s", cond.text()];
+                T_DIMSE_C_FindRQ req;
+                bzero((char*)&req, sizeof(req));
+                req.MessageID = msgId;
+                strcpy(req.AffectedSOPClassUID, UID_FINDModalityWorklistInformationModel);
+                req.DataSetType = DIMSE_DATASET_PRESENT;
+                req.Priority = DIMSE_PRIORITY_LOW;
+                
+                DcmFileFormat dcmff;
+                dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
+                
+                T_DIMSE_C_FindRSP rsp;
+                cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
+                if (cond.bad())
+                    [NSException raise:NSGenericException format:@"%s", cond.text()];
 
-            // NSLog(@"Results: %@", entries);
-            // NSLog(@"Worklist: %d studies in %@", (int)entries.count, [_properties objectForKey:WorklistNameKey]);
-        } @catch (...) {
-            @throw;
-        } @finally {
-            if (statusDetail)
-                delete statusDetail;
-            
-            if (assoc) {
-                ASC_releaseAssociation(assoc);
-                ASC_destroyAssociation(&assoc);
-            }
-            
-            if (net)
-                ASC_dropNetwork(&net);
-        }
-        
-        thread.status = NSLocalizedString(@"Synchronizing...", nil);
-
-        // for every entry, have a valid DicomStudy instance
-        
-        NSMutableArray* wstudies = [NSMutableArray array];
-        DicomDatabase* db = [[DicomDatabase defaultDatabase] independentDatabase];
-        
-        NSPredicate* predicateTemplate = [NSPredicate predicateWithFormat:@"patientID = $PatientID AND accessionNumber = $AccessionNumber AND studyInstanceUID = $StudyInstanceUID"];
-        
-        for (NSDictionary* entry in entries) {
-            NSArray* studies = [db objectsForEntity:db.studyEntity predicate:[predicateTemplate predicateWithSubstitutionVariables:entry]];
-            
-            if (!studies.count)
-                studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:entry]];
-            
-            [wstudies addObjectsFromArray:studies];
-        }
-        
-        // synchronize the album studies with the studies array
-        
-        DicomAlbum* album = [self albumInDatabase:db];
-        NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
-        
-        for (DicomStudy* study in wstudies)
-            if (![astudies containsObject:study])
-                [astudies addObject:study];
-        for (DicomStudy* study in [[astudies copy] autorelease])
-            if (![wstudies containsObject:study]) {
-                [astudies removeObject:study];
-                // if the study is empty, delete it
-                NSSet* series = [study series];
-                if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
-                    for (DicomSeries* s in [series.copy autorelease])
-                        [db.managedObjectContext deleteObject:s];
-                    [db.managedObjectContext deleteObject:study];
+                // NSLog(@"Results: %@", entries);
+                // NSLog(@"Worklist: %d studies in %@", (int)entries.count, [_properties objectForKey:WorklistNameKey]);
+            } @catch (...) {
+                @throw;
+            } @finally {
+                if (statusDetail)
+                    delete statusDetail;
+                
+                if (assoc) {
+                    ASC_releaseAssociation(assoc);
+                    ASC_destroyAssociation(&assoc);
                 }
+                
+                if (net)
+                    ASC_dropNetwork(&net);
             }
-        
-        [db save]; // this is a secondary db, make sure the changes are applied to the main db before refreshing...
-        [self performSelectorOnMainThread:@selector(_mainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
-        
-        // auto-retrieve
-        
-        NSTimeInterval ti = [[_properties objectForKey:WorklistAutoRetrieveKey] integerValue];
-        if (!ti) ti = 30; // the default
-        
-        if (ti != -1) {
-            if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {
-                self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
-                [NSRunLoop.mainRunLoop addTimer:_autoretrieveTimer forMode:NSDefaultRunLoopMode];
+            
+            thread.status = NSLocalizedString(@"Synchronizing...", nil);
+
+            // for every entry, have a valid DicomStudy instance
+            
+            NSMutableArray* wstudies = [NSMutableArray array];
+            DicomDatabase* db = [[DicomDatabase defaultDatabase] independentDatabase];
+            
+            NSPredicate* predicateTemplate = [NSPredicate predicateWithFormat:@"patientID = $PatientID AND accessionNumber = $AccessionNumber AND studyInstanceUID = $StudyInstanceUID"];
+            
+            for (NSDictionary* entry in entries) {
+                NSArray* studies = [db objectsForEntity:db.studyEntity predicate:[predicateTemplate predicateWithSubstitutionVariables:entry]];
+                
+                if (!studies.count)
+                    studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:entry]];
+                
+                [wstudies addObjectsFromArray:studies];
             }
-            [self autoretrieveWithDatabase:db];
-        } else
-            self.autoretrieveTimer = nil;
+            
+            // synchronize the album studies with the studies array
+            
+            DicomAlbum* album = [self albumInDatabase:db];
+            NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
+            
+            for (DicomStudy* study in wstudies)
+                if (![astudies containsObject:study])
+                    [astudies addObject:study];
+            for (DicomStudy* study in [[astudies copy] autorelease])
+                if (![wstudies containsObject:study]) {
+                    [astudies removeObject:study];
+                    // if the study is empty, delete it
+                    NSSet* series = [study series];
+                    if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
+                        for (DicomSeries* s in [series.copy autorelease])
+                            [db.managedObjectContext deleteObject:s];
+                        [db.managedObjectContext deleteObject:study];
+                    }
+                }
+            
+            [db save]; // this is a secondary db, make sure the changes are applied to the main db before refreshing...
+            [self performSelectorOnMainThread:@selector(_mainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
+            
+            // auto-retrieve
+            
+            NSTimeInterval ti = [[_properties objectForKey:WorklistAutoRetrieveKey] integerValue];
+            if (!ti) ti = 30; // the default
+            
+            if (ti != -1) {
+                if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {
+                    self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
+                    [NSRunLoop.mainRunLoop addTimer:_autoretrieveTimer forMode:NSDefaultRunLoopMode];
+                }
+                [self autoretrieveWithDatabase:db];
+            } else
+                self.autoretrieveTimer = nil;
+        }
+    } @catch (...) {
+        @throw;
+    } @finally {
+        [_refreshLock unlock];
     }
 }
 

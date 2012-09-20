@@ -75,12 +75,18 @@ NSString* const WorklistsDefaultsKey = Worklists;
     class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:)));
     
+    method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:validateDrop:proposedRow:proposedDropOperation:));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    imp = method_getImplementation(method);
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:validateDrop:proposedRow:proposedDropOperation:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:validateDrop:proposedRow:proposedDropOperation:)));
+    
     method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
     imp = method_getImplementation(method);
     class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:)));
-
+    
     method = class_getInstanceMethod(BrowserControllerClass, @selector(menuWillOpen:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
     imp = method_getImplementation(method);
@@ -175,6 +181,30 @@ NSString* const WorklistsDefaultsKey = Worklists;
     [self _Worklists_BrowserController_tableView:table willDisplayCell:cell forTableColumn:column row:row];
     [WorklistsPluginInstance _BrowserController:(id)self tableView:table willDisplayCell:cell forTableColumn:column row:row];
 }
+
+- (BOOL)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation returnDropOperation:(NSTableViewDropOperation&)returnDropOperation {
+    if (table == bc.albumTable) {
+        NSArray* albums = [bc albums];
+        if (row-1 > albums.count-1)
+            return NO;
+        
+        Worklist* worklist = [self worklistForAlbum:[[bc albums] objectAtIndex:row-1]];
+        if (worklist) {
+            returnDropOperation = NSDragOperationNone;
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (NSDragOperation)_Worklists_BrowserController_tableView:(NSTableView*)table validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation {
+    NSDragOperation returnDropOperation;
+    if ([WorklistsPluginInstance _BrowserController:(id)self tableView:table validateDrop:info proposedRow:row proposedDropOperation:operation returnDropOperation:returnDropOperation])
+        return returnDropOperation;
+    return [self _Worklists_BrowserController_tableView:table validateDrop:info proposedRow:row proposedDropOperation:operation];
+}
+
 
 - (NSString*)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table toolTipForCell:(NSCell*)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
     if (table == bc.albumTable) {
