@@ -24,6 +24,23 @@
 #import <OsiriXAPI/DICOMToNSString.h>
 
 
+@interface WorklistImagesQueryNode : DCMTKStudyQueryNode {
+    const DcmDataset* _moveDataset;
+}
+
++ (id)queryNodeWithDataset:(const DcmDataset*)dataset
+               moveDataset:(const DcmDataset*)moveDataset
+                callingAET:(NSString*)myAET
+                 calledAET:(NSString*)theirAET
+                  hostname:(NSString*)hostname
+                      port:(int)port
+            transferSyntax:(int)transferSyntax
+               compression:(float)compression
+           extraParameters:(NSDictionary *)extraParameters;
+
+@end
+
+
 @implementation Worklist (POD)
 
 - (void)autoretrieveWithDatabase:(DicomDatabase*)db {
@@ -59,9 +76,9 @@
             
             // do the querying...
             
-            NSString* stringEncoding = [[NSUserDefaults standardUserDefaults] stringForKey:@"STRINGENCODING"];
-            if (!stringEncoding) stringEncoding = @"ISO_IR 100";
-            NSStringEncoding encoding = [NSString encodingForDICOMCharacterSet:stringEncoding];
+            //NSString* stringEncoding = [[NSUserDefaults standardUserDefaults] stringForKey:@"STRINGENCODING"];
+            //if (!stringEncoding) stringEncoding = @"ISO_IR 100";
+            //NSStringEncoding encoding = [NSString encodingForDICOMCharacterSet:stringEncoding];
             
             for (NSInteger i = 0; i < astudies.count; ++i) {
                 thread.progress = 1.0/astudies.count*i;
@@ -82,8 +99,8 @@
                 
                 DcmDataset dataset;
                 dataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");
-                dataset.putAndInsertString(DCM_SpecificCharacterSet, stringEncoding.UTF8String);
-                dataset.putAndInsertString(DCM_StudyInstanceUID, [study.studyInstanceUID cStringUsingEncoding:encoding]);
+                //dataset.putAndInsertString(DCM_SpecificCharacterSet, stringEncoding.UTF8String);
+                dataset.putAndInsertString(DCM_StudyInstanceUID, study.studyInstanceUID.UTF8String);
                 // dataset.putAndInsertString(DCM_PatientID, [study.patientID cStringUsingEncoding:encoding]);
                 // dataset.putAndInsertString(DCM_AccessionNumber, [study.accessionNumber cStringUsingEncoding:encoding]);
 
@@ -112,10 +129,10 @@
                         }
                     
                     if (iqns.count) {
-                        NSArray* uids = [iqns valueForKey:@"uid"];
+                        NSArray* sopInstanceUIDs = [iqns valueForKey:@"uid"];
                         
                         @synchronized (_currentAutoretrieves) {
-                            [studyCurrentAutoretrieves addObject:uids];
+                            [studyCurrentAutoretrieves addObject:sopInstanceUIDs];
                         }
                         
                         // images in sopInstanceUIDs are to be transferred from the dicom node
@@ -125,7 +142,7 @@
                             thread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %d images...", nil), (int)iqns.count];
                             [ThreadsManager.defaultManager addThreadAndStart:thread];
                             
-                            for (NSInteger i = 0; i < iqns.count; ++i) { // TODO: do this with ONE custom moveDataset
+                            /*for (NSInteger i = 0; i < iqns.count; ++i) { // TODO: do this with ONE custom moveDataset
                                 thread.progress = 1.0/iqns.count*i;
                                 
                                 DCMTKImageQueryNode* imageQueryNode = [iqns objectAtIndex:i];
@@ -134,10 +151,34 @@
                                                       studyQueryNode.callingAET, @"moveDestination",
                                                       nil]
                                         retrieveMode:[[dn objectForKey:@"retrieveMode"] intValue]];
-                            }
+                            }*/
+                            
+                            DcmDataset mdataset;
+                            mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");
+                            mdataset.putAndInsertOFStringArray(DCM_SOPInstanceUID, [[sopInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                            NSArray* seriesInstanceUIDs = [iqns valueForKey:@"seriesInstanceUID"];
+                            mdataset.putAndInsertOFStringArray(DCM_SeriesInstanceUID, [[seriesInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                            NSArray* studyInstanceUIDs = [iqns valueForKey:@"studyInstanceUID"];
+                            mdataset.putAndInsertOFStringArray(DCM_StudyInstanceUID, [[studyInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                            
+                            WorklistImagesQueryNode* queryNode = [WorklistImagesQueryNode queryNodeWithDataset:&dataset
+                                                                                                   moveDataset:&mdataset
+                                                                                                    callingAET:[NSUserDefaults.standardUserDefaults stringForKey:@"AETITLE"]
+                                                                                                     calledAET:[dn objectForKey:@"AETitle"]
+                                                                                                      hostname:[dn objectForKey:@"Address"]
+                                                                                                          port:[[dn objectForKey:@"Port"] intValue]
+                                                                                                transferSyntax:[[dn objectForKey:@"TransferSyntax"] intValue]
+                                                                                                   compression:0
+                                                                                               extraParameters:dn];
+                            [queryNode setChildren:iqns];
+                            [queryNode setShowErrorMessage:NO];
+                            [queryNode move:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             studyQueryNode.callingAET, @"moveDestination",
+                                             nil]
+                               retrieveMode:[[dn objectForKey:@"retrieveMode"] intValue]];
                             
                             @synchronized (_currentAutoretrieves) {
-                                [studyCurrentAutoretrieves removeObjectIdenticalTo:uids];
+                                [studyCurrentAutoretrieves removeObjectIdenticalTo:sopInstanceUIDs];
                             }
                         }];
                     }
@@ -171,3 +212,53 @@
 }
 
 @end
+
+
+@implementation WorklistImagesQueryNode
+
+- (id)initWithDataset:(const DcmDataset*)dataset
+          moveDataset:(const DcmDataset*)moveDataset
+           callingAET:(NSString*)myAET
+            calledAET:(NSString*)theirAET
+             hostname:(NSString*)hostname
+                 port:(int)port
+       transferSyntax:(int)transferSyntax
+          compression:(float)compression
+      extraParameters:(NSDictionary *)extraParameters
+{
+    if ((self = [super initWithDataset:(DcmDataset*)dataset callingAET:myAET calledAET:theirAET hostname:hostname port:port transferSyntax:transferSyntax compression:compression extraParameters:extraParameters])) {
+        _moveDataset = moveDataset;
+    }
+    
+    return self;
+}
+
++ (id)queryNodeWithDataset:(const DcmDataset*)dataset
+               moveDataset:(const DcmDataset*)moveDataset
+                callingAET:(NSString*)myAET
+                 calledAET:(NSString*)theirAET
+                  hostname:(NSString*)hostname
+                      port:(int)port
+            transferSyntax:(int)transferSyntax
+               compression:(float)compression
+           extraParameters:(NSDictionary *)extraParameters
+{
+    return [[[[self class] alloc] initWithDataset:dataset
+                                      moveDataset:moveDataset
+                                       callingAET:myAET
+                                        calledAET:theirAET
+                                         hostname:hostname
+                                             port:port
+                                   transferSyntax:transferSyntax
+                                      compression:compression
+                                  extraParameters:extraParameters] autorelease];
+}
+
+- (DcmDataset*)moveDataset {
+	return (DcmDataset*)_moveDataset->clone();
+}
+
+@end
+
+
+
