@@ -27,13 +27,13 @@
 @implementation Worklist (POD)
 
 - (void)autoretrieveWithDatabase:(DicomDatabase*)db {
+    if (![_refreshLock tryLock])
+        return;
+
     @synchronized (self) {
-        if (![_refreshLock tryLock])
-            return;
-        
         NSThread* thread = [NSThread isMainThread]? nil : [NSThread currentThread];
         thread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing Worklist: %@", nil), [_properties objectForKey:WorklistNameKey]];
-        thread.status = [NSString stringWithFormat:NSLocalizedString(@"Autoretrieving studies...", nil), [_properties objectForKey:WorklistCalledAETKey]];
+        thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying for images...", nil), [_properties objectForKey:WorklistCalledAETKey]];
         if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
         
         if (![NSUserDefaults.standardUserDefaults boolForKey:@"searchForComparativeStudiesOnDICOMNodes"])
@@ -55,7 +55,7 @@
         // studies in album
         
         DicomAlbum* album = [self albumInDatabase:db];
-        NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
+        NSArray* astudies = album.studies.allObjects;
         
         // do the querying...
         
@@ -63,8 +63,21 @@
         if (!stringEncoding) stringEncoding = @"ISO_IR 100";
         NSStringEncoding encoding = [NSString encodingForDICOMCharacterSet:stringEncoding];
         
-        for (DicomStudy* study in astudies) { // TODO: parallelize this...
+        for (NSInteger i = 0; i < astudies.count; ++i) {
+            thread.progress = 1.0/astudies.count*i;
+            
+            DicomStudy* study = [astudies objectAtIndex:i];
+            
             NSMutableArray* availableSOPInstanceUIDs = [[[study.images.allObjects valueForKey:@"sopInstanceUID"] mutableCopy] autorelease];
+            NSMutableArray* studyCurrentAutoretrieves = nil;
+            @synchronized (_currentAutoretrieves) {
+                studyCurrentAutoretrieves = [_currentAutoretrieves objectForKey:study.studyInstanceUID];
+                if (!studyCurrentAutoretrieves) [_currentAutoretrieves setObject:(studyCurrentAutoretrieves = [NSMutableArray array]) forKey:study.studyInstanceUID];
+                // current transfers are considered as already available to avoid transferring them twice
+                for (NSArray* iSOPInstanceUIDs in studyCurrentAutoretrieves)
+                    [availableSOPInstanceUIDs addObjectsFromArray:iSOPInstanceUIDs];
+            }
+            
             // NSLog(@"Querying %@ ...", study.studyInstanceUID);
             
             DcmDataset dataset;
@@ -98,13 +111,35 @@
                         [iqns addObject:imageQueryNode];
                     }
                 
-                // images in sopInstanceUIDs are to be transferred from the dicom node
-                for (DCMTKImageQueryNode* imageQueryNode in iqns) { // TODO: do this with ONE custom moveDataset
-                    [imageQueryNode move:[NSDictionary dictionaryWithObjectsAndKeys:
-                                          studyQueryNode, @"study",
-                                          studyQueryNode.callingAET, @"moveDestination",
-                                          nil]
-                            retrieveMode:[[dn objectForKey:@"retrieveMode"] intValue]];
+                if (iqns.count) {
+                    NSArray* uids = [iqns valueForKey:@"uid"];
+                    
+                    @synchronized (_currentAutoretrieves) {
+                        [studyCurrentAutoretrieves addObject:uids];
+                    }
+                    
+                    // images in sopInstanceUIDs are to be transferred from the dicom node
+                    [NSThread performBlockInBackground:^{
+                        NSThread* thread = [NSThread currentThread];
+                        thread.name = [NSString stringWithFormat:NSLocalizedString(@"Autoretrieving %@", nil), study.name];
+                        thread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %d images...", nil), (int)iqns.count];
+                        [ThreadsManager.defaultManager addThreadAndStart:thread];
+                        
+                        for (NSInteger i = 0; i < iqns.count; ++i) { // TODO: do this with ONE custom moveDataset
+                            thread.progress = 1.0/iqns.count*i;
+                            
+                            DCMTKImageQueryNode* imageQueryNode = [iqns objectAtIndex:i];
+                            [imageQueryNode move:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  studyQueryNode, @"study",
+                                                  studyQueryNode.callingAET, @"moveDestination",
+                                                  nil]
+                                    retrieveMode:[[dn objectForKey:@"retrieveMode"] intValue]];
+                        }
+                        
+                        @synchronized (_currentAutoretrieves) {
+                            [studyCurrentAutoretrieves removeObjectIdenticalTo:uids];
+                        }
+                    }];
                 }
             }
         }

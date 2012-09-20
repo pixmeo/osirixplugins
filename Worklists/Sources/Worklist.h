@@ -28,6 +28,7 @@ extern NSString* const WorklistAutoRetrieveKey;
     NSTimer* _refreshTimer;
     NSTimer* _autoretrieveTimer;
     NSRecursiveLock* _refreshLock;
+    NSMutableDictionary* _currentAutoretrieves;
 }
 
 @property(retain,nonatomic) NSDictionary* properties;

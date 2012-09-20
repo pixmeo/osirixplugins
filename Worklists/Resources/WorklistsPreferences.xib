@@ -103,7 +103,6 @@
 							<string key="NSFrame">{{43, 20}, {24, 21}}</string>
 							<reference key="NSSuperview" ref="1006771505"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="483875421">
@@ -384,7 +383,7 @@
 						<object class="NSTextField" id="53141548">
 							<reference key="NSNextResponder" ref="1006771505"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{145, 143}, {80, 14}}</string>
+							<string key="NSFrame">{{145, 145}, {80, 14}}</string>
 							<reference key="NSSuperview" ref="1006771505"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="249546004"/>
@@ -781,7 +780,7 @@
 						<object class="NSPopUpButton" id="249546004">
 							<reference key="NSNextResponder" ref="1006771505"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{227, 138}, {181, 22}}</string>
+							<string key="NSFrame">{{227, 140}, {181, 22}}</string>
 							<reference key="NSSuperview" ref="1006771505"/>
 							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="765577415"/>
@@ -1092,6 +1091,22 @@
 					<int key="connectionID">1147</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">initialFirstResponder</string>
+						<reference key="source" ref="57061227"/>
+						<reference key="destination" ref="980618137"/>
+					</object>
+					<int key="connectionID">1150</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="1067077677"/>
+						<reference key="destination" ref="765577415"/>
+					</object>
+					<int key="connectionID">1151</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">content: worklists.arrangedObjects</string>
 						<reference key="source" ref="980618137"/>
@@ -1143,19 +1158,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">nextKeyView</string>
-						<reference key="source" ref="980618137"/>
-						<reference key="destination" ref="866083563"/>
-					</object>
-					<int key="connectionID">1067</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="980618137"/>
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">1107</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="980618137"/>
+						<reference key="destination" ref="765577415"/>
+					</object>
+					<int key="connectionID">1153</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1219,6 +1234,14 @@
 					<int key="connectionID">1018</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="765577415"/>
+						<reference key="destination" ref="515895548"/>
+					</object>
+					<int key="connectionID">1152</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">argument: values</string>
 						<reference key="source" ref="515895548"/>
@@ -1258,6 +1281,14 @@
 						</object>
 					</object>
 					<int key="connectionID">995</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="515895548"/>
+						<reference key="destination" ref="866083563"/>
+					</object>
+					<int key="connectionID">1154</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1411,6 +1442,14 @@
 					<int key="connectionID">1117</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="527273641"/>
+						<reference key="destination" ref="722339517"/>
+					</object>
+					<int key="connectionID">1155</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: worklists.selectedObjects.@count</string>
 						<reference key="source" ref="277256871"/>
@@ -1454,6 +1493,14 @@
 						</object>
 					</object>
 					<int key="connectionID">1105</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="277256871"/>
+						<reference key="destination" ref="249546004"/>
+					</object>
+					<int key="connectionID">1157</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -1501,6 +1548,14 @@
 					<int key="connectionID">1116</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="722339517"/>
+						<reference key="destination" ref="277256871"/>
+					</object>
+					<int key="connectionID">1156</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">enabled: worklists.selectedObjects.@count</string>
 						<reference key="source" ref="249546004"/>
@@ -1544,6 +1599,14 @@
 						</object>
 					</object>
 					<int key="connectionID">1140</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">nextKeyView</string>
+						<reference key="source" ref="249546004"/>
+						<reference key="destination" ref="980618137"/>
+					</object>
+					<int key="connectionID">1158</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2242,7 +2305,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1149</int>
+			<int key="maxID">1158</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

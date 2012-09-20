@@ -91,6 +91,7 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 -(id)initWithProperties:(NSDictionary*)properties {
     if ((self = [super init])) {
         _refreshLock = [[NSRecursiveLock alloc] init];
+        _currentAutoretrieves = [[NSMutableDictionary alloc] init];
         self.properties = properties;
     }
     
@@ -98,10 +99,11 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 }
 
 - (void)dealloc {
+    self.properties = nil;
     self.autoretrieveTimer = nil;
     self.refreshTimer = nil;
+    [_currentAutoretrieves release];
     [_refreshLock release];
-    self.properties = nil;
     [super dealloc];
 }
 
