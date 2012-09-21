@@ -36,6 +36,8 @@ NSString* const WorklistCalledAETKey = @"calledAet";
 NSString* const WorklistCallingAETKey = @"callingAet";
 NSString* const WorklistRefreshSecondsKey = @"refreshSeconds";
 NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
+NSString* const WorklistFilterFlagKey = @"filterFlag";
+NSString* const WorklistFilterRuleKey = @"filterRule";
 
 
 @interface WorklistNonretainingTimerInvoker : NSObject {
@@ -44,6 +46,11 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 }
 
 + (id)invokerWithTarget:(id)target selector:(SEL)sel;
+
+@end
+
+
+@interface WorklistRuleUnarchiveFromData : NSValueTransformer
 
 @end
 
@@ -397,6 +404,13 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             if (thread.isCancelled)
                 return;
             
+            // filter results
+            
+            if ([[_properties objectForKey:WorklistFilterFlagKey] boolValue]) {
+                NSPredicate* predicate = [[NSValueTransformer valueTransformerForName:@"WorklistRuleUnarchiveFromData"] transformedValue:[_properties objectForKey:WorklistFilterRuleKey]];
+                [entries filterUsingPredicate:predicate];
+            }
+            
             thread.status = NSLocalizedString(@"Synchronizing...", nil);
 
             // for every entry, have a valid DicomStudy instance
@@ -491,25 +505,46 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
         [BrowserController.currentBrowser tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:[BrowserController.currentBrowser albumTable]]];
 }
 
+@end
 
 
+@implementation WorklistRuleUnarchiveFromData
 
++ (Class)transformedValueClass {
+    return [NSPredicate class];
+}
 
++ (BOOL)allowsReverseTransformation {
+    return YES;
+}
 
+- (NSPredicate*)transformedValue:(NSData*)data {
+    NSPredicate* predicate = data? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+    if ([predicate isKindOfClass:[NSPredicate class]])
+        return predicate;
+    return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObject:[NSPredicate predicateWithFormat:@"ReferringPhysiciansName CONTAINS \"\""]]];
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- (NSData*)reverseTransformedValue:(NSPredicate*)predicate {
+    return [NSKeyedArchiver archivedDataWithRootObject:predicate];
+}
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

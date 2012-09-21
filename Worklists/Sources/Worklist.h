@@ -17,6 +17,8 @@ extern NSString* const WorklistCalledAETKey;
 extern NSString* const WorklistCallingAETKey;
 extern NSString* const WorklistRefreshSecondsKey;
 extern NSString* const WorklistAutoRetrieveKey;
+extern NSString* const WorklistFilterFlagKey;
+extern NSString* const WorklistFilterRuleKey;
 
 
 @class DicomAlbum;

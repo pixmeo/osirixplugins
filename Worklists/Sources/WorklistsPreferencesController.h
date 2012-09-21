@@ -13,6 +13,7 @@
     NSTableView* _worklistsTable;
     NSPopUpButton* _refreshButton;
     NSPopUpButton* _autoretrieveButton;
+    NSPredicateEditor* _filterEditor;
 }
 
 @property(readonly) IBOutlet NSArrayController* worklists;
@@ -20,6 +21,7 @@
 @property(assign) IBOutlet NSTableView* worklistsTable;
 @property(assign) IBOutlet NSPopUpButton* refreshButton;
 @property(assign) IBOutlet NSPopUpButton* autoretrieveButton;
+@property(assign) IBOutlet NSPredicateEditor* filterEditor;
 
 - (IBAction)add:(id)caller;
 

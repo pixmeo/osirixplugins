@@ -13,7 +13,7 @@
 
 @interface WorklistsPreferencesController ()
 
-- (void)adjustRefreshDelays;
+- (void)adjustSetupAndGUI;
 
 @end
 
@@ -23,6 +23,7 @@
 @synthesize worklistsTable = _worklistsTable;
 @synthesize refreshButton = _refreshButton;
 @synthesize autoretrieveButton = _autoretrieveButton;
+@synthesize filterEditor = _filterEditor;
 
 - (void)awakeFromNib {
     [self.worklists addObserver:self forKeyPath:@"content" options:NSKeyValueObservingOptionInitial context:[self class]];
@@ -32,7 +33,7 @@
     if (context != [self class])
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     
-    [self performSelector:@selector(adjustRefreshDelays) withObject:nil afterDelay:0.01]; // wait a moment to make sure the bindings affect the views...
+    [self adjustSetupAndGUI];
 }
 
 - (void)dealloc {
@@ -70,10 +71,12 @@
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification*)notification {
-    [self performSelector:@selector(adjustRefreshDelays) withObject:nil afterDelay:0.01]; // wait a moment to make sure the bindings affect the views...
+    [self adjustSetupAndGUI];
 }
 
-- (void)adjustRefreshDelays {
+- (void)adjustSetupAndGUI {
+    // adjust refresh interval selection and 
+    
     NSInteger refresh = _refreshButton.selectedTag;
 
     if (_autoretrieveButton.selectedTag >= refresh)
@@ -86,9 +89,11 @@
 
 @end
 
+
 @interface WorklistsTableView : NSTableView
 
 @end
+
 
 @implementation WorklistsTableView
 
@@ -99,3 +104,30 @@
 }
 
 @end
+
+
+@interface WorklistPredicateEditorRowTemplate : NSPredicateEditorRowTemplate
+
+@end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
