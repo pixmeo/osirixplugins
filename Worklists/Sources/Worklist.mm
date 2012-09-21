@@ -301,6 +301,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             NSThread* thread = [NSThread isMainThread]? nil : [NSThread currentThread];
             thread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing Worklist: %@", nil), [_properties objectForKey:WorklistNameKey]];
             thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), [_properties objectForKey:WorklistCalledAETKey]];
+            thread.supportsCancel = YES;
             if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
             
             T_ASC_Network* net = nil;
@@ -388,6 +389,9 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                     ASC_dropNetwork(&net);
             }
             
+            if (thread.isCancelled)
+                return;
+            
             thread.status = NSLocalizedString(@"Synchronizing...", nil);
 
             // for every entry, have a valid DicomStudy instance
@@ -431,8 +435,9 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             
             // auto-retrieve
             
-            NSTimeInterval ti = [[_properties objectForKey:WorklistAutoRetrieveKey] integerValue];
-            if (!ti) ti = 30; // the default
+            NSTimeInterval ti = 30; // the default
+            NSNumber* tin = [_properties objectForKey:WorklistAutoRetrieveKey];
+            if (tin) ti = [tin integerValue];
             
             if (ti > 0) {
                 if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {

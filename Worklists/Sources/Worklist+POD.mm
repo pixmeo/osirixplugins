@@ -12,6 +12,7 @@
 #import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/N2Stuff.h>
 #import <OsiriXAPI/NSThread+N2.h>
 #import <OsiriXAPI/ThreadsManager.h>
 #import <OsiriXAPI/DCMTKStudyQueryNode.h>
@@ -56,6 +57,7 @@
             NSThread* thread = [NSThread isMainThread]? nil : [NSThread currentThread];
             thread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing Worklist: %@", nil), [_properties objectForKey:WorklistNameKey]];
             thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying for images...", nil), [_properties objectForKey:WorklistCalledAETKey]];
+            thread.supportsCancel = YES;
             if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
             
             if (![NSUserDefaults.standardUserDefaults boolForKey:@"searchForComparativeStudiesOnDICOMNodes"])
@@ -79,14 +81,16 @@
             DicomAlbum* album = [self albumInDatabase:db];
             NSArray* astudies = album.studies.allObjects;
             
-            // do the querying...
+            if (!astudies.count)
+                return;
             
-            //NSString* stringEncoding = [[NSUserDefaults standardUserDefaults] stringForKey:@"STRINGENCODING"];
-            //if (!stringEncoding) stringEncoding = @"ISO_IR 100";
-            //NSStringEncoding encoding = [NSString encodingForDICOMCharacterSet:stringEncoding];
+            // do the querying...
             
             for (NSInteger i = 0; i < astudies.count; ++i)
                 @try {
+                    if (thread.isCancelled)
+                        return;
+                    
                     thread.progress = 1.0/astudies.count*i;
                     
                     DicomStudy* study = [astudies objectAtIndex:i];
@@ -123,6 +127,9 @@
 
                         [studyQueryNode setupNetworkWithSyntax:UID_FINDStudyRootQueryRetrieveInformationModel dataset:&dataset destination:nil];
                         
+                        if (thread.isCancelled)
+                            return;
+                        
                         // NSLog(@"-------> Children: %@", query.children);
                         // for (DCMTKImageQueryNode* iqn in query.children)
                         //    NSLog(@"------------> %@", iqn.uid);
@@ -145,7 +152,7 @@
                             [NSThread performBlockInBackground:^{
                                 NSThread* thread = [NSThread currentThread];
                                 thread.name = [NSString stringWithFormat:NSLocalizedString(@"Autoretrieving %@", nil), study.name];
-                                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %d images...", nil), (int)iqns.count];
+                                thread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %@...", nil), N2SingularPluralCount(iqns.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil))];
                                 [ThreadsManager.defaultManager addThreadAndStart:thread];
                                 
                                 DcmDataset mdataset;
