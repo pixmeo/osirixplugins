@@ -518,11 +518,24 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     return YES;
 }
 
-- (NSPredicate*)transformedValue:(NSData*)data {
-    NSPredicate* predicate = data? [NSKeyedUnarchiver unarchiveObjectWithData:data] : nil;
+- (NSPredicate*)transformedValue:(id)input {
+    if ([input isKindOfClass:[NSPredicate class]])
+        return input;
+    
+    NSPredicate* predicate = nil;
+    
+    if ([input isKindOfClass:[NSData class]])
+        predicate = [NSKeyedUnarchiver unarchiveObjectWithData:input];
+    if ([input isKindOfClass:[NSString class]]) {
+        predicate = [NSPredicate predicateWithFormat:input];
+        if ([predicate isKindOfClass:[NSPredicate class]] && ![predicate isKindOfClass:[NSCompoundPredicate class]])
+            predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObject:predicate]];
+    }
+    
     if ([predicate isKindOfClass:[NSPredicate class]])
         return predicate;
-    return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObject:[NSPredicate predicateWithFormat:@"ReferringPhysiciansName CONTAINS \"\""]]];
+    
+    return nil;
 }
 
 - (NSData*)reverseTransformedValue:(NSPredicate*)predicate {

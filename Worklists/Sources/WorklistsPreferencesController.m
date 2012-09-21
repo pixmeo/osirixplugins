@@ -27,6 +27,15 @@
 
 - (void)awakeFromNib {
     [self.worklists addObserver:self forKeyPath:@"content" options:NSKeyValueObservingOptionInitial context:[self class]];
+    
+    NSDictionary* binding = [[[self.filterEditor infoForBinding:@"value"] retain] autorelease];
+    NSMutableDictionary* options = [[[binding objectForKey:NSOptionsKey] mutableCopy] autorelease];
+    
+    [options setObject:[NSCompoundPredicate andPredicateWithSubpredicates:[NSArray array]] forKey:NSNullPlaceholderBindingOption];
+    
+    [self.filterEditor unbind:@"value"];
+    [self.filterEditor bind:@"value" toObject:[binding objectForKey:NSObservedObjectKey] withKeyPath:[binding objectForKey:NSObservedKeyPathKey] options:options];
+    
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
