@@ -267,15 +267,17 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     name = [name stringByReplacingOccurrencesOfString:@"^" withString:@" "];
     
     study.name = name;
-    
     study.patientID = [entry objectForKey:@"PatientID"];
+    study.dateOfBirth = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"PatientsBirthDate"] HHMMss:nil];
+    study.patientSex = [entry objectForKey:@"PatientsSex"];
     
     study.studyInstanceUID = [entry objectForKey:@"StudyInstanceUID"];
-    study.dateOfBirth = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"PatientsBirthDate"] HHMMss:nil];
     study.studyName = [entry objectForKey:@"RequestedProcedureDescription"];
     study.date = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"ScheduledProcedureStepStartDate"] HHMMss:[entry objectForKey:@"ScheduledProcedureStepStartTime"]]; 
     study.modality = [entry objectForKey:@"Modality"];
     study.accessionNumber = [entry objectForKey:@"AccessionNumber"];
+    study.referringPhysician = [entry objectForKey:@"ReferringPhysiciansName"];
+    study.performingPhysician = [entry objectForKey:@"ScheduledPerformingPhysiciansName"];
     
     study.patientUID = [DicomFile patientUID:[NSDictionary dictionaryWithObjectsAndKeys:
                                               oname, @"patientName",
