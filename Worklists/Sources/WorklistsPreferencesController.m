@@ -76,11 +76,12 @@
 - (void)adjustRefreshDelays {
     NSInteger refresh = _refreshButton.selectedTag;
 
-    if (_autoretrieveButton.selectedTag > refresh)
-        [_autoretrieveButton selectItemWithTag:refresh];
+    if (_autoretrieveButton.selectedTag >= refresh)
+        [_autoretrieveButton selectItemWithTag:0];
     
     for (NSMenuItem* mi in _autoretrieveButton.itemArray)
-        [mi setHidden:(mi.tag > refresh)];
+        if (mi.tag > 0)
+            [mi setHidden:(mi.tag >= refresh)];
 }
 
 @end

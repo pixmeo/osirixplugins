@@ -44,6 +44,11 @@
 @implementation Worklist (POD)
 
 - (void)autoretrieveWithDatabase:(DicomDatabase*)db {
+    // don't autoretrieve if a refresh is running...
+    if (![_refreshLock tryLock])
+        return;
+    [_refreshLock unlock];
+    // ok...
     if (![_autoretrieveLock tryLock])
         return;
     @try {
@@ -142,17 +147,6 @@
                                 thread.name = [NSString stringWithFormat:NSLocalizedString(@"Autoretrieving %@", nil), study.name];
                                 thread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %d images...", nil), (int)iqns.count];
                                 [ThreadsManager.defaultManager addThreadAndStart:thread];
-                                
-                                /*for (NSInteger i = 0; i < iqns.count; ++i) { // TODO: do this with ONE custom moveDataset
-                                    thread.progress = 1.0/iqns.count*i;
-                                    
-                                    DCMTKImageQueryNode* imageQueryNode = [iqns objectAtIndex:i];
-                                    [imageQueryNode move:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                          studyQueryNode, @"study",
-                                                          studyQueryNode.callingAET, @"moveDestination",
-                                                          nil]
-                                            retrieveMode:[[dn objectForKey:@"retrieveMode"] intValue]];
-                                }*/
                                 
                                 DcmDataset mdataset;
                                 mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");

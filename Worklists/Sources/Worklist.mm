@@ -188,8 +188,10 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
         if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
             self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
         [_refreshTimer fire];
-    } else
+    } else {
         self.refreshTimer = nil;
+        self.autoretrieveTimer = nil;
+    }
 }
 
 - (void)delete {
@@ -432,14 +434,15 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             NSTimeInterval ti = [[_properties objectForKey:WorklistAutoRetrieveKey] integerValue];
             if (!ti) ti = 30; // the default
             
-            if (ti != -1) {
+            if (ti > 0) {
                 if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {
                     self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
                     [NSRunLoop.mainRunLoop addTimer:_autoretrieveTimer forMode:NSDefaultRunLoopMode];
                 }
-                [self autoretrieveWithDatabase:db];
             } else
                 self.autoretrieveTimer = nil;
+            if (ti != -1)
+                [self autoretrieveWithDatabase:db];
         }
     } @catch (...) {
         @throw;
