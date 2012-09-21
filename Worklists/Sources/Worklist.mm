@@ -169,28 +169,31 @@ NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 }
 
 - (void)setProperties:(NSDictionary*)properties {
-    if (properties != _properties && ![properties isEqual:_properties]) {
+    if (properties != _properties) {
+        BOOL change = !_properties || ![properties isEqual:_properties];
+        
         [_properties release];
-        _properties = [properties retain];
-    }
-    
-    if (!properties)
-        return;
-    
-    DicomDatabase* db = [DicomDatabase defaultDatabase];
-    
-    [self albumInDatabase:db];
-    
-    NSTimeInterval ti = [[properties objectForKey:WorklistRefreshSecondsKey] integerValue];
-    if (!ti) ti = 300; // the default
-    
-    if (ti != -1) {
-        if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
-            self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
-        [_refreshTimer fire];
-    } else {
-        self.refreshTimer = nil;
-        self.autoretrieveTimer = nil;
+        _properties = [properties copy];
+        
+        if (!properties || !change)
+            return;
+        
+        DicomDatabase* db = [DicomDatabase defaultDatabase];
+        
+        [self albumInDatabase:db];
+        
+        NSTimeInterval ti = 300; // the default
+        NSNumber* tin = [properties objectForKey:WorklistRefreshSecondsKey];
+        if (tin) ti = [tin integerValue];
+        
+        if (ti != -1) {
+            if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
+                self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
+            [_refreshTimer fire];
+        } else {
+            self.refreshTimer = nil;
+            self.autoretrieveTimer = nil;
+        }
     }
 }
 
