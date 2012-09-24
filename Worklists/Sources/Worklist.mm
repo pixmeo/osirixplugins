@@ -466,6 +466,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                     
                     if (remove) {
                         [astudies removeObject:study];
+                        [WorklistsPlugin.instance setLastSeenDate:nil forStudy:study worklist:self];
                         // if the study is empty, delete it
                         NSSet* series = [study series];
                         if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
@@ -476,6 +477,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                     }
                 }
             
+            [WorklistsPlugin.instance saveSLSDs];
             [db save]; // this is a secondary db, make sure the changes are applied to the main db before refreshing...
             [self performSelectorOnMainThread:@selector(_mainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
             

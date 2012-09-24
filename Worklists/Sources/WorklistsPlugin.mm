@@ -31,7 +31,6 @@
 static WorklistsPlugin* WorklistsPluginInstance = nil;
 static NSString* const Worklists = @"Worklists";
 NSString* const WorklistsDefaultsKey = Worklists;
-NSString* const WorklistsStudiesLastSeenDatesDefaultsKey = @"WorklistsStudiesLastSeenDates";
 
 + (WorklistsPlugin*)instance {
     return WorklistsPluginInstance;
@@ -46,8 +45,11 @@ NSString* const WorklistsStudiesLastSeenDatesDefaultsKey = @"WorklistsStudiesLas
         
         _worklistObjs = [[NSMutableDictionary alloc] init];
         
-        _studiesLastSeenDates = [[NSDictionaryController alloc] init];
-        [_studiesLastSeenDates bind:@"contentDictionary" toObject:[NSUserDefaultsController.sharedUserDefaultsController values] withKeyPath:WorklistsStudiesLastSeenDatesDefaultsKey options:0];
+        _studiesLastSeenDates = [[NSMutableDictionary alloc] init];
+        _cachePath = [[DicomDatabase.defaultDatabase.baseDirPath stringByAppendingPathComponent:@"WorklistsCache.plist"] retain];
+        NSDictionary* slsd = [NSDictionary dictionaryWithContentsOfFile:_cachePath];
+        if ([slsd isKindOfClass:[NSDictionary class]])
+            [_studiesLastSeenDates setValuesForKeysWithDictionary:slsd];
         
         _worklists = [[WorklistsArrayController alloc] init];
         [_worklists bind:@"contentArray" toObject:[NSUserDefaultsController.sharedUserDefaultsController values] withKeyPath:WorklistsDefaultsKey options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:NSHandlesContentAsCompoundValueBindingOption]];
@@ -60,6 +62,8 @@ NSString* const WorklistsStudiesLastSeenDatesDefaultsKey = @"WorklistsStudiesLas
 }
 
 - (void)dealloc {
+    [self saveSLSDs];
+    [_cachePath release];
     [_worklistObjs release];
     [_worklists release];
     [_studiesLastSeenDates release];
@@ -171,19 +175,33 @@ NSString* const WorklistsStudiesLastSeenDatesDefaultsKey = @"WorklistsStudiesLas
     [_errors removeObjectForKey:[worklist.properties objectForKey:WorklistIDKey]];
 }
 
-+ (NSString*)LSDKeyForStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
++ (NSString*)SLSDKeyForStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
     return [NSString stringWithFormat:@"%@/%@", [worklist.properties objectForKey:WorklistIDKey], study.studyInstanceUID];
 }
 
 - (void)setLastSeenDate:(NSDate*)date forStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
-    id no = [_studiesLastSeenDates newObject];
-    [no setValue:date];
-    [no setKey:[[self class] LSDKeyForStudy:study worklist:worklist]];
-    [_studiesLastSeenDates addObject:no];
+    @synchronized (_studiesLastSeenDates) {
+        if (date)
+            [_studiesLastSeenDates setObject:date forKey:[[self class] SLSDKeyForStudy:study worklist:worklist]];
+        else [_studiesLastSeenDates removeObjectForKey:[[self class] SLSDKeyForStudy:study worklist:worklist]];
+    }
 }
 
 - (NSDate*)lastSeenDateForStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
-    return [_studiesLastSeenDates.content objectForKey:[[self class] LSDKeyForStudy:study worklist:worklist]];
+    @synchronized (_studiesLastSeenDates) {
+        return [_studiesLastSeenDates objectForKey:[[self class] SLSDKeyForStudy:study worklist:worklist]];
+    }
+}
+
+- (void)saveSLSDs {
+    @synchronized (_studiesLastSeenDates) {
+        // clean up dead items
+        for (NSString* key in _studiesLastSeenDates.allKeys)
+            if (-[[_studiesLastSeenDates objectForKey:key] timeIntervalSinceNow] < 172800) // 2 days
+                [_studiesLastSeenDates removeObjectForKey:key];
+        // save
+        [_studiesLastSeenDates writeToFile:_cachePath atomically:YES];
+    }
 }
 
 #pragma mark BrowserController
