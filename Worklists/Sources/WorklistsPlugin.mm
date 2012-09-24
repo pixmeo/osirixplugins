@@ -197,7 +197,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
     @synchronized (_studiesLastSeenDates) {
         // clean up dead items
         for (NSString* key in _studiesLastSeenDates.allKeys)
-            if (-[[_studiesLastSeenDates objectForKey:key] timeIntervalSinceNow] < 172800) // 2 days
+            if (-[[_studiesLastSeenDates objectForKey:key] timeIntervalSinceNow] > 172800) // 2 days
                 [_studiesLastSeenDates removeObjectForKey:key];
         // save
         [_studiesLastSeenDates writeToFile:_cachePath atomically:YES];
