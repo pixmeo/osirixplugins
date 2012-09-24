@@ -19,6 +19,8 @@ extern NSString* const WorklistRefreshSecondsKey;
 extern NSString* const WorklistAutoRetrieveKey;
 extern NSString* const WorklistFilterFlagKey;
 extern NSString* const WorklistFilterRuleKey;
+extern NSString* const WorklistNoLongerThenKey;
+extern NSString* const WorklistNoLongerThenIntervalKey;
 
 
 @class DicomAlbum;
@@ -32,6 +34,7 @@ extern NSString* const WorklistFilterRuleKey;
     NSRecursiveLock* _refreshLock;
     NSRecursiveLock* _autoretrieveLock;
     NSMutableDictionary* _currentAutoretrieves;
+    NSMutableArray* _lastRefreshStudyInstanceUIDs;
 }
 
 @property(retain,nonatomic) NSDictionary* properties;
@@ -44,5 +47,6 @@ extern NSString* const WorklistFilterRuleKey;
 - (DicomAlbum*)albumInDatabase:(DicomDatabase*)db;
 
 - (void)initiateRefresh;
+- (NSArray*)lastRefreshStudyInstanceUIDs;
 
 @end

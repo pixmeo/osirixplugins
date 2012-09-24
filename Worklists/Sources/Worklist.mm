@@ -38,6 +38,8 @@ NSString* const WorklistRefreshSecondsKey = @"refreshSeconds";
 NSString* const WorklistAutoRetrieveKey = @"autoRetrieve";
 NSString* const WorklistFilterFlagKey = @"filterFlag";
 NSString* const WorklistFilterRuleKey = @"filterRule";
+NSString* const WorklistNoLongerThenKey = @"noLongerThen";
+NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
 
 
 @interface WorklistNonretainingTimerInvoker : NSObject {
@@ -100,6 +102,7 @@ NSString* const WorklistFilterRuleKey = @"filterRule";
         _refreshLock = [[NSRecursiveLock alloc] init];
         _autoretrieveLock = [[NSRecursiveLock alloc] init];
         _currentAutoretrieves = [[NSMutableDictionary alloc] init];
+        _lastRefreshStudyInstanceUIDs = [[NSMutableArray alloc] init];
         self.properties = properties;
     }
     
@@ -110,6 +113,7 @@ NSString* const WorklistFilterRuleKey = @"filterRule";
     self.properties = nil;
     self.autoretrieveTimer = nil;
     self.refreshTimer = nil;
+    [_lastRefreshStudyInstanceUIDs release];
     [_currentAutoretrieves release];
     [_autoretrieveLock release];
     [_refreshLock release];
@@ -429,23 +433,46 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 [wstudies addObjectsFromArray:studies];
             }
             
+            @synchronized (_lastRefreshStudyInstanceUIDs) {
+                [_lastRefreshStudyInstanceUIDs removeAllObjects];
+                [_lastRefreshStudyInstanceUIDs addObjectsFromArray:[wstudies valueForKey:@"studyInstanceUID"]];
+            }
+            
             // synchronize the album studies with the studies array
             
             DicomAlbum* album = [self albumInDatabase:db];
             NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
             
-            for (DicomStudy* study in wstudies)
+            for (DicomStudy* study in wstudies) {
+                [WorklistsPlugin.instance setLastSeenDate:[NSDate date] forStudy:study worklist:self];
                 if (![astudies containsObject:study])
                     [astudies addObject:study];
+            }
+            
             for (DicomStudy* study in [[astudies copy] autorelease])
-                if (![wstudies containsObject:study]) {
-                    [astudies removeObject:study];
-                    // if the study is empty, delete it
-                    NSSet* series = [study series];
-                    if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
-                        for (DicomSeries* s in [series.copy autorelease])
-                            [db.managedObjectContext deleteObject:s];
-                        [db.managedObjectContext deleteObject:study];
+                if (![wstudies containsObject:study]) { // study is no longer in the worklist
+                    BOOL remove = NO;
+                    NSNumber* removen = [_properties objectForKey:WorklistNoLongerThenKey];
+                    if (removen) remove = [removen boolValue];
+                    
+                    if (!remove) {
+                        NSTimeInterval ti = 7200; // the default
+                        NSNumber* tin = [_properties objectForKey:WorklistNoLongerThenIntervalKey];
+                        if (tin) ti = [tin integerValue];
+                        NSDate* studyLastSeenDate = [WorklistsPlugin.instance lastSeenDateForStudy:study worklist:self];
+                        if (!studyLastSeenDate || -[studyLastSeenDate timeIntervalSinceNow] > ti)
+                            remove = YES;
+                    }
+                    
+                    if (remove) {
+                        [astudies removeObject:study];
+                        // if the study is empty, delete it
+                        NSSet* series = [study series];
+                        if (!series.count || (series.count == 1 && [[series.anyObject id] intValue] == 5005 && [[series.anyObject name] isEqualToString:@"OsiriX No Autodeletion"])) {
+                            for (DicomSeries* s in [series.copy autorelease])
+                                [db.managedObjectContext deleteObject:s];
+                            [db.managedObjectContext deleteObject:study];
+                        }
                     }
                 }
             
@@ -503,6 +530,12 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     DicomAlbum* album = [db objectWithID:self.albumId];
     if (album && [[[BrowserController currentBrowser] albumTable] isRowSelected:[db.albums indexOfObject:album]+1]) // album is selected
         [BrowserController.currentBrowser tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:[BrowserController.currentBrowser albumTable]]];
+}
+
+- (NSArray*)lastRefreshStudyInstanceUIDs {
+    @synchronized (_lastRefreshStudyInstanceUIDs) {
+        return [_lastRefreshStudyInstanceUIDs.copy autorelease];
+    }
 }
 
 @end

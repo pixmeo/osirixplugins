@@ -11,8 +11,11 @@
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/browserController.h>
 #import <OsiriXAPI/PrettyCell.h>
-#import <OsiriXAPI/DicomAlbum.h>
 #import <OsiriXAPI/DicomDatabase.h>
+#import <OsiriXAPI/DicomAlbum.h>
+#import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/DicomSeries.h>
+#import <OsiriXAPI/N2Debug.h>
 #import <objc/runtime.h>
 
 
@@ -28,6 +31,7 @@
 static WorklistsPlugin* WorklistsPluginInstance = nil;
 static NSString* const Worklists = @"Worklists";
 NSString* const WorklistsDefaultsKey = Worklists;
+NSString* const WorklistsStudiesLastSeenDatesDefaultsKey = @"WorklistsStudiesLastSeenDates";
 
 + (WorklistsPlugin*)instance {
     return WorklistsPluginInstance;
@@ -42,8 +46,10 @@ NSString* const WorklistsDefaultsKey = Worklists;
         
         _worklistObjs = [[NSMutableDictionary alloc] init];
         
+        _studiesLastSeenDates = [[NSDictionaryController alloc] init];
+        [_studiesLastSeenDates bind:@"contentDictionary" toObject:[NSUserDefaultsController.sharedUserDefaultsController values] withKeyPath:WorklistsStudiesLastSeenDatesDefaultsKey options:0];
+        
         _worklists = [[WorklistsArrayController alloc] init];
-        //[_worklists setObjectClass:[WorklistsMutableDictionary class]];
         [_worklists bind:@"contentArray" toObject:[NSUserDefaultsController.sharedUserDefaultsController values] withKeyPath:WorklistsDefaultsKey options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:NSHandlesContentAsCompoundValueBindingOption]];
         [_worklists setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
         
@@ -56,6 +62,7 @@ NSString* const WorklistsDefaultsKey = Worklists;
 - (void)dealloc {
     [_worklistObjs release];
     [_worklists release];
+    [_studiesLastSeenDates release];
     [_errors release];
     [super dealloc];
 }
@@ -92,6 +99,12 @@ NSString* const WorklistsDefaultsKey = Worklists;
     imp = method_getImplementation(method);
     class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_menuWillOpen:), imp, method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_menuWillOpen:)));
+    
+    method = class_getInstanceMethod(BrowserControllerClass, @selector(outlineView:willDisplayCell:forTableColumn:item:));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    imp = method_getImplementation(method);
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_outlineView:willDisplayCell:forTableColumn:item:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_outlineView:willDisplayCell:forTableColumn:item:)));
 }
 
 - (long)filterImage:(NSString*)menuName {
@@ -156,6 +169,21 @@ NSString* const WorklistsDefaultsKey = Worklists;
 
 - (void)clearErrorOnWorklist:(Worklist*)worklist {
     [_errors removeObjectForKey:[worklist.properties objectForKey:WorklistIDKey]];
+}
+
++ (NSString*)LSDKeyForStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
+    return [NSString stringWithFormat:@"%@/%@", [worklist.properties objectForKey:WorklistIDKey], study.studyInstanceUID];
+}
+
+- (void)setLastSeenDate:(NSDate*)date forStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
+    id no = [_studiesLastSeenDates newObject];
+    [no setValue:date];
+    [no setKey:[[self class] LSDKeyForStudy:study worklist:worklist]];
+    [_studiesLastSeenDates addObject:no];
+}
+
+- (NSDate*)lastSeenDateForStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
+    return [_studiesLastSeenDates.content objectForKey:[[self class] LSDKeyForStudy:study worklist:worklist]];
 }
 
 #pragma mark BrowserController
@@ -236,7 +264,6 @@ NSString* const WorklistsDefaultsKey = Worklists;
             return;
         
         DicomAlbum* album = [bc.albums objectAtIndex:i-1];
-
         Worklist* worklist = [self worklistForAlbum:album];
         if (!worklist)
             return;
@@ -260,6 +287,39 @@ NSString* const WorklistsDefaultsKey = Worklists;
 - (void)_Worklists_BrowserController_menuWillOpen:(NSMenu*)menu {
     [self _Worklists_BrowserController_menuWillOpen:menu];
     [WorklistsPluginInstance _BrowserController:(id)self menuWillOpen:menu];
+}
+
+- (void)_BrowserController:(BrowserController*)bc outlineView:(NSOutlineView*)outlineView willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn*)column item:(id)item {
+    @try {
+        NSInteger i = [bc.albumTable selectedRow];
+        if (i < 1)
+            return;
+        
+        DicomAlbum* album = [bc.albums objectAtIndex:i-1];
+        Worklist* worklist = [self worklistForAlbum:album];
+        if (!worklist)
+            return;
+
+        DicomStudy* study = nil;
+        if ([item isKindOfClass:[DicomStudy class]])
+            study = item;
+        if ([item isKindOfClass:[DicomSeries class]])
+            study = [item study];
+        
+        if (!study)
+            return;
+        
+        if (![worklist.lastRefreshStudyInstanceUIDs containsObject:study.studyInstanceUID])
+            [cell setFont:[NSFont systemFontOfSize:12]];
+
+    } @catch (NSException* e) {
+        N2LogExceptionWithStackTrace(e);
+    }
+}
+
+- (void)_Worklists_BrowserController_outlineView:(NSOutlineView*)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn*)column item:(id)item {
+    [self _Worklists_BrowserController_outlineView:outlineView willDisplayCell:cell forTableColumn:column item:item];
+    [WorklistsPluginInstance _BrowserController:(id)self outlineView:outlineView willDisplayCell:cell forTableColumn:column item:item];
 }
 
 @end

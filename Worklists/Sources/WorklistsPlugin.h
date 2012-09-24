@@ -17,6 +17,7 @@ extern NSString* const WorklistsDefaultsKey;
 
 @interface WorklistsPlugin : PluginFilter {
     NSArrayController* _worklists; // this is binded to the NSUserDefaults array of dictionaries
+    NSDictionaryController* _studiesLastSeenDates;
     NSMutableDictionary* _worklistObjs;
     NSMutableDictionary* _errors;
 }
@@ -29,5 +30,8 @@ extern NSString* const WorklistsDefaultsKey;
 
 - (void)setError:(id)error onWorklist:(Worklist*)worklist;
 - (void)clearErrorOnWorklist:(Worklist*)worklist;
+
+- (void)setLastSeenDate:(NSDate*)date forStudy:(DicomStudy*)study worklist:(Worklist*)worklist;
+- (NSDate*)lastSeenDateForStudy:(DicomStudy*)study worklist:(Worklist*)worklist;
 
 @end
