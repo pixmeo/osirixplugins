@@ -134,6 +134,12 @@
                         // for (DCMTKImageQueryNode* iqn in query.children)
                         //    NSLog(@"------------> %@", iqn.uid);
                         
+                        // TODO: if availableSOPInstanceUIDs.count is zero, retrieve at STUDY level - avoid retrieving a study that's currently being retrieved
+                        
+                        BOOL imageLevel = YES;
+                        if (!availableSOPInstanceUIDs.count)
+                            imageLevel = NO;
+                        
                         NSMutableArray* iqns = [NSMutableArray array];
                         for (DCMTKImageQueryNode* imageQueryNode in studyQueryNode.children)
                             if (![availableSOPInstanceUIDs containsObject:imageQueryNode.uid]) {
@@ -155,29 +161,52 @@
                                 thread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %@...", nil), N2SingularPluralCount(iqns.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil))];
                                 [ThreadsManager.defaultManager addThreadAndStart:thread];
                                 
-                                DcmDataset mdataset;
-                                mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");
-                                mdataset.putAndInsertOFStringArray(DCM_SOPInstanceUID, [[sopInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
-                                NSArray* seriesInstanceUIDs = [iqns valueForKey:@"seriesInstanceUID"];
-                                mdataset.putAndInsertOFStringArray(DCM_SeriesInstanceUID, [[seriesInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
-                                NSArray* studyInstanceUIDs = [iqns valueForKey:@"studyInstanceUID"];
-                                mdataset.putAndInsertOFStringArray(DCM_StudyInstanceUID, [[studyInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                                // TODO: some PACS don't support IMAGE level retrieve... if the retrieve fails, try at STUDY level - avoid retrieving a study that's currently being retrieved
                                 
-                                WorklistImagesQueryNode* queryNode = [WorklistImagesQueryNode queryNodeWithDataset:&dataset
-                                                                                                       moveDataset:&mdataset
-                                                                                                        callingAET:[NSUserDefaults.standardUserDefaults stringForKey:@"AETITLE"]
-                                                                                                         calledAET:[dn objectForKey:@"AETitle"]
-                                                                                                          hostname:[dn objectForKey:@"Address"]
-                                                                                                              port:[[dn objectForKey:@"Port"] intValue]
-                                                                                                    transferSyntax:[[dn objectForKey:@"TransferSyntax"] intValue]
-                                                                                                       compression:0
-                                                                                                   extraParameters:dn];
-                                [queryNode setChildren:iqns];
-                                [queryNode setShowErrorMessage:NO];
+                                DCMTKQueryNode* queryNode = nil;
+                                
+                                if (imageLevel) {
+                                    DcmDataset mdataset;
+                                    mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");
+                                    mdataset.putAndInsertOFStringArray(DCM_SOPInstanceUID, [[sopInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                                    NSArray* seriesInstanceUIDs = [iqns valueForKey:@"seriesInstanceUID"];
+                                    mdataset.putAndInsertOFStringArray(DCM_SeriesInstanceUID, [[seriesInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                                    NSArray* studyInstanceUIDs = [iqns valueForKey:@"studyInstanceUID"];
+                                    mdataset.putAndInsertOFStringArray(DCM_StudyInstanceUID, [[studyInstanceUIDs componentsJoinedByString:@"\\"] UTF8String]);
+                                    
+                                    queryNode = [WorklistImagesQueryNode queryNodeWithDataset:&dataset
+                                                                                  moveDataset:(DcmDataset*)mdataset.clone()
+                                                                                   callingAET:[NSUserDefaults.standardUserDefaults stringForKey:@"AETITLE"]
+                                                                                    calledAET:[dn objectForKey:@"AETitle"]
+                                                                                     hostname:[dn objectForKey:@"Address"]
+                                                                                         port:[[dn objectForKey:@"Port"] intValue]
+                                                                               transferSyntax:[[dn objectForKey:@"TransferSyntax"] intValue]
+                                                                                  compression:0
+                                                                              extraParameters:dn];
+                                    
+                                    [queryNode setChildren:iqns];
+                                }
+                                
+                                if (!imageLevel) {
+                                    DcmDataset mdataset;
+                                    mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "STUDY");
+                                    mdataset.putAndInsertString(DCM_StudyInstanceUID, study.studyInstanceUID.UTF8String);
+
+                                    queryNode = [DCMTKStudyQueryNode queryNodeWithDataset:(DcmDataset*)mdataset.clone()
+                                                                               callingAET:[NSUserDefaults.standardUserDefaults stringForKey:@"AETITLE"]
+                                                                                calledAET:[dn objectForKey:@"AETitle"]
+                                                                                 hostname:[dn objectForKey:@"Address"]
+                                                                                     port:[[dn objectForKey:@"Port"] intValue]
+                                                                           transferSyntax:[[dn objectForKey:@"TransferSyntax"] intValue]
+                                                                              compression:0
+                                                                          extraParameters:dn];
+                                }
                                 
                                 NSMutableDictionary* params = [[dn mutableCopy] autorelease];
                                 [params setObject:studyQueryNode.callingAET forKey:@"moveDestination"];
-                                
+
+                                [queryNode setShowErrorMessage:NO];
+
                                 [queryNode move:params retrieveMode:[[dn objectForKey:@"retrieveMode"] intValue]];
                                 
                                 @synchronized (_currentAutoretrieves) {
