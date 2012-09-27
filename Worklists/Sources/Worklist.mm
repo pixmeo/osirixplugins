@@ -14,7 +14,6 @@
 #import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/browserController.h>
-#import <OsiriXAPI/Notifications.h>
 #import <OsiriXAPI/dimse.h>
 #import <OsiriXAPI/dcfilefo.h>
 #import <OsiriXAPI/dcelem.h>
@@ -136,10 +135,6 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
     }
 }
 
-+ (void)invalidateAlbumsCacheForDatabase:(DicomDatabase*)db {
-    [NSNotificationCenter.defaultCenter postNotificationName:O2DatabaseInvalidateAlbumsCacheNotification object:db];
-}
-
 - (NSString*)albumIdDefaultsKey {
     return [NSString stringWithFormat:@"Worklist Album ID %@", [_properties objectForKey:WorklistIDKey]];
 }
@@ -221,8 +216,7 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
     // delete data
     [NSUserDefaults.standardUserDefaults removeObjectForKey:self.albumIdDefaultsKey];
     
-    [[self class] invalidateAlbumsCacheForDatabase:db];
-    [BrowserController.currentBrowser refreshAlbums];
+    [WorklistsPlugin refreshAlbumsForDatabase:db];
 }
 
 static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int responseCount, T_DIMSE_C_FindRSP* rsp, DcmDataset* response) {
@@ -524,8 +518,8 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
 - (void)_mainThreadGUIRefresh {
     DicomDatabase* db = [DicomDatabase defaultDatabase];
     
-    [[self class] invalidateAlbumsCacheForDatabase:db];
-    [BrowserController.currentBrowser refreshAlbums];
+    [WorklistsPlugin refreshAlbumsForDatabase:db];
+    
     [BrowserController.currentBrowser outlineViewRefresh];
     
     // if album is selected, refresh the study list

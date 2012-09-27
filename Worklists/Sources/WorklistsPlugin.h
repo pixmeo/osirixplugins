@@ -36,4 +36,6 @@ extern NSString* const WorklistsDefaultsKey;
 - (NSDate*)lastSeenDateForStudy:(DicomStudy*)study worklist:(Worklist*)worklist;
 - (void)saveSLSDs;
 
++ (void)refreshAlbumsForDatabase:(DicomDatabase*)db;
+
 @end

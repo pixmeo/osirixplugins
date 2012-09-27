@@ -16,6 +16,7 @@
 #import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/N2Debug.h>
+#import <OsiriXAPI/Notifications.h>
 #import <objc/runtime.h>
 
 
@@ -169,10 +170,12 @@ NSString* const WorklistsDefaultsKey = Worklists;
 
 - (void)setError:(id)error onWorklist:(Worklist*)worklist {
     [_errors setObject:error forKey:[worklist.properties objectForKey:WorklistIDKey]];
+    [[self class] refreshAlbumsForDatabase:[DicomDatabase defaultDatabase]];
 }
 
 - (void)clearErrorOnWorklist:(Worklist*)worklist {
     [_errors removeObjectForKey:[worklist.properties objectForKey:WorklistIDKey]];
+    [[self class] refreshAlbumsForDatabase:[DicomDatabase defaultDatabase]];
 }
 
 + (NSString*)SLSDKeyForStudy:(DicomStudy*)study worklist:(Worklist*)worklist {
@@ -202,6 +205,11 @@ NSString* const WorklistsDefaultsKey = Worklists;
         // save
         [_studiesLastSeenDates writeToFile:_cachePath atomically:YES];
     }
+}
+
++ (void)refreshAlbumsForDatabase:(DicomDatabase*)db {
+    [NSNotificationCenter.defaultCenter postNotificationName:O2DatabaseInvalidateAlbumsCacheNotification object:db];
+    [BrowserController.currentBrowser refreshAlbums];
 }
 
 #pragma mark BrowserController
