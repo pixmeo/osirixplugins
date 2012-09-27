@@ -17,6 +17,12 @@ using namespace std;
 
 
 //==========================================================================//
+//=============================== CONSTANTES ===============================//
+
+#define MAX_TOC_FRAME_VALUE 1000000
+
+
+//==========================================================================//
 //================================ CLASSES =================================//
 
 class SteadyClass
@@ -28,6 +34,7 @@ public :
 	void SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt);
 
 	void ResetSteadies(void);
+	void SignalResetSteadies(void);
 	bool Steady2(void) const;
 	bool Steady10(void) const;
 	bool Steady20(void) const;

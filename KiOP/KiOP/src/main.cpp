@@ -36,8 +36,8 @@ xn::HandsGenerator g_myHandsGenerator;
 XnStatus g_status;
 
 // Paramètre de profondeur de la main
-float g_handDepthLimit;
-float g_handDepthThreshold = 50.0;
+//float g_handDepthLimit;
+//float g_handDepthThreshold = 50.0;
 
 bool g_handClosed = false;
 bool g_handStateChanged = false;
@@ -86,6 +86,10 @@ HandPoint g_hP;
 string g_openNi_XML_FilePath;
 
 
+unsigned int g_handDepthAtToolSelection = 0;
+const unsigned int g_handDepthThreshold = 40;
+
+
 //==========================================================================//
 //============================== FONCTIONS =================================//
 
@@ -123,7 +127,7 @@ void CleanupExit()
 
 
 // Incrémente une valeur sans jamais dépasser les bornes sup et inf
-void IcrWithLimits(int &val, const int icr, const int limDown, const int limUp)
+void IcrWithLimits(int &val, int icr, int limDown, int limUp)
 {
 	val += icr;
 	if (val > limUp) val = limUp;
@@ -152,12 +156,8 @@ void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 		g_moveCounter += g_hP.DeltaHandPt().X();
 	}
 
-	#if TEST_FLUIDITE
-		//vitesse dans le menu en fonction de la distance
-		int seuil = 20 - (abs(g_hP.Speed().X())+(g_hP.HandPt().Z()/300))/3;
-	#else
-		int seuil = 6;
-	#endif
+	//vitesse dans le menu en fonction de la distance
+	int seuil = 20 - (abs(g_hP.Speed().X())+(g_hP.HandPt().Z()/300))/3;
 
 	//cout << "Seuil : " << seuil << endl;
 	if (g_moveCounter <= -seuil)
@@ -166,6 +166,9 @@ void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 		lastTool = currentTool;
 		IcrWithLimits(currentTool,-1,0,totalTools);
 		g_moveCounter = 0;
+
+		g_toolSelectable = true;
+		g_pix[g_totalTools]->setOpacity(1.0);
 	}
 	else if (g_moveCounter >= seuil)
 	{
@@ -194,7 +197,6 @@ void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
 
 void CheckHandDown()
 {
-	//if (g_activeSession && g_toolSelectable)
 	if (g_currentState >= 2)
 	{
 		if (g_hP.Speed().Y() > 24)
@@ -207,7 +209,6 @@ void CheckHandDown()
 
 void CheckBaffe()
 {
-	//if (g_activeSession && g_toolSelectable)
 	if (g_currentState >= 2)
 	{
 		int vitesseBaffe = abs(g_hP.Speed().X()) + abs(g_hP.HandPt().Z()/300);
@@ -217,6 +218,42 @@ void CheckBaffe()
 			gp_sessionManager->EndSession();
 		}
 	}
+}
+
+
+
+
+
+bool SelectionDansUnMenu(short currentIcon)
+{
+	static short s_toolClic = 100;
+	bool temp = false;
+
+	if (g_hP.Steady10())
+	{
+		temp = true;
+		g_hP.SignalResetSteadies();
+	}
+
+	return temp;
+}
+
+
+
+bool ConditionActiveTool()
+{
+	return (g_hP.HandPt().Z() < g_handDepthAtToolSelection + g_handDepthThreshold);
+}
+
+bool ConditionExitTool()
+{
+	return (g_hP.Steady10() && g_hP.HandPt().Z() > g_handDepthAtToolSelection + g_handDepthThreshold);
+}
+
+
+bool ConditionLeftClic()
+{
+	return (g_hP.Steady10());
 }
 
 
@@ -232,43 +269,11 @@ void ChangeState(int newState)
 }
 
 
-bool SelectionDansUnMenu(short currentIcon)
-{
-	static short s_toolClic = 10;
-	bool temp = false;
-
-	if (g_handFlancMont)
-	{
-		// On enregistre l'outil sur lequel on a fermé la main
-		s_toolClic = currentIcon;
-	}
-
-	// Si l'outil change, on annule
-	if (currentIcon != s_toolClic)
-	{
-		s_toolClic = 10;
-		temp =  false;
-	}
-	else
-	{
-		// Sinon on entre dans l'outil selectionné dès que l'on ouvre la main
-		if (g_handFlancDesc)
-			temp =  true;
-		else
-			temp =  false;
-	}
-
-	return temp;
-}
-
-
-
 void handleState()
 {
 #ifdef _OS_MAC_
 	static TelnetClient g_telnet;
 #endif
-	//static short s_toolClic = 10;
 
 	CheckHandDown();
 	CheckBaffe();
@@ -286,10 +291,9 @@ void handleState()
 		if (g_hP.Steady2())
 		{
 			ChangeState(2);
-			Steady2Disable();
 
-			g_toolSelectable = true;
-			MenuOpaque();
+			gp_window->setWindowOpacity(qreal(1.0));
+			g_pix[g_totalTools]->setOpacity(0.4);
 		}
 		break; // case 1
 
@@ -299,7 +303,9 @@ void handleState()
 		chooseTool(g_currentTool, g_lastTool, g_totalTools);
 		browse(g_currentTool, g_lastTool, g_pix);
 
-		if (SelectionDansUnMenu(g_currentTool))
+		g_handDepthAtToolSelection = 0;
+
+		if (SelectionDansUnMenu(g_currentTool) && g_toolSelectable)
 		{
 			g_telnet.connexion();
 			switch(g_currentTool)
@@ -333,6 +339,8 @@ void handleState()
 				ChangeState(3);
 				cout << "--- Selection de l'outil : " << g_currentTool << endl;
 
+				g_handDepthAtToolSelection = g_hP.HandPt().Z();
+
 				gp_window->hide();
 				gp_windowActiveTool->show();
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
@@ -353,12 +361,12 @@ void handleState()
 				ChangeState(5);
 				g_telnet.deconnexion();
 				g_cursorQt.NewCursorSession();
-				g_handDepthLimit = g_hP.HandPt().Z();
 
-				Steady20Enable();
+				g_handDepthAtToolSelection = g_hP.HandPt().Z();
 
 				gp_window->hide();
 				gp_windowActiveTool->show();
+				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
 			}
 
 			// Si la croix a été selectionnée
@@ -374,13 +382,10 @@ void handleState()
 	// Outil "normal" selectionné
 	case 3 :
 
-		if (g_handClosed)
+		if (ConditionActiveTool())
 		{
-			// On désactive les steadys
-			Steady10Disable();
-			Steady20Disable();
-
 			gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorActive, Qt::SolidPattern));
+			gp_windowActiveTool->setWindowOpacity(1.0);
 
 			switch (g_currentTool)
 			{
@@ -398,38 +403,33 @@ void handleState()
 
 			// Zoom
 			case 3 :
-				if (g_hP.DetectBackward())
-                {
+				if (g_hP.DetectRight())
 					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -i %1\r\n").arg(SENSIBILITE_ZOOM));
-                    cout << "--- Command sent : zoom+1" << endl;
-                }
-				if (g_hP.DetectForward())
-                {
+				if (g_hP.DetectLeft())
 					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -d %1\r\n").arg(SENSIBILITE_ZOOM));
-                    cout << "--- Command sent : zoom-1" << endl;
-                }
 				break;
 
 			// Scroll
 			case 4 :
-				if (g_hP.DetectBackward())
+				if (g_hP.DetectRight())
 					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i %1\r\n").arg(SENSIBILITE_SCROLL));
-				if (g_hP.DetectForward())
+				if (g_hP.DetectLeft())
 					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d %1\r\n").arg(SENSIBILITE_SCROLL));
 				break;
 
 			} // end switch (g_currentTool)
 		}
 
-		// Si la main est ouverte
+		// Si l'outil est désactivé
 		else
 		{
 			gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+			gp_windowActiveTool->setWindowOpacity(0.7);
+		}
 
-			Steady10Enable();
-			Steady20Enable();
-			if (g_hP.Steady10())
-				ChangeState(9); // Préparation pour le retour au menu
+		if (ConditionExitTool())
+		{
+			ChangeState(9); // Préparation pour le retour au menu
 		}
 
 		break; // case 3
@@ -480,21 +480,38 @@ void handleState()
 		if (g_cursorQt.InCursorSession())
 		{
 			// Distance limite de la main au capteur
-			if (g_hP.HandPt().Z() < (g_handDepthLimit + g_handDepthThreshold))
+			if (g_hP.HandPt().Z() < (g_handDepthAtToolSelection + g_handDepthThreshold))
 			{
 				g_cursorQt.SetMoveEnable();
 				g_cursorQt.SetClicEnable();
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorActive, Qt::SolidPattern));
-				if (g_handFlancMont)
-					gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
-				else if (g_handFlancDesc)
-					gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
+				gp_windowActiveTool->setWindowOpacity(1.0);
+
+				if (ConditionLeftClic())
+				{
+					g_hP.SignalResetSteadies();
+
+					if (!g_cursorQt.LeftClicPressed())
+					{
+						g_cursorQt.PressLeftClic();
+						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
+					}
+					else
+					{
+						g_cursorQt.ReleaseLeftClic();
+						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
+					}
+				}
 			}
 			else
 			{
 				g_cursorQt.SetMoveDisable();
 				g_cursorQt.SetClicDisable();
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+				gp_windowActiveTool->setWindowOpacity(0.7);
+
+				if (g_hP.Steady20())
+					g_cursorQt.EndCursorSession();
 			}
 
 			// Appel de la méthode pour déplacer le curseur
@@ -515,6 +532,8 @@ void handleState()
 		ChangeState(2);
 		g_telnet.deconnexion();
 
+		g_hP.SignalResetSteadies();
+
 		g_lastTool = g_currentTool;
 		g_currentTool = g_totalTools;
 
@@ -523,9 +542,6 @@ void handleState()
 		gp_window->show();
 		gp_viewLayouts->hide();
 		gp_windowActiveTool->hide();
-
-		Steady10Disable();
-		Steady20Disable();
 
 		break; // case 9
 
@@ -536,7 +552,7 @@ void handleState()
 void glutKeyboard (unsigned char key, int x, int y)
 {
 	static int test = 0;
-	float tmp = 0.0;
+
 	switch (key)
 	{
 
@@ -634,7 +650,7 @@ void glutDisplay()
 		long ySize = g_dpMD.YRes();
 		long totalSize = xSize * ySize;
 
-		const XnDepthPixel*	depthMapData;
+		const XnDepthPixel* depthMapData;
 		depthMapData = g_dpMD.Data();
 
 		int i, j, colorToSet;
@@ -656,13 +672,9 @@ void glutDisplay()
 					if (g_activeSession)
 					{
 						if (g_hP.HandPt().Z() < DISTANCE_MAX_DETECTION)
-						{
 							glColor3ub(0,colorToSet,0);
-						}
 						else
-						{
 							glColor3ub(colorToSet,0,0);
-						}
 					}
 					else
 						glColor3ub(colorToSet,colorToSet,colorToSet);
@@ -672,55 +684,12 @@ void glutDisplay()
 		}
 		glEnd();	// End drawing sequence
 
-
-
-		if (g_hP.Steady2())
-		{
-			//cout << "--- Steady 2" << endl;
-			g_toolSelectable = true;
-		}
-		if (g_hP.Steady10())
-		{
-			//cout << "--- Steady 10" << endl;
-
-			// Si mode souris
-			if (g_currentState == 5)
-			{
-				g_cursorQt.SteadyDetected(10);
-			}
-		}
-		if (g_hP.Steady20())
-		{
-			//cout << "--- Steady 20" << endl;
-
-			// Si mode souris
-			if (g_currentState == 5)
-			{
-				g_cursorQt.SteadyDetected(20);
-			}
-		}
-		if (g_hP.NotSteady())
-		{
-			//cout << "--- Not Steady" << endl;
-
-			// Mode souris
-			if (g_currentState == 5)
-			{
-				//cursor.NotSteadyDetected();
-			}
-		}
-
 		// Mise à jour de la detection de la main fermee
-		if	( g_activeSession && (isHandPointNull() == false))
-			UpdateHandClosed();
+		//if	( g_activeSession && (isHandPointNull() == false))
+		//	UpdateHandClosed();
 
 		if	( g_activeSession && (isHandPointNull() == false))
 		{
-
-			//cout << "Vitesse : " << g_hP.Speed() << endl;
-			//cout << "handpt : " << g_hP.HandPt().Z() << endl;
-
-
 			int size = 5;						// Size of the box
 			glColor3f(255,255,255);	// Set the color to white
 			glBegin(GL_QUADS);
@@ -765,38 +734,14 @@ void glutDisplay()
 				glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
 			glEnd();
 
-			// mode Souris
-			if ( (g_currentState == 5) && (g_cursorQt.InCursorSession()) )
-			{
-				// Souris SteadyClic
-				if			(g_cursorQt.CursorType() == 1)
-				{
-					//if (cursor.CheckExitMouseMode())
-					//if (g_cursorQt.ExitMouseMode())
-						//cursor.ChangeState(0);
-				}
-
-				//Souris HandClosedClic
-				else if ((g_cursorQt.CursorType() == 2) && (g_cursorQt.CursorInitialised()))
-				{
-					if (g_handFlancMont)
-						g_cursorQt.SetHandClosed(true);
-					else if (g_handFlancDesc)
-						g_cursorQt.SetHandClosed(false);
-				}
-			}
-
-			// Affichage des carrés de couleurs pour indiquer l'etat de la main
-			if (g_handClosed)
-				glColor3ub(255,0,0);
-			else 
-				glColor3ub(0,0,255);
-			int cote = 50;
-			int carreX = xSize-(cote+10), carreY = 10;
-			glRecti(carreX,carreY,carreX+cote,carreY+cote);
 		}
 	}
 	glutSwapBuffers();
+
+	// Si la main change d'état, on envoie un signal pour réinitialiser les steadys
+	// !! Doit être placé juste avant l'appel de handleState() !!
+	if (g_handStateChanged)
+		g_hP.SignalResetSteadies();
 
 	// Gestion des états
 	handleState();
@@ -839,7 +784,16 @@ void initGL(int argc, char *argv[])
 	glutInitWindowSize(INIT_WIDTH_WINDOW, INIT_HEIGHT_WINDOW);
 
 	// Fenêtre de données source
-	glutCreateWindow(TITLE);
+	string titre = TITLE;
+	titre += " | ";
+	titre += __DATE__;
+	titre += " à ";
+	titre += __TIME__;
+
+	const char *windowName;
+	windowName = titre.c_str();
+
+	glutCreateWindow(windowName);
 	RepositionnementFenetre(INIT_POS_WINDOW);
 	glutKeyboardFunc(glutKeyboard);
 	glutDisplayFunc(glutDisplay);
@@ -928,7 +882,7 @@ int main(int argc, char *argv[])
 	QApplication app(qargc,qargv);
 #endif
 
-	g_cursorQt = CursorQt(2);
+	g_cursorQt = CursorQt(1);
 	gp_window = new GraphicsView(NULL);
 	gp_windowActiveTool = new GraphicsView(NULL);
 	gp_sceneActiveTool = new QGraphicsScene(0,0,128,128);
@@ -942,7 +896,6 @@ int main(int argc, char *argv[])
 	// Initialisation des ressources et création de la fenêtre avec les icônes
 	Q_INIT_RESOURCE(images);
 
-//#if defined _OS_WIN_
 	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
 	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
 	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
@@ -950,15 +903,6 @@ int main(int argc, char *argv[])
 	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
 	Pixmap *p6 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
 	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
-//#elif defined _OS_MAC_
-//	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
-//	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
-//	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
-//	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
-//	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
-//	Pixmap *p6 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
-//	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
-//#endif
 
 	p1->setObjectName("layout");
 	p2->setObjectName("move");
@@ -1006,7 +950,6 @@ int main(int argc, char *argv[])
 
 
 	////////////// LAYOUT
-//#if defined _OS_WIN_
 	Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
 	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
 	Pixmap *l3 = new Pixmap(QPixmap(":/images/layouts/_2x1.png").scaled(64,64));
@@ -1014,15 +957,6 @@ int main(int argc, char *argv[])
 	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
 	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
 	Pixmap *l7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
-//#elif defined _OS_MAC_
-//	Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
-//	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
-//	Pixmap *l3 = new Pixmap(QPixmap(":/images/layouts/_2x1.png").scaled(64,64));
-//	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
-//	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
-//	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
-//	Pixmap *l7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
-//#endif
 
 	l1->setObjectName("1x1");
 	l2->setObjectName("1x2");
@@ -1093,14 +1027,17 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	g_currentTool = g_totalTools;
 	g_lastTool = 0;
 
+	for (int i=0; i<g_totalTools; i++)
+		g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+
 	gp_window->show();
-	MenuTransparent();
+	gp_window->setWindowOpacity(qreal(0.4));
 	gp_viewLayouts->hide();
 	gp_windowActiveTool->hide();
 
 	Steady2Enable();
-	Steady10Disable();
-	Steady20Disable();
+	Steady10Enable();
+	Steady20Enable();
 
 	g_hCD.ResetCompteurFrame();
 
@@ -1115,8 +1052,6 @@ session end event handler. Session manager calls this when session ends
 void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 {
 	ChangeState(0);
-
-	//g_telnet.deconnexion();
 
 	g_activeSession = false;
 	g_toolSelectable = false;
@@ -1180,12 +1115,14 @@ void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 	cout << "Point detruit" << endl;
 
 	nullifyHandPoint();
+	//gp_sessionManager->EndSession();
 }
 
 
 // Callback for no hand detected
 void XN_CALLBACK_TYPE NoHands(void* UserCxt)
 {
+	cout << "No Hands" << endl;
 	g_cursorQt.EndCursorSession();
 }
 
@@ -1216,17 +1153,6 @@ void SimulateCtrlBar(void)
 	// Simulate a key release
 	keybd_event(VK_LCONTROL,0x45,KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,0);
 #endif
-}
-
-
-void MenuTransparent(void)
-{
-	gp_window->setWindowOpacity(qreal(0.4));
-}
-
-void MenuOpaque(void)
-{
-	gp_window->setWindowOpacity(qreal(1.0));
 }
 
 

@@ -69,9 +69,6 @@ using namespace cv;
 //==========================================================================//
 //============================== CONSTANTES ================================//
 
-#define TEST_FLUIDITE 1
-
-
 #define TITLE "KiOP v1.0.0-beta"
 
 #define DP_FAR 5000
@@ -80,23 +77,23 @@ using namespace cv;
 #define COLORS 20
 
 #if defined _OS_WIN_
-    #define SENSIBILITE_MOVE 1
-    #define SENSIBILITE_MOVE_X (SENSIBILITE_MOVE)
-    #define SENSIBILITE_MOVE_Y (SENSIBILITE_MOVE)
-    #define SENSIBILITE_CONTRAST 8
-    #define SENSIBILITE_CONTRAST_X (SENSIBILITE_CONTRAST)
-    #define SENSIBILITE_CONTRAST_Y (SENSIBILITE_CONTRAST)
-    #define SENSIBILITE_ZOOM 1
-    #define SENSIBILITE_SCROLL 1
+	#define SENSIBILITE_MOVE 2
+	#define SENSIBILITE_MOVE_X (SENSIBILITE_MOVE)
+	#define SENSIBILITE_MOVE_Y (SENSIBILITE_MOVE)
+	#define SENSIBILITE_CONTRAST 8
+	#define SENSIBILITE_CONTRAST_X (SENSIBILITE_CONTRAST)
+	#define SENSIBILITE_CONTRAST_Y (SENSIBILITE_CONTRAST)
+	#define SENSIBILITE_ZOOM 1
+	#define SENSIBILITE_SCROLL 1
 #elif defined _OS_MAC_
-    #define SENSIBILITE_MOVE 5
-    #define SENSIBILITE_MOVE_X (SENSIBILITE_MOVE)
-    #define SENSIBILITE_MOVE_Y (SENSIBILITE_MOVE)
-    #define SENSIBILITE_CONTRAST 2
-    #define SENSIBILITE_CONTRAST_X (SENSIBILITE_CONTRAST)
-    #define SENSIBILITE_CONTRAST_Y (SENSIBILITE_CONTRAST)
-    #define SENSIBILITE_ZOOM 1
-    #define SENSIBILITE_SCROLL 1
+	#define SENSIBILITE_MOVE 5
+	#define SENSIBILITE_MOVE_X (SENSIBILITE_MOVE)
+	#define SENSIBILITE_MOVE_Y (SENSIBILITE_MOVE)
+	#define SENSIBILITE_CONTRAST 2
+	#define SENSIBILITE_CONTRAST_X (SENSIBILITE_CONTRAST)
+	#define SENSIBILITE_CONTRAST_Y (SENSIBILITE_CONTRAST)
+	#define SENSIBILITE_ZOOM 1
+	#define SENSIBILITE_SCROLL 1
 #endif
 
 #define nullifyHandPoint()	\
@@ -129,14 +126,17 @@ if (rc == XN_STATUS_NO_NODE_PRESENT)		\
 void Initialisation(void);
 void CleanupExit();
 
-void IcrWithLimits(int &val, const int icr, const int limUp, const int limDown);
+void IcrWithLimits(int &val, int icr, int limUp, int limDown);
 
 inline bool isHandPointNull();
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools);
 void browse(int currentTool, int lastTool, vector<Pixmap*> pix);
 void CheckHandDown();
-void detectHandDown();
+void CheckBaffe();
+bool SelectionDansUnMenu(short currentIcon);
+bool ConditionActiveTool();
+bool ConditionExitTool();
 
 void ChangeState(int newState);
 void handleState();
@@ -155,9 +155,6 @@ void XN_CALLBACK_TYPE NoHands(void* UserCxt);
 void XN_CALLBACK_TYPE FocusProgress(const XnChar* strFocus, const XnPoint3D& ptPosition, XnFloat fProgress, void* UserCxt);
 void XN_CALLBACK_TYPE Wave_Detected(void *pUserCxt);
 void SimulateCtrlBar(void);
-void MenuTransparent(void);
-void MenuOpaque(void);
-
 
 #endif //========================== FIN ====================================//
 

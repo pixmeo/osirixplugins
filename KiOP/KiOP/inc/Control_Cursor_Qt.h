@@ -60,62 +60,59 @@
 class CursorQt
 {
 public :
-    CursorQt();
-	CursorQt(short type); // 1 : Souris SteadyClic
-												// 2 : Souris HandClosedClic
-												// 3 : Souris NoClic (Pointeur)
-	short CursorType(void);
 
-	// Gestion des coordonnées
+	// ---------------- Constructeur(s) ------------------ //
+	CursorQt(short type=1); // 1 : Souris SteadyClic
+													// 2 : Souris HandClosedClic
+													// 3 : Souris NoClic (Pointeur)
+
+	// ---------------- Setter(s) ------------------ //
 	void SetPos(unsigned int x, unsigned int y);
 	void SetPos(QPoint newPos);
+
 	void IncrementPos(int dx, int dy);
 	void IncrementPos(QPoint deltaPos);
-	QPoint Pos(void) const;
-	QPoint PreviousPos(void) const;
 
 	void SetMoveEnable(void);
 	void SetMoveDisable(void);
-	bool MoveEnable(void) const;
 
 	void SetClicEnable(void);
 	void SetClicDisable(void);
+
+	// ---------------- Getter(s) ------------------ //
+	short CursorType(void) const;
+
+	QPoint Pos(void) const;
+	QPoint PreviousPos(void) const;
+	bool MoveEnable(void) const;
+
 	bool ClicEnable(void) const;
+	bool LeftClicPressed() const;
 
-	void SetHandClosed(bool handClosed);
-	bool HandClosed(void) const;
+	bool InCursorSession() const;
 
-	void PressLeftClic(void);
-	void ReleaseLeftClic(void);
-
-	void SetCursorInitialised(bool cursorInitialised);
-	bool CursorInitialised(void);
+	void PressLeftClic(bool force=false);
+	void ReleaseLeftClic(bool force=false);
 
 	void NewCursorSession(void);
 	void EndCursorSession(void);
-	bool InCursorSession(void);
 
 	void MoveCursor(Point3D handPt);
 
-	void SteadyDetected(unsigned short nSteady);
-
-private :
-
-	QCursor m_cursor;
+protected :
 
 	short m_type;
 
+	QCursor m_cursor;
 	QPoint m_previousPos;
+
 	bool m_moveEnable;
 	bool m_clicEnable;
-	bool m_handClosed;
-	bool m_cursorInitialised;
-	bool m_notInCursorSession;
+
+	bool m_inCursorSession;
+	bool m_leftClicPressed;
 
 	double m_courbeDeplacement[1001];
-
-
-	QDesktopWidget *m_desktop;
 
 };
 

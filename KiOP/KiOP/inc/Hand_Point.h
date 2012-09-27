@@ -61,6 +61,7 @@ public :
 	bool Steady10(void) const;
 	bool Steady20(void) const;
 	bool NotSteady(void) const;
+	void SignalResetSteadies(void);
 
 	void IncrementCompteurFrame(void);
 	unsigned int CompteurFrame(void) const;

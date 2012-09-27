@@ -20,6 +20,7 @@ HandPoint::HandPoint(void) :
 	m_diffHandPt("m_diffHandPt"),
 	m_handVirtualPt("m_handVirtualPt"),
 	m_smooth(5,5,5,"m_smooth")
+	//m_smooth(25,25,25,"m_smooth")
 {
 	std::ostringstream oss;
 	for (int i=0; i<NB_CASE; i++)
@@ -36,10 +37,10 @@ void HandPoint::Update(XnPoint3D handPt)
 {
 	if (CompteurFrame() < 1)
 	{
-		for (int i=0; i<NB_CASE; i++)
-		{
-			m_lastHandPtBrut[i].Print();
-		}
+		//for (int i=0; i<NB_CASE; i++)
+		//{
+		//	m_lastHandPtBrut[i].Print();
+		//}
 	}
 
 	IncrementCompteurFrame();
@@ -205,6 +206,10 @@ bool HandPoint::NotSteady(void) const
 	return m_sTD.NotSteady();
 }
 
+void HandPoint::SignalResetSteadies(void)
+{
+	m_sTD.SignalResetSteadies();
+}
 
 // ------------------ Compteur ------------------- //
 

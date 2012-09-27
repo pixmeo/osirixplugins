@@ -10,22 +10,16 @@
 
 
 // Constructeur
-CursorQt::CursorQt(){}
-
 CursorQt::CursorQt(short type)
 {
-	m_desktop = QApplication::desktop();
-
-
-
-
 	m_type = type;
 	m_moveEnable = false;
 	m_clicEnable = false;
-	m_handClosed = false;
-	m_cursorInitialised = false;
-	m_notInCursorSession = true;
+	m_inCursorSession = false;
+	m_leftClicPressed = false;
 
+	m_previousPos.setX(SCRSZW/2);
+	m_previousPos.setY(SCRSZH/2);
 
 
 	unsigned int x1 = 70,		y1 = 30;
@@ -60,15 +54,10 @@ CursorQt::CursorQt(short type)
 	{
 		m_courbeDeplacement[i] = a*i + b;
 	}
-
-
 }
 
-short CursorQt::CursorType(void)
-{
-	return m_type;
-}
 
+// ---------------- Setter(s) ------------------ //
 void CursorQt::SetPos(unsigned int x, unsigned int y)
 {
 	if (m_moveEnable)
@@ -77,36 +66,46 @@ void CursorQt::SetPos(unsigned int x, unsigned int y)
 		m_cursor.setPos(x, y);
 	}
 }
-
 void CursorQt::SetPos(QPoint newPos)
 {
-	if (m_moveEnable)
-	{
-		m_previousPos = m_cursor.pos();
-		m_cursor.setPos(newPos);
-	}
+	SetPos(newPos.x(),newPos.y());
 }
 
 void CursorQt::IncrementPos(int dx, int dy)
 {
-	if (m_moveEnable)
-	{
-		m_previousPos = m_cursor.pos();
-		QPoint temp = m_cursor.pos();
-		m_cursor.setPos(temp.x() + dx,temp.y() + dy);
-	}
+	SetPos(m_cursor.pos().x() + dx, m_cursor.pos().y() + dy);
 }
-
 void CursorQt::IncrementPos(QPoint deltaPos)
 {
-	if (m_moveEnable)
-	{
-		m_previousPos = m_cursor.pos();
-		//QPoint temp = m_cursor.pos();
-		m_cursor.setPos(m_cursor.pos() + deltaPos);
-	}
+	IncrementPos(deltaPos.x(),deltaPos.y());
 }
 
+
+void CursorQt::SetMoveEnable(void)
+{
+	m_moveEnable = true;
+}
+void CursorQt::SetMoveDisable(void)
+{
+	m_moveEnable = false;
+}
+
+void CursorQt::SetClicEnable(void)
+{
+	m_clicEnable = true;
+}
+void CursorQt::SetClicDisable(void)
+{
+	m_clicEnable = false;
+}
+
+
+
+// ---------------- Getter(s) ------------------ //
+short CursorQt::CursorType(void) const
+{
+	return m_type;
+}
 
 QPoint CursorQt::Pos(void) const
 {
@@ -118,29 +117,9 @@ QPoint CursorQt::PreviousPos(void) const
 	return m_previousPos;
 }
 
-void CursorQt::SetMoveEnable(void)
-{
-	m_moveEnable = true;
-}
-
-void CursorQt::SetMoveDisable(void)
-{
-	m_moveEnable = false;
-}
-
 bool CursorQt::MoveEnable(void) const
 {
 	return m_moveEnable;
-}
-
-void CursorQt::SetClicEnable(void)
-{
-	m_clicEnable = true;
-}
-
-void CursorQt::SetClicDisable(void)
-{
-	m_clicEnable = false;
 }
 
 bool CursorQt::ClicEnable(void) const
@@ -148,95 +127,83 @@ bool CursorQt::ClicEnable(void) const
 	return m_clicEnable;
 }
 
-
-void CursorQt::SetHandClosed(bool handClosed)
+bool CursorQt::LeftClicPressed() const
 {
-	m_handClosed = handClosed;
-	if (handClosed)
-	{
-		PressLeftClic();
-	}
-	else
-	{
-		ReleaseLeftClic();
-	}
+	return m_leftClicPressed;
 }
 
-bool CursorQt::HandClosed(void) const
+bool CursorQt::InCursorSession() const
 {
-	return m_handClosed;
+	return m_inCursorSession;
 }
 
 
-void CursorQt::PressLeftClic(void)
-{
-	if (ClicEnable())
-	{
-		#ifdef _OS_WIN_
-			mouse_event(MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
-			ChangeCursor(5); // main fermée
-		#endif
 
-		cout << "Clic gauche maintenu\n" << endl;
+
+
+void CursorQt::PressLeftClic(bool force)
+{
+	if (ClicEnable() || force)
+	{
+#ifdef _OS_WIN_
+		mouse_event(MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
+		ChangeCursor(5); // main fermée
+#endif
+
+		m_leftClicPressed = true;
+		cout << "--- Clic gauche maintenu" << endl;
 	}
 }
 
-void CursorQt::ReleaseLeftClic(void)
+void CursorQt::ReleaseLeftClic(bool force)
 {
-	if (ClicEnable())
+	if (ClicEnable() || force)
 	{
-		#ifdef _OS_WIN_
-			mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
-			ChangeCursor(4); // main ouverte
-		#endif
-		cout << "Clic gauche relache\n" << endl;
+#ifdef _OS_WIN_
+		mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
+		ChangeCursor(4); // main ouverte
+#endif
+
+		m_leftClicPressed = false;
+		cout << "--- Clic gauche relache" << endl;
 	}
 }
 
 
-
-void CursorQt::SetCursorInitialised(bool cursorInitialised)
-{
-	m_cursorInitialised = cursorInitialised;
-}
-
-bool CursorQt::CursorInitialised(void)
-{
-	return m_cursorInitialised;
-}
 
 
 void CursorQt::NewCursorSession(void)
 {
-	m_notInCursorSession = false;
-	m_handClosed = false;
+	m_inCursorSession = true;
+
+	m_previousPos.setX(SCRSZW/2);
+	m_previousPos.setY(SCRSZH/2);
+	SetPos(SCRSZW/2,SCRSZH/2);
 
 	SetMoveEnable();
 	SetClicEnable();
-	SetPos(SCRSZW/2,SCRSZH/2);
 
-	SetCursorInitialised(true);
-	#ifdef _OS_WIN_
-		ChangeCursor(4);
-	#endif
+#ifdef _OS_WIN_
+	ChangeCursor(4);
+#endif
 	cout << "-- Mode curseur initialise --" << endl;
 }
 
 void CursorQt::EndCursorSession(void)
 {
-	m_notInCursorSession = true;
+	m_inCursorSession = false;
+	ReleaseLeftClic(true);
+
 	SetMoveDisable();
 	SetClicDisable();
-	#ifdef _OS_WIN_
-		ChangeCursor(0);
-	#endif
+
+#ifdef _OS_WIN_
+	ChangeCursor(0);
+#endif
 	cout << "-- Mode curseur termine --" << endl;
 }
 
-bool CursorQt::InCursorSession(void)
-{
-	return !m_notInCursorSession;
-}
+
 
 
 void CursorQt::MoveCursor(Point3D handPt)
@@ -245,6 +212,7 @@ void CursorQt::MoveCursor(Point3D handPt)
 	QPoint pos(handPt.X(), handPt.Y());
 	QPoint deltaPos(pos - posPrev);
 	posPrev = pos;
+	//posPrev = m_previousPos;
 
 	double dxp = (double)pos.x() - (double)posPrev.x();
 	double dyp = (double)pos.y() - (double)posPrev.y();
@@ -268,25 +236,6 @@ void CursorQt::MoveCursor(Point3D handPt)
 	IncrementPos(dxt,dyt);
 }
 
-
-
-void CursorQt::SteadyDetected(unsigned short nSteady)
-{
-	cout << "CursorQt Steady " << nSteady << " detected" << endl;
-	switch (nSteady)
-	{
-	case 10 :
-		break;
-
-	case 20 :
-		if (!m_handClosed)
-			EndCursorSession();
-		break;
-
-	default :
-		break;
-	}
-}
 
 
 

@@ -13,6 +13,9 @@ bool g_steady2 = false, g_steady10 = false, g_steady20 = false;
 bool g_steady2Enable = false, g_steady10Enable = false, g_steady20Enable = false;
 bool g_notSteady = false;
 
+bool g_reset2 = false, g_reset10 = false, g_reset20 = false;
+bool g_signalResetSteadies = false;
+
 
 //==========================================================================//
 //================================ MÉTHODES ================================//
@@ -40,7 +43,7 @@ void SteadyClass::SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt)
 	//cout << endl;
 
 	// Si le handPoint n'a pas bougé (sur une frame)
-	if (EstDansZone(handPt,lim1,lim2))
+	if (EstDansZone(handPt,lim1,lim2) && !g_signalResetSteadies)
 	{
 		g_notSteady = false;
 		EnclenchementTimer(m_compteurTimer);
@@ -50,6 +53,7 @@ void SteadyClass::SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt)
 		g_notSteady = true;
 		ResetSteadies();
 		IncrementCompteurTimer();
+		g_signalResetSteadies = false;
 	}
 	SetTocFrame(m_compteurTimer);
 }
@@ -62,6 +66,12 @@ void SteadyClass::ResetSteadies(void)
 	g_steady2 = false;
 	g_steady10 = false;
 	g_steady20 = false;
+}
+
+void SteadyClass::SignalResetSteadies()
+{
+	g_signalResetSteadies = true;
+	ResetSteadies();
 }
 
 bool SteadyClass::Steady2(void) const
@@ -86,7 +96,7 @@ bool SteadyClass::NotSteady(void) const
 
 void SteadyClass::IncrementCompteurTimer(void)
 {
-	if (m_compteurTimer++ > 1000000)
+	if (m_compteurTimer++ >= MAX_TOC_FRAME_VALUE)
 		m_compteurTimer = 0;
 }
 
@@ -103,8 +113,10 @@ void EnclenchementTimer(unsigned int ticFrame)
 {
 	if (g_steady2Enable)
 		glutTimerFunc( 200, Steady2,ticFrame);
+
 	if (g_steady10Enable)
 		glutTimerFunc(1500,Steady10,ticFrame);
+
 	if (g_steady20Enable)
 		glutTimerFunc(2000,Steady20,ticFrame);
 }
