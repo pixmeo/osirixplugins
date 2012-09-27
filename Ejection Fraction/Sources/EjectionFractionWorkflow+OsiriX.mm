@@ -114,25 +114,32 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	return -1;
 }
 
--(void)selectOrOpenViewerForRoiWithId:(NSString*)roiId {
-	ROI* roi = [self roiForId:roiId];
-	
-	if (roi) {
-		DCMView* view = [roi curView];
-		ViewerController* viewer = [[view window] windowController];
-		[[view window] makeKeyAndOrderFront:self];
-		[viewer setImageIndex:[self pixIndexForRoi:roi]];
-		[viewer selectROI:roi deselectingOther:YES];
-	} else {
-		NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
-		[self setExpectedRoiId:roiId];
-		for (ViewerController* viewer in [ViewerController getDisplayed2DViewers]) @try {
-			[viewer setROIToolTag:[[roiTypes objectAtIndex:0] longValue]];
-		} @catch (NSException* e) { // a fix since version 3.7b8++ solves this exception, but we want to be retro-compatible
-		}
-		ViewerController* viewer = [[NSApp makeWindowsPerform:@selector(frontmostViewerControllerFinder) inOrder:YES] windowController];
-		[[viewer window] makeKeyAndOrderFront:self];
-	}
+-(void)selectOrOpenViewerForRoiWithId:(NSString*)roiId
+{
+    @try
+    {
+        ROI* roi = [self roiForId:roiId];
+        
+        if (roi) {
+            DCMView* view = [roi curView];
+            ViewerController* viewer = [[view window] windowController];
+            [[view window] makeKeyAndOrderFront:self];
+            [viewer setImageIndex:[self pixIndexForRoi:roi]];
+            [viewer selectROI:roi deselectingOther:YES];
+        } else {
+            NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
+            [self setExpectedRoiId:roiId];
+            for (ViewerController* viewer in [ViewerController getDisplayed2DViewers]) @try {
+                [viewer setROIToolTag:[[roiTypes objectAtIndex:0] longValue]];
+            } @catch (NSException* e) { // a fix since version 3.7b8++ solves this exception, but we want to be retro-compatible
+            }
+            ViewerController* viewer = [[NSApp makeWindowsPerform:@selector(frontmostViewerControllerFinder) inOrder:YES] windowController];
+            [[viewer window] makeKeyAndOrderFront:self];
+        }
+    }
+    @catch (NSException *e) {
+        NSLog( @"%@", e);
+    }
 }
 
 -(ROI*)roiForId:(NSString*)roiId { 
@@ -140,7 +147,13 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 }
 
 -(NSString*)idForRoi:(ROI*)roi {
-	return [_rois keyForObject:roi];
+    
+    NSString *s = [_rois keyForObject:roi];
+    
+    if( [s isKindOfClass: [NSString class]])
+        return s;
+    else
+        return nil;
 }
 
 -(NSArray*)roisForIds:(NSArray*)roiIds {
