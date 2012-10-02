@@ -9,11 +9,11 @@
 //=========================== VARIABLES GLOBALES ===========================//
 
 unsigned int g_tocFrame = 0;
-bool g_steady2 = false, g_steady10 = false, g_steady20 = false;
-bool g_steady2Enable = false, g_steady10Enable = false, g_steady20Enable = false;
+bool g_steady2 = false, g_steady5 = false, g_steady10 = false, g_steady15 = false, g_steady20 = false;
+bool g_steady2Enable = false, g_steady5Enable = false, g_steady10Enable = false, g_steady15Enable = false, g_steady20Enable = false;
 bool g_notSteady = false;
 
-bool g_reset2 = false, g_reset10 = false, g_reset20 = false;
+bool g_reset2 = false, g_reset5 = false, g_reset10 = false, g_reset15 = false, g_reset20 = false;
 bool g_signalResetSteadies = false;
 
 
@@ -64,7 +64,9 @@ void SteadyClass::SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt)
 void SteadyClass::ResetSteadies(void)
 {
 	g_steady2 = false;
+	g_steady5 = false;
 	g_steady10 = false;
+	g_steady15 = false;
 	g_steady20 = false;
 }
 
@@ -78,9 +80,17 @@ bool SteadyClass::Steady2(void) const
 {
 	return g_steady2;
 }
+bool SteadyClass::Steady5(void) const
+{
+	return g_steady5;
+}
 bool SteadyClass::Steady10(void) const
 {
 	return g_steady10;
+}
+bool SteadyClass::Steady15(void) const
+{
+	return g_steady15;
 }
 bool SteadyClass::Steady20(void) const
 {
@@ -114,8 +124,14 @@ void EnclenchementTimer(unsigned int ticFrame)
 	if (g_steady2Enable)
 		glutTimerFunc( 200, Steady2,ticFrame);
 
+	if (g_steady5Enable)
+		glutTimerFunc( 500, Steady5,ticFrame);
+
 	if (g_steady10Enable)
-		glutTimerFunc(1500,Steady10,ticFrame);
+		glutTimerFunc(1000,Steady10,ticFrame);
+
+	if (g_steady15Enable)
+		glutTimerFunc(1500,Steady15,ticFrame);
 
 	if (g_steady20Enable)
 		glutTimerFunc(2000,Steady20,ticFrame);
@@ -128,12 +144,26 @@ void Steady2(int ticFrame)
 	if (!g_steady2Enable)
 		g_steady2 = false;
 }
+void Steady5(int ticFrame)
+{
+	if (ticFrame == g_tocFrame)
+		g_steady5 = true;
+	if (!g_steady5Enable)
+		g_steady5 = false;
+}
 void Steady10(int ticFrame)
 {
 	if (ticFrame == g_tocFrame)
 		g_steady10 = true;
 	if (!g_steady10Enable)
 		g_steady10 = false;
+}
+void Steady15(int ticFrame)
+{
+	if (ticFrame == g_tocFrame)
+		g_steady15 = true;
+	if (!g_steady15Enable)
+		g_steady15 = false;
 }
 void Steady20(int ticFrame)
 {
@@ -144,6 +174,15 @@ void Steady20(int ticFrame)
 }
 
 
+void SteadyAllEnable(void)
+{
+	g_steady2Enable = true;
+	g_steady5Enable = true;
+	g_steady10Enable = true;
+	g_steady15Enable = true;
+	g_steady20Enable = true;
+	cout << "Steady 2, 5, 10, 15, 20 Enable" << endl;
+}
 void Steady2Enable(void)
 {
 	if (!g_steady2Enable)
@@ -152,12 +191,28 @@ void Steady2Enable(void)
 		cout << "Steady 2 Enable" << endl;
 	}
 }
+void Steady5Enable(void)
+{
+	if (!g_steady5Enable)
+	{
+		g_steady5Enable = true;
+		cout << "Steady 5 Enable" << endl;
+	}
+}
 void Steady10Enable(void)
 {
 	if (!g_steady10Enable)
 	{
 		g_steady10Enable = true;
 		cout << "Steady 10 Enable" << endl;
+	}
+}
+void Steady15Enable(void)
+{
+	if (!g_steady15Enable)
+	{
+		g_steady15Enable = true;
+		cout << "Steady 15 Enable" << endl;
 	}
 }
 void Steady20Enable(void)
@@ -169,6 +224,16 @@ void Steady20Enable(void)
 	}
 }
 
+
+void SteadyAllDisable(void)
+{
+	g_steady2Enable = false;
+	g_steady5Enable = false;
+	g_steady10Enable = false;
+	g_steady15Enable = false;
+	g_steady20Enable = false;
+	cout << "Steady 2, 5, 10, 15, 20 Disable" << endl;
+}
 void Steady2Disable(void)
 {
 	if (g_steady2Enable)
@@ -177,12 +242,28 @@ void Steady2Disable(void)
 		cout << "Steady 2 Disable" << endl;
 	}
 }
+void Steady5Disable(void)
+{
+	if (g_steady5Enable)
+	{
+		g_steady5Enable = false;
+		cout << "Steady 5 Disable" << endl;
+	}
+}
 void Steady10Disable(void)
 {
 	if (g_steady10Enable)
 	{
 		g_steady10Enable = false;
 		cout << "Steady 10 Disable" << endl;
+	}
+}
+void Steady15Disable(void)
+{
+	if (g_steady15Enable)
+	{
+		g_steady15Enable = false;
+		cout << "Steady 15 Disable" << endl;
 	}
 }
 void Steady20Disable(void)

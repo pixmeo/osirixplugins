@@ -58,7 +58,9 @@ public :
 	Point3D Smooth(void) const;
 
 	bool Steady2(void) const;
+	bool Steady5(void) const;
 	bool Steady10(void) const;
+	bool Steady15(void) const;
 	bool Steady20(void) const;
 	bool NotSteady(void) const;
 	void SignalResetSteadies(void);

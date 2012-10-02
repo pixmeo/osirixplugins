@@ -12,6 +12,7 @@
 // 0: Inactive; 1: Hand calibrating; 2: Main menu; 3: Normal tool mode; 4: Layout mode; 5: Mouse mode; 9: Return to main menu.
 int g_currentState = 0;
 int g_lastState = 0;
+int g_stateBackup = 0;
 int g_moveCounter = 0;
 
 // 0: Layout; 1: Move; 2: Contrast; 3: Zoom; 4: Scroll; 5: Mouse; 6: RedCross.
@@ -88,6 +89,10 @@ string g_openNi_XML_FilePath;
 
 unsigned int g_handDepthAtToolSelection = 0;
 const unsigned int g_handDepthThreshold = 40;
+
+bool g_tropPres = false;
+bool g_tropLoin = false;
+bool g_depthIntervalOK = true;
 
 
 //==========================================================================//
@@ -220,7 +225,23 @@ void CheckBaffe()
 	}
 }
 
+void CheckDepthIntervals()
+{
+	g_tropPres = (g_hP.HandPt().Z() < DISTANCE_MIN);
+	g_tropLoin = (g_hP.HandPt().Z() > DISTANCE_MAX);
 
+	//g_depthIntervalOK = !(g_tropPres || g_tropLoin);
+	g_depthIntervalOK = (g_hP.HandPt().Z() > DISTANCE_MIN) && (g_hP.HandPt().Z() < DISTANCE_MAX);
+
+	if (!g_depthIntervalOK && g_toolSelectable && g_currentState!=0)
+	{
+		cout << endl << "=== MAIN PAS DANS L INTERVALLE ===" << " distance : " << g_hP.HandPt().Z() << endl << endl;
+		g_stateBackup = g_currentState;
+		cout << "-- stateBackup : " << g_stateBackup << endl;
+		ChangeState(0);
+	}
+
+}
 
 
 
@@ -247,11 +268,15 @@ bool ConditionActiveTool()
 
 bool ConditionExitTool()
 {
-	return (g_hP.Steady10() && g_hP.HandPt().Z() > g_handDepthAtToolSelection + g_handDepthThreshold);
+	return (g_hP.Steady15() && g_hP.HandPt().Z() > g_handDepthAtToolSelection + g_handDepthThreshold);
 }
 
 
-bool ConditionLeftClic()
+bool ConditionLeftClicPress()
+{
+	return (g_hP.Steady15());
+}
+bool ConditionLeftClicRelease()
 {
 	return (g_hP.Steady10());
 }
@@ -259,7 +284,7 @@ bool ConditionLeftClic()
 
 void ChangeState(int newState)
 {
-	if (newState != g_lastState)
+	if (newState != g_currentState)
 	{
 		g_lastState = g_currentState;
 		g_currentState = newState;
@@ -278,10 +303,40 @@ void handleState()
 	CheckHandDown();
 	CheckBaffe();
 
+	static int compteurTest = 0;
+
+
+
+	//if ( !((compteurTest++)%40) )
+	//{
+	//	cout << "ok : " << g_depthIntervalOK << " --- Trop pres : " << g_tropPres << " --- Trop loin : " << g_tropLoin << endl;
+	//	cout << "distance : " << g_hP.HandPt().Z() << "    distanceMin : " << DISTANCE_MIN << endl;
+	//}
+
+	CheckDepthIntervals();
+
+
 	switch (g_currentState)
 	{
 	// Session inactive
+	case -1 :
+
+		break; // case -1
+
+	// Aucune action possible
 	case 0 :
+		
+		if (g_depthIntervalOK)
+		{
+			ChangeState(g_stateBackup);
+			gp_window->setWindowOpacity(qreal(1.0));
+		}
+		else
+		{
+			gp_window->setWindowOpacity(qreal(0.4));
+			gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+			gp_windowActiveTool->setWindowOpacity(0.7);
+		}
 
 		break; // case 0
 
@@ -487,17 +542,20 @@ void handleState()
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorActive, Qt::SolidPattern));
 				gp_windowActiveTool->setWindowOpacity(1.0);
 
-				if (ConditionLeftClic())
+				if (ConditionLeftClicPress())
 				{
-					g_hP.SignalResetSteadies();
-
 					if (!g_cursorQt.LeftClicPressed())
 					{
+						g_hP.SignalResetSteadies();
 						g_cursorQt.PressLeftClic();
 						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
 					}
-					else
+				}
+				if (ConditionLeftClicRelease())
+				{
+					if (g_cursorQt.LeftClicPressed())
 					{
+						g_hP.SignalResetSteadies();
 						g_cursorQt.ReleaseLeftClic();
 						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
 					}
@@ -670,12 +728,7 @@ void glutDisplay()
 				if((depth < DP_FAR) && (depth > DP_CLOSE))
 				{
 					if (g_activeSession)
-					{
-						if (g_hP.HandPt().Z() < DISTANCE_MAX_DETECTION)
-							glColor3ub(0,colorToSet,0);
-						else
-							glColor3ub(colorToSet,0,0);
-					}
+						glColor3ub(0,colorToSet,0);
 					else
 						glColor3ub(colorToSet,colorToSet,colorToSet);
 					glVertex2i(i,j);
@@ -1035,9 +1088,10 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	gp_viewLayouts->hide();
 	gp_windowActiveTool->hide();
 
-	Steady2Enable();
-	Steady10Enable();
-	Steady20Enable();
+	SteadyAllEnable();
+	//Steady2Enable();
+	//Steady10Enable();
+	//Steady20Enable();
 
 	g_hCD.ResetCompteurFrame();
 
@@ -1051,7 +1105,7 @@ session end event handler. Session manager calls this when session ends
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 {
-	ChangeState(0);
+	ChangeState(-1);
 
 	g_activeSession = false;
 	g_toolSelectable = false;
@@ -1068,10 +1122,11 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	gp_window->hide();
 	gp_viewLayouts->hide();
 	gp_windowActiveTool->hide();
-
-	Steady2Disable();
-	Steady10Disable();
-	Steady20Disable();
+	
+	SteadyAllDisable();
+	//Steady2Disable();
+	//Steady10Disable();
+	//Steady20Disable();
 
 	XnPoint3D ptTemp;
 	ptTemp.X = g_hP.HandPt().X();
@@ -1112,7 +1167,8 @@ nullify the hand point variable
 **********************************************************************************/
 void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 {
-	cout << "Point detruit" << endl;
+	cout << "\nPoint detruit -------------------------------------------------" 
+		<< endl << endl;
 
 	nullifyHandPoint();
 	//gp_sessionManager->EndSession();

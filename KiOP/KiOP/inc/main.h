@@ -76,6 +76,9 @@ using namespace cv;
 #define MAX_COLOR 255
 #define COLORS 20
 
+#define DISTANCE_MAX 3000
+#define DISTANCE_MIN 600
+
 #if defined _OS_WIN_
 	#define SENSIBILITE_MOVE 2
 	#define SENSIBILITE_MOVE_X (SENSIBILITE_MOVE)
@@ -132,11 +135,17 @@ inline bool isHandPointNull();
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools);
 void browse(int currentTool, int lastTool, vector<Pixmap*> pix);
+
 void CheckHandDown();
 void CheckBaffe();
+
 bool SelectionDansUnMenu(short currentIcon);
+
 bool ConditionActiveTool();
 bool ConditionExitTool();
+
+bool ConditionLeftClicPress();
+bool ConditionLeftClicRelease();
 
 void ChangeState(int newState);
 void handleState();

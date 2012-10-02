@@ -193,9 +193,17 @@ bool HandPoint::Steady2(void) const
 {
 	return m_sTD.Steady2();
 }
+bool HandPoint::Steady5(void) const
+{
+	return m_sTD.Steady5();
+}
 bool HandPoint::Steady10(void) const
 {
 	return m_sTD.Steady10();
+}
+bool HandPoint::Steady15(void) const
+{
+	return m_sTD.Steady15();
 }
 bool HandPoint::Steady20(void) const
 {
