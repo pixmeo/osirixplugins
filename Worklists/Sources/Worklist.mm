@@ -286,7 +286,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     study.accessionNumber = [entry objectForKey:@"AccessionNumber"];
     study.referringPhysician = [entry objectForKey:@"ReferringPhysiciansName"];
     study.performingPhysician = [entry objectForKey:@"ScheduledPerformingPhysiciansName"];
-    
+
     study.patientUID = [DicomFile patientUID:[NSDictionary dictionaryWithObjectsAndKeys:
                                               oname, @"patientName",
                                               study.patientID, @"patientID",
@@ -349,7 +349,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 DIC_NODENAME localHost;
                 DIC_NODENAME peerHost;
                 gethostname(localHost, sizeof(localHost)-1);
-                sprintf(peerHost, "%s:%d", peerAddress.UTF8String, peerPort);
+                sprintf(peerHost, "%s:%d", peerAddress.UTF8String, (int)peerPort);
                 ASC_setPresentationAddresses(params, localHost, peerHost);
 
                 const char* transferSyntaxes[] = { UID_LittleEndianExplicitTransferSyntax, UID_BigEndianExplicitTransferSyntax, UID_LittleEndianImplicitTransferSyntax };
@@ -442,7 +442,9 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 
                 [wstudies addObjectsFromArray:studies];
             }
-            
+
+            [wstudies setValue:[NSDate date] forKey:@"dateAdded"];
+
             @synchronized (_lastRefreshStudyInstanceUIDs) {
                 [_lastRefreshStudyInstanceUIDs removeAllObjects];
                 [_lastRefreshStudyInstanceUIDs addObjectsFromArray:[wstudies valueForKey:@"studyInstanceUID"]];

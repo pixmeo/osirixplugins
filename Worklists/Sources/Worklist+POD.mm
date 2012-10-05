@@ -113,6 +113,7 @@
                     dataset.putAndInsertString(DCM_StudyInstanceUID, study.studyInstanceUID.UTF8String);
                     // dataset.putAndInsertString(DCM_PatientID, [study.patientID cStringUsingEncoding:encoding]);
                     // dataset.putAndInsertString(DCM_AccessionNumber, [study.accessionNumber cStringUsingEncoding:encoding]);
+                    dataset.insert(newDicomElement(DcmTag(DCM_SOPInstanceUID)));
 
                     for (NSDictionary* dn in dicomNodes) {
                         DCMTKStudyQueryNode* studyQueryNode = [DCMTKStudyQueryNode queryNodeWithDataset:&dataset
@@ -138,7 +139,7 @@
                         
                         NSMutableArray* iqns = [NSMutableArray array];
                         for (DCMTKImageQueryNode* imageQueryNode in studyQueryNode.children)
-                            if (![availableSOPInstanceUIDs containsObject:imageQueryNode.uid]) {
+                            if (imageQueryNode.uid && ![availableSOPInstanceUIDs containsObject:imageQueryNode.uid]) {
                                 [availableSOPInstanceUIDs addObject:imageQueryNode.uid];
                                 [iqns addObject:imageQueryNode];
                             }
