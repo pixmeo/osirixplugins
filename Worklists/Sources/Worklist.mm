@@ -375,7 +375,23 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 req.Priority = DIMSE_PRIORITY_LOW;
                 
                 DcmFileFormat dcmff;
-                dcmff.getDataset()->insert(newDicomElement(DcmTag(0x0040,0x0100)));
+                
+                DcmDataset* dataset = dcmff.getDataset();
+                dataset->insert(newDicomElement(DcmTag(DCM_AccessionNumber)));
+                dataset->insert(newDicomElement(DcmTag(DCM_ReferringPhysiciansName)));
+                dataset->insert(newDicomElement(DcmTag(DCM_PatientsName)));
+                dataset->insert(newDicomElement(DcmTag(DCM_PatientID)));
+                dataset->insert(newDicomElement(DcmTag(DCM_PatientsBirthDate)));
+                dataset->insert(newDicomElement(DcmTag(DCM_PatientsSex)));
+                dataset->insert(newDicomElement(DcmTag(DCM_StudyInstanceUID)));
+                dataset->insert(newDicomElement(DcmTag(DCM_RequestedProcedureDescription)));
+                
+                DcmItem* spssi;
+                dataset->findOrCreateSequenceItem(DCM_ScheduledProcedureStepSequence, spssi);
+                spssi->insert(newDicomElement(DcmTag(DCM_Modality)));
+                spssi->insert(newDicomElement(DcmTag(DCM_ScheduledPerformingPhysiciansName)));
+                spssi->insert(newDicomElement(DcmTag(DCM_ScheduledProcedureStepStartDate)));
+                spssi->insert(newDicomElement(DcmTag(DCM_ScheduledProcedureStepStartTime)));
                 
                 T_DIMSE_C_FindRSP rsp;
                 cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
