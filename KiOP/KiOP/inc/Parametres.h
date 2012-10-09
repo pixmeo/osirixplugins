@@ -38,6 +38,16 @@ using namespace std;
 #	define SCRSZH (SCRSZHeight())
 #endif
 
+#define LAYOUT			0
+#define MOVE				1
+#define CONTRAST		2
+#define ZOOM				3
+#define SCROLL			4
+#define MOUSE				5
+#define CROSS				6
+
+const int TOOL_LIST[7] = {LAYOUT, MOVE, CONTRAST, ZOOM, SCROLL, MOUSE, CROSS};
+
 
 //==========================================================================//
 //============================== PARAMETRES ================================//

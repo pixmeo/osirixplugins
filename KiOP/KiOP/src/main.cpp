@@ -389,7 +389,7 @@ void handleState()
 			}
 
 			// Si un des outils "normaux" a été selectionné
-			if ( (g_currentTool == 1) || (g_currentTool == 2) || (g_currentTool == 3) || (g_currentTool == 4) )
+			if ( (g_currentTool == MOVE) || (g_currentTool == CONTRAST) || (g_currentTool == ZOOM) || (g_currentTool == SCROLL) )
 			{
 				ChangeState(3);
 				cout << "--- Selection de l'outil : " << g_currentTool << endl;
@@ -403,7 +403,7 @@ void handleState()
 			}
 			
 			// Si l'outil layout a été selectionné
-			else if (g_currentTool == 0)
+			else if (g_currentTool == LAYOUT)
 			{
 				ChangeState(4);
 				g_currentLayoutTool = 0;
@@ -411,7 +411,7 @@ void handleState()
 			}
 
 			// Si l'outil souris a été selectionné
-			else if (g_currentTool == 5)
+			else if (g_currentTool == MOUSE)
 			{
 				ChangeState(5);
 				g_telnet.deconnexion();
@@ -425,7 +425,7 @@ void handleState()
 			}
 
 			// Si la croix a été selectionnée
-			else if (g_currentTool == g_totalTools)
+			else if (g_currentTool == CROSS)
 			{
 				cout << "-- Croix selectionnee" << endl;
 				gp_sessionManager->EndSession();
@@ -445,19 +445,19 @@ void handleState()
 			switch (g_currentTool)
 			{
 			// Move
-			case 1 :
+			case MOVE :
 				g_telnet.sendCommand(QString("\r\ndcmview2d:move -- %1 %2\r\n")
 				.arg(-SENSIBILITE_MOVE_X*g_hP.DeltaHandPt().X()).arg(-SENSIBILITE_MOVE_Y*g_hP.DeltaHandPt().Y()));
 				break;
 
 			// Contrast
-			case 2 :
+			case CONTRAST :
 				g_telnet.sendCommand(QString("\r\ndcmview2d:wl -- %1 %2\r\n")
 				.arg(-SENSIBILITE_CONTRAST_X*g_hP.DeltaHandPt().X()).arg(-SENSIBILITE_CONTRAST_Y*g_hP.DeltaHandPt().Y()));
 				break;
 
 			// Zoom
-			case 3 :
+			case ZOOM :
 				if (g_hP.DetectRight())
 					g_telnet.sendCommand(QString("\r\ndcmview2d:zoom -i %1\r\n").arg(SENSIBILITE_ZOOM));
 				if (g_hP.DetectLeft())
@@ -465,7 +465,7 @@ void handleState()
 				break;
 
 			// Scroll
-			case 4 :
+			case SCROLL :
 				if (g_hP.DetectRight())
 					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i %1\r\n").arg(SENSIBILITE_SCROLL));
 				if (g_hP.DetectLeft())
@@ -718,9 +718,9 @@ void glutDisplay()
 		glOrtho(0, xSize, ySize, 0, -1, 1);
 
 		glBegin(GL_POINTS);
-		for(i=0;i<xSize;i+=RES_WINDOW_GLUT)	// width
+		for (i=0;i<xSize;i+=RES_WINDOW_GLUT) // width
 		{
-			for(j=0;j<ySize;j+=RES_WINDOW_GLUT)	// height
+			for (j=0;j<ySize;j+=RES_WINDOW_GLUT) // height
 			{
 				depth = g_dpMD(i,j);
 				colorToSet = MAX_COLOR - (depth/COLORS);
