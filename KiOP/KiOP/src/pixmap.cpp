@@ -31,3 +31,7 @@ void Pixmap::setGeometry(const QRectF &rect)
 void Pixmap::load(const QPixmap &pix){
 	p = pix;
 }
+
+int Pixmap::getWidth(){
+	return this->p.width();
+}

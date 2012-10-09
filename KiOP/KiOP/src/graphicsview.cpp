@@ -69,7 +69,7 @@ void GraphicsView::moveBottom(GraphicsView* widget)
 	screenWidth = desktop->width();
 	screenHeight = desktop->height();
 
-	x = (cx - WIDTH);
+	x = (cx - WIDTH)/2;
 	y = (cy - HEIGHT);
 	/*x = (cx - WIDTH - 8);
 	y = (cy - HEIGHT + 40)/2;*/

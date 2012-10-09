@@ -16,6 +16,7 @@ public:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * );
     virtual void setGeometry(const QRectF &rect);
 	virtual void load(const QPixmap &pix);
+	int getWidth();
 
 Q_SIGNALS:
     void clicked();

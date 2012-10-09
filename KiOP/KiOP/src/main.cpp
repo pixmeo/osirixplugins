@@ -19,7 +19,7 @@ int g_moveCounter = 0;
 int g_currentTool = 3;
 int g_lastTool = 3;
 int g_toolToChoose = -1;
-int g_totalTools = 6; // +1
+int g_totalTools = 7; // +1
 int g_positionTool[7]; //position des outils dans le menu
 
 // Layout
@@ -74,6 +74,10 @@ vector<Pixmap*> g_pixL; //for layouts
 Pixmap* gp_pixActive; //for activeTool
 QColor g_toolColorActive = Qt::green;
 QColor g_toolColorInactive = Qt::gray;
+ToolDock mainTools(g_totalTools+1);
+ToolDock layoutTools(g_totalLayoutTools+1);
+int pixSize = mainTools.getItemSize();
+int pixSizeActive = mainTools.getItemSizeActive();
 
 #ifdef _OS_WIN_
 	TelnetClient g_telnet;
@@ -186,16 +190,19 @@ void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 
 
 
-void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
+//void browse(int currentTool, int lastTool, vector<Pixmap*> pix)
+void browse(int currentTool, int lastTool, ToolDock &tools)
 {
 	//only set the pixmap geometry when needed
 	if (lastTool != currentTool)
 	{
 		// On réduit l'outil précédent
-		pix.operator[](lastTool)->setGeometry(QRectF(lastTool*128.0, g_iconIdlePt, 64.0, 64.0));
+		//pix.operator[](lastTool)->setGeometry(QRectF(lastTool*128.0, g_iconIdlePt, 64.0, 64.0));
+		tools.setItemIdle(lastTool);
 
 		// On aggrandi l'outil courant
-		pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0)-(currentTool==0?0:32), g_iconIdlePt-64, 128.0, 128.0));
+		//pix.operator[](currentTool)->setGeometry(QRectF( (currentTool*128.0)-(currentTool==0?0:32), g_iconIdlePt-64, 128.0, 128.0));
+		tools.setItemActive(currentTool);
 	}
 }
 
@@ -356,7 +363,7 @@ void handleState()
 	case 2 :
 
 		chooseTool(g_currentTool, g_lastTool, g_totalTools);
-		browse(g_currentTool, g_lastTool, g_pix);
+		browse(g_currentTool, g_lastTool, mainTools);
 
 		g_handDepthAtToolSelection = 0;
 
@@ -365,26 +372,30 @@ void handleState()
 			g_telnet.connexion();
 			switch(g_currentTool)
 			{
-			case 0:
-				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+			case RESETALL:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:reset all\r\n"));
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction resetall\r\n"));
 				break;
-			case 1:
+			case LAYOUT:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction layoutTool\r\n"));
+				break;
+			case MOVE:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction pan\r\n"));
 				break;
-			case 2:
+			case CONTRAST:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction winLevel\r\n"));
 				break;
-			case 3:
+			case ZOOM:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction zoom\r\n"));
 				break;
-			case 4:
+			case SCROLL:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sequence\r\n"));
 				break;
-			case 5:
-				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+			case MOUSE:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction cursorTool\r\n"));
 				break;
-			case 6:
-				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction bonjour\r\n"));
+			case CROSS:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction exit\r\n"));
 				break;
 			}
 
@@ -399,7 +410,7 @@ void handleState()
 				gp_window->hide();
 				gp_windowActiveTool->show();
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
-				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(128,128));
+				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(pixSizeActive,pixSizeActive));
 			}
 			
 			// Si l'outil layout a été selectionné
@@ -421,7 +432,7 @@ void handleState()
 
 				gp_window->hide();
 				gp_windowActiveTool->show();
-				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
+				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(pixSizeActive,pixSizeActive));
 			}
 
 			// Si la croix a été selectionnée
@@ -429,6 +440,10 @@ void handleState()
 			{
 				cout << "-- Croix selectionnee" << endl;
 				gp_sessionManager->EndSession();
+			}
+			else if (g_currentTool == RESETALL)
+			{
+				ChangeState(9);
 			}
 		}
 
@@ -497,7 +512,7 @@ void handleState()
 		gp_viewLayouts->show();
 
 		chooseTool(g_currentLayoutTool, g_lastLayoutTool, g_totalLayoutTools);
-		browse(g_currentLayoutTool,g_lastLayoutTool, g_pixL);
+		browse(g_currentLayoutTool,g_lastLayoutTool, layoutTools);
 
 		if (SelectionDansUnMenu(g_currentLayoutTool))
 		{
@@ -548,7 +563,7 @@ void handleState()
 					{
 						g_hP.SignalResetSteadies();
 						g_cursorQt.PressLeftClic();
-						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(128,128));
+						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(pixSizeActive,pixSizeActive));
 					}
 				}
 				if (ConditionLeftClicRelease())
@@ -557,7 +572,7 @@ void handleState()
 					{
 						g_hP.SignalResetSteadies();
 						g_cursorQt.ReleaseLeftClic();
-						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(128,128));
+						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(pixSizeActive,pixSizeActive));
 					}
 				}
 			}
@@ -595,7 +610,7 @@ void handleState()
 		g_lastTool = g_currentTool;
 		g_currentTool = g_totalTools;
 
-		browse(g_currentTool,g_lastTool,g_pix);
+		browse(g_currentTool,g_lastTool,mainTools);
 
 		gp_window->show();
 		gp_viewLayouts->hide();
@@ -664,6 +679,13 @@ void glutKeyboard (unsigned char key, int x, int y)
 		gp_sessionManager->EndSession();
 		break;
 
+	case 'q' :
+		g_pix[0]->setScale(0.9);
+		mainTools.setItemActive(0);
+		break;
+	case 'w' :
+		g_pix[1]->setScale(0.9);
+		break;
 	//case 't' :
 	//	g_methodeMainFermeeSwitch = !g_methodeMainFermeeSwitch;
 	//	cout << "-- Switch Methode main fermee (" << (g_methodeMainFermeeSwitch?2:1) << ")" << endl;
@@ -938,9 +960,11 @@ int main(int argc, char *argv[])
 	g_cursorQt = CursorQt(1);
 	gp_window = new GraphicsView(NULL);
 	gp_windowActiveTool = new GraphicsView(NULL);
-	gp_sceneActiveTool = new QGraphicsScene(0,0,128,128);
+	gp_sceneActiveTool = new QGraphicsScene(0,0,pixSizeActive,pixSizeActive);
 	gp_viewLayouts = new GraphicsView(NULL);
 	gp_pixActive = new Pixmap(QPixmap()); //for activeTool
+	//mainTools.init(g_totalTools+1);
+	//layoutTools.init(g_totalLayoutTools+1);
 
 
 
@@ -948,8 +972,21 @@ int main(int argc, char *argv[])
 
 	// Initialisation des ressources et création de la fenêtre avec les icônes
 	Q_INIT_RESOURCE(images);
+	
+	mainTools.addItem("reset", ":/images/reset.png");
+	mainTools.addItem("layout", ":/images/layout.png");
+	mainTools.addItem("move", ":/images/move.png");
+	mainTools.addItem("contrast", ":/images/contrast.png");
+	mainTools.addItem("zoom", ":/images/zoom.png");
+	mainTools.addItem("scroll", ":/images/scroll.png");
+	mainTools.addItem("mouse", ":/images/mouse.png");
+	mainTools.addItem("stop", ":/images/stop.png");
 
-	Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
+	mainTools.createView();
+	gp_window = mainTools.getWindow();
+	g_pix = mainTools.getItems();
+
+	/*Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
 	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
 	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
 	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
@@ -979,31 +1016,43 @@ int main(int argc, char *argv[])
 	g_pix.push_back(p4);
 	g_pix.push_back(p5);
 	g_pix.push_back(p6);
-	g_pix.push_back(p7);
+	g_pix.push_back(p7);*/
 
 	//gp_window->setSize(1024,288);
-	gp_window->setSize(896,256);
-	
-	//gp_window->setSize(548,gp_window->getResY()-100);
-	QGraphicsScene *scene = new QGraphicsScene(0,0,896,256);
-	//QGraphicsScene *scene = new QGraphicsScene(0,(-gp_window->getResY())+488,548,gp_window->getResY()-100);
-	scene->addItem(p1);
-	scene->addItem(p2);
-	scene->addItem(p3);
-	scene->addItem(p4);
-	scene->addItem(p5);
-	scene->addItem(p6);
-	scene->addItem(p7);
-	gp_window->setScene(scene);
+	//gp_window->setSize(896,256);
+	//
+	////gp_window->setSize(548,gp_window->getResY()-100);
+	//QGraphicsScene *scene = new QGraphicsScene(0,0,896,256);
+	////QGraphicsScene *scene = new QGraphicsScene(0,(-gp_window->getResY())+488,548,gp_window->getResY()-100);
+	//scene->addItem(p1);
+	//scene->addItem(p2);
+	//scene->addItem(p3);
+	//scene->addItem(p4);
+	//scene->addItem(p5);
+	//scene->addItem(p6);
+	//scene->addItem(p7);
+	//gp_window->setScene(scene);
 
 	gp_sceneActiveTool->addItem(gp_pixActive);
 	//gp_windowActiveTool->setSize(126,126);
 	gp_windowActiveTool->setScene(gp_sceneActiveTool);
-	gp_windowActiveTool->setGeometry(gp_window->getResX()-128,gp_window->getResY()-168,128,128);
+	gp_windowActiveTool->setGeometry(gp_window->getResX()-pixSizeActive,gp_window->getResY()-pixSizeActive-40,pixSizeActive,pixSizeActive);
 
 
 	////////////// LAYOUT
-	Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
+	layoutTools.addItem("1x1", ":/images/layouts/_1x1.png");
+	layoutTools.addItem("1x2", ":/images/layouts/_1x2.png");
+	layoutTools.addItem("2x1", ":/images/layouts/_2x1.png");
+	layoutTools.addItem("3a", ":/images/layouts/_3a.png");
+	layoutTools.addItem("3b", ":/images/layouts/_3b.png");
+	layoutTools.addItem("2x2", ":/images/layouts/_2x2.png");
+	layoutTools.addItem("stop", ":/images/stop.png");
+
+	layoutTools.createView();
+	gp_viewLayouts = layoutTools.getWindow();////////////////////////////////////////////////////////////////////
+	g_pixL = layoutTools.getItems();
+
+	/*Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
 	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
 	Pixmap *l3 = new Pixmap(QPixmap(":/images/layouts/_2x1.png").scaled(64,64));
 	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
@@ -1044,7 +1093,7 @@ int main(int argc, char *argv[])
 	sceneLayout->addItem(l5);
 	sceneLayout->addItem(l6);
 	sceneLayout->addItem(l7);
-	gp_viewLayouts->setScene(sceneLayout);
+	gp_viewLayouts->setScene(sceneLayout);*/
 
 	//gp_viewLayouts->show();
 
@@ -1081,7 +1130,8 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	g_lastTool = 0;
 
 	for (int i=0; i<g_totalTools; i++)
-		g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+		//g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+		mainTools.setItemIdle(i);
 
 	gp_window->show();
 	gp_window->setWindowOpacity(qreal(0.4));
@@ -1098,6 +1148,8 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	static int compteurSession = 1;
 	cout << endl << "Debut de la session : " << compteurSession++ 
 		<< "e" << (compteurSession==1?"re":"") << " fois" << endl << endl;
+	
+	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
 }
 
 /**********************************************************************************
@@ -1115,9 +1167,11 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 
 	// On réduit tous les outils et layouts
 	for (int i=0; i<=g_totalTools; i++)
-		g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+		//g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+		mainTools.setItemIdle(i);
 	for (int i=0; i<=g_totalLayoutTools; i++)
-		g_pixL.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+		//g_pixL.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
+		layoutTools.setItemIdle(i);
 
 	gp_window->hide();
 	gp_viewLayouts->hide();
@@ -1135,6 +1189,7 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	g_lastPt = ptTemp;
 	
 	cout << endl << "Fin de la session" << endl << endl;
+	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
 }
 
 

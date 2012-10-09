@@ -21,6 +21,7 @@
 #include "graphicsview.h"
 #include "pixmap.h"
 #include "telnetclient.h"
+#include "tooldock.h"
 
 // Headers de base
 #include <stdio.h>
