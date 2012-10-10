@@ -77,8 +77,13 @@ using namespace cv;
 #define MAX_COLOR 255
 #define COLORS 20
 
-#define DISTANCE_MAX 3000
-#define DISTANCE_MIN 600
+#if 1
+	#define DISTANCE_MIN 800
+	#define DISTANCE_MAX 2000
+#else
+	#define DISTANCE_MIN 1200
+	#define DISTANCE_MAX 1600
+#endif
 
 #if defined _OS_WIN_
 	#define SENSIBILITE_MOVE 2
@@ -135,7 +140,8 @@ void IcrWithLimits(int &val, int icr, int limUp, int limDown);
 inline bool isHandPointNull();
 
 void chooseTool(int &currentTool, int &lastTool, int &totalTools);
-void browse(int currentTool, int lastTool, vector<Pixmap*> pix);
+//void browse(int currentTool, int lastTool, vector<Pixmap*> pix);
+void browse(int currentTool, int lastTool, ToolDock &tools);
 
 void CheckHandDown();
 void CheckBaffe();

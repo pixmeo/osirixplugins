@@ -93,6 +93,7 @@ string g_openNi_XML_FilePath;
 
 unsigned int g_handDepthAtToolSelection = 0;
 const unsigned int g_handDepthThreshold = 40;
+const unsigned int g_handDepthMarge = 300;
 
 bool g_tropPres = false;
 bool g_tropLoin = false;
@@ -234,27 +235,34 @@ void CheckBaffe()
 
 void CheckDepthIntervals()
 {
-	g_tropPres = (g_hP.HandPt().Z() < DISTANCE_MIN);
-	g_tropLoin = (g_hP.HandPt().Z() > DISTANCE_MAX);
 
-	//g_depthIntervalOK = !(g_tropPres || g_tropLoin);
-	g_depthIntervalOK = (g_hP.HandPt().Z() > DISTANCE_MIN) && (g_hP.HandPt().Z() < DISTANCE_MAX);
+	unsigned int dMin = DISTANCE_MIN, dMax = DISTANCE_MAX;
+
+	if (g_handDepthAtToolSelection + g_handDepthMarge > DISTANCE_MAX)
+		dMax = g_handDepthAtToolSelection + g_handDepthMarge;
+
+	if (g_handDepthAtToolSelection - g_handDepthMarge < DISTANCE_MIN)
+		dMin = g_handDepthAtToolSelection - g_handDepthMarge;
+
+	g_tropPres = (g_hP.HandPt().Z() < dMin);
+	g_tropLoin = (g_hP.HandPt().Z() > dMax);
+	g_depthIntervalOK = !(g_tropPres || g_tropLoin);
+
+
+
 
 	if (!g_depthIntervalOK && g_toolSelectable && g_currentState!=0)
 	{
-		cout << endl << "=== MAIN PAS DANS L INTERVALLE ===" << " distance : " << g_hP.HandPt().Z() << endl << endl;
+		cout << endl << "-- Main en dehors de l'intervalle" << " distance : " << g_hP.HandPt().Z() << endl << endl;
 		g_stateBackup = g_currentState;
-		cout << "-- stateBackup : " << g_stateBackup << endl;
-		ChangeState(0);
+			ChangeState(0);
 	}
-
 }
 
 
 
 bool SelectionDansUnMenu(short currentIcon)
 {
-	static short s_toolClic = 100;
 	bool temp = false;
 
 	if (g_hP.Steady10())
@@ -309,19 +317,7 @@ void handleState()
 
 	CheckHandDown();
 	CheckBaffe();
-
-	static int compteurTest = 0;
-
-
-
-	//if ( !((compteurTest++)%40) )
-	//{
-	//	cout << "ok : " << g_depthIntervalOK << " --- Trop pres : " << g_tropPres << " --- Trop loin : " << g_tropLoin << endl;
-	//	cout << "distance : " << g_hP.HandPt().Z() << "    distanceMin : " << DISTANCE_MIN << endl;
-	//}
-
 	CheckDepthIntervals();
-
 
 	switch (g_currentState)
 	{
@@ -341,7 +337,7 @@ void handleState()
 		else
 		{
 			gp_window->setWindowOpacity(qreal(0.4));
-			gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+			gp_windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
 			gp_windowActiveTool->setWindowOpacity(0.7);
 		}
 
@@ -406,6 +402,7 @@ void handleState()
 				cout << "--- Selection de l'outil : " << g_currentTool << endl;
 
 				g_handDepthAtToolSelection = g_hP.HandPt().Z();
+				cout << "\nhandDepthAtToolSelection : " << g_handDepthAtToolSelection << endl << endl;
 
 				gp_window->hide();
 				gp_windowActiveTool->show();
@@ -425,7 +422,6 @@ void handleState()
 			else if (g_currentTool == MOUSE)
 			{
 				ChangeState(5);
-				g_telnet.deconnexion();
 				g_cursorQt.NewCursorSession();
 
 				g_handDepthAtToolSelection = g_hP.HandPt().Z();
@@ -441,6 +437,8 @@ void handleState()
 				cout << "-- Croix selectionnee" << endl;
 				gp_sessionManager->EndSession();
 			}
+
+			// Si le bouton ResetAll a été selectionné
 			else if (g_currentTool == RESETALL)
 			{
 				ChangeState(9);
