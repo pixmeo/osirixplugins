@@ -1146,8 +1146,9 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	static int compteurSession = 1;
 	cout << endl << "Debut de la session : " << compteurSession++ 
 		<< "e" << (compteurSession==1?"re":"") << " fois" << endl << endl;
-	
+	g_telnet.connexion();
 	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
+	g_telnet.deconnexion();
 }
 
 /**********************************************************************************
@@ -1155,6 +1156,9 @@ session end event handler. Session manager calls this when session ends
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 {
+	g_telnet.connexion();
+	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
+	g_telnet.deconnexion();
 	ChangeState(-1);
 
 	g_activeSession = false;
@@ -1187,7 +1191,6 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	g_lastPt = ptTemp;
 	
 	cout << endl << "Fin de la session" << endl << endl;
-	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
 }
 
 
@@ -1220,6 +1223,7 @@ nullify the hand point variable
 **********************************************************************************/
 void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 {
+	SteadyAllDisable();
 	cout << "\nPoint detruit -------------------------------------------------" 
 		<< endl << endl;
 
