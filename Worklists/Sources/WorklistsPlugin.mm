@@ -32,6 +32,8 @@
 static WorklistsPlugin* WorklistsPluginInstance = nil;
 static NSString* const Worklists = @"Worklists";
 NSString* const WorklistsDefaultsKey = Worklists;
+NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
+
 
 + (WorklistsPlugin*)instance {
     return WorklistsPluginInstance;
@@ -141,6 +143,22 @@ NSString* const WorklistsDefaultsKey = Worklists;
     for (NSString* wid in existingWorklistObjs) { // these worklists don't exist anymore, delete them
         [[_worklistObjs objectForKey:wid] delete];
         [_worklistObjs removeObjectForKey:wid];
+    }
+    
+    // clean up leftover albums...
+    @synchronized (self) {
+        NSArray* albumIDs = [_worklistObjs.allValues valueForKey:@"albumId"];
+        
+        NSArray* savedAlbumIDs = [NSUserDefaults.standardUserDefaults objectForKey:WorklistAlbumIDsDefaultsKey];
+        NSMutableArray* mAlbumIDs = [savedAlbumIDs isKindOfClass:[NSArray class]]? [[savedAlbumIDs mutableCopy] autorelease] : [NSMutableArray array];
+        
+        for (NSString* albumId in savedAlbumIDs)
+            if (![albumIDs containsObject:albumId]) {
+                [Worklist deleteAlbumWithId:albumId];
+                [mAlbumIDs removeObject:albumId];
+            }
+        
+        [NSUserDefaults.standardUserDefaults setObject:mAlbumIDs forKey:WorklistAlbumIDsDefaultsKey];
     }
 }
 

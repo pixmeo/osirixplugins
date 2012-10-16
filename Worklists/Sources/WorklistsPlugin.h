@@ -13,10 +13,11 @@
 
 
 extern NSString* const WorklistsDefaultsKey;
+extern NSString* const WorklistAlbumIDsDefaultsKey;
 
 
 @interface WorklistsPlugin : PluginFilter {
-    NSArrayController* _worklists; // this is binded to the NSUserDefaults array of dictionaries
+    NSArrayController* _worklists; // this is bound to the NSUserDefaults array of dictionaries
     NSString* _cachePath;
     NSMutableDictionary* _studiesLastSeenDates;
     NSMutableDictionary* _worklistObjs;

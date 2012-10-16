@@ -200,11 +200,13 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 }
 
 - (void) willUnload {
+    [_toolAliveKeeperTimer invalidate];
     [_robotReadyTimer invalidate];
-	[self.tool setQuitWhenDone:YES];
+	[self.tool setQuitWhenDone:YES]; // if the robot is currently burning, the plugin update may fail.......
 }
 
 -(void)observeOsirixWillTerminate:(NSNotification*)notification {
+    [_toolAliveKeeperTimer invalidate];
 	[_robotReadyTimer invalidate];
 	[self.tool setQuitWhenDone:YES];
 }

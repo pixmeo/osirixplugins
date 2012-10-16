@@ -42,6 +42,7 @@ extern NSString* const WorklistNoLongerThenIntervalKey;
 + (id)worklistWithProperties:(NSDictionary*)properties;
 - (id)initWithProperties:(NSDictionary*)properties;
 
++ (void)deleteAlbumWithId:(NSString*)albumId;
 - (void)delete;
 
 - (DicomAlbum*)albumInDatabase:(DicomDatabase*)db;

@@ -1,3 +1,11 @@
+- known bug: on some machines, flipped PDF templates aren't processed and displayed correctly
+
+2.4.2
+- fixed bug: if /Library/Application Support/OsiriX doesn't exist, don't try to create it
+
+2.4.1
+- 1-click calibration also possible with non-think reference objects thanks to better flood threshold computation
+
 2.4
 - Added Medacta miniMAX stems
 - Added Medacta Amistem size 00

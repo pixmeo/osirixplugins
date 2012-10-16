@@ -37,19 +37,13 @@
 	return templates;
 }
 
--(NSString*)_localApplicationSupportFolderForApp {
-	NSString* path = [[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kLocalDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]];
-	[[NSFileManager defaultManager] confirmDirectoryAtPath:path];
-	return path;
-}
-
 -(void)awakeTemplates {
 	[_templates removeAllObjects];
     
     NSArray* paths = [NSArray arrayWithObjects:
                       [[NSBundle bundleForClass:[self class]] resourcePath],
-                      [[[NSFileManager defaultManager] userApplicationSupportFolderForApp] stringByAppendingPathComponent:@"HipArthroplastyTemplating"],
-                      [[self _localApplicationSupportFolderForApp] stringByAppendingPathComponent:@"HipArthroplastyTemplating"],
+                      [[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kUserDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"HipArthroplastyTemplating"],
+                      [[[[NSFileManager defaultManager] findSystemFolderOfType:kApplicationSupportFolderType forDomain:kLocalDomain] stringByAppendingPathComponent:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleNameKey]] stringByAppendingPathComponent:@"HipArthroplastyTemplating"],
                       nil];
 	for (NSString* path in paths) {
         for (NSString* sub in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL])

@@ -147,7 +147,7 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
     [NSUserDefaults.standardUserDefaults setObject:value forKey:self.albumIdDefaultsKey];
 }
 
-- (DicomAlbum*)albumInDatabase:(DicomDatabase*)db { // make sure it has an album, and return it
+- (DicomAlbum*)albumInDatabase:(DicomDatabase*)db create:(BOOL)create { // make sure it has an album, and return it
     NSString* albumId = [self albumId];
     DicomAlbum* album = nil;
     
@@ -172,6 +172,10 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
     }
     
     return album;
+}
+
+- (DicomAlbum*)albumInDatabase:(DicomDatabase*)db {
+    return [self albumInDatabase:db create:YES];
 }
 
 - (void)setProperties:(NSDictionary*)properties {
@@ -203,20 +207,25 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
     }
 }
 
-- (void)delete {
++ (void)deleteAlbumWithId:(NSString*)albumId {
     DicomDatabase* db = [DicomDatabase defaultDatabase];
-    
-    [WorklistsPlugin.instance deselectAlbumOfWorklist:self];
-    
     // delete the album
-    NSString* albumId = [self albumId];
     DicomAlbum* album = [db objectWithID:albumId];
-    [db.managedObjectContext deleteObject:album];
     
+    if (!album)
+        return;
+    
+    [db.managedObjectContext deleteObject:album];
+    // refresh
+    [WorklistsPlugin refreshAlbumsForDatabase:db];
+}
+
+- (void)delete {
+    [WorklistsPlugin.instance deselectAlbumOfWorklist:self];
+    // delete album
+    [[self class] deleteAlbumWithId:[self albumId]];
     // delete data
     [NSUserDefaults.standardUserDefaults removeObjectForKey:self.albumIdDefaultsKey];
-    
-    [WorklistsPlugin refreshAlbumsForDatabase:db];
 }
 
 static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int responseCount, T_DIMSE_C_FindRSP* rsp, DcmDataset* response) {
@@ -313,6 +322,19 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             thread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), [_properties objectForKey:WorklistCalledAETKey]];
             thread.supportsCancel = YES;
             if (thread) [ThreadsManager.defaultManager addThreadAndStart:thread];
+            
+            DicomDatabase* db = [[DicomDatabase defaultDatabase] independentDatabase];
+            
+            DicomAlbum* album = [self albumInDatabase:db];
+            @synchronized ([WorklistsPlugin instance]) {
+                NSArray* savedAlbumIDs = [NSUserDefaults.standardUserDefaults objectForKey:WorklistAlbumIDsDefaultsKey];
+                NSString* albumId = [self albumId];
+                if (![savedAlbumIDs containsObject:albumId]) {
+                    NSMutableArray* mAlbumIDs = [savedAlbumIDs isKindOfClass:[NSArray class]]? [[savedAlbumIDs mutableCopy] autorelease] : [NSMutableArray array];
+                    [mAlbumIDs addObject:albumId];
+                    [NSUserDefaults.standardUserDefaults setObject:mAlbumIDs forKey:WorklistAlbumIDsDefaultsKey];
+                }
+            }
             
             T_ASC_Network* net = nil;
             T_ASC_Association* assoc = nil;
@@ -430,7 +452,6 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             // for every entry, have a valid DicomStudy instance
             
             NSMutableArray* wstudies = [NSMutableArray array];
-            DicomDatabase* db = [[DicomDatabase defaultDatabase] independentDatabase];
             
             NSPredicate* predicateTemplate = [NSPredicate predicateWithFormat:@"patientID = $PatientID AND accessionNumber = $AccessionNumber AND studyInstanceUID = $StudyInstanceUID"];
             
@@ -452,7 +473,6 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             
             // synchronize the album studies with the studies array
             
-            DicomAlbum* album = [self albumInDatabase:db];
             NSMutableSet* astudies = [album mutableSetValueForKey:@"studies"];
             
             for (DicomStudy* study in wstudies) {
@@ -574,9 +594,12 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     if ([input isKindOfClass:[NSData class]])
         predicate = [NSKeyedUnarchiver unarchiveObjectWithData:input];
     if ([input isKindOfClass:[NSString class]]) {
-        predicate = [NSPredicate predicateWithFormat:input];
-        if ([predicate isKindOfClass:[NSPredicate class]] && ![predicate isKindOfClass:[NSCompoundPredicate class]])
-            predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObject:predicate]];
+        @try {
+            predicate = [NSPredicate predicateWithFormat:input];
+            if ([predicate isKindOfClass:[NSPredicate class]] && ![predicate isKindOfClass:[NSCompoundPredicate class]])
+                predicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObject:predicate]];
+        } @catch (...) {
+        }
     }
     
     if ([predicate isKindOfClass:[NSPredicate class]])

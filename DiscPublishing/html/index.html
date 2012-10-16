@@ -10,11 +10,11 @@
 	</head>
 	<body>
 		<div id="plugin_icon"><img src="Plugin.jpg" border="0" /></div>
-		<h1>DiscPublishing 1.2.3</h1>
+		<h1>DiscPublishing 1.3.0</h1>
 		<div id="text">
             This plugin allows you to use a Primera DiscPublisher robot with OsiriX.<br/>
             <br/>
-            With Primera robots OsiriX will be able to produce labeled CDs and DVDs containing selected DICOM files. The discs' content and label can be customized. The following list enumerates the available  options:
+            With Primera robots OsiriX will be able to produce labeled CDs and DVDs containing selected DICOM files. The discs' content and label can be customized. The following list enumerates the available options:
             <ul>
                 <li>
                     <b>Automatic burn of incoming files</b><br/>
@@ -25,16 +25,20 @@
                     You can specify how long OsiriX must wait before it starts burning data. The selected delay is applied this way: every time a patient's image is received, that patient's timer is reset, and when a timer reaches the delay the data received for that patient is prepared and burnt.
                 </li>
                 <li>
-                    <b>Anonymization</b><br/>
+                    <b>Label template</b><br/>
+                    You can select a <i>Disc Cover 3</i> label template file that will be filled with values extracted from the DICOM files' meta data.
+                </li>
+                <li>
+                    <b>Included DICOM Viewers</b><br/>
+                    Weasis and OsiriX Lite can be included on the disc for direct viewing.
+                </li>
+                <li>
+                    <b>DICOM Anonymization</b><br/>
                     The DICOM files can be anonymized before being processed and burnt.
                 </li>
                 <li>
-                    <b>Compression</b><br/>
+                    <b>DICOM Compression</b><br/>
                     The DICOM files can be compressed or decompressed.
-                </li>
-                <li>
-                    <b>OsiriX Lite</b><br/>
-                    The OsiriX Lite application can be written on the disc.
                 </li>
                 <li>
                     <b>HTML/QuickTime</b><br/>
@@ -49,14 +53,20 @@
                     You may specify a folder whose content is copied on the burnt discs.
                 </li>
                 <li>
-                    <b>Label template</b><br/>
-                    You can select a <i>Disc Cover 2</i> label template file that will be filled with values extracted from the DICOM files' meta data.
+                    <b>Mount & Match</b><br/>
+                    You may specify a share to mount and copy from. You will define how files in this share are matched to your patient information, for example by its Accession Number or Patient ID. You can set the plugin to delete these files after usage, and if their availability is optional or compulsory, and how long you want to wait for their availability. Matched PDFs can be encapsulated in DICOM files.
+                </li>
+                <li>
+                    <b>Deletion</b><br/>
+                    After a successful burn, OsiriX can be set to delete the DICOM from its database.
                 </li>
                 <li>
                     <b>Burn speed</b><br/>
                     Can be set from 10% to 100%.
                 </li>
             </ul>
+            
+            Most of these options can have different values for different <i>Services</i>. You can define custom <i>Services</i> in the preferences, and the plugin will select one of them depending on the target AET of incoming DICOM images.
             
             <h2>What you need</h2>
             <ul>
@@ -65,7 +75,7 @@
 	                We tested Disc Publisher SE, Pro, Xi, Xi2 and 4100 Series (CD/DVD only, never BluRay).
                 </li>
                 <li>
-                    <b>An Intel Mac running Mac OS X 10.6 or newer, with OsiriX 3.9 or newer (we recommend that you always use the latest version available)</b><br/>
+                    <b>An Intel Mac running Mac OS X 10.7 or newer, with OsiriX 5.0 or newer (we recommend that you always use the latest version available)</b><br/>
                 </li>
                 <li>
                     <b>The DiscPublishing plugin</b><br/>
@@ -121,10 +131,12 @@
                 <li>
                     Make sure the <i>Albums & Sources</i> drawer is visible, as the plugin only tells you about its status through the new Activity table, on the bottom of the drawer.
                 </li>
-                <li>
+            </ul>
+            <ul>
+                <li><b>
                     If something goes wrong, the plugin will notify you through Growl. If Growl is not installed and active, you may miss important messages. We suggest you set Growl to use the MailMe or SMS display styles for all notifications from the plugin, which shows as Disc Publishing in the Growl preference pane (it will appear only once the plugin will have been run for the first time). 
                 </li>
-            </ul>
+            </b></ul>
             
             Our disc publishing test mac is set to automatically log into a 'discpublishing' user. A launch daemon is set for that user in order to keep OsiriX running. We advise you to do the same.<br/>
             <br/>
@@ -132,7 +144,7 @@
             <br/>
             You may want to activate the OsiriX server mode option, but since version 1.2.2 of this plugin DICOM listener errors are intercepted by the plugin and redirected to Growl (long DICOM transfers could block OsiriX on a <i>DICOM Listener Error</i> modal alert dialog).
 
-             <h2>Customization</h2>
+             <!--<h2>Customization</h2>
              
             <ul>
                 <li>
@@ -141,7 +153,7 @@
 <pre>&lt;key&gt;DicomDirectoryName&lt;/key&gt;
 &lt;string&gt;IMAGES&lt;/string&gt;</pre>
 					Warning: if you include Weasis on the disc, beware that Weasis only scans for DICOM files in directories named dicom, DICOM, images and IMAGES.
-				</li>
+				</li>--->
                 <!--li>
                     <b>Disc cover merge fields</b><br/><br/>
                     The plugin allows you to provide a template for the disc's label. The template editing application, bundled in the plugin, supports the usage of text fields where the content of the fields is filled when the template is used for printing.<br/>
@@ -225,10 +237,13 @@
 
             <div>Some users have contacted us, saying that the plugin was unstable and crashed a lot. We have determined that the installation of this plugin through the OsiriX Plugins Manager is currently unstable, and we strongly advise users to perform a manual re-installation of the plugin: <ul>
             	<li>Quit OsiriX</li>
-            	<li>Manually download the plugin (do not try to use the plugin manager) from the following URL: <a href="http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip">http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip</a></li>
-            	<li>Unzip the file and place DiscPublishing.osirixplugin in /Library/Application\ Support/OsiriX/Plugins or ~/Library/Application Support/OsiriX/Plugins</li>
-            	<li>Launch OsiriX</li>
+            	<li>Manually download the plugin (warning: plugin manager installs have been found to be origin of problems) from the following URL: <a href="http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip">http://osirixplugins.svn.sourceforge.net/viewvc/osirixplugins/DiscPublishing/html/DiscPublishing.osirixplugin.zip</a></li>
+            	<li>Unzip the file and place DiscPublishing.osirixplugin in <i>/Library/Application Support/OsiriX/Plugins</i> or <i>~/Library/Application Support/OsiriX/Plugins</i></li>
+            	<li>Launch OsiriX and head over to the Disc Publishing Preferences</li>
             </ul></div>
+            
+                        <div>Generally, it is good to keep a recent version of PTPublisher around to solve mysterious robot problems. Always quit OsiriX before launching PTPublisher, and vice versa.</div>
+
 
 		 	<h2>Version history</h2>
 		 	
