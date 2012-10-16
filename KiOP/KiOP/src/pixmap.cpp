@@ -35,3 +35,5 @@ void Pixmap::load(const QPixmap &pix){
 int Pixmap::getWidth(){
 	return this->p.width();
 }
+
+

@@ -19,6 +19,7 @@
 
 class ToolDock : public QGraphicsWidget
 {
+	//Q_OBJECT
 
 public:
 	explicit ToolDock(int nItems, QGraphicsItem *parent = 0);
@@ -48,7 +49,7 @@ private:
 protected:
 	int itemSize;
 	int itemSizeActive;
-	//float itemSizeF;
+	float itemSizeF;
 	float itemSizeAlpha;
 	float itemIdlePt;
 	float itemActivePt;

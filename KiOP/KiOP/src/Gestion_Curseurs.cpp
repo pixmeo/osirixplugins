@@ -70,7 +70,7 @@ void ChangeCursor(unsigned short val)
 		switch (val)
 		{
 		case 0 : 
-			hCurTemp = CopyCursor(hCurWhite);
+			hCurTemp = CopyCursor(hCurWindows);
 			break;
 		case 1 : 
 			hCurTemp = CopyCursor(hCurHaloRed);

@@ -332,13 +332,17 @@ void handleState()
 		if (g_depthIntervalOK)
 		{
 			ChangeState(g_stateBackup);
-			gp_window->setWindowOpacity(qreal(1.0));
+
+			mainTools.setToolsBackgroundTransparent();
+			layoutTools.setToolsBackgroundTransparent();
 		}
 		else
 		{
-			gp_window->setWindowOpacity(qreal(0.4));
-			gp_windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
 			gp_windowActiveTool->setWindowOpacity(0.7);
+			gp_windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+
+			mainTools.setToolsBackgroundRed();
+			layoutTools.setToolsBackgroundRed();
 		}
 
 		break; // case 0
@@ -346,12 +350,21 @@ void handleState()
 	// Coucou effectué, passage par sessionStart, calibrage de la main (200ms)
 	case 1 :
 
-		if (g_hP.Steady2())
+		if (g_depthIntervalOK)
+		{
+			gp_window->setBackgroundBrush(Qt::NoBrush);
+		}
+		else
+		{
+			gp_window->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
+		}
+
+		if (g_hP.Steady2() && g_depthIntervalOK)
 		{
 			ChangeState(2);
 
 			gp_window->setWindowOpacity(qreal(1.0));
-			g_pix[g_totalTools]->setOpacity(0.4);
+			g_pix[CROSS]->setOpacity(0.4);
 		}
 		break; // case 1
 
@@ -416,6 +429,12 @@ void handleState()
 				ChangeState(4);
 				g_currentLayoutTool = 0;
 				g_lastLayoutTool = 6;
+
+				gp_window->hide();
+				gp_windowActiveTool->hide();
+				gp_viewLayouts->show();
+
+				layoutTools.setToolsBackgroundTransparent(); // Ne pas enlever
 			}
 
 			// Si l'outil souris a été selectionné
@@ -504,10 +523,6 @@ void handleState()
 
 	// Outil layout selectionné
 	case 4 :
-
-		gp_window->hide();
-		gp_windowActiveTool->hide();
-		gp_viewLayouts->show();
 
 		chooseTool(g_currentLayoutTool, g_lastLayoutTool, g_totalLayoutTools);
 		browse(g_currentLayoutTool,g_lastLayoutTool, layoutTools);
@@ -627,49 +642,11 @@ void glutKeyboard (unsigned char key, int x, int y)
 	switch (key)
 	{
 
-	// Exit
-	case 27 :
+	case 27 : // Esc
 		#ifdef _OS_WIN_
 			ChangeCursor(0);
 		#endif
 		CleanupExit();
-		break;
-
-	case 'i' :
-		g_hP.IncrementSmooth(1,1,1);
-		//g_hP.Smooth().Print();
-		//g_hP.HandPt().Print();
-		IcrWithLimits(test,3,0,10);
-		cout << "-- test : " << test << endl;
-		break;
-
-	case 'o' :
-		g_hP.IncrementSmooth(-1,-1,-1);
-		//g_hP.Smooth().Print();
-		IcrWithLimits(test,-3,0,10);
-		cout << "-- test : " << test << endl;
-		break;
-
-	case 's' :
-		// Toggle smoothing
-		if (g_fSmoothing == 0)
-			g_fSmoothing = 0.1;
-		else 
-			g_fSmoothing = 0;
-		g_myHandsGenerator.SetSmoothing(g_fSmoothing);
-		break;
-
-	case 'a' :
-		//show some data for debugging purposes
-		cout << "x= " << g_hP.HandPt().X() << " ; y= " << g_hP.HandPt().Y() << " ; z= " << g_hP.HandPt().Z() << " ;   " << g_fSmoothing << " ;   " << g_currentState << endl;
-		break;
-
-	case 'y' :
-		//show tools position
-		for (int i=0; i<=g_totalTools; i++)
-		{
-			cout << "tool" << i << " : " << g_positionTool[i] << endl;
-		}
 		break;
 
 	case 'e' :
@@ -677,30 +654,71 @@ void glutKeyboard (unsigned char key, int x, int y)
 		gp_sessionManager->EndSession();
 		break;
 
-	case 'q' :
-		g_pix[0]->setScale(0.9);
-		mainTools.setItemActive(0);
-		break;
-	case 'w' :
-		g_pix[1]->setScale(0.9);
-		break;
-	//case 't' :
-	//	g_methodeMainFermeeSwitch = !g_methodeMainFermeeSwitch;
-	//	cout << "-- Switch Methode main fermee (" << (g_methodeMainFermeeSwitch?2:1) << ")" << endl;
+	//////////////////////////////////////
+
+	//case 'i' :
+	//	g_hP.IncrementSmooth(1,1,1);
+	//	//g_hP.Smooth().Print();
+	//	//g_hP.HandPt().Print();
+	//	IcrWithLimits(test,3,0,10);
+	//	cout << "-- test : " << test << endl;
 	//	break;
 
-	case '1' :
-		RepositionnementFenetre(1);
-		break;
-	case '2' :
-		RepositionnementFenetre(2);
-		break;
-	case '3' :
-		RepositionnementFenetre(3);
-		break;
-	case '4' :
-		RepositionnementFenetre(4);
-		break;
+	//case 'o' :
+	//	g_hP.IncrementSmooth(-1,-1,-1);
+	//	//g_hP.Smooth().Print();
+	//	IcrWithLimits(test,-3,0,10);
+	//	cout << "-- test : " << test << endl;
+	//	break;
+
+	//case 's' :
+	//	// Toggle smoothing
+	//	if (g_fSmoothing == 0)
+	//		g_fSmoothing = 0.1;
+	//	else 
+	//		g_fSmoothing = 0;
+	//	g_myHandsGenerator.SetSmoothing(g_fSmoothing);
+	//	break;
+
+	//case 'a' :
+	//	//show some data for debugging purposes
+	//	cout << "x= " << g_hP.HandPt().X() << " ; y= " << g_hP.HandPt().Y() << " ; z= " << g_hP.HandPt().Z() << " ;   " << g_fSmoothing << " ;   " << g_currentState << endl;
+	//	break;
+
+	//case 'y' :
+	//	//show tools position
+	//	for (int i=0; i<=g_totalTools; i++)
+	//	{
+	//		cout << "tool" << i << " : " << g_positionTool[i] << endl;
+	//	}
+	//	break;
+
+
+
+	//case 'q' :
+	//	g_pix[0]->setScale(0.9);
+	//	mainTools.setItemActive(0);
+	//	break;
+	//case 'w' :
+	//	g_pix[1]->setScale(0.9);
+	//	break;
+	////case 't' :
+	////	g_methodeMainFermeeSwitch = !g_methodeMainFermeeSwitch;
+	////	cout << "-- Switch Methode main fermee (" << (g_methodeMainFermeeSwitch?2:1) << ")" << endl;
+	////	break;
+
+	//case '1' :
+	//	RepositionnementFenetre(1);
+	//	break;
+	//case '2' :
+	//	RepositionnementFenetre(2);
+	//	break;
+	//case '3' :
+	//	RepositionnementFenetre(3);
+	//	break;
+	//case '4' :
+	//	RepositionnementFenetre(4);
+	//	break;
 	}
 }
 
@@ -856,7 +874,7 @@ void initGL(int argc, char *argv[])
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(INIT_WIDTH_WINDOW, INIT_HEIGHT_WINDOW);
 
-	// Fenêtre de données source
+#if defined _OS_WIN_
 	string titre = TITLE;
 	titre += " | ";
 	titre += __DATE__;
@@ -866,7 +884,14 @@ void initGL(int argc, char *argv[])
 	const char *windowName;
 	windowName = titre.c_str();
 
+	// Fenêtre de données source
 	glutCreateWindow(windowName);
+#endif
+#if defined _OS_MAC_
+	// Fenêtre de données source
+	glutCreateWindow(TITLE);
+#endif
+
 	RepositionnementFenetre(INIT_POS_WINDOW);
 	glutKeyboardFunc(glutKeyboard);
 	glutDisplayFunc(glutDisplay);
@@ -1137,9 +1162,6 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	gp_windowActiveTool->hide();
 
 	SteadyAllEnable();
-	//Steady2Enable();
-	//Steady10Enable();
-	//Steady20Enable();
 
 	g_hCD.ResetCompteurFrame();
 
@@ -1180,9 +1202,6 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	gp_windowActiveTool->hide();
 	
 	SteadyAllDisable();
-	//Steady2Disable();
-	//Steady10Disable();
-	//Steady20Disable();
 
 	XnPoint3D ptTemp;
 	ptTemp.X = g_hP.HandPt().X();

@@ -33,6 +33,8 @@ SteadyClass::SteadyClass(void)
 void SteadyClass::SteadyCheck(const Point3D& handPt, const Point3D& lastHandPt)
 {
 	Point3D seuil(2,2,2,"seuil");
+	if (handPt.Z() > 2000)
+		seuil*=2;
 
 	Point3D lim1(lastHandPt-seuil/2,"lim1");
 	Point3D lim2(lastHandPt+seuil/2,"lim2");

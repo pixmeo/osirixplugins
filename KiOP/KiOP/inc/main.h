@@ -79,7 +79,7 @@ using namespace cv;
 
 #if 1
 	#define DISTANCE_MIN 800
-	#define DISTANCE_MAX 2000
+	#define DISTANCE_MAX 2500
 #else
 	#define DISTANCE_MIN 1200
 	#define DISTANCE_MAX 1600
