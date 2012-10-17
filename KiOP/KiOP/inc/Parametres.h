@@ -29,25 +29,34 @@ using namespace std;
 //==========================================================================//
 //============================== CONSTANTES ================================//
 
-#ifdef _OS_WIN_
-#	define SCRSZW (SCRSZWidth())
-#	define SCRSZH (SCRSZHeight())
-#endif
-#ifdef _OS_MAC_
-#	define SCRSZW (SCRSZWidth())
-#	define SCRSZH (SCRSZHeight())
+#if defined _OS_WIN_
+  #define SCRSZW (SCRSZWidth())
+  #define SCRSZH (SCRSZHeight())
+#elif defined _OS_MAC_
+  #define SCRSZW (SCRSZWidth())
+  #define SCRSZH (SCRSZHeight())
 #endif
 
-#define RESETALL		0
-#define LAYOUT			1
-#define MOVE			2
-#define CONTRAST		3
-#define ZOOM			4
-#define SCROLL			5
-#define MOUSE			6
-#define CROSS			7
+#if defined _OS_WIN_
+  #define RESETALL		0
+  #define LAYOUT			1
+  #define MOVE			2
+  #define CONTRAST		3
+  #define ZOOM			4
+  #define SCROLL			5
+  #define MOUSE			6
+  #define CROSS			7
+#elif defined _OS_MAC_
+  #define MOVE			0
+  #define CONTRAST		1
+  #define ZOOM			2
+  #define SCROLL			3
+  #define MOUSE			4
+  #define CROSS			5
+#endif
 
-const int TOOL_LIST[8] = {RESETALL, LAYOUT, MOVE, CONTRAST, ZOOM, SCROLL, MOUSE, CROSS};
+
+//const int TOOL_LIST[8] = {RESETALL, LAYOUT, MOVE, CONTRAST, ZOOM, SCROLL, MOUSE, CROSS};
 
 
 //==========================================================================//

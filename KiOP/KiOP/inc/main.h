@@ -154,12 +154,13 @@ bool ConditionExitTool();
 bool ConditionLeftClicPress();
 bool ConditionLeftClicRelease();
 
+ToolDock& UploadMainTools(ToolDock &mainTools, bool write);
+  
 void ChangeState(int newState);
 void handleState();
 
 void glutKeyboard (unsigned char key, int x, int y);
 void glutDisplay();
-void UpdateHandClosed(void);
 void initGL(int argc, char *argv[]);
 
 void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt);

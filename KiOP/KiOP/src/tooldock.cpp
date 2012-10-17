@@ -152,3 +152,30 @@ void ToolDock::setToolsBackgroundRed(void)
 	window->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
 	window->setWindowOpacity(qreal(0.7));
 }
+
+
+
+
+
+//ToolDock& ToolDock::operator=(const ToolDock &pt)
+//{
+//
+//	return *this;
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

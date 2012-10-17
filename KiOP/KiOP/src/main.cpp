@@ -19,8 +19,13 @@ int g_moveCounter = 0;
 int g_currentTool = 3;
 int g_lastTool = 3;
 int g_toolToChoose = -1;
-int g_totalTools = 7; // +1
-int g_positionTool[7]; //position des outils dans le menu
+
+#if defined _OS_WIN_
+int g_totalTools = 7;
+#elif defined _OS_MAC_
+int g_totalTools = 5;
+#endif
+//int g_positionTool[7]; //position des outils dans le menu
 
 // Layout
 int g_totalLayoutTools = 6; //+1
@@ -35,17 +40,6 @@ xn::DepthGenerator g_dpGen;
 xn::DepthMetaData g_dpMD;
 xn::HandsGenerator g_myHandsGenerator;
 XnStatus g_status;
-
-// Paramètre de profondeur de la main
-//float g_handDepthLimit;
-//float g_handDepthThreshold = 50.0;
-
-bool g_handClosed = false;
-bool g_handStateChanged = false;
-bool g_handFlancMont = false;
-bool g_handFlancDesc = false;
-bool g_handClic = false;
-bool g_lastHandClosed = false;
 
 bool g_toolSelectable = false;
 bool g_methodeMainFermeeSwitch = false;
@@ -74,10 +68,13 @@ vector<Pixmap*> g_pixL; //for layouts
 Pixmap* gp_pixActive; //for activeTool
 QColor g_toolColorActive = Qt::green;
 QColor g_toolColorInactive = Qt::gray;
+
+#if defined _OS_WIN_
 ToolDock mainTools(g_totalTools+1);
 ToolDock layoutTools(g_totalLayoutTools+1);
-int pixSize = mainTools.getItemSize();
-int pixSizeActive = mainTools.getItemSizeActive();
+#endif
+int g_pixSize = 0;
+int g_pixSizeActive = 0;
 
 #ifdef _OS_WIN_
 	TelnetClient g_telnet;
@@ -297,6 +294,18 @@ bool ConditionLeftClicRelease()
 }
 
 
+ToolDock& UploadMainTools(ToolDock &mainTools, bool write)
+{
+  static ToolDock *s_mainTools = new ToolDock(NULL);
+  
+  if (write)
+    s_mainTools = &mainTools;
+  
+  return *s_mainTools;
+}
+
+
+
 void ChangeState(int newState)
 {
 	if (newState != g_currentState)
@@ -313,6 +322,11 @@ void handleState()
 {
 #ifdef _OS_MAC_
 	static TelnetClient g_telnet;
+  
+  ToolDock temp(NULL);  
+  ToolDock *mainTools = new ToolDock(NULL);
+  mainTools = &UploadMainTools(temp,false);
+  
 #endif
 
 	CheckHandDown();
@@ -331,18 +345,22 @@ void handleState()
 		
 		if (g_depthIntervalOK)
 		{
-			ChangeState(g_stateBackup);
-
-			mainTools.setToolsBackgroundTransparent();
+			ChangeState(g_stateBackup);      
+      
+			mainTools->setToolsBackgroundTransparent();
+#ifdef _OS_WIN_
 			layoutTools.setToolsBackgroundTransparent();
+#endif
 		}
 		else
 		{
 			gp_windowActiveTool->setWindowOpacity(0.7);
 			gp_windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
 
-			mainTools.setToolsBackgroundRed();
+			mainTools->setToolsBackgroundRed();
+#ifdef _OS_WIN_
 			layoutTools.setToolsBackgroundRed();
+#endif
 		}
 
 		break; // case 0
@@ -372,7 +390,7 @@ void handleState()
 	case 2 :
 
 		chooseTool(g_currentTool, g_lastTool, g_totalTools);
-		browse(g_currentTool, g_lastTool, mainTools);
+		browse(g_currentTool, g_lastTool, *mainTools);
 
 		g_handDepthAtToolSelection = 0;
 
@@ -381,6 +399,7 @@ void handleState()
 			g_telnet.connexion();
 			switch(g_currentTool)
 			{
+#ifdef _OS_WIN_
 			case RESETALL:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:reset all\r\n"));
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction resetall\r\n"));
@@ -388,6 +407,7 @@ void handleState()
 			case LAYOUT:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction layoutTool\r\n"));
 				break;
+#endif
 			case MOVE:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction pan\r\n"));
 				break;
@@ -420,21 +440,7 @@ void handleState()
 				gp_window->hide();
 				gp_windowActiveTool->show();
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
-				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(pixSizeActive,pixSizeActive));
-			}
-			
-			// Si l'outil layout a été selectionné
-			else if (g_currentTool == LAYOUT)
-			{
-				ChangeState(4);
-				g_currentLayoutTool = 0;
-				g_lastLayoutTool = 6;
-
-				gp_window->hide();
-				gp_windowActiveTool->hide();
-				gp_viewLayouts->show();
-
-				layoutTools.setToolsBackgroundTransparent(); // Ne pas enlever
+				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(g_pixSizeActive,g_pixSizeActive));
 			}
 
 			// Si l'outil souris a été selectionné
@@ -447,7 +453,7 @@ void handleState()
 
 				gp_window->hide();
 				gp_windowActiveTool->show();
-				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(pixSizeActive,pixSizeActive));
+				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(g_pixSizeActive,g_pixSizeActive));
 			}
 
 			// Si la croix a été selectionnée
@@ -457,11 +463,27 @@ void handleState()
 				gp_sessionManager->EndSession();
 			}
 
+#ifdef _OS_WIN_
 			// Si le bouton ResetAll a été selectionné
 			else if (g_currentTool == RESETALL)
 			{
 				ChangeState(9);
 			}
+      
+			// Si l'outil layout a été selectionné
+			else if (g_currentTool == LAYOUT)
+			{
+				ChangeState(4);
+				g_currentLayoutTool = 0;
+				g_lastLayoutTool = 6;
+        
+				gp_window->hide();
+				gp_windowActiveTool->hide();
+				gp_viewLayouts->show();
+        
+				layoutTools.setToolsBackgroundTransparent(); // Ne pas enlever
+			}
+#endif    
 		}
 
 		break; // case 2
@@ -521,6 +543,7 @@ void handleState()
 
 		break; // case 3
 
+#ifdef _OS_WIN_
 	// Outil layout selectionné
 	case 4 :
 
@@ -556,7 +579,8 @@ void handleState()
 		}
 
 		break; // case 4
-
+#endif
+      
 	// Outil souris selectionné
 	case 5 :
 
@@ -576,7 +600,7 @@ void handleState()
 					{
 						g_hP.SignalResetSteadies();
 						g_cursorQt.PressLeftClic();
-						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(pixSizeActive,pixSizeActive));
+						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(g_pixSizeActive,g_pixSizeActive));
 					}
 				}
 				if (ConditionLeftClicRelease())
@@ -585,7 +609,7 @@ void handleState()
 					{
 						g_hP.SignalResetSteadies();
 						g_cursorQt.ReleaseLeftClic();
-						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(pixSizeActive,pixSizeActive));
+						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(g_pixSizeActive,g_pixSizeActive));
 					}
 				}
 			}
@@ -623,7 +647,7 @@ void handleState()
 		g_lastTool = g_currentTool;
 		g_currentTool = g_totalTools;
 
-		browse(g_currentTool,g_lastTool,mainTools);
+		browse(g_currentTool,g_lastTool,*mainTools);
 
 		gp_window->show();
 		gp_viewLayouts->hide();
@@ -656,69 +680,70 @@ void glutKeyboard (unsigned char key, int x, int y)
 
 	//////////////////////////////////////
 
-	//case 'i' :
-	//	g_hP.IncrementSmooth(1,1,1);
-	//	//g_hP.Smooth().Print();
-	//	//g_hP.HandPt().Print();
-	//	IcrWithLimits(test,3,0,10);
-	//	cout << "-- test : " << test << endl;
+#if 0
+	case 'i' :
+		g_hP.IncrementSmooth(1,1,1);
+		//g_hP.Smooth().Print();
+		//g_hP.HandPt().Print();
+		IcrWithLimits(test,3,0,10);
+		cout << "-- test : " << test << endl;
+		break;
+
+	case 'o' :
+		g_hP.IncrementSmooth(-1,-1,-1);
+		//g_hP.Smooth().Print();
+		IcrWithLimits(test,-3,0,10);
+		cout << "-- test : " << test << endl;
+		break;
+
+	case 's' :
+		// Toggle smoothing
+		if (g_fSmoothing == 0)
+			g_fSmoothing = 0.1;
+		else
+			g_fSmoothing = 0;
+		g_myHandsGenerator.SetSmoothing(g_fSmoothing);
+		break;
+
+	case 'a' :
+		//show some data for debugging purposes
+		cout << "x= " << g_hP.HandPt().X() << " ; y= " << g_hP.HandPt().Y() << " ; z= " << g_hP.HandPt().Z() << " ;   " << g_fSmoothing << " ;   " << g_currentState << endl;
+		break;
+
+	case 'y' :
+		//show tools position
+		for (int i=0; i<=g_totalTools; i++)
+		{
+			cout << "tool" << i << " : " << g_positionTool[i] << endl;
+		}
+		break;
+
+	case 'q' :
+		g_pix[0]->setScale(0.9);
+		mainTools.setItemActive(0);
+		break;
+	case 'w' :
+		g_pix[1]->setScale(0.9);
+		break;
+	//case 't' :
+	//	g_methodeMainFermeeSwitch = !g_methodeMainFermeeSwitch;
+	//	cout << "-- Switch Methode main fermee (" << (g_methodeMainFermeeSwitch?2:1) << ")" << endl;
 	//	break;
 
-	//case 'o' :
-	//	g_hP.IncrementSmooth(-1,-1,-1);
-	//	//g_hP.Smooth().Print();
-	//	IcrWithLimits(test,-3,0,10);
-	//	cout << "-- test : " << test << endl;
-	//	break;
-
-	//case 's' :
-	//	// Toggle smoothing
-	//	if (g_fSmoothing == 0)
-	//		g_fSmoothing = 0.1;
-	//	else 
-	//		g_fSmoothing = 0;
-	//	g_myHandsGenerator.SetSmoothing(g_fSmoothing);
-	//	break;
-
-	//case 'a' :
-	//	//show some data for debugging purposes
-	//	cout << "x= " << g_hP.HandPt().X() << " ; y= " << g_hP.HandPt().Y() << " ; z= " << g_hP.HandPt().Z() << " ;   " << g_fSmoothing << " ;   " << g_currentState << endl;
-	//	break;
-
-	//case 'y' :
-	//	//show tools position
-	//	for (int i=0; i<=g_totalTools; i++)
-	//	{
-	//		cout << "tool" << i << " : " << g_positionTool[i] << endl;
-	//	}
-	//	break;
-
-
-
-	//case 'q' :
-	//	g_pix[0]->setScale(0.9);
-	//	mainTools.setItemActive(0);
-	//	break;
-	//case 'w' :
-	//	g_pix[1]->setScale(0.9);
-	//	break;
-	////case 't' :
-	////	g_methodeMainFermeeSwitch = !g_methodeMainFermeeSwitch;
-	////	cout << "-- Switch Methode main fermee (" << (g_methodeMainFermeeSwitch?2:1) << ")" << endl;
-	////	break;
-
-	//case '1' :
-	//	RepositionnementFenetre(1);
-	//	break;
-	//case '2' :
-	//	RepositionnementFenetre(2);
-	//	break;
-	//case '3' :
-	//	RepositionnementFenetre(3);
-	//	break;
-	//case '4' :
-	//	RepositionnementFenetre(4);
-	//	break;
+	case '1' :
+		RepositionnementFenetre(1);
+		break;
+	case '2' :
+		RepositionnementFenetre(2);
+		break;
+	case '3' :
+		RepositionnementFenetre(3);
+		break;
+	case '4' :
+		RepositionnementFenetre(4);
+		break;
+#endif
+      
 	}
 }
 
@@ -775,10 +800,6 @@ void glutDisplay()
 		}
 		glEnd();	// End drawing sequence
 
-		// Mise à jour de la detection de la main fermee
-		//if	( g_activeSession && (isHandPointNull() == false))
-		//	UpdateHandClosed();
-
 		if	( g_activeSession && (isHandPointNull() == false))
 		{
 			int size = 5;						// Size of the box
@@ -829,42 +850,8 @@ void glutDisplay()
 	}
 	glutSwapBuffers();
 
-	// Si la main change d'état, on envoie un signal pour réinitialiser les steadys
-	// !! Doit être placé juste avant l'appel de handleState() !!
-	if (g_handStateChanged)
-		g_hP.SignalResetSteadies();
-
 	// Gestion des états
 	handleState();
-}
-
-
-void UpdateHandClosed(void)
-{
-	if (g_toolSelectable)
-	{
-		g_hCD.Update((g_methodeMainFermeeSwitch?2:1),g_dpMD,g_hP.HandPtBrut());
-		g_handStateChanged = g_hCD.HandClosedStateChanged();
-		g_handFlancMont = g_hCD.HandClosedFlancMont();
-		g_handFlancDesc = g_hCD.HandClosedFlancDesc();
-		g_lastHandClosed = g_handClosed;
-		g_handClosed = g_hCD.HandClosed();
-		g_handClic = g_hCD.HandClosedClic(19); //9
-
-		//// Controle de detection de la main fermee //
-		//if (g_handStateChanged)
-		//	cout << endl << "---- Chgmt d'etat de la main!" << endl;
-		//if (g_handFlancMont)
-		//	cout << endl << "---- Fermeture de la main!" << endl;
-		//if (g_handFlancDesc)
-		//	cout << endl << "---- Ouverture de la main!" << endl;
-		//if (g_handClosed)
-		//	cout << endl << "---- Main Fermee!" << endl;
-		//else
-		//	cout << endl << "---- Main Ouverte!" << endl;
-		//if (g_handClic)
-		//	cout << endl << "---- Clic de la main!" << endl;
-	}
 }
 
 
@@ -978,26 +965,34 @@ int main(int argc, char *argv[])
 	int qargc = 0;
 	char **qargv = NULL;
 	QApplication app(qargc,qargv);
+  
+  ToolDock mainTools(g_totalTools+1);
+  UploadMainTools(mainTools,true);
 #endif
 
-	g_cursorQt = CursorQt(1);
+  g_pixSize = mainTools.getItemSize();
+  g_pixSizeActive = mainTools.getItemSizeActive();
+	
+  g_cursorQt = CursorQt(1);
 	gp_window = new GraphicsView(NULL);
 	gp_windowActiveTool = new GraphicsView(NULL);
-	gp_sceneActiveTool = new QGraphicsScene(0,0,pixSizeActive,pixSizeActive);
+	gp_sceneActiveTool = new QGraphicsScene(0,0,g_pixSizeActive,g_pixSizeActive);
 	gp_viewLayouts = new GraphicsView(NULL);
 	gp_pixActive = new Pixmap(QPixmap()); //for activeTool
 	//mainTools.init(g_totalTools+1);
 	//layoutTools.init(g_totalLayoutTools+1);
-
-
-
+  
+  
+  
 	//================== QT ===================//
 
 	// Initialisation des ressources et création de la fenêtre avec les icônes
 	Q_INIT_RESOURCE(images);
 	
+#ifdef _OS_WIN_
 	mainTools.addItem("reset", ":/images/reset.png");
 	mainTools.addItem("layout", ":/images/layout.png");
+#endif
 	mainTools.addItem("move", ":/images/move.png");
 	mainTools.addItem("contrast", ":/images/contrast.png");
 	mainTools.addItem("zoom", ":/images/zoom.png");
@@ -1009,59 +1004,13 @@ int main(int argc, char *argv[])
 	gp_window = mainTools.getWindow();
 	g_pix = mainTools.getItems();
 
-	/*Pixmap *p1 = new Pixmap(QPixmap(":/images/layout.png").scaled(64,64));
-	Pixmap *p2 = new Pixmap(QPixmap(":/images/move.png").scaled(64,64));
-	Pixmap *p3 = new Pixmap(QPixmap(":/images/contrast.png").scaled(64,64));
-	Pixmap *p4 = new Pixmap(QPixmap(":/images/zoom.png").scaled(64,64));
-	Pixmap *p5 = new Pixmap(QPixmap(":/images/scroll.png").scaled(64,64));
-	Pixmap *p6 = new Pixmap(QPixmap(":/images/mouse.png").scaled(64,64));
-	Pixmap *p7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
-
-	p1->setObjectName("layout");
-	p2->setObjectName("move");
-	p3->setObjectName("contrast");
-	p4->setObjectName("zoom");
-	p5->setObjectName("scroll");
-	p6->setObjectName("mouse");
-	p7->setObjectName("stop");
-
-	p1->setGeometry(QRectF(  0.0, g_iconIdlePt, 64.0, 64.0));
-	p2->setGeometry(QRectF(128.0, g_iconIdlePt, 64.0, 64.0));
-	p3->setGeometry(QRectF(256.0, g_iconIdlePt, 64.0, 64.0));
-	p4->setGeometry(QRectF(384.0, g_iconIdlePt, 64.0, 64.0));
-	p5->setGeometry(QRectF(512.0, g_iconIdlePt, 64.0, 64.0));
-	p6->setGeometry(QRectF(640.0, g_iconIdlePt, 64.0, 64.0));
-	p7->setGeometry(QRectF(768.0, g_iconIdlePt, 64.0, 64.0));
-
-	g_pix.push_back(p1);
-	g_pix.push_back(p2);
-	g_pix.push_back(p3);
-	g_pix.push_back(p4);
-	g_pix.push_back(p5);
-	g_pix.push_back(p6);
-	g_pix.push_back(p7);*/
-
-	//gp_window->setSize(1024,288);
-	//gp_window->setSize(896,256);
-	//
-	////gp_window->setSize(548,gp_window->getResY()-100);
-	//QGraphicsScene *scene = new QGraphicsScene(0,0,896,256);
-	////QGraphicsScene *scene = new QGraphicsScene(0,(-gp_window->getResY())+488,548,gp_window->getResY()-100);
-	//scene->addItem(p1);
-	//scene->addItem(p2);
-	//scene->addItem(p3);
-	//scene->addItem(p4);
-	//scene->addItem(p5);
-	//scene->addItem(p6);
-	//scene->addItem(p7);
-	//gp_window->setScene(scene);
-
 	gp_sceneActiveTool->addItem(gp_pixActive);
 	//gp_windowActiveTool->setSize(126,126);
 	gp_windowActiveTool->setScene(gp_sceneActiveTool);
-	gp_windowActiveTool->setGeometry(gp_window->getResX()-pixSizeActive,gp_window->getResY()-pixSizeActive-40,pixSizeActive,pixSizeActive);
+	gp_windowActiveTool->setGeometry(gp_window->getResX()-g_pixSizeActive,gp_window->getResY()-g_pixSizeActive-40,g_pixSizeActive,g_pixSizeActive);
 
 
+#ifdef _OS_WIN_
 	////////////// LAYOUT
 	layoutTools.addItem("1x1", ":/images/layouts/_1x1.png");
 	layoutTools.addItem("1x2", ":/images/layouts/_1x2.png");
@@ -1074,60 +1023,8 @@ int main(int argc, char *argv[])
 	layoutTools.createView();
 	gp_viewLayouts = layoutTools.getWindow();////////////////////////////////////////////////////////////////////
 	g_pixL = layoutTools.getItems();
-
-	/*Pixmap *l1 = new Pixmap(QPixmap(":/images/layouts/_1x1.png").scaled(64,64));
-	Pixmap *l2 = new Pixmap(QPixmap(":/images/layouts/_1x2.png").scaled(64,64));
-	Pixmap *l3 = new Pixmap(QPixmap(":/images/layouts/_2x1.png").scaled(64,64));
-	Pixmap *l4 = new Pixmap(QPixmap(":/images/layouts/_3a.png").scaled(64,64));
-	Pixmap *l5 = new Pixmap(QPixmap(":/images/layouts/_3b.png").scaled(64,64));
-	Pixmap *l6 = new Pixmap(QPixmap(":/images/layouts/_2x2.png").scaled(64,64));
-	Pixmap *l7 = new Pixmap(QPixmap(":/images/stop.png").scaled(64,64));
-
-	l1->setObjectName("1x1");
-	l2->setObjectName("1x2");
-	l3->setObjectName("2x1");
-	l4->setObjectName("3a");
-	l5->setObjectName("3b");
-	l6->setObjectName("2x2");
-	l7->setObjectName("stop");
-	
-	l1->setGeometry(QRectF(  0.0, g_iconIdlePt, 64.0, 64.0));
-	l2->setGeometry(QRectF(128.0, g_iconIdlePt, 64.0, 64.0));
-	l3->setGeometry(QRectF(256.0, g_iconIdlePt, 64.0, 64.0));
-	l4->setGeometry(QRectF(384.0, g_iconIdlePt, 64.0, 64.0));
-	l5->setGeometry(QRectF(512.0, g_iconIdlePt, 64.0, 64.0));
-	l6->setGeometry(QRectF(640.0, g_iconIdlePt, 64.0, 64.0));
-	l7->setGeometry(QRectF(768.0, g_iconIdlePt, 64.0, 64.0));
-
-	g_pixL.push_back(l1);
-	g_pixL.push_back(l2);
-	g_pixL.push_back(l3);
-	g_pixL.push_back(l4);
-	g_pixL.push_back(l5);
-	g_pixL.push_back(l6);
-	g_pixL.push_back(l7);
-
-	gp_viewLayouts->setSize(896,256);
-	QGraphicsScene *sceneLayout = new QGraphicsScene(0,0,896,256);
-	sceneLayout->addItem(l1);
-	sceneLayout->addItem(l2);
-	sceneLayout->addItem(l3);
-	sceneLayout->addItem(l4);
-	sceneLayout->addItem(l5);
-	sceneLayout->addItem(l6);
-	sceneLayout->addItem(l7);
-	gp_viewLayouts->setScene(sceneLayout);*/
-
-	//gp_viewLayouts->show();
-
-	
-	/*for(int i=0; i<=g_totalTools; i++){
-		QString chemin = ":/images/Resources/_"+g_pix.operator[](i)->objectName()+".png";
-		//printf("\n"+chemin.toAscii()+"\n");
-		int posi = g_positionTool[i];
-		g_pix.operator[](i)->setGeometry(QRectF( posi*60.0, posi*(-10.0), 128.0, 128.0));
-		g_pix.operator[](i)->load(QPixmap(chemin).scaled(78+(posi*(10)),78+(posi*(10))));
-	}*/
+#endif
+  
 
 	// Boucle principale
 	glutMainLoop();
@@ -1152,10 +1049,11 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	g_currentTool = g_totalTools;
 	g_lastTool = 0;
 
+#ifdef _OS_WIN_
 	for (int i=0; i<g_totalTools; i++)
-		//g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
 		mainTools.setItemIdle(i);
-
+#endif
+  
 	gp_window->show();
 	gp_window->setWindowOpacity(qreal(0.4));
 	gp_viewLayouts->hide();
@@ -1168,9 +1066,12 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 	static int compteurSession = 1;
 	cout << endl << "Debut de la session : " << compteurSession++ 
 		<< "e" << (compteurSession==1?"re":"") << " fois" << endl << endl;
+  
+#if defined _OS_WIN_
 	g_telnet.connexion();
 	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
 	g_telnet.deconnexion();
+#endif
 }
 
 /**********************************************************************************
@@ -1178,9 +1079,12 @@ session end event handler. Session manager calls this when session ends
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 {
+#if defined _OS_WIN_
 	g_telnet.connexion();
 	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
 	g_telnet.deconnexion();
+#endif
+  
 	ChangeState(-1);
 
 	g_activeSession = false;
@@ -1189,14 +1093,14 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	g_currentTool = g_totalTools;
 	g_lastTool = 0;
 
+#ifdef _OS_WIN_
 	// On réduit tous les outils et layouts
 	for (int i=0; i<=g_totalTools; i++)
-		//g_pix.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
 		mainTools.setItemIdle(i);
 	for (int i=0; i<=g_totalLayoutTools; i++)
-		//g_pixL.operator[](i)->setGeometry(QRectF(i*128.0, g_iconIdlePt, 64.0, 64.0));
 		layoutTools.setItemIdle(i);
-
+#endif
+  
 	gp_window->hide();
 	gp_viewLayouts->hide();
 	gp_windowActiveTool->hide();
