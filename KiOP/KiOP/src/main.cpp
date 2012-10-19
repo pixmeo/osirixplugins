@@ -345,11 +345,13 @@ void handleState()
 		
 		if (g_depthIntervalOK)
 		{
-			ChangeState(g_stateBackup);      
-      
-			mainTools->setToolsBackgroundTransparent();
-#ifdef _OS_WIN_
+			ChangeState(g_stateBackup);
+
+#if defined _OS_WIN_
+			mainTools.setToolsBackgroundTransparent();
 			layoutTools.setToolsBackgroundTransparent();
+#elif defined _OS_MAC_
+			mainTools->setToolsBackgroundTransparent();
 #endif
 		}
 		else
@@ -357,9 +359,12 @@ void handleState()
 			gp_windowActiveTool->setWindowOpacity(0.7);
 			gp_windowActiveTool->setBackgroundBrush(QBrush(Qt::red, Qt::SolidPattern));
 
-			mainTools->setToolsBackgroundRed();
-#ifdef _OS_WIN_
+			
+#if defined _OS_WIN_
+			mainTools.setToolsBackgroundRed();
 			layoutTools.setToolsBackgroundRed();
+#elif defined _OS_MAC_
+			mainTools->setToolsBackgroundRed();
 #endif
 		}
 
@@ -390,7 +395,12 @@ void handleState()
 	case 2 :
 
 		chooseTool(g_currentTool, g_lastTool, g_totalTools);
+
+#if defined _OS_WIN_
+		browse(g_currentTool, g_lastTool, mainTools);
+#elif defined _OS_MAC_
 		browse(g_currentTool, g_lastTool, *mainTools);
+#endif
 
 		g_handDepthAtToolSelection = 0;
 
@@ -647,7 +657,11 @@ void handleState()
 		g_lastTool = g_currentTool;
 		g_currentTool = g_totalTools;
 
-		browse(g_currentTool,g_lastTool,*mainTools);
+#if defined _OS_WIN_
+		browse(g_currentTool, g_lastTool, mainTools);
+#elif defined _OS_MAC_
+		browse(g_currentTool, g_lastTool, *mainTools);
+#endif
 
 		gp_window->show();
 		gp_viewLayouts->hide();
@@ -965,15 +979,15 @@ int main(int argc, char *argv[])
 	int qargc = 0;
 	char **qargv = NULL;
 	QApplication app(qargc,qargv);
-  
-  ToolDock mainTools(g_totalTools+1);
-  UploadMainTools(mainTools,true);
+
+	ToolDock mainTools(g_totalTools+1);
+	UploadMainTools(mainTools,true);
 #endif
 
-  g_pixSize = mainTools.getItemSize();
-  g_pixSizeActive = mainTools.getItemSizeActive();
+	g_pixSize = mainTools.getItemSize();
+	g_pixSizeActive = mainTools.getItemSizeActive();
 	
-  g_cursorQt = CursorQt(1);
+	g_cursorQt = CursorQt(1);
 	gp_window = new GraphicsView(NULL);
 	gp_windowActiveTool = new GraphicsView(NULL);
 	gp_sceneActiveTool = new QGraphicsScene(0,0,g_pixSizeActive,g_pixSizeActive);
