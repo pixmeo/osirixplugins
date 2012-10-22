@@ -39,6 +39,8 @@
 @property(readonly) ArthroplastyTemplatingPlugin* plugin;
 @property(readonly) ArthroplastyTemplateViewDirection templateDirection;
 
+@property(assign) IBOutlet NSArrayController* familiesArrayController;
+
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin;
 
 -(BOOL)mustFlipHorizontally:(ArthroplastyTemplate*)t;

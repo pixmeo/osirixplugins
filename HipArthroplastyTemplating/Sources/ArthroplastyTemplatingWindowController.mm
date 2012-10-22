@@ -27,11 +27,12 @@
 
 @synthesize userDefaults = _userDefaults, plugin = _plugin;
 @synthesize templateDirection = _viewDirection;
+@synthesize familiesArrayController = _familiesArrayController;
 
 -(id)initWithPlugin:(ArthroplastyTemplatingPlugin*)plugin {
 	self = [self initWithWindowNibName:@"HipArthroplastyTemplatingWindow"];
 	_plugin = plugin;
-	
+
 	_viewDirection = ArthroplastyTemplateAnteriorPosteriorDirection;
 	
 	_userDefaults = [[ArthroplastyTemplatingUserDefaults alloc] init];
@@ -41,23 +42,23 @@
     [_presets addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:[bundle pathForResource:[bundle bundleIdentifier] ofType:@"plist"]]];
 
 	_templates = [[NSMutableArray arrayWithCapacity:0] retain];
-	_familiesArrayController = [[NSArrayController alloc] init];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performOsirixDragOperation:) name:OsirixPerformDragOperationNotification object:NULL];
+    
+    [self window];
 	
 	return self;
 }
 
 -(void)awakeFromNib {
 	[self awakeColor];
-	[_familiesArrayController setSortDescriptors:[_familiesTableView sortDescriptors]];
+	[_familiesArrayController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pdfViewDocumentDidChange:) name:SelectablePDFViewDocumentDidChangeNotification object:_pdfView];
 	[self awakeTemplates];
 }
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[_familiesArrayController release];
 //	[_families release];
 	[_templates release];
 	[_presets release];
@@ -88,7 +89,7 @@
 
     if (sender == _familiesTableView) { // update sizes menu
 		if ([_familiesTableView numberOfRows]) {
-			[_familiesArrayController setSelectionIndex:[_familiesTableView selectedRow]];
+			//[_familiesArrayController setSelectionIndex:[_familiesTableView selectedRow]];
 			
 			float selectedSize = [[_sizes titleOfSelectedItem] floatValue];
 			[_sizes removeAllItems];
@@ -110,10 +111,10 @@
 			[_pdfView setDocument:NULL];
 	}
 	
-	if ([_familiesTableView selectedRow] < 0)
+	/*if ([_familiesTableView selectedRow] < 0)
 		if ([[_familiesArrayController arrangedObjects] count])
 			[_familiesTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
-		else return;
+		else return;*/
 	
 	NSString* pdfPath = [self pdfPathForFamilyAtIndex:[_familiesTableView selectedRow]];
 	PDFDocument* doc = pdfPath? [[PDFDocument alloc] initWithURL:[NSURL fileURLWithPath:pdfPath]] : NULL;
@@ -472,7 +473,7 @@
 
 #pragma mark NSTableDataSource
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView*)table {
+/*- (NSInteger)numberOfRowsInTableView:(NSTableView*)table {
 	return [[_familiesArrayController arrangedObjects] count];
 }
 
@@ -484,7 +485,7 @@
 	[_familiesArrayController setSortDescriptors:[_familiesTableView sortDescriptors]];
 	[_familiesArrayController rearrangeObjects];
 	[_familiesTableView selectRowIndexes:[_familiesArrayController selectionIndexes] byExtendingSelection:NO];
-}
+}*/
 
 #pragma mark New
 
