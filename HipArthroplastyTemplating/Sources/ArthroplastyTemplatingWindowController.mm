@@ -175,6 +175,52 @@
 	[self setFamily:_familiesTableView];
 }
 
++ (void)flipHorizontallyImage:(NSImage*)image {
+	// bitmap init
+	NSBitmapImageRep* bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
+	// flip
+	vImage_Buffer src, dest;
+	src.height = dest.height = bitmap.pixelsHigh;
+	src.width = dest.width = bitmap.pixelsWide;
+	src.rowBytes = dest.rowBytes = [bitmap bytesPerRow];
+	src.data = dest.data = [bitmap bitmapData];
+	vImageHorizontalReflect_ARGB8888(&src, &dest, 0L);
+	// draw
+	[image lockFocus];
+	[bitmap draw];
+	[image unlockFocus];
+	// release
+	[bitmap release];
+}
+
++ (void)bitmap:(NSBitmapImageRep*)bitmap setColor:(NSColor*)color {
+    NSColorSpace* colorSpace = [bitmap colorSpace];
+    size_t spp = [bitmap samplesPerPixel];
+    NSUInteger samples[spp];
+    CGFloat fsamples[spp];
+	for (int y = bitmap.pixelsHigh-1; y >= 0; --y)
+		for (int x = bitmap.pixelsWide-1; x >= 0; --x) {
+			[bitmap getPixel:samples atX:x y:y];
+            for (int i = 0; i < spp; ++i)
+                fsamples[i] = samples[i]*1.0/255;
+            
+            NSColor* xycolor = [NSColor colorWithColorSpace:colorSpace components:fsamples count:spp];
+            
+            CGFloat brightness, alpha;
+            [[xycolor colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getHue:NULL saturation:NULL brightness:&brightness alpha:&alpha];
+            NSColor* fixedColor = [NSColor colorWithDeviceHue:[color hueComponent] saturation:[color saturationComponent] brightness:std::max((CGFloat).75, brightness) alpha:alpha];
+
+            xycolor = [fixedColor colorUsingColorSpace:colorSpace];
+            [color getComponents:fsamples];
+            fsamples[spp-1] = alpha;
+            
+            for (int i = 0; i < spp; ++i)
+                samples[i] = floor(fsamples[i]*255);
+
+            [bitmap setPixel:samples atX:x y:y];
+		}
+}
+
 -(N2Image*)templateImage:(ArthroplastyTemplate*)templat entirePageSizePixels:(NSSize)size color:(NSColor*)color {
 	N2Image* image = [[N2Image alloc] initWithContentsOfFile:[templat pdfPathForDirection:_viewDirection]];
 	NSSize imageSize = [image size];
@@ -197,14 +243,14 @@
 	}
 	
 	if ([self mustFlipHorizontally:templat])
-		[image flipImageHorizontally];
+		[[self class] flipHorizontallyImage:image];
 
 	N2Image* temp = [[N2Image alloc] initWithSize:[image size] inches:[image inchSize] portion:[image portion]];
 	NSBitmapImageRep* bitmap = [[NSBitmapImageRep alloc] initWithData:[image TIFFRepresentation]];
 
 	[bitmap detectAndApplyBorderTransparency:8];
 	if (color)
-		[bitmap setColor:color];
+		[[self class] bitmap:bitmap setColor:color]; // [bitmap setColor:color];
 
 	[temp addRepresentation:bitmap];
 	[bitmap release];
@@ -312,11 +358,14 @@
 }
 
 -(ROI*)createROIFromTemplate:(ArthroplastyTemplate*)templat inViewer:(ViewerController*)destination centeredAt:(NSPoint)p {
-	N2Image* image = [self templateImage:templat entirePageSizePixels:NSMakeSize(0,1800)]; // TODO: N -> adapted size
+	N2Image* image = [self templateImage:templat entirePageSizePixels:NSMakeSize(0,1000)]; // TODO: N -> adapted size
+    
+   // NSBitmapImageRep* bitmap = [[image representations] objectAtIndex:0];
+//    NSSize pixelSize = NSMakeSize(bitmap.pixelsWide, bitmap.pixelsHigh);
 	
 //	CGFloat magnification = [[_plugin windowControllerForViewer:destination] magnification];
 //	if (!magnification) magnification = 1;
-	float pixSpacing = (1.0 / [image resolution] * 25.4); // image is in 72 dpi, we work in milimeters
+	float pixSpacing = (1.0 / [image resolution] * 25.4); // image is in 72 dpi, we work in millimeters
 	
 	ROI* newLayer = [destination addLayerRoiToCurrentSliceWithImage:image referenceFilePath:[templat path] layerPixelSpacingX:pixSpacing layerPixelSpacingY:pixSpacing];
 	

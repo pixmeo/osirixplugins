@@ -33,6 +33,16 @@
 #define kInvalidMagnification 0
 NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 
+@interface HATROI : ROI
+@end
+@implementation HATROI
+
+-(BOOL)valid {
+    return YES;
+}
+
+@end
+
 @interface ArthroplastyTemplatingStepsController (Private)
 -(void)adjustStemToCup:(unsigned)index;
 @end
@@ -250,7 +260,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	if (roiFrom && roiTo) {
 		if (!*axis) {
-			*axis = [[ROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX :_horizontalAxis.pixelSpacingY :_horizontalAxis.imageOrigin];
+			*axis = [[HATROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX :_horizontalAxis.pixelSpacingY :_horizontalAxis.imageOrigin];
 			[*axis setThickness:1]; [*axis setOpacity:.5];
 			[*axis setSelectable:NO];
 			[[_viewerController imageView] roiSet:*axis];
