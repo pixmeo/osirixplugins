@@ -175,7 +175,8 @@ void chooseTool(int &currentTool, int &lastTool, int &totalTools)
 		g_moveCounter = 0;
 
 		g_toolSelectable = true;
-		g_pix[g_totalTools]->setOpacity(1.0);
+		//g_pix[g_totalTools]->setOpacity(1.0);
+		g_pix[CROSS]->setOpacity(1.0);
 	}
 	else if (g_moveCounter >= seuil)
 	{
@@ -666,6 +667,9 @@ void handleState()
 		gp_window->show();
 		gp_viewLayouts->hide();
 		gp_windowActiveTool->hide();
+
+		g_toolSelectable = false;
+		g_pix[CROSS]->setOpacity(0.4);
 
 		break; // case 9
 
