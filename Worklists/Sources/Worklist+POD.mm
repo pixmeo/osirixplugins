@@ -155,7 +155,7 @@
                                 NSMutableArray* instanceUIDs = [NSMutableArray array]; // [iqns valueForKey:@"uid"];
                                 
                                 if (imageLevel) {
-                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@ ...", nil), [dn objectForKey:@"AETitle"]];
+                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), [dn objectForKey:@"AETitle"]];
                                     
                                     DcmDataset slDataset;
                                     slDataset.putAndInsertString(DCM_QueryRetrieveLevel, "STUDY");
@@ -183,7 +183,7 @@
                                         continue; // retrieve the whole study, it'll take less time than querying etc etc... we have less than half the images on the server anyway
                                     }
                                     
-                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@ ...", nil), N2SingularPluralCount(studyInfoNode.numberOfImages.intValue, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil))];
+                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Querying %@...", nil), N2SingularPluralCount(studyInfoNode.numberOfImages.intValue, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil))];
                                     
                                     DcmDataset ilDataset;
                                     ilDataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");
@@ -218,7 +218,7 @@
                                         }
                                     
                                     if (!iqns.count)
-                                        break;
+                                        break; // nothing to retrieve
                                         
                                     for (DCMTKImageQueryNode* iqn in iqns)
                                         [instanceUIDs addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -226,7 +226,7 @@
                                                                  iqn.uid, @"sopInstanceUID",
                                                                  nil]];
                                     
-                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %@...", nil), N2SingularPluralCount(iqns.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil))];
+                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %@ for %@...", nil), N2SingularPluralCount(iqns.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil)), studyName];
                                     
                                     DcmDataset mdataset;
                                     mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "IMAGE");
@@ -248,7 +248,7 @@
                                 }
                                 else
                                 {
-                                    athread.status = NSLocalizedString(@"Retrieving study...", nil);
+                                    athread.status = [NSString stringWithFormat:NSLocalizedString(@"Retrieving %@...", nil), studyName];
 
                                     DcmDataset mdataset;
                                     mdataset.putAndInsertString(DCM_QueryRetrieveLevel, "STUDY");
@@ -379,6 +379,11 @@
                                    transferSyntax:transferSyntax
                                       compression:compression
                                   extraParameters:extraParameters] autorelease];
+}
+
+-(void)dealloc {
+    delete _moveDataset;
+    [super dealloc];
 }
 
 - (DcmDataset*)moveDataset {

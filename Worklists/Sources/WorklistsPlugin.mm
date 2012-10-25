@@ -233,6 +233,9 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 #pragma mark BrowserController
 
 - (void)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table willDisplayCell:(PrettyCell*)cell forTableColumn:(NSTableColumn*)column row:(NSInteger)row {
+    if (bc.database != [DicomDatabase defaultDatabase])
+        return;
+    
     if (table == bc.albumTable) {
         NSArray* albums = [bc albums];
         if (row-1 > albums.count-1)
@@ -255,6 +258,9 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 }
 
 - (BOOL)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table validateDrop:(id<NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation returnDropOperation:(NSTableViewDropOperation&)returnDropOperation {
+    if (bc.database != [DicomDatabase defaultDatabase])
+        return NO;
+
     if (table == bc.albumTable) {
         NSArray* albums = [bc albums];
         if (row-1 > albums.count-1)
@@ -279,6 +285,9 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 
 
 - (NSString*)_BrowserController:(BrowserController*)bc tableView:(NSTableView*)table toolTipForCell:(NSCell*)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn*)tableColumn row:(NSInteger)row mouseLocation:(NSPoint)mouseLocation {
+    if (bc.database != [DicomDatabase defaultDatabase])
+        return nil;
+
     if (table == bc.albumTable) {
         NSArray* albums = [bc albums];
         if (row-1 > albums.count-1)
@@ -302,6 +311,9 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 }
 
 - (void)_BrowserController:(BrowserController*)bc menuWillOpen:(NSMenu*)menu {
+    if (bc.database != [DicomDatabase defaultDatabase])
+        return;
+
     if (menu == [[bc albumTable] menu]) {
         NSInteger i = [bc.albumTable clickedRow];
         if (i == -1)
@@ -334,6 +346,9 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 }
 
 - (void)_BrowserController:(BrowserController*)bc outlineView:(NSOutlineView*)outlineView willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn*)column item:(id)item {
+    if (bc.database != [DicomDatabase defaultDatabase])
+        return;
+    
     @try {
         NSInteger i = [bc.albumTable selectedRow];
         if (i < 1)
