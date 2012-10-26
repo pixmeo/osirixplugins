@@ -23,7 +23,8 @@ HCURSOR hCurDefault = NULL,
 		hCurHandClose = NULL,
 		hCurHaloRed = NULL,
 		hCurHaloBlue = NULL,
-		hCurPointerYellow = NULL;
+		hCurYellowPointer = NULL,
+		hCurRedPointer = NULL;
 HCURSOR hc0, hc1, hc2, hc3, hc4, hc5, hc6, hc7, hc8;
 HCURSOR hCurAnime[9];
 
@@ -43,6 +44,8 @@ void InitGestionCurseurs(void)
 	LoadCursorFromCURFile(TEXT("res/cursors/aero_arrow_xl.cur"),&hCurWhite,32,32);
 	LoadCursorFromCURFile(TEXT("res/cursors/main_ouverte.cur"),&hCurHandOpen,64,64);
 	LoadCursorFromCURFile(TEXT("res/cursors/main_fermee.cur"),&hCurHandClose,64,64);
+	LoadCursorFromCURFile(TEXT("res/cursors/pointeur_jaune.cur"),&hCurYellowPointer,64,64);
+	LoadCursorFromCURFile(TEXT("res/cursors/pointeur_rouge.cur"),&hCurRedPointer,64,64);
 
 }
 
@@ -73,13 +76,13 @@ void ChangeCursor(unsigned short val)
 			hCurTemp = CopyCursor(hCurWindows);
 			break;
 		case 1 : 
-			hCurTemp = CopyCursor(hCurHaloRed);
+			hCurTemp = CopyCursor(hCurRedPointer);
 			break;
 		case 2 : 
 			hCurTemp = CopyCursor(hCurHaloBlue);
 			break;
 		case 3 : 
-			hCurTemp = CopyCursor(hCurPointerYellow);
+			hCurTemp = CopyCursor(hCurYellowPointer);
 			break;
 		case 4 : 
 			hCurTemp = CopyCursor(hCurHandOpen);

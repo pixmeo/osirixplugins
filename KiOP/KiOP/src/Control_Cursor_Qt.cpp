@@ -18,9 +18,8 @@ CursorQt::CursorQt(short type)
 	m_inCursorSession = false;
 	m_leftClicPressed = false;
 
-	m_previousPos.setX(SCRSZW/2);
-	m_previousPos.setY(SCRSZH/2);
-
+	m_previousPos = QPoint(SCRSZW/2,SCRSZH/2);
+	m_virtualPosPrev = QPoint(0,0);
 
 	unsigned int x1 = 70,		y1 = 30;
 	unsigned int x2 = 110,	y2 = 80;
@@ -117,6 +116,11 @@ QPoint CursorQt::PreviousPos(void) const
 	return m_previousPos;
 }
 
+QPoint CursorQt::DeltaPos(void) const
+{
+	return Pos() - PreviousPos();
+}
+
 bool CursorQt::MoveEnable(void) const
 {
 	return m_moveEnable;
@@ -143,7 +147,7 @@ bool CursorQt::InCursorSession() const
 
 void CursorQt::PressLeftClic(bool force)
 {
-	if (ClicEnable() || force)
+	if ( m_type!=POINTER_TYPE && (ClicEnable() || force) )
 	{
 #ifdef _OS_WIN_
 		mouse_event(MOUSEEVENTF_LEFTDOWN + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
@@ -157,7 +161,7 @@ void CursorQt::PressLeftClic(bool force)
 
 void CursorQt::ReleaseLeftClic(bool force)
 {
-	if (ClicEnable() || force)
+	if ( m_type!=POINTER_TYPE && (ClicEnable() || force) )
 	{
 #ifdef _OS_WIN_
 		mouse_event(MOUSEEVENTF_LEFTUP + MOUSEEVENTF_ABSOLUTE, 0, 0, 0, 0);
@@ -172,19 +176,22 @@ void CursorQt::ReleaseLeftClic(bool force)
 
 
 
-void CursorQt::NewCursorSession(void)
+void CursorQt::NewCursorSession(Point3D handPt)
 {
 	m_inCursorSession = true;
-
-	m_previousPos.setX(SCRSZW/2);
-	m_previousPos.setY(SCRSZH/2);
-	SetPos(SCRSZW/2,SCRSZH/2);
 
 	SetMoveEnable();
 	SetClicEnable();
 
+	SetPos(SCRSZW/2,SCRSZH/2);
+	m_previousPos = QPoint(SCRSZW/2,SCRSZH/2);
+	m_virtualPosPrev = QPoint(handPt.X(), handPt.Y());
+
 #ifdef _OS_WIN_
-	ChangeCursor(4);
+	if (m_type==POINTER_TYPE)
+		ChangeCursor(1);
+	else
+		ChangeCursor(4);
 #endif
 	cout << "-- Mode curseur initialise --" << endl;
 }
@@ -208,14 +215,12 @@ void CursorQt::EndCursorSession(void)
 
 void CursorQt::MoveCursor(Point3D handPt)
 {
-	static QPoint posPrev(handPt.X(), handPt.Y());
 	QPoint pos(handPt.X(), handPt.Y());
-	QPoint deltaPos(pos - posPrev);
-	posPrev = pos;
-	//posPrev = m_previousPos;
+	QPoint deltaPos(pos - m_virtualPosPrev);
+	m_virtualPosPrev = pos;
 
-	double dxp = (double)pos.x() - (double)posPrev.x();
-	double dyp = (double)pos.y() - (double)posPrev.y();
+	//cout << "pos : " << pos.x() << ";" << pos.y() << endl;
+	cout << "deltaPos : " << deltaPos.x() << ";" << deltaPos.y() << endl;
 
 	#if CORRECTION_DISTANCE_LINEAIRE
 		int dxs = (COEFF_LIN_1X*deltaPos.x()) / ((double)handPosZ + COEFF_LIN_2);
@@ -234,6 +239,7 @@ void CursorQt::MoveCursor(Point3D handPt)
 		dyt = m_courbeDeplacement[abs(dys)] * (dys>=0?1:-1);
 
 	IncrementPos(dxt,dyt);
+	cout << "dt : " << dxt << ";" << dyt << endl;
 }
 
 

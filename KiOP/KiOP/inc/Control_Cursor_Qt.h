@@ -31,6 +31,10 @@
 //==========================================================================//
 //=============================== CONSTANTES ===============================//
 
+#define STEADY_TYPE				1
+#define HAND_CLOSED_TYPE	2
+#define POINTER_TYPE			3
+
 #define CORRECTION_DISTANCE_LINEAIRE 0
 
 #if (1)//(SCRSZW >= SCRSZH)
@@ -62,9 +66,7 @@ class CursorQt
 public :
 
 	// ---------------- Constructeur(s) ------------------ //
-	CursorQt(short type=1); // 1 : Souris SteadyClic
-													// 2 : Souris HandClosedClic
-													// 3 : Souris NoClic (Pointeur)
+	CursorQt(short type=STEADY_TYPE);
 
 	// ---------------- Setter(s) ------------------ //
 	void SetPos(unsigned int x, unsigned int y);
@@ -84,6 +86,7 @@ public :
 
 	QPoint Pos(void) const;
 	QPoint PreviousPos(void) const;
+	QPoint DeltaPos(void) const;
 	bool MoveEnable(void) const;
 
 	bool ClicEnable(void) const;
@@ -94,7 +97,7 @@ public :
 	void PressLeftClic(bool force=false);
 	void ReleaseLeftClic(bool force=false);
 
-	void NewCursorSession(void);
+	void NewCursorSession(Point3D handPt);
 	void EndCursorSession(void);
 
 	void MoveCursor(Point3D handPt);
@@ -105,6 +108,8 @@ protected :
 
 	QCursor m_cursor;
 	QPoint m_previousPos;
+
+	QPoint m_virtualPosPrev;
 
 	bool m_moveEnable;
 	bool m_clicEnable;

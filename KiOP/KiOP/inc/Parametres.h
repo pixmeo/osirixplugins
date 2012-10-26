@@ -40,23 +40,32 @@ using namespace std;
 #if defined _OS_WIN_
   #define RESETALL		0
   #define LAYOUT			1
-  #define MOVE			2
+  #define MOVE				2
   #define CONTRAST		3
-  #define ZOOM			4
+  #define ZOOM				4
   #define SCROLL			5
-  #define MOUSE			6
-  #define CROSS			7
+	#define POINTER			6
+	#define MOUSE				7
+  #define CROSS				8
 #elif defined _OS_MAC_
-  #define MOVE			0
+  #define MOVE				0
   #define CONTRAST		1
-  #define ZOOM			2
+  #define ZOOM				2
   #define SCROLL			3
-  #define MOUSE			4
-  #define CROSS			5
+  #define POINTER			4
+	#define MOUSE				5
+  #define CROSS				6
 #endif
 
-
-//const int TOOL_LIST[8] = {RESETALL, LAYOUT, MOVE, CONTRAST, ZOOM, SCROLL, MOUSE, CROSS};
+#define INACTIVE_SESSION_STATE	-1
+#define NO_ACTION_STATE					0
+#define CALIBRATE_HAND_STATE		1
+#define TOOLS_MENU_STATE				2
+#define NORMAL_TOOLS_STATE			3
+#define LAYOUT_STATE						4
+#define POINTER_STATE						5
+#define MOUSE_STATE							6
+#define BACK_TO_MENU_STATE			9
 
 
 //==========================================================================//

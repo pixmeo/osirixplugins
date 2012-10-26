@@ -10,7 +10,6 @@
 #include "Parametres.h"
 #include "Gestion_GLUT.h"
 #include "Control_Cursor_Qt.h"
-#include "Hand_Closed_Detection.h"
 #include "Hand_Point.h"
 #include "Point_3D.h"
 #include "Point_2D.h"

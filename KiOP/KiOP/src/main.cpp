@@ -5,7 +5,6 @@
 #include "Parametres.h"
 #include "main.h"
 
-
 //==========================================================================//
 //=========================== VARIABLES GLOBALES ===========================//
 
@@ -21,9 +20,9 @@ int g_lastTool = 3;
 int g_toolToChoose = -1;
 
 #if defined _OS_WIN_
-int g_totalTools = 7;
+int g_totalTools = 8;
 #elif defined _OS_MAC_
-int g_totalTools = 5;
+int g_totalTools = 6;
 #endif
 //int g_positionTool[7]; //position des outils dans le menu
 
@@ -82,7 +81,8 @@ int g_pixSizeActive = 0;
 
 // KiOP //
 CursorQt g_cursorQt;
-HandClosedDetection g_hCD;
+CursorQt g_pointerQt;
+//HandClosedDetection g_hCD;
 HandPoint g_hP;
 
 string g_openNi_XML_FilePath;
@@ -118,6 +118,7 @@ void Initialisation(void)
 	cout << "\tINIATISILATION" << endl;
 	cout << "= = = = = = = = = = = = = = = =" << endl << endl;
 	cout << "Resolution d'ecran : " << SCRSZW << "x" << SCRSZH << endl << endl;
+	cout << "AAAAAAAAAAAAAAAAAAAAAA" << endl;
 
 	#ifdef _OS_WIN_
 		ChangeCursor(0);
@@ -253,7 +254,7 @@ void CheckDepthIntervals()
 	{
 		cout << endl << "-- Main en dehors de l'intervalle" << " distance : " << g_hP.HandPt().Z() << endl << endl;
 		g_stateBackup = g_currentState;
-			ChangeState(0);
+			ChangeState(NO_ACTION_STATE);
 	}
 }
 
@@ -337,12 +338,12 @@ void handleState()
 	switch (g_currentState)
 	{
 	// Session inactive
-	case -1 :
+	case INACTIVE_SESSION_STATE:
 
-		break; // case -1
+		break; // case INACTIVE_SESSION_STATE
 
 	// Aucune action possible
-	case 0 :
+	case NO_ACTION_STATE:
 		
 		if (g_depthIntervalOK)
 		{
@@ -369,10 +370,10 @@ void handleState()
 #endif
 		}
 
-		break; // case 0
+		break; // case NO_ACTION_STATE
 
 	// Coucou effectué, passage par sessionStart, calibrage de la main (200ms)
-	case 1 :
+	case CALIBRATE_HAND_STATE:
 
 		if (g_depthIntervalOK)
 		{
@@ -385,15 +386,15 @@ void handleState()
 
 		if (g_hP.Steady2() && g_depthIntervalOK)
 		{
-			ChangeState(2);
+			ChangeState(TOOLS_MENU_STATE);
 
 			gp_window->setWindowOpacity(qreal(1.0));
 			g_pix[CROSS]->setOpacity(0.4);
 		}
-		break; // case 1
+		break; // case CALIBRATE_HAND_STATE
 
 	// Après le calibrage de la main, menu des outils
-	case 2 :
+	case TOOLS_MENU_STATE:
 
 		chooseTool(g_currentTool, g_lastTool, g_totalTools);
 
@@ -431,6 +432,9 @@ void handleState()
 			case SCROLL:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sequence\r\n"));
 				break;
+			case POINTER:
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction pointerTool\r\n"));
+				break;
 			case MOUSE:
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction cursorTool\r\n"));
 				break;
@@ -442,7 +446,7 @@ void handleState()
 			// Si un des outils "normaux" a été selectionné
 			if ( (g_currentTool == MOVE) || (g_currentTool == CONTRAST) || (g_currentTool == ZOOM) || (g_currentTool == SCROLL) )
 			{
-				ChangeState(3);
+				ChangeState(NORMAL_TOOLS_STATE);
 				cout << "--- Selection de l'outil : " << g_currentTool << endl;
 
 				g_handDepthAtToolSelection = g_hP.HandPt().Z();
@@ -454,11 +458,24 @@ void handleState()
 				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(g_pixSizeActive,g_pixSizeActive));
 			}
 
+			// Si l'outil pointeur a été selectionné
+			else if (g_currentTool == POINTER)
+			{
+				ChangeState(POINTER_STATE);
+				g_pointerQt.NewCursorSession(g_hP.HandPt());
+
+				g_handDepthAtToolSelection = g_hP.HandPt().Z();
+
+				gp_window->hide();
+				gp_windowActiveTool->show();
+				gp_pixActive->load(QPixmap(":/images/pointer.png").scaled(g_pixSizeActive,g_pixSizeActive));
+			}
+
 			// Si l'outil souris a été selectionné
 			else if (g_currentTool == MOUSE)
 			{
-				ChangeState(5);
-				g_cursorQt.NewCursorSession();
+				ChangeState(MOUSE_STATE);
+				g_cursorQt.NewCursorSession(g_hP.HandPt());
 
 				g_handDepthAtToolSelection = g_hP.HandPt().Z();
 
@@ -478,13 +495,13 @@ void handleState()
 			// Si le bouton ResetAll a été selectionné
 			else if (g_currentTool == RESETALL)
 			{
-				ChangeState(9);
+				ChangeState(BACK_TO_MENU_STATE);
 			}
       
 			// Si l'outil layout a été selectionné
 			else if (g_currentTool == LAYOUT)
 			{
-				ChangeState(4);
+				ChangeState(LAYOUT_STATE);
 				g_currentLayoutTool = 0;
 				g_lastLayoutTool = 6;
         
@@ -497,10 +514,10 @@ void handleState()
 #endif    
 		}
 
-		break; // case 2
+		break; // case TOOLS_MENU_STATE
 
 	// Outil "normal" selectionné
-	case 3 :
+	case NORMAL_TOOLS_STATE:
 
 		if (ConditionActiveTool())
 		{
@@ -549,14 +566,14 @@ void handleState()
 
 		if (ConditionExitTool())
 		{
-			ChangeState(9); // Préparation pour le retour au menu
+			ChangeState(BACK_TO_MENU_STATE); // Préparation pour le retour au menu
 		}
 
-		break; // case 3
+		break; // case NORMAL_TOOLS_STATE
 
 #ifdef _OS_WIN_
 	// Outil layout selectionné
-	case 4 :
+	case LAYOUT_STATE:
 
 		chooseTool(g_currentLayoutTool, g_lastLayoutTool, g_totalLayoutTools);
 		browse(g_currentLayoutTool,g_lastLayoutTool, layoutTools);
@@ -584,16 +601,50 @@ void handleState()
 				g_telnet.sendCommand(QString("\r\ndcmview2d:layout -i 2x2\r\n"));
 				break;
 			case 6 :
-				ChangeState(9);
+				ChangeState(BACK_TO_MENU_STATE);
 				break;
 			}
 		}
 
-		break; // case 4
+		break; // case LAYOUT_STATE
 #endif
       
+	// Outil pointeur selectionné
+	case POINTER_STATE:
+
+		if (g_pointerQt.InCursorSession())
+		{
+			// Distance limite de la main au capteur
+			if (g_hP.HandPt().Z() < (g_handDepthAtToolSelection + g_handDepthThreshold))
+			{
+				g_pointerQt.SetMoveEnable();
+				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorActive, Qt::SolidPattern));
+				gp_windowActiveTool->setWindowOpacity(1.0);
+			}
+			else
+			{
+				g_pointerQt.SetMoveDisable();
+				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
+				gp_windowActiveTool->setWindowOpacity(0.7);
+
+				if (g_hP.Steady20())
+					g_pointerQt.EndCursorSession();
+			}
+
+			// Appel de la méthode pour déplacer le curseur
+			g_pointerQt.MoveCursor(g_hP.HandPt());
+		}
+
+		// Sortie du mode pointeur
+		else
+		{
+			ChangeState(BACK_TO_MENU_STATE);
+		}
+
+		break; // case POINTER_STATE
+
 	// Outil souris selectionné
-	case 5 :
+	case MOUSE_STATE:
 
 		if (g_cursorQt.InCursorSession())
 		{
@@ -642,15 +693,15 @@ void handleState()
 		// Sortie du mode souris
 		else
 		{
-			ChangeState(9);
+			ChangeState(BACK_TO_MENU_STATE);
 		}
 
-		break; // case 5
+		break; // case MOUSE_STATE
 
 	// Préparation pour le retour au menu
-	case 9 :
+	case BACK_TO_MENU_STATE :
 
-		ChangeState(2);
+		ChangeState(TOOLS_MENU_STATE);
 		g_telnet.deconnexion();
 
 		g_hP.SignalResetSteadies();
@@ -671,7 +722,7 @@ void handleState()
 		g_toolSelectable = false;
 		g_pix[CROSS]->setOpacity(0.4);
 
-		break; // case 9
+		break; // case BACK_TO_MENU_STATE
 
 	} // end switch (g_currentState)
 }
@@ -848,23 +899,23 @@ void glutDisplay()
 			glEnd();
 		}
 
-		//========== HAND POINT ==========//
-		if	( g_activeSession && (isHandPointNull() == false)
-				&& (g_hCD.ROI_Pt().x() >= 0)
-				&& (g_hCD.ROI_Pt().y() >= 0)
-				&& (g_hCD.ROI_Pt().x() <= (RES_X - g_hCD.ROI_Size().width()))
-				&& (g_hCD.ROI_Pt().y() <= (RES_Y - g_hCD.ROI_Size().height())) )
-		{
-			// Cadre de la main
-			glColor3f(255,255,255);
-			glBegin(GL_LINE_LOOP);
-				glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y());
-				glVertex2i(g_hCD.ROI_Pt().x()+g_hCD.ROI_Size().width(), g_hCD.ROI_Pt().y());
-				glVertex2i(g_hCD.ROI_Pt().x()+g_hCD.ROI_Size().width(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
-				glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
-			glEnd();
+		////========== HAND POINT ==========//
+		//if	( g_activeSession && (isHandPointNull() == false)
+		//		&& (g_hCD.ROI_Pt().x() >= 0)
+		//		&& (g_hCD.ROI_Pt().y() >= 0)
+		//		&& (g_hCD.ROI_Pt().x() <= (RES_X - g_hCD.ROI_Size().width()))
+		//		&& (g_hCD.ROI_Pt().y() <= (RES_Y - g_hCD.ROI_Size().height())) )
+		//{
+		//	// Cadre de la main
+		//	glColor3f(255,255,255);
+		//	glBegin(GL_LINE_LOOP);
+		//		glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y());
+		//		glVertex2i(g_hCD.ROI_Pt().x()+g_hCD.ROI_Size().width(), g_hCD.ROI_Pt().y());
+		//		glVertex2i(g_hCD.ROI_Pt().x()+g_hCD.ROI_Size().width(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
+		//		glVertex2i(g_hCD.ROI_Pt().x(), g_hCD.ROI_Pt().y()+g_hCD.ROI_Size().height());
+		//	glEnd();
 
-		}
+		//}
 	}
 	glutSwapBuffers();
 
@@ -991,7 +1042,8 @@ int main(int argc, char *argv[])
 	g_pixSize = mainTools.getItemSize();
 	g_pixSizeActive = mainTools.getItemSizeActive();
 	
-	g_cursorQt = CursorQt(1);
+	g_cursorQt = CursorQt(STEADY_TYPE);
+	g_pointerQt = CursorQt(POINTER_TYPE);
 	gp_window = new GraphicsView(NULL);
 	gp_windowActiveTool = new GraphicsView(NULL);
 	gp_sceneActiveTool = new QGraphicsScene(0,0,g_pixSizeActive,g_pixSizeActive);
@@ -1015,6 +1067,7 @@ int main(int argc, char *argv[])
 	mainTools.addItem("contrast", ":/images/contrast.png");
 	mainTools.addItem("zoom", ":/images/zoom.png");
 	mainTools.addItem("scroll", ":/images/scroll.png");
+	mainTools.addItem("pointer", ":/images/pointer.png");
 	mainTools.addItem("mouse", ":/images/mouse.png");
 	mainTools.addItem("stop", ":/images/stop.png");
 
@@ -1059,7 +1112,7 @@ Session started event handler. Session manager calls this when the session begin
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 {
-	ChangeState(1);
+	ChangeState(CALIBRATE_HAND_STATE);
 
 	g_activeSession = true;
 	g_toolSelectable = false;
@@ -1079,7 +1132,7 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 
 	SteadyAllEnable();
 
-	g_hCD.ResetCompteurFrame();
+	//g_hCD.ResetCompteurFrame();
 
 	static int compteurSession = 1;
 	cout << endl << "Debut de la session : " << compteurSession++ 
@@ -1103,7 +1156,7 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	g_telnet.deconnexion();
 #endif
   
-	ChangeState(-1);
+	ChangeState(INACTIVE_SESSION_STATE);
 
 	g_activeSession = false;
 	g_toolSelectable = false;
@@ -1178,6 +1231,7 @@ void XN_CALLBACK_TYPE NoHands(void* UserCxt)
 {
 	cout << "No Hands" << endl;
 	g_cursorQt.EndCursorSession();
+	g_pointerQt.EndCursorSession();
 }
 
 // Callback for when the focus is in progress
