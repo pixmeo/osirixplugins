@@ -342,7 +342,8 @@ static NSString* PreventNullString(NSString* s) {
                             NSString* dcmpath = [[DicomDatabase defaultDatabase] uniquePathForNewDataFileWithExtension:nil];
                             [study transformPdfAtPath:path toDicomAtPath:dcmpath];
                             // add it to the db
-                            NSArray* reportImages = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
+                            NSArray* reportImageIDs = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
+                            NSArray* reportImages = [[DicomDatabase defaultDatabase] objectsWithIDs:reportImageIDs];
                             
                             // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
                             [_images addObjectsFromArray:reportImages];
@@ -890,8 +891,10 @@ static NSString* PreventNullString(NSString* s) {
     @try {
     //	NSString* dbPath = [dirPath stringByAppendingPathComponent:@"OsiriX Data"];
     //	[[NSFileManager defaultManager] confirmDirectoryAtPath:dbPath];
-        images = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
-        //	NSMutableArray* images = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
+        
+        NSArray* imageIDs = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
+        images = [[[database objectsWithIDs:imageIDs] mutableCopy] autorelease];
+        //	NSMutableArray* imageIDs = [[[database addFilesAtPaths:[dicomDirPath stringsByAppendingPaths:fileNames] postNotifications:NO dicomOnly:YES rereadExistingItems:NO] mutableCopy] autorelease];
         for (NSInteger i = images.count-1; i >= 0; --i)
             if (![[images objectAtIndex:i] pathString] || ![[[images objectAtIndex:i] pathString] hasPrefix:dirPath])
                 [images removeObjectAtIndex:i];
