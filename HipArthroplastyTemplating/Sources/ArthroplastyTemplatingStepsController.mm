@@ -109,10 +109,14 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
     for (NSButtonCell* cell in _magnificationRadio.cells)
         [cell setAttributedTitle:[[[NSAttributedString alloc] initWithString:[cell title] attributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName, [cell font], NSFontAttributeName, NULL]] autorelease]];
-	[_magnificationCustomFactor setBackgroundColor:[[self window] backgroundColor]];
-	[_magnificationCalibrateLength setBackgroundColor:[[self window] backgroundColor]];
-	[_plannersNameTextField setBackgroundColor:[[self window] backgroundColor]];
+	[_magnificationCustomFactor setBackgroundColor:[self.window backgroundColor]];
+    [_magnificationCustomFactor setDrawsBackground:YES];
+	[_magnificationCalibrateLength setBackgroundColor:[self.window backgroundColor]];
+    [_magnificationCalibrateLength setDrawsBackground:YES];
+	[_plannersNameTextField setBackgroundColor:[self.window backgroundColor]];
+    [_plannersNameTextField setDrawsBackground:YES];
 	[_magnificationCustomFactor setFloatValue:1.15];
+    
 //	[self updateInfo];
 	 
 	[_plannersNameTextField setStringValue:[[[_plugin templatesWindowController] userDefaults] object:PlannersNameUserDefaultKey otherwise:NSFullUserName()]];
