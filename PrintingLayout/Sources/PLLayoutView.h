@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PLLayoutView : NSView
+@interface PLLayoutView : NSView // NSScrollView
 {
 //    NSArray *layout; // subviews existe déjà dans la classe NSView
     NSUInteger layoutMatrixWidth, layoutMatrixHeight;

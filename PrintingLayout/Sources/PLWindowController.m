@@ -18,11 +18,17 @@
 - (id)init
 {
     self = [super initWithWindowNibName:@"PrintingLayoutWindow"];
-    if (self) {
+    if (self)
+    {
         // Initialization code here.
     }
     
     return self;
+}
+
+- (void)awakeFromNib
+{
+    return;
 }
 
 - (void)windowDidLoad
@@ -60,18 +66,44 @@
 
 - (IBAction)changeTool:(id)sender
 {
+    // Copy/paste from M/CPRController.m
 	int toolIndex = 0;
 	
 	if ([sender isKindOfClass:[NSMatrix class]])
-    {
 		toolIndex = [[sender selectedCell] tag];
-    }
 	else if ([sender respondsToSelector:@selector(tag)])
-    {
 		toolIndex = [sender tag];
-    }
     
     [layoutView setMouseTool:toolIndex];
+}
+
+- (IBAction)adjustLayoutWidth:(id)sender
+{
+    [widthTextField setIntValue:[sender intValue]];
+    [layoutView updateLayoutViewWidth:[widthTextField integerValue] height:[heightTextField integerValue]];
+    [layoutView reorderLayoutMatrix];
+    [layoutView resizeLayoutView];
+}
+
+- (IBAction)adjustLayoutHeight:(id)sender
+{
+    [heightTextField setIntValue:[sender intValue]];
+    [layoutView updateLayoutViewWidth:[widthTextField integerValue] height:[heightTextField integerValue]];
+    [layoutView reorderLayoutMatrix];
+    [layoutView resizeLayoutView];
+}
+
+- (IBAction)clearView:(id)sender
+{
+    
+}
+
+- (IBAction)resetView:(id)sender
+{
+}
+
+- (IBAction)selectView:(id)sender
+{
 }
 
 @end

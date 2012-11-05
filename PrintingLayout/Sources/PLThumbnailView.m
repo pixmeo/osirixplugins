@@ -26,6 +26,7 @@
     if (self)
     {
         isDraggingDestination = NO;
+        isGoingToBeSelected = NO;
         isSelected = NO;
         shrinking = none;
     }
@@ -38,6 +39,7 @@
     if (self)
     {
         isDraggingDestination = NO;
+        isGoingToBeSelected = NO;
         isSelected = NO;
         shrinking = none;
         originalFrame = frame;
@@ -278,6 +280,47 @@
         [shrink release];
         [self setNeedsDisplay:YES];
     }
+}
+
+- (void)clearView
+{
+    [self setPixels:nil files:nil rois:nil firstImage:0 level:0 reset:YES];
+    isSelected = NO;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)selectView
+{
+    isSelected = !isSelected;
+    isGoingToBeSelected = NO;
+    [self setNeedsDisplay:YES];
+}
+
+
+#pragma mark-Events handling
+- (void) rightMouseDown:(NSEvent *)event
+{
+    isGoingToBeSelected = YES;
+}
+
+- (void) rightMouseUp:(NSEvent *)event
+{
+    NSPoint p = [self convertPoint:[event locationInWindow] fromView:nil];
+    if (isGoingToBeSelected && NSPointInRect(p, self.bounds))
+    {
+        if (curDCM)
+        {
+            NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
+            [theMenu insertItemWithTitle:@"Delete"  action:@selector(clearView)     keyEquivalent:@"" atIndex:0];
+            [theMenu insertItemWithTitle:@"Reset"   action:@selector(resetView)     keyEquivalent:@"" atIndex:1];
+            [theMenu insertItemWithTitle:@"Rescale" action:@selector(rescaleView)   keyEquivalent:@"" atIndex:2];
+            [theMenu insertItemWithTitle:@"Select"  action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
+            [NSMenu popUpContextMenu:theMenu withEvent:event forView:self];
+        }
+        else
+            [self selectView];
+    }
+    [self setNeedsDisplay:YES];
 }
 
 @end

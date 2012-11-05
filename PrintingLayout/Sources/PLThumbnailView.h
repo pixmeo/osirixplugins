@@ -19,6 +19,7 @@ typedef enum shrinkTypeEnum {
 
 @interface PLThumbnailView : DCMView <NSDraggingDestination>
 {
+    BOOL isGoingToBeSelected;
     BOOL isSelected;
     BOOL isDraggingDestination;
     shrinkType shrinking;   // side where the shrinking has been done
@@ -33,5 +34,7 @@ typedef enum shrinkTypeEnum {
 - (void)fillViewFrom:(id <NSDraggingInfo>)sender;
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side;
 - (void)backToOriginalSize;
+- (void)clearView;
+- (void)selectView;
 
 @end

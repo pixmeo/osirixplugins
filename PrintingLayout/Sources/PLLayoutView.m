@@ -8,7 +8,6 @@
 
 #import "PLLayoutView.h"
 #import "PLThumbnailView.h"
-//#import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/DICOMExport.h>
 
 @implementation PLLayoutView
@@ -38,6 +37,8 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    // A PLLayoutView is gray, surrounded by a thin black line.
+    // If it is the current dragging destination (i.e. trying to drag a DCMView into it), the border is thicker and blue.
     if (isDraggingDestination)
     {
         [NSBezierPath setDefaultLineWidth:3.0];
@@ -241,11 +242,13 @@
         
         int i = [self inThumbnailView:[sender draggingLocation] margin:10];
         if (draggedThumbnailIndex != -1)
-        // Drag'n'drop between printing layout subviews
+        // Drag'n'drop between –PLThumbnailView– subviews
         {
             if (draggedThumbnailIndex != i)
+            // Clear the source –PLThumbnailView– subview
             {
-                [[[self subviews] objectAtIndex:draggedThumbnailIndex] setImage:nil];
+//                [[[self subviews] objectAtIndex:draggedThumbnailIndex] setImage:nil];
+                [[[self subviews] objectAtIndex:draggedThumbnailIndex] clearView];
                 --filledThumbs;
             }
             draggedThumbnailIndex = -1;
@@ -316,45 +319,45 @@
 }
 
 #pragma mark-Events handling
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    int index = [self inThumbnailView:[theEvent locationInWindow] margin:0];
-
-    if (index > -1 && index < [[self subviews] count])
-    {
-        draggedThumbnailIndex = index;
-    }
-}
-
-- (void)mouseUp:(NSEvent *)theEvent
-{
-    int index = [self inThumbnailView:[theEvent locationInWindow] margin:0];
-    
-    if (draggedThumbnailIndex == index && index > -1 && index < [[self subviews] count])
-    {
-        PLThumbnailView *thumb = [[self subviews] objectAtIndex:index];
-        thumb.isSelected = !thumb.isSelected;
-        [self setNeedsDisplay:YES];
-    }
-    draggedThumbnailIndex = -1;
-}
-
-- (void)mouseDragged:(NSEvent *)theEvent
-{
-    if (draggedThumbnailIndex > -1 && draggedThumbnailIndex < [[self subviews] count])
-    {
-//        PLThumbnailView *thumb = [[self subviews] objectAtIndex:draggedThumbnailIndex];
-        NSImage *draggedImage = nil;//thumb.image;
-        if (draggedImage)
-        {
-            [draggedImage setSize:NSMakeSize(50, 50)];
-            NSPasteboard* pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-            [pasteboard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
-            [pasteboard setData:[draggedImage TIFFRepresentation] forType:NSTIFFPboardType];
-            [self dragImage:draggedImage at:[self convertPoint:[theEvent locationInWindow] fromView:nil] offset:NSMakeSize(0, 0) event:theEvent pasteboard:pasteboard source:self slideBack:YES];
-        }
-    }
-}
+//- (void)mouseDown:(NSEvent *)theEvent
+//{
+//    int index = [self inThumbnailView:[theEvent locationInWindow] margin:0];
+//
+//    if (index > -1 && index < [[self subviews] count])
+//    {
+//        draggedThumbnailIndex = index;
+//    }
+//}
+//
+//- (void)mouseUp:(NSEvent *)theEvent
+//{
+//    int index = [self inThumbnailView:[theEvent locationInWindow] margin:0];
+//    
+//    if (draggedThumbnailIndex == index && index > -1 && index < [[self subviews] count])
+//    {
+//        PLThumbnailView *thumb = [[self subviews] objectAtIndex:index];
+//        thumb.isSelected = !thumb.isSelected;
+//        [self setNeedsDisplay:YES];
+//    }
+//    draggedThumbnailIndex = -1;
+//}
+//
+//- (void)mouseDragged:(NSEvent *)theEvent
+//{
+//    if (draggedThumbnailIndex > -1 && draggedThumbnailIndex < [[self subviews] count])
+//    {
+////        PLThumbnailView *thumb = [[self subviews] objectAtIndex:draggedThumbnailIndex];
+//        NSImage *draggedImage = nil;//thumb.image;
+//        if (draggedImage)
+//        {
+//            [draggedImage setSize:NSMakeSize(50, 50)];
+//            NSPasteboard* pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+//            [pasteboard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
+//            [pasteboard setData:[draggedImage TIFFRepresentation] forType:NSTIFFPboardType];
+//            [self dragImage:draggedImage at:[self convertPoint:[theEvent locationInWindow] fromView:nil] offset:NSMakeSize(0, 0) event:theEvent pasteboard:pasteboard source:self slideBack:YES];
+//        }
+//    }
+//}
 
 - (void)keyDown:(NSEvent *)theEvent
 {
@@ -370,9 +373,7 @@
             PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
             if (thumb.isSelected && [thumb curDCM])
             {
-                [[thumb dcmPixList]     release];
-                [[thumb dcmRoiList]     release];
-                [[thumb dcmFilesList]   release];
+                [thumb clearView];
                 --filledThumbs;
             }
             thumb.isSelected = NO;
@@ -483,9 +484,7 @@
     for (NSUInteger i = 0 ; i < nbSubviews; ++i)
     {
         PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
-        [[thumb dcmPixList]     release];
-        [[thumb dcmRoiList]     release];
-        [[thumb dcmFilesList]   release];
+        [thumb clearView];
         thumb.isSelected = NO;
     }
     filledThumbs = 0;
