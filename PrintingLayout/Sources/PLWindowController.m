@@ -15,6 +15,9 @@
 
 @implementation PLWindowController
 
+@synthesize heightValue;
+@synthesize widthValue;
+
 - (id)init
 {
     self = [super initWithWindowNibName:@"PrintingLayoutWindow"];
@@ -28,7 +31,6 @@
 
 - (void)awakeFromNib
 {
-    return;
 }
 
 - (void)windowDidLoad
@@ -79,7 +81,8 @@
 
 - (IBAction)adjustLayoutWidth:(id)sender
 {
-    [widthTextField setIntValue:[sender intValue]];
+    widthValue = [sender integerValue];
+    [self updateWidth];
     [layoutView updateLayoutViewWidth:[widthTextField integerValue] height:[heightTextField integerValue]];
     [layoutView reorderLayoutMatrix];
     [layoutView resizeLayoutView];
@@ -87,24 +90,25 @@
 
 - (IBAction)adjustLayoutHeight:(id)sender
 {
-    [heightTextField setIntValue:[sender intValue]];
+    heightValue = [sender integerValue];
+    [self updateHeight];
     [layoutView updateLayoutViewWidth:[widthTextField integerValue] height:[heightTextField integerValue]];
     [layoutView reorderLayoutMatrix];
     [layoutView resizeLayoutView];
 }
 
-- (IBAction)clearView:(id)sender
+- (void)updateHeight
 {
-    
+    [heightTextField setIntegerValue:[self heightValue]];
+    [heightValueAdjuster setIntegerValue:[self heightValue]];
 }
 
-- (IBAction)resetView:(id)sender
+- (void)updateWidth
 {
+    [widthTextField setIntegerValue:[self widthValue]];
+    [widthValueAdjuster setIntegerValue:[self widthValue]];
 }
 
-- (IBAction)selectView:(id)sender
-{
-}
 
 @end
 
