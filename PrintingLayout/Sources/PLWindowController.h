@@ -9,13 +9,21 @@
 #import <Cocoa/Cocoa.h>
 #import "PLLayoutView.h"
 
+typedef enum {
+    paper_A4        = 0,
+    paper_USletter, // 1
+    paper_8x10,     // 2
+    paper_11x14,    // 3
+    paper_14x17     // 4
+} paperSize;
+
 @interface PLWindowController : NSWindowController
 {
     IBOutlet NSWindow *mainWindow;
     IBOutlet NSToolbar *toolbar;
+    
     IBOutlet NSPopUpButton *layoutChoiceButton;
     IBOutlet NSButton *clearViewsButton;
-    IBOutlet PLLayoutView *layoutView;
     IBOutlet NSMatrix *toolsMatrix;
     IBOutlet NSToolbarItem *toolMatrix;
     IBOutlet NSTextField *widthTextField;
@@ -24,6 +32,10 @@
     IBOutlet NSStepper *heightValueAdjuster;
     NSUInteger heightValue;
     NSUInteger widthValue;
+    
+    IBOutlet NSScrollView *scrollView;
+    IBOutlet PLLayoutView *layoutView;
+    paperSize scrollViewFormat;
 }
 
 @property NSUInteger heightValue;
@@ -37,5 +49,7 @@
 - (IBAction)adjustLayoutHeight:(id)sender;
 - (void)updateHeight;
 - (void)updateWidth;
+- (IBAction)updateViewRatio:(id)sender;
+- (CGFloat)getRatioFrom:(paperSize)format;
 
 @end

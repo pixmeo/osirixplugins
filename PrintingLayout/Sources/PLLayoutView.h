@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PLLayoutView : NSView // NSScrollView
+@interface PLLayoutView : NSView
 {
 //    NSArray *layout; // subviews existe déjà dans la classe NSView
     NSUInteger layoutMatrixWidth, layoutMatrixHeight;
@@ -21,6 +21,7 @@
     int mouseTool;
 }
 
+@property NSUInteger layoutMatrixWidth, layoutMatrixHeight;
 @property NSUInteger filledThumbs;
 @property int mouseTool;
 

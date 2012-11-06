@@ -12,6 +12,7 @@
 
 @implementation PLLayoutView
 
+@synthesize layoutMatrixWidth, layoutMatrixHeight;
 @synthesize filledThumbs;
 @synthesize mouseTool;
 
