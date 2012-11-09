@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61893C7E164D53E80037D010 /* DCMView+PrintingLayoutOverride.h in Headers */ = {isa = PBXBuildFile; fileRef = 61893C7C164D53E80037D010 /* DCMView+PrintingLayoutOverride.h */; };
+		61893C7F164D53E80037D010 /* DCMView+PrintingLayoutOverride.m in Sources */ = {isa = PBXBuildFile; fileRef = 61893C7D164D53E80037D010 /* DCMView+PrintingLayoutOverride.m */; };
 		618B646815E3D16900C876E5 /* PLWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 618B646515E3D16900C876E5 /* PLWindowController.h */; };
 		618B646915E3D16900C876E5 /* PLWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 618B646615E3D16900C876E5 /* PLWindowController.m */; };
 		6192190915F111D3003E3A99 /* PLLayoutView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6192190715F111D3003E3A99 /* PLLayoutView.h */; };
@@ -26,6 +28,8 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* PrintingLayout_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintingLayout_Prefix.pch; path = Sources/PrintingLayout_Prefix.pch; sourceTree = "<group>"; };
+		61893C7C164D53E80037D010 /* DCMView+PrintingLayoutOverride.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DCMView+PrintingLayoutOverride.h"; path = "Sources/DCMView+PrintingLayoutOverride.h"; sourceTree = "<group>"; };
+		61893C7D164D53E80037D010 /* DCMView+PrintingLayoutOverride.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "DCMView+PrintingLayoutOverride.m"; path = "Sources/DCMView+PrintingLayoutOverride.m"; sourceTree = "<group>"; };
 		618B646515E3D16900C876E5 /* PLWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLWindowController.h; path = Sources/PLWindowController.h; sourceTree = "<group>"; };
 		618B646615E3D16900C876E5 /* PLWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLWindowController.m; path = Sources/PLWindowController.m; sourceTree = "<group>"; };
 		6192190715F111D3003E3A99 /* PLLayoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLLayoutView.h; path = Sources/PLLayoutView.h; sourceTree = "<group>"; };
@@ -88,6 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				6192190715F111D3003E3A99 /* PLLayoutView.h */,
+				61893C7C164D53E80037D010 /* DCMView+PrintingLayoutOverride.h */,
+				61893C7D164D53E80037D010 /* DCMView+PrintingLayoutOverride.m */,
 				6192190815F111D3003E3A99 /* PLLayoutView.m */,
 				61E054DE15F4EB9B00BCF654 /* PLThumbnailView.h */,
 				61E054DF15F4EB9B00BCF654 /* PLThumbnailView.m */,
@@ -144,6 +150,7 @@
 				618B646815E3D16900C876E5 /* PLWindowController.h in Headers */,
 				6192190915F111D3003E3A99 /* PLLayoutView.h in Headers */,
 				61E054E015F4EB9B00BCF654 /* PLThumbnailView.h in Headers */,
+				61893C7E164D53E80037D010 /* DCMView+PrintingLayoutOverride.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +234,7 @@
 				618B646915E3D16900C876E5 /* PLWindowController.m in Sources */,
 				6192190A15F111D3003E3A99 /* PLLayoutView.m in Sources */,
 				61E054E115F4EB9B00BCF654 /* PLThumbnailView.m in Sources */,
+				61893C7F164D53E80037D010 /* DCMView+PrintingLayoutOverride.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

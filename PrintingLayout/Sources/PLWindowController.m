@@ -24,9 +24,10 @@
     if (self)
     {
         // Initialization code here.
-        scrollViewFormat = paper_A4;
-        heightValue = 0;
-        widthValue = 0;
+        scrollViewFormat    = paper_none;
+        heightValue         = 0;
+        widthValue          = 0;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutMatrixUpdated) name:@"PLLayoutMatrixUpdated" object:nil];
     }
     
     return self;
@@ -42,23 +43,30 @@
     [super windowDidLoad];
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];
-    NSLayoutConstraint *ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView
-                                                                       attribute:NSLayoutAttributeHeight
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:scrollView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                      multiplier:[self getRatioFrom:scrollViewFormat]
-                                                                        constant:0];
-    [scrollView addConstraint:ratioConstraint];
+    
+    [layoutView setLayoutFormat:scrollViewFormat];
+    if (scrollViewFormat)
+    {
+        ratioConstraint = [NSLayoutConstraint constraintWithItem:layoutView
+                                                       attribute:NSLayoutAttributeHeight
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:layoutView
+                                                       attribute:NSLayoutAttributeWidth
+                                                      multiplier:[self getRatioFrom:scrollViewFormat]
+                                                        constant:0];
+        [layoutView addConstraint:ratioConstraint];
+    }
 }
 
 - (IBAction)updateLayoutFromButton:(id)sender
 {
     NSString * name = [[layoutChoiceButton selectedItem] title];
     NSArray * c = [name componentsSeparatedByString:@"x"];
-    NSUInteger x = [[c objectAtIndex:0] integerValue];
-    NSUInteger y = [[c objectAtIndex:1] integerValue];
-    [layoutView updateLayoutViewWidth:x height:y];
+    widthValue = [[c objectAtIndex:0] integerValue];
+    heightValue = [[c objectAtIndex:1] integerValue];
+    [self updateWidth];
+    [self updateHeight];
+    [layoutView updateLayoutViewWidth:widthValue height:heightValue];
     [layoutView reorderLayoutMatrix];
     [layoutView resizeLayoutView];
 }
@@ -94,11 +102,10 @@
 - (IBAction)adjustLayoutWidth:(id)sender
 {
     NSUInteger newWidth = [sender integerValue];
-//    if ([[layoutView subviews] count] <= newWidth * heightValue)
+    if ([layoutView updateLayoutViewWidth:newWidth height:heightValue])
     {
         widthValue = newWidth;
         [self updateWidth];
-        [layoutView updateLayoutViewWidth:widthValue height:heightValue];
         [layoutView reorderLayoutMatrix];
         [layoutView resizeLayoutView];
     }
@@ -107,11 +114,10 @@
 - (IBAction)adjustLayoutHeight:(id)sender
 {
     NSUInteger newHeight = [sender integerValue];
-//    if ([[layoutView subviews] count] <= newHeight * widthValue)
+    if ([layoutView updateLayoutViewWidth:widthValue height:newHeight])
     {
         heightValue = newHeight;
         [self updateHeight];
-        [layoutView updateLayoutViewWidth:widthValue height:heightValue];
         [layoutView reorderLayoutMatrix];
         [layoutView resizeLayoutView];
     }
@@ -129,28 +135,33 @@
     [widthValueAdjuster setIntegerValue:[self widthValue]];
 }
 
+// Used when the stepper and text field need to be updated from the layout view (adding a column or line)
+- (void)layoutMatrixUpdated
+{
+    heightValue = [layoutView layoutMatrixHeight];
+    widthValue = [layoutView layoutMatrixWidth];
+    [self updateHeight];
+    [self updateWidth];
+}
+
 - (IBAction)updateViewRatio:(id)sender
 {
-    NSLayoutConstraint *ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView
-                                                                       attribute:NSLayoutAttributeHeight
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:scrollView
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                      multiplier:[self getRatioFrom:scrollViewFormat]
-                                                                        constant:0];
-    [scrollView removeConstraint:ratioConstraint];
+    [layoutView removeConstraint:ratioConstraint];
     
-    NSLog(@"");
-    scrollViewFormat = [sender intValue];
-    NSLog(@"");
-//    ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView
-//                                                   attribute:NSLayoutAttributeHeight
-//                                                   relatedBy:NSLayoutRelationEqual
-//                                                      toItem:scrollView
-//                                                   attribute:NSLayoutAttributeWidth
-//                                                  multiplier:[self getRatioFrom:scrollViewFormat]
-//                                                    constant:0];
-//    [scrollView addConstraint:ratioConstraint];
+    scrollViewFormat = [[sender selectedItem] tag];
+    [layoutView setLayoutFormat:scrollViewFormat];
+    
+    if (scrollViewFormat)
+    {
+        ratioConstraint = [NSLayoutConstraint constraintWithItem:layoutView
+                                                       attribute:NSLayoutAttributeHeight
+                                                       relatedBy:NSLayoutRelationEqual
+                                                          toItem:layoutView
+                                                       attribute:NSLayoutAttributeWidth
+                                                      multiplier:[self getRatioFrom:scrollViewFormat]
+                                                        constant:0];
+        [layoutView addConstraint:ratioConstraint];
+    }
 }
 
 - (CGFloat)getRatioFrom:(paperSize)format
@@ -161,10 +172,10 @@
             return 1.4142;
             
         case paper_11x14:
-            return 14/11;
+            return 14./11.;
             
         case paper_14x17:
-            return 17/14;
+            return 17./14;
             
         case paper_8x10:
             return 1.25;
@@ -172,8 +183,8 @@
         case paper_USletter:
             return 1.2941;
             
-        default:
-            return 1.;
+        default: //paper_none
+            return 0.;
     }
 }
 

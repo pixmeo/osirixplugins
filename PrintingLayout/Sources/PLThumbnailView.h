@@ -24,14 +24,16 @@ typedef enum shrinkTypeEnum {
     BOOL isDraggingDestination;
     shrinkType shrinking;   // side where the shrinking has been done
     NSRect originalFrame;   // in case of shrinking
+    NSInteger layoutIndex;
 }
 
 @property BOOL isDraggingDestination, isSelected;
 @property shrinkType shrinking;
 @property NSRect originalFrame;
+@property NSInteger layoutIndex;
 
-- (void)fillViewWith:(NSPasteboard*)pasteboard;
-- (void)fillViewFrom:(id <NSDraggingInfo>)sender;
+- (void)fillViewWith:(NSPasteboard*)pasteboard atIndex:(NSInteger)gridIndex;
+//- (void)fillViewFrom:(id <NSDraggingInfo>)sender;
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side;
 - (void)backToOriginalSize;
 - (void)clearView;

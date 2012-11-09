@@ -13,22 +13,25 @@
 #include <OpenGL/CGLCurrent.h>
 #include <OpenGL/CGLContext.h>
 #import <OsiriXAPI/GLString.h>
+#import </usr/include/objc/objc-class.h>
 
 @implementation PLThumbnailView
 
 @synthesize isDraggingDestination, isSelected;
 @synthesize shrinking;
 @synthesize originalFrame;
+@synthesize layoutIndex;
 
 - (id)init
 {
     self = [super init];
     if (self)
     {
-        isDraggingDestination = NO;
-        isGoingToBeSelected = NO;
-        isSelected = NO;
-        shrinking = none;
+        isDraggingDestination   = NO;
+        isGoingToBeSelected     = NO;
+        isSelected              = NO;
+        shrinking               = none;
+        layoutIndex             = -1;
     }
     return self;
 }
@@ -38,12 +41,14 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        isDraggingDestination = NO;
-        isGoingToBeSelected = NO;
-        isSelected = NO;
-        shrinking = none;
-        originalFrame = frame;
-        drawingFrameRect = frame;
+        isDraggingDestination   = NO;
+        isGoingToBeSelected     = NO;
+        isSelected              = NO;
+        shrinking               = none;
+        layoutIndex             = -1;
+        
+        originalFrame           = frame;
+        drawingFrameRect        = frame;
     }
     return self;
 }
@@ -173,7 +178,7 @@
     glEnd();
 }
 
-- (void)fillViewWith:(NSPasteboard*)pasteboard
+- (void)fillViewWith:(NSPasteboard*)pasteboard atIndex:(NSInteger)gridIndex
 {
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
     {
@@ -214,6 +219,7 @@
                       level:'i'
                       reset:YES];
             free(draggedView);
+            layoutIndex = gridIndex;
         }
     }
 //    else if ([NSImage canInitWithPasteboard:pasteboard])
@@ -222,10 +228,10 @@
 //    }
 }
 
-- (void)fillViewFrom:(id <NSDraggingInfo>)sender
-{
-    [self fillViewWith:[sender draggingPasteboard]];
-}
+//- (void)fillViewFrom:(id <NSDraggingInfo>)sender
+//{
+//    [self fillViewWith:[sender draggingPasteboard]];
+//}
 
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side
 {
@@ -321,6 +327,29 @@
             [self selectView];
     }
     [self setNeedsDisplay:YES];
+}
+
+// Force the scroll to be handled by the layout view
+- (void)scrollWheel:(NSEvent *)event
+{
+    [[self superview] scrollWheel:event];
+}
+
+- (void)mouseDown:(NSEvent *)event
+{
+    PLLayoutView *parentView = (PLLayoutView *)[self superview];
+    
+    // Tell the layout view that the current thumbnail is the one dragged
+    [parentView setDraggedThumbnailIndex:layoutIndex];
+    
+    if ([event type] == NSLeftMouseDown && [event clickCount] == 2)
+    {
+        [super startDrag:nil];
+    }
+    else
+    {
+        [super mouseDown:event];
+    }
 }
 
 @end

@@ -15,6 +15,8 @@
 @synthesize layoutMatrixWidth, layoutMatrixHeight;
 @synthesize filledThumbs;
 @synthesize mouseTool;
+@synthesize layoutFormat;
+@synthesize draggedThumbnailIndex;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -22,14 +24,20 @@
     if (self)
     {
         // Initialization code here.
-        filledThumbs = 0;
-        layoutMatrixHeight = 0;
-        layoutMatrixWidth = 0;
-        isDraggingDestination = NO;
-        currentInsertingIndex = -1;
-        draggedThumbnailIndex = -1;
-        previousLeftShrink = -1;
-        previousRightShrink = -1;
+        isDraggingDestination   = NO;
+        filledThumbs            = 0;
+        layoutMatrixHeight      = 0;
+        layoutMatrixWidth       = 0;
+        
+        currentInsertingIndex   = -1;
+        draggedThumbnailIndex   = -1;
+        
+        previousLeftShrink      = -1;
+        previousRightShrink     = -1;
+        
+        numberOfPages           = 0;
+        layoutFormat            = paper_none;
+        
         [self registerForDraggedTypes:[NSArray arrayWithObjects:NSURLPboardType, NSTIFFPboardType, pasteBoardOsiriX, nil]];
     }
     
@@ -221,9 +229,9 @@
             [thumbView backToOriginalSize];
         }
     }
-    previousLeftShrink = -1;
-    previousRightShrink = -1;
-    currentInsertingIndex = -1;
+    previousLeftShrink      = -1;
+    previousRightShrink     = -1;
+    currentInsertingIndex   = -1;
     [self setNeedsDisplay:YES];
 }
 
@@ -233,28 +241,22 @@
     // Check that the pasteboard contains an image
     {
         if (![[self subviews] count])
-        // Create a 1x1 layout if the layout is still empty
         {
-            [self updateLayoutViewWidth:1 height:1];
-            [[[self subviews] objectAtIndex:0] fillViewWith:[sender draggingPasteboard]];
-            ++filledThumbs;
-            return YES;
+            // TODO: demander si insertion d'une seule image ou de la série entière
+            // Ouverture d'une fenêtre de choix avec "Current image" vs. "Full serie"
+            
+            if ([self updateLayoutViewWidth:1 height:1])
+                // Create a 1x1 layout if the layout is still empty
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
+                PLThumbnailView *thumb = [[self subviews] objectAtIndex:0];
+                [thumb fillViewWith:[sender draggingPasteboard] atIndex:0];
+                ++filledThumbs;
+                return YES;
+            }
         }
         
         int i = [self inThumbnailView:[sender draggingLocation] margin:10];
-        if (draggedThumbnailIndex != -1)
-        // Drag'n'drop between –PLThumbnailView– subviews
-        {
-            if (draggedThumbnailIndex != i)
-            // Clear the source –PLThumbnailView– subview
-            {
-//                [[[self subviews] objectAtIndex:draggedThumbnailIndex] setImage:nil];
-                [[[self subviews] objectAtIndex:draggedThumbnailIndex] clearView];
-                --filledThumbs;
-            }
-            draggedThumbnailIndex = -1;
-        }
-        
         // Insert the pasteboard
         if (i != -1)
         // If the destination is the center of the thumbnail, just replace the current data.
@@ -264,7 +266,7 @@
             {
                 ++filledThumbs;;
             }
-            [thumb fillViewWith:[sender draggingPasteboard]];
+            [thumb fillViewWith:[sender draggingPasteboard] atIndex:i];
         }
         else
         // If the destination is the margin of the thumbnail, insert the data to the proper thumbnail.
@@ -280,21 +282,37 @@
                 {
                     ++layoutMatrixWidth;
                 }
-                [self updateLayoutViewWidth:layoutMatrixWidth height:layoutMatrixHeight];
+                
+                if ([self updateLayoutViewWidth:layoutMatrixWidth height:layoutMatrixHeight])
+                {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
+                }
             }
             [self insertImageAtIndex:currentInsertingIndex from:sender];
         }
+        
+        if (draggedThumbnailIndex != -1)
+            // Drag'n'drop between –PLThumbnailView– subviews
+        {
+            if (draggedThumbnailIndex != i)
+                // Clear the source –PLThumbnailView– subview
+            {
+                [[[self subviews] objectAtIndex:draggedThumbnailIndex] clearView];
+                --filledThumbs;
+            }
+            draggedThumbnailIndex = -1;
+        }        
     }
     return YES;
 }
 
 - (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
-    previousLeftShrink = -1;
-    previousRightShrink = -1;
-    currentInsertingIndex = -1;
-    draggedThumbnailIndex = -1;
-    isDraggingDestination = NO;
+    previousLeftShrink      = -1;
+    previousRightShrink     = -1;
+    currentInsertingIndex   = -1;
+    draggedThumbnailIndex   = -1;
+    isDraggingDestination   = NO;
     [self reorderLayoutMatrix];
     [self resizeLayoutView];
     
@@ -320,46 +338,6 @@
 }
 
 #pragma mark-Events handling
-//- (void)mouseDown:(NSEvent *)theEvent
-//{
-//    int index = [self inThumbnailView:[theEvent locationInWindow] margin:0];
-//
-//    if (index > -1 && index < [[self subviews] count])
-//    {
-//        draggedThumbnailIndex = index;
-//    }
-//}
-//
-//- (void)mouseUp:(NSEvent *)theEvent
-//{
-//    int index = [self inThumbnailView:[theEvent locationInWindow] margin:0];
-//    
-//    if (draggedThumbnailIndex == index && index > -1 && index < [[self subviews] count])
-//    {
-//        PLThumbnailView *thumb = [[self subviews] objectAtIndex:index];
-//        thumb.isSelected = !thumb.isSelected;
-//        [self setNeedsDisplay:YES];
-//    }
-//    draggedThumbnailIndex = -1;
-//}
-//
-//- (void)mouseDragged:(NSEvent *)theEvent
-//{
-//    if (draggedThumbnailIndex > -1 && draggedThumbnailIndex < [[self subviews] count])
-//    {
-////        PLThumbnailView *thumb = [[self subviews] objectAtIndex:draggedThumbnailIndex];
-//        NSImage *draggedImage = nil;//thumb.image;
-//        if (draggedImage)
-//        {
-//            [draggedImage setSize:NSMakeSize(50, 50)];
-//            NSPasteboard* pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-//            [pasteboard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
-//            [pasteboard setData:[draggedImage TIFFRepresentation] forType:NSTIFFPboardType];
-//            [self dragImage:draggedImage at:[self convertPoint:[theEvent locationInWindow] fromView:nil] offset:NSMakeSize(0, 0) event:theEvent pasteboard:pasteboard source:self slideBack:YES];
-//        }
-//    }
-//}
-
 - (void)keyDown:(NSEvent *)theEvent
 {
     if ([[theEvent characters] length] == 0)
@@ -384,15 +362,14 @@
     [self setNeedsDisplay:YES];
 }
 
-
 #pragma mark-Layout management
-- (void)updateLayoutViewWidth:(NSUInteger)w height:(NSUInteger)h
+- (BOOL)updateLayoutViewWidth:(NSUInteger)w height:(NSUInteger)h
 {
     NSUInteger newSize = w * h;
     if (newSize < filledThumbs)
     {
         NSRunAlertPanel(NSLocalizedString(@"Layout Error", nil), NSLocalizedString(@"There are too many views in your layout for you to choose the selected layout.", nil), NSLocalizedString(@"OK", nil), nil, nil);
-        return;
+        return NO;
     }
     
     NSUInteger currentSize = [[self subviews] count];
@@ -447,6 +424,7 @@
         }
     }
     [self setNeedsDisplay:YES];
+    return YES;
 }
 
 - (void)reorderLayoutMatrix
@@ -456,6 +434,7 @@
     {
         PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
         thumb.isSelected = NO;
+        thumb.layoutIndex = i;
     }
 }
 
@@ -541,7 +520,7 @@
     ++filledThumbs;
     if (![thumb curDCM])
     {
-        [thumb fillViewWith:[sender draggingPasteboard]];
+        [thumb fillViewWith:[sender draggingPasteboard] atIndex:index];
         return;
     }
     
@@ -553,27 +532,25 @@
     {
         for (NSUInteger j = i; j > index; --j)
         {
-//            [[[self subviews] objectAtIndex:j] setImage:[[[self subviews] objectAtIndex:j-1] image]];
             PLThumbnailView *thumb = [[self subviews] objectAtIndex:j-1];
             NSMutableArray *pList = [thumb dcmPixList];
             NSMutableArray *rList = [thumb dcmRoiList];
             NSArray *fList = [thumb dcmFilesList];
             [[[self subviews] objectAtIndex:j] setPixels:pList files:fList rois:rList firstImage:0 level:'i' reset:YES];
         }
-        [thumb fillViewWith:[sender draggingPasteboard]];
+        [thumb fillViewWith:[sender draggingPasteboard] atIndex:i];
     }
     else// if (i < index)
     {
         for (NSUInteger j = i; j < n-1; ++j) // n i.o. index because if n == [[self subviews] count], thummb is not inserted at last position
         {
-//            [[[self subviews] objectAtIndex:j] setImage:[[[self subviews] objectAtIndex:j+1] image]];
             PLThumbnailView *thumb = [[self subviews] objectAtIndex:j+1];
             NSMutableArray *pList = [thumb dcmPixList];
             NSMutableArray *rList = [thumb dcmRoiList];
             NSArray *fList = [thumb dcmFilesList];
             [[[self subviews] objectAtIndex:j] setPixels:pList files:fList rois:rList firstImage:0 level:'i' reset:YES];
         }
-        [[[self subviews] objectAtIndex:n-1] fillViewWith:[sender draggingPasteboard]];
+        [[[self subviews] objectAtIndex:n-1] fillViewWith:[sender draggingPasteboard] atIndex:i];
     }
 }
 
@@ -589,6 +566,7 @@
             return i;
         }
     }
+    
     for (i = index - 1; i >= 0; --i)
     {
         if (![[[self subviews] objectAtIndex:i] curDCM])
@@ -596,9 +574,11 @@
             return i;
         }
     }
+    
     return -1;
 }
 
+#pragma mark-Export methods
 - (void)saveLayoutViewToDicom
 {
     NSBitmapImageRep *bitmapImageRep = [self bitmapImageRepForCachingDisplayInRect:[self bounds]];
@@ -629,7 +609,7 @@
 //	[dicomExport setSourceFile:[[[_viewer pixList] objectAtIndex:0] srcFile]];
 //	[dicomExport setSeriesDescription: seriesDescription];
 	[dicomExport setSeriesNumber: 35466];
-	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
+    [dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplesPerPixel:3 bitsPerSample:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
     
     // Save view as a DICOM file and store it in the local db
 //	NSString* f = [dicomExport writeDCMFile:nil];

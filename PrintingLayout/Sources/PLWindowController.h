@@ -9,14 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "PLLayoutView.h"
 
-typedef enum {
-    paper_A4        = 0,
-    paper_USletter, // 1
-    paper_8x10,     // 2
-    paper_11x14,    // 3
-    paper_14x17     // 4
-} paperSize;
-
 @interface PLWindowController : NSWindowController
 {
     IBOutlet NSWindow *mainWindow;
@@ -36,6 +28,7 @@ typedef enum {
     IBOutlet NSScrollView *scrollView;
     IBOutlet PLLayoutView *layoutView;
     paperSize scrollViewFormat;
+    NSLayoutConstraint *ratioConstraint;
 }
 
 @property NSUInteger heightValue;
@@ -49,6 +42,7 @@ typedef enum {
 - (IBAction)adjustLayoutHeight:(id)sender;
 - (void)updateHeight;
 - (void)updateWidth;
+- (void)layoutMatrixUpdated;
 - (IBAction)updateViewRatio:(id)sender;
 - (CGFloat)getRatioFrom:(paperSize)format;
 
