@@ -1,17 +1,32 @@
 You will be able to add your own templates to the plugin: add a folder  
 "My Templates" (it must end with "Templates") to the plugin's  
 Resources directory, and inside that folder use the same structure as  
-the included MEDACTA Templates data:
+in the MEDACTA Templates folder:
 - every implant has a TXT file and one or two PDF files (anterior/ 
 posterior, lateral) for every available size
 - the txt file contains values for: FIXATION_TYPE, PRODUCT_GROUP,  
 IMPLANT_MANUFACTURER, MODULARITY_INFO, PRODUCT_FAMILY_NAME,  
-LEFT_RIGHT, TYPE_OF_SURGERY, COMPONENT_TYPE, SIZE, REF_NO,  
+TYPE_OF_SURGERY, COMPONENT_TYPE, SIZE, REF_NO,  
 PDF_FILE_AP, PDF_FILE_ML
 - coordinates of "origin" in the pdf (rotation point for cups, center  
 for stems): AP_ORIGIN_X, AP_ORIGIN_Y, ML_ORIGIN_X, ML_ORIGIN_Y,
 - in stem, coordinates of the different neck-length rotation points  
 (fixed points common with the cup): AP_HEAD_ROTATION_POINT_1_X, ....,  
 ML_HEAD_ROTATION_POINT_5_Y (1 is interpreted as XS, then S, M, L, XL)
+- LEFT_RIGHT says which leg the product is for: "RIGHT", "LEFT",
+"LEFT AND RIGHT", "BOTH"
+- for products that aren't usable on both legs, OTHER_SIDE_REF_NO says 
+which product is to be used for the other leg
 - ORIENTATION indicates the leg for which the template is drawn on the
-PDF. 
+original PDF. 
+- AP_HEAD_ROTATION_RADS indicates by how many radiants the object is 
+already rotated on the PDF, so if your product is shown vertically then use 0
+
+Late versions of the plugin also load templates from all folders ending with 
+Templates in /Library/Application Support/OsiriX/HipArthroplastyTemplating
+and ~/Library/Application Support/OsiriX/HipArthroplastyTemplating, so you
+don;t need to modify the plugin, you can just distribute a package that 
+installs your templates there.
+
+The plugin also supports proximal/distal stems, contact us if you want more 
+information about this.
