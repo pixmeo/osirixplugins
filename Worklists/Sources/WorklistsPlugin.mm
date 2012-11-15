@@ -237,11 +237,15 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
         return;
     
     if (table == bc.albumTable) {
+        if (row <= 0) // low check
+            return;
+        --row; // index in albums array instead of index in album table (index 1 = entire database)
+        
         NSArray* albums = [bc albums];
-        if (row-1 > albums.count-1)
+        if (row >= albums.count) // high check
             return;
         
-        Worklist* worklist = [self worklistForAlbum:[[bc albums] objectAtIndex:row-1]];
+        Worklist* worklist = [self worklistForAlbum:[albums objectAtIndex:row]];
         if (worklist) {
             static NSImage* image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album"]];
             static NSImage* eimage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[WorklistsPlugin class]] pathForImageResource:@"album_err"]];
@@ -262,11 +266,15 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
         return NO;
 
     if (table == bc.albumTable) {
+        if (row <= 0) // low check
+            return NO;
+        --row; // index in albums array instead of index in album table (index 1 = entire database)
+
         NSArray* albums = [bc albums];
-        if (row-1 > albums.count-1)
+        if (row >= albums.count) // high check
             return NO;
         
-        Worklist* worklist = [self worklistForAlbum:[[bc albums] objectAtIndex:row-1]];
+        Worklist* worklist = [self worklistForAlbum:[albums objectAtIndex:row]];
         if (worklist) {
             returnDropOperation = NSDragOperationNone;
             return YES;
@@ -289,11 +297,15 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
         return nil;
 
     if (table == bc.albumTable) {
+        if (row <= 0) // low check
+            return nil;
+        --row; // index in albums array instead of index in album table (index 1 = entire database)
+        
         NSArray* albums = [bc albums];
-        if (row-1 > albums.count-1)
+        if (row >= albums.count) // high check
             return nil;
         
-        Worklist* worklist = [self worklistForAlbum:[[bc albums] objectAtIndex:row-1]];
+        Worklist* worklist = [self worklistForAlbum:[albums objectAtIndex:row]];
         if (worklist) {
             id e = [_errors objectForKey:[worklist.properties objectForKey:WorklistIDKey]];
             if ([e isKindOfClass:[NSException class]])
@@ -315,16 +327,20 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
         return;
 
     if (menu == [[bc albumTable] menu]) {
-        NSInteger i = [bc.albumTable clickedRow];
-        if (i == -1)
+        NSInteger row = [bc.albumTable clickedRow];
+        if (row <= 0) // low check
             return;
+        --row; // index in albums array instead of index in album table (index 1 = entire database)
         
-        DicomAlbum* album = [bc.albums objectAtIndex:i-1];
-        Worklist* worklist = [self worklistForAlbum:album];
+        NSArray* albums = [bc albums];
+        if (row >= albums.count) // high check
+            return;
+
+        Worklist* worklist = [self worklistForAlbum:[albums objectAtIndex:row]];
         if (!worklist)
             return;
         
-        i = 0;
+        int i = 0;
         NSMenuItem* mi;
         
         mi = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Refresh Worklist", nil) action:@selector(_refreshWorklist:) keyEquivalent:@""];
@@ -350,12 +366,16 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
         return;
     
     @try {
-        NSInteger i = [bc.albumTable selectedRow];
-        if (i < 1)
+        NSInteger row = [bc.albumTable selectedRow];
+        if (row <= 0) // low check
             return;
+        --row; // index in albums array instead of index in album table (index 1 = entire database)
         
-        DicomAlbum* album = [bc.albums objectAtIndex:i-1];
-        Worklist* worklist = [self worklistForAlbum:album];
+        NSArray* albums = [bc albums];
+        if (row >= albums.count) // high check
+            return;
+
+        Worklist* worklist = [self worklistForAlbum:[albums objectAtIndex:row]];
         if (!worklist)
             return;
 
