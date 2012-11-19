@@ -39,6 +39,8 @@
         layoutFormat            = paper_none;
     
         [self registerForDraggedTypes:[NSArray arrayWithObjects:NSURLPboardType, NSTIFFPboardType, pasteBoardOsiriX, nil]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewFrameDidChangeNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewBoundsDidChangeNotification object:nil];
     }
     
     return self;
@@ -453,77 +455,52 @@
     CGFloat ratio = getRatioFromPaperFormat(layoutFormat);
     
     // Resize the thumbnails according to the scroll view width
-    CGFloat newHeight = 0;
     CGFloat thumbWidth = maxWidth / layoutMatrixWidth;
-    CGFloat thumbHeight = ratio ? roundf(thumbWidth * ratio) : scrollViewFrame.size.height / layoutMatrixHeight;
+    CGFloat thumbHeight;
     
     // Fill the layout view with thumbnails views in the european reading direction
     // i.e. from upper left to bottom right, in horizonzal order first.
     if (ratio)
     {
+        thumbHeight = roundf(thumbWidth * ratio);
+        
         for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
         {
             NSUInteger yOrigin = j * thumbHeight;
             
             for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
             {
-                NSUInteger xOrigin = roundf(i * thumbWidth);
-                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth*(i+1))-xOrigin, thumbHeight);
+                CGFloat xOrigin = roundf(i * thumbWidth);
+                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth * (i+1))-xOrigin, thumbHeight);
                 [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
                 [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
             }
         }
         
-        newHeight = thumbHeight * layoutMatrixHeight;
+        [self.superview setFrameSize:NSMakeSize(maxWidth, thumbHeight * layoutMatrixHeight)];
     }
     else
     {
+        thumbHeight = scrollViewFrame.size.height / layoutMatrixHeight;
+        
         for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
         {
             NSUInteger yOrigin = roundf(j * thumbHeight);
+            NSUInteger height = roundf(thumbHeight * (j+1))-yOrigin;
+            
             for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
             {
                 NSUInteger xOrigin = roundf(i * thumbWidth);
-                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(i * thumbWidth), roundf(thumbHeight));
+                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth * (i+1))-xOrigin, height);
                 [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
                 [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
             }
         }
+        [self.superview setFrame:self.enclosingScrollView.bounds];
     }
     
-    
-    // Resize and properly position the view in its enclosing scroll view
-    if (newHeight)
-    {
-        [self.superview setFrameSize:NSMakeSize(maxWidth, newHeight)];
-    }
-    else
-    { 
-        [self.superview setFrame:scrollViewFrame];
-    }
-
     [self setFrame:self.superview.bounds];
 
-    // Resize the thumbnails
-//    NSSize viewSize = self.frame.size;
-//    CGFloat x = viewSize.width / layoutMatrixWidth;
-//    CGFloat y = ratio ? roundf(x * ratio) : viewSize.height / layoutMatrixHeight;
-//    
-//    for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
-//    {
-//        for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
-//        {
-//            // (0,0) is the upper left corner of the view: - (BOOL)isFlipped returns YES
-//            // the thumbnails are ordered in the european reading direction (from upper left to bottom right)
-//            NSUInteger xOrigin = roundf(x*i);
-//            NSUInteger yOrigin = roundf(viewSize.height-y*(j+1) + self.frame.origin.y);
-//            NSRect frame = NSMakeRect(xOrigin, yOrigin, roundf(x*(i+1)-xOrigin), roundf(viewSize.height-y*(j))-yOrigin);
-//            
-//            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:frame];
-//            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:frame];
-//        }
-//    }
-    
     [self setNeedsDisplay:YES];
 }
 

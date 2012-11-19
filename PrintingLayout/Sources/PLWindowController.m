@@ -73,10 +73,10 @@
     [layoutView resizeLayoutView];
 }
 
-- (void)windowDidResize:(NSNotification *)notification
-{
-    [layoutView resizeLayoutView];
-}
+//- (void)windowDidResize:(NSNotification *)notification
+//{
+//    [layoutView resizeLayoutView];
+//}
 
 - (IBAction)clearViewsInLayout:(id)sender
 {
