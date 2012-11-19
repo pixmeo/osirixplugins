@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "PLLayoutView.h"
+#import "PLUtils.h"
 
 @interface PLWindowController : NSWindowController
 {
@@ -44,6 +45,6 @@
 - (void)updateWidth;
 - (void)layoutMatrixUpdated;
 - (IBAction)updateViewRatio:(id)sender;
-- (CGFloat)getRatioFrom:(paperSize)format;
+//- (CGFloat)getRatioFromPaperFormat;
 
 @end

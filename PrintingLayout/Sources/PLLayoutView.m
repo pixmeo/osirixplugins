@@ -37,7 +37,7 @@
         
         numberOfPages           = 0;
         layoutFormat            = paper_none;
-        
+    
         [self registerForDraggedTypes:[NSArray arrayWithObjects:NSURLPboardType, NSTIFFPboardType, pasteBoardOsiriX, nil]];
     }
     
@@ -67,6 +67,11 @@
 }
 
 - (BOOL)acceptsFirstResponder
+{
+    return YES;
+}
+
+- (BOOL)isFlipped
 {
     return YES;
 }
@@ -440,33 +445,99 @@
 
 - (void)resizeLayoutView
 {
-    NSRect r = [self bounds];
-    NSSize viewSize = r.size;
-    CGFloat x = viewSize.width / layoutMatrixWidth;
-    CGFloat y = viewSize.height / layoutMatrixHeight;
-    for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
+    // CAUTION!! Coordinates are flipped because of the enclosing scrollview!!
+    
+    NSRect scrollViewFrame = self.enclosingScrollView.frame;
+    
+    CGFloat maxWidth = scrollViewFrame.size.width;
+    CGFloat ratio = getRatioFromPaperFormat(layoutFormat);
+    
+    // Resize the thumbnails according to the scroll view width
+    CGFloat newHeight = 0;
+    CGFloat thumbWidth = maxWidth / layoutMatrixWidth;
+    CGFloat thumbHeight = ratio ? roundf(thumbWidth * ratio) : scrollViewFrame.size.height / layoutMatrixHeight;
+    
+    // Fill the layout view with thumbnails views in the european reading direction
+    // i.e. from upper left to bottom right, in horizonzal order first.
+    if (ratio)
     {
         for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
         {
-            // (0,0) is the bottom left corner of the view, while the thumbnails are ordered in the european reading direction (from upper left to bottom right)
-            NSUInteger xOrigin = roundf(x*i);
-            NSUInteger yOrigin = roundf(viewSize.height-y*(j+1));
-            NSRect frame = NSMakeRect(xOrigin, yOrigin, roundf(x*(i+1)-xOrigin), roundf(viewSize.height-y*(j))-yOrigin);
-            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:frame];
-            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:frame];
+            NSUInteger yOrigin = j * thumbHeight;
+            
+            for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
+            {
+                NSUInteger xOrigin = roundf(i * thumbWidth);
+                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth*(i+1))-xOrigin, thumbHeight);
+                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
+                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
+            }
+        }
+        
+        newHeight = thumbHeight * layoutMatrixHeight;
+    }
+    else
+    {
+        for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
+        {
+            NSUInteger yOrigin = roundf(j * thumbHeight);
+            for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
+            {
+                NSUInteger xOrigin = roundf(i * thumbWidth);
+                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(i * thumbWidth), roundf(thumbHeight));
+                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
+                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
+            }
         }
     }
+    
+    
+    // Resize and properly position the view in its enclosing scroll view
+    if (newHeight)
+    {
+        [self.superview setFrameSize:NSMakeSize(maxWidth, newHeight)];
+    }
+    else
+    { 
+        [self.superview setFrame:scrollViewFrame];
+    }
+
+    [self setFrame:self.superview.bounds];
+
+    // Resize the thumbnails
+//    NSSize viewSize = self.frame.size;
+//    CGFloat x = viewSize.width / layoutMatrixWidth;
+//    CGFloat y = ratio ? roundf(x * ratio) : viewSize.height / layoutMatrixHeight;
+//    
+//    for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
+//    {
+//        for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
+//        {
+//            // (0,0) is the upper left corner of the view: - (BOOL)isFlipped returns YES
+//            // the thumbnails are ordered in the european reading direction (from upper left to bottom right)
+//            NSUInteger xOrigin = roundf(x*i);
+//            NSUInteger yOrigin = roundf(viewSize.height-y*(j+1) + self.frame.origin.y);
+//            NSRect frame = NSMakeRect(xOrigin, yOrigin, roundf(x*(i+1)-xOrigin), roundf(viewSize.height-y*(j))-yOrigin);
+//            
+//            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:frame];
+//            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:frame];
+//        }
+//    }
+    
+    [self setNeedsDisplay:YES];
 }
 
 - (void)clearAllThumbnailsViews
 {
     NSUInteger nbSubviews = [[self subviews] count];
+    
     for (NSUInteger i = 0 ; i < nbSubviews; ++i)
     {
         PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
         [thumb clearView];
         thumb.isSelected = NO;
     }
+    
     filledThumbs = 0;
     [self setNeedsDisplay:YES];
 }
@@ -590,9 +661,11 @@
 
 //	// convert RGBA to RGB - alpha values are considered when mixing the background color with the actual pixel color
 	NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep size].width*[bitmapImageRep size].height*3];
-	for (int y = 0; y < [bitmapImageRep size].height; ++y) {
+	for (int y = 0; y < [bitmapImageRep size].height; ++y)
+    {
 		unsigned char* rowStart = [bitmapImageRep bitmapData]+[bitmapImageRep bytesPerRow]*y;
-		for (int x = 0; x < [bitmapImageRep size].width; ++x) {
+		for (int x = 0; x < [bitmapImageRep size].width; ++x)
+        {
 			unsigned char rgba[4];
             memcpy(rgba, rowStart+bytesPerPixel*x, 4);
 //			float ratio = ((float)rgba[3])/255;
@@ -625,11 +698,10 @@
 //                  generatedByOsiriX: YES];
 	
 	[dicomExport release];
-
     
     NSImage *image = [[NSImage alloc] init];
     [image addRepresentation:bitmapImageRep];
-    [[image TIFFRepresentation] writeToFile:@"/Users/bd/Downloads/view.tiff" atomically:YES];
+    [[image TIFFRepresentation] writeToFile:@"/Users/bd/Pictures/OsiriX/view.tiff" atomically:YES];
     [image release];
 }
 

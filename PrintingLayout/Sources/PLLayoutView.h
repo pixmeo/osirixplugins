@@ -7,19 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-typedef enum {
-    paper_none      = 0,
-    paper_A4,       // 1
-    paper_USletter, // 2
-    paper_8x10,     // 3
-    paper_11x14,    // 4
-    paper_14x17,    // 5
-} paperSize;
+#import "PLUtils.h"
 
 @interface PLLayoutView : NSView
 {
-//    NSArray *layout; // subviews existe déjà dans la classe NSView
+//    NSArray *layout; // subviews already exists in NSView
     NSUInteger layoutMatrixWidth, layoutMatrixHeight;
     NSUInteger filledThumbs;
     BOOL isDraggingDestination;
@@ -28,8 +20,10 @@ typedef enum {
     int previousLeftShrink;
     int previousRightShrink;
     int mouseTool;
+    
     paperSize layoutFormat;
     NSUInteger numberOfPages;
+//    NSMutableArray *pages;
 }
 
 @property NSUInteger layoutMatrixWidth, layoutMatrixHeight;

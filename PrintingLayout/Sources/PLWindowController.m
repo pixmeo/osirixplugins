@@ -7,7 +7,8 @@
 //
 
 #import "PLWindowController.h"
-#import "OsiriXAPI/N2CustomTitledPopUpButtonCell.h"
+#import <OsiriXAPI/N2CustomTitledPopUpButtonCell.h>
+#import <OsiriXAPI/ROI.h>
 
 @interface PLWindowController ()
 
@@ -35,12 +36,13 @@
 
 - (void)awakeFromNib
 {
-    [scrollView setBackgroundColor:[NSColor colorWithCalibratedWhite:.3 alpha:1]];    
+    [scrollView setBackgroundColor:[NSColor colorWithCalibratedWhite:.65 alpha:.65]];
 }
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];
     
@@ -52,9 +54,9 @@
                                                        relatedBy:NSLayoutRelationEqual
                                                           toItem:layoutView
                                                        attribute:NSLayoutAttributeWidth
-                                                      multiplier:[self getRatioFrom:scrollViewFormat]
+                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
                                                         constant:0];
-        [layoutView addConstraint:ratioConstraint];
+//        [layoutView addConstraint:ratioConstraint];
     }
 }
 
@@ -146,7 +148,10 @@
 
 - (IBAction)updateViewRatio:(id)sender
 {
-    [layoutView removeConstraint:ratioConstraint];
+    if (ratioConstraint)
+    {
+//        [layoutView removeConstraint:ratioConstraint];
+    }
     
     scrollViewFormat = [[sender selectedItem] tag];
     [layoutView setLayoutFormat:scrollViewFormat];
@@ -158,36 +163,34 @@
                                                        relatedBy:NSLayoutRelationEqual
                                                           toItem:layoutView
                                                        attribute:NSLayoutAttributeWidth
-                                                      multiplier:[self getRatioFrom:scrollViewFormat]
+                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
                                                         constant:0];
-        [layoutView addConstraint:ratioConstraint];
+//        [layoutView addConstraint:ratioConstraint];
     }
-}
-
-- (CGFloat)getRatioFrom:(paperSize)format
-{
-    switch (scrollViewFormat)
+    else
     {
-        case paper_A4:
-            return 1.4142;
-            
-        case paper_11x14:
-            return 14./11.;
-            
-        case paper_14x17:
-            return 17./14;
-            
-        case paper_8x10:
-            return 1.25;
-            
-        case paper_USletter:
-            return 1.2941;
-            
-        default: //paper_none
-            return 0.;
+        ratioConstraint = nil;
     }
 }
 
+- (void)addToUndoQueue:(NSString*)string
+{
+	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
+//	id obj = [self prepareObjectForUndo: string];
+//	
+//	if( obj)
+//		[undoQueue addObject: obj];
+//	
+//	if( [undoQueue count] > UNDOQUEUESIZE)
+//	{
+//		[undoQueue removeObjectAtIndex: 0];
+//	}
+}
+
+- (void)bringToFrontROI:(ROI*)roi
+{
+	NSLog( @"bringToFrontROI: not currently available in the Printing Layout.");
+}
 
 @end
 
