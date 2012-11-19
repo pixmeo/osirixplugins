@@ -178,35 +178,6 @@
         glVertex2f( widthhalf, -heighthalf);
     }
     glEnd();
-
-    // Tentative d'affichage de l'index du thumb dans la grille
-//    NSString *inStr = [NSString stringWithFormat:@"%d", layoutIndex];
-//    StringTexture *stringTex = [stringTextureCache objectForKey:inStr];
-//    
-//    glEnable (GL_TEXTURE_RECTANGLE_EXT);
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-//    
-//    long xc, yc;
-//    xc = 2;
-//    yc = 1-[stringTex texSize].height;
-//    
-//    if( whiteBackground)
-//        glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
-//    else
-//        glColor4f (0.0f, 0.0f, 0.0f, 1.0f);
-//    
-//    [stringTex drawWithBounds: NSMakeRect( xc+1, yc+1, [stringTex texSize].width, [stringTex texSize].height)];
-//    
-//    if( whiteBackground)
-//        glColor4f (0.0f, 0.0f, 0.0f, 1.0f);
-//    else
-//        glColor4f (1.0f, 1.0f, 1.0f, 1.0f);
-//    [stringTex drawWithBounds: NSMakeRect( xc, yc, [stringTex texSize].width, [stringTex texSize].height)];
-//    
-//    glDisable(GL_BLEND);
-//    glDisable (GL_TEXTURE_RECTANGLE_EXT);
-    
 }
 
 - (void)fillViewWith:(NSPasteboard*)pasteboard atIndex:(NSInteger)gridIndex
@@ -253,10 +224,6 @@
             layoutIndex = gridIndex;
         }
     }
-//    else if ([NSImage canInitWithPasteboard:pasteboard])
-//    {
-//        [self setImage:[[NSImage alloc] initWithPasteboard:pasteboard]];
-//    }
 }
 
 //- (void)fillViewFrom:(id <NSDraggingInfo>)sender

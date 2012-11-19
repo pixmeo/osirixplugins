@@ -45,19 +45,19 @@
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];
-    
     [layoutView setLayoutFormat:scrollViewFormat];
-    if (scrollViewFormat)
-    {
-        ratioConstraint = [NSLayoutConstraint constraintWithItem:layoutView
-                                                       attribute:NSLayoutAttributeHeight
-                                                       relatedBy:NSLayoutRelationEqual
-                                                          toItem:layoutView
-                                                       attribute:NSLayoutAttributeWidth
-                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
-                                                        constant:0];
+    
+//    if (scrollViewFormat)
+//    {
+//        ratioConstraint = [NSLayoutConstraint constraintWithItem:layoutView
+//                                                       attribute:NSLayoutAttributeHeight
+//                                                       relatedBy:NSLayoutRelationEqual
+//                                                          toItem:layoutView
+//                                                       attribute:NSLayoutAttributeWidth
+//                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
+//                                                        constant:0];
 //        [layoutView addConstraint:ratioConstraint];
-    }
+//    }
 }
 
 - (IBAction)updateLayoutFromButton:(id)sender

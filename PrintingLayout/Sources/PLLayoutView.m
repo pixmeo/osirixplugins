@@ -195,7 +195,7 @@
                             currentInsertingIndex = index + 1;
                         }
                     }
-                }   
+                }
             }
             else // the pointer is in the thumb's center 
             {
