@@ -34,6 +34,8 @@
         isSelected              = NO;
         shrinking               = none;
         layoutIndex             = -1;
+        
+        [self setPostsFrameChangedNotifications:NO];
     }
     return self;
 }
@@ -51,6 +53,8 @@
         
         originalFrame           = frame;
         drawingFrameRect        = frame;
+        
+        [self setPostsFrameChangedNotifications:NO];
     }
     return self;
 }
@@ -71,63 +75,6 @@
 }
 
 #pragma mark-View's graphic management
-//- (void)drawRect:(NSRect)rect
-//{
-//    [super drawRect:rect];
-//
-//    // NSImage version, with NSBezierPath
-//    if (!image)
-//    {
-//        [[NSColor blackColor] setFill];
-//        [NSBezierPath fillRect:self.bounds];
-//    }
-//    else
-//    {
-//        [image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1];
-//    }
-//
-//    if (isDraggingDestination)
-//    {
-//        [[NSColor blueColor] setStroke];
-//        [NSBezierPath setDefaultLineWidth:3.0];
-//        [[NSColor colorWithCalibratedWhite:1 alpha:0.5] setFill];
-//        [NSBezierPath fillRect:self.bounds];
-//    }
-//    else
-//    {
-//        if (isSelected)
-//        {
-//            [[NSColor orangeColor] setStroke];
-//            [NSBezierPath setDefaultLineWidth:3.0];
-//        }
-//        else
-//        {
-//            [[NSColor greenColor] setStroke];
-//            [NSBezierPath setDefaultLineWidth:1.0];
-//        }
-//    }
-//    [NSBezierPath strokeRect:self.bounds];
-//}
-//
-//- (void)subDrawRect: (NSRect)aRect
-//{
-//    NSLog(@"subdrawrect");
-//    CGLContextObj cgl_ctx = [[NSOpenGLContext currentContext] CGLContextObj];
-//    float sf = [self.window backingScaleFactor];
-//    
-//    float width, height;
-//    width = self.bounds.size.width/2;
-//    height = self.bounds.size.height/2;
-//    glBegin(GL_LINE_LOOP);
-//    {
-//        glVertex2f(self.bounds.size.width - width - 0.5,  height - self.bounds.size.height + 0.5);
-//        glVertex2f(-width + 0.5,                          height - self.bounds.size.height + 0.5);
-//        glVertex2f(-width + 0.5,                          height - 0.5);
-//        glVertex2f(self.bounds.size.width - width - 0.5,  height - 0.5);
-//    }
-//    glEnd();
-//}
-
 - (void)drawRectAnyway:(NSRect)aRect
 {
     CGLContextObj cgl_ctx = [[NSOpenGLContext currentContext] CGLContextObj];
@@ -226,11 +173,6 @@
     }
 }
 
-//- (void)fillViewFrom:(id <NSDraggingInfo>)sender
-//{
-//    [self fillViewWith:[sender draggingPasteboard]];
-//}
-
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side
 {
     if ([dcmPixList count] && shrinking == none)
@@ -307,6 +249,7 @@
     isGoingToBeSelected = YES;
 }
 
+// Action on right mouse button up
 - (void) rightMouseUp:(NSEvent *)event
 {
     NSPoint p = [self convertPoint:[event locationInWindow] fromView:nil];

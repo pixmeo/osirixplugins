@@ -38,18 +38,6 @@
     return self;
 }
 
-//- (void)setFrameSize:(NSSize)newSize
-//{
-//    marginSize = fullWidth ? 0 : roundf(newSize.width / 80);
-//    [super setFrameSize:newSize];
-//}
-//
-//- (void)setFrame:(NSRect)frameRect
-//{
-//    marginSize = fullWidth ? 0 : roundf(frameRect.size.width / 80);
-//    [super setFrame:frameRect];
-//}
-
 - (void)drawRect:(NSRect)dirtyRect
 {
     // Drawing code here.
@@ -107,7 +95,7 @@
     
     // Determine the size of pages (i.e. PLLayoutView)
     CGFloat pageWidth   = fullFrame.size.width - 2 * sideMargin;
-    CGFloat pageHeight  = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.width - topMargin)/nbPages) - bottomMargin;
+    CGFloat pageHeight  = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.height - topMargin)/nbPages) - bottomMargin;
     
     NSRect documentFrame = NSMakeRect(fullFrame.origin.x, fullFrame.origin.y, fullFrame.size.width, (pageHeight + bottomMargin)*nbPages + topMargin);
     

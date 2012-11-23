@@ -77,12 +77,12 @@
     [[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:heightValue];
     [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
     [fullDocumentView resizePLDocumentView];
-//    [[[fullDocumentView subviews] objectAtIndex:currentPage] resizeLayoutView];
 }
 
 - (IBAction)displayModeChanged:(id)sender
 {
     [fullDocumentView setFullWidth:[[sender selectedCell] tag]];
+    [fullDocumentView resizePLDocumentView];
 }
 
 - (IBAction)clearViewsInLayout:(id)sender
@@ -117,7 +117,6 @@
         [self updateWidth];
         [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
         [fullDocumentView resizePLDocumentView];
-//        [[[fullDocumentView subviews] objectAtIndex:currentPage] resizeLayoutView];
     }
 }
 
