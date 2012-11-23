@@ -9,6 +9,7 @@
 #import "WorklistsPreferencesController.h"
 #import "WorklistsPlugin.h"
 #import "Worklist.h"
+#import <OsiriXAPI/DCMTKQueryNode.h>
 
 
 @interface WorklistsPreferencesController ()
@@ -94,6 +95,10 @@
     for (NSMenuItem* mi in _autoretrieveButton.itemArray)
         if (mi.tag > 0)
             [mi setHidden:(mi.tag >= refresh)];
+}
+
+- (BOOL)canCountSuboperations {
+    return [DCMTKQueryNode instancesRespondToSelector:@selector(countOfSuccessfulSuboperations)];
 }
 
 @end
