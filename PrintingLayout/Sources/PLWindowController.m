@@ -34,10 +34,10 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    [scrollView setBackgroundColor:[NSColor colorWithCalibratedWhite:.65 alpha:.65]];
-}
+//- (void)awakeFromNib
+//{
+//    [scrollView setBackgroundColor:[NSColor colorWithCalibratedWhite:.65 alpha:.65]];
+//}
 
 - (void)windowDidLoad
 {
@@ -45,18 +45,23 @@
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];
-    [layoutView setLayoutFormat:scrollViewFormat];
+    NSUInteger numberOfPages = [[fullDocumentView subviews] count];
+    for (NSUInteger i = 0; i < numberOfPages; ++i)
+    {
+        [[[fullDocumentView subviews] objectAtIndex:i] setLayoutFormat:scrollViewFormat];
+    }
+//    [[[fullDocumentView subviews] objectAtIndex:currentPage] setLayoutFormat:scrollViewFormat];
     
 //    if (scrollViewFormat)
 //    {
-//        ratioConstraint = [NSLayoutConstraint constraintWithItem:layoutView
+//        ratioConstraint = [NSLayoutConstraint constraintWithItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
 //                                                       attribute:NSLayoutAttributeHeight
 //                                                       relatedBy:NSLayoutRelationEqual
-//                                                          toItem:layoutView
+//                                                          toItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
 //                                                       attribute:NSLayoutAttributeWidth
 //                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
 //                                                        constant:0];
-//        [layoutView addConstraint:ratioConstraint];
+//        [[[fullDocumentView subviews] objectAtIndex:currentPage] addConstraint:ratioConstraint];
 //    }
 }
 
@@ -68,24 +73,26 @@
     heightValue = [[c objectAtIndex:1] integerValue];
     [self updateWidth];
     [self updateHeight];
-    [layoutView updateLayoutViewWidth:widthValue height:heightValue];
-    [layoutView reorderLayoutMatrix];
-    [layoutView resizeLayoutView];
+    
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:heightValue];
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
+    [fullDocumentView resizePLDocumentView];
+//    [[[fullDocumentView subviews] objectAtIndex:currentPage] resizeLayoutView];
 }
 
-//- (void)windowDidResize:(NSNotification *)notification
-//{
-//    [layoutView resizeLayoutView];
-//}
+- (IBAction)displayModeChanged:(id)sender
+{
+    [fullDocumentView setFullWidth:[[sender selectedCell] tag]];
+}
 
 - (IBAction)clearViewsInLayout:(id)sender
 {
-    [layoutView clearAllThumbnailsViews];
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] clearAllThumbnailsViews];
 }
 
 - (IBAction)exportViewToDicom:(id)sender
 {
-    [layoutView saveLayoutViewToDicom];
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] saveLayoutViewToDicom];
 }
 
 - (IBAction)changeTool:(id)sender
@@ -98,30 +105,32 @@
 	else if ([sender respondsToSelector:@selector(tag)])
 		toolIndex = [sender tag];
     
-    [layoutView setMouseTool:toolIndex];
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] setMouseTool:toolIndex];
 }
 
 - (IBAction)adjustLayoutWidth:(id)sender
 {
     NSUInteger newWidth = [sender integerValue];
-    if ([layoutView updateLayoutViewWidth:newWidth height:heightValue])
+    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:heightValue])
     {
         widthValue = newWidth;
         [self updateWidth];
-        [layoutView reorderLayoutMatrix];
-        [layoutView resizeLayoutView];
+        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
+        [fullDocumentView resizePLDocumentView];
+//        [[[fullDocumentView subviews] objectAtIndex:currentPage] resizeLayoutView];
     }
 }
 
 - (IBAction)adjustLayoutHeight:(id)sender
 {
     NSUInteger newHeight = [sender integerValue];
-    if ([layoutView updateLayoutViewWidth:widthValue height:newHeight])
+    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:newHeight])
     {
         heightValue = newHeight;
         [self updateHeight];
-        [layoutView reorderLayoutMatrix];
-        [layoutView resizeLayoutView];
+        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
+        [fullDocumentView resizePLDocumentView];
+//        [[[fullDocumentView subviews] objectAtIndex:currentPage] resizeLayoutView];
     }
 }
 
@@ -140,8 +149,8 @@
 // Used when the stepper and text field need to be updated from the layout view (adding a column or line)
 - (void)layoutMatrixUpdated
 {
-    heightValue = [layoutView layoutMatrixHeight];
-    widthValue = [layoutView layoutMatrixWidth];
+    heightValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixHeight];
+    widthValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixWidth];
     [self updateHeight];
     [self updateWidth];
 }
@@ -150,26 +159,39 @@
 {
     if (ratioConstraint)
     {
-//        [layoutView removeConstraint:ratioConstraint];
+//        [[[fullDocumentView subviews] objectAtIndex:currentPage] removeConstraint:ratioConstraint];
     }
     
     scrollViewFormat = [[sender selectedItem] tag];
-    [layoutView setLayoutFormat:scrollViewFormat];
+//    [[[fullDocumentView subviews] objectAtIndex:currentPage] setLayoutFormat:scrollViewFormat];
+    [fullDocumentView setPageFormat:scrollViewFormat];
     
     if (scrollViewFormat)
     {
-        ratioConstraint = [NSLayoutConstraint constraintWithItem:layoutView
+        ratioConstraint = [NSLayoutConstraint constraintWithItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
                                                        attribute:NSLayoutAttributeHeight
                                                        relatedBy:NSLayoutRelationEqual
-                                                          toItem:layoutView
+                                                          toItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
                                                        attribute:NSLayoutAttributeWidth
                                                       multiplier:getRatioFromPaperFormat(scrollViewFormat)
                                                         constant:0];
-//        [layoutView addConstraint:ratioConstraint];
+//        [[[fullDocumentView subviews] objectAtIndex:currentPage] addConstraint:ratioConstraint];
     }
     else
     {
         ratioConstraint = nil;
+    }
+}
+
+- (void)updateWindowTitle
+{
+    if (currentPage)
+    {
+        [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", (int)currentPage, (int)[[fullDocumentView subviews] count]]];
+    }
+    else
+    {
+        [[self window] setTitle:@"Printing Layout"];
     }
 }
 

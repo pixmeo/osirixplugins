@@ -8,6 +8,7 @@
 
 #import "PLLayoutView.h"
 #import "PLThumbnailView.h"
+#import "PLDocumentView.h"
 #import <OsiriXAPI/DICOMExport.h>
 
 @implementation PLLayoutView
@@ -35,26 +36,33 @@
         previousLeftShrink      = -1;
         previousRightShrink     = -1;
         
-        numberOfPages           = 0;
         layoutFormat            = paper_none;
     
         [self registerForDraggedTypes:[NSArray arrayWithObjects:NSURLPboardType, NSTIFFPboardType, pasteBoardOsiriX, nil]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewFrameDidChangeNotification object:nil];
+//        [[NSNotificationCentexr defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewFrameDidChangeNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewBoundsDidChangeNotification object:nil];
     }
     
     return self;
 }
 
+//- (void)setFrame:(NSRect)frameRect
+//{
+//    [super setFrame:frameRect];
+//}
+
 - (void)drawRect:(NSRect)dirtyRect
 {
-    // A PLLayoutView is gray, surrounded by a thin black line.
+    // An empty PLLayoutView is gray, surrounded by a thin black line.
     // If it is the current dragging destination (i.e. trying to drag a DCMView into it), the border is thicker and blue.
     if (isDraggingDestination)
     {
         [NSBezierPath setDefaultLineWidth:3.0];
         [[NSColor blueColor] setStroke];
         [[NSColor colorWithCalibratedWhite:0.65 alpha:1] setFill];
+//        [NSBezierPath bezierPathWithRect:self.bounds];
+//        [NSBezierPath fillRect:self.bounds];
+//        [NSBezierPath strokeRect:self.bounds];
     }
     else
     {
@@ -321,7 +329,7 @@
     draggedThumbnailIndex   = -1;
     isDraggingDestination   = NO;
     [self reorderLayoutMatrix];
-    [self resizeLayoutView];
+    [self resizeLayoutView:self.frame];
     
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
@@ -445,61 +453,27 @@
     }
 }
 
-- (void)resizeLayoutView
+- (void)resizeLayoutView:(NSRect)frame
 {
     // CAUTION!! Coordinates are flipped because of the enclosing scrollview!!
+    [self setFrame:frame];
     
-    NSRect scrollViewFrame = self.enclosingScrollView.frame;
+    CGFloat thumbWidth = frame.size.width / layoutMatrixWidth;
+    CGFloat thumbHeight = frame.size.height / layoutMatrixHeight;
     
-    CGFloat maxWidth = scrollViewFrame.size.width;
-    CGFloat ratio = getRatioFromPaperFormat(layoutFormat);
-    
-    // Resize the thumbnails according to the scroll view width
-    CGFloat thumbWidth = maxWidth / layoutMatrixWidth;
-    CGFloat thumbHeight;
-    
-    // Fill the layout view with thumbnails views in the european reading direction
-    // i.e. from upper left to bottom right, in horizonzal order first.
-    if (ratio)
+    for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
     {
-        thumbHeight = roundf(thumbWidth * ratio);
+        NSUInteger yOrigin = roundf(j * thumbHeight);
+        NSUInteger height = roundf(thumbHeight * (j+1))-yOrigin;
         
-        for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
+        for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
         {
-            NSUInteger yOrigin = j * thumbHeight;
-            
-            for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
-            {
-                CGFloat xOrigin = roundf(i * thumbWidth);
-                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth * (i+1))-xOrigin, thumbHeight);
-                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
-                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
-            }
+            NSUInteger xOrigin = roundf(i * thumbWidth);
+            NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth * (i+1)) - xOrigin, height);
+            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
+            [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
         }
-        
-        [self.superview setFrameSize:NSMakeSize(maxWidth, thumbHeight * layoutMatrixHeight)];
     }
-    else
-    {
-        thumbHeight = scrollViewFrame.size.height / layoutMatrixHeight;
-        
-        for (NSUInteger j = 0; j < layoutMatrixHeight; ++j)
-        {
-            NSUInteger yOrigin = roundf(j * thumbHeight);
-            NSUInteger height = roundf(thumbHeight * (j+1))-yOrigin;
-            
-            for (NSUInteger i = 0 ; i < layoutMatrixWidth; ++i)
-            {
-                NSUInteger xOrigin = roundf(i * thumbWidth);
-                NSRect thumbFrame = NSMakeRect(xOrigin, yOrigin, roundf(thumbWidth * (i+1))-xOrigin, height);
-                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setFrame:thumbFrame];
-                [[[self subviews] objectAtIndex:i+j*layoutMatrixWidth] setOriginalFrame:thumbFrame];
-            }
-        }
-        [self.superview setFrame:self.enclosingScrollView.bounds];
-    }
-    
-    [self setFrame:self.superview.bounds];
 
     [self setNeedsDisplay:YES];
 }

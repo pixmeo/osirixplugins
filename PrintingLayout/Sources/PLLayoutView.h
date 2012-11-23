@@ -22,8 +22,6 @@
     int mouseTool;
     
     paperSize layoutFormat;
-    NSUInteger numberOfPages;
-//    NSMutableArray *pages;
 }
 
 @property NSUInteger layoutMatrixWidth, layoutMatrixHeight;
@@ -34,7 +32,7 @@
 
 - (BOOL)updateLayoutViewWidth:(NSUInteger)w height:(NSUInteger)h;
 - (void)reorderLayoutMatrix; // not sure it is really useful
-- (void)resizeLayoutView;
+- (void)resizeLayoutView:(NSRect)frame;
 - (void)clearAllThumbnailsViews;
 - (int)inThumbnailView:(NSPoint)p margin:(NSUInteger)m;
 - (int)getSubviewInsertIndexFrom:(NSPoint)p;

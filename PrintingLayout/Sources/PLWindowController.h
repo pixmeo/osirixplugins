@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PLDocumentView.h"
 #import "PLLayoutView.h"
 #import "PLUtils.h"
 
@@ -27,15 +28,17 @@
     NSUInteger widthValue;
     
     IBOutlet NSScrollView *scrollView;
-    IBOutlet PLLayoutView *layoutView;
+    IBOutlet PLDocumentView *fullDocumentView;
     paperSize scrollViewFormat;
     NSLayoutConstraint *ratioConstraint;
+    NSUInteger currentPage;
 }
 
 @property NSUInteger heightValue;
 @property NSUInteger widthValue;
 
 - (IBAction)updateLayoutFromButton:(id)sender;
+- (IBAction)displayModeChanged:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
 - (IBAction)changeTool:(id)sender;
@@ -45,6 +48,7 @@
 - (void)updateWidth;
 - (void)layoutMatrixUpdated;
 - (IBAction)updateViewRatio:(id)sender;
+- (void)updateWindowTitle;
 //- (CGFloat)getRatioFromPaperFormat;
 
 @end
