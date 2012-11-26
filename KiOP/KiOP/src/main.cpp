@@ -19,6 +19,8 @@ int g_currentTool = 3;
 int g_lastTool = 3;
 int g_toolToChoose = -1;
 
+// compteur pour sensibilite outils
+struct cptTools g_cpt;
 #if defined _OS_WIN_
 int g_totalTools = 8;
 #elif defined _OS_MAC_
@@ -74,6 +76,7 @@ ToolDock layoutTools(g_totalLayoutTools+1);
 #endif
 int g_pixSize = 0;
 int g_pixSizeActive = 0;
+int activeToolSize = mainTools.getItemSize();
 
 #ifdef _OS_WIN_
 	TelnetClient g_telnet;
@@ -124,6 +127,10 @@ void Initialisation(void)
 		ChangeCursor(0);
 		InitGestionCurseurs();
 	#endif
+
+	//mise à 0 des compteurs
+	g_cpt.scroll = 0;
+	g_cpt.zoom = 0;
 }
 
 // Fonction de fermeture du programme
@@ -353,7 +360,7 @@ void handleState()
 			mainTools.setToolsBackgroundTransparent();
 			layoutTools.setToolsBackgroundTransparent();
 #elif defined _OS_MAC_
-			mainTools->setToolsBackgroundTransparent();
+			mainTools.setToolsBackgroundTransparent();
 #endif
 		}
 		else
@@ -377,6 +384,7 @@ void handleState()
 
 		if (g_depthIntervalOK)
 		{
+			//g_telnet.connexion();			
 			gp_window->setBackgroundBrush(Qt::NoBrush);
 		}
 		else
@@ -390,6 +398,7 @@ void handleState()
 
 			gp_window->setWindowOpacity(qreal(1.0));
 			g_pix[CROSS]->setOpacity(0.4);
+			//g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
 		}
 		break; // case CALIBRATE_HAND_STATE
 
@@ -408,7 +417,7 @@ void handleState()
 
 		if (SelectionDansUnMenu(g_currentTool) && g_toolSelectable)
 		{
-			g_telnet.connexion();
+			
 			switch(g_currentTool)
 			{
 #ifdef _OS_WIN_
@@ -439,7 +448,10 @@ void handleState()
 				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction cursorTool\r\n"));
 				break;
 			case CROSS:
-				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction exit\r\n"));
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
+				//g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction stop\r\n"));
+				//cout << "sessionStop" << endl;
+				//g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
 				break;
 			}
 
@@ -455,7 +467,7 @@ void handleState()
 				gp_window->hide();
 				gp_windowActiveTool->show();
 				gp_windowActiveTool->setBackgroundBrush(QBrush(g_toolColorInactive, Qt::SolidPattern));
-				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(g_pixSizeActive,g_pixSizeActive));
+				gp_pixActive->load(QPixmap(":/images/"+g_pix.operator[](g_currentTool)->objectName()+".png").scaled(activeToolSize,activeToolSize));
 			}
 
 			// Si l'outil pointeur a été selectionné
@@ -481,13 +493,15 @@ void handleState()
 
 				gp_window->hide();
 				gp_windowActiveTool->show();
-				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(g_pixSizeActive,g_pixSizeActive));
+				gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(activeToolSize,activeToolSize));
 			}
 
 			// Si la croix a été selectionnée
 			else if (g_currentTool == CROSS)
 			{
+				g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction endSession\r\n"));
 				cout << "-- Croix selectionnee" << endl;
+				//g_telnet.deconnexion();
 				gp_sessionManager->EndSession();
 			}
 
@@ -548,10 +562,51 @@ void handleState()
 
 			// Scroll
 			case SCROLL :
-				if (g_hP.DetectRight())
-					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i %1\r\n").arg(SENSIBILITE_SCROLL));
-				if (g_hP.DetectLeft())
-					g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d %1\r\n").arg(SENSIBILITE_SCROLL));
+				int scrollSpeed = abs(g_hP.Speed().X())/2;
+				int cptSpeed = 0;
+				if (scrollSpeed < 1){
+					scrollSpeed = 1;
+				}
+				else if(scrollSpeed > 4){
+					cptSpeed = scrollSpeed;
+					scrollSpeed = 4;
+				}
+				
+				if (g_hP.DetectRight()){
+					if (g_cpt.dir != DIR_RIGHT)
+						g_cpt.scroll = 0;
+
+					g_cpt.scroll = g_cpt.scroll+scrollSpeed;
+					if (g_cpt.scroll >= SENSIBILITE_SCROLL_CPT){
+						if (scrollSpeed<4){
+							g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i %1\r\n").arg(SENSIBILITE_SCROLL));
+						}
+						else if (scrollSpeed >= 4){
+							g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -i %1\r\n").arg(SENSIBILITE_SCROLL+(cptSpeed/4)));
+						}
+						g_cpt.scroll = 0;
+					}
+					g_cpt.dir = DIR_RIGHT;
+					
+				}
+				if (g_hP.DetectLeft()){
+					if (g_cpt.dir != DIR_LEFT)
+						g_cpt.scroll = 0;
+
+					g_cpt.scroll = g_cpt.scroll+scrollSpeed;	
+					if (g_cpt.scroll >= SENSIBILITE_SCROLL_CPT){
+						if (scrollSpeed<4){
+							g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d %1\r\n").arg(SENSIBILITE_SCROLL));
+						}
+						else if (scrollSpeed >= 4){
+							g_telnet.sendCommand(QString("\r\ndcmview2d:scroll -d %1\r\n").arg(SENSIBILITE_SCROLL+(cptSpeed/4)));
+						}
+						g_cpt.scroll = 0;
+					}
+					g_cpt.dir = DIR_LEFT;
+					
+					
+				}
 				break;
 
 			} // end switch (g_currentTool)
@@ -662,7 +717,7 @@ void handleState()
 					{
 						g_hP.SignalResetSteadies();
 						g_cursorQt.PressLeftClic();
-						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(g_pixSizeActive,g_pixSizeActive));
+						gp_pixActive->load(QPixmap(":/images/mouse_fermee.png").scaled(activeToolSize,activeToolSize));
 					}
 				}
 				if (ConditionLeftClicRelease())
@@ -671,7 +726,7 @@ void handleState()
 					{
 						g_hP.SignalResetSteadies();
 						g_cursorQt.ReleaseLeftClic();
-						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(g_pixSizeActive,g_pixSizeActive));
+						gp_pixActive->load(QPixmap(":/images/mouse.png").scaled(activeToolSize,activeToolSize));
 					}
 				}
 			}
@@ -700,9 +755,8 @@ void handleState()
 
 	// Préparation pour le retour au menu
 	case BACK_TO_MENU_STATE :
-
 		ChangeState(TOOLS_MENU_STATE);
-		g_telnet.deconnexion();
+		
 
 		g_hP.SignalResetSteadies();
 
@@ -1046,7 +1100,7 @@ int main(int argc, char *argv[])
 	g_pointerQt = CursorQt(POINTER_TYPE);
 	gp_window = new GraphicsView(NULL);
 	gp_windowActiveTool = new GraphicsView(NULL);
-	gp_sceneActiveTool = new QGraphicsScene(0,0,g_pixSizeActive,g_pixSizeActive);
+	gp_sceneActiveTool = new QGraphicsScene(0,0,activeToolSize,activeToolSize);
 	gp_viewLayouts = new GraphicsView(NULL);
 	gp_pixActive = new Pixmap(QPixmap()); //for activeTool
 	//mainTools.init(g_totalTools+1);
@@ -1078,7 +1132,7 @@ int main(int argc, char *argv[])
 	gp_sceneActiveTool->addItem(gp_pixActive);
 	//gp_windowActiveTool->setSize(126,126);
 	gp_windowActiveTool->setScene(gp_sceneActiveTool);
-	gp_windowActiveTool->setGeometry(gp_window->getResX()-g_pixSizeActive,gp_window->getResY()-g_pixSizeActive-40,g_pixSizeActive,g_pixSizeActive);
+	gp_windowActiveTool->setGeometry(gp_window->getResX()-activeToolSize,gp_window->getResY()-activeToolSize-40,activeToolSize,activeToolSize);
 
 
 #ifdef _OS_WIN_
@@ -1112,6 +1166,7 @@ Session started event handler. Session manager calls this when the session begin
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 {
+	g_telnet.connexion();
 	ChangeState(CALIBRATE_HAND_STATE);
 
 	g_activeSession = true;
@@ -1139,9 +1194,9 @@ void XN_CALLBACK_TYPE sessionStart(const XnPoint3D& ptPosition, void* UserCxt)
 		<< "e" << (compteurSession==1?"re":"") << " fois" << endl << endl;
   
 #if defined _OS_WIN_
-	g_telnet.connexion();
+	//g_telnet.connexion();
 	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
-	g_telnet.deconnexion();
+	//g_telnet.deconnexion();
 #endif
 }
 
@@ -1150,11 +1205,10 @@ session end event handler. Session manager calls this when session ends
 **********************************************************************************/
 void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 {
-#if defined _OS_WIN_
-	g_telnet.connexion();
-	g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
-	g_telnet.deconnexion();
-#endif
+//#if defined _OS_WIN_
+	//g_telnet.connexion();
+	//g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
+//#endif
   
 	ChangeState(INACTIVE_SESSION_STATE);
 
@@ -1185,6 +1239,7 @@ void XN_CALLBACK_TYPE sessionEnd(void* UserCxt)
 	g_lastPt = ptTemp;
 	
 	cout << endl << "Fin de la session" << endl << endl;
+	g_telnet.deconnexion();
 }
 
 
@@ -1218,10 +1273,13 @@ nullify the hand point variable
 void XN_CALLBACK_TYPE pointDestroy(XnUInt32 nID, void *cxt)
 {
 	SteadyAllDisable();
+	//g_telnet.sendCommand(QString("\r\n"));
+	//g_telnet.sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
 	cout << "\nPoint detruit -------------------------------------------------" 
 		<< endl << endl;
 
 	nullifyHandPoint();
+	g_telnet.deconnexion();
 	//gp_sessionManager->EndSession();
 }
 

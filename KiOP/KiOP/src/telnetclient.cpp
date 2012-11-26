@@ -24,15 +24,23 @@ TelnetClient::TelnetClient(QWidget *parent, Qt::WFlags flags)
 }
 
 void TelnetClient::connexion(){
-	tcpSocket->connectToHost("localhost",17179);
+	//if (!this->tcpSocket->isValid()){
+		tcpSocket->connectToHost("localhost",17179);
+		cout << "connexion!" << endl;
+		//this->sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
+		//this->sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n"));
+		//this->sendCommand(QString("\r\ndcmview2d:mouseLeftAction sessionStart\r\n"));
+	//}
 }
 
 void TelnetClient::deconnexion(){
-	tcpSocket->disconnectFromHost();
+	//tcpSocket->write(QString("\r\ndcmview2d:mouseLeftAction sessionStop\r\n").toAscii());
+	cout << "deconnexion!" << endl;
+	//tcpSocket->disconnectFromHost();
 }
 
 void TelnetClient::sendCommand(QString cmd){//char cmd[]){
-
+	//cout << "command: " << cmd.toStdString() << endl;
 	QByteArray paquet = cmd.toAscii();
     //QDataStream out(&paquet, QIODevice::WriteOnly);
 

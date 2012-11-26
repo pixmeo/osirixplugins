@@ -2,6 +2,7 @@
 #define TELNETCLIENT_H
 
 #include <QtGui/QMainWindow>
+#include <QtDebug>
 //#include "ui_testsocket.h"
 #include <QtNetwork/qtcpsocket.h>
 #include <stdio.h>
