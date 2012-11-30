@@ -189,7 +189,7 @@ void CursorQt::NewCursorSession(Point3D handPt)
 
 #ifdef _OS_WIN_
 	if (m_type==POINTER_TYPE)
-		ChangeCursor(1);
+		ChangeCursor(3);
 	else
 		ChangeCursor(4);
 #endif
