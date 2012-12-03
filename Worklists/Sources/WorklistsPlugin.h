@@ -22,9 +22,11 @@ extern NSString* const WorklistAlbumIDsDefaultsKey;
     NSMutableDictionary* _studiesLastSeenDates;
     NSMutableDictionary* _worklistObjs;
     NSMutableDictionary* _errors;
+    NSTimer* _urlSyncTimer;
 }
 
 @property(readonly,retain) NSArrayController* worklists;
+@property(readonly,retain) NSTimer* urlSyncTimer;
 
 + (WorklistsPlugin*)instance;
 

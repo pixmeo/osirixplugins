@@ -8,6 +8,7 @@
 
 #import "WorklistsPlugin.h"
 #import "Worklist.h"
+#import "WorklistsNonretainingTimerInvoker.h"
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/browserController.h>
 #import <OsiriXAPI/PrettyCell.h>
@@ -17,6 +18,7 @@
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/N2Debug.h>
 #import <OsiriXAPI/Notifications.h>
+#import <OsiriXAPI/NSThread+N2.h>
 #import <objc/runtime.h>
 
 
@@ -24,10 +26,16 @@
 
 @end
 
+@interface WorklistsPlugin ()
+
+@property(readwrite,retain) NSTimer* urlSyncTimer;
+
+@end
 
 @implementation WorklistsPlugin
 
 @synthesize worklists = _worklists;
+@synthesize urlSyncTimer = _urlSyncTimer;
 
 static WorklistsPlugin* WorklistsPluginInstance = nil;
 static NSString* const Worklists = @"Worklists";
@@ -58,19 +66,31 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
         [_worklists bind:@"contentArray" toObject:[NSUserDefaultsController.sharedUserDefaultsController values] withKeyPath:WorklistsDefaultsKey options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:NSHandlesContentAsCompoundValueBindingOption]];
         [_worklists setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
         
-        [_worklists addObserver:self forKeyPath:@"content" options:NSKeyValueObservingOptionInitial context:[self class]];
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(applicationDidFinishLaunching:) name:NSApplicationDidFinishLaunchingNotification object:NSApp];
     }
     
     return self;
 }
 
+- (void)applicationDidFinishLaunching:(id)n {
+    [_worklists addObserver:self forKeyPath:@"content" options:NSKeyValueObservingOptionInitial context:[self class]];
+    [NSUserDefaultsController.sharedUserDefaultsController addObserver:self forKeyPath:@"values.WorklistsPlistURL" options:0 context:[self class]];
+    [NSUserDefaultsController.sharedUserDefaultsController addObserver:self forKeyPath:@"values.WorklistsPlistURLSyncFlag" options:NSKeyValueObservingOptionInitial context:[self class]];
+}
+
 - (void)dealloc {
     [self saveSLSDs];
+    
+    [NSUserDefaultsController.sharedUserDefaultsController removeObserver:self];
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+    self.urlSyncTimer = nil;
+    
     [_cachePath release];
     [_worklistObjs release];
     [_worklists release];
     [_studiesLastSeenDates release];
     [_errors release];
+    
     [super dealloc];
 }
 
@@ -121,45 +141,80 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
     if (context != [self class])
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-        
+    
     //NSLog(@"observe %@, %@", keyPath, change);
     
-    NSMutableDictionary* existingWorklistObjs = [[_worklistObjs mutableCopy] autorelease];
-    
-    for (NSDictionary* wp in _worklists.content) {
-        NSString* wid = [wp objectForKey:WorklistIDKey];
-        if (!wid) continue;
+    if (object == _worklists) {
+        NSMutableDictionary* existingWorklistObjs = [[_worklistObjs mutableCopy] autorelease];
         
-        Worklist* w = [existingWorklistObjs objectForKey:wid];
+        for (NSDictionary* wp in _worklists.content) {
+            NSString* wid = [wp objectForKey:WorklistIDKey];
+            if (!wid) continue;
+            
+            Worklist* w = [existingWorklistObjs objectForKey:wid];
+            
+            if (w) { // it already exists, update it
+                [w setProperties:wp];
+                [existingWorklistObjs removeObjectForKey:wid];
+            } else {
+                [_worklistObjs setObject:(w = [Worklist worklistWithProperties:wp]) forKey:wid];
+            }
+        }
         
-        if (w) { // it already exists, update it
-            [w setProperties:wp];
-            [existingWorklistObjs removeObjectForKey:wid];
-        } else {
-            [_worklistObjs setObject:(w = [Worklist worklistWithProperties:wp]) forKey:wid];
+        for (NSString* wid in existingWorklistObjs) { // these worklists don't exist anymore, delete them
+            [[_worklistObjs objectForKey:wid] delete];
+            [_worklistObjs removeObjectForKey:wid];
+        }
+        
+        // clean up leftover albums...
+        @synchronized (self) {
+            NSArray* albumIDs = [_worklistObjs.allValues valueForKey:@"albumId"];
+            
+            NSArray* savedAlbumIDs = [NSUserDefaults.standardUserDefaults objectForKey:WorklistAlbumIDsDefaultsKey];
+            NSMutableArray* mAlbumIDs = [savedAlbumIDs isKindOfClass:[NSArray class]]? [[savedAlbumIDs mutableCopy] autorelease] : [NSMutableArray array];
+            
+            for (NSString* albumId in savedAlbumIDs)
+                if (![albumIDs containsObject:albumId]) {
+                    // TODO: delete 0-image studies // but what if the list is being synced ?
+                    ;
+                    // delete the album
+                    [Worklist deleteAlbumWithId:albumId];
+                    // remove from list
+                    [mAlbumIDs removeObject:albumId];
+                }
+            
+            [NSUserDefaults.standardUserDefaults setObject:mAlbumIDs forKey:WorklistAlbumIDsDefaultsKey];
         }
     }
-    
-    for (NSString* wid in existingWorklistObjs) { // these worklists don't exist anymore, delete them
-        [[_worklistObjs objectForKey:wid] delete];
-        [_worklistObjs removeObjectForKey:wid];
+    else {
+        if ([keyPath isEqualToString:@"values.WorklistsPlistURLSyncFlag"] || [keyPath isEqualToString:@"values.WorklistsPlistURL"]) {
+            if ([[NSUserDefaults.standardUserDefaults objectForKey:@"WorklistsPlistURLSyncFlag"] boolValue])
+                self.urlSyncTimer = [NSTimer scheduledTimerWithTimeInterval:120 target:[WorklistsNonretainingTimerInvoker invokerWithTarget:self selector:@selector(_urlSync)] selector:@selector(fire:) userInfo:nil repeats:YES];
+            else self.urlSyncTimer = nil;
+            [self.urlSyncTimer fire];
+        }
     }
-    
-    // clean up leftover albums...
-    @synchronized (self) {
-        NSArray* albumIDs = [_worklistObjs.allValues valueForKey:@"albumId"];
+}
+
+- (void)_urlSync {
+    [NSThread performBlockInBackground:^{
+        NSURL* url = [NSURL URLWithString:[NSUserDefaults.standardUserDefaults objectForKey:@"WorklistsPlistURL"]];
+        /*NSURLRequest* request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:60];
         
-        NSArray* savedAlbumIDs = [NSUserDefaults.standardUserDefaults objectForKey:WorklistAlbumIDsDefaultsKey];
-        NSMutableArray* mAlbumIDs = [savedAlbumIDs isKindOfClass:[NSArray class]]? [[savedAlbumIDs mutableCopy] autorelease] : [NSMutableArray array];
+        NSURLResponse* response = nil;
+        NSError* error = nil;
+        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];*/
         
-        for (NSString* albumId in savedAlbumIDs)
-            if (![albumIDs containsObject:albumId]) {
-                [Worklist deleteAlbumWithId:albumId];
-                [mAlbumIDs removeObject:albumId];
-            }
+        NSArray* entries = [NSArray arrayWithContentsOfURL:url];
         
-        [NSUserDefaults.standardUserDefaults setObject:mAlbumIDs forKey:WorklistAlbumIDsDefaultsKey];
-    }
+        if (entries)
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (![_worklists.content isEqual:entries]) {
+                    [_worklists setContent:entries];
+                    [self observeValueForKeyPath:@"content" ofObject:_worklists change:nil context:[self class]];
+                }
+            });
+    }];
 }
 
 - (Worklist*)worklistForAlbum:(DicomAlbum*)album {

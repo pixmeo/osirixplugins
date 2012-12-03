@@ -9,6 +9,7 @@
 #import "Worklist.h"
 #import "Worklist+POD.h"
 #import "WorklistsPlugin.h"
+#import "WorklistsNonretainingTimerInvoker.h"
 #import <OsiriXAPI/DicomDatabase.h>
 #import <OsiriXAPI/DicomAlbum.h>
 #import <OsiriXAPI/DicomStudy.h>
@@ -41,39 +42,7 @@ NSString* const WorklistNoLongerThenKey = @"noLongerThen";
 NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
 
 
-@interface WorklistNonretainingTimerInvoker : NSObject {
-    id _target;
-    SEL _sel;
-}
-
-+ (id)invokerWithTarget:(id)target selector:(SEL)sel;
-
-@end
-
-
 @interface WorklistRuleUnarchiveFromData : NSValueTransformer
-
-@end
-
-
-@implementation WorklistNonretainingTimerInvoker
-
-- (id)initWithTarget:(id)target selector:(SEL)sel {
-    if ((self = [super init])) {
-        _target = target; // no retain!
-        _sel = sel;
-    }
-    
-    return self;
-}
-
-+ (id)invokerWithTarget:(id)target selector:(SEL)sel {
-    return [[[[self class] alloc] initWithTarget:target selector:sel] autorelease];
-}
-
-- (void)fire:(NSTimer*)timer {
-    [_target performSelector:_sel withObject:timer];
-}
 
 @end
 
@@ -156,20 +125,33 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
         name = NSLocalizedString(@"Worklist", nil);
     
     if (albumId) // make sure the album exists
-        if ((album = [db objectWithID:albumId]) == nil) // it doesn't
+        if ((album = [db objectWithID:albumId]) == nil || album.isDeleted) // it doesn't
             albumId = nil;
         else {
             // make sure the album name matches the name property
             album.name = name;
         }
     
+    if (!albumId) { // try searching by name
+        NSArray* a = [db objectsForEntity:db.albumEntity predicate:[NSPredicate predicateWithFormat:@"name = %@", name]];
+        if (a.count)
+            for (DicomAlbum* ai in a)
+                if (!ai.isDeleted) {
+                    album = ai;
+                    albumId = [[album.objectID URIRepresentation] absoluteString];
+                    break;
+                }
+    }
+    
     if (!albumId) { // create the album
         album = [db newObjectForEntity:[db albumEntity]];
         album.name = name;
         [album.managedObjectContext save:NULL]; // we want a persistent NSManagedObject ID, that is only given on save
         albumId = [[album.objectID URIRepresentation] absoluteString];
-        [self setAlbumId:albumId];
+        [BrowserController.currentBrowser performSelectorInBackground:@selector(refreshAlbums) withObject:nil];
     }
+    
+    [self setAlbumId:albumId];
     
     return album;
 }
@@ -198,7 +180,7 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
         
         if (ti != -1) {
             if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
-                self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
+                self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistsNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
             [_refreshTimer fire];
         } else {
             self.refreshTimer = nil;
@@ -285,16 +267,24 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     
     study.name = name;
     study.patientID = [entry objectForKey:@"PatientID"];
-    study.dateOfBirth = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"PatientsBirthDate"] HHMMss:nil];
     study.patientSex = [entry objectForKey:@"PatientsSex"];
-    
+
+    id pbd = [entry objectForKey:@"PatientsBirthDate"];
+    if ([pbd isKindOfClass:[NSDate class]])
+        study.dateOfBirth = pbd;
+    else study.dateOfBirth = [NSDate dateWithYYYYMMDD:pbd HHMMss:nil];
+
     study.studyInstanceUID = [entry objectForKey:@"StudyInstanceUID"];
     study.studyName = [entry objectForKey:@"RequestedProcedureDescription"];
-    study.date = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"ScheduledProcedureStepStartDate"] HHMMss:[entry objectForKey:@"ScheduledProcedureStepStartTime"]]; 
-    study.modality = [entry objectForKey:@"Modality"];
+    if ([entry objectForKey:@"Date"])
+        study.date = [entry objectForKey:@"Date"];
+    else study.date = [NSDate dateWithYYYYMMDD:[entry objectForKey:@"ScheduledProcedureStepStartDate"] HHMMss:[entry objectForKey:@"ScheduledProcedureStepStartTime"]];
     study.accessionNumber = [entry objectForKey:@"AccessionNumber"];
     study.referringPhysician = [entry objectForKey:@"ReferringPhysiciansName"];
     study.performingPhysician = [entry objectForKey:@"ScheduledPerformingPhysiciansName"];
+
+    NSString* modality = [entry objectForKey:@"Modality"];
+    study.modality = modality.length? modality : @"OT";
 
     study.patientUID = [DicomFile patientUID:[NSDictionary dictionaryWithObjectsAndKeys:
                                               oname, @"patientName",
@@ -399,24 +389,24 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 DcmFileFormat dcmff;
                 
                 DcmDataset* dataset = dcmff.getDataset();
-                dataset->insert(newDicomElement(DcmTag(DCM_AccessionNumber)));
-                dataset->insert(newDicomElement(DcmTag(DCM_ReferringPhysiciansName)));
-                dataset->insert(newDicomElement(DcmTag(DCM_PatientsName)));
-                dataset->insert(newDicomElement(DcmTag(DCM_PatientID)));
-                dataset->insert(newDicomElement(DcmTag(DCM_PatientsBirthDate)));
-                dataset->insert(newDicomElement(DcmTag(DCM_PatientsSex)));
-                dataset->insert(newDicomElement(DcmTag(DCM_StudyInstanceUID)));
-                dataset->insert(newDicomElement(DcmTag(DCM_RequestedProcedureDescription)));
+                dataset->insertEmptyElement(DCM_AccessionNumber);
+                dataset->insertEmptyElement(DCM_ReferringPhysiciansName);
+                dataset->insertEmptyElement(DCM_PatientsName);
+                dataset->insertEmptyElement(DCM_PatientID);
+                dataset->insertEmptyElement(DCM_PatientsBirthDate);
+                dataset->insertEmptyElement(DCM_PatientsSex);
+                dataset->insertEmptyElement(DCM_StudyInstanceUID);
+                dataset->insertEmptyElement(DCM_RequestedProcedureDescription);
                 
                 DcmItem* spssi;
                 dataset->findOrCreateSequenceItem(DCM_ScheduledProcedureStepSequence, spssi);
-                spssi->insert(newDicomElement(DcmTag(DCM_Modality)));
-                spssi->insert(newDicomElement(DcmTag(DCM_ScheduledPerformingPhysiciansName)));
-                spssi->insert(newDicomElement(DcmTag(DCM_ScheduledProcedureStepStartDate)));
-                spssi->insert(newDicomElement(DcmTag(DCM_ScheduledProcedureStepStartTime)));
+                spssi->insertEmptyElement(DCM_Modality);
+                spssi->insertEmptyElement(DCM_ScheduledPerformingPhysiciansName);
+                spssi->insertEmptyElement(DCM_ScheduledProcedureStepStartDate);
+                spssi->insertEmptyElement(DCM_ScheduledProcedureStepStartTime);
                 
                 T_DIMSE_C_FindRSP rsp;
-                cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 0, &rsp, &statusDetail);
+                cond = DIMSE_findUser(assoc, presId, &req, dcmff.getDataset(), _findUserCallback, entries, DIMSE_BLOCKING, 60, &rsp, &statusDetail);
                 if (cond.bad())
                     [NSException raise:NSGenericException format:@"%s", cond.text()];
 
@@ -481,8 +471,10 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                     [astudies addObject:study];
             }
             
+            NSArray* wstudiesANs = [wstudies valueForKey:@"accessionNumber"];
+            
             for (DicomStudy* study in [[astudies copy] autorelease])
-                if (![wstudies containsObject:study]) { // study is no longer in the worklist
+                if (![wstudies containsObject:study] && ![wstudiesANs containsObject:study.accessionNumber]) { // study is no longer in the worklist, not even by AccessionNumber
                     BOOL remove = NO;
                     NSNumber* removen = [_properties objectForKey:WorklistNoLongerThenKey];
                     if (removen) remove = [removen boolValue];
@@ -521,7 +513,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
             
             if (ti > 0) {
                 if (!self.autoretrieveTimer || _autoretrieveTimer.timeInterval != ti) {
-                    self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
+                    self.autoretrieveTimer = [NSTimer timerWithTimeInterval:ti target:[WorklistsNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateAutoretrieve)] selector:@selector(fire:) userInfo:nil repeats:YES];
                     [NSRunLoop.mainRunLoop addTimer:_autoretrieveTimer forMode:NSDefaultRunLoopMode];
                 }
             } else

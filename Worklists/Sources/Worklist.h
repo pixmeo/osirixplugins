@@ -25,6 +25,7 @@ extern NSString* const WorklistNoLongerThenIntervalKey;
 
 @class DicomAlbum;
 @class DicomDatabase;
+@class DicomStudy;
 
 
 @interface Worklist : NSObject {
@@ -49,5 +50,7 @@ extern NSString* const WorklistNoLongerThenIntervalKey;
 
 - (void)initiateRefresh;
 - (NSArray*)lastRefreshStudyInstanceUIDs;
+
+- (DicomStudy*)database:(DicomDatabase*)db createEmptyStudy:(NSDictionary*)entry;
 
 @end
