@@ -27,7 +27,7 @@ typedef enum shrinkTypeEnum {
     NSInteger layoutIndex;
 }
 
-@property BOOL isDraggingDestination, isSelected;
+@property BOOL isDraggingDestination, isGoingToBeSelected, isSelected;
 @property shrinkType shrinking;
 @property NSRect originalFrame;
 @property NSInteger layoutIndex;

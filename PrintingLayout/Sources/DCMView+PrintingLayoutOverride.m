@@ -10,6 +10,7 @@
 
 @implementation DCMView (PrintingLayoutOverride)
 
+// Used to change the DCMView timer for drag & drop when the plugin is on without limiting it to the plugin window.
 - (NSTimeInterval)printingLayoutTimeIntervalForDrag
 {
     NSArray * windowList = [NSApp windows];
@@ -19,7 +20,7 @@
     {
         if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"PLWindowController"])
         {
-            return .2;
+            return .15;
         }
     }
     

@@ -16,8 +16,9 @@
 
 @implementation PLWindowController
 
-@synthesize heightValue;
-@synthesize widthValue;
+@synthesize heightValue, widthValue;
+@synthesize scrollViewFormat;
+@synthesize currentPage;
 
 - (id)init
 {
@@ -25,19 +26,16 @@
     if (self)
     {
         // Initialization code here.
-        scrollViewFormat    = paper_none;
-        heightValue         = 0;
-        widthValue          = 0;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutMatrixUpdated) name:@"PLLayoutMatrixUpdated" object:nil];
+        self.scrollViewFormat    = paper_A4;
+        self.heightValue         = 0;
+        self.widthValue          = 0;
+        self.currentPage         = -1;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated) name:NSViewBoundsDidChangeNotification object:nil];
     }
     
     return self;
 }
-
-//- (void)awakeFromNib
-//{
-//    [scrollView setBackgroundColor:[NSColor colorWithCalibratedWhite:.65 alpha:.65]];
-//}
 
 - (void)windowDidLoad
 {
@@ -45,12 +43,20 @@
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];
-    NSUInteger numberOfPages = [[fullDocumentView subviews] count];
-    for (NSUInteger i = 0; i < numberOfPages; ++i)
-    {
-        [[[fullDocumentView subviews] objectAtIndex:i] setLayoutFormat:scrollViewFormat];
-    }
-//    [[[fullDocumentView subviews] objectAtIndex:currentPage] setLayoutFormat:scrollViewFormat];
+//    NSUInteger numberOfPages = [[fullDocumentView subviews] count];
+//    for (NSUInteger i = 0; i < numberOfPages; ++i)
+//    {
+//        [[[fullDocumentView subviews] objectAtIndex:i] setLayoutFormat:scrollViewFormat];
+//    }
+}
+
+#pragma mark-Action based methods
+
+- (IBAction)updateViewRatio:(id)sender
+{
+    self.scrollViewFormat = [[sender selectedItem] tag];
+    [fullDocumentView setPageFormat:scrollViewFormat];
+    [self updateWindowTitle];
     
 //    if (scrollViewFormat)
 //    {
@@ -61,33 +67,18 @@
 //                                                       attribute:NSLayoutAttributeWidth
 //                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
 //                                                        constant:0];
-//        [[[fullDocumentView subviews] objectAtIndex:currentPage] addConstraint:ratioConstraint];
 //    }
-}
-
-- (IBAction)updateLayoutFromButton:(id)sender
-{
-    NSString * name = [[layoutChoiceButton selectedItem] title];
-    NSArray * c = [name componentsSeparatedByString:@"x"];
-    widthValue = [[c objectAtIndex:0] integerValue];
-    heightValue = [[c objectAtIndex:1] integerValue];
-    [self updateWidth];
-    [self updateHeight];
-    
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:heightValue];
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
-    [fullDocumentView resizePLDocumentView];
+//    else
+//    {
+//        ratioConstraint = nil;
+//    }
 }
 
 - (IBAction)displayModeChanged:(id)sender
 {
     [fullDocumentView setFullWidth:[[sender selectedCell] tag]];
+    [fullDocumentView setScrollingMode:[[sender selectedCell] tag]];
     [fullDocumentView resizePLDocumentView];
-}
-
-- (IBAction)clearViewsInLayout:(id)sender
-{
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] clearAllThumbnailsViews];
 }
 
 - (IBAction)exportViewToDicom:(id)sender
@@ -108,13 +99,61 @@
     [[[fullDocumentView subviews] objectAtIndex:currentPage] setMouseTool:toolIndex];
 }
 
+- (IBAction)addPage:(id)sender
+{
+    [fullDocumentView newPage];
+    [self updateWindowTitle];
+}
+
+- (void)pageDown:(id)sender
+{
+    if (currentPage < fullDocumentView.subviews.count - 1)
+    {
+        ++(self.currentPage);
+        fullDocumentView.currentPage = currentPage;
+        [fullDocumentView pageDown:sender];
+    }
+}
+
+- (void)pageUp:(id)sender
+{
+    if (currentPage > 0)
+    {
+        --(self.currentPage);
+        fullDocumentView.currentPage = currentPage;
+        [fullDocumentView pageUp:sender];
+    }
+}
+
+- (IBAction)updateGridLayoutFromButton:(id)sender
+{
+    NSString * name = [[layoutChoiceButton selectedItem] title];
+    NSArray * c = [name componentsSeparatedByString:@"x"];
+    
+    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
+    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
+    
+    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:heightValue])
+    {
+        self.widthValue = newWidth;
+        self.heightValue = newHeight;
+        [self updateWidth];
+        [self updateHeight];
+        
+        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
+        [fullDocumentView resizePLDocumentView];
+    }
+}
+
 - (IBAction)adjustLayoutWidth:(id)sender
 {
     NSUInteger newWidth = [sender integerValue];
+    
     if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:heightValue])
     {
-        widthValue = newWidth;
+        self.widthValue = newWidth;
         [self updateWidth];
+        
         [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
         [fullDocumentView resizePLDocumentView];
     }
@@ -123,13 +162,14 @@
 - (IBAction)adjustLayoutHeight:(id)sender
 {
     NSUInteger newHeight = [sender integerValue];
+    
     if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:newHeight])
     {
-        heightValue = newHeight;
+        self.heightValue = newHeight;
         [self updateHeight];
+        
         [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
         [fullDocumentView resizePLDocumentView];
-//        [[[fullDocumentView subviews] objectAtIndex:currentPage] resizeLayoutView];
     }
 }
 
@@ -148,45 +188,25 @@
 // Used when the stepper and text field need to be updated from the layout view (adding a column or line)
 - (void)layoutMatrixUpdated
 {
-    heightValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixHeight];
-    widthValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixWidth];
+    [self currentPageUpdated];
+    self.heightValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixHeight];
+    self.widthValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixWidth];
     [self updateHeight];
     [self updateWidth];
 }
 
-- (IBAction)updateViewRatio:(id)sender
+- (IBAction)clearViewsInLayout:(id)sender
 {
-    if (ratioConstraint)
-    {
-//        [[[fullDocumentView subviews] objectAtIndex:currentPage] removeConstraint:ratioConstraint];
-    }
-    
-    scrollViewFormat = [[sender selectedItem] tag];
-//    [[[fullDocumentView subviews] objectAtIndex:currentPage] setLayoutFormat:scrollViewFormat];
-    [fullDocumentView setPageFormat:scrollViewFormat];
-    
-    if (scrollViewFormat)
-    {
-        ratioConstraint = [NSLayoutConstraint constraintWithItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
-                                                       attribute:NSLayoutAttributeHeight
-                                                       relatedBy:NSLayoutRelationEqual
-                                                          toItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
-                                                       attribute:NSLayoutAttributeWidth
-                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
-                                                        constant:0];
-//        [[[fullDocumentView subviews] objectAtIndex:currentPage] addConstraint:ratioConstraint];
-    }
-    else
-    {
-        ratioConstraint = nil;
-    }
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] clearAllThumbnailsViews];
 }
+
+#pragma mark-Notification based methods
 
 - (void)updateWindowTitle
 {
-    if (currentPage)
+    if (scrollViewFormat)
     {
-        [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", (int)currentPage, (int)[[fullDocumentView subviews] count]]];
+        [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", currentPage < 0 ? 1 : (int)currentPage + 1, (int)[[fullDocumentView subviews] count]]];
     }
     else
     {
@@ -194,23 +214,62 @@
     }
 }
 
+- (void)currentPageUpdated
+{
+    PLDocumentView* docView = [[scrollView.documentView subviews] objectAtIndex:0];
+    
+    NSUInteger bottom = docView.bottomMargin;
+    NSUInteger pageHeight = [[docView.subviews objectAtIndex:0] frame].size.height;
+    int yPosition = scrollView.documentVisibleRect.origin.y;
+    
+    if (pageHeight || bottom)
+    {
+        NSUInteger currentPosition = (yPosition + pageHeight/2) / (pageHeight + bottom);
+        
+        if (yPosition >= 0 && currentPage != currentPosition)
+        {
+            self.currentPage = currentPosition;
+            [self updateWindowTitle];
+            [self layoutMatrixUpdated];
+        }
+    }
+}
+
+//#pragma mark-Events handling
+//- (void)keyDown:(NSEvent *)event
+//{
+//    unichar key = [event.characters characterAtIndex:0];
+//    switch (key)
+//    {
+//        case NSPageUpFunctionKey:
+//            [self pageUp:nil];
+//            break;
+//            
+//        case NSPageDownFunctionKey:
+//            [self pageDown:nil];
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//}
+
+#pragma mark-Needed for ROIs to work
+
 - (void)addToUndoQueue:(NSString*)string
 {
 	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
-//	id obj = [self prepareObjectForUndo: string];
-//	
-//	if( obj)
-//		[undoQueue addObject: obj];
-//	
-//	if( [undoQueue count] > UNDOQUEUESIZE)
-//	{
-//		[undoQueue removeObjectAtIndex: 0];
-//	}
 }
 
 - (void)bringToFrontROI:(ROI*)roi
 {
 	NSLog( @"bringToFrontROI: not currently available in the Printing Layout.");
+}
+
+#pragma mark-Needed for down key to work (zoom out?)
+- (void)maxMovieIndex
+{
+	NSLog( @"maxMovieIndex not currently available in the Printing Layout.");
 }
 
 @end

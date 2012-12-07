@@ -13,13 +13,14 @@
 
 @interface PLWindowController : NSWindowController
 {
-    IBOutlet NSWindow *mainWindow;
-    IBOutlet NSToolbar *toolbar;
+//    IBOutlet NSWindow *mainWindow;
+//    IBOutlet NSToolbar *toolbar;
     
     IBOutlet NSPopUpButton *layoutChoiceButton;
-    IBOutlet NSButton *clearViewsButton;
-    IBOutlet NSMatrix *toolsMatrix;
-    IBOutlet NSToolbarItem *toolMatrix;
+//    IBOutlet NSButton *clearViewsButton;
+//    IBOutlet NSMatrix *toolsMatrix;
+//    IBOutlet NSToolbarItem *toolMatrix;
+    
     IBOutlet NSTextField *widthTextField;
     IBOutlet NSTextField *heightTextField;
     IBOutlet NSStepper *widthValueAdjuster;
@@ -31,13 +32,16 @@
     IBOutlet PLDocumentView *fullDocumentView;
     paperSize scrollViewFormat;
     NSLayoutConstraint *ratioConstraint;
-    NSUInteger currentPage;
+    int currentPage;
 }
 
-@property NSUInteger heightValue;
-@property NSUInteger widthValue;
+@property NSUInteger heightValue, widthValue;
+@property paperSize scrollViewFormat;
+@property int currentPage;
 
-- (IBAction)updateLayoutFromButton:(id)sender;
+- (IBAction)addPage:(id)sender;
+- (IBAction)updateViewRatio:(id)sender;
+- (IBAction)updateGridLayoutFromButton:(id)sender;
 - (IBAction)displayModeChanged:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
@@ -47,8 +51,7 @@
 - (void)updateHeight;
 - (void)updateWidth;
 - (void)layoutMatrixUpdated;
-- (IBAction)updateViewRatio:(id)sender;
 - (void)updateWindowTitle;
-//- (CGFloat)getRatioFromPaperFormat;
+- (void)currentPageUpdated;
 
 @end

@@ -20,12 +20,20 @@
     CGFloat     bottomMargin;
     
     paperSize   pageFormat;
+    CGFloat     pageWidth;
+    CGFloat     pageHeight;
+    scrollType  scrollingMode;
+    
+    int         currentPage;
 }
 
-@property BOOL fullWidth;
-//@property (readonly) CGFloat sideMargin;
+@property BOOL fullWidth, isDraggingDestination;
+@property CGFloat topMargin, bottomMargin, sideMargin;
 @property (nonatomic, setter = setPageFormat:) paperSize pageFormat;
+@property scrollType scrollingMode;
+@property int currentPage;
 
 - (void)resizePLDocumentView;
+- (void)newPage;
 
 @end

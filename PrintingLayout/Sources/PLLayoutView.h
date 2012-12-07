@@ -21,14 +21,16 @@
     int previousRightShrink;
     int mouseTool;
     
-    paperSize layoutFormat;
+//    paperSize layoutFormat;
 }
 
 @property NSUInteger layoutMatrixWidth, layoutMatrixHeight;
 @property NSUInteger filledThumbs;
+@property BOOL isDraggingDestination;
 @property int mouseTool;
-@property paperSize layoutFormat;
-@property int draggedThumbnailIndex;
+//@property paperSize layoutFormat;
+@property int draggedThumbnailIndex, currentInsertingIndex;
+@property int previousLeftShrink, previousRightShrink;
 
 - (BOOL)updateLayoutViewWidth:(NSUInteger)w height:(NSUInteger)h;
 - (void)reorderLayoutMatrix; // not sure it is really useful

@@ -1,5 +1,5 @@
 //
-//  PLUtils.mm
+//  PLUtils.m
 //  PrintingLayout
 //
 //  Created by Benoit Deville on 14.11.12.
@@ -16,7 +16,7 @@ CGFloat getRatioFromPaperFormat(paperSize format)
             return 1.4142;
             
         case paper_11x14:
-            return 14./11.;
+            return 14./11;
             
         case paper_14x17:
             return 17./14;

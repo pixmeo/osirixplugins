@@ -15,8 +15,14 @@ typedef enum {
     paper_USletter, // 2
     paper_8x10,     // 3
     paper_11x14,    // 4
-    paper_14x17,    // 5
+    paper_14x17     // 5
 } paperSize;
+
+typedef enum {
+    pageScroll  = 0,
+    continuous, // 1
+    pageByPage  // 2
+} scrollType;
 
 CGFloat getRatioFromPaperFormat(paperSize format);
 

@@ -19,7 +19,7 @@
 
 @implementation PLThumbnailView
 
-@synthesize isDraggingDestination, isSelected;
+@synthesize isDraggingDestination, isGoingToBeSelected, isSelected;
 @synthesize shrinking;
 @synthesize originalFrame;
 @synthesize layoutIndex;
@@ -29,11 +29,11 @@
     self = [super init];
     if (self)
     {
-        isDraggingDestination   = NO;
-        isGoingToBeSelected     = NO;
-        isSelected              = NO;
-        shrinking               = none;
-        layoutIndex             = -1;
+        self.isDraggingDestination   = NO;
+        self.isGoingToBeSelected     = NO;
+        self.isSelected              = NO;
+        self.shrinking               = none;
+        self.layoutIndex             = -1;
         
         [self setPostsFrameChangedNotifications:NO];
     }
@@ -45,14 +45,14 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        isDraggingDestination   = NO;
-        isGoingToBeSelected     = NO;
-        isSelected              = NO;
-        shrinking               = none;
-        layoutIndex             = -1;
+        self.isDraggingDestination   = NO;
+        self.isGoingToBeSelected     = NO;
+        self.isSelected              = NO;
+        self.shrinking               = none;
+        self.layoutIndex             = -1;
         
-        originalFrame           = frame;
-        drawingFrameRect        = frame;
+        self.originalFrame           = frame;
+        drawingFrameRect             = frame;
         
         [self setPostsFrameChangedNotifications:NO];
     }
@@ -75,6 +75,7 @@
 }
 
 #pragma mark-View's graphic management
+
 - (void)drawRectAnyway:(NSRect)aRect
 {
     CGLContextObj cgl_ctx = [[NSOpenGLContext currentContext] CGLContextObj];
@@ -177,7 +178,7 @@
 {
     if ([dcmPixList count] && shrinking == none)
     {
-        shrinking = side;
+        self.shrinking = side;
 
         NSViewAnimation *shrink;
         NSMutableDictionary *viewDict = [NSMutableDictionary dictionaryWithCapacity:3];
@@ -217,7 +218,7 @@
         [viewDict setObject:self forKey:NSViewAnimationTargetKey];
         [viewDict setObject:[NSValue valueWithRect:startFrame] forKey:NSViewAnimationStartFrameKey];
         endFrame = originalFrame;
-        shrinking = none;
+        self.shrinking = none;
         [viewDict setObject:[NSValue valueWithRect:endFrame] forKey:NSViewAnimationEndFrameKey];
         shrink = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:viewDict]];
         
@@ -231,22 +232,30 @@
 - (void)clearView
 {
     [self setPixels:nil files:nil rois:nil firstImage:0 level:0 reset:YES];
-    isSelected = NO;
+    self.isSelected = NO;
     [self setNeedsDisplay:YES];
 }
 
 - (void)selectView
 {
-    isSelected = !isSelected;
-    isGoingToBeSelected = NO;
+    self.isSelected = !isSelected;
+    self.isGoingToBeSelected = NO;
     [self setNeedsDisplay:YES];
 }
 
 
 #pragma mark-Events handling
+
+// Override this method so the 
+- (void)keyDown:(NSEvent *)event
+{
+    [self.superview.superview keyDown:event];
+}
+
+// Prepare the possibility of selecting an image with the contextual menu
 - (void) rightMouseDown:(NSEvent *)event
 {
-    isGoingToBeSelected = YES;
+    self.isGoingToBeSelected = YES;
 }
 
 // Action on right mouse button up

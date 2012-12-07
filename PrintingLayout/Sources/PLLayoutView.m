@@ -9,15 +9,18 @@
 #import "PLLayoutView.h"
 #import "PLThumbnailView.h"
 #import "PLDocumentView.h"
+#import "PLWindowController.h"
 #import <OsiriXAPI/DICOMExport.h>
 
 @implementation PLLayoutView
 
+@synthesize isDraggingDestination;
 @synthesize layoutMatrixWidth, layoutMatrixHeight;
 @synthesize filledThumbs;
 @synthesize mouseTool;
-@synthesize layoutFormat;
-@synthesize draggedThumbnailIndex;
+//@synthesize layoutFormat;
+@synthesize draggedThumbnailIndex, currentInsertingIndex;
+@synthesize previousLeftShrink, previousRightShrink;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -25,31 +28,25 @@
     if (self)
     {
         // Initialization code here.
-        isDraggingDestination   = NO;
-        filledThumbs            = 0;
-        layoutMatrixHeight      = 0;
-        layoutMatrixWidth       = 0;
+        self.isDraggingDestination   = NO;
+        self.filledThumbs            = 0;
+        self.layoutMatrixHeight      = 0;
+        self.layoutMatrixWidth       = 0;
         
-        currentInsertingIndex   = -1;
-        draggedThumbnailIndex   = -1;
+        self.currentInsertingIndex   = -1;
+        self.draggedThumbnailIndex   = -1;
         
-        previousLeftShrink      = -1;
-        previousRightShrink     = -1;
+        self.previousLeftShrink      = -1;
+        self.previousRightShrink     = -1;
         
-        layoutFormat            = paper_none;
+//        self.layoutFormat            = paper_A4;
     
         [self registerForDraggedTypes:[NSArray arrayWithObjects:NSURLPboardType, NSTIFFPboardType, pasteBoardOsiriX, nil]];
-//        [[NSNotificationCentexr defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewFrameDidChangeNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewBoundsDidChangeNotification object:nil];
     }
     
     return self;
 }
-
-//- (void)setFrame:(NSRect)frameRect
-//{
-//    [super setFrame:frameRect];
-//}
 
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -108,7 +105,7 @@
     if (([[sender draggingPasteboard] dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:[sender draggingPasteboard]]) &&
         [sender draggingSourceOperationMask] & NSDragOperationCopy)
     {
-        isDraggingDestination = YES;
+        self.isDraggingDestination = YES;
         [self setNeedsDisplay:YES];
         return NSDragOperationCopy;
     }
@@ -164,14 +161,14 @@
                             }
                             
                             [pointedView shrinkWidth:margin onIts:left];
-                            previousLeftShrink = index;
+                            self.previousLeftShrink = index;
                             
                             if (index % layoutMatrixWidth)
                             {
                                 [[[self subviews] objectAtIndex:index - 1] shrinkWidth:margin onIts:right];
-                                previousRightShrink = index - 1;
+                                self.previousRightShrink = index - 1;
                             }
-                            currentInsertingIndex = index;
+                            self.currentInsertingIndex = index;
                         }
                     }
                     else
@@ -193,21 +190,21 @@
                             }
                             
                             [pointedView shrinkWidth:margin onIts:right];
-                            previousRightShrink = index;
+                            self.previousRightShrink = index;
                             
                             if (index % layoutMatrixWidth != layoutMatrixWidth - 1 && index != nbSubviews - 1)
                             {
                                 [[[self subviews] objectAtIndex:index + 1] shrinkWidth:margin onIts:left];
-                                previousLeftShrink = index + 1;
+                                self.previousLeftShrink = index + 1;
                             }
-                            currentInsertingIndex = index + 1;
+                            self.currentInsertingIndex = index + 1;
                         }
                     }
                 }
             }
             else // the pointer is in the thumb's center 
             {
-                currentInsertingIndex = index;
+                self.currentInsertingIndex = index;
                 for (int i = 0; i < nbSubviews; ++i)
                 {
                     PLThumbnailView *thumbView = [[self subviews] objectAtIndex:i];
@@ -217,8 +214,8 @@
                     {
                         [thumbView backToOriginalSize];
                     }
-                    previousLeftShrink = -1;
-                    previousRightShrink = -1;
+                    self.previousLeftShrink = -1;
+                    self.previousRightShrink = -1;
                 }
                 pointedView.isDraggingDestination = YES;
             }
@@ -231,7 +228,7 @@
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
-    isDraggingDestination = NO;
+    self.isDraggingDestination = NO;
     
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
@@ -244,9 +241,9 @@
             [thumbView backToOriginalSize];
         }
     }
-    previousLeftShrink      = -1;
-    previousRightShrink     = -1;
-    currentInsertingIndex   = -1;
+    self.previousLeftShrink      = -1;
+    self.previousRightShrink     = -1;
+    self.currentInsertingIndex   = -1;
     [self setNeedsDisplay:YES];
 }
 
@@ -263,7 +260,8 @@
             if ([self updateLayoutViewWidth:1 height:1])
                 // Create a 1x1 layout if the layout is still empty
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
+                [[[self window] windowController] layoutMatrixUpdated];
                 PLThumbnailView *thumb = [[self subviews] objectAtIndex:0];
                 [thumb fillViewWith:[sender draggingPasteboard] atIndex:0];
                 ++filledThumbs;
@@ -291,16 +289,17 @@
             {
                 if (layoutMatrixHeight < layoutMatrixWidth)
                 {
-                    ++layoutMatrixHeight;
+                    ++(self.layoutMatrixHeight);
                 }
                 else
                 {
-                    ++layoutMatrixWidth;
+                    ++(self.layoutMatrixWidth);
                 }
                 
                 if ([self updateLayoutViewWidth:layoutMatrixWidth height:layoutMatrixHeight])
                 {
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
+                    [[[self window] windowController] layoutMatrixUpdated];
                 }
             }
             [self insertImageAtIndex:currentInsertingIndex from:sender];
@@ -313,9 +312,9 @@
                 // Clear the source –PLThumbnailView– subview
             {
                 [[[self subviews] objectAtIndex:draggedThumbnailIndex] clearView];
-                --filledThumbs;
+                --(self.filledThumbs);
             }
-            draggedThumbnailIndex = -1;
+            self.draggedThumbnailIndex = -1;
         }        
     }
     return YES;
@@ -323,11 +322,11 @@
 
 - (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
-    previousLeftShrink      = -1;
-    previousRightShrink     = -1;
-    currentInsertingIndex   = -1;
-    draggedThumbnailIndex   = -1;
-    isDraggingDestination   = NO;
+    self.previousLeftShrink      = -1;
+    self.previousRightShrink     = -1;
+    self.currentInsertingIndex   = -1;
+    self.draggedThumbnailIndex   = -1;
+    self.isDraggingDestination   = NO;
     [self reorderLayoutMatrix];
     [self resizeLayoutView:self.frame];
     
@@ -352,30 +351,31 @@
     }
 }
 
-#pragma mark-Events handling
-- (void)keyDown:(NSEvent *)theEvent
-{
-    if ([[theEvent characters] length] == 0)
-        return;
-    
-    unichar c = [[theEvent characters] characterAtIndex:0];
-    if (c == NSBackspaceCharacter || c == NSDeleteCharacter)
-    {
-        NSUInteger nbSubviews = [[self subviews] count];
-        for (NSUInteger i = 0; i < nbSubviews; ++i)
-        {
-            PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
-            if (thumb.isSelected && [thumb curDCM])
-            {
-                [thumb clearView];
-                --filledThumbs;
-            }
-            thumb.isSelected = NO;
-        }
-    }
-
-    [self setNeedsDisplay:YES];
-}
+//#pragma mark-Events handling
+//- (void)keyDown:(NSEvent *)theEvent
+//{
+//    NSLog(@"PLLayoutView caught keyDown");
+//    if ([[theEvent characters] length] == 0)
+//        return;
+//    
+//    unichar c = [[theEvent characters] characterAtIndex:0];
+//    if (c == NSBackspaceCharacter || c == NSDeleteCharacter)
+//    {
+//        NSUInteger nbSubviews = [[self subviews] count];
+//        for (NSUInteger i = 0; i < nbSubviews; ++i)
+//        {
+//            PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
+//            if (thumb.isSelected && [thumb curDCM])
+//            {
+//                [thumb clearView];
+//                --(self.filledThumbs);
+//            }
+//            thumb.isSelected = NO;
+//        }
+//    }
+//
+//    [self setNeedsDisplay:YES];
+//}
 
 #pragma mark-Layout management
 - (BOOL)updateLayoutViewWidth:(NSUInteger)w height:(NSUInteger)h
@@ -388,8 +388,8 @@
     }
     
     NSUInteger currentSize = [[self subviews] count];
-    layoutMatrixWidth = w;
-    layoutMatrixHeight = h;
+    self.layoutMatrixWidth = w;
+    self.layoutMatrixHeight = h;
     if (currentSize)
     {
         // If the new layout has more thumbnails than the previous one
@@ -489,7 +489,7 @@
         thumb.isSelected = NO;
     }
     
-    filledThumbs = 0;
+    self.filledThumbs = 0;
     [self setNeedsDisplay:YES];
 }
 
@@ -539,7 +539,8 @@
     NSUInteger index = MIN([[self subviews] count]-1, n);
 
     PLThumbnailView *thumb = [[self subviews] objectAtIndex:index];
-    ++filledThumbs;
+    ++(self.filledThumbs);
+    
     if (![thumb curDCM])
     {
         [thumb fillViewWith:[sender draggingPasteboard] atIndex:index];

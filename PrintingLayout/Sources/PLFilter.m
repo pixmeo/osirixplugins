@@ -35,9 +35,9 @@
 
 - (void)setupSwizzles
 {
+    // Change the value of the DCMView drag & drop timer
     Method printingLayoutTimeIntervalForDragMethod = class_getInstanceMethod([DCMView class], @selector(printingLayoutTimeIntervalForDrag));
     Method timeIntervalForDragMethod = class_getInstanceMethod([DCMView class], @selector(timeIntervalForDrag));
-    
     method_exchangeImplementations(printingLayoutTimeIntervalForDragMethod, timeIntervalForDragMethod);
 }
 
