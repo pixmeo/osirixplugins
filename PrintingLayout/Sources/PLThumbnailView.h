@@ -32,8 +32,8 @@ typedef enum shrinkTypeEnum {
 @property NSRect originalFrame;
 @property NSInteger layoutIndex;
 
-- (void)fillViewWith:(NSPasteboard*)pasteboard atIndex:(NSInteger)gridIndex;
-//- (void)fillViewFrom:(id <NSDraggingInfo>)sender;
+- (void)fillView:(NSInteger)gridIndex With:(NSPasteboard*)pasteboard;
+- (void)fillView:(NSInteger)gridIndex With:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex;
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side;
 - (void)backToOriginalSize;
 - (void)clearView;

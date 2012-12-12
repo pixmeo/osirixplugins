@@ -48,6 +48,17 @@
 //    {
 //        [[[fullDocumentView subviews] objectAtIndex:i] setLayoutFormat:scrollViewFormat];
 //    }
+    
+//    if (scrollViewFormat)
+//    {
+//        ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView.contentView
+//                                                       attribute:NSLayoutAttributeHeight
+//                                                       relatedBy:NSLayoutRelationEqual
+//                                                          toItem:scrollView.contentView
+//                                                       attribute:NSLayoutAttributeWidth
+//                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
+//                                                        constant:0];
+//    }
 }
 
 #pragma mark-Action based methods
@@ -58,12 +69,17 @@
     [fullDocumentView setPageFormat:scrollViewFormat];
     [self updateWindowTitle];
     
+//    if (ratioConstraint)
+//    {
+//        [scrollView.contentView removeConstraint:ratioConstraint];
+//    }
+//    
 //    if (scrollViewFormat)
 //    {
-//        ratioConstraint = [NSLayoutConstraint constraintWithItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
+//        ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView.contentView
 //                                                       attribute:NSLayoutAttributeHeight
 //                                                       relatedBy:NSLayoutRelationEqual
-//                                                          toItem:[[fullDocumentView subviews] objectAtIndex:currentPage]
+//                                                          toItem:scrollView.contentView
 //                                                       attribute:NSLayoutAttributeWidth
 //                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
 //                                                        constant:0];

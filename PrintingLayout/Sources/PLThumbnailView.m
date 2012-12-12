@@ -128,7 +128,7 @@
     glEnd();
 }
 
-- (void)fillViewWith:(NSPasteboard*)pasteboard atIndex:(NSInteger)gridIndex
+- (void)fillView:(NSInteger)gridIndex With:(NSPasteboard*)pasteboard
 {
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
     {
@@ -147,7 +147,7 @@
             NSMutableArray *pixList = [NSMutableArray arrayWithCapacity:1];
             [[[*draggedView dcmPixList] objectAtIndex:index] retain];
             [pixList addObject:[[*draggedView dcmPixList] objectAtIndex:index]];
-
+            
             NSMutableArray *filesList = [NSMutableArray arrayWithCapacity:1];
             if ([[*draggedView dcmFilesList] count])
             {
@@ -169,7 +169,51 @@
                       level:'i'
                       reset:YES];
             free(draggedView);
-            layoutIndex = gridIndex;
+            self.layoutIndex = gridIndex;
+        }
+    }
+}
+
+- (void)fillView:(NSInteger)gridIndex With:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex
+{
+    if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
+    {
+        if (![pasteboard dataForType:pasteBoardOsiriX])
+        {
+            NSLog(@"No data in pasteboardOsiriX");
+        }
+        else
+        {
+            DCMView **draggedView = (DCMView**)malloc(sizeof(DCMView*));
+            NSData *draggedData = [pasteboard dataForType:pasteBoardOsiriX];
+            [draggedData getBytes:draggedView length:sizeof(DCMView*)];
+            
+            NSMutableArray *pixList = [NSMutableArray arrayWithCapacity:1];
+            [[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain];
+            [pixList addObject:[[*draggedView dcmPixList] objectAtIndex:imageIndex]];
+            
+            NSMutableArray *filesList = [NSMutableArray arrayWithCapacity:1];
+            if ([[*draggedView dcmFilesList] count])
+            {
+                [[[*draggedView dcmFilesList] objectAtIndex:imageIndex] retain];
+                [filesList addObject:[[*draggedView dcmFilesList] objectAtIndex:imageIndex]];
+            }
+            
+            NSMutableArray *roiList = [NSMutableArray arrayWithCapacity:1];
+            if ([[*draggedView dcmRoiList] count])
+            {
+                [[[*draggedView dcmRoiList] objectAtIndex:imageIndex] retain];
+                [roiList addObject:[[*draggedView dcmRoiList] objectAtIndex:imageIndex]];
+            }
+            
+            [self setPixels:pixList
+                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
+                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
+                 firstImage:0
+                      level:'i'
+                      reset:YES];
+            free(draggedView);
+            self.layoutIndex = gridIndex;
         }
     }
 }
@@ -246,10 +290,23 @@
 
 #pragma mark-Events handling
 
-// Override this method so the 
 - (void)keyDown:(NSEvent *)event
 {
-    [self.superview.superview keyDown:event];
+    if ([[event characters] length] == 0)
+        return;
+    
+    unichar key = [event.characters characterAtIndex:0];
+    
+    switch (key)
+    {
+        case '<':
+            NSLog(@"Import image to selected thumb.");
+            break;
+            
+        default:
+            [super keyDown:event];
+            break;
+    }
 }
 
 // Prepare the possibility of selecting an image with the contextual menu
@@ -267,11 +324,17 @@
         if (curDCM)
         {
             NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
-            [theMenu insertItemWithTitle:@"Delete"  action:@selector(clearView)     keyEquivalent:@"" atIndex:0];
-            [theMenu insertItemWithTitle:@"Reset"   action:@selector(resetView)     keyEquivalent:@"" atIndex:1];
-            [theMenu insertItemWithTitle:@"Rescale" action:@selector(rescaleView)   keyEquivalent:@"" atIndex:2];
-            [theMenu insertItemWithTitle:@"Select"  action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
+            [theMenu insertItemWithTitle:@"Delete"      	action:@selector(clearView)     keyEquivalent:@"" atIndex:0];
+            [theMenu insertItemWithTitle:@"Reset"       	action:@selector(resetView)     keyEquivalent:@"" atIndex:1];
+            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(rescaleView)   keyEquivalent:@"" atIndex:2];
+            
+            if (isSelected)
+                [theMenu insertItemWithTitle:@"Deselect"    action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
+            else
+                [theMenu insertItemWithTitle:@"Select"      action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
+            
             [NSMenu popUpContextMenu:theMenu withEvent:event forView:self];
+            [theMenu release];
         }
         else
             [self selectView];

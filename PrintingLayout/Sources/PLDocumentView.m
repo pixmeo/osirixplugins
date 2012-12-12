@@ -41,22 +41,28 @@
         NSRect layoutFrame = NSMakeRect(sideMargin, topMargin, frame.size.width - 2 * sideMargin, frame.size.height - bottomMargin);
         [self addSubview:[[PLLayoutView alloc] initWithFrame:layoutFrame]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizePLDocumentView) name:NSViewFrameDidChangeNotification object:nil];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:pasteBoardOsiriX, nil]];
     }
     
     return self;
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drawRect:(NSRect)rect
 {
     // Drawing code here.
-    [NSBezierPath bezierPathWithRect:self.bounds];
+    NSRect drawingFrame = self.enclosingScrollView.contentView.bounds;
+    drawingFrame.origin.x += 1;
+    drawingFrame.origin.y += 1;
+    drawingFrame.size.height -= 2;
+    drawingFrame.size.width -= 2;
+    [NSBezierPath bezierPathWithRect:drawingFrame];
     
     if (isDraggingDestination)
     {
-        [NSBezierPath setDefaultLineWidth:3.0];
+        [NSBezierPath setDefaultLineWidth:1.0];
         [[NSColor blueColor] setStroke];
         [[NSColor colorWithCalibratedWhite:0.65 alpha:1] setFill];
-        [NSBezierPath strokeRect:self.bounds];
+        [NSBezierPath strokeRect:drawingFrame];
     }
     else
     {
@@ -64,7 +70,7 @@
         [[NSColor windowFrameColor] setFill];
     }
     
-    [NSBezierPath fillRect:self.bounds];
+    [NSBezierPath fillRect:drawingFrame];
 }
 
 - (BOOL)isFlipped
@@ -116,7 +122,6 @@
 
     NSClipView *clipView = self.enclosingScrollView.contentView;
     unichar key = [event.characters characterAtIndex:0];
-//    NSLog(@"PLDocumentView caught %c", key);
     
     switch (key)
     {
@@ -173,17 +178,51 @@
                         --(layout.filledThumbs);
                     }
                     thumb.isSelected = NO;
-
                 }
             }
-            
-            [self setNeedsDisplay:YES];
         }
+            [self setNeedsDisplay:YES];
             break;
             
         default:
             break;
     }
+}
+
+#pragma mark-Drag'n'Drop
+
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+{
+    if (    ([[sender draggingPasteboard] dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:[sender draggingPasteboard]])
+        &&  [sender draggingSourceOperationMask] & NSDragOperationCopy)
+    {
+        self.isDraggingDestination = YES;
+        [self setNeedsDisplay:YES];
+        return NSDragOperationCopy;
+    }
+    return NSDragOperationNone;
+}
+
+- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
+{
+    return NSDragOperationCopy;
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+{
+    return YES;
+}
+
+- (void)draggingExited:(id<NSDraggingInfo>)sender
+{
+    self.isDraggingDestination = NO;    
+    [self setNeedsDisplay:YES];
+}
+
+- (void)concludeDragOperation:(id<NSDraggingInfo>)sender
+{
+    self.isDraggingDestination = NO;
+    return;
 }
 
 #pragma mark-Layout management
@@ -196,29 +235,28 @@
     NSRect fullFrame = self.enclosingScrollView.bounds;
     
     // Update the margins' size
-//    self.topMargin       = fullWidth ? 0. : floorf(fullFrame.size.width / 200) + 1;
-    switch (scrollingMode)
-    {
-        case pageByPage:
-        case pageScroll:
-            self.topMargin = floorf(fullFrame.size.width / 200) + 1;
-            break;
-            
-        default:
-            self.topMargin = 0;
-            break;
-    }
-    self.sideMargin      = roundf(topMargin * 5 / 2);
-    self.bottomMargin    = topMargin * 3;
+//    switch (scrollingMode)
+//    {
+//        case pageByPage:
+//        case pageScroll:
+//            self.topMargin = floorf(fullFrame.size.width / 200) + 1;
+//            break;
+//            
+//        default:
+//            self.topMargin = 0;
+//            break;
+//    }
+    self.topMargin      = scrollingMode == continuous ? 0 : floorf(fullFrame.size.width / 200) + 1;
+    self.sideMargin     = roundf(topMargin * 5 / 2);
+    self.bottomMargin   = topMargin * 3;
     
     // Determine the size of pages (i.e. PLLayoutView)
     pageWidth       = fullFrame.size.width - 2 * sideMargin;
     pageHeight      = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.height - topMargin)/nbPages) - bottomMargin;
     
-//    [self.enclosingScrollView setPageScroll:pageHeight];
     [self.enclosingScrollView setVerticalPageScroll:pageHeight + bottomMargin];
     
-    NSRect documentFrame = NSMakeRect(fullFrame.origin.x, fullFrame.origin.y, fullFrame.size.width, (pageHeight + bottomMargin)*nbPages + topMargin);
+    NSRect documentFrame = NSMakeRect(fullFrame.origin.x, fullFrame.origin.y, fullFrame.size.width, MAX(fullFrame.size.height, (pageHeight + bottomMargin)*nbPages + topMargin) );
     
     [self setFrame:documentFrame];
     [self.superview setFrame:documentFrame];

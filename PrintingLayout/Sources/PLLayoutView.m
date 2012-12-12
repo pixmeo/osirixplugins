@@ -57,9 +57,6 @@
         [NSBezierPath setDefaultLineWidth:3.0];
         [[NSColor blueColor] setStroke];
         [[NSColor colorWithCalibratedWhite:0.65 alpha:1] setFill];
-//        [NSBezierPath bezierPathWithRect:self.bounds];
-//        [NSBezierPath fillRect:self.bounds];
-//        [NSBezierPath strokeRect:self.bounds];
     }
     else
     {
@@ -99,11 +96,73 @@
     }
 }
 
+#pragma mark-Import methods
+
+- (void)importImage//:(id)sender
+{
+    if ([self updateLayoutViewWidth:1 height:1])
+        // Create a 1x1 layout if the layout is still empty
+    {
+        [[[self window] windowController] layoutMatrixUpdated];
+        PLThumbnailView *thumb = [[self subviews] objectAtIndex:0];
+        [thumb fillView:0 With:pasteboard];
+        ++filledThumbs;
+    }
+}
+
+- (void)importSerie//:(id)sender
+{
+    NSUInteger newWidth, newHeight, nbImages;
+    
+    if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
+    {
+        if (![pasteboard dataForType:pasteBoardOsiriX])
+        {
+            NSLog(@"No data in pasteboardOsiriX");
+            return;
+        }
+        else
+        {
+            DCMView **draggedView = (DCMView**)malloc(sizeof(DCMView*));
+            NSData *draggedData = [pasteboard dataForType:pasteBoardOsiriX];
+            [draggedData getBytes:draggedView length:sizeof(DCMView*)];
+            
+            nbImages = [[*draggedView dcmPixList] count];
+            
+            newHeight = roundf(sqrt(1.4 * nbImages));
+            newWidth = roundf(newHeight / 1.4);
+            
+            if (newHeight * newWidth < nbImages)
+            {
+                if (newHeight * (newWidth + 1) < (newHeight + 1) * newWidth)
+                    ++newWidth;
+                else
+                    ++newHeight;
+            }
+            
+            free(draggedView);
+        }
+    }
+    
+    if ([self updateLayoutViewWidth:newWidth height:newHeight])
+        // Create a 1x1 layout if the layout is still empty
+    {
+        [[[self window] windowController] layoutMatrixUpdated];
+        for (NSUInteger i = 0; i < nbImages; ++i)
+        {
+            PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
+            [thumb fillView:i With:pasteboard atIndex:i];
+            ++filledThumbs;
+        }
+    }
+}
+
 #pragma mark-Drag'n'Drop
+
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
 {
-    if (([[sender draggingPasteboard] dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:[sender draggingPasteboard]]) &&
-        [sender draggingSourceOperationMask] & NSDragOperationCopy)
+    if (    ([[sender draggingPasteboard] dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:[sender draggingPasteboard]])
+        &&  [sender draggingSourceOperationMask] & NSDragOperationCopy)
     {
         self.isDraggingDestination = YES;
         [self setNeedsDisplay:YES];
@@ -229,6 +288,7 @@
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
     self.isDraggingDestination = NO;
+    pasteboard = nil;
     
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
@@ -249,24 +309,27 @@
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    if ([[sender draggingPasteboard] dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:[sender draggingPasteboard]])
+    pasteboard = [sender draggingPasteboard];
+    if ([pasteboard dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:pasteboard])
     // Check that the pasteboard contains an image
     {
         if (![[self subviews] count])
         {
-            // TODO: demander si insertion d'une seule image ou de la série entière
-            // Ouverture d'une fenêtre de choix avec "Current image" vs. "Full serie"
+            NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Import DICOM Menu"];
+            NSMenuItem *menuItem;
+            menuItem = [theMenu insertItemWithTitle:@"Import Current image"    action:@selector(importImage)   keyEquivalent:@"" atIndex:0];
+            menuItem.representedObject = sender;
             
-            if ([self updateLayoutViewWidth:1 height:1])
-                // Create a 1x1 layout if the layout is still empty
-            {
-//                [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
-                [[[self window] windowController] layoutMatrixUpdated];
-                PLThumbnailView *thumb = [[self subviews] objectAtIndex:0];
-                [thumb fillViewWith:[sender draggingPasteboard] atIndex:0];
-                ++filledThumbs;
-                return YES;
-            }
+            menuItem = [theMenu insertItemWithTitle:@"Import Whole serie"      action:@selector(importSerie)   keyEquivalent:@"" atIndex:1];
+            menuItem.representedObject = sender;
+
+            [NSMenu popUpContextMenu:theMenu withEvent:nil forView:self];
+//             NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
+//            theMenu.autoenablesItems = false;
+//            [theMenu popUpMenuPositioningItem:nil atLocation:location inView:self];
+    
+            [theMenu release];
+            return YES;
         }
         
         int i = [self inThumbnailView:[sender draggingLocation] margin:10];
@@ -277,9 +340,9 @@
             PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
             if (![thumb curDCM])
             {
-                ++filledThumbs;;
+                ++(self.filledThumbs);
             }
-            [thumb fillViewWith:[sender draggingPasteboard] atIndex:i];
+            [thumb fillView:i With:pasteboard];
         }
         else
         // If the destination is the margin of the thumbnail, insert the data to the proper thumbnail.
@@ -298,7 +361,6 @@
                 
                 if ([self updateLayoutViewWidth:layoutMatrixWidth height:layoutMatrixHeight])
                 {
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"PLLayoutMatrixUpdated" object:nil];
                     [[[self window] windowController] layoutMatrixUpdated];
                 }
             }
@@ -329,6 +391,8 @@
     self.isDraggingDestination   = NO;
     [self reorderLayoutMatrix];
     [self resizeLayoutView:self.frame];
+    
+    pasteboard = nil;
     
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
@@ -378,6 +442,7 @@
 //}
 
 #pragma mark-Layout management
+
 - (BOOL)updateLayoutViewWidth:(NSUInteger)w height:(NSUInteger)h
 {
     NSUInteger newSize = w * h;
@@ -439,6 +504,7 @@
         }
     }
     [self setNeedsDisplay:YES];
+    
     return YES;
 }
 
@@ -543,7 +609,7 @@
     
     if (![thumb curDCM])
     {
-        [thumb fillViewWith:[sender draggingPasteboard] atIndex:index];
+        [thumb fillView:index With:[sender draggingPasteboard]];
         return;
     }
     
@@ -561,7 +627,7 @@
             NSArray *fList = [thumb dcmFilesList];
             [[[self subviews] objectAtIndex:j] setPixels:pList files:fList rois:rList firstImage:0 level:'i' reset:YES];
         }
-        [thumb fillViewWith:[sender draggingPasteboard] atIndex:i];
+        [thumb fillView:i With:[sender draggingPasteboard]];
     }
     else// if (i < index)
     {
@@ -573,7 +639,7 @@
             NSArray *fList = [thumb dcmFilesList];
             [[[self subviews] objectAtIndex:j] setPixels:pList files:fList rois:rList firstImage:0 level:'i' reset:YES];
         }
-        [[[self subviews] objectAtIndex:n-1] fillViewWith:[sender draggingPasteboard] atIndex:i];
+        [[[self subviews] objectAtIndex:n-1] fillView:i With:[sender draggingPasteboard]];
     }
 }
 

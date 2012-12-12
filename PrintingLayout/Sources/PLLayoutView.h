@@ -11,7 +11,6 @@
 
 @interface PLLayoutView : NSView
 {
-//    NSArray *layout; // subviews already exists in NSView
     NSUInteger layoutMatrixWidth, layoutMatrixHeight;
     NSUInteger filledThumbs;
     BOOL isDraggingDestination;
@@ -20,6 +19,8 @@
     int previousLeftShrink;
     int previousRightShrink;
     int mouseTool;
+    
+    NSPasteboard *pasteboard;
     
 //    paperSize layoutFormat;
 }
@@ -41,5 +42,7 @@
 - (void)insertImageAtIndex:(NSUInteger)index from:(id<NSDraggingInfo>)sender;
 - (int)findNextEmptyViewFrom:(NSUInteger)index;
 - (void)saveLayoutViewToDicom;
+- (void)importImage;//:(id)sender;
+- (void)importSerie;//:(id)sender;
 
 @end
