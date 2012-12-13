@@ -128,7 +128,7 @@
     glEnd();
 }
 
-- (void)fillView:(NSInteger)gridIndex With:(NSPasteboard*)pasteboard
+- (void)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard
 {
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
     {
@@ -174,7 +174,7 @@
     }
 }
 
-- (void)fillView:(NSInteger)gridIndex With:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex
+- (void)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex
 {
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
     {
@@ -217,6 +217,35 @@
         }
     }
 }
+
+- (void)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
+{
+    NSMutableArray *pixList = [NSMutableArray arrayWithCapacity:1];
+    [[[dcm dcmPixList] objectAtIndex:imageIndex] retain];
+    [pixList addObject:[[dcm dcmPixList] objectAtIndex:imageIndex]];
+    
+    NSMutableArray *filesList = [NSMutableArray arrayWithCapacity:1];
+    if ([[dcm dcmFilesList] count])
+    {
+        [[[dcm dcmFilesList] objectAtIndex:imageIndex] retain];
+        [filesList addObject:[[dcm dcmFilesList] objectAtIndex:imageIndex]];
+    }
+    
+    NSMutableArray *roiList = [NSMutableArray arrayWithCapacity:1];
+    if ([[dcm dcmRoiList] count])
+    {
+        [[[dcm dcmRoiList] objectAtIndex:imageIndex] retain];
+        [roiList addObject:[[dcm dcmRoiList] objectAtIndex:imageIndex]];
+    }
+    
+    [self setPixels:pixList
+              files:[[dcm dcmFilesList]   count] ? filesList  : nil
+               rois:[[dcm dcmRoiList]     count] ? roiList    : nil
+         firstImage:0
+              level:'i'
+              reset:YES];
+}
+
 
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side
 {
@@ -299,8 +328,16 @@
     
     switch (key)
     {
-        case '<':
-            NSLog(@"Import image to selected thumb.");
+        case 60: // '<'
+        case NSPageUpFunctionKey:
+        case NSUpArrowFunctionKey:
+        case NSLeftArrowFunctionKey:
+        case NSPageDownFunctionKey:
+        case NSDownArrowFunctionKey:
+        case NSRightArrowFunctionKey:
+        case NSHomeFunctionKey:
+        case NSEndFunctionKey:
+            [self.superview.superview keyDown:event];
             break;
             
         default:
@@ -319,6 +356,7 @@
 - (void) rightMouseUp:(NSEvent *)event
 {
     NSPoint p = [self convertPoint:[event locationInWindow] fromView:nil];
+    
     if (isGoingToBeSelected && NSPointInRect(p, self.bounds))
     {
         if (curDCM)
@@ -332,6 +370,8 @@
                 [theMenu insertItemWithTitle:@"Deselect"    action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
             else
                 [theMenu insertItemWithTitle:@"Select"      action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
+            
+//            [theMenu insertItemWithTitle:@"Insert Page"     action:@selector(insertPage)    keyEquivalent:@"" atIndex:4];
             
             [NSMenu popUpContextMenu:theMenu withEvent:event forView:self];
             [theMenu release];

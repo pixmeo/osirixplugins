@@ -98,20 +98,36 @@
 
 #pragma mark-Import methods
 
-- (void)importImage//:(id)sender
+- (IBAction)importImage:(id)sender
 {
+    NSPasteboard *pasteboard = [sender representedObject];
+    
+    if (![pasteboard dataForType:pasteBoardOsiriX])
+    {
+        NSLog(@"No data in pasteboardOsiriX");
+        return;
+    }
+    
     if ([self updateLayoutViewWidth:1 height:1])
         // Create a 1x1 layout if the layout is still empty
     {
         [[[self window] windowController] layoutMatrixUpdated];
         PLThumbnailView *thumb = [[self subviews] objectAtIndex:0];
-        [thumb fillView:0 With:pasteboard];
+        [thumb fillView:0 withPasteboard:pasteboard];
         ++filledThumbs;
     }
 }
 
-- (void)importSerie//:(id)sender
+- (IBAction)importSerie:(id)sender
 {
+    NSPasteboard *pasteboard = [sender representedObject];
+    
+    if (![pasteboard dataForType:pasteBoardOsiriX])
+    {
+        NSLog(@"No data in pasteboardOsiriX");
+        return;
+    }
+    
     NSUInteger newWidth, newHeight, nbImages;
     
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
@@ -151,7 +167,7 @@
         for (NSUInteger i = 0; i < nbImages; ++i)
         {
             PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
-            [thumb fillView:i With:pasteboard atIndex:i];
+            [thumb fillView:i withPasteboard:pasteboard atIndex:i];
             ++filledThumbs;
         }
     }
@@ -288,7 +304,7 @@
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
     self.isDraggingDestination = NO;
-    pasteboard = nil;
+//    pasteboard = nil;
     
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
@@ -309,25 +325,31 @@
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    pasteboard = [sender draggingPasteboard];
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
     if ([pasteboard dataForType:pasteBoardOsiriX] || [NSImage canInitWithPasteboard:pasteboard])
     // Check that the pasteboard contains an image
     {
         if (![[self subviews] count])
         {
+            // Menu that offers the possibility to import either the current image or the whole serie
             NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Import DICOM Menu"];
             NSMenuItem *menuItem;
-            menuItem = [theMenu insertItemWithTitle:@"Import Current image"    action:@selector(importImage)   keyEquivalent:@"" atIndex:0];
-            menuItem.representedObject = sender;
-            
-            menuItem = [theMenu insertItemWithTitle:@"Import Whole serie"      action:@selector(importSerie)   keyEquivalent:@"" atIndex:1];
-            menuItem.representedObject = sender;
 
-            [NSMenu popUpContextMenu:theMenu withEvent:nil forView:self];
-//             NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
-//            theMenu.autoenablesItems = false;
-//            [theMenu popUpMenuPositioningItem:nil atLocation:location inView:self];
-    
+            menuItem = [theMenu insertItemWithTitle:@"Import Current image"    action:@selector(importImage:)   keyEquivalent:@"" atIndex:0];
+            [menuItem setRepresentedObject:[sender draggingPasteboard]];
+            menuItem = [theMenu insertItemWithTitle:@"Import Whole serie"      action:@selector(importSerie:)   keyEquivalent:@"" atIndex:1];
+            [menuItem setRepresentedObject:[sender draggingPasteboard]];
+//            [theMenu insertItemWithTitle:@"Import Bounded serie"    action:@selector(importBounded) keyEquivalent:@"" atIndex:2];
+            
+            // Needed to get the location of the context menu
+            NSEvent *fakeEvent = [NSEvent mouseEventWithType:NSLeftMouseDown
+                                                    location:[sender draggingLocation]
+                                               modifierFlags:0 timestamp:0
+                                                windowNumber:[self.window windowNumber]
+                                                     context:nil eventNumber:0 clickCount:0 pressure:0];
+
+            [NSMenu popUpContextMenu:theMenu withEvent:fakeEvent forView:self];
+
             [theMenu release];
             return YES;
         }
@@ -342,7 +364,7 @@
             {
                 ++(self.filledThumbs);
             }
-            [thumb fillView:i With:pasteboard];
+//            [thumb fillView:i with:pasteboard];
         }
         else
         // If the destination is the margin of the thumbnail, insert the data to the proper thumbnail.
@@ -392,7 +414,7 @@
     [self reorderLayoutMatrix];
     [self resizeLayoutView:self.frame];
     
-    pasteboard = nil;
+//    pasteboard = nil;
     
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
@@ -414,32 +436,6 @@
             return NSDragOperationCopy;
     }
 }
-
-//#pragma mark-Events handling
-//- (void)keyDown:(NSEvent *)theEvent
-//{
-//    NSLog(@"PLLayoutView caught keyDown");
-//    if ([[theEvent characters] length] == 0)
-//        return;
-//    
-//    unichar c = [[theEvent characters] characterAtIndex:0];
-//    if (c == NSBackspaceCharacter || c == NSDeleteCharacter)
-//    {
-//        NSUInteger nbSubviews = [[self subviews] count];
-//        for (NSUInteger i = 0; i < nbSubviews; ++i)
-//        {
-//            PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
-//            if (thumb.isSelected && [thumb curDCM])
-//            {
-//                [thumb clearView];
-//                --(self.filledThumbs);
-//            }
-//            thumb.isSelected = NO;
-//        }
-//    }
-//
-//    [self setNeedsDisplay:YES];
-//}
 
 #pragma mark-Layout management
 
@@ -609,7 +605,7 @@
     
     if (![thumb curDCM])
     {
-        [thumb fillView:index With:[sender draggingPasteboard]];
+        [thumb fillView:index withPasteboard:[sender draggingPasteboard]];
         return;
     }
     
@@ -627,7 +623,7 @@
             NSArray *fList = [thumb dcmFilesList];
             [[[self subviews] objectAtIndex:j] setPixels:pList files:fList rois:rList firstImage:0 level:'i' reset:YES];
         }
-        [thumb fillView:i With:[sender draggingPasteboard]];
+        [thumb fillView:i withPasteboard:[sender draggingPasteboard]];
     }
     else// if (i < index)
     {
@@ -639,7 +635,7 @@
             NSArray *fList = [thumb dcmFilesList];
             [[[self subviews] objectAtIndex:j] setPixels:pList files:fList rois:rList firstImage:0 level:'i' reset:YES];
         }
-        [[[self subviews] objectAtIndex:n-1] fillView:i With:[sender draggingPasteboard]];
+        [[[self subviews] objectAtIndex:n-1] fillView:i withPasteboard:[sender draggingPasteboard]];
     }
 }
 

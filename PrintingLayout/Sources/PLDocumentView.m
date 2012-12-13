@@ -10,6 +10,7 @@
 #import "PLLayoutView.h"
 #import "PLThumbnailView.h"
 #import "PLWindowController.h"
+#import <OsiriXAPI/ViewerController.h>
 
 @implementation PLDocumentView
 
@@ -125,6 +126,40 @@
     
     switch (key)
     {
+        case 60:
+            NSLog(@"Import image to selected thumb.");
+            NSArray * windowList = [NSApp windows];
+            NSUInteger nbWindows = [windowList count];
+            
+            for (NSUInteger i = 0; i < nbWindows; ++i)
+            {
+                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
+                {
+                    DCMView *imageToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] imageView];
+                    NSLog(@"Current image = %d", imageToImport.curImage);
+                    
+                    NSUInteger nbPages = self.subviews.count;
+                    
+                    for (NSUInteger i = 0; i < nbPages; ++i)
+                    {
+                        NSUInteger nbThumbs = [[[self.subviews objectAtIndex:i] subviews] count];
+                        
+                        for (NSUInteger j = 0; j < nbThumbs; ++j)
+                        {
+                            PLThumbnailView *thumb = [[[self.subviews objectAtIndex:i] subviews] objectAtIndex:j];
+                            if (thumb.isSelected && !thumb.curDCM)
+                            {
+                                [thumb fillView:j withDCMView:imageToImport atIndex:imageToImport.curImage] ;
+                                return;
+                            }
+                        }
+                    }
+                    
+                    NSRunAlertPanel(NSLocalizedString(@"Import Error", nil), NSLocalizedString(@"Select an empty view in the layout first.", nil), NSLocalizedString(@"OK", nil), nil, nil);
+                }
+            }
+            break;
+
         case NSPageUpFunctionKey:
         case NSUpArrowFunctionKey:
         case NSLeftArrowFunctionKey:
@@ -189,6 +224,46 @@
     }
 }
 
+#pragma mark-DICOM insertion
+
+- (IBAction)insertImage:(id)sender
+{
+    NSPasteboard *pasteboard = [sender representedObject];
+    
+    if (![pasteboard dataForType:pasteBoardOsiriX])
+    {
+        NSLog(@"No data in pasteboardOsiriX");
+    }
+    
+    [self insertPageAtIndex:currentPage];
+    
+    if (currentPage < 0)
+    {
+        currentPage = 0;
+    }
+    
+    [[self.subviews objectAtIndex:currentPage] importImage:sender];
+}
+
+- (IBAction)insertSerie:(id)sender
+{
+    NSPasteboard *pasteboard = [sender representedObject];
+    
+    if (![pasteboard dataForType:pasteBoardOsiriX])
+    {
+        NSLog(@"No data in pasteboardOsiriX");
+    }
+    
+    [self insertPageAtIndex:currentPage];
+    
+    if (currentPage < 0)
+    {
+        currentPage = 0;
+    }
+    
+    [[self.subviews objectAtIndex:currentPage] importSerie:sender];
+}
+
 #pragma mark-Drag'n'Drop
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
@@ -203,13 +278,33 @@
     return NSDragOperationNone;
 }
 
-- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
-{
-    return NSDragOperationCopy;
-}
-
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
+    NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Import DICOM Menu"];
+    NSMenuItem *menuItem;
+    menuItem = [theMenu insertItemWithTitle:@"Import Current image"    action:@selector(insertImage:)   keyEquivalent:@"" atIndex:0];
+    [menuItem setRepresentedObject:[sender draggingPasteboard]];
+    menuItem = [theMenu insertItemWithTitle:@"Import Whole serie"      action:@selector(insertSerie:)   keyEquivalent:@"" atIndex:1];
+    [menuItem setRepresentedObject:[sender draggingPasteboard]];
+//    [theMenu insertItemWithTitle:@"Import Bounded serie"    action:@selector(importBounded) keyEquivalent:@"" atIndex:2];
+//    [menuItem setRepresentedObject:[sender draggingPasteboard]];
+    
+    // Needed to get the location of the context menu
+    NSEvent *fakeEvent = [NSEvent mouseEventWithType:NSLeftMouseDown
+                                            location:[sender draggingLocation]
+                                       modifierFlags:0 timestamp:0
+                                        windowNumber:[self.window windowNumber]
+                                             context:nil eventNumber:0 clickCount:0 pressure:0];
+    
+    [NSMenu popUpContextMenu:theMenu withEvent:fakeEvent forView:self];
+
+    // Does not work: problem with selectors
+//    NSPoint draglocation = [self convertPoint:[sender draggingLocation] fromView:nil];
+//    [theMenu setAutoenablesItems:false];  // Make the items
+//    [theMenu popUpMenuPositioningItem:nil atLocation:draglocation inView:self];
+    
+    [theMenu release];
+
     return YES;
 }
 
@@ -222,6 +317,8 @@
 - (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
     self.isDraggingDestination = NO;
+    [self setNeedsDisplay:YES];
+    
     return;
 }
 
@@ -235,22 +332,11 @@
     NSRect fullFrame = self.enclosingScrollView.bounds;
     
     // Update the margins' size
-//    switch (scrollingMode)
-//    {
-//        case pageByPage:
-//        case pageScroll:
-//            self.topMargin = floorf(fullFrame.size.width / 200) + 1;
-//            break;
-//            
-//        default:
-//            self.topMargin = 0;
-//            break;
-//    }
     self.topMargin      = scrollingMode == continuous ? 0 : floorf(fullFrame.size.width / 200) + 1;
     self.sideMargin     = roundf(topMargin * 5 / 2);
     self.bottomMargin   = topMargin * 3;
     
-    // Determine the size of pages (i.e. PLLayoutView)
+    // Determine the size of pages (i.e. PLLayoutViews)
     pageWidth       = fullFrame.size.width - 2 * sideMargin;
     pageHeight      = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.height - topMargin)/nbPages) - bottomMargin;
     
@@ -260,6 +346,7 @@
     
     [self setFrame:documentFrame];
     [self.superview setFrame:documentFrame];
+//    [self.enclosingScrollView setFrameSize:NSMakeSize(pageWidth + 2 * sideMargin, pageHeight + topMargin + bottomMargin)];
     
     for (NSUInteger i = 0; i < nbPages; ++i)
     {
@@ -275,6 +362,38 @@
 {
     [self addSubview:[[PLLayoutView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)]];
     [self resizePLDocumentView];
+}
+
+- (void)insertPageAtIndex:(NSUInteger)index
+{
+    NSUInteger nbSubviews = self.subviews.count;
+    if (index < nbSubviews - 1)
+    {
+        NSMutableArray *shiftedViews = [[NSMutableArray alloc] initWithCapacity:nbSubviews - index];
+        // Store views that will be shifted
+        while (self.subviews.count > index)
+        {
+            [[self.subviews lastObject] retain];
+            [shiftedViews addObject:[self.subviews lastObject]];
+            [[self.subviews lastObject] removeFromSuperviewWithoutNeedingDisplay];
+        }
+
+        // Insert view
+        [self addSubview:[[PLLayoutView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)]];
+        
+        // Put back views
+        for (NSInteger i = nbSubviews - index - 1; i >= 0; --i)
+        {
+            [self addSubview:[shiftedViews objectAtIndex:i]];
+        }
+        
+        [shiftedViews release];
+        [self resizePLDocumentView];
+    }
+    else
+    {
+        [self newPage];
+    }
 }
 
 @end

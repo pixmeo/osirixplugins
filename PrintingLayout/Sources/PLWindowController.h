@@ -40,6 +40,7 @@
 @property int currentPage;
 
 - (IBAction)addPage:(id)sender;
+- (IBAction)insertPage:(id)sender;
 - (IBAction)updateViewRatio:(id)sender;
 - (IBAction)updateGridLayoutFromButton:(id)sender;
 - (IBAction)displayModeChanged:(id)sender;

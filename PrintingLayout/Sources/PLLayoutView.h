@@ -20,8 +20,6 @@
     int previousRightShrink;
     int mouseTool;
     
-    NSPasteboard *pasteboard;
-    
 //    paperSize layoutFormat;
 }
 
@@ -42,7 +40,7 @@
 - (void)insertImageAtIndex:(NSUInteger)index from:(id<NSDraggingInfo>)sender;
 - (int)findNextEmptyViewFrom:(NSUInteger)index;
 - (void)saveLayoutViewToDicom;
-- (void)importImage;//:(id)sender;
-- (void)importSerie;//:(id)sender;
+- (IBAction)importImage:(id)sender;
+- (IBAction)importSerie:(id)sender;
 
 @end

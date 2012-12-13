@@ -35,5 +35,8 @@
 
 - (void)resizePLDocumentView;
 - (void)newPage;
+- (void)insertPageAtIndex:(NSUInteger)index;
+- (IBAction)insertImage:(id)sender;
+- (IBAction)insertSerie:(id)sender;
 
 @end
