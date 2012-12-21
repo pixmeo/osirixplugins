@@ -364,7 +364,7 @@
             {
                 ++(self.filledThumbs);
             }
-//            [thumb fillView:i with:pasteboard];
+            [thumb fillView:i withPasteboard:pasteboard];
         }
         else
         // If the destination is the margin of the thumbnail, insert the data to the proper thumbnail.

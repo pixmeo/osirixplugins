@@ -19,6 +19,7 @@
 @synthesize heightValue, widthValue;
 @synthesize scrollViewFormat;
 @synthesize currentPage;
+@synthesize fullDocumentView;
 
 - (id)init
 {
@@ -103,6 +104,11 @@
     [[[fullDocumentView subviews] objectAtIndex:currentPage] saveLayoutViewToDicom];
 }
 
+- (IBAction)exportViewToPDF:(id)sender
+{
+    [fullDocumentView saveDocumentViewToPDF];
+}
+
 - (IBAction)changeTool:(id)sender
 {
     // Copy/paste from M/CPRController.m
@@ -156,7 +162,7 @@
     NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
     NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
     
-    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:heightValue])
+    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
     {
         self.widthValue = newWidth;
         self.heightValue = newHeight;
@@ -294,6 +300,22 @@
 {
 	NSLog( @"maxMovieIndex not currently available in the Printing Layout.");
 }
+
+//#pragma mark-Needed by DCMView when is2DViewer returns YES
+//- (BOOL)isPostprocessed
+//{
+//    return NO;
+//}
+//
+//- (void) setUpdateTilingViewsValue:(BOOL) v
+//{
+//	updateTilingViews = v;
+//}
+//
+//- (BOOL)updateTilingViewsValue
+//{
+//    return updateTilingViews;
+//}
 
 @end
 

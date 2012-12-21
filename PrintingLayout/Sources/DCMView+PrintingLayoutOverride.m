@@ -7,6 +7,7 @@
 //
 
 #import "DCMView+PrintingLayoutOverride.h"
+#import "PLWindowController.h"
 
 @implementation DCMView (PrintingLayoutOverride)
 
@@ -25,6 +26,21 @@
     }
     
     return 1.;
+}
+
+// Used to let the '<' key send DCMView to the PLDocumentView
+- (void)printingLayoutActionForHotKey:(NSEvent*)event
+{
+    NSArray * windowList = [NSApp windows];
+    NSUInteger nbWindows = [windowList count];
+    
+    for (NSUInteger i = 0; i < nbWindows; ++i)
+    {
+        if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"PLWindowController"])
+        {
+            [[(PLWindowController*)[[windowList objectAtIndex:i] windowController] fullDocumentView] keyDown:event];
+        }
+    }
 }
 
 @end

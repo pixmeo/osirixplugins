@@ -144,22 +144,19 @@
             
             short index = [*draggedView curImage];
             
-            NSMutableArray *pixList = [NSMutableArray arrayWithCapacity:1];
-            [[[*draggedView dcmPixList] objectAtIndex:index] retain];
-            [pixList addObject:[[*draggedView dcmPixList] objectAtIndex:index]];
+            NSMutableArray *pixList = [NSMutableArray array];
+            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:index] retain]];
             
-            NSMutableArray *filesList = [NSMutableArray arrayWithCapacity:1];
+            NSMutableArray *filesList = [NSMutableArray array];
             if ([[*draggedView dcmFilesList] count])
             {
-                [[[*draggedView dcmFilesList] objectAtIndex:index] retain];
-                [filesList addObject:[[*draggedView dcmFilesList] objectAtIndex:index]];
+                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:index] retain]];
             }
             
-            NSMutableArray *roiList = [NSMutableArray arrayWithCapacity:1];
+            NSMutableArray *roiList = [NSMutableArray array];
             if ([[*draggedView dcmRoiList] count])
             {
-                [[[*draggedView dcmRoiList] objectAtIndex:index] retain];
-                [roiList addObject:[[*draggedView dcmRoiList] objectAtIndex:index]];
+                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:index] retain]];
             }
             
             [self setPixels:pixList
@@ -188,22 +185,19 @@
             NSData *draggedData = [pasteboard dataForType:pasteBoardOsiriX];
             [draggedData getBytes:draggedView length:sizeof(DCMView*)];
             
-            NSMutableArray *pixList = [NSMutableArray arrayWithCapacity:1];
-            [[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain];
-            [pixList addObject:[[*draggedView dcmPixList] objectAtIndex:imageIndex]];
+            NSMutableArray *pixList = [NSMutableArray array];
+            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain]];
             
-            NSMutableArray *filesList = [NSMutableArray arrayWithCapacity:1];
+            NSMutableArray *filesList = [NSMutableArray array];
             if ([[*draggedView dcmFilesList] count])
             {
-                [[[*draggedView dcmFilesList] objectAtIndex:imageIndex] retain];
-                [filesList addObject:[[*draggedView dcmFilesList] objectAtIndex:imageIndex]];
+                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:imageIndex] retain]];
             }
             
-            NSMutableArray *roiList = [NSMutableArray arrayWithCapacity:1];
+            NSMutableArray *roiList = [NSMutableArray array];
             if ([[*draggedView dcmRoiList] count])
             {
-                [[[*draggedView dcmRoiList] objectAtIndex:imageIndex] retain];
-                [roiList addObject:[[*draggedView dcmRoiList] objectAtIndex:imageIndex]];
+                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:imageIndex] retain]];
             }
             
             [self setPixels:pixList
@@ -220,22 +214,19 @@
 
 - (void)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
 {
-    NSMutableArray *pixList = [NSMutableArray arrayWithCapacity:1];
-    [[[dcm dcmPixList] objectAtIndex:imageIndex] retain];
-    [pixList addObject:[[dcm dcmPixList] objectAtIndex:imageIndex]];
+    NSMutableArray *pixList = [NSMutableArray array];
+    [pixList addObject:[[[dcm dcmPixList] objectAtIndex:imageIndex] retain]];
     
-    NSMutableArray *filesList = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray *filesList = [NSMutableArray array];
     if ([[dcm dcmFilesList] count])
     {
-        [[[dcm dcmFilesList] objectAtIndex:imageIndex] retain];
-        [filesList addObject:[[dcm dcmFilesList] objectAtIndex:imageIndex]];
+        [filesList addObject:[[[dcm dcmFilesList] objectAtIndex:imageIndex] retain]];
     }
     
-    NSMutableArray *roiList = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray *roiList = [NSMutableArray array];
     if ([[dcm dcmRoiList] count])
     {
-        [[[dcm dcmRoiList] objectAtIndex:imageIndex] retain];
-        [roiList addObject:[[dcm dcmRoiList] objectAtIndex:imageIndex]];
+        [roiList addObject:[[[dcm dcmRoiList] objectAtIndex:imageIndex] retain]];
     }
     
     [self setPixels:pixList
@@ -329,6 +320,7 @@
     switch (key)
     {
         case 60: // '<'
+        case 62: // '>'
         case NSPageUpFunctionKey:
         case NSUpArrowFunctionKey:
         case NSLeftArrowFunctionKey:

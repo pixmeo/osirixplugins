@@ -11,6 +11,8 @@
 #import "PLThumbnailView.h"
 #import "PLWindowController.h"
 #import <OsiriXAPI/ViewerController.h>
+#import <Accelerate/Accelerate.h>
+#import <Quartz/Quartz.h>
 
 @implementation PLDocumentView
 
@@ -123,14 +125,13 @@
 
     NSClipView *clipView = self.enclosingScrollView.contentView;
     unichar key = [event.characters characterAtIndex:0];
+
+    NSArray * windowList = [NSApp windows];
+    NSUInteger nbWindows = [windowList count];
     
     switch (key)
     {
         case 60:
-            NSLog(@"Import image to selected thumb.");
-            NSArray * windowList = [NSApp windows];
-            NSUInteger nbWindows = [windowList count];
-            
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
                 if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
@@ -158,6 +159,10 @@
                     NSRunAlertPanel(NSLocalizedString(@"Import Error", nil), NSLocalizedString(@"Select an empty view in the layout first.", nil), NSLocalizedString(@"OK", nil), nil, nil);
                 }
             }
+            break;
+            
+        case 62:
+            NSLog(@"Insert whole serie.");
             break;
 
         case NSPageUpFunctionKey:
@@ -373,8 +378,8 @@
         // Store views that will be shifted
         while (self.subviews.count > index)
         {
-            [[self.subviews lastObject] retain];
-            [shiftedViews addObject:[self.subviews lastObject]];
+//            [[self.subviews lastObject] retain];
+            [shiftedViews addObject:[[self.subviews lastObject] retain]];
             [[self.subviews lastObject] removeFromSuperviewWithoutNeedingDisplay];
         }
 
@@ -395,6 +400,107 @@
         [self newPage];
     }
 }
+
+#pragma mark-Export methods
+
+- (void)saveDocumentViewToPDF
+{
+    NSUInteger nbPages = self.subviews.count;
+    
+    if (!nbPages)
+        return;
+    
+    PDFDocument *layoutPDF = [[PDFDocument alloc] init];
+    
+    for (NSUInteger i = 0; i < nbPages; ++i)
+    {
+        PLLayoutView *page = [self.subviews objectAtIndex:i];
+        NSUInteger nbThumbs = page.subviews.count;
+        
+        if (nbThumbs)
+        {
+            PDFPage *layoutPage = [[PDFPage alloc] init];
+            NSImage *pageImage = [[NSImage alloc] init];
+            
+            unsigned char *fullPageData = malloc(3 * page.frame.size.height * page.frame.size.width);
+
+            for (NSUInteger j = 0; j < nbThumbs; ++j)
+            {
+                PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
+
+                long width, height, spp, bpp;
+                
+                unsigned char *data = [thumb getRawPixelsViewWidth:&width height:&height spp:&spp bpp:&bpp
+                                                     screenCapture:YES force8bits:YES removeGraphical:NO squarePixels:YES allowSmartCropping:NO
+                                                            origin:nil spacing:nil offset:nil isSigned:nil];
+                
+                if (data)
+                {
+                    NSBitmapImageRep *rep;
+                    
+                    rep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
+                                                                   pixelsWide:width
+                                                                   pixelsHigh:height
+                                                                bitsPerSample:bpp
+                                                              samplesPerPixel:spp
+                                                                     hasAlpha:NO
+                                                                     isPlanar:NO
+                                                               colorSpaceName:NSCalibratedRGBColorSpace
+                                                                  bytesPerRow:width*bpp*spp/8
+                                                                 bitsPerPixel:bpp*spp]
+                           autorelease];
+                    
+                    
+                    // will be replaced
+                    memcpy([rep bitmapData], data, height*width*bpp*spp/8);
+                    [pageImage addRepresentation:rep];
+                    free(data);
+                    
+                    // by this when debugged
+                    NSPoint thumbOrigin = thumb.frame.origin;
+                    NSLog(@"%f %f", thumbOrigin.x, thumbOrigin.y);
+                    for (NSUInteger line = 0; line < height; ++line)
+                    {
+                        // TODO : debug this
+                        //
+                        int destStart = roundf(thumbOrigin.x) * width + roundf(thumbOrigin.y) + line * page.frame.size.width;
+                        int srcStart = line * width;
+                        NSLog(@"%d %d", srcStart, destStart);
+                        memcpy(&(rep.bitmapData[srcStart]), &(fullPageData[destStart]), width*bpp*spp/8);
+                    }
+                    
+                }
+            }
+            
+            NSBitmapImageRep *pageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&fullPageData
+                                                                                pixelsWide:page.frame.size.width
+                                                                                pixelsHigh:page.frame.size.height
+                                                                             bitsPerSample:8
+                                                                           samplesPerPixel:3
+                                                                                  hasAlpha:NO
+                                                                                  isPlanar:NO
+                                                                            colorSpaceName:NSCalibratedRGBColorSpace
+                                                                               bytesPerRow:page.frame.size.width * 3
+                                                                              bitsPerPixel:24];
+//            [pageImage addRepresentation:pageRep];
+            free(fullPageData);
+            
+            layoutPage = [[PDFPage alloc] initWithImage:pageImage];
+            [layoutPDF insertPage:layoutPage atIndex:i];
+            
+            [layoutPage release];
+            [pageImage release];
+        }
+    }
+    
+    if (![layoutPDF writeToFile:@"/Users/bd/Pictures/OsiriX/view.pdf"])
+    {
+        NSLog(@"Error writing pdf file");
+    }
+    
+    [layoutPDF release];
+}
+
 
 @end
 

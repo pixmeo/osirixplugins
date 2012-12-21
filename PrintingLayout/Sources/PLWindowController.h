@@ -33,11 +33,14 @@
     paperSize scrollViewFormat;
     NSLayoutConstraint *ratioConstraint;
     int currentPage;
+    
+//    BOOL updateTilingViews; //Needed by DCMView when is2DViewer returns YES
 }
 
 @property NSUInteger heightValue, widthValue;
 @property paperSize scrollViewFormat;
 @property int currentPage;
+@property (readonly) PLDocumentView *fullDocumentView;
 
 - (IBAction)addPage:(id)sender;
 - (IBAction)insertPage:(id)sender;
@@ -46,6 +49,7 @@
 - (IBAction)displayModeChanged:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
+- (IBAction)exportViewToPDF:(id)sender;
 - (IBAction)changeTool:(id)sender;
 - (IBAction)adjustLayoutWidth:(id)sender;
 - (IBAction)adjustLayoutHeight:(id)sender;
