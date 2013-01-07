@@ -22,7 +22,8 @@ typedef enum shrinkTypeEnum {
     BOOL isGoingToBeSelected;
     BOOL isSelected;
     BOOL isDraggingDestination;
-//    BOOL realSizePrint; //cf. Osirix Mailing list 13 déc. 2012, at 09:15, "mhoswa" <mhoswa@gmail.com>
+//    BOOL realSizePrint;   //cf. Osirix Mailing list 13 déc. 2012, at 09:15, "mhoswa" <mhoswa@gmail.com>
+                            // and 2 janv. 2013, at 11:58, "tumeursfoie" <tumeursfoie@yahoo.fr>
     
     shrinkType shrinking;   // side where the shrinking has been done
     NSRect originalFrame;   // in case of shrinking

@@ -10,6 +10,7 @@
 #import "PLLayoutView.h"
 #import "PLThumbnailView.h"
 #import "PLWindowController.h"
+#import <OsiriXAPI/DicomImage.h>
 #import <OsiriXAPI/ViewerController.h>
 #import <Accelerate/Accelerate.h>
 #import <Quartz/Quartz.h>
@@ -412,98 +413,282 @@
     
     PDFDocument *layoutPDF = [[PDFDocument alloc] init];
     
+    // Index for PDF layout page
     NSInteger pageNumber = -1;
+    
+//    CGFloat pageRatio = getRatioFromPaperFormat(pageFormat);
     
     for (NSUInteger i = 0; i < nbPages; ++i)
     {
         PLLayoutView *page = [self.subviews objectAtIndex:i];
-        NSUInteger nbThumbs = page.subviews.count;
+        NSUInteger nbThumbs = page.filledThumbs;
         
         if (nbThumbs)
         {
             ++pageNumber;
-            NSImage *pageImage = [[NSImage alloc] init];
             
-            unsigned char *fullPageData = malloc(3 * page.frame.size.height * page.frame.size.width);
-            long width, height, spp, bps;
+            NSUInteger matrixWidth = page.layoutMatrixWidth;
+            NSUInteger matrixHeight = page.layoutMatrixHeight;
             
+            // Determine the maximal size for the final image
+            CGFloat maxWidth = 0,
+                    maxHeight = 0;
             for (NSUInteger j = 0; j < nbThumbs; ++j)
             {
                 PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
-
-                // screenCapture = NO : original data only, so we don't get, for instance, annotations
-                // force8Bits = YES : sinon voir comment gérer le cas 16 bits
                 
-                // Get raw data from PLThumbnailView (aka DCMView)
-                unsigned char *data = [thumb getRawPixelsViewWidth:&width height:&height spp:&spp bpp:&bps
-                                                     screenCapture:NO force8bits:YES removeGraphical:NO squarePixels:YES allowSmartCropping:YES
-                                                            origin:nil spacing:nil offset:nil isSigned:nil];
+                long width, height, spp, bps;
+                [thumb getRawPixelsViewWidth:&width height:&height spp:&spp bpp:&bps
+                               screenCapture:NO force8bits:YES removeGraphical:NO squarePixels:YES allowSmartCropping:YES
+                                      origin:nil spacing:nil offset:nil isSigned:nil];
                 
-//                NSLog(@"width = %ld / height = %ld / samples per pixel = %ld / bits per sample = %ld", width, height, spp, bps);
+                if (maxHeight < height)
+                    maxHeight = height;
                 
-                if (data)
-                {
-                    NSBitmapImageRep *rep;
-                    
-                    // Problème avec les images en ndg 16 bits
-                    // Allocate the image representation
-                    rep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
-                                                                   pixelsWide:width
-                                                                   pixelsHigh:height
-                                                                bitsPerSample:bps
-                                                              samplesPerPixel:spp
-                                                                     hasAlpha:NO
-                                                                     isPlanar:NO
-                                                               colorSpaceName:spp == 3 ? NSCalibratedRGBColorSpace : NSCalibratedWhiteColorSpace
-                                                                  bytesPerRow:width*bps*spp/8
-                                                                 bitsPerPixel:bps*spp]
-                           autorelease];
-                    
-                    // Copy the raw data to the image representation
-                    // This should be replaced
-                    memcpy([rep bitmapData], data, height*width*bps*spp/8);
-                    [pageImage addRepresentation:rep];
-                    free(data);
-                    
-                    // by this when debugged
-                    NSPoint thumbOrigin = thumb.frame.origin;
-
-                    for (NSUInteger line = 0; line < height; ++line)
-                    {
-                        // TODO debug this
-                        //
-                        int srcStart = line * width;
-                        int destStart = roundf(thumbOrigin.x) + page.frame.size.width * roundf(thumbOrigin.y) + line * width;
-                        
-//                        NSLog(@"line %d : %d %d", line, srcStart, destStart);
-                        
-                        memcpy(&(fullPageData[destStart]), &(rep.bitmapData[srcStart]), width*bps*spp/8);
-                    }
-                    
-                }
-                else
-                {
-                    NSLog(@"No data in thumb");
-                }
+                if (maxWidth < width)
+                    maxWidth = width;
             }
             
-//            NSBitmapImageRep *pageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&fullPageData
-//                                                                                pixelsWide:page.frame.size.width
-//                                                                                pixelsHigh:page.frame.size.height
-//                                                                             bitsPerSample:8
-//                                                                           samplesPerPixel:3
-//                                                                                  hasAlpha:NO
-//                                                                                  isPlanar:NO
-//                                                                            colorSpaceName:NSCalibratedRGBColorSpace
-//                                                                               bytesPerRow:page.frame.size.width * 3
-//                                                                              bitsPerPixel:24];
-//            [pageImage addRepresentation:pageRep];
-            free(fullPageData);
+            NSImage *pageImage = [[NSImage alloc] initWithSize:NSMakeSize(maxWidth * matrixWidth, maxHeight * matrixHeight)];
             
+            [pageImage lockFocus];
+            NSPoint origin = NSMakePoint(0., 0.);
+            for (NSUInteger y = 0; y < matrixHeight; ++y)
+            {
+                NSUInteger currentLine = y * matrixWidth;
+                
+                origin.x = 0.;
+                
+                CGFloat currentLineHeight = 0.;
+
+                for (NSUInteger x = 0; x < matrixWidth; ++x)
+                {
+                    PLThumbnailView *thumb = [page.subviews objectAtIndex:currentLine + x];
+                    
+                    // 1. Get raw data from PLThumbnailView (aka DCMView)
+                    long width, height, spp, bps;
+                    unsigned char *data = [thumb getRawPixelsViewWidth:&width height:&height spp:&spp bpp:&bps
+                                                         screenCapture:NO force8bits:YES removeGraphical:NO squarePixels:YES allowSmartCropping:YES
+                                                                origin:nil spacing:nil offset:nil isSigned:nil];
+                    
+                    NSBitmapImageRep *rep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
+                                                                                     pixelsWide:width
+                                                                                     pixelsHigh:height
+                                                                                  bitsPerSample:bps
+                                                                                samplesPerPixel:spp
+                                                                                       hasAlpha:NO
+                                                                                       isPlanar:NO
+                                                                                 colorSpaceName:spp == 3 ? NSCalibratedRGBColorSpace : NSCalibratedWhiteColorSpace
+                                                                                    bytesPerRow:width*bps*spp/8
+                                                                                   bitsPerPixel:bps*spp]
+                                             autorelease];
+                    
+                    // Memorize the representation
+                    if (data)
+                    {
+                        memcpy(rep.bitmapData, data, height*width*bps*spp/8);
+                        free(data);
+                    }
+
+                    // Define the origin for destination image
+                    origin.x += width;
+                    if (height > currentLineHeight)
+                    {
+                        currentLineHeight = height;
+                    }
+                    
+                    // 2. Set [NSUserDefaults standardUserDefaults] so that frame in imageAsScreenCapture corresponds to original image size
+                    
+                    // 3. Get full image
+                    NSImage *fullImage = [thumb.imageObj imageAsScreenCapture];
+                    
+                    // 4. Draw image on page
+                    [pageImage drawAtPoint:origin fromRect:NSMakeRect(0, 0, fullImage.size.width, fullImage.size.height) operation:NSCompositeCopy fraction:1.0];
+                }
+                
+                origin.y += currentLineHeight;
+            }
+            [pageImage unlockFocus];
+                
+//            unsigned char *fullPageData;
+            
+            float minPageHeight, minPageWidth;
+            minPageHeight = MAXFLOAT;
+            minPageWidth = MAXFLOAT;
+            
+            
+            // Stocker les données de chaque thumbnail au format NSImageRepresentation
+            NSMutableArray *pageRepresentations = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
+            NSMutableArray *pageImages = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
+            
+            
+//            for (NSUInteger y = 0; y < matrixHeight; ++y)
+//            {
+//                float minLineHeight = MAXFLOAT;
+//                NSUInteger currentLine = y * matrixWidth;
+//                
+//                for (NSUInteger x = 0; x < matrixWidth; ++x)
+//                {
+//                    PLThumbnailView *thumb = [page.subviews objectAtIndex:currentLine + x];
+//                    
+//                    // screenCapture = NO : original data only, so we don't get, for instance, annotations, zoom, etc.
+//                    // force8Bits = YES : sinon voir comment gérer le cas 16 bits écrasé vers le noir
+//                    
+//                    // Get raw data from PLThumbnailView (aka DCMView)
+//                    unsigned char *data = [thumb getRawPixelsViewWidth:&width height:&height spp:&spp bpp:&bps
+//                                                         screenCapture:NO force8bits:YES removeGraphical:NO squarePixels:YES allowSmartCropping:YES
+//                                                                origin:nil spacing:nil offset:nil isSigned:nil];
+//                    
+//                    // Problème avec les images en ndg 16 bits : image écrasée vers le noir
+//                    // Allocate the image representation
+//                    NSBitmapImageRep *rep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nil
+//                                                                                     pixelsWide:width
+//                                                                                     pixelsHigh:height
+//                                                                                  bitsPerSample:bps
+//                                                                                samplesPerPixel:spp
+//                                                                                       hasAlpha:NO
+//                                                                                       isPlanar:NO
+//                                                                                 colorSpaceName:spp == 3 ? NSCalibratedRGBColorSpace : NSCalibratedWhiteColorSpace
+//                                                                                    bytesPerRow:width*bps*spp/8
+//                                                                                   bitsPerPixel:bps*spp]
+//                                             autorelease];
+//
+//                    // Determine the minimal height that can have the current line.
+//                    if (height < minLineHeight)
+//                    {
+//                        minLineHeight = height;
+//                    }
+//                    
+//                    // Memorize the representation
+//                    if (data)
+//                    {
+//                        memcpy(rep.bitmapData, data, height*width*bps*spp/8);
+//                        [pageRepresentations addObject:rep];
+//                        free(data);
+//                    }
+//                    else
+//                    {
+//                        [pageRepresentations addObject:rep];
+//                    }
+//
+////                    // Copy the raw data to the image representation
+////                        int cpyStart = 0;
+////                    cpyStart = (thumbHeight - height) / 2 * thumbWidth * spp * bps / 8;
+//
+////                        fullPageData = malloc(spp * page.frame.size.height * page.frame.size.width);
+////                        NSPoint thumbOrigin = thumb.frame.origin;
+////
+////                        for (NSUInteger line = 0; line < height; ++line)
+////                        {
+////                            // TODO debug this
+////                            int srcStart = line * width;
+////                            int destStart = (roundf(thumbOrigin.x) + page.frame.size.width * roundf(thumbOrigin.y) + line * page.frame.size.width) * spp;
+////                            
+////                            //                        NSLog(@"line %d : %d %d", line, srcStart, destStart);
+////                            
+////                            memcpy(&(fullPageData[destStart]), &(rep.bitmapData[srcStart]), width*bps*spp/8);
+////                        }
+//                    
+////                    float thumbRatio = thumb.frame.size.height / thumb.frame.size.width;
+////                    // Determine the optimal size of the thumbnail
+////                    long thumbWidth, thumbHeight;
+////                    if (width * thumbRatio > height)
+////                    {
+////                        thumbWidth = width;
+////                        thumbHeight = thumbWidth * thumbRatio;
+////                    }
+////                    else
+////                    {
+////                        thumbHeight = height;
+////                        thumbWidth = thumbHeight / thumbRatio;
+////                    }
+////
+////                    if (width < minThumbWidth)
+////                    {
+////                        minThumbWidth = width;
+////                    }
+////                    
+////                    if (height < minThumbHeight)
+////                    {
+////                        minThumbHeight = height;
+////                    }
+//                }
+//                
+//                long lineWidth = 0;
+//                for (NSUInteger x = 0; x < matrixWidth; ++x)
+//                {
+//                    NSBitmapImageRep *rep = [pageRepresentations objectAtIndex:currentLine + x];
+//                    NSSize newSize = NSMakeSize(minLineHeight * rep.pixelsHigh / rep.pixelsWide, minLineHeight);
+//                    
+//                    if (rep.pixelsHigh != minLineHeight)
+//                    {
+//                        // resize the rep
+//                        NSImage *sourceImage = [[NSImage alloc] init];
+//                        [sourceImage addRepresentation:rep];
+//                        
+//                        // Report an error if the source isn't a valid image
+//                        if (![sourceImage isValid])
+//                        {
+//                            NSLog(@"Invalid Image");
+//                        }
+//                        else
+//                        {
+//                            NSImage *smallImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
+//                            
+//                            [smallImage lockFocus];
+//                            
+//                            [sourceImage setSize:newSize];
+//                            [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+//                            [sourceImage compositeToPoint:NSZeroPoint operation:NSCompositeCopy];
+//                            
+//                            [smallImage unlockFocus];
+//                            [pageImages addObject:smallImage];
+//                            [smallImage release];
+//                        }
+//                    }
+//                    
+//                    lineWidth += newSize.width;
+//                }
+//                
+//                if (lineWidth < minPageWidth)
+//                {
+//                    minPageWidth = lineWidth;
+//                }
+//            }
+//            
+////            NSBitmapImageRep *pageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&fullPageData
+////                                                                                pixelsWide:page.frame.size.width
+////                                                                                pixelsHigh:page.frame.size.height
+////                                                                             bitsPerSample:bps
+////                                                                           samplesPerPixel:spp
+////                                                                                  hasAlpha:NO
+////                                                                                  isPlanar:NO
+////                                                                            colorSpaceName:NSCalibratedRGBColorSpace
+////                                                                               bytesPerRow:page.frame.size.width * spp
+////                                                                              bitsPerPixel:spp * bps];
+////            [pageImage addRepresentation:pageRep];
+////            free(fullPageData);
+//            
+//            
+//            // add all representations as new page
+//            NSUInteger nbRep = pageRepresentations.count;
+//            
+//            for (NSUInteger j = 0; j < nbRep; ++j)
+//            {
+//                NSImage *currentImage = [[NSImage alloc] init];
+//                [currentImage addRepresentation:[pageRepresentations objectAtIndex:j]];
+//                PDFPage *layoutPage = [[PDFPage alloc] initWithImage:currentImage];
+//                [layoutPDF insertPage:layoutPage atIndex:pageNumber++];
+//                [layoutPage release];
+//                [currentImage release];
+//            }
+
             PDFPage *layoutPage = [[PDFPage alloc] initWithImage:pageImage];
             [layoutPDF insertPage:layoutPage atIndex:pageNumber];
             
             [layoutPage release];
+            [pageRepresentations release];
+            [pageImages release];
             [pageImage release];
         }
     }
