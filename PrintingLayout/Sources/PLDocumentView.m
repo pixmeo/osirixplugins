@@ -411,6 +411,15 @@
     if (!nbPages)
         return;
     
+    // Save panel for pdf files
+    NSSavePanel *saveDialog = [NSSavePanel savePanel];
+
+    [saveDialog setNameFieldStringValue:@"report.pdf"];
+    if ([saveDialog runModal] == NSFileHandlingPanelCancelButton)
+        return;
+    
+    NSString *filename = [NSString stringWithFormat:@"%@/%@", saveDialog.directory, saveDialog.nameFieldStringValue];
+    
     PDFDocument *layoutPDF = [[PDFDocument alloc] init];
     
     // Index for PDF document's page
@@ -537,7 +546,7 @@
         }
     }
     
-    if (![layoutPDF writeToFile:@"/Users/bd/Pictures/OsiriX/view.pdf"])
+    if (![layoutPDF writeToFile:filename])
     {
         NSLog(@"Error writing pdf file");
     }
