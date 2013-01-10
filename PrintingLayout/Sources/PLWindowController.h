@@ -10,16 +10,11 @@
 #import "PLDocumentView.h"
 #import "PLLayoutView.h"
 #import "PLUtils.h"
+#import <OsiriXAPI/ViewerController.h>
 
-@interface PLWindowController : NSWindowController
+@interface PLWindowController : NSWindowController //ViewerController causes problem with toolbar
 {
-//    IBOutlet NSWindow *mainWindow;
-//    IBOutlet NSToolbar *toolbar;
-    
     IBOutlet NSPopUpButton *layoutChoiceButton;
-//    IBOutlet NSButton *clearViewsButton;
-//    IBOutlet NSMatrix *toolsMatrix;
-//    IBOutlet NSToolbarItem *toolMatrix;
     
     IBOutlet NSTextField *widthTextField;
     IBOutlet NSTextField *heightTextField;
@@ -33,8 +28,6 @@
     paperSize scrollViewFormat;
     NSLayoutConstraint *ratioConstraint;
     int currentPage;
-    
-//    BOOL updateTilingViews; //Needed by DCMView when is2DViewer returns YES
 }
 
 @property NSUInteger heightValue, widthValue;
@@ -53,6 +46,7 @@
 - (IBAction)changeTool:(id)sender;
 - (IBAction)adjustLayoutWidth:(id)sender;
 - (IBAction)adjustLayoutHeight:(id)sender;
+- (IBAction)pageByPageNavigation:(id)sender;
 - (void)updateHeight;
 - (void)updateWidth;
 - (void)layoutMatrixUpdated;

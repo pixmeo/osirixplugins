@@ -20,9 +20,9 @@
     CGFloat     bottomMargin;
     
     paperSize   pageFormat;
-    CGFloat     pageWidth;
-    CGFloat     pageHeight;
-    scrollType  scrollingMode;
+    CGFloat     pageWidth;      // keep or not?
+    CGFloat     pageHeight;     // keep or not?
+    scrollType  scrollingMode;  // to delete
     
     int         currentPage;
 }
@@ -36,6 +36,7 @@
 - (void)resizePLDocumentView;
 - (void)newPage;
 - (void)insertPageAtIndex:(NSUInteger)index;
+- (void)goToPage:(NSUInteger)pageNumber;
 - (void)saveDocumentViewToPDF;
 - (IBAction)insertImage:(id)sender;
 - (IBAction)insertSerie:(id)sender;

@@ -32,8 +32,8 @@
         self.isDraggingDestination  = NO;
         self.fullWidth              = NO;
         self.currentPage            = -1;
-        self.pageFormat             = paper_A4;// [self.window.windowController scrollViewFormat];// 
-        self.scrollingMode          = pageByPage;// [self.window.windowController scrollMode];
+        self.pageFormat             = paper_A4;
+        self.scrollingMode          = pageByPage;
         
         self.topMargin       = /*fullWidth ? 0. : */floorf(frame.size.width / 200) + 1;
         self.sideMargin      = roundf(5 * topMargin / 2);
@@ -400,6 +400,10 @@
     {
         [self newPage];
     }
+}
+
+- (void)goToPage:(NSUInteger)pageNumber
+{
 }
 
 #pragma mark-Export methods

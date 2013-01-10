@@ -300,6 +300,14 @@
     [self setNeedsDisplay:YES];
 }
 
+//- (void)resetView
+//{
+//}
+//
+//- (void)rescaleView
+//{
+//}
+
 - (void)selectView
 {
     self.isSelected = !isSelected;

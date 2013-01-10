@@ -41,6 +41,8 @@ typedef enum shrinkTypeEnum {
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side;
 - (void)backToOriginalSize;
 - (void)clearView;
+//- (void)resetView;
+//- (void)rescaleView;
 - (void)selectView;
 
 @end

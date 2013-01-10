@@ -202,6 +202,51 @@
     }
 }
 
+- (IBAction)pageByPageNavigation:(id)sender
+{
+    NSInteger clickedSegment = [sender selectedSegment];
+    
+    switch (clickedSegment)
+    {
+        case 0:
+            NSLog(@"previous");
+            if (currentPage > 1)
+            {
+                [fullDocumentView goToPage:currentPage - 1]; // --currentPage?
+            }
+            break;
+            
+        case 1:
+            NSLog(@"choose");
+        {
+            // open dialog box with current page and let the user enter new
+            NSTextField *pageChooser = [[NSTextField alloc] initWithFrame:NSMakeRect(40, 40, 10, 20)];
+            [pageChooser setEditable:YES];
+            [self.window.contentView addSubview:pageChooser];
+            [self.window.contentView setNeedsDisplay:YES];
+            NSUInteger newPageNumber = 0;
+            if (newPageNumber > 0 && newPageNumber <= fullDocumentView.subviews.count)
+            {
+                [fullDocumentView goToPage:newPageNumber];
+            }
+            
+            [pageChooser release];
+        }
+            break;
+            
+        case 2:
+            NSLog(@"next");
+            if (currentPage < fullDocumentView.subviews.count)
+            {
+                [fullDocumentView goToPage:currentPage + 1]; // ++currentPage?
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (void)updateHeight
 {
     [heightTextField setIntegerValue:[self heightValue]];
@@ -283,23 +328,37 @@
 //    }
 //}
 
-#pragma mark-Needed for ROIs to work
+#pragma mark-OsiriX ViewerController methods disabled
+//- (void) windowDidBecomeKey:(NSNotification *)aNotification
+//{
+//}
+//
+//- (void) windowDidBecomeMain:(NSNotification *)aNotification
+//{
+//}
+//
+//- (BOOL)windowShouldClose:(id)sender
+//{
+//    return YES;
+//}
 
-- (void)addToUndoQueue:(NSString*)string
-{
-	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
-}
-
-- (void)bringToFrontROI:(ROI*)roi
-{
-	NSLog( @"bringToFrontROI: not currently available in the Printing Layout.");
-}
-
-#pragma mark-Needed for down key to work (zoom out?)
-- (void)maxMovieIndex
-{
-	NSLog( @"maxMovieIndex not currently available in the Printing Layout.");
-}
+//#pragma mark-Needed for ROIs to work
+//
+//- (void)addToUndoQueue:(NSString*)string
+//{
+//	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
+//}
+//
+//- (void)bringToFrontROI:(ROI*)roi
+//{
+//	NSLog( @"bringToFrontROI: currently unavailable in the Printing Layout.");
+//}
+//
+//#pragma mark-Needed for down key to work (zoom out?)
+//- (void)maxMovieIndex
+//{
+//	NSLog( @"maxMovieIndex currently unavailable in the Printing Layout.");
+//}
 
 //#pragma mark-Needed by DCMView when is2DViewer returns YES
 //- (BOOL)isPostprocessed
