@@ -100,24 +100,16 @@
 
 #pragma mark-Events management
 
-// scrollWheel: deactivated until the display bug with NSOpenGLView is resolved
 - (void)scrollWheel:(NSEvent *)theEvent
 {
-//    if (scrollingMode == pageByPage)
-//    {
-//        if (theEvent.deltaY > 0)
-//        {
-//            [self.enclosingScrollView pageUp:theEvent];
-//        }
-//        else if (theEvent.deltaY < 0)
-//        {
-//            [self.enclosingScrollView pageDown:theEvent];
-//        }
-//    }
-//    else
-//    {
-//        [super scrollWheel:theEvent];
-//    }
+    if (theEvent.deltaY > 3)
+    {
+        [self pageUp:nil];
+    }
+    else if (theEvent.deltaY < -3)
+    {
+        [self pageDown:nil];
+    }
 }
 
 - (void)keyDown:(NSEvent *)event
