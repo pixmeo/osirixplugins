@@ -14,16 +14,16 @@
 
 @interface PLWindowController : NSWindowController //ViewerController causes problem with toolbar
 {
-    IBOutlet NSPopUpButton *layoutChoiceButton;
+    IBOutlet NSPopUpButton  *layoutChoiceButton;
     
-    IBOutlet NSTextField *widthTextField;
-    IBOutlet NSTextField *heightTextField;
-    IBOutlet NSStepper *widthValueAdjuster;
-    IBOutlet NSStepper *heightValueAdjuster;
+    IBOutlet NSTextField    *widthTextField;
+    IBOutlet NSTextField    *heightTextField;
+    IBOutlet NSStepper      *widthValueAdjuster;
+    IBOutlet NSStepper      *heightValueAdjuster;
     NSUInteger heightValue;
     NSUInteger widthValue;
     
-    IBOutlet NSScrollView *scrollView;
+    IBOutlet NSScrollView   *scrollView;  // Historic: could be really used if the scrolling was not causing trouble with NSOpenGLView
     IBOutlet PLDocumentView *fullDocumentView;
     paperSize scrollViewFormat;
     NSLayoutConstraint *ratioConstraint;

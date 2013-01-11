@@ -65,6 +65,21 @@
 
 #pragma mark-Action based methods
 
+- (IBAction)changeTool:(id)sender
+{
+    // Copy/paste from M/CPRController.m
+	int toolIndex = 0;
+	
+	if ([sender isKindOfClass:[NSMatrix class]])
+		toolIndex = [[sender selectedCell] tag];
+	else if ([sender respondsToSelector:@selector(tag)])
+		toolIndex = [sender tag];
+    
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] setMouseTool:toolIndex];
+}
+
+#pragma mark-Layout management
+
 - (IBAction)updateViewRatio:(id)sender
 {
     self.scrollViewFormat = [[sender selectedItem] tag];
@@ -99,29 +114,6 @@
     [fullDocumentView resizePLDocumentView];
 }
 
-- (IBAction)exportViewToDicom:(id)sender
-{
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] saveLayoutViewToDicom];
-}
-
-- (IBAction)exportViewToPDF:(id)sender
-{
-    [fullDocumentView saveDocumentViewToPDF];
-}
-
-- (IBAction)changeTool:(id)sender
-{
-    // Copy/paste from M/CPRController.m
-	int toolIndex = 0;
-	
-	if ([sender isKindOfClass:[NSMatrix class]])
-		toolIndex = [[sender selectedCell] tag];
-	else if ([sender respondsToSelector:@selector(tag)])
-		toolIndex = [sender tag];
-    
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] setMouseTool:toolIndex];
-}
-
 - (IBAction)addPage:(id)sender
 {
     [fullDocumentView newPage];
@@ -132,26 +124,6 @@
 {
     [fullDocumentView insertPageAtIndex:currentPage];
     [self updateWindowTitle];
-}
-
-- (void)pageDown:(id)sender
-{
-    if (currentPage < fullDocumentView.subviews.count - 1)
-    {
-        ++(self.currentPage);
-        fullDocumentView.currentPage = currentPage;
-        [fullDocumentView pageDown:sender];
-    }
-}
-
-- (void)pageUp:(id)sender
-{
-    if (currentPage > 0)
-    {
-        --(self.currentPage);
-        fullDocumentView.currentPage = currentPage;
-        [fullDocumentView pageUp:sender];
-    }
 }
 
 - (IBAction)updateGridLayoutFromButton:(id)sender
@@ -202,51 +174,6 @@
     }
 }
 
-- (IBAction)pageByPageNavigation:(id)sender
-{
-    NSInteger clickedSegment = [sender selectedSegment];
-    
-    switch (clickedSegment)
-    {
-        case 0:
-            NSLog(@"previous");
-            if (currentPage > 1)
-            {
-                [fullDocumentView goToPage:currentPage - 1]; // --currentPage?
-            }
-            break;
-            
-        case 1:
-            NSLog(@"choose");
-        {
-            // open dialog box with current page and let the user enter new
-            NSTextField *pageChooser = [[NSTextField alloc] initWithFrame:NSMakeRect(40, 40, 10, 20)];
-            [pageChooser setEditable:YES];
-            [self.window.contentView addSubview:pageChooser];
-            [self.window.contentView setNeedsDisplay:YES];
-            NSUInteger newPageNumber = 0;
-            if (newPageNumber > 0 && newPageNumber <= fullDocumentView.subviews.count)
-            {
-                [fullDocumentView goToPage:newPageNumber];
-            }
-            
-            [pageChooser release];
-        }
-            break;
-            
-        case 2:
-            NSLog(@"next");
-            if (currentPage < fullDocumentView.subviews.count)
-            {
-                [fullDocumentView goToPage:currentPage + 1]; // ++currentPage?
-            }
-            break;
-            
-        default:
-            break;
-    }
-}
-
 - (void)updateHeight
 {
     [heightTextField setIntegerValue:[self heightValue]];
@@ -272,6 +199,73 @@
 - (IBAction)clearViewsInLayout:(id)sender
 {
     [[[fullDocumentView subviews] objectAtIndex:currentPage] clearAllThumbnailsViews];
+}
+
+#pragma mark-Export actions
+
+- (IBAction)exportViewToDicom:(id)sender
+{
+    [[[fullDocumentView subviews] objectAtIndex:currentPage] saveLayoutViewToDicom];
+}
+
+- (IBAction)exportViewToPDF:(id)sender
+{
+    [fullDocumentView saveDocumentViewToPDF];
+}
+
+#pragma mark-Page navigation
+
+- (void)pageDown:(id)sender
+{
+    if (currentPage < fullDocumentView.subviews.count - 1)
+    {
+        ++(self.currentPage);
+        fullDocumentView.currentPage = currentPage;
+        [fullDocumentView pageDown:sender];
+        [self updateWindowTitle];
+    }
+}
+
+- (void)pageUp:(id)sender
+{
+    if (currentPage > 0)
+    {
+        --(self.currentPage);
+        fullDocumentView.currentPage = currentPage;
+        [fullDocumentView pageUp:sender];
+        [self updateWindowTitle];
+    }
+}
+
+- (IBAction)pageByPageNavigation:(id)sender
+{
+    NSInteger clickedSegment = [sender selectedSegment];
+    
+    switch (clickedSegment)
+    {
+        case 0:
+            [self pageUp:sender];
+            break;
+            
+        case 1:
+            // Open dialog box with current page index and let the user enter the new one
+        {
+            NSUInteger newPageNumber = 0;
+            if (newPageNumber && newPageNumber <= fullDocumentView.subviews.count)
+            {
+                [fullDocumentView goToPage:newPageNumber];
+                [self updateWindowTitle];
+            }
+        }
+            break;
+            
+        case 2:
+            [self pageDown:sender];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark-Notification based methods
@@ -327,8 +321,8 @@
 //            break;
 //    }
 //}
-
-#pragma mark-OsiriX ViewerController methods disabled
+//
+//#pragma mark-OsiriX ViewerController methods disabled
 //- (void) windowDidBecomeKey:(NSNotification *)aNotification
 //{
 //}
@@ -342,24 +336,24 @@
 //    return YES;
 //}
 
-//#pragma mark-Needed for ROIs to work
-//
-//- (void)addToUndoQueue:(NSString*)string
-//{
-//	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
-//}
-//
-//- (void)bringToFrontROI:(ROI*)roi
-//{
-//	NSLog( @"bringToFrontROI: currently unavailable in the Printing Layout.");
-//}
-//
+#pragma mark-Needed for ROIs to work
+
+- (void)addToUndoQueue:(NSString*)string
+{
+	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
+}
+
+- (void)bringToFrontROI:(ROI*)roi
+{
+	NSLog( @"bringToFrontROI: currently unavailable in the Printing Layout.");
+}
+
 //#pragma mark-Needed for down key to work (zoom out?)
 //- (void)maxMovieIndex
 //{
 //	NSLog( @"maxMovieIndex currently unavailable in the Printing Layout.");
 //}
-
+//
 //#pragma mark-Needed by DCMView when is2DViewer returns YES
 //- (BOOL)isPostprocessed
 //{

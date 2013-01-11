@@ -100,23 +100,24 @@
 
 #pragma mark-Events management
 
+// scrollWheel: deactivated until the display bug with NSOpenGLView is resolved
 - (void)scrollWheel:(NSEvent *)theEvent
 {
-    if (scrollingMode == pageByPage)
-    {
-        if (theEvent.deltaY > 0)
-        {
-            [self.enclosingScrollView pageUp:theEvent];
-        }
-        else if (theEvent.deltaY < 0)
-        {
-            [self.enclosingScrollView pageDown:theEvent];
-        }
-    }
-    else
-    {
-        [super scrollWheel:theEvent];
-    }
+//    if (scrollingMode == pageByPage)
+//    {
+//        if (theEvent.deltaY > 0)
+//        {
+//            [self.enclosingScrollView pageUp:theEvent];
+//        }
+//        else if (theEvent.deltaY < 0)
+//        {
+//            [self.enclosingScrollView pageDown:theEvent];
+//        }
+//    }
+//    else
+//    {
+//        [super scrollWheel:theEvent];
+//    }
 }
 
 - (void)keyDown:(NSEvent *)event
@@ -169,27 +170,13 @@
         case NSPageUpFunctionKey:
         case NSUpArrowFunctionKey:
         case NSLeftArrowFunctionKey:
-            // page up
-            if (clipView.bounds.origin.y >= self.enclosingScrollView.verticalPageScroll)
-            {
-                [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y - self.enclosingScrollView.verticalPageScroll)];
-            }
-            else if (clipView.bounds.origin.y > 0)
-                [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, 0)];            
+            [self pageUp:nil];
             break;
             
         case NSPageDownFunctionKey:
         case NSDownArrowFunctionKey:
         case NSRightArrowFunctionKey:
-            // page down
-            if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 2))
-            {
-                [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y + self.enclosingScrollView.verticalPageScroll)];
-            }
-            else if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))
-            {
-                [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))];
-            }
+            [self pageDown:nil];
             break;
             
         case NSHomeFunctionKey:
@@ -228,6 +215,41 @@
         default:
             break;
     }
+}
+
+#pragma mark-Page navigation
+
+- (void)pageDown:(id)sender
+{
+    NSClipView *clipView = self.enclosingScrollView.contentView;
+    
+    if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 2))
+    {
+        [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y + self.enclosingScrollView.verticalPageScroll)];
+    }
+    else if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))
+    {
+        [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))];
+    }
+}
+
+- (void)pageUp:(id)sender
+{
+    NSClipView *clipView = self.enclosingScrollView.contentView;
+    
+    if (clipView.bounds.origin.y >= self.enclosingScrollView.verticalPageScroll)
+    {
+        [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y - self.enclosingScrollView.verticalPageScroll)];
+    }
+    else if (clipView.bounds.origin.y > 0)
+    {
+        [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, 0)];
+    }
+}
+
+- (void)goToPage:(NSUInteger)pageNumber
+{
+    NSLog(@"Go to page %d",(int)pageNumber);
 }
 
 #pragma mark-DICOM insertion
@@ -400,10 +422,6 @@
     {
         [self newPage];
     }
-}
-
-- (void)goToPage:(NSUInteger)pageNumber
-{
 }
 
 #pragma mark-Export methods
