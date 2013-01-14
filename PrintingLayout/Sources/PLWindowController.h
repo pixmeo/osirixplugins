@@ -12,7 +12,7 @@
 #import "PLUtils.h"
 #import <OsiriXAPI/ViewerController.h>
 
-@interface PLWindowController : NSWindowController //ViewerController causes problem with toolbar
+@interface PLWindowController : NSWindowController //ViewerController
 {
     IBOutlet NSPopUpButton  *layoutChoiceButton;
     

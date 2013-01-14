@@ -215,13 +215,16 @@
 {
     NSClipView *clipView = self.enclosingScrollView.contentView;
     
-    if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 2))
+    if (self.subviews.count > 1)
     {
-        [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y + self.enclosingScrollView.verticalPageScroll)];
-    }
-    else if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))
-    {
-        [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))];
+        if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 2))
+        {
+            [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y + self.enclosingScrollView.verticalPageScroll)];
+        }
+        else if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))
+        {
+            [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))];
+        }
     }
 }
 
@@ -351,14 +354,49 @@
     
     NSRect fullFrame = self.enclosingScrollView.bounds;
     
-    // Update the margins' size
-    self.topMargin      = scrollingMode == continuous ? 0 : floorf(fullFrame.size.width / 200) + 1;
-    self.sideMargin     = roundf(topMargin * 5 / 2);
-    self.bottomMargin   = topMargin * 3;
+    // Determine the size of pages in the document
+    CGFloat width, height, pageRatio;
+    
+    pageRatio = getRatioFromPaperFormat(pageFormat);
+    
+    if (fullFrame.size.width * pageRatio < fullFrame.size.height)
+    // The top and bottom margins will be wider, i.e. we want to maximize the pages' width
+    {
+        width = fullFrame.size.width;
+        self.sideMargin = MAX(5, roundf(width / 200));
+        
+        width -= 2 * sideMargin;
+        height = width * pageRatio;
+
+        self.topMargin = roundf((fullFrame.size.height - height) / 2);
+        self.bottomMargin = topMargin;
+        
+        height = fullFrame.size.height - topMargin - bottomMargin;
+    }
+    else
+    // The side margins will be wider, i.e. we want to maximize the pages' height
+    {
+        height = fullFrame.size.height;
+        self.topMargin      = MAX(5, roundf(fullFrame.size.width / 100));
+        self.bottomMargin   = topMargin;
+        
+        height -= (topMargin + bottomMargin);
+        width = height / pageRatio;
+        self.sideMargin = roundf((fullFrame.size.width - width) / 2);
+        
+        width = fullFrame.size.width - 2 * sideMargin;
+    }
+    
+//    // Update the margins' size
+//    self.topMargin      = scrollingMode == continuous ? 0 : floorf(fullFrame.size.width / 200) + 1;
+//    self.sideMargin     = roundf(topMargin * 5 / 2);
+//    self.bottomMargin   = topMargin * 3;
     
     // Determine the size of pages (i.e. PLLayoutViews)
-    pageWidth       = fullFrame.size.width - 2 * sideMargin;
-    pageHeight      = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.height - topMargin)/nbPages) - bottomMargin;
+//    pageWidth       = fullFrame.size.width - 2 * sideMargin;
+//    pageHeight      = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.height - topMargin)/nbPages) - bottomMargin;
+    pageHeight  = roundf(height);
+    pageWidth   = roundf(width);
     
     [self.enclosingScrollView setVerticalPageScroll:pageHeight + bottomMargin];
     
@@ -393,7 +431,6 @@
         // Store views that will be shifted
         while (self.subviews.count > index)
         {
-//            [[self.subviews lastObject] retain];
             [shiftedViews addObject:[[self.subviews lastObject] retain]];
             [[self.subviews lastObject] removeFromSuperviewWithoutNeedingDisplay];
         }
