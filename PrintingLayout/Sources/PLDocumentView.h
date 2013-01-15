@@ -22,7 +22,7 @@
     paperSize   pageFormat;
     CGFloat     pageWidth;      // keep or not?
     CGFloat     pageHeight;     // keep or not?
-    scrollType  scrollingMode;  // to delete
+//    scrollType  scrollingMode;  // to delete
     
     int         currentPage;
 }
@@ -30,7 +30,7 @@
 @property BOOL fullWidth, isDraggingDestination;
 @property CGFloat topMargin, bottomMargin, sideMargin;
 @property (nonatomic, setter = setPageFormat:) paperSize pageFormat;
-@property scrollType scrollingMode;
+//@property scrollType scrollingMode;
 @property int currentPage;
 
 - (void)resizePLDocumentView;

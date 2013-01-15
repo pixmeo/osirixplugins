@@ -18,12 +18,13 @@ typedef enum {
     paper_14x17     // 5
 } paperSize;
 
-typedef enum {
-    pageScroll  = 0,
-    continuous, // 1
-    pageByPage  // 2
-} scrollType;
-
+//typedef enum {
+//    pageScroll  = 0,
+//    continuous, // 1
+//    pageByPage  // 2
+//} scrollType;
+//
 CGFloat getRatioFromPaperFormat(paperSize format);
+NSRect  getPDFPageBoundsFromPaperFormat(paperSize format);
 
 #endif /* defined(__PrintingLayout__PLUtils__) */

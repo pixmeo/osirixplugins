@@ -21,6 +21,8 @@
 @synthesize currentPage;
 @synthesize fullDocumentView;
 
+#define UNDOQUEUESIZE 40
+
 - (id)init
 {
     self = [super initWithWindowNibName:@"PrintingLayoutWindow"];
@@ -31,6 +33,9 @@
         self.heightValue         = 0;
         self.widthValue          = 0;
         self.currentPage         = -1;
+        
+        undoQueue = [[NSMutableArray alloc] initWithCapacity: 0];
+        redoQueue = [[NSMutableArray alloc] initWithCapacity: 0];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated) name:NSViewBoundsDidChangeNotification object:nil];
     }
@@ -43,24 +48,18 @@
     [super windowDidLoad];
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-    [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];
+    [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];    
+}
+
+- (void)dealloc
+{
+	[undoQueue removeAllObjects];
+	[redoQueue removeAllObjects];
+
+    [undoQueue release];
+    [redoQueue release];
     
-    if (scrollViewFormat)
-    {
-        ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView
-                                                       attribute:NSLayoutAttributeHeight
-                                                       relatedBy:NSLayoutRelationEqual
-                                                          toItem:scrollView
-                                                       attribute:NSLayoutAttributeWidth
-                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
-                                                        constant:0];
-    }
-    
-//    NSUInteger numberOfPages = [[fullDocumentView subviews] count];
-//    for (NSUInteger i = 0; i < numberOfPages; ++i)
-//    {
-//        [[[fullDocumentView subviews] objectAtIndex:i] setLayoutFormat:scrollViewFormat];
-//    }
+    [super dealloc];
 }
 
 #pragma mark-Action based methods
@@ -85,34 +84,14 @@
     self.scrollViewFormat = [[sender selectedItem] tag];
     [fullDocumentView setPageFormat:scrollViewFormat];
     [self updateWindowTitle];
-    
-    if (ratioConstraint)
-    {
-        [scrollView removeConstraint:ratioConstraint];
-    }
-    
-    if (scrollViewFormat)
-    {
-        ratioConstraint = [NSLayoutConstraint constraintWithItem:scrollView
-                                                       attribute:NSLayoutAttributeHeight
-                                                       relatedBy:NSLayoutRelationEqual
-                                                          toItem:scrollView
-                                                       attribute:NSLayoutAttributeWidth
-                                                      multiplier:getRatioFromPaperFormat(scrollViewFormat)
-                                                        constant:0];
-    }
-    else
-    {
-        ratioConstraint = nil;
-    }
 }
 
-- (IBAction)displayModeChanged:(id)sender
-{
-    [fullDocumentView setFullWidth:[[sender selectedCell] tag]];
-    [fullDocumentView setScrollingMode:[[sender selectedCell] tag]];
-    [fullDocumentView resizePLDocumentView];
-}
+//- (IBAction)displayModeChanged:(id)sender
+//{
+//    [fullDocumentView setFullWidth:[[sender selectedCell] tag]];
+////    [fullDocumentView setScrollingMode:[[sender selectedCell] tag]];
+//    [fullDocumentView resizePLDocumentView];
+//}
 
 - (IBAction)addPage:(id)sender
 {
@@ -336,11 +315,43 @@
 //    return YES;
 //}
 
-#pragma mark-Needed for ROIs to work
+#pragma mark-Undo
+
+// Based on OsiriXAPI/ViewerController.m
+
+- (id) prepareObjectForUndo:(NSString*) string
+{
+	NSLog( @"prepareObjectForUndo: currently unavailable in the Printing Layout.");
+//	if( [string isEqualToString: @"roi"])
+//	{
+//		NSMutableArray	*rois = [NSMutableArray array];
+//		
+//        NSMutableArray *array = [NSMutableArray array];
+//        for( NSArray *ar in roiList)
+//        {
+//            NSMutableArray	*a = [NSMutableArray array];
+//            
+//            for( ROI *r in ar)
+//                [a addObject: [[r copy] autorelease]];
+//            
+//            [array addObject: a];
+//        }
+//        [rois addObject: array];
+//		
+//		return [NSDictionary dictionaryWithObjectsAndKeys: string, @"type", rois, @"rois", nil];
+//	}
+	return nil;
+}
 
 - (void)addToUndoQueue:(NSString*)string
 {
 	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
+//	[undoQueue addObject: [self prepareObjectForUndo: string]];
+//	
+//	if( [undoQueue count] > UNDOQUEUESIZE)
+//	{
+//		[undoQueue removeObjectAtIndex: 0];
+//	}
 }
 
 - (void)bringToFrontROI:(ROI*)roi

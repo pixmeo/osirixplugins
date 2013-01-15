@@ -12,7 +12,7 @@
 #import "PLUtils.h"
 #import <OsiriXAPI/ViewerController.h>
 
-@interface PLWindowController : NSWindowController //ViewerController
+@interface PLWindowController : NSWindowController //ViewerController //
 {
     IBOutlet NSPopUpButton  *layoutChoiceButton;
     
@@ -20,26 +20,27 @@
     IBOutlet NSTextField    *heightTextField;
     IBOutlet NSStepper      *widthValueAdjuster;
     IBOutlet NSStepper      *heightValueAdjuster;
-    NSUInteger heightValue;
-    NSUInteger widthValue;
+    NSUInteger              heightValue, widthValue;
     
+	NSMutableArray			*undoQueue, *redoQueue;
+	
     IBOutlet NSScrollView   *scrollView;  // Historic: could be really used if the scrolling was not causing trouble with NSOpenGLView
     IBOutlet PLDocumentView *fullDocumentView;
-    paperSize scrollViewFormat;
-    NSLayoutConstraint *ratioConstraint;
-    int currentPage;
+    paperSize               scrollViewFormat;
+    NSLayoutConstraint      *ratioConstraint;
+    NSInteger               currentPage;
 }
 
-@property NSUInteger heightValue, widthValue;
-@property paperSize scrollViewFormat;
-@property int currentPage;
+@property NSUInteger                heightValue, widthValue;
+@property paperSize                 scrollViewFormat;
+@property NSInteger                 currentPage;
 @property (readonly) PLDocumentView *fullDocumentView;
 
 - (IBAction)addPage:(id)sender;
 - (IBAction)insertPage:(id)sender;
 - (IBAction)updateViewRatio:(id)sender;
 - (IBAction)updateGridLayoutFromButton:(id)sender;
-- (IBAction)displayModeChanged:(id)sender;
+//- (IBAction)displayModeChanged:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
 - (IBAction)exportViewToPDF:(id)sender;

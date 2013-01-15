@@ -20,7 +20,7 @@
 @synthesize fullWidth, isDraggingDestination;
 @synthesize topMargin, bottomMargin, sideMargin;
 @synthesize pageFormat;
-@synthesize scrollingMode;
+//@synthesize scrollingMode;
 @synthesize currentPage;
 
 - (id)initWithFrame:(NSRect)frame
@@ -33,7 +33,7 @@
         self.fullWidth              = NO;
         self.currentPage            = -1;
         self.pageFormat             = paper_A4;
-        self.scrollingMode          = pageByPage;
+//        self.scrollingMode          = pageByPage;
         
         self.topMargin       = /*fullWidth ? 0. : */floorf(frame.size.width / 200) + 1;
         self.sideMargin      = roundf(5 * topMargin / 2);
@@ -387,14 +387,7 @@
         width = fullFrame.size.width - 2 * sideMargin;
     }
     
-//    // Update the margins' size
-//    self.topMargin      = scrollingMode == continuous ? 0 : floorf(fullFrame.size.width / 200) + 1;
-//    self.sideMargin     = roundf(topMargin * 5 / 2);
-//    self.bottomMargin   = topMargin * 3;
-    
     // Determine the size of pages (i.e. PLLayoutViews)
-//    pageWidth       = fullFrame.size.width - 2 * sideMargin;
-//    pageHeight      = pageFormat ? pageWidth * getRatioFromPaperFormat(pageFormat) : roundf((fullFrame.size.height - topMargin)/nbPages) - bottomMargin;
     pageHeight  = roundf(height);
     pageWidth   = roundf(width);
     
@@ -404,7 +397,6 @@
     
     [self setFrame:documentFrame];
     [self.superview setFrame:documentFrame];
-//    [self.enclosingScrollView setFrameSize:NSMakeSize(pageWidth + 2 * sideMargin, pageHeight + topMargin + bottomMargin)];
     
     for (NSUInteger i = 0; i < nbPages; ++i)
     {
@@ -470,13 +462,10 @@
         return;
     
     NSString *filename = [NSString stringWithFormat:@"%@/%@", saveDialog.directory, saveDialog.nameFieldStringValue];
-    
     PDFDocument *layoutPDF = [[PDFDocument alloc] init];
-    
-    // Index for PDF document's page
-    NSInteger pageNumber = -1;
-    
+    NSInteger pageNumber = -1;  // Index for PDF document's page
     CGFloat pageRatio = getRatioFromPaperFormat(pageFormat);
+    NSRect pageBounds = getPDFPageBoundsFromPaperFormat(pageFormat);    // The bounds in pixels for each page
     
     for (NSUInteger i = 0; i < nbPages; ++i)
     {
@@ -586,10 +575,9 @@
                 origin.y += newThumbHeight;
             }
             
-            // Resize pageImage?
-            
             // Put image on PDF page and insert page in PDF document
             PDFPage *layoutPage = [[PDFPage alloc] initWithImage:pageImage];
+            [layoutPage setBounds:pageBounds forBox:kPDFDisplayBoxMediaBox];
             [layoutPDF insertPage:layoutPage atIndex:pageNumber];
             
             [pageImage release];
