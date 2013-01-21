@@ -47,6 +47,15 @@
 
 @implementation Worklist (POD)
 
+- (void)_delayedMainThreadGUIRefresh {
+    if (![NSThread isMainThread])
+        [self performSelectorOnMainThread:@selector(_delayedMainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
+    else {
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(_mainThreadGUIRefresh) object:nil];
+        [self performSelector:@selector(_mainThreadGUIRefresh) withObject:nil afterDelay:0.01];
+    }
+}
+
 - (void)autoretrieveWithDatabase:(DicomDatabase*)db {
     // don't autoretrieve if a refresh is running...
     if (![_refreshLock tryLock])
@@ -192,8 +201,10 @@
                                             NSString* studyInstanceUID;
                                             NSString* studyName;
 
+                                            BOOL refresh = NO;
+
                                             NSArray* studies = [db objectsForEntity:db.studyEntity predicate:[NSPredicate predicateWithFormat:@"patientID = %@ AND accessionNumber = %@ AND studyInstanceUID = %@", remoteStudyNode.patientID, remoteStudyNode.accessionNumber, remoteStudyNode.studyInstanceUID]];
-                                            if (!studies.count)
+                                            if (!studies.count) {
                                                 studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                                                                        istudy.name, @"PatientsName",
                                                                                                                        istudy.patientID, @"PatientID",
@@ -205,6 +216,8 @@
                                                                                                                        remoteStudyNode.modality, @"Modality",
                                                                                                                        remoteStudyNode.accessionNumber, @"AccessionNumber",
                                                                                                                        nil]]];
+                                                refresh = YES;
+                                            }
                                             
                                             nstudy = [studies objectAtIndex:0];
                                             studyInstanceUID = nstudy.studyInstanceUID;
@@ -213,7 +226,6 @@
                                             if (![_lastRefreshStudyInstanceUIDs containsObject:studyInstanceUID])
                                                 [_lastRefreshStudyInstanceUIDs addObject:studyInstanceUID];
 
-                                            BOOL refresh = NO;
                                             for (id obj in studies)
                                                 if (![astudies containsObject:obj]) {
                                                     [astudies addObject:obj];
@@ -222,7 +234,7 @@
                                                 }
                                             if (refresh)
                                                 [db save];
-                                            [self performSelectorOnMainThread:@selector(_mainThreadGUIRefresh) withObject:nil waitUntilDone:NO];
+                                            [self _delayedMainThreadGUIRefresh];
                                         }
                                     } else {
                                         NSString* studyInstanceUID;

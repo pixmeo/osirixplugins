@@ -69,7 +69,7 @@
 	NSRect space = NSMakeRect(x.min, y.min, x.max-x.min, y.max-y.min);
 	
 	NSRect contentRect;
-	contentRect.size = NSMakeSize(std::max(space.size.width, space.size.height));
+	contentRect.size = NSMakeSize(MAX(space.size.width, space.size.height));
 	contentRect.origin = space.origin - (contentRect.size-space.size)/2;
 	
 	contentRect = NSInsetRect(contentRect, -contentRect.size.width/100, -contentRect.size.height/100);

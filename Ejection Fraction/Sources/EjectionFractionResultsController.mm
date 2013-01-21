@@ -28,11 +28,12 @@
 #import <OsiriXAPI/DCMPix.h>
 #import <OsiriXAPI/DICOMExport.h>
 #import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/DicomImage.h>
 #import "EjectionFractionZoomView.h"
 
-const NSString* FileTypePDF = @"pdf";
-const NSString* FileTypeTIFF = @"tiff";
-const NSString* FileTypeDICOM = @"dcm";
+NSString* const FileTypePDF = @"pdf";
+NSString* const FileTypeTIFF = @"tiff";
+NSString* const FileTypeDICOM = @"dcm";
 
 @interface EjectionFractionResultsController (Private)
 
@@ -198,7 +199,7 @@ const NSString* FileTypeDICOM = @"dcm";
 	if (frame.size.width > screen.size.width || frame.size.height >= screen.size.height) {
 		if (frame.size.width > screen.size.width)
 			frame.size.width = screen.size.width;
-		NSUInteger step = std::max(NSUInteger(frame.size.width/10), NSUInteger(1));
+		NSUInteger step = MAX(NSUInteger(frame.size.width/10), NSUInteger(1));
 		frame.size.width += step;
 		do { // decrease window width until its height fits in the screen
 			frame.size.width -= step;
@@ -206,7 +207,7 @@ const NSString* FileTypeDICOM = @"dcm";
 			frame.size = [window frameSizeForContentSize:optimalSize];
 			if (frame.size.height <= screen.size.height && step > 1) {
 				frame.size.width += step;
-				step = std::max(step/10, NSUInteger(1));
+				step = MAX(step/10, NSUInteger(1));
 				frame.size.height = screen.size.height+1;
 			}
 		} while (frame.size.height > screen.size.height && frame.size.width > 20);
@@ -267,9 +268,9 @@ const NSString* FileTypeDICOM = @"dcm";
 	
 	// convert RGBA to RGB - alpha values are considered when mixing the background color with the actual pixel color
 	NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep size].width*[bitmapImageRep size].height*3];
-	for (int y = 0; y < [bitmapImageRep size].height; ++y) {
+	for (int y = 0; y < [bitmapImageRep pixelsHigh]; ++y) {
 		unsigned char* rowStart = [bitmapImageRep bitmapData]+[bitmapImageRep bytesPerRow]*y;
-		for (int x = 0; x < [bitmapImageRep size].width; ++x) {
+		for (int x = 0; x < [bitmapImageRep pixelsWide]; ++x) {
 			unsigned char rgba[4]; memcpy(rgba, rowStart+bytesPerPixel*x, 4);
 			float ratio = float(rgba[3])/255;
 			// rgba[0], [1] and [2] are premultiplied by [3]

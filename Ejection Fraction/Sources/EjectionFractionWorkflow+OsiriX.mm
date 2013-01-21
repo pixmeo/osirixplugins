@@ -103,6 +103,10 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowExpectedROIChangedNotification object:self];
 }
 
+- (NSString*)expectedRoiId {
+    return _expectedRoiId;
+}
+
 -(short)pixIndexForRoi:(ROI*)roi {
 //	DCMPix* pix = [roi pix];
 	NSArray* dcmRoiList = [[roi curView] dcmRoiList];

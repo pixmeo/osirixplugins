@@ -11,6 +11,7 @@
 #import <OsiriXAPI/DCMView.h>
 #import "EjectionFractionPlugin.h"
 #import <algorithm>
+#include <math.h>
 
 NSString* DiasLength = @"Diastole length";
 NSString* SystLength = @"Systole length";
@@ -104,7 +105,7 @@ NSString* SystLength = @"Systole length";
 
 -(CGFloat)roiArea:(ROI*)roi { // if roi is tMesure return area of circle with diameter [roi length]
 	if ([roi type] == tMesure)
-		return pi*std::pow([roi MesureLength:NULL]/2, 2);
+		return pi*pow([roi MesureLength:NULL]/2, 2);
 	return [roi roiArea];
 }
 

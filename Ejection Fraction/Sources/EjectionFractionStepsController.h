@@ -8,7 +8,7 @@
 
 @class N2Steps, N2Step, EjectionFractionWorkflow, ROI, N2View, N2Resizer, N2StepsView, N2ColorWell;
 
-@interface EjectionFractionStepsController : NSWindowController {
+@interface EjectionFractionStepsController : NSWindowController<NSWindowDelegate> {
 	EjectionFractionWorkflow* _workflow;
 
 	IBOutlet N2Steps* _steps;

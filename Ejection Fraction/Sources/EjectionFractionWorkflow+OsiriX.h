@@ -24,6 +24,8 @@ enum EjectionFractionROIType {
 
 @interface EjectionFractionWorkflow (OsiriX)
 
+@property(retain) NSString* expectedRoiId;
+
 +(NSArray*)roiTypesForType:(EjectionFractionROIType)roiType;
 -(void)initOsiriX;
 -(void)deallocOsiriX;

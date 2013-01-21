@@ -17,7 +17,7 @@ NSString* Dias = @"Diastole";
 NSString* Syst = @"Systole";
 
 @implementation EjectionFractionWorkflow
-@synthesize plugin = _plugin, /*viewer = _viewer,*/ steps = _steps, algorithm = _algorithm, expectedRoiId = _expectedRoiId;
+@synthesize plugin = _plugin, /*viewer = _viewer,*/ steps = _steps, algorithm = _algorithm;
 
 -(id)initWithPlugin:(EjectionFractionPlugin*)plugin viewer:(ViewerController*)viewer {
 	self = [super init];
@@ -35,10 +35,6 @@ NSString* Syst = @"Systole";
 
 -(id)retain {
 	return [super retain];
-}
-
--(void)release {
-	[super release];
 }
 
 -(void)dealloc {
@@ -69,8 +65,8 @@ NSString* Syst = @"Systole";
 
 static NSColor* DiasColor = NULL;
 static NSColor* SystColor = NULL;
-const static NSString* const DiasColorUserDefaultsKey = @"EjectionFractionDiastoleColor";
-const static NSString* const SystColorUserDefaultsKey = @"EjectionFractionSystoleColor";
+static NSString* const DiasColorUserDefaultsKey = @"EjectionFractionDiastoleColor";
+static NSString* const SystColorUserDefaultsKey = @"EjectionFractionSystoleColor";
 
 -(NSColor*)diasColor {
 	if (!DiasColor)

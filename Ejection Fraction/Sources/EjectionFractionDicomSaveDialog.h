@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface EjectionFractionDicomSaveDialog : NSWindow {
+@interface EjectionFractionDicomSaveDialog : NSWindow<NSWindowDelegate> {
 	IBOutlet NSColorWell* _imageBackgroundColor;
 	IBOutlet NSButton* _saveButton;
 	IBOutlet NSButton* _cancelButton;

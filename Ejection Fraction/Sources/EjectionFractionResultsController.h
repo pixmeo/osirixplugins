@@ -10,7 +10,7 @@
 
 @class EjectionFractionWorkflow, EjectionFractionDicomSaveDialog;
 
-@interface EjectionFractionResultsController : NSWindowController {
+@interface EjectionFractionResultsController : NSWindowController<NSWindowDelegate> {
 	IBOutlet NSView* _dicomSaveOptions;
 	IBOutlet NSColorWell* _dicomSaveOptionsBackgroundColor;
 	IBOutlet EjectionFractionDicomSaveDialog* _dicomSaveDialog;
