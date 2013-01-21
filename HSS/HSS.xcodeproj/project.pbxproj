@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		59F3430F14448535004904DE /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F3430E14448535004904DE /* OsiriXAPI.framework */; };
+		7110084514BB489E003F0C67 /* HSSMedcaseCreation.h in Headers */ = {isa = PBXBuildFile; fileRef = 7110084314BB489D003F0C67 /* HSSMedcaseCreation.h */; };
+		7110084614BB489E003F0C67 /* HSSMedcaseCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7110084414BB489D003F0C67 /* HSSMedcaseCreation.m */; };
+		711FBBA814B5EE6500802A87 /* HSSAPISession.h in Headers */ = {isa = PBXBuildFile; fileRef = 711FBBA614B5EE6500802A87 /* HSSAPISession.h */; };
+		711FBBA914B5EE6500802A87 /* HSSAPISession.m in Sources */ = {isa = PBXBuildFile; fileRef = 711FBBA714B5EE6500802A87 /* HSSAPISession.m */; };
+		7120A65B14B4A87100682E31 /* HSSAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 7120A65914B4A87100682E31 /* HSSAPI.h */; };
+		7120A65C14B4A87100682E31 /* HSSAPI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7120A65A14B4A87100682E31 /* HSSAPI.mm */; };
+		7125AEF714A230F900D068F3 /* HSSExportWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7125AEF514A230F900D068F3 /* HSSExportWindowController.h */; };
+		7125AEF814A230F900D068F3 /* HSSExportWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7125AEF614A230F900D068F3 /* HSSExportWindowController.mm */; };
+		7125AF0414A23E7700D068F3 /* HSSExportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7125AF0214A23E7700D068F3 /* HSSExportWindow.xib */; };
+		7125AF0714A24B4800D068F3 /* HSSAuthenticationWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7125AF0514A24B4800D068F3 /* HSSAuthenticationWindowController.h */; };
+		7125AF0814A24B4800D068F3 /* HSSAuthenticationWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7125AF0614A24B4800D068F3 /* HSSAuthenticationWindowController.mm */; };
+		712749361484F13A00B5E5DF /* HSS.h in Headers */ = {isa = PBXBuildFile; fileRef = 712749341484F13A00B5E5DF /* HSS.h */; };
+		712749371484F13A00B5E5DF /* HSS.mm in Sources */ = {isa = PBXBuildFile; fileRef = 712749351484F13A00B5E5DF /* HSS.mm */; };
+		712749391484F14300B5E5DF /* HSS.png in Resources */ = {isa = PBXBuildFile; fileRef = 712749381484F14300B5E5DF /* HSS.png */; };
+		7128B26E14BC9B9F000B029E /* HSSIsNonEmptyString.h in Headers */ = {isa = PBXBuildFile; fileRef = 7128B26C14BC9B9F000B029E /* HSSIsNonEmptyString.h */; };
+		7128B26F14BC9B9F000B029E /* HSSIsNonEmptyString.m in Sources */ = {isa = PBXBuildFile; fileRef = 7128B26D14BC9B9F000B029E /* HSSIsNonEmptyString.m */; };
+		712A968D14B751EB00B6D69C /* HSSFolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 712A968B14B751EB00B6D69C /* HSSFolder.h */; };
+		712A968E14B751EB00B6D69C /* HSSFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 712A968C14B751EB00B6D69C /* HSSFolder.m */; };
+		712EC11E14A4B66B00299D0F /* HSSAuthenticationWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 712EC11C14A4B66B00299D0F /* HSSAuthenticationWindow.xib */; };
+		7175E64F14BF0F8C00F85692 /* HSSItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7175E64E14BF0F8C00F85692 /* HSSItem.m */; };
+		71B415D514BD7C27007DACFA /* HSSMedcase.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B415D314BD7C27007DACFA /* HSSMedcase.h */; };
+		71B415D614BD7C27007DACFA /* HSSMedcase.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B415D414BD7C27007DACFA /* HSSMedcase.m */; };
+		71B415D814BD7C43007DACFA /* HSSItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B415D714BD7C43007DACFA /* HSSItem.h */; };
+		71B415DB14BD8448007DACFA /* HSSCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B415D914BD8447007DACFA /* HSSCell.h */; };
+		71B415DC14BD8448007DACFA /* HSSCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71B415DA14BD8447007DACFA /* HSSCell.m */; };
+		71EC989915F4C42700E97101 /* NSString+HSS.h in Headers */ = {isa = PBXBuildFile; fileRef = 71EC989715F4C42700E97101 /* NSString+HSS.h */; };
+		71EC989A15F4C42700E97101 /* NSString+HSS.m in Sources */ = {isa = PBXBuildFile; fileRef = 71EC989815F4C42700E97101 /* NSString+HSS.m */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		599BEEFB1429C47600B45236 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		59F3430E14448535004904DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
+		7110084314BB489D003F0C67 /* HSSMedcaseCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSMedcaseCreation.h; path = Sources/HSSMedcaseCreation.h; sourceTree = "<group>"; };
+		7110084414BB489D003F0C67 /* HSSMedcaseCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSMedcaseCreation.m; path = Sources/HSSMedcaseCreation.m; sourceTree = "<group>"; };
+		711FBBA614B5EE6500802A87 /* HSSAPISession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSAPISession.h; path = Sources/HSSAPISession.h; sourceTree = "<group>"; };
+		711FBBA714B5EE6500802A87 /* HSSAPISession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSAPISession.m; path = Sources/HSSAPISession.m; sourceTree = "<group>"; };
+		7120A65914B4A87100682E31 /* HSSAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSAPI.h; path = Sources/HSSAPI.h; sourceTree = "<group>"; };
+		7120A65A14B4A87100682E31 /* HSSAPI.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = HSSAPI.mm; path = Sources/HSSAPI.mm; sourceTree = "<group>"; };
+		7125AEF514A230F900D068F3 /* HSSExportWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSExportWindowController.h; path = Sources/HSSExportWindowController.h; sourceTree = "<group>"; };
+		7125AEF614A230F900D068F3 /* HSSExportWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = HSSExportWindowController.mm; path = Sources/HSSExportWindowController.mm; sourceTree = "<group>"; };
+		7125AF0314A23E7700D068F3 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = HSSExportWindow.xib; sourceTree = "<group>"; };
+		7125AF0514A24B4800D068F3 /* HSSAuthenticationWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSAuthenticationWindowController.h; path = Sources/HSSAuthenticationWindowController.h; sourceTree = "<group>"; };
+		7125AF0614A24B4800D068F3 /* HSSAuthenticationWindowController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = HSSAuthenticationWindowController.mm; path = Sources/HSSAuthenticationWindowController.mm; sourceTree = "<group>"; };
+		712749341484F13A00B5E5DF /* HSS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSS.h; path = Sources/HSS.h; sourceTree = "<group>"; };
+		712749351484F13A00B5E5DF /* HSS.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = HSS.mm; path = Sources/HSS.mm; sourceTree = "<group>"; };
+		712749381484F14300B5E5DF /* HSS.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HSS.png; path = Resources/HSS.png; sourceTree = "<group>"; };
+		7128B26C14BC9B9F000B029E /* HSSIsNonEmptyString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSIsNonEmptyString.h; path = Sources/HSSIsNonEmptyString.h; sourceTree = "<group>"; };
+		7128B26D14BC9B9F000B029E /* HSSIsNonEmptyString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSIsNonEmptyString.m; path = Sources/HSSIsNonEmptyString.m; sourceTree = "<group>"; };
+		712A968B14B751EB00B6D69C /* HSSFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSFolder.h; path = Sources/HSSFolder.h; sourceTree = "<group>"; };
+		712A968C14B751EB00B6D69C /* HSSFolder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSFolder.m; path = Sources/HSSFolder.m; sourceTree = "<group>"; };
+		712EC11D14A4B66B00299D0F /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = Resources/English.lproj/HSSAuthenticationWindow.xib; sourceTree = "<group>"; };
+		7175E64E14BF0F8C00F85692 /* HSSItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSItem.m; path = Sources/HSSItem.m; sourceTree = "<group>"; };
+		71B415D314BD7C27007DACFA /* HSSMedcase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSMedcase.h; path = Sources/HSSMedcase.h; sourceTree = "<group>"; };
+		71B415D414BD7C27007DACFA /* HSSMedcase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSMedcase.m; path = Sources/HSSMedcase.m; sourceTree = "<group>"; };
+		71B415D714BD7C43007DACFA /* HSSItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSItem.h; path = Sources/HSSItem.h; sourceTree = "<group>"; };
+		71B415D914BD8447007DACFA /* HSSCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSCell.h; path = Sources/HSSCell.h; sourceTree = "<group>"; };
+		71B415DA14BD8447007DACFA /* HSSCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSCell.m; path = Sources/HSSCell.m; sourceTree = "<group>"; };
+		71EC989715F4C42700E97101 /* NSString+HSS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+HSS.h"; path = "Sources/NSString+HSS.h"; sourceTree = "<group>"; };
+		71EC989815F4C42700E97101 /* NSString+HSS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+HSS.m"; path = "Sources/NSString+HSS.m"; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* HSS.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HSS.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				59F3430F14448535004904DE /* OsiriXAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* ExportSeriesAsNifti */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = ExportSeriesAsNifti;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				59F3430E14448535004904DE /* OsiriXAPI.framework */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				712749381484F14300B5E5DF /* HSS.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				712749341484F13A00B5E5DF /* HSS.h */,
+				712749351484F13A00B5E5DF /* HSS.mm */,
+				7120A65914B4A87100682E31 /* HSSAPI.h */,
+				7120A65A14B4A87100682E31 /* HSSAPI.mm */,
+				711FBBA614B5EE6500802A87 /* HSSAPISession.h */,
+				711FBBA714B5EE6500802A87 /* HSSAPISession.m */,
+				7110084314BB489D003F0C67 /* HSSMedcaseCreation.h */,
+				7110084414BB489D003F0C67 /* HSSMedcaseCreation.m */,
+				711FBBA514B5ED2100802A87 /* GUI */,
+				711FBBA314B5ED0C00802A87 /* Authentication */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* HSS.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		711FBBA314B5ED0C00802A87 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				712EC11C14A4B66B00299D0F /* HSSAuthenticationWindow.xib */,
+				7125AF0514A24B4800D068F3 /* HSSAuthenticationWindowController.h */,
+				7125AF0614A24B4800D068F3 /* HSSAuthenticationWindowController.mm */,
+			);
+			name = Authentication;
+			sourceTree = "<group>";
+		};
+		711FBBA514B5ED2100802A87 /* GUI */ = {
+			isa = PBXGroup;
+			children = (
+				71B415D114BD7B83007DACFA /* Tree */,
+				7125AF0214A23E7700D068F3 /* HSSExportWindow.xib */,
+				7125AEF514A230F900D068F3 /* HSSExportWindowController.h */,
+				7125AEF614A230F900D068F3 /* HSSExportWindowController.mm */,
+				7128B26C14BC9B9F000B029E /* HSSIsNonEmptyString.h */,
+				7128B26D14BC9B9F000B029E /* HSSIsNonEmptyString.m */,
+				71B415D914BD8447007DACFA /* HSSCell.h */,
+				71B415DA14BD8447007DACFA /* HSSCell.m */,
+				71EC989715F4C42700E97101 /* NSString+HSS.h */,
+				71EC989815F4C42700E97101 /* NSString+HSS.m */,
+			);
+			name = GUI;
+			sourceTree = "<group>";
+		};
+		71B415D114BD7B83007DACFA /* Tree */ = {
+			isa = PBXGroup;
+			children = (
+				71B415D714BD7C43007DACFA /* HSSItem.h */,
+				7175E64E14BF0F8C00F85692 /* HSSItem.m */,
+				712A968B14B751EB00B6D69C /* HSSFolder.h */,
+				712A968C14B751EB00B6D69C /* HSSFolder.m */,
+				71B415D314BD7C27007DACFA /* HSSMedcase.h */,
+				71B415D414BD7C27007DACFA /* HSSMedcase.m */,
+			);
+			name = Tree;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712749361484F13A00B5E5DF /* HSS.h in Headers */,
+				7125AEF714A230F900D068F3 /* HSSExportWindowController.h in Headers */,
+				7125AF0714A24B4800D068F3 /* HSSAuthenticationWindowController.h in Headers */,
+				7120A65B14B4A87100682E31 /* HSSAPI.h in Headers */,
+				711FBBA814B5EE6500802A87 /* HSSAPISession.h in Headers */,
+				712A968D14B751EB00B6D69C /* HSSFolder.h in Headers */,
+				7110084514BB489E003F0C67 /* HSSMedcaseCreation.h in Headers */,
+				7128B26E14BC9B9F000B029E /* HSSIsNonEmptyString.h in Headers */,
+				71B415D514BD7C27007DACFA /* HSSMedcase.h in Headers */,
+				71B415D814BD7C43007DACFA /* HSSItem.h in Headers */,
+				71B415DB14BD8448007DACFA /* HSSCell.h in Headers */,
+				71EC989915F4C42700E97101 /* NSString+HSS.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* HSS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "HSS" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				599BEEFB1429C47600B45236 /* Copy Frameworks */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HSS;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* HSS.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HSS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* ExportSeriesAsNifti */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* HSS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712749391484F14300B5E5DF /* HSS.png in Resources */,
+				7125AF0414A23E7700D068F3 /* HSSExportWindow.xib in Resources */,
+				712EC11E14A4B66B00299D0F /* HSSAuthenticationWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712749371484F13A00B5E5DF /* HSS.mm in Sources */,
+				7125AEF814A230F900D068F3 /* HSSExportWindowController.mm in Sources */,
+				7125AF0814A24B4800D068F3 /* HSSAuthenticationWindowController.mm in Sources */,
+				7120A65C14B4A87100682E31 /* HSSAPI.mm in Sources */,
+				711FBBA914B5EE6500802A87 /* HSSAPISession.m in Sources */,
+				712A968E14B751EB00B6D69C /* HSSFolder.m in Sources */,
+				7110084614BB489E003F0C67 /* HSSMedcaseCreation.m in Sources */,
+				7128B26F14BC9B9F000B029E /* HSSIsNonEmptyString.m in Sources */,
+				71B415D614BD7C27007DACFA /* HSSMedcase.m in Sources */,
+				71B415DC14BD8448007DACFA /* HSSCell.m in Sources */,
+				7175E64F14BF0F8C00F85692 /* HSSItem.m in Sources */,
+				71EC989A15F4C42700E97101 /* NSString+HSS.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7125AF0214A23E7700D068F3 /* HSSExportWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7125AF0314A23E7700D068F3 /* English */,
+			);
+			name = HSSExportWindow.xib;
+			path = Resources/English.lproj;
+			sourceTree = "<group>";
+		};
+		712EC11C14A4B66B00299D0F /* HSSAuthenticationWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				712EC11D14A4B66B00299D0F /* English */,
+			);
+			name = HSSAuthenticationWindow.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"../../../osirix-trunk/build/Development",
+					"$(inherited)",
+					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
+					"\"$(SRCROOT)/../../HUG Framework/build/Development\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/HSS_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = HSS;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"../../../osirix-trunk/build/Development",
+					"$(inherited)",
+					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
+					"\"$(SRCROOT)/../../HUG Framework/build/Development\"",
+				);
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/HSS_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = HSS;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				SDKROOT = macosx10.7;
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				SDKROOT = macosx10.7;
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "HSS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HSS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
