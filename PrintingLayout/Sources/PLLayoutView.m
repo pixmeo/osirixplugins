@@ -109,7 +109,7 @@
     }
     
     if ([self updateLayoutViewWidth:1 height:1])
-        // Create a 1x1 layout if the layout is still empty
+    // Create a 1x1 layout if the layout is still empty
     {
         [[[self window] windowController] layoutMatrixUpdated];
         PLThumbnailView *thumb = [[self subviews] objectAtIndex:0];
@@ -128,8 +128,6 @@
         return;
     }
     
-    NSUInteger newWidth, newHeight, nbImages;
-    
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
     {
         if (![pasteboard dataForType:pasteBoardOsiriX])
@@ -143,32 +141,73 @@
             NSData *draggedData = [pasteboard dataForType:pasteBoardOsiriX];
             [draggedData getBytes:draggedView length:sizeof(DCMView*)];
             
-            nbImages = [[*draggedView dcmPixList] count];
+            NSUInteger nbImages = [[*draggedView dcmPixList] count];
             
-            newHeight = roundf(sqrt(1.4 * nbImages));
-            newWidth = roundf(newHeight / 1.4);
+            NSUInteger nbPages = ([*draggedView dcmPixList].count + 1) / 24 + 1;
             
-            if (newHeight * newWidth < nbImages)
+            NSUInteger newHeight, newWidth;
+            
+            if (nbPages == 1)
             {
-                if (newHeight * (newWidth + 1) < (newHeight + 1) * newWidth)
-                    ++newWidth;
-                else
-                    ++newHeight;
+                newHeight = roundf(sqrt(nbImages));
+                newWidth = floorf(sqrtf(nbImages));
+                
+                if (newHeight * newWidth < nbImages)
+                {
+                        ++newHeight;
+                }
+                
+                free(draggedView);
+                
+                if ([self updateLayoutViewWidth:newWidth height:newHeight])
+                {
+                    [[[self window] windowController] layoutMatrixUpdated];
+                    for (NSUInteger i = 0; i < nbImages; ++i)
+                    {
+                        PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
+                        [thumb fillView:i withPasteboard:pasteboard atIndex:i];
+                        ++filledThumbs;
+                    }
+                }
             }
-            
-            free(draggedView);
-        }
-    }
-    
-    if ([self updateLayoutViewWidth:newWidth height:newHeight])
-        // Create a 1x1 layout if the layout is still empty
-    {
-        [[[self window] windowController] layoutMatrixUpdated];
-        for (NSUInteger i = 0; i < nbImages; ++i)
-        {
-            PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
-            [thumb fillView:i withPasteboard:pasteboard atIndex:i];
-            ++filledThumbs;
+            else
+            {
+                newHeight = 6;
+                newWidth = 4;
+                NSUInteger nbThumbs = newHeight * newWidth;
+                
+                if ([self updateLayoutViewWidth:newWidth height:newHeight])
+                {
+                    [[[self window] windowController] layoutMatrixUpdated];
+                    for (NSUInteger i = 0; i < nbThumbs; ++i)
+                    {
+                        PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
+                        if ([thumb fillView:i withPasteboard:pasteboard atIndex:i])
+                            ++filledThumbs;
+                    }
+                }
+
+                for (NSUInteger i = 1; i < nbPages; ++i)
+                {
+                    PLDocumentView *motherView = (PLDocumentView*)self.superview;
+                    NSUInteger pageIndex = motherView.currentPageIndex + i;
+                    [motherView insertPageAtIndex:pageIndex];
+                    PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:pageIndex];
+                    
+                    if ([pageToFill updateLayoutViewWidth:newWidth height:newHeight])
+                    {
+                        [[[pageToFill window] windowController] layoutMatrixUpdated];
+                        for (NSUInteger j = 0; j < nbThumbs; ++j)
+                        {
+                            PLThumbnailView *thumb = [[pageToFill subviews] objectAtIndex:j];
+                            if ([thumb fillView:j withPasteboard:pasteboard atIndex:j + 24 * i])
+                                pageToFill.filledThumbs++;
+                        }
+                    }
+                }
+                
+                [(PLWindowController*)self.window.windowController updateWindowTitle];
+            }
         }
     }
 }
@@ -360,7 +399,7 @@
         // If the destination is the center of the thumbnail, just replace the current data.
         {
             PLThumbnailView *thumb = [[self subviews] objectAtIndex:i];
-            if (![thumb curDCM])
+            if (!thumb.curDCM)
             {
                 ++(self.filledThumbs);
             }

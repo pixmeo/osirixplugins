@@ -11,6 +11,8 @@
 #import "PLThumbnailView.h"
 #import "PLWindowController.h"
 #import <OsiriXAPI/DicomImage.h>
+#import <OsiriXAPI/SeriesView.h>
+#import <OsiriXAPI/StudyView.h>
 #import <OsiriXAPI/ViewerController.h>
 #import <Accelerate/Accelerate.h>
 #import <Quartz/Quartz.h>
@@ -21,7 +23,7 @@
 @synthesize topMargin, bottomMargin, sideMargin;
 @synthesize pageFormat;
 //@synthesize scrollingMode;
-@synthesize currentPage;
+@synthesize currentPageIndex;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -31,11 +33,10 @@
         // Initialization code here.
         self.isDraggingDestination  = NO;
         self.fullWidth              = NO;
-        self.currentPage            = -1;
+        self.currentPageIndex       = -1;
         self.pageFormat             = paper_A4;
-//        self.scrollingMode          = pageByPage;
         
-        self.topMargin       = /*fullWidth ? 0. : */floorf(frame.size.width / 200) + 1;
+        self.topMargin       = floorf(frame.size.width / 200) + 1;
         self.sideMargin      = roundf(5 * topMargin / 2);
         self.bottomMargin    = 3 * topMargin;
 //        pageHeight = frame.size.height - topMargin - bottomMargin;
@@ -88,12 +89,6 @@
 {
     pageFormat = format;
     
-//    NSUInteger nbPages = self.subviews.count;
-//    for (NSUInteger i = 0; i < nbPages; ++i)
-//    {
-//        [(PLLayoutView*)[self.subviews objectAtIndex:i] setLayoutFormat:format];
-//    }
-    
     [self resizePLDocumentView];
     [self setNeedsDisplay:YES];
 }
@@ -125,38 +120,124 @@
     
     switch (key)
     {
-        case 60:
+        case 63251:
+            // Insert one image
+            for (NSUInteger i = 0; i < nbWindows; ++i)
+            {
+                // Look for the window that is the ViewerController of the DCMView
+                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
+                {
+                    // Get the current DCMView
+                    DCMView *imageToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] imageView];
+                    
+                    int pageIndex = currentPageIndex;
+                    NSUInteger viewIndex;
+                    NSUInteger nbPages = self.subviews.count;
+                    
+                    // If the layout is empty, create a page
+                    if (!nbPages || pageIndex < 0)
+                    {
+                        NSRect layoutFrame = NSMakeRect(sideMargin, topMargin, self.frame.size.width - 2 * sideMargin, self.frame.size.height - bottomMargin);
+                        [self addSubview:[[PLLayoutView alloc] initWithFrame:layoutFrame]];
+                        pageIndex = 0;
+                        viewIndex = 0;
+                    }
+                    
+                    PLLayoutView *currentPageLayout = [self.subviews objectAtIndex:currentPageIndex];
+                    NSUInteger nbThumbs = currentPageLayout.subviews.count;
+                    
+                    if (!nbThumbs)
+                    {
+                        // Create a 1x1 layout if the current page is still empty
+                        if ([currentPageLayout updateLayoutViewWidth:1 height:1])
+                        {
+                            [self.window.windowController layoutMatrixUpdated];
+                            viewIndex = 0;
+                        }
+                        else
+                            return;
+                    }
+                    else
+                    {
+                        NSUInteger j;
+                        for (j = 0; j < nbThumbs; ++j)
+                        {
+                            PLThumbnailView *thumb = [[currentPageLayout subviews] objectAtIndex:j];
+                            if (thumb.isSelected && !thumb.curDCM)
+                            {
+                                viewIndex = j;
+                                [thumb setIsSelected:NO];
+                                break;
+                            }
+                        }
+                        
+                        if (j >= nbThumbs)
+                        {
+                            int insertIndex = [currentPageLayout findNextEmptyViewFrom:0];
+                            if (currentPageLayout.filledThumbs == currentPageLayout.subviews.count || insertIndex < 0)
+                            {
+                                NSLog(@"No room in this page");
+                                return;
+                            }
+                            else
+                                viewIndex = insertIndex;
+                        }
+                    }
+                
+                    [self insertImage:imageToImport atIndex:imageToImport.curImage toPage:pageIndex inView:viewIndex];
+                }
+            }
+            break;
+            
+        case 63252:
+            NSLog(@"Insert whole serie.");
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
                 if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
                 {
+                    // Get the current DCMView
                     DCMView *imageToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] imageView];
-                    NSLog(@"Current image = %d", imageToImport.curImage);
+                    NSUInteger nbImgs = imageToImport.dcmPixList.count;
                     
-                    NSUInteger nbPages = self.subviews.count;
-                    
-                    for (NSUInteger i = 0; i < nbPages; ++i)
+                    // Create enough pages
+                    if (![[self.subviews objectAtIndex:currentPageIndex] updateLayoutViewWidth:4 height:6])
                     {
-                        NSUInteger nbThumbs = [[[self.subviews objectAtIndex:i] subviews] count];
+                        return;
+                    }
+
+                    if (nbImgs > 24)
+                    {
+                        NSUInteger nbPages = (nbImgs + 1) / 24;
                         
-                        for (NSUInteger j = 0; j < nbThumbs; ++j)
+                        for (NSUInteger j = 1; j <= nbPages; ++j)
                         {
-                            PLThumbnailView *thumb = [[[self.subviews objectAtIndex:i] subviews] objectAtIndex:j];
-                            if (thumb.isSelected && !thumb.curDCM)
+                            [self insertPageAtIndex:currentPageIndex + 1];
+                            if (![[self.subviews objectAtIndex:currentPageIndex + 1] updateLayoutViewWidth:4 height:6])
                             {
-                                [thumb fillView:j withDCMView:imageToImport atIndex:imageToImport.curImage] ;
                                 return;
                             }
                         }
                     }
                     
-                    NSRunAlertPanel(NSLocalizedString(@"Import Error", nil), NSLocalizedString(@"Select an empty view in the layout first.", nil), NSLocalizedString(@"OK", nil), nil, nil);
+                    // Import images
+                    NSUInteger startingView = currentPageIndex;
+                    for (NSUInteger j = 0; j < nbImgs; ++j)
+                    {
+                        [self insertImage:imageToImport atIndex:j toPage:startingView + j / 24 inView:j % 24];
+                    }
                 }
             }
             break;
             
-        case 62:
-            NSLog(@"Insert whole serie.");
+        case 63253:
+            NSLog(@"Insert whole study.");
+            for (NSUInteger i = 0; i < nbWindows; ++i)
+            {
+                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
+                {
+//                    StudyView *studyToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] studyInstanceUID];
+                }
+            }
             break;
 
         case NSPageUpFunctionKey:
@@ -258,14 +339,14 @@
         NSLog(@"No data in pasteboardOsiriX");
     }
     
-    [self insertPageAtIndex:currentPage];
+    [self insertPageAtIndex:currentPageIndex];
     
-    if (currentPage < 0)
+    if (currentPageIndex < 0)
     {
-        currentPage = 0;
+        currentPageIndex = 0;
     }
     
-    [[self.subviews objectAtIndex:currentPage] importImage:sender];
+    [[self.subviews objectAtIndex:currentPageIndex] importImage:sender];
 }
 
 - (IBAction)insertSerie:(id)sender
@@ -277,14 +358,23 @@
         NSLog(@"No data in pasteboardOsiriX");
     }
     
-    [self insertPageAtIndex:currentPage];
+    [self insertPageAtIndex:currentPageIndex];
     
-    if (currentPage < 0)
+    if (currentPageIndex < 0)
     {
-        currentPage = 0;
+        currentPageIndex = 0;
     }
     
-    [[self.subviews objectAtIndex:currentPage] importSerie:sender];
+    [[self.subviews objectAtIndex:currentPageIndex] importSerie:sender];
+}
+
+- (void)insertImage:(DCMView*)dcmImage atIndex:(short)imgIndex toPage:(int)pageIndex inView:(NSUInteger)viewIndex
+{
+    PLLayoutView *page = [self.subviews objectAtIndex:pageIndex];
+    PLThumbnailView *thumb = [page.subviews objectAtIndex:viewIndex];
+    if (!thumb.curDCM)
+        ++page.filledThumbs;
+    [thumb fillView:viewIndex withDCMView:dcmImage atIndex:imgIndex];
 }
 
 #pragma mark-Drag'n'Drop
@@ -445,6 +535,12 @@
     }
 }
 
+- (void)removeCurrentPage
+{
+    if (self.subviews.count)
+        [[self.subviews objectAtIndex:currentPageIndex] removeFromSuperview];
+}
+
 #pragma mark-Export methods
 
 - (void)saveDocumentViewToPDF
@@ -470,9 +566,8 @@
     for (NSUInteger i = 0; i < nbPages; ++i)
     {
         PLLayoutView *page = [self.subviews objectAtIndex:i];
-        NSUInteger nbThumbs = page.filledThumbs;
         
-        if (nbThumbs)
+        if (page.filledThumbs)
         {
             ++pageNumber;
             

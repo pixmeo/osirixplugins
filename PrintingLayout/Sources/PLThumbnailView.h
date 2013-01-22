@@ -36,7 +36,7 @@ typedef enum shrinkTypeEnum {
 @property NSInteger layoutIndex;
 
 - (void)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard;
-- (void)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex;
+- (BOOL)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex;
 - (void)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side;
 - (void)backToOriginalSize;

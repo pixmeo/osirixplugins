@@ -171,19 +171,23 @@
     }
 }
 
-- (void)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex
+- (BOOL)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex
 {
     if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
     {
         if (![pasteboard dataForType:pasteBoardOsiriX])
         {
             NSLog(@"No data in pasteboardOsiriX");
+            return NO;
         }
         else
         {
             DCMView **draggedView = (DCMView**)malloc(sizeof(DCMView*));
             NSData *draggedData = [pasteboard dataForType:pasteBoardOsiriX];
             [draggedData getBytes:draggedView length:sizeof(DCMView*)];
+            
+            if (imageIndex >= (*draggedView).dcmPixList.count)
+                return NO;
             
             NSMutableArray *pixList = [NSMutableArray array];
             [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain]];
@@ -208,8 +212,12 @@
                       reset:YES];
             free(draggedView);
             self.layoutIndex = gridIndex;
+            
+            return YES;
         }
     }
+    else
+        return NO;
 }
 
 - (void)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
@@ -235,6 +243,7 @@
          firstImage:0
               level:'i'
               reset:YES];
+    self.layoutIndex = gridIndex;
 }
 
 

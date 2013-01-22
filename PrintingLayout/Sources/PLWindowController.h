@@ -12,9 +12,10 @@
 #import "PLUtils.h"
 #import <OsiriXAPI/ViewerController.h>
 
-@interface PLWindowController : NSWindowController //ViewerController //
+@interface PLWindowController : NSWindowController//ViewerController //
 {
     IBOutlet NSPopUpButton  *layoutChoiceButton;
+    IBOutlet NSButton       *exportButton;
     
     IBOutlet NSTextField    *widthTextField;
     IBOutlet NSTextField    *heightTextField;
@@ -22,8 +23,6 @@
     IBOutlet NSStepper      *heightValueAdjuster;
     NSUInteger              heightValue, widthValue;
     
-	NSMutableArray			*undoQueue, *redoQueue;
-	
     IBOutlet NSScrollView   *scrollView;  // Historic: could be really used if the scrolling was not causing trouble with NSOpenGLView
     IBOutlet PLDocumentView *fullDocumentView;
     paperSize               scrollViewFormat;
@@ -37,10 +36,11 @@
 @property (readonly) PLDocumentView *fullDocumentView;
 
 - (IBAction)addPage:(id)sender;
+- (IBAction)deletePage:(id)sender;
 - (IBAction)insertPage:(id)sender;
 - (IBAction)updateViewRatio:(id)sender;
 - (IBAction)updateGridLayoutFromButton:(id)sender;
-//- (IBAction)displayModeChanged:(id)sender;
+- (IBAction)reshapeLayout:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
 - (IBAction)exportViewToPDF:(id)sender;
@@ -53,5 +53,6 @@
 - (void)layoutMatrixUpdated;
 - (void)updateWindowTitle;
 - (void)currentPageUpdated;
+- (void)saveAllROIs;
 
 @end

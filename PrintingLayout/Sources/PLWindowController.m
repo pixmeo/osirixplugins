@@ -34,9 +34,6 @@
         self.widthValue          = 0;
         self.currentPage         = -1;
         
-        undoQueue = [[NSMutableArray alloc] initWithCapacity: 0];
-        redoQueue = [[NSMutableArray alloc] initWithCapacity: 0];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated) name:NSViewBoundsDidChangeNotification object:nil];
     }
     
@@ -48,18 +45,8 @@
     [super windowDidLoad];
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-    [layoutChoiceButton.cell setDisplayedTitle:@"Layout Choice"];    
-}
-
-- (void)dealloc
-{
-	[undoQueue removeAllObjects];
-	[redoQueue removeAllObjects];
-
-    [undoQueue release];
-    [redoQueue release];
-    
-    [super dealloc];
+    [layoutChoiceButton.cell    setDisplayedTitle:@"Layout Choice"];
+//    [exportButton.cell          setDisplayedTitle:@"Export…"];
 }
 
 #pragma mark-Action based methods
@@ -86,17 +73,26 @@
     [self updateWindowTitle];
 }
 
-//- (IBAction)displayModeChanged:(id)sender
-//{
-//    [fullDocumentView setFullWidth:[[sender selectedCell] tag]];
-////    [fullDocumentView setScrollingMode:[[sender selectedCell] tag]];
-//    [fullDocumentView resizePLDocumentView];
-//}
-
 - (IBAction)addPage:(id)sender
 {
     [fullDocumentView newPage];
     [self updateWindowTitle];
+}
+
+- (IBAction)deletePage:(id)sender
+{
+    if (currentPage >= 0)
+    {
+        [fullDocumentView removeCurrentPage];
+        if (currentPage >= fullDocumentView.subviews.count)
+        {
+            --currentPage;
+            fullDocumentView.currentPageIndex--;
+            [fullDocumentView goToPage:currentPage];
+        }
+        
+        [self updateWindowTitle];
+    }
 }
 
 - (IBAction)insertPage:(id)sender
@@ -123,6 +119,9 @@
         [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
         [fullDocumentView resizePLDocumentView];
     }
+}
+
+- (IBAction)reshapeLayout:(id)sender {
 }
 
 - (IBAction)adjustLayoutWidth:(id)sender
@@ -182,13 +181,38 @@
 
 #pragma mark-Export actions
 
+- (void)saveAllROIs
+{
+    NSArray * windowList = [NSApp windows];
+    NSUInteger nbWindows = [windowList count];
+    
+    for (NSUInteger i = 0; i < nbWindows; ++i)
+    {
+        ViewerController *originalWindow = [[windowList objectAtIndex:i] windowController];
+        
+        if ([originalWindow.className isEqualToString:@"ViewerController"])
+        {
+            for (NSUInteger j = 0; j < originalWindow.maxMovieIndex; ++j)
+                [originalWindow saveROI:j];
+        }
+    }
+}
+
 - (IBAction)exportViewToDicom:(id)sender
 {
+    // Save all ROIs
+    [self saveAllROIs];
+    
+    // Export the PLDocumentView into a DICOM file
     [[[fullDocumentView subviews] objectAtIndex:currentPage] saveLayoutViewToDicom];
 }
 
 - (IBAction)exportViewToPDF:(id)sender
 {
+    // Save all ROIs
+    [self saveAllROIs];
+
+    // Export the PLDocumentView to a PDF file
     [fullDocumentView saveDocumentViewToPDF];
 }
 
@@ -199,7 +223,7 @@
     if (currentPage < fullDocumentView.subviews.count - 1)
     {
         ++(self.currentPage);
-        fullDocumentView.currentPage = currentPage;
+        fullDocumentView.currentPageIndex = currentPage;
         [fullDocumentView pageDown:sender];
         [self updateWindowTitle];
     }
@@ -210,7 +234,7 @@
     if (currentPage > 0)
     {
         --(self.currentPage);
-        fullDocumentView.currentPage = currentPage;
+        fullDocumentView.currentPageIndex = currentPage;
         [fullDocumentView pageUp:sender];
         [self updateWindowTitle];
     }
@@ -276,32 +300,26 @@
         if (yPosition >= 0 && currentPage != currentPosition)
         {
             self.currentPage = currentPosition;
+            docView.currentPageIndex = currentPage;
             [self updateWindowTitle];
             [self layoutMatrixUpdated];
         }
     }
 }
 
-//#pragma mark-Events handling
-//- (void)keyDown:(NSEvent *)event
-//{
-//    unichar key = [event.characters characterAtIndex:0];
-//    switch (key)
-//    {
-//        case NSPageUpFunctionKey:
-//            [self pageUp:nil];
-//            break;
-//            
-//        case NSPageDownFunctionKey:
-//            [self pageDown:nil];
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//}
-//
-//#pragma mark-OsiriX ViewerController methods disabled
+#pragma mark-Undo management
+//Cf. ViewerController.m
+
+- (void)bringToFrontROI:(ROI*)roi
+{
+    NSLog(@"bringToFrontROI not currently implemented in Printing Layout.");
+}
+
+- (void)addToUndoQueue:(NSString*) string
+{
+    NSLog(@"Undo currently unavailable for changes done inside Printing Layout.");
+}
+
 //- (void) windowDidBecomeKey:(NSNotification *)aNotification
 //{
 //}
@@ -314,51 +332,6 @@
 //{
 //    return YES;
 //}
-
-#pragma mark-Undo
-
-// Based on OsiriXAPI/ViewerController.m
-
-- (id) prepareObjectForUndo:(NSString*) string
-{
-	NSLog( @"prepareObjectForUndo: currently unavailable in the Printing Layout.");
-//	if( [string isEqualToString: @"roi"])
-//	{
-//		NSMutableArray	*rois = [NSMutableArray array];
-//		
-//        NSMutableArray *array = [NSMutableArray array];
-//        for( NSArray *ar in roiList)
-//        {
-//            NSMutableArray	*a = [NSMutableArray array];
-//            
-//            for( ROI *r in ar)
-//                [a addObject: [[r copy] autorelease]];
-//            
-//            [array addObject: a];
-//        }
-//        [rois addObject: array];
-//		
-//		return [NSDictionary dictionaryWithObjectsAndKeys: string, @"type", rois, @"rois", nil];
-//	}
-	return nil;
-}
-
-- (void)addToUndoQueue:(NSString*)string
-{
-	NSLog( @"addToUndoQueue: currently unavailable in the Printing Layout.");
-//	[undoQueue addObject: [self prepareObjectForUndo: string]];
-//	
-//	if( [undoQueue count] > UNDOQUEUESIZE)
-//	{
-//		[undoQueue removeObjectAtIndex: 0];
-//	}
-}
-
-- (void)bringToFrontROI:(ROI*)roi
-{
-	NSLog( @"bringToFrontROI: currently unavailable in the Printing Layout.");
-}
-
 //#pragma mark-Needed for down key to work (zoom out?)
 //- (void)maxMovieIndex
 //{
