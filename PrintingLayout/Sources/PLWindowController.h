@@ -28,6 +28,15 @@
     paperSize               scrollViewFormat;
     NSLayoutConstraint      *ratioConstraint;
     NSInteger               currentPage;
+    
+    IBOutlet NSBox          *importBox;
+    IBOutlet NSSlider       *importIntervalSlider;
+    IBOutlet NSSlider       *importStartSlider;
+    IBOutlet NSSlider       *importEndSlider;
+    IBOutlet NSTextField    *importIntervalText;
+    IBOutlet NSTextField    *importStartText;
+    IBOutlet NSTextField    *importEndText;
+    IBOutlet NSTextField    *pagesImport;
 }
 
 @property NSUInteger                heightValue, widthValue;

@@ -35,6 +35,7 @@
         self.shrinking               = none;
         self.layoutIndex             = -1;
         
+//        [self setSyncro:syncroOFF];
         [self setPostsFrameChangedNotifications:NO];
     }
     return self;
@@ -54,6 +55,7 @@
         self.originalFrame           = frame;
         drawingFrameRect             = frame;
         
+//        [self setSyncro:syncroOFF];
         [self setPostsFrameChangedNotifications:NO];
     }
     return self;

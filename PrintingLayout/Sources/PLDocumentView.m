@@ -11,6 +11,7 @@
 #import "PLThumbnailView.h"
 #import "PLWindowController.h"
 #import <OsiriXAPI/DicomImage.h>
+#import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/SeriesView.h>
 #import <OsiriXAPI/StudyView.h>
 #import <OsiriXAPI/ViewerController.h>
@@ -175,10 +176,7 @@
                         {
                             int insertIndex = [currentPageLayout findNextEmptyViewFrom:0];
                             if (currentPageLayout.filledThumbs == currentPageLayout.subviews.count || insertIndex < 0)
-                            {
-                                NSLog(@"No room in this page");
                                 return;
-                            }
                             else
                                 viewIndex = insertIndex;
                         }
@@ -190,7 +188,7 @@
             break;
             
         case 63252:
-            NSLog(@"Insert whole serie.");
+            // Insert whole serie
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
                 if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
@@ -201,9 +199,7 @@
                     
                     // Create enough pages
                     if (![[self.subviews objectAtIndex:currentPageIndex] updateLayoutViewWidth:4 height:6])
-                    {
                         return;
-                    }
 
                     if (nbImgs > 24)
                     {
@@ -211,31 +207,31 @@
                         
                         for (NSUInteger j = 1; j <= nbPages; ++j)
                         {
-                            [self insertPageAtIndex:currentPageIndex + 1];
-                            if (![[self.subviews objectAtIndex:currentPageIndex + 1] updateLayoutViewWidth:4 height:6])
-                            {
+                            [self insertPageAtIndex:currentPageIndex + j];
+                            if (![[self.subviews objectAtIndex:currentPageIndex + j] updateLayoutViewWidth:4 height:6])
                                 return;
-                            }
                         }
                     }
                     
                     // Import images
                     NSUInteger startingView = currentPageIndex;
                     for (NSUInteger j = 0; j < nbImgs; ++j)
-                    {
                         [self insertImage:imageToImport atIndex:j toPage:startingView + j / 24 inView:j % 24];
-                    }
                 }
             }
             break;
             
         case 63253:
+            // Insert whole study
             NSLog(@"Insert whole study.");
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
                 if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
                 {
-//                    StudyView *studyToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] studyInstanceUID];
+                    DicomStudy *studyToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] currentStudy];
+                    NSSet *imagesSet = [studyToImport images];
+                    
+                    
                 }
             }
             break;
@@ -325,7 +321,9 @@
 
 - (void)goToPage:(NSUInteger)pageNumber
 {
-    NSLog(@"Go to page %d",(int)pageNumber);
+    NSClipView *clipView = self.enclosingScrollView.contentView;
+    
+    [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, self.enclosingScrollView.verticalPageScroll * pageNumber)];
 }
 
 #pragma mark-DICOM insertion
@@ -538,7 +536,10 @@
 - (void)removeCurrentPage
 {
     if (self.subviews.count)
+    {
         [[self.subviews objectAtIndex:currentPageIndex] removeFromSuperview];
+        [self resizePLDocumentView];
+    }
 }
 
 #pragma mark-Export methods
@@ -681,8 +682,11 @@
     }
     
     if (![layoutPDF writeToFile:filename])
+        NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
+    else
     {
-        NSLog(@"Error writing pdf file");
+        NSString *msg = [NSString stringWithFormat:@"Your file has been saved to %@",filename];
+        NSRunAlertPanel(NSLocalizedString(@"Export file", nil), NSLocalizedString(msg, nil), NSLocalizedString(@"OK", nil), nil, nil);
     }
     
     [layoutPDF release];

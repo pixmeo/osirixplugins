@@ -90,7 +90,7 @@
             fullDocumentView.currentPageIndex--;
             [fullDocumentView goToPage:currentPage];
         }
-        
+
         [self updateWindowTitle];
     }
 }
@@ -251,18 +251,6 @@
             break;
             
         case 1:
-            // Open dialog box with current page index and let the user enter the new one
-        {
-            NSUInteger newPageNumber = 0;
-            if (newPageNumber && newPageNumber <= fullDocumentView.subviews.count)
-            {
-                [fullDocumentView goToPage:newPageNumber];
-                [self updateWindowTitle];
-            }
-        }
-            break;
-            
-        case 2:
             [self pageDown:sender];
             break;
             
