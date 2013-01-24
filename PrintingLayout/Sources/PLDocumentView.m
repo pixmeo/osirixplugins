@@ -188,6 +188,7 @@
             break;
             
         case 63252:
+            // Print the box
             // Insert whole serie
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
@@ -224,16 +225,13 @@
         case 63253:
             // Insert whole study
             NSLog(@"Insert whole study.");
-            for (NSUInteger i = 0; i < nbWindows; ++i)
-            {
-                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
-                {
-                    DicomStudy *studyToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] currentStudy];
-                    NSSet *imagesSet = [studyToImport images];
-                    
-                    
-                }
-            }
+//            for (NSUInteger i = 0; i < nbWindows; ++i)
+//            {
+//                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
+//                {
+//                    DicomStudy *studyToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] currentStudy];
+//                }
+//            }
             break;
 
         case NSPageUpFunctionKey:
@@ -551,6 +549,33 @@
     if (!nbPages)
         return;
     
+    // Look for pages that have more less 1/3 filled views
+    BOOL sparsePage = NO;
+    
+    for (NSUInteger i = 0; i < nbPages; ++i)
+    {
+        PLLayoutView *page = [self.subviews objectAtIndex:i];
+        
+        if (page.filledThumbs && page.filledThumbs <= page.subviews.count / 3)
+        {
+            sparsePage = YES;
+            break;
+        }
+    }
+    
+    if (sparsePage)
+    {
+        NSAlert *confirmDialog = [[NSAlert alloc] init];
+        [confirmDialog addButtonWithTitle:NSLocalizedString(@"Yes", nil)];
+        [confirmDialog addButtonWithTitle:NSLocalizedString(@"No", nil)];
+        [confirmDialog setMessageText:NSLocalizedString(@"Print sparse page?", nil)];
+        [confirmDialog setInformativeText:NSLocalizedString(@"At least one page in your layout has few images.\nDo you still want to print it?", nil)];
+        [confirmDialog setAlertStyle:NSInformationalAlertStyle];
+        
+        if ([confirmDialog runModal] == NSAlertSecondButtonReturn)
+            return;
+    }
+    
     // Save panel for pdf files
     NSSavePanel *saveDialog = [NSSavePanel savePanel];
 
@@ -685,13 +710,14 @@
         NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
     else
     {
-        NSString *msg = [NSString stringWithFormat:@"Your file has been saved to %@",filename];
+        NSString *msg = [NSString stringWithFormat:@"Your file has been saved to\n%@",filename];
         NSRunAlertPanel(NSLocalizedString(@"Export file", nil), NSLocalizedString(msg, nil), NSLocalizedString(@"OK", nil), nil, nil);
     }
     
     [layoutPDF release];
 }
 
+#pragma mark-Other methods
 
 @end
 

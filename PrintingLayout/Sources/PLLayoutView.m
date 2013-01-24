@@ -142,10 +142,16 @@
             [draggedData getBytes:draggedView length:sizeof(DCMView*)];
             
             NSUInteger nbImages = [[*draggedView dcmPixList] count];
-            
             NSUInteger nbPages = ([*draggedView dcmPixList].count + 1) / 24 + 1;
-            
             NSUInteger newHeight, newWidth;
+            
+            PLWindowController *wc = self.window.windowController;
+            [wc prepareImportBox:nbImages];
+//            [wc openImportBox];
+            
+            NSUInteger start = wc.importStart;
+            NSUInteger end = wc.importEnd;
+            NSUInteger increment = wc.importInterval;
             
             if (nbPages == 1)
             {
@@ -153,9 +159,7 @@
                 newWidth = floorf(sqrtf(nbImages));
                 
                 if (newHeight * newWidth < nbImages)
-                {
-                        ++newHeight;
-                }
+                    ++newHeight;
                 
                 free(draggedView);
                 
@@ -245,19 +249,17 @@
         {
             PLThumbnailView *pointedView = [[self subviews] objectAtIndex:index];
             if ([self inThumbnailView:p margin:margin] == -1 && [pointedView curDCM])
-                // the pointer is in the thumb's margin and there's an image in the thumb
+            // the pointer is in the thumb's margin and there's an image in the thumb
             {
                 pointedView.isDraggingDestination = NO;
                 if (draggedThumbnailIndex != index)
                 {
                     for (int i = 0; i < nbSubviews; ++i)
-                    {
                         [[[self subviews] objectAtIndex:i] setIsDraggingDestination:NO];
-                    }
                     
                     NSPoint q = [pointedView convertPoint:p fromView:nil];
                     if ([pointedView originalFrame].size.width - q.x > q.x)
-                        // left margin
+                    // left margin
                     {
                         if ([pointedView shrinking] != left)
                         {
@@ -270,9 +272,7 @@
                                     [[[self subviews] objectAtIndex:previousRightShrink] backToOriginalSize];
                             }
                             else
-                            {
                                 [pointedView backToOriginalSize];
-                            }
                             
                             [pointedView shrinkWidth:margin onIts:left];
                             self.previousLeftShrink = index;
@@ -286,7 +286,7 @@
                         }
                     }
                     else
-                        // right margin
+                    // right margin
                     {
                         if ([pointedView shrinking] != right)
                         {

@@ -29,7 +29,9 @@
     NSLayoutConstraint      *ratioConstraint;
     NSInteger               currentPage;
     
-    IBOutlet NSBox          *importBox;
+    IBOutlet NSPanel        *importPanel;
+    IBOutlet NSWindow       *importWindow;
+//    IBOutlet NSBox          *importBox;
     IBOutlet NSSlider       *importIntervalSlider;
     IBOutlet NSSlider       *importStartSlider;
     IBOutlet NSSlider       *importEndSlider;
@@ -37,12 +39,14 @@
     IBOutlet NSTextField    *importStartText;
     IBOutlet NSTextField    *importEndText;
     IBOutlet NSTextField    *pagesImport;
+    NSUInteger              importInterval, importStart, importEnd;
 }
 
 @property NSUInteger                heightValue, widthValue;
 @property paperSize                 scrollViewFormat;
 @property NSInteger                 currentPage;
 @property (readonly) PLDocumentView *fullDocumentView;
+@property NSUInteger                importInterval, importStart, importEnd;
 
 - (IBAction)addPage:(id)sender;
 - (IBAction)deletePage:(id)sender;
@@ -63,5 +67,7 @@
 - (void)updateWindowTitle;
 - (void)currentPageUpdated;
 - (void)saveAllROIs;
+- (void)prepareImportBox:(NSUInteger)serieSize;
+- (void)openImportBox;
 
 @end

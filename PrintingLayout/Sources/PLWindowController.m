@@ -20,6 +20,7 @@
 @synthesize scrollViewFormat;
 @synthesize currentPage;
 @synthesize fullDocumentView;
+@synthesize importInterval, importStart, importEnd;
 
 #define UNDOQUEUESIZE 40
 
@@ -177,6 +178,46 @@
 - (IBAction)clearViewsInLayout:(id)sender
 {
     [[[fullDocumentView subviews] objectAtIndex:currentPage] clearAllThumbnailsViews];
+}
+
+#pragma mark-Import actions
+
+- (void)prepareImportBox:(NSUInteger)serieSize
+{
+    [importStartSlider  setMaxValue:serieSize];
+    [importEndSlider    setMaxValue:serieSize];
+    
+    [importStartSlider  setNumberOfTickMarks:serieSize];
+    [importEndSlider    setNumberOfTickMarks:serieSize];
+    
+    [importIntervalSlider   setIntValue:1];
+    [importStartSlider      setIntValue:1];
+    [importEndSlider        setIntValue:serieSize];
+    
+    [importStartText    setIntValue:importStartSlider.intValue];
+    [importEndText      setIntValue:importEndSlider.intValue];
+    [importIntervalText setIntValue:importIntervalSlider.intValue];
+    
+    if (serieSize == 1)
+    {
+        [importIntervalSlider   setEnabled:NO];
+        [importStartSlider      setEnabled:NO];
+        [importEndSlider        setEnabled:NO];
+    }
+    else
+    {
+        [importIntervalSlider   setEnabled:YES];
+        [importStartSlider      setEnabled:YES];
+        [importEndSlider        setEnabled:YES];
+    }
+    
+//    [NSApp runModalForWindow:importPanel];
+//    [NSApp beginSheet:importWindow modalForWindow:self.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+}
+
+
+- (void)openImportBox
+{
 }
 
 #pragma mark-Export actions
