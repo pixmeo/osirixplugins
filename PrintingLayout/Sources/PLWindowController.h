@@ -41,7 +41,6 @@
     IBOutlet NSTextField    *pagesImport;
     NSUInteger              importInterval, importStart, importEnd, importWidth, importHeight;
     IBOutlet NSPopUpButton  *importLayoutButton;
-//    IBOutlet NSPopUpButton  *importLayout;
 }
 
 @property NSUInteger                heightValue, widthValue;

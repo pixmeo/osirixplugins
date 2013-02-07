@@ -23,12 +23,12 @@
 @synthesize fullWidth, isDraggingDestination;
 @synthesize topMargin, bottomMargin, sideMargin;
 @synthesize pageFormat;
-//@synthesize scrollingMode;
 @synthesize currentPageIndex;
 
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self)
     {
         // Initialization code here.
@@ -99,13 +99,9 @@
 - (void)scrollWheel:(NSEvent *)theEvent
 {
     if (theEvent.deltaY > 3)
-    {
         [self pageUp:nil];
-    }
     else if (theEvent.deltaY < -3)
-    {
         [self pageDown:nil];
-    }
 }
 
 - (void)keyDown:(NSEvent *)event
@@ -285,14 +281,12 @@
     if (self.subviews.count > 1)
     {
         if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 2))
-        {
             [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y + self.enclosingScrollView.verticalPageScroll)];
-        }
         else if (clipView.bounds.origin.y < self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))
-        {
             [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, self.enclosingScrollView.verticalPageScroll * (self.subviews.count - 1))];
-        }
     }
+    
+    [self setNeedsDisplay:YES];
 }
 
 - (void)pageUp:(id)sender
@@ -300,13 +294,11 @@
     NSClipView *clipView = self.enclosingScrollView.contentView;
     
     if (clipView.bounds.origin.y >= self.enclosingScrollView.verticalPageScroll)
-    {
         [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, clipView.bounds.origin.y - self.enclosingScrollView.verticalPageScroll)];
-    }
     else if (clipView.bounds.origin.y > 0)
-    {
         [clipView scrollToPoint:NSMakePoint(clipView.bounds.origin.x, 0)];
-    }
+    
+    [self setNeedsDisplay:YES];
 }
 
 - (void)goToPage:(NSUInteger)pageNumber
@@ -323,16 +315,12 @@
     NSPasteboard *pasteboard = [sender representedObject];
     
     if (![pasteboard dataForType:pasteBoardOsiriX])
-    {
         NSLog(@"No data in pasteboardOsiriX");
-    }
     
     [self insertPageAtIndex:currentPageIndex];
     
     if (currentPageIndex < 0)
-    {
         currentPageIndex = 0;
-    }
     
     [[self.subviews objectAtIndex:currentPageIndex] importImage:sender];
 }
@@ -347,16 +335,12 @@
     NSPasteboard *pasteboard = [sender representedObject];
     
     if (![pasteboard dataForType:pasteBoardOsiriX])
-    {
         NSLog(@"No data in pasteboardOsiriX");
-    }
     
     [self insertPageAtIndex:currentPageIndex];
     
     if (currentPageIndex < 0)
-    {
         currentPageIndex = 0;
-    }
     
     [[self.subviews objectAtIndex:currentPageIndex] importPartialSeries:sender];
 }
@@ -432,70 +416,72 @@
 
 - (void)resizePLDocumentView
 {
-    // One PLLayoutView = one page = one subview
-    NSUInteger nbPages = self.subviews.count;
-    
-    NSRect fullFrame = self.enclosingScrollView.bounds;
-    
-    // Determine the size of pages in the document
-    CGFloat width, height, pageRatio;
-    
-    pageRatio = getRatioFromPaperFormat(pageFormat);
-    
-    if (fullFrame.size.width * pageRatio < fullFrame.size.height)
-    // The top and bottom margins will be wider, i.e. we want to maximize the pages' width
+    NSUInteger nbPages = self.subviews.count;   // One PLLayoutView = one page = one subview
+    if (nbPages)
     {
-        width = fullFrame.size.width;
-        self.sideMargin = MAX(5, roundf(width / 200));
+        NSRect fullFrame = self.enclosingScrollView.bounds;
         
-        width -= 2 * sideMargin;
-        height = width * pageRatio;
-
-        self.topMargin = roundf((fullFrame.size.height - height) / 2);
-        self.bottomMargin = topMargin;
+        // Determine the size of pages in the document
+        CGFloat width, height, pageRatio;
         
-        height = fullFrame.size.height - topMargin - bottomMargin;
+        pageRatio = getRatioFromPaperFormat(pageFormat);
+        
+        if (fullFrame.size.width * pageRatio < fullFrame.size.height)
+            // The top and bottom margins will be wider, i.e. we want to maximize the pages' width
+        {
+            width = fullFrame.size.width;
+            self.sideMargin = MAX(5, roundf(width / 200));
+            
+            width -= 2 * sideMargin;
+            height = width * pageRatio;
+            
+            self.topMargin = roundf((fullFrame.size.height - height) / 2);
+            self.bottomMargin = topMargin;
+            
+            height = fullFrame.size.height - topMargin - bottomMargin;
+        }
+        else
+            // The side margins will be wider, i.e. we want to maximize the pages' height
+        {
+            height = fullFrame.size.height;
+            self.topMargin      = MAX(5, roundf(fullFrame.size.width / 100));
+            self.bottomMargin   = topMargin;
+            
+            height -= (topMargin + bottomMargin);
+            width = height / pageRatio;
+            self.sideMargin = roundf((fullFrame.size.width - width) / 2);
+            
+            width = fullFrame.size.width - 2 * sideMargin;
+        }
+        
+        // Determine the size of pages (i.e. PLLayoutViews)
+        pageHeight  = roundf(height);
+        pageWidth   = roundf(width);
+        
+        [self.enclosingScrollView setVerticalPageScroll:pageHeight + bottomMargin];
+        
+        NSRect documentFrame = NSMakeRect(fullFrame.origin.x, fullFrame.origin.y, fullFrame.size.width, MAX(fullFrame.size.height, (pageHeight + bottomMargin)*nbPages + topMargin) );
+        
+        [self setFrame:documentFrame];
+        [self.superview setFrame:documentFrame];
+        
+        for (NSUInteger i = 0; i < nbPages; ++i)
+        {
+            PLLayoutView *layoutView = [[self subviews] objectAtIndex:i];
+            NSRect layoutFrame = NSMakeRect(sideMargin, topMargin + i * (pageHeight + bottomMargin), pageWidth, pageHeight);
+            [layoutView resizeLayoutView:layoutFrame];
+        }
     }
-    else
-    // The side margins will be wider, i.e. we want to maximize the pages' height
-    {
-        height = fullFrame.size.height;
-        self.topMargin      = MAX(5, roundf(fullFrame.size.width / 100));
-        self.bottomMargin   = topMargin;
-        
-        height -= (topMargin + bottomMargin);
-        width = height / pageRatio;
-        self.sideMargin = roundf((fullFrame.size.width - width) / 2);
-        
-        width = fullFrame.size.width - 2 * sideMargin;
-    }
     
-    // Determine the size of pages (i.e. PLLayoutViews)
-    pageHeight  = roundf(height);
-    pageWidth   = roundf(width);
-    
-    [self.enclosingScrollView setVerticalPageScroll:pageHeight + bottomMargin];
-    
-    NSRect documentFrame = NSMakeRect(fullFrame.origin.x, fullFrame.origin.y, fullFrame.size.width, MAX(fullFrame.size.height, (pageHeight + bottomMargin)*nbPages + topMargin) );
-    
-    [self setFrame:documentFrame];
-    [self.superview setFrame:documentFrame];
-    
-    for (NSUInteger i = 0; i < nbPages; ++i)
-    {
-        PLLayoutView *layoutView = [[self subviews] objectAtIndex:i];
-        NSRect layoutFrame = NSMakeRect(sideMargin, topMargin + i * (pageHeight + bottomMargin), pageWidth, pageHeight);
-        [layoutView resizeLayoutView:layoutFrame];
-    }
-    
-    [self setNeedsDisplay:YES];
+    [self.enclosingScrollView display];
 }
 
 // Add a new page at the end of the document
-- (void)newPage
+- (PLLayoutView*)newPage
 {
     [self addSubview:[[PLLayoutView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)]];
     [self resizePLDocumentView];
+    return [self.subviews lastObject];
 }
 
 // Insert a new page in the document at a given index
@@ -517,17 +503,13 @@
         
         // Put back views
         for (NSInteger i = nbSubviews - index - 1; i >= 0; --i)
-        {
             [self addSubview:[shiftedViews objectAtIndex:i]];
-        }
         
         [shiftedViews release];
         [self resizePLDocumentView];
     }
     else
-    {
         [self newPage];
-    }
 }
 
 - (void)removeCurrentPage
@@ -539,53 +521,64 @@
     }
 }
 
+- (void)clearDocument
+{
+    for (NSUInteger i = 0; i < self.subviews.count; ++i)
+        [[self.subviews objectAtIndex:i] removeFromSuperview];
+}
+
 // Reshape all the pages of the document
 - (void)reshapeDocumentWithWidth:(NSUInteger)width andHeight:(NSUInteger)height
 {
     NSUInteger nbPages = self.subviews.count;
-    NSUInteger nbThumbs = [self getNumberOfViews];
     
-    NSMutableArray *allDCMViews = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
-    
-    // Prepare the pages to be reshaped
-    for (NSUInteger i = 0; i < nbPages; ++i)
+    if (nbPages)
     {
-        PLLayoutView *page = [self.subviews objectAtIndex:i];
+        NSUInteger nbThumbs = [self getNumberOfFilledViewsInDocument];
+        NSMutableArray *allDCMViews = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
         
-        // Memorize the filled thumbnails
-        NSUInteger nbThumbs = page.subviews.count;
-        for (NSUInteger j = 0; j < nbThumbs; ++j)
+        // Prepare the pages to be reshaped
+        for (NSUInteger i = 0; i < nbPages; ++i)
         {
-            PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
-            if (thumb.curDCM)
-                [allDCMViews addObject:thumb];
+            PLLayoutView *page = [self.subviews objectAtIndex:i];
+            
+            // Memorize the filled thumbnails
+            NSUInteger nbThumbs = page.subviews.count;
+            for (NSUInteger j = 0; j < nbThumbs; ++j)
+            {
+                PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
+                if (thumb.curDCM)
+                    [allDCMViews addObject:thumb];
+            }
         }
         
-        // Clear the page
-        [page clearAllThumbnailsViews];
-    }
-    
-    // Reshape the pages and fill them with the stored DCMViews
-    for (NSUInteger i = 0; i < nbPages; ++i)
-    {
-        PLLayoutView *page = [self.subviews objectAtIndex:i];
-        if ([page updateLayoutViewWidth:width height:height])
-        {
-            [page reorderLayoutMatrix];
-        }
-    }
-    
-    NSUInteger pageSize = width * height;
-    for (NSUInteger i = 0; i < nbThumbs; ++i)
-    {
-        NSUInteger pageIndex = i / pageSize;
-        NSUInteger thumbIndex = i % pageSize;
-        DCMView *currentDCM = [allDCMViews objectAtIndex:i];
+        // Delete all the pages
+        [self clearDocxument];
+        [self setNeedsDisplay:YES];
         
-        [[self.subviews objectAtIndex:pageIndex] fillView:thumbIndex withDCMView:currentDCM atIndex:currentDCM.curImage];
+        // Determine the number of needed pages
+        NSUInteger pageSize = width * height;
+        NSUInteger newDocumentSize = nbThumbs % pageSize == 0 ? nbThumbs / pageSize : 1 + nbThumbs / pageSize;
+        
+        // Reshape the pages and fill them with the stored DCMViews
+        for (NSUInteger i = 0; i < newDocumentSize; ++i)
+        {
+            PLLayoutView *page = [self newPage];
+            [page updateLayoutViewWidth:width height:height];
+        }
+        
+        for (NSUInteger i = 0; i < nbThumbs; ++i)
+        {
+            NSUInteger pageIndex = i / pageSize;
+            NSUInteger thumbIndex = i % pageSize;
+            DCMView *currentDCM = [allDCMViews objectAtIndex:i];
+            PLThumbnailView * thumb = [[[self.subviews objectAtIndex:pageIndex] subviews] objectAtIndex:thumbIndex];
+            
+            [thumb fillView:thumbIndex withDCMView:currentDCM atIndex:currentDCM.curImage];
+        }
+        
+        [self resizePLDocumentView];
     }
-    
-    [self resizePLDocumentView];
 }
 
 
@@ -768,7 +761,7 @@
 
 #pragma mark-Other methods
 
-- (NSUInteger)getNumberOfViews
+- (NSUInteger)getNumberOfFilledViewsInDocument
 {
     NSUInteger nbThumbs = 0;
     NSUInteger nbPages = self.subviews.count;

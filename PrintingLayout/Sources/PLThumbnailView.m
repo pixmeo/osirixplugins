@@ -357,6 +357,7 @@
         case NSRightArrowFunctionKey:
         case NSHomeFunctionKey:
         case NSEndFunctionKey:
+            NSLog(@"%c",key);
             [self.superview.superview keyDown:event];
             break;
             

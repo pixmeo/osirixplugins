@@ -33,8 +33,9 @@
 @property int currentPageIndex;
 
 - (void)resizePLDocumentView;
-- (void)newPage;
+- (PLLayoutView*)newPage;
 - (void)removeCurrentPage;
+- (void)clearDocument;
 - (void)insertPageAtIndex:(NSUInteger)index;
 - (void)goToPage:(NSUInteger)pageNumber;
 - (void)saveDocumentViewToPDF;
@@ -43,7 +44,6 @@
 - (IBAction)insertPartial:(id)sender;
 - (void)insertImage:(DCMView*)dcm atIndex:(short)imgIndex toPage:(int)pageIndex inView:(NSUInteger)viewIndex;
 - (void)reshapeDocumentWithWidth:(NSUInteger)width andHeight:(NSUInteger)height;
-- (NSUInteger)getNumberOfViews;
-
+- (NSUInteger)getNumberOfFilledViewsInDocument;
 
 @end

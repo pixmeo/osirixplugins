@@ -535,8 +535,6 @@
     [self reorderLayoutMatrix];
     [self resizeLayoutView:self.frame];
     
-//    pasteboard = nil;
-    
     NSUInteger nbSubviews = [[self subviews] count];
     for (NSUInteger i = 0; i < nbSubviews; ++i)
     {
@@ -578,9 +576,7 @@
         if (currentSize < newSize)
         {
             while ([[self subviews] count] < newSize)
-            {
                 [self addSubview:[[PLThumbnailView alloc] init]];
-            }
         }
         // If the new layout has less thumbnails than the previous one
         else
@@ -590,13 +586,9 @@
             {
                 PLThumbnailView * thumb = [[self subviews] objectAtIndex:i];
                 if (![thumb curDCM])
-                {
                     [thumb removeFromSuperview];
-                }
                 else
-                {
                     ++i;
-                }
             }
         }
     }
@@ -608,7 +600,6 @@
         CGFloat x = viewSize.width / w;
         CGFloat y = viewSize.height / h;
         for (NSUInteger i = 0 ; i < w; ++i)
-        {
             for (NSUInteger j = 0; j < h; ++j)
             {
                 // (0,0) is the bottom left corner of the view, while the thumbnails are ordered in the reading direction (from upper left to bottom right)
@@ -618,11 +609,15 @@
                 PLThumbnailView * v = [[PLThumbnailView alloc] initWithFrame:frame];
                 [self addSubview:v];
             }
-        }
     }
     [self setNeedsDisplay:YES];
     
     return YES;
+}
+
+- (void)reshapeLayoutWithWidth:(NSUInteger)width andHeight:(NSUInteger)height
+{
+    
 }
 
 - (void)reorderLayoutMatrix

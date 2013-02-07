@@ -48,7 +48,7 @@
     [super windowDidLoad];
 
     // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-    [layoutChoiceButton.cell    setDisplayedTitle:@"Layout Choice"];
+//    [layoutChoiceButton.cell    setDisplayedTitle:@"Layout Choice"];
 //    [exportButton.cell          setDisplayedTitle:@"Export…"];
 }
 
@@ -106,33 +106,37 @@
 
 - (IBAction)updateGridLayoutFromButton:(id)sender
 {
-    NSString * name = [[layoutChoiceButton selectedItem] title];
-    NSArray * c = [name componentsSeparatedByString:@"x"];
-    
-    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
-    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
-    
-    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
-    {
-        self.widthValue = newWidth;
-        self.heightValue = newHeight;
-        [self updateWidth];
-        [self updateHeight];
-        
-        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
-        [fullDocumentView resizePLDocumentView];
-    }
+//    NSString *name = [[sender selectedItem] title];
+//    NSString *rename =[layoutChoiceButton selectedItem].title;
+//    NSLog(@"%@",rename);
+//    NSArray *c = [name componentsSeparatedByString:@"x"];
+//    
+//    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
+//    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
+//    
+//    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
+//    {
+//        self.widthValue = newWidth;
+//        self.heightValue = newHeight;
+//        [self updateWidth];
+//        [self updateHeight];
+//        
+//        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
+//        [fullDocumentView resizePLDocumentView];
+//    }
 }
 
 - (IBAction)reshapeLayout:(id)sender
 {
-    NSString * name = [[layoutChoiceButton selectedItem] title];
+    NSString * name = [layoutChoiceButton selectedItem].title;
     NSArray * c = [name componentsSeparatedByString:@"x"];
     
     NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
     NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
     
-    [fullDocumentView reshapeDocumentWithWidth:newWidth andHeight:newHeight];    
+    [fullDocumentView reshapeDocumentWithWidth:newWidth andHeight:newHeight];
+    [self updateWindowTitle];
+    [self layoutMatrixUpdated];
 }
 
 - (IBAction)adjustLayoutWidth:(id)sender
@@ -383,7 +387,7 @@
 
 - (void)updateWindowTitle
 {
-    if (scrollViewFormat)
+    if (scrollViewFormat && [[[scrollView.documentView subviews] objectAtIndex:0] subviews].count)
     {
         [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", currentPage < 0 ? 1 : (int)currentPage + 1, (int)[[fullDocumentView subviews] count]]];
     }
@@ -412,11 +416,10 @@
                 self.currentPage = currentPosition;
                 docView.currentPageIndex = currentPage;
                 [self layoutMatrixUpdated];
+                [self updateWindowTitle];
             }
         }
     }
-    
-    [self updateWindowTitle];
 }
 
 #pragma mark-Undo management
