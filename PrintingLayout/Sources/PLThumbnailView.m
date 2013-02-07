@@ -35,7 +35,6 @@
         self.shrinking               = none;
         self.layoutIndex             = -1;
         
-//        [self setSyncro:syncroOFF];
         [self setPostsFrameChangedNotifications:NO];
     }
     return self;
@@ -55,7 +54,6 @@
         self.originalFrame           = frame;
         drawingFrameRect             = frame;
         
-//        [self setSyncro:syncroOFF];
         [self setPostsFrameChangedNotifications:NO];
     }
     return self;
@@ -146,29 +144,31 @@
             
             short index = [*draggedView curImage];
             
-            NSMutableArray *pixList = [NSMutableArray array];
-            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:index] retain]];
-            
-            NSMutableArray *filesList = [NSMutableArray array];
-            if ([[*draggedView dcmFilesList] count])
-            {
-                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:index] retain]];
-            }
-            
-            NSMutableArray *roiList = [NSMutableArray array];
-            if ([[*draggedView dcmRoiList] count])
-            {
-                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:index] retain]];
-            }
-            
-            [self setPixels:pixList
-                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
-                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
-                 firstImage:0
-                      level:'i'
-                      reset:YES];
+            [self fillView:gridIndex withDCMView:*draggedView atIndex:index];
             free(draggedView);
-            self.layoutIndex = gridIndex;
+//            NSMutableArray *pixList = [NSMutableArray array];
+//            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:index] retain]];
+//            
+//            NSMutableArray *filesList = [NSMutableArray array];
+//            if ([[*draggedView dcmFilesList] count])
+//            {
+//                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:index] retain]];
+//            }
+//            
+//            NSMutableArray *roiList = [NSMutableArray array];
+//            if ([[*draggedView dcmRoiList] count])
+//            {
+//                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:index] retain]];
+//            }
+//            
+//            [self setPixels:pixList
+//                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
+//                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
+//                 firstImage:0
+//                      level:'i'
+//                      reset:YES];
+//            free(draggedView);
+//            self.layoutIndex = gridIndex;
         }
     }
 }
@@ -191,29 +191,31 @@
             if (imageIndex >= (*draggedView).dcmPixList.count)
                 return NO;
             
-            NSMutableArray *pixList = [NSMutableArray array];
-            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain]];
-            
-            NSMutableArray *filesList = [NSMutableArray array];
-            if ([[*draggedView dcmFilesList] count])
-            {
-                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:imageIndex] retain]];
-            }
-            
-            NSMutableArray *roiList = [NSMutableArray array];
-            if ([[*draggedView dcmRoiList] count])
-            {
-                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:imageIndex] retain]];
-            }
-            
-            [self setPixels:pixList
-                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
-                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
-                 firstImage:0
-                      level:'i'
-                      reset:YES];
+            [self fillView:gridIndex withDCMView:*draggedView atIndex:imageIndex];
             free(draggedView);
-            self.layoutIndex = gridIndex;
+//            NSMutableArray *pixList = [NSMutableArray array];
+//            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain]];
+//            
+//            NSMutableArray *filesList = [NSMutableArray array];
+//            if ([[*draggedView dcmFilesList] count])
+//            {
+//                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:imageIndex] retain]];
+//            }
+//            
+//            NSMutableArray *roiList = [NSMutableArray array];
+//            if ([[*draggedView dcmRoiList] count])
+//            {
+//                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:imageIndex] retain]];
+//            }
+//            
+//            [self setPixels:pixList
+//                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
+//                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
+//                 firstImage:0
+//                      level:'i'
+//                      reset:YES];
+//            free(draggedView);
+//            self.layoutIndex = gridIndex;
             
             return YES;
         }
@@ -222,30 +224,37 @@
         return NO;
 }
 
-- (void)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
+- (BOOL)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
 {
-    NSMutableArray *pixList = [NSMutableArray array];
-    [pixList addObject:[[[dcm dcmPixList] objectAtIndex:imageIndex] retain]];
-    
-    NSMutableArray *filesList = [NSMutableArray array];
-    if ([[dcm dcmFilesList] count])
+    if (imageIndex < dcm.dcmPixList.count)
     {
-        [filesList addObject:[[[dcm dcmFilesList] objectAtIndex:imageIndex] retain]];
+        NSMutableArray *pixList = [NSMutableArray array];
+        [pixList addObject:[[[dcm dcmPixList] objectAtIndex:imageIndex] retain]];
+        
+        NSMutableArray *filesList = [NSMutableArray array];
+        if ([[dcm dcmFilesList] count])
+        {
+            [filesList addObject:[[[dcm dcmFilesList] objectAtIndex:imageIndex] retain]];
+        }
+        
+        NSMutableArray *roiList = [NSMutableArray array];
+        if ([[dcm dcmRoiList] count])
+        {
+            [roiList addObject:[[[dcm dcmRoiList] objectAtIndex:imageIndex] retain]];
+        }
+        
+        [self setPixels:pixList
+                  files:[[dcm dcmFilesList]   count] ? filesList  : nil
+                   rois:[[dcm dcmRoiList]     count] ? roiList    : nil
+             firstImage:0
+                  level:'i'
+                  reset:YES];
+        self.layoutIndex = gridIndex;
+        
+        return YES;
     }
     
-    NSMutableArray *roiList = [NSMutableArray array];
-    if ([[dcm dcmRoiList] count])
-    {
-        [roiList addObject:[[[dcm dcmRoiList] objectAtIndex:imageIndex] retain]];
-    }
-    
-    [self setPixels:pixList
-              files:[[dcm dcmFilesList]   count] ? filesList  : nil
-               rois:[[dcm dcmRoiList]     count] ? roiList    : nil
-         firstImage:0
-              level:'i'
-              reset:YES];
-    self.layoutIndex = gridIndex;
+    return NO;
 }
 
 

@@ -23,7 +23,6 @@
     paperSize   pageFormat;
     CGFloat     pageWidth;      // keep or not?
     CGFloat     pageHeight;     // keep or not?
-//    scrollType  scrollingMode;  // to delete
     
     int         currentPageIndex;
 }
@@ -31,7 +30,6 @@
 @property BOOL fullWidth, isDraggingDestination;
 @property CGFloat topMargin, bottomMargin, sideMargin;
 @property (nonatomic, setter = setPageFormat:) paperSize pageFormat;
-//@property scrollType scrollingMode;
 @property int currentPageIndex;
 
 - (void)resizePLDocumentView;
@@ -41,7 +39,11 @@
 - (void)goToPage:(NSUInteger)pageNumber;
 - (void)saveDocumentViewToPDF;
 - (IBAction)insertImage:(id)sender;
-- (IBAction)insertSerie:(id)sender;
+- (IBAction)insertSeries:(id)sender;
+- (IBAction)insertPartial:(id)sender;
 - (void)insertImage:(DCMView*)dcm atIndex:(short)imgIndex toPage:(int)pageIndex inView:(NSUInteger)viewIndex;
+- (void)reshapeDocumentWithWidth:(NSUInteger)width andHeight:(NSUInteger)height;
+- (NSUInteger)getNumberOfViews;
+
 
 @end

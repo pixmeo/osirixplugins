@@ -118,7 +118,7 @@
     }
 }
 
-- (IBAction)importSerie:(id)sender
+- (IBAction)importSeries:(id)sender
 {
     NSPasteboard *pasteboard = [sender representedObject];
     
@@ -144,14 +144,6 @@
             NSUInteger nbImages = [[*draggedView dcmPixList] count];
             NSUInteger nbPages = ([*draggedView dcmPixList].count + 1) / 24 + 1;
             NSUInteger newHeight, newWidth;
-            
-            PLWindowController *wc = self.window.windowController;
-            [wc prepareImportBox:nbImages];
-//            [wc openImportBox];
-            
-            NSUInteger start = wc.importStart;
-            NSUInteger end = wc.importEnd;
-            NSUInteger increment = wc.importInterval;
             
             if (nbPages == 1)
             {
@@ -190,7 +182,7 @@
                             ++filledThumbs;
                     }
                 }
-
+                
                 for (NSUInteger i = 1; i < nbPages; ++i)
                 {
                     PLDocumentView *motherView = (PLDocumentView*)self.superview;
@@ -213,7 +205,96 @@
                 [(PLWindowController*)self.window.windowController updateWindowTitle];
             }
         }
+        
+        [self setNeedsDisplay:YES];
     }
+}
+
+- (IBAction)importPartialSeries:(id)sender
+{
+    NSPasteboard *pasteboard = [sender representedObject];
+    
+    if (![pasteboard dataForType:pasteBoardOsiriX])
+    {
+        NSLog(@"No data in pasteboardOsiriX");
+        return;
+    }
+    
+    if ([[pasteboard availableTypeFromArray:[NSArray arrayWithObject:pasteBoardOsiriX]] isEqualToString:pasteBoardOsiriX])
+    {
+        if (![pasteboard dataForType:pasteBoardOsiriX])
+        {
+            NSLog(@"No data in pasteboardOsiriX");
+            return;
+        }
+        else
+        {
+            DCMView **draggedView = (DCMView**)malloc(sizeof(DCMView*));
+            NSData *draggedData = [pasteboard dataForType:pasteBoardOsiriX];
+            [draggedData getBytes:draggedView length:sizeof(DCMView*)];
+            
+            NSUInteger nbImages = [[*draggedView dcmPixList] count];
+            
+            PLWindowController *wc = self.window.windowController;
+            [wc prepareImportBox:nbImages];
+            
+            [NSApp beginSheet:[wc importWindow] modalForWindow:self.window modalDelegate:self didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) contextInfo:*draggedView];
+            
+            free(draggedView);
+            
+            [self setNeedsDisplay:YES];
+        }
+    }
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    DCMView *dicomView =(DCMView*)contextInfo;
+    PLWindowController *wc = self.window.windowController;
+    NSUInteger start = wc.importStart - 1;
+    NSUInteger increment = wc.importInterval;
+    
+    NSUInteger nbImages = (wc.importEnd - wc.importStart + 1) / increment;
+    NSUInteger imgPerPage = wc.importWidth * wc.importHeight;
+    
+    NSUInteger nbPages = nbImages % imgPerPage ? 1 + nbImages / imgPerPage : nbImages / imgPerPage;
+    NSUInteger  newHeight   = wc.importHeight,
+                newWidth    = wc.importWidth;
+    
+    // Create enough pages to import all desired images and resize them to the desired layout
+    if (![self updateLayoutViewWidth:newWidth height:newHeight])
+        return;
+    
+    PLDocumentView *motherView = (PLDocumentView*)self.superview;
+    NSUInteger currentPage = motherView.currentPageIndex;
+    if (nbPages > 1)
+    {
+        for (NSUInteger i = 1; i < nbPages; ++i)
+        {
+            NSUInteger pageIndex = currentPage + i;
+            [motherView insertPageAtIndex:pageIndex];
+            PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:pageIndex];
+            
+            if (![pageToFill updateLayoutViewWidth:newWidth height:newHeight])
+                return;
+        }
+    }
+    
+    // Import images
+    for (NSUInteger i = 0; i < nbPages; ++i)
+    {
+        PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:i + currentPage];
+        
+        for (NSUInteger j = 0; j < imgPerPage; ++j)
+        {
+            PLThumbnailView *thumb = [[pageToFill subviews] objectAtIndex:j];
+            if ([thumb fillView:j withDCMView:dicomView atIndex:start + j + imgPerPage * i])
+                pageToFill.filledThumbs++;
+        }
+    }
+    
+    [wc updateWindowTitle];
+    [self setNeedsDisplay:YES];
 }
 
 #pragma mark-Drag'n'Drop
@@ -374,11 +455,12 @@
             NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Import DICOM Menu"];
             NSMenuItem *menuItem;
 
-            menuItem = [theMenu insertItemWithTitle:@"Import Current image"    action:@selector(importImage:)   keyEquivalent:@"" atIndex:0];
+            menuItem = [theMenu insertItemWithTitle:@"Import Current image"     action:@selector(importImage:)          keyEquivalent:@"" atIndex:0];
             [menuItem setRepresentedObject:[sender draggingPasteboard]];
-            menuItem = [theMenu insertItemWithTitle:@"Import Whole serie"      action:@selector(importSerie:)   keyEquivalent:@"" atIndex:1];
+            menuItem = [theMenu insertItemWithTitle:@"Import Whole series"      action:@selector(importSeries:)         keyEquivalent:@"" atIndex:1];
             [menuItem setRepresentedObject:[sender draggingPasteboard]];
-//            [theMenu insertItemWithTitle:@"Import Bounded serie"    action:@selector(importBounded) keyEquivalent:@"" atIndex:2];
+            menuItem = [theMenu insertItemWithTitle:@"Import Part of series"    action:@selector(importPartialSeries:)  keyEquivalent:@"" atIndex:2];
+            [menuItem setRepresentedObject:[sender draggingPasteboard]];
             
             // Needed to get the location of the context menu
             NSEvent *fakeEvent = [NSEvent mouseEventWithType:NSLeftMouseDown

@@ -118,10 +118,10 @@
 
     NSArray * windowList = [NSApp windows];
     NSUInteger nbWindows = [windowList count];
-    
+
     switch (key)
     {
-        case 63251:
+        case NSF16FunctionKey:
             // Insert one image
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
@@ -187,9 +187,8 @@
             }
             break;
             
-        case 63252:
-            // Print the box
-            // Insert whole serie
+        case NSF17FunctionKey:
+            // Insert whole series
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
                 if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
@@ -222,16 +221,9 @@
             }
             break;
             
-        case 63253:
-            // Insert whole study
-            NSLog(@"Insert whole study.");
-//            for (NSUInteger i = 0; i < nbWindows; ++i)
-//            {
-//                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
-//                {
-//                    DicomStudy *studyToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] currentStudy];
-//                }
-//            }
+        case NSF18FunctionKey:
+            // Insert partial series
+            NSLog(@"Insert partial series.");
             break;
 
         case NSPageUpFunctionKey:
@@ -345,7 +337,12 @@
     [[self.subviews objectAtIndex:currentPageIndex] importImage:sender];
 }
 
-- (IBAction)insertSerie:(id)sender
+- (IBAction)insertSeries:(id)sender
+{
+    
+}
+
+- (IBAction)insertPartial:(id)sender
 {
     NSPasteboard *pasteboard = [sender representedObject];
     
@@ -361,7 +358,7 @@
         currentPageIndex = 0;
     }
     
-    [[self.subviews objectAtIndex:currentPageIndex] importSerie:sender];
+    [[self.subviews objectAtIndex:currentPageIndex] importPartialSeries:sender];
 }
 
 - (void)insertImage:(DCMView*)dcmImage atIndex:(short)imgIndex toPage:(int)pageIndex inView:(NSUInteger)viewIndex
@@ -391,12 +388,12 @@
 {
     NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Import DICOM Menu"];
     NSMenuItem *menuItem;
-    menuItem = [theMenu insertItemWithTitle:@"Import Current image"    action:@selector(insertImage:)   keyEquivalent:@"" atIndex:0];
+    menuItem = [theMenu insertItemWithTitle:@"Import Current image"         action:@selector(insertImage:)      keyEquivalent:@"" atIndex:0];
     [menuItem setRepresentedObject:[sender draggingPasteboard]];
-    menuItem = [theMenu insertItemWithTitle:@"Import Whole serie"      action:@selector(insertSerie:)   keyEquivalent:@"" atIndex:1];
+    menuItem = [theMenu insertItemWithTitle:@"Import Whole series"          action:@selector(insertSeries:)     keyEquivalent:@"" atIndex:1];
     [menuItem setRepresentedObject:[sender draggingPasteboard]];
-//    [theMenu insertItemWithTitle:@"Import Bounded serie"    action:@selector(importBounded) keyEquivalent:@"" atIndex:2];
-//    [menuItem setRepresentedObject:[sender draggingPasteboard]];
+    menuItem = [theMenu insertItemWithTitle:@"Import Part of series"    action:@selector(insertPartial:)    keyEquivalent:@"" atIndex:2];
+    [menuItem setRepresentedObject:[sender draggingPasteboard]];
     
     // Needed to get the location of the context menu
     NSEvent *fakeEvent = [NSEvent mouseEventWithType:NSLeftMouseDown
@@ -407,7 +404,7 @@
     
     [NSMenu popUpContextMenu:theMenu withEvent:fakeEvent forView:self];
 
-    // Does not work: problem with selectors
+    // Does not work: problem with selectors. Maybe check with the XploreWebRC project?
 //    NSPoint draglocation = [self convertPoint:[sender draggingLocation] fromView:nil];
 //    [theMenu setAutoenablesItems:false];  // Make the items
 //    [theMenu popUpMenuPositioningItem:nil atLocation:draglocation inView:self];
@@ -494,12 +491,14 @@
     [self setNeedsDisplay:YES];
 }
 
+// Add a new page at the end of the document
 - (void)newPage
 {
     [self addSubview:[[PLLayoutView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)]];
     [self resizePLDocumentView];
 }
 
+// Insert a new page in the document at a given index
 - (void)insertPageAtIndex:(NSUInteger)index
 {
     NSUInteger nbSubviews = self.subviews.count;
@@ -539,6 +538,56 @@
         [self resizePLDocumentView];
     }
 }
+
+// Reshape all the pages of the document
+- (void)reshapeDocumentWithWidth:(NSUInteger)width andHeight:(NSUInteger)height
+{
+    NSUInteger nbPages = self.subviews.count;
+    NSUInteger nbThumbs = [self getNumberOfViews];
+    
+    NSMutableArray *allDCMViews = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
+    
+    // Prepare the pages to be reshaped
+    for (NSUInteger i = 0; i < nbPages; ++i)
+    {
+        PLLayoutView *page = [self.subviews objectAtIndex:i];
+        
+        // Memorize the filled thumbnails
+        NSUInteger nbThumbs = page.subviews.count;
+        for (NSUInteger j = 0; j < nbThumbs; ++j)
+        {
+            PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
+            if (thumb.curDCM)
+                [allDCMViews addObject:thumb];
+        }
+        
+        // Clear the page
+        [page clearAllThumbnailsViews];
+    }
+    
+    // Reshape the pages and fill them with the stored DCMViews
+    for (NSUInteger i = 0; i < nbPages; ++i)
+    {
+        PLLayoutView *page = [self.subviews objectAtIndex:i];
+        if ([page updateLayoutViewWidth:width height:height])
+        {
+            [page reorderLayoutMatrix];
+        }
+    }
+    
+    NSUInteger pageSize = width * height;
+    for (NSUInteger i = 0; i < nbThumbs; ++i)
+    {
+        NSUInteger pageIndex = i / pageSize;
+        NSUInteger thumbIndex = i % pageSize;
+        DCMView *currentDCM = [allDCMViews objectAtIndex:i];
+        
+        [[self.subviews objectAtIndex:pageIndex] fillView:thumbIndex withDCMView:currentDCM atIndex:currentDCM.curImage];
+    }
+    
+    [self resizePLDocumentView];
+}
+
 
 #pragma mark-Export methods
 
@@ -718,6 +767,19 @@
 }
 
 #pragma mark-Other methods
+
+- (NSUInteger)getNumberOfViews
+{
+    NSUInteger nbThumbs = 0;
+    NSUInteger nbPages = self.subviews.count;
+    
+    for (NSUInteger i = 0; i < nbPages; ++i)
+        nbThumbs += ((PLLayoutView*)[self.subviews objectAtIndex:i]).filledThumbs;
+    
+    return nbThumbs;
+}
+
+
 
 @end
 

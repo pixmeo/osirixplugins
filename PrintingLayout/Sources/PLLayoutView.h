@@ -35,12 +35,13 @@
 - (void)reorderLayoutMatrix; // not sure it is really useful
 - (void)resizeLayoutView:(NSRect)frame;
 - (void)clearAllThumbnailsViews;
+- (void)insertImageAtIndex:(NSUInteger)index from:(id<NSDraggingInfo>)sender;
+- (void)saveLayoutViewToDicom;
 - (int)inThumbnailView:(NSPoint)p margin:(NSUInteger)m;
 - (int)getSubviewInsertIndexFrom:(NSPoint)p;
-- (void)insertImageAtIndex:(NSUInteger)index from:(id<NSDraggingInfo>)sender;
 - (int)findNextEmptyViewFrom:(NSUInteger)index;
-- (void)saveLayoutViewToDicom;
 - (IBAction)importImage:(id)sender;
-- (IBAction)importSerie:(id)sender;
+- (IBAction)importSeries:(id)sender;
+- (IBAction)importPartialSeries:(id)sender;
 
 @end

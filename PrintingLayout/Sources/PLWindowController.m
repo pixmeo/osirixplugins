@@ -6,6 +6,7 @@
 //
 //
 
+#import "PLLayoutView.h"
 #import "PLWindowController.h"
 #import <OsiriXAPI/N2CustomTitledPopUpButtonCell.h>
 #import <OsiriXAPI/ROI.h>
@@ -20,7 +21,8 @@
 @synthesize scrollViewFormat;
 @synthesize currentPage;
 @synthesize fullDocumentView;
-@synthesize importInterval, importStart, importEnd;
+@synthesize importInterval, importStart, importEnd, importWidth, importHeight;
+@synthesize importWindow;
 
 #define UNDOQUEUESIZE 40
 
@@ -122,7 +124,15 @@
     }
 }
 
-- (IBAction)reshapeLayout:(id)sender {
+- (IBAction)reshapeLayout:(id)sender
+{
+    NSString * name = [[layoutChoiceButton selectedItem] title];
+    NSArray * c = [name componentsSeparatedByString:@"x"];
+    
+    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
+    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
+    
+    [fullDocumentView reshapeDocumentWithWidth:newWidth andHeight:newHeight];    
 }
 
 - (IBAction)adjustLayoutWidth:(id)sender
@@ -211,13 +221,82 @@
         [importEndSlider        setEnabled:YES];
     }
     
-//    [NSApp runModalForWindow:importPanel];
-//    [NSApp beginSheet:importWindow modalForWindow:self.window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+    self.importInterval = importIntervalSlider.integerValue;
+    self.importStart    = importStartSlider.integerValue;
+    self.importEnd      = importEndSlider.integerValue;
+    self.importWidth    = 1;
+    self.importHeight   = 1;
+    
+    [self updateImportPageNumber];
 }
 
-
-- (void)openImportBox
+- (IBAction)importParameters:(id)sender
 {
+    [NSApp endSheet:importWindow];
+    [importWindow orderOut:self];
+}
+
+- (IBAction)intervalSliderAction:(id)sender
+{
+    [importIntervalText takeIntegerValueFrom:importIntervalSlider];
+    self.importInterval = importIntervalSlider.integerValue;
+    
+    [self updateImportPageNumber];
+}
+
+- (IBAction)startSliderAction:(id)sender
+{
+    [importStartText    takeIntValueFrom:importStartSlider];
+    self.importStart = importStartSlider.integerValue;
+    
+    if (importStartSlider.intValue > importEndSlider.intValue)
+    {
+        self.importEnd = importStart;
+        [importEndSlider    setIntegerValue:importEnd];
+        [importEndText      setIntegerValue:importEnd];
+    }
+    
+    [self updateImportPageNumber];
+}
+
+- (IBAction)endSliderAction:(id)sender
+{
+    [importEndText  takeIntValueFrom:importEndSlider];
+    self.importEnd = importEndSlider.integerValue;
+    
+    if (importStartSlider.intValue > importEndSlider.intValue)
+    {
+        self.importStart = importEnd;
+        [importStartSlider  setIntegerValue:importStart];
+        [importStartText    setIntegerValue:importStart];
+    }
+    
+    [self updateImportPageNumber];
+}
+
+- (IBAction)importLayoutChoice:(id)sender
+{
+    NSString * name = [[importLayoutButton selectedItem] title];
+    NSArray * c = [name componentsSeparatedByString:@"x"];
+    
+    self.importWidth = [[c objectAtIndex:0] integerValue];
+    self.importHeight = [[c objectAtIndex:1] integerValue];
+    
+    [self updateImportPageNumber];
+}
+
+- (void)updateImportPageNumber
+{
+    NSUInteger nbImages, imgPerPage, nbPages;
+    nbImages = (importEnd - importStart + 1) / importInterval;
+    imgPerPage = importWidth * importHeight;
+    
+    if (nbImages % imgPerPage)
+        nbPages = 1 + nbImages / imgPerPage;
+    else
+        nbPages = nbImages / imgPerPage;
+
+    [pagesImport setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d pages", nil), nbPages]];
 }
 
 #pragma mark-Export actions
@@ -318,26 +397,30 @@
 {
     PLDocumentView* docView = [[scrollView.documentView subviews] objectAtIndex:0];
     
-    NSUInteger bottom = docView.bottomMargin;
-    NSUInteger pageHeight = [[docView.subviews objectAtIndex:0] frame].size.height;
-    int yPosition = scrollView.documentVisibleRect.origin.y;
-    
-    if (pageHeight || bottom)
+    if (docView.subviews.count)
     {
-        NSUInteger currentPosition = (yPosition + pageHeight/2) / (pageHeight + bottom);
+        NSUInteger bottom = docView.bottomMargin;
+        NSUInteger pageHeight = [[docView.subviews objectAtIndex:0] frame].size.height;
+        int yPosition = scrollView.documentVisibleRect.origin.y;
         
-        if (yPosition >= 0 && currentPage != currentPosition)
+        if (pageHeight || bottom)
         {
-            self.currentPage = currentPosition;
-            docView.currentPageIndex = currentPage;
-            [self updateWindowTitle];
-            [self layoutMatrixUpdated];
+            NSUInteger currentPosition = (yPosition + pageHeight/2) / (pageHeight + bottom);
+            
+            if (yPosition >= 0 && currentPage != currentPosition)
+            {
+                self.currentPage = currentPosition;
+                docView.currentPageIndex = currentPage;
+                [self layoutMatrixUpdated];
+            }
         }
     }
+    
+    [self updateWindowTitle];
 }
 
 #pragma mark-Undo management
-//Cf. ViewerController.m
+//Cf. ViewerController.m from OsiriX API
 
 - (void)bringToFrontROI:(ROI*)roi
 {

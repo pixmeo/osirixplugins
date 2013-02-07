@@ -27,7 +27,7 @@ typedef enum shrinkTypeEnum {
     
     shrinkType shrinking;   // side where the shrinking has been done
     NSRect originalFrame;   // in case of shrinking
-    NSInteger layoutIndex;
+    NSInteger layoutIndex;  // Could be deleted?
 }
 
 @property BOOL isDraggingDestination, isGoingToBeSelected, isSelected;
@@ -37,7 +37,7 @@ typedef enum shrinkTypeEnum {
 
 - (void)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard;
 - (BOOL)fillView:(NSInteger)gridIndex withPasteboard:(NSPasteboard*)pasteboard atIndex:(NSInteger)imageIndex;
-- (void)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
+- (BOOL)fillView:(NSInteger)gridIndex withDCMView:(DCMView*)dcm atIndex:(NSInteger)imageIndex;
 - (void)shrinkWidth:(int)marginSize onIts:(shrinkType)side;
 - (void)backToOriginalSize;
 - (void)clearView;

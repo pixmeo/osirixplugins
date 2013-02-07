@@ -29,9 +29,9 @@
     NSLayoutConstraint      *ratioConstraint;
     NSInteger               currentPage;
     
+    // Attributes specific to "whole serie import box"
     IBOutlet NSPanel        *importPanel;
     IBOutlet NSWindow       *importWindow;
-//    IBOutlet NSBox          *importBox;
     IBOutlet NSSlider       *importIntervalSlider;
     IBOutlet NSSlider       *importStartSlider;
     IBOutlet NSSlider       *importEndSlider;
@@ -39,14 +39,17 @@
     IBOutlet NSTextField    *importStartText;
     IBOutlet NSTextField    *importEndText;
     IBOutlet NSTextField    *pagesImport;
-    NSUInteger              importInterval, importStart, importEnd;
+    NSUInteger              importInterval, importStart, importEnd, importWidth, importHeight;
+    IBOutlet NSPopUpButton  *importLayoutButton;
+//    IBOutlet NSPopUpButton  *importLayout;
 }
 
 @property NSUInteger                heightValue, widthValue;
 @property paperSize                 scrollViewFormat;
 @property NSInteger                 currentPage;
 @property (readonly) PLDocumentView *fullDocumentView;
-@property NSUInteger                importInterval, importStart, importEnd;
+@property NSUInteger                importInterval, importStart, importEnd, importWidth, importHeight;
+@property (readonly) NSWindow       *importWindow;
 
 - (IBAction)addPage:(id)sender;
 - (IBAction)deletePage:(id)sender;
@@ -61,6 +64,12 @@
 - (IBAction)adjustLayoutWidth:(id)sender;
 - (IBAction)adjustLayoutHeight:(id)sender;
 - (IBAction)pageByPageNavigation:(id)sender;
+- (IBAction)importParameters:(id)sender;
+- (IBAction)intervalSliderAction:(id)sender;
+- (IBAction)startSliderAction:(id)sender;
+- (IBAction)endSliderAction:(id)sender;
+- (IBAction)importLayoutChoice:(id)sender;
+- (void)updateImportPageNumber;
 - (void)updateHeight;
 - (void)updateWidth;
 - (void)layoutMatrixUpdated;
@@ -68,6 +77,5 @@
 - (void)currentPageUpdated;
 - (void)saveAllROIs;
 - (void)prepareImportBox:(NSUInteger)serieSize;
-- (void)openImportBox;
 
 @end
