@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		7170F8F6151A010100DC48DF /* Reporter.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 7170F8F5151A010100DC48DF /* Reporter.applescript */; };
+		717FD96216C4E06B00CE8222 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717FD96116C4E06B00CE8222 /* Cocoa.framework */; };
+		717FD97416C4E67B00CE8222 /* ReporterPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 717FD97316C4E67B00CE8222 /* ReporterPrefs.xib */; };
+		717FD97716C4E69900CE8222 /* ReporterPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 717FD97616C4E69900CE8222 /* ReporterPrefsController.m */; };
+		717FD97916C4E71200CE8222 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717FD97816C4E71200CE8222 /* PreferencePanes.framework */; };
+		717FD97A16C4EA4800CE8222 /* ReporterPrefs.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 717FD95F16C4E06B00CE8222 /* ReporterPrefs.prefPane */; };
 		71CD3888151B7657008B5E86 /* KBPopUpToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 71CD3886151B7657008B5E86 /* KBPopUpToolbarItem.h */; };
 		71CD3889151B7657008B5E86 /* KBPopUpToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD3887151B7657008B5E86 /* KBPopUpToolbarItem.m */; };
 		71FD07B8151B5FA5001DA7FE /* Reporter.png in Resources */ = {isa = PBXBuildFile; fileRef = 71FD07B7151B5FA5001DA7FE /* Reporter.png */; };
@@ -18,12 +23,32 @@
 		ABA48A670680BB690089EB4F /* ReporterFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* ReporterFilter.mm */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		717FD97116C4E0C900CE8222 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 717FD95E16C4E06B00CE8222;
+			remoteInfo = ReporterPrefs;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Reporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reporter_Prefix.pch; path = Sources/Reporter_Prefix.pch; sourceTree = "<group>"; };
 		7170F8F5151A010100DC48DF /* Reporter.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; name = Reporter.applescript; path = Resources/Reporter.applescript; sourceTree = "<group>"; };
+		717FD95F16C4E06B00CE8222 /* ReporterPrefs.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReporterPrefs.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		717FD96116C4E06B00CE8222 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		717FD96416C4E06B00CE8222 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		717FD96516C4E06B00CE8222 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		717FD96616C4E06B00CE8222 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		717FD96916C4E06B00CE8222 /* ReporterPrefs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ReporterPrefs-Info.plist"; path = "../Resources/ReporterPrefs-Info.plist"; sourceTree = "<group>"; };
+		717FD97316C4E67B00CE8222 /* ReporterPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReporterPrefs.xib; path = Resources/ReporterPrefs.xib; sourceTree = SOURCE_ROOT; };
+		717FD97516C4E69900CE8222 /* ReporterPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReporterPrefsController.h; path = Sources/ReporterPrefsController.h; sourceTree = SOURCE_ROOT; };
+		717FD97616C4E69900CE8222 /* ReporterPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReporterPrefsController.m; path = Sources/ReporterPrefsController.m; sourceTree = SOURCE_ROOT; };
+		717FD97816C4E71200CE8222 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = ../../../../../../System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<group>"; };
 		71CD3886151B7657008B5E86 /* KBPopUpToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBPopUpToolbarItem.h; path = Sources/KBPopUpToolbarItem.h; sourceTree = "<group>"; };
 		71CD3887151B7657008B5E86 /* KBPopUpToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBPopUpToolbarItem.m; path = Sources/KBPopUpToolbarItem.m; sourceTree = "<group>"; };
 		71FD07B7151B5FA5001DA7FE /* Reporter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Reporter.png; path = Resources/Reporter.png; sourceTree = "<group>"; };
@@ -35,6 +60,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		717FD95C16C4E06B00CE8222 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				717FD96216C4E06B00CE8222 /* Cocoa.framework in Frameworks */,
+				717FD97916C4E71200CE8222 /* PreferencePanes.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B3048680CD000E48DA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,10 +84,13 @@
 		089C166AFE841209C02AAC07 /* Reporter */ = {
 			isa = PBXGroup;
 			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				717FD96716C4E06B00CE8222 /* ReporterPrefs */,
+				717FD96016C4E06B00CE8222 /* Frameworks */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
 			);
 			name = Reporter;
@@ -72,7 +109,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8D5B49B7048680CD000E48DA /* Info.plist */,
 				7170F8F5151A010100DC48DF /* Reporter.applescript */,
 				71FD07B7151B5FA5001DA7FE /* Reporter.png */,
 			);
@@ -109,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				AB5D36050680E57E00F4007A /* Reporter.osirixplugin */,
+				717FD95F16C4E06B00CE8222 /* ReporterPrefs.prefPane */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,6 +158,37 @@
 				71CD3887151B7657008B5E86 /* KBPopUpToolbarItem.m */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		717FD96016C4E06B00CE8222 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				717FD97816C4E71200CE8222 /* PreferencePanes.framework */,
+				717FD96116C4E06B00CE8222 /* Cocoa.framework */,
+				717FD96316C4E06B00CE8222 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		717FD96316C4E06B00CE8222 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				717FD96416C4E06B00CE8222 /* AppKit.framework */,
+				717FD96516C4E06B00CE8222 /* CoreData.framework */,
+				717FD96616C4E06B00CE8222 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		717FD96716C4E06B00CE8222 /* ReporterPrefs */ = {
+			isa = PBXGroup;
+			children = (
+				717FD96916C4E06B00CE8222 /* ReporterPrefs-Info.plist */,
+				717FD97316C4E67B00CE8222 /* ReporterPrefs.xib */,
+				717FD97516C4E69900CE8222 /* ReporterPrefsController.h */,
+				717FD97616C4E69900CE8222 /* ReporterPrefsController.m */,
+			);
+			path = ReporterPrefs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +207,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		717FD95E16C4E06B00CE8222 /* ReporterPrefs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 717FD96E16C4E06B00CE8222 /* Build configuration list for PBXNativeTarget "ReporterPrefs" */;
+			buildPhases = (
+				717FD95B16C4E06B00CE8222 /* Sources */,
+				717FD95C16C4E06B00CE8222 /* Frameworks */,
+				717FD95D16C4E06B00CE8222 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReporterPrefs;
+			productName = ReporterPrefs;
+			productReference = 717FD95F16C4E06B00CE8222 /* ReporterPrefs.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
 		8D5B49AC048680CD000E48DA /* Reporter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Reporter" */;
@@ -152,6 +237,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				717FD97216C4E0C900CE8222 /* PBXTargetDependency */,
 			);
 			name = Reporter;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -176,22 +262,33 @@
 				Japanese,
 				French,
 				German,
+				en,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Reporter */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Reporter */,
+				717FD95E16C4E06B00CE8222 /* ReporterPrefs */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		717FD95D16C4E06B00CE8222 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				717FD97416C4E67B00CE8222 /* ReporterPrefs.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49AF048680CD000E48DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				71FD07B8151B5FA5001DA7FE /* Reporter.png in Resources */,
+				717FD97A16C4EA4800CE8222 /* ReporterPrefs.prefPane in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +305,14 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		717FD95B16C4E06B00CE8222 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				717FD97716C4E69900CE8222 /* ReporterPrefsController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,7 +325,87 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		717FD97216C4E0C900CE8222 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 717FD95E16C4E06B00CE8222 /* ReporterPrefs */;
+			targetProxy = 717FD97116C4E0C900CE8222 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		717FD96F16C4E06B00CE8222 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Resources/ReporterPrefs-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Development;
+		};
+		717FD97016C4E06B00CE8222 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "Resources/ReporterPrefs-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Deployment;
+		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -245,7 +430,6 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -284,7 +468,6 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -306,30 +489,32 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};
 		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.7;
 			};
 			name = Deployment;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		717FD96E16C4E06B00CE8222 /* Build configuration list for PBXNativeTarget "ReporterPrefs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				717FD96F16C4E06B00CE8222 /* Development */,
+				717FD97016C4E06B00CE8222 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Reporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

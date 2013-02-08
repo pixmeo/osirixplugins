@@ -15,6 +15,8 @@
 #import <OsiriXAPI/SRAnnotation.h>
 #import <OsiriXAPI/DCMView.h>
 #import <OsiriXAPI/N2Stuff.h>
+#import <OsiriXAPI/NSUserDefaults+OsiriX.h>
+#import <OsiriXAPI/PreferencesWindowController.h>
 
 #import <objc/runtime.h>
 //#import <OsiriXAPI/BrowserController.h>
@@ -34,6 +36,10 @@
 
 -(void)initPlugin {
     [self _initToolbarItems];
+    
+    NSImage* image = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForImageResource:@"Reporter"]] autorelease];
+	[PreferencesWindowController addPluginPaneWithResourceNamed:@"ReporterPrefs" inBundle:[NSBundle bundleForClass:[self class]] withTitle:NSLocalizedString(@"Reporter", nil) image:image];
+
 }
 
 +(NSString*)saveImageInTmp:(NSImage*)image {
@@ -78,6 +84,8 @@
     [caption appendFormat:NSLocalizedString(@"Frame %@ of series %@", @"caption"), image.instanceNumber, image.series.name];
     if (rois.count)
         [caption appendFormat:NSLocalizedString(@", containing %@", @"suffix of report image caption for ROIs count"), N2LocalizedSingularPluralCount(rois.count, NSLocalizedString(@"ROI", nil), NSLocalizedString(@"ROIs", nil))];
+    if ([NSUserDefaults.standardUserDefaults boolForKey:@"ReporterIncludeStudyDateInImageCaptions"])
+        [caption appendFormat:NSLocalizedString(@", %@", @"when appending dates"), [NSUserDefaults formatDate:image.series.study.date]];
     return caption;
 }
 

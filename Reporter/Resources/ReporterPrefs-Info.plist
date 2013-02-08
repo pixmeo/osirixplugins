@@ -5,24 +5,24 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Reporter</string>
+	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>NSPrincipalClass</key>
-	<string>ReporterFilter</string>
-	<key>MenuTitles</key>
-	<array>
-		<string>Add current image to Report</string>
-	</array>
-	<key>pluginType</key>
-	<string>imageFilter</string>
+	<string>ReporterPrefsController</string>
+	<key>NSMainNibFile</key>
+	<string>ReporterPrefs</string>
 </dict>
 </plist>

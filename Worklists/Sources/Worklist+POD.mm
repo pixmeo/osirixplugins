@@ -205,17 +205,17 @@
 
                                             NSArray* studies = [db objectsForEntity:db.studyEntity predicate:[NSPredicate predicateWithFormat:@"patientID = %@ AND accessionNumber = %@ AND studyInstanceUID = %@", remoteStudyNode.patientID, remoteStudyNode.accessionNumber, remoteStudyNode.studyInstanceUID]];
                                             if (!studies.count) {
-                                                studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                                                       istudy.name, @"PatientsName",
-                                                                                                                       istudy.patientID, @"PatientID",
-                                                                                                                       istudy.dateOfBirth, @"PatientsBirthDate",
-                                                                                                                       istudy.patientSex, @"PatientsSex",
-                                                                                                                       remoteStudyNode.studyInstanceUID, @"StudyInstanceUID",
-                                                                                                                       remoteStudyNode.studyName, @"RequestedProcedureDescription",
-                                                                                                                       remoteStudyNode.date, @"Date",
-                                                                                                                       remoteStudyNode.modality, @"Modality",
-                                                                                                                       remoteStudyNode.accessionNumber, @"AccessionNumber",
-                                                                                                                       nil]]];
+                                                NSMutableDictionary* entry = [NSMutableDictionary dictionary];
+                                                if (istudy.name) [entry setObject:istudy.name forKey:@"PatientsName"];
+                                                if (istudy.patientID) [entry setObject:istudy.patientID forKey:@"PatientID"];
+                                                if (istudy.dateOfBirth) [entry setObject:istudy.dateOfBirth forKey:@"PatientsBirthDate"];
+                                                if (istudy.patientSex) [entry setObject:istudy.patientSex forKey:@"PatientsSex"];
+                                                if (remoteStudyNode.studyInstanceUID) [entry setObject:remoteStudyNode.studyInstanceUID forKey:@"StudyInstanceUID"];
+                                                if (remoteStudyNode.studyName) [entry setObject:remoteStudyNode.studyName forKey:@"RequestedProcedureDescription"];
+                                                if (remoteStudyNode.date) [entry setObject:remoteStudyNode.date forKey:@"Date"];
+                                                if (remoteStudyNode.modality) [entry setObject:remoteStudyNode.modality forKey:@"Modality"];
+                                                if (remoteStudyNode.accessionNumber) [entry setObject:remoteStudyNode.accessionNumber forKey:@"AccessionNumber"];
+                                                studies = [NSArray arrayWithObject:[self database:db createEmptyStudy:entry]];
                                                 refresh = YES;
                                             }
                                             
