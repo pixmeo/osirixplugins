@@ -59,10 +59,10 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
+//- (void)dealloc
+//{
+//    [super dealloc];
+//}
 
 //- (BOOL)acceptsFirstResponder
 //{

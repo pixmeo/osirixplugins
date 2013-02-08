@@ -19,15 +19,12 @@
     int previousLeftShrink;
     int previousRightShrink;
     int mouseTool;
-    
-//    paperSize layoutFormat;
 }
 
 @property NSUInteger layoutMatrixWidth, layoutMatrixHeight;
 @property NSUInteger filledThumbs;
 @property BOOL isDraggingDestination;
 @property int mouseTool;
-//@property paperSize layoutFormat;
 @property int draggedThumbnailIndex, currentInsertingIndex;
 @property int previousLeftShrink, previousRightShrink;
 

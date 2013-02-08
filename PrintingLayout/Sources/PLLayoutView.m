@@ -18,7 +18,6 @@
 @synthesize layoutMatrixWidth, layoutMatrixHeight;
 @synthesize filledThumbs;
 @synthesize mouseTool;
-//@synthesize layoutFormat;
 @synthesize draggedThumbnailIndex, currentInsertingIndex;
 @synthesize previousLeftShrink, previousRightShrink;
 
@@ -39,10 +38,7 @@
         self.previousLeftShrink      = -1;
         self.previousRightShrink     = -1;
         
-//        self.layoutFormat            = paper_A4;
-    
         [self registerForDraggedTypes:[NSArray arrayWithObjects:NSURLPboardType, NSTIFFPboardType, pasteBoardOsiriX, nil]];
-//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizeLayoutView) name:NSViewBoundsDidChangeNotification object:nil];
     }
     
     return self;
@@ -153,8 +149,6 @@
                 if (newHeight * newWidth < nbImages)
                     ++newHeight;
                 
-                free(draggedView);
-                
                 if ([self updateLayoutViewWidth:newWidth height:newHeight])
                 {
                     [[[self window] windowController] layoutMatrixUpdated];
@@ -204,6 +198,8 @@
                 
                 [(PLWindowController*)self.window.windowController updateWindowTitle];
             }
+            
+            free(draggedView);
         }
         
         [self setNeedsDisplay:YES];
@@ -576,7 +572,7 @@
         if (currentSize < newSize)
         {
             while ([[self subviews] count] < newSize)
-                [self addSubview:[[PLThumbnailView alloc] init]];
+                [self addSubview:[[[PLThumbnailView alloc] init] autorelease]];
         }
         // If the new layout has less thumbnails than the previous one
         else
@@ -606,7 +602,7 @@
                 NSUInteger xOrigin = roundf(x * i);
                 NSUInteger yOrigin = roundf(viewSize.height - y*(j+1));
                 NSRect frame = NSMakeRect(xOrigin, yOrigin, roundf(x*(i+1)) - xOrigin, roundf(viewSize.height - y*j) - yOrigin);
-                PLThumbnailView * v = [[PLThumbnailView alloc] initWithFrame:frame];
+                PLThumbnailView * v = [[[PLThumbnailView alloc] initWithFrame:frame] autorelease];
                 [self addSubview:v];
             }
     }

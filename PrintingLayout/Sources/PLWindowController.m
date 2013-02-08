@@ -37,7 +37,7 @@
         self.widthValue          = 0;
         self.currentPage         = -1;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated) name:NSViewBoundsDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated:) name:NSViewBoundsDidChangeNotification object:scrollView.contentView];
     }
     
     return self;
@@ -64,7 +64,7 @@
 	else if ([sender respondsToSelector:@selector(tag)])
 		toolIndex = [sender tag];
     
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] setMouseTool:toolIndex];
+    [[fullDocumentView.subviews objectAtIndex:currentPage] setMouseTool:toolIndex];
 }
 
 #pragma mark-Layout management
@@ -114,14 +114,14 @@
 //    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
 //    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
 //    
-//    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
+//    if ([[fullDocumentView.subviews objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
 //    {
 //        self.widthValue = newWidth;
 //        self.heightValue = newHeight;
 //        [self updateWidth];
 //        [self updateHeight];
 //        
-//        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
+//        [[fullDocumentView.subviews objectAtIndex:currentPage] reorderLayoutMatrix];
 //        [fullDocumentView resizePLDocumentView];
 //    }
 }
@@ -131,25 +131,28 @@
     NSString * name = [layoutChoiceButton selectedItem].title;
     NSArray * c = [name componentsSeparatedByString:@"x"];
     
-    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
-    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
-    
-    [fullDocumentView reshapeDocumentWithWidth:newWidth andHeight:newHeight];
-    [self updateWindowTitle];
-    [self layoutMatrixUpdated];
+    if (c.count == 2)
+    {
+        NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
+        NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
+        
+        [fullDocumentView reshapeDocumentWithWidth:newWidth andHeight:newHeight];
+        [self updateWindowTitle];
+        [self layoutMatrixUpdated];
+    }
 }
 
 - (IBAction)adjustLayoutWidth:(id)sender
 {
     NSUInteger newWidth = [sender integerValue];
     
-    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:heightValue])
+    if ([[fullDocumentView.subviews objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:heightValue])
     {
         self.widthValue = newWidth;
         [self updateWidth];
         
-        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
-        [fullDocumentView resizePLDocumentView];
+        [[fullDocumentView.subviews objectAtIndex:currentPage] reorderLayoutMatrix];
+        [fullDocumentView resizePLDocumentView:nil];
     }
 }
 
@@ -157,13 +160,13 @@
 {
     NSUInteger newHeight = [sender integerValue];
     
-    if ([[[fullDocumentView subviews] objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:newHeight])
+    if ([[fullDocumentView.subviews objectAtIndex:currentPage] updateLayoutViewWidth:widthValue height:newHeight])
     {
         self.heightValue = newHeight;
         [self updateHeight];
         
-        [[[fullDocumentView subviews] objectAtIndex:currentPage] reorderLayoutMatrix];
-        [fullDocumentView resizePLDocumentView];
+        [[fullDocumentView.subviews objectAtIndex:currentPage] reorderLayoutMatrix];
+        [fullDocumentView resizePLDocumentView:nil];
     }
 }
 
@@ -182,16 +185,15 @@
 // Used when the stepper and text field need to be updated from the layout view (adding a column or line)
 - (void)layoutMatrixUpdated
 {
-    [self currentPageUpdated];
-    self.heightValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixHeight];
-    self.widthValue = [[[fullDocumentView subviews] objectAtIndex:currentPage] layoutMatrixWidth];
+    self.heightValue    = [[fullDocumentView.subviews objectAtIndex:currentPage] layoutMatrixHeight];
+    self.widthValue     = [[fullDocumentView.subviews objectAtIndex:currentPage] layoutMatrixWidth];
     [self updateHeight];
     [self updateWidth];
 }
 
 - (IBAction)clearViewsInLayout:(id)sender
 {
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] clearAllThumbnailsViews];
+    [[fullDocumentView.subviews objectAtIndex:currentPage] clearAllThumbnailsViews];
 }
 
 #pragma mark-Import actions
@@ -283,8 +285,8 @@
     NSString * name = [[importLayoutButton selectedItem] title];
     NSArray * c = [name componentsSeparatedByString:@"x"];
     
-    self.importWidth = [[c objectAtIndex:0] integerValue];
-    self.importHeight = [[c objectAtIndex:1] integerValue];
+    self.importWidth    = [[c objectAtIndex:0] integerValue];
+    self.importHeight   = [[c objectAtIndex:1] integerValue];
     
     [self updateImportPageNumber];
 }
@@ -315,10 +317,8 @@
         ViewerController *originalWindow = [[windowList objectAtIndex:i] windowController];
         
         if ([originalWindow.className isEqualToString:@"ViewerController"])
-        {
             for (NSUInteger j = 0; j < originalWindow.maxMovieIndex; ++j)
                 [originalWindow saveROI:j];
-        }
     }
 }
 
@@ -328,7 +328,7 @@
     [self saveAllROIs];
     
     // Export the PLDocumentView into a DICOM file
-    [[[fullDocumentView subviews] objectAtIndex:currentPage] saveLayoutViewToDicom];
+    [[fullDocumentView.subviews objectAtIndex:currentPage] saveLayoutViewToDicom];
 }
 
 - (IBAction)exportViewToPDF:(id)sender
@@ -388,16 +388,12 @@
 - (void)updateWindowTitle
 {
     if (scrollViewFormat && [[[scrollView.documentView subviews] objectAtIndex:0] subviews].count)
-    {
-        [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", currentPage < 0 ? 1 : (int)currentPage + 1, (int)[[fullDocumentView subviews] count]]];
-    }
+        [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", currentPage < 0 ? 1 : (int)currentPage + 1, (int)[fullDocumentView.subviews count]]];
     else
-    {
         [[self window] setTitle:@"Printing Layout"];
-    }
 }
 
-- (void)currentPageUpdated
+- (void)currentPageUpdated:(NSNotification*)notification
 {
     PLDocumentView* docView = [[scrollView.documentView subviews] objectAtIndex:0];
     

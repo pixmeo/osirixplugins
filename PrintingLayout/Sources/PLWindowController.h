@@ -73,7 +73,7 @@
 - (void)updateWidth;
 - (void)layoutMatrixUpdated;
 - (void)updateWindowTitle;
-- (void)currentPageUpdated;
+- (void)currentPageUpdated:(NSNotification*)notification;
 - (void)saveAllROIs;
 - (void)prepareImportBox:(NSUInteger)serieSize;
 

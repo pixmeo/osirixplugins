@@ -32,7 +32,7 @@
 @property (nonatomic, setter = setPageFormat:) paperSize pageFormat;
 @property int currentPageIndex;
 
-- (void)resizePLDocumentView;
+- (void)resizePLDocumentView:(NSNotification*)notification;
 - (PLLayoutView*)newPage;
 - (void)removeCurrentPage;
 - (void)clearDocument;

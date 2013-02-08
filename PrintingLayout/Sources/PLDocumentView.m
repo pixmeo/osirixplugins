@@ -45,8 +45,8 @@
 
         // Create the PLLayoutView
         NSRect layoutFrame = NSMakeRect(sideMargin, topMargin, frame.size.width - 2 * sideMargin, frame.size.height - bottomMargin);
-        [self addSubview:[[PLLayoutView alloc] initWithFrame:layoutFrame]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizePLDocumentView) name:NSViewFrameDidChangeNotification object:nil];
+        [self addSubview:[[[PLLayoutView alloc] initWithFrame:layoutFrame] autorelease]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizePLDocumentView:) name:NSViewFrameDidChangeNotification object:nil];
         [self registerForDraggedTypes:[NSArray arrayWithObjects:pasteBoardOsiriX, nil]];
     }
     
@@ -90,7 +90,7 @@
 {
     pageFormat = format;
     
-    [self resizePLDocumentView];
+    [self resizePLDocumentView:nil];
     [self setNeedsDisplay:YES];
 }
 
@@ -135,7 +135,7 @@
                     if (!nbPages || pageIndex < 0)
                     {
                         NSRect layoutFrame = NSMakeRect(sideMargin, topMargin, self.frame.size.width - 2 * sideMargin, self.frame.size.height - bottomMargin);
-                        [self addSubview:[[PLLayoutView alloc] initWithFrame:layoutFrame]];
+                        [self addSubview:[[[PLLayoutView alloc] initWithFrame:layoutFrame] autorelease]];
                         pageIndex = 0;
                         viewIndex = 0;
                     }
@@ -414,9 +414,13 @@
 
 #pragma mark-Layout management
 
-- (void)resizePLDocumentView
+- (void)resizePLDocumentView:(NSNotification*)notification
 {
+    if (notification && !([notification.object class] == [PLDocumentView class]))
+        return;
+    
     NSUInteger nbPages = self.subviews.count;   // One PLLayoutView = one page = one subview
+    
     if (nbPages)
     {
         NSRect fullFrame = self.enclosingScrollView.bounds;
@@ -479,9 +483,10 @@
 // Add a new page at the end of the document
 - (PLLayoutView*)newPage
 {
-    [self addSubview:[[PLLayoutView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)]];
-    [self resizePLDocumentView];
-    return [self.subviews lastObject];
+    PLLayoutView *page = [[[PLLayoutView alloc] initWithFrame:NSZeroRect] autorelease];
+    [self addSubview:page];
+    [self resizePLDocumentView:nil];
+    return page;
 }
 
 // Insert a new page in the document at a given index
@@ -490,7 +495,7 @@
     NSUInteger nbSubviews = self.subviews.count;
     if (index < nbSubviews - 1)
     {
-        NSMutableArray *shiftedViews = [[NSMutableArray alloc] initWithCapacity:nbSubviews - index];
+        NSMutableArray *shiftedViews = [[[NSMutableArray alloc] initWithCapacity:nbSubviews - index] autorelease];
         // Store views that will be shifted
         while (self.subviews.count > index)
         {
@@ -499,14 +504,14 @@
         }
 
         // Insert view
-        [self addSubview:[[PLLayoutView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)]];
+        [self addSubview:[[[PLLayoutView alloc] initWithFrame:NSZeroRect] autorelease]];
         
         // Put back views
         for (NSInteger i = nbSubviews - index - 1; i >= 0; --i)
             [self addSubview:[shiftedViews objectAtIndex:i]];
         
         [shiftedViews release];
-        [self resizePLDocumentView];
+        [self resizePLDocumentView:nil];
     }
     else
         [self newPage];
@@ -517,14 +522,15 @@
     if (self.subviews.count)
     {
         [[self.subviews objectAtIndex:currentPageIndex] removeFromSuperview];
-        [self resizePLDocumentView];
+        [self resizePLDocumentView:nil];
     }
 }
 
 - (void)clearDocument
 {
-    for (NSUInteger i = 0; i < self.subviews.count; ++i)
-        [[self.subviews objectAtIndex:i] removeFromSuperview];
+    NSUInteger nbPages = self.subviews.count;
+    for (NSUInteger i = 0; i < nbPages; ++i)
+        [self.subviews.lastObject removeFromSuperview];
 }
 
 // Reshape all the pages of the document
@@ -535,7 +541,7 @@
     if (nbPages)
     {
         NSUInteger nbThumbs = [self getNumberOfFilledViewsInDocument];
-        NSMutableArray *allDCMViews = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
+        NSMutableArray *allDCMViews = [[[NSMutableArray alloc] initWithCapacity:nbThumbs] autorelease];
         
         // Prepare the pages to be reshaped
         for (NSUInteger i = 0; i < nbPages; ++i)
@@ -553,7 +559,7 @@
         }
         
         // Delete all the pages
-        [self clearDocxument];
+        [self clearDocument];
         [self setNeedsDisplay:YES];
         
         // Determine the number of needed pages
@@ -577,7 +583,7 @@
             [thumb fillView:thumbIndex withDCMView:currentDCM atIndex:currentDCM.curImage];
         }
         
-        [self resizePLDocumentView];
+        [self resizePLDocumentView:nil];
     }
 }
 
@@ -607,7 +613,7 @@
     
     if (sparsePage)
     {
-        NSAlert *confirmDialog = [[NSAlert alloc] init];
+        NSAlert *confirmDialog = [[[NSAlert alloc] init] autorelease];
         [confirmDialog addButtonWithTitle:NSLocalizedString(@"Yes", nil)];
         [confirmDialog addButtonWithTitle:NSLocalizedString(@"No", nil)];
         [confirmDialog setMessageText:NSLocalizedString(@"Print sparse page?", nil)];
@@ -694,7 +700,7 @@
             NSRect newThumbFrame = NSMakeRect(0, 0, newThumbWidth, newThumbHeight);
             
             // CAUTION!! The coordinates are flipped for all the views in the PrintingLayout plugin, not for NSImage
-            NSPoint origin = NSMakePoint(0., 0.);
+            NSPoint origin = NSZeroPoint;
             for (NSInteger y = matrixHeight - 1; y >= 0 ; --y)
             {
                 NSUInteger currentLine = y * matrixWidth;
