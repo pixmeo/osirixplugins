@@ -541,7 +541,7 @@
     if (nbPages)
     {
         NSUInteger nbThumbs = [self getNumberOfFilledViewsInDocument];
-        NSMutableArray *allDCMViews = [[[NSMutableArray alloc] initWithCapacity:nbThumbs] autorelease];
+        NSMutableArray *allDCMViews = [[NSMutableArray alloc] initWithCapacity:nbThumbs];
         
         // Prepare the pages to be reshaped
         for (NSUInteger i = 0; i < nbPages; ++i)
@@ -549,12 +549,15 @@
             PLLayoutView *page = [self.subviews objectAtIndex:i];
             
             // Memorize the filled thumbnails
-            NSUInteger nbThumbs = page.subviews.count;
-            for (NSUInteger j = 0; j < nbThumbs; ++j)
+            NSUInteger filledThumbs = page.filledThumbs;
+            for (NSUInteger j = 0; j < filledThumbs; ++j)
             {
                 PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
                 if (thumb.curDCM)
+                {
+                    [thumb retain];
                     [allDCMViews addObject:thumb];
+                }
             }
         }
         
@@ -576,15 +579,19 @@
         for (NSUInteger i = 0; i < nbThumbs; ++i)
         {
             NSUInteger pageIndex = i / pageSize;
+            PLLayoutView *currentPage = [self.subviews objectAtIndex:pageIndex];
+            currentPage.filledThumbs++;
+            
             NSUInteger thumbIndex = i % pageSize;
             DCMView *currentDCM = [allDCMViews objectAtIndex:i];
-            PLThumbnailView * thumb = [[[self.subviews objectAtIndex:pageIndex] subviews] objectAtIndex:thumbIndex];
-            
+            PLThumbnailView *thumb = [[currentPage subviews] objectAtIndex:thumbIndex];
             [thumb fillView:thumbIndex withDCMView:currentDCM atIndex:currentDCM.curImage];
         }
         
+        [allDCMViews release];
         [self resizePLDocumentView:nil];
     }
+    NSLog(@"Pages left: %d", (int)self.subviews.count);
 }
 
 

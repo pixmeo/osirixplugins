@@ -43,14 +43,14 @@
     return self;
 }
 
-- (void)windowDidLoad
-{
-    [super windowDidLoad];
-
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
-//    [layoutChoiceButton.cell    setDisplayedTitle:@"Layout Choice"];
-//    [exportButton.cell          setDisplayedTitle:@"Export…"];
-}
+//- (void)windowDidLoad
+//{
+//    [super windowDidLoad];
+//
+//    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+////    [layoutChoiceButton.cell    setDisplayedTitle:@"Layout Choice"];
+////    [exportButton.cell          setDisplayedTitle:@"Export…"];
+//}
 
 #pragma mark-Action based methods
 
@@ -65,6 +65,18 @@
 		toolIndex = [sender tag];
     
     [[fullDocumentView.subviews objectAtIndex:currentPage] setMouseTool:toolIndex];
+}
+
+- (IBAction)updateDocSizeIndicator:(id)sender
+{
+    NSString *name = [sender selectedItem].title;
+    NSArray *c = [name componentsSeparatedByString:@"x"];
+    
+    NSUInteger pageSize = [[c objectAtIndex:0] integerValue] * [[c objectAtIndex:1] integerValue];
+    NSUInteger nbImages = [fullDocumentView getNumberOfFilledViewsInDocument];
+    NSUInteger nbPages  = nbImages % pageSize ? 1 + nbImages / pageSize : nbImages / pageSize;
+    
+    [documentSizeIndicator setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d %@", nil), nbPages ? nbPages : 1, nbPages > 1 ? @"pages" : @"page"]];
 }
 
 #pragma mark-Layout management
@@ -106,9 +118,7 @@
 
 - (IBAction)updateGridLayoutFromButton:(id)sender
 {
-//    NSString *name = [[sender selectedItem] title];
-//    NSString *rename =[layoutChoiceButton selectedItem].title;
-//    NSLog(@"%@",rename);
+//    NSString *name =[layoutChoiceButton selectedItem].title;
 //    NSArray *c = [name componentsSeparatedByString:@"x"];
 //    
 //    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
@@ -185,10 +195,14 @@
 // Used when the stepper and text field need to be updated from the layout view (adding a column or line)
 - (void)layoutMatrixUpdated
 {
-    self.heightValue    = [[fullDocumentView.subviews objectAtIndex:currentPage] layoutMatrixHeight];
-    self.widthValue     = [[fullDocumentView.subviews objectAtIndex:currentPage] layoutMatrixWidth];
-    [self updateHeight];
-    [self updateWidth];
+    NSUInteger nbPages = fullDocumentView.subviews.count;
+    if (nbPages && currentPage < nbPages)
+    {
+        self.heightValue    = [[fullDocumentView.subviews objectAtIndex:currentPage] layoutMatrixHeight];
+        self.widthValue     = [[fullDocumentView.subviews objectAtIndex:currentPage] layoutMatrixWidth];
+        [self updateHeight];
+        [self updateWidth];
+    }
 }
 
 - (IBAction)clearViewsInLayout:(id)sender
@@ -302,7 +316,7 @@
     else
         nbPages = nbImages / imgPerPage;
 
-    [pagesImport setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d pages", nil), nbPages]];
+    [pagesImport setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d %@", nil), nbPages ? nbPages : 1, nbPages > 1 ? @"pages" : @"page"]];
 }
 
 #pragma mark-Export actions

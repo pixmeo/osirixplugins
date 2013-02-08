@@ -14,7 +14,6 @@
 
 @interface PLWindowController : NSWindowController//ViewerController //
 {
-    IBOutlet NSPopUpButton  *layoutChoiceButton;
     IBOutlet NSButton       *exportButton;
     
     IBOutlet NSTextField    *widthTextField;
@@ -22,6 +21,9 @@
     IBOutlet NSStepper      *widthValueAdjuster;
     IBOutlet NSStepper      *heightValueAdjuster;
     NSUInteger              heightValue, widthValue;
+    
+    IBOutlet NSPopUpButton  *layoutChoiceButton;
+    IBOutlet NSTextField    *documentSizeIndicator;
     
     IBOutlet NSScrollView   *scrollView;  // Historic: could be really used if the scrolling was not causing trouble with NSOpenGLView
     IBOutlet PLDocumentView *fullDocumentView;
@@ -68,6 +70,7 @@
 - (IBAction)startSliderAction:(id)sender;
 - (IBAction)endSliderAction:(id)sender;
 - (IBAction)importLayoutChoice:(id)sender;
+- (IBAction)updateDocSizeIndicator:(id)sender;
 - (void)updateImportPageNumber;
 - (void)updateHeight;
 - (void)updateWidth;
