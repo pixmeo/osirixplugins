@@ -52,6 +52,7 @@
 @property NSUInteger                importInterval, importStart, importEnd, importWidth, importHeight;
 @property (readonly) NSWindow       *importWindow;
 
+- (IBAction)pageAction:(id)sender;
 - (IBAction)addPage:(id)sender;
 - (IBAction)deletePage:(id)sender;
 - (IBAction)insertPage:(id)sender;

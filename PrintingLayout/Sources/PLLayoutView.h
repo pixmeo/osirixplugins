@@ -33,7 +33,7 @@
 - (void)resizeLayoutView:(NSRect)frame;
 - (void)clearAllThumbnailsViews;
 - (void)insertImageAtIndex:(NSUInteger)index from:(id<NSDraggingInfo>)sender;
-- (void)saveLayoutViewToDicom;
+//- (void)saveLayoutViewToDicom;
 - (int)inThumbnailView:(NSPoint)p margin:(NSUInteger)m;
 - (int)getSubviewInsertIndexFrom:(NSPoint)p;
 - (int)findNextEmptyViewFrom:(NSUInteger)index;

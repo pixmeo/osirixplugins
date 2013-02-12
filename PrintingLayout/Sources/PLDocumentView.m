@@ -15,6 +15,7 @@
 #import <OsiriXAPI/SeriesView.h>
 #import <OsiriXAPI/StudyView.h>
 #import <OsiriXAPI/ViewerController.h>
+#import <OsiriXAPI/WaitRendering.h>
 #import <Accelerate/Accelerate.h>
 #import <Quartz/Quartz.h>
 
@@ -46,6 +47,7 @@
         // Create the PLLayoutView
         NSRect layoutFrame = NSMakeRect(sideMargin, topMargin, frame.size.width - 2 * sideMargin, frame.size.height - bottomMargin);
         [self addSubview:[[[PLLayoutView alloc] initWithFrame:layoutFrame] autorelease]];
+        ((PLWindowController*)self.window.windowController).currentPage = 0;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resizePLDocumentView:) name:NSViewFrameDidChangeNotification object:nil];
         [self registerForDraggedTypes:[NSArray arrayWithObjects:pasteBoardOsiriX, nil]];
     }
@@ -247,7 +249,7 @@
         case NSBackspaceCharacter:
         case NSDeleteCharacter:
         {
-            NSUInteger nbPages = [[self subviews] count];
+            NSUInteger nbPages = self.subviews.count;
             for (NSUInteger i = 0; i < nbPages; ++i)
             {
                 PLLayoutView *layout = [self.subviews objectAtIndex:i];
@@ -257,10 +259,10 @@
                     PLThumbnailView *thumb = [layout.subviews objectAtIndex:j];
                     if (thumb.isSelected && [thumb curDCM])
                     {
-                        [thumb clearView];
-                        --(layout.filledThumbs);
+                        [thumb removeFromSuperviewWithoutNeedingDisplay];
+                        layout.filledThumbs--;
+//                        thumb.isSelected = NO;
                     }
-                    thumb.isSelected = NO;
                 }
             }
         }
@@ -471,7 +473,7 @@
         
         for (NSUInteger i = 0; i < nbPages; ++i)
         {
-            PLLayoutView *layoutView = [[self subviews] objectAtIndex:i];
+            PLLayoutView *layoutView = [self.subviews objectAtIndex:i];
             NSRect layoutFrame = NSMakeRect(sideMargin, topMargin + i * (pageHeight + bottomMargin), pageWidth, pageHeight);
             [layoutView resizeLayoutView:layoutFrame];
         }
@@ -495,11 +497,11 @@
     NSUInteger nbSubviews = self.subviews.count;
     if (index < nbSubviews - 1)
     {
-        NSMutableArray *shiftedViews = [[[NSMutableArray alloc] initWithCapacity:nbSubviews - index] autorelease];
+        NSMutableArray *shiftedViews = [[NSMutableArray alloc] initWithCapacity:nbSubviews - index];
         // Store views that will be shifted
         while (self.subviews.count > index)
         {
-            [shiftedViews addObject:[[self.subviews lastObject] retain]];
+            [shiftedViews addObject:[self.subviews lastObject]];
             [[self.subviews lastObject] removeFromSuperviewWithoutNeedingDisplay];
         }
 
@@ -519,10 +521,23 @@
 
 - (void)removeCurrentPage
 {
-    if (self.subviews.count)
+    NSUInteger nbPages = self.subviews.count;
+    
+    if (nbPages)
     {
-        [[self.subviews objectAtIndex:currentPageIndex] removeFromSuperview];
-        [self resizePLDocumentView:nil];
+        if (currentPageIndex < nbPages && currentPageIndex >= 0)
+        {
+            PLLayoutView *page = [self.subviews objectAtIndex:currentPageIndex];
+            NSUInteger nbThumbs = page.subviews.count;
+            for (NSUInteger i = 0; i < nbThumbs; ++i)
+                [page.subviews.lastObject removeFromSuperviewWithoutNeedingDisplay];
+            [page removeFromSuperviewWithoutNeedingDisplay];
+            [self resizePLDocumentView:nil];
+        }
+        else
+        {
+            NSLog(@"Can't delete page %d (over %d pages)",currentPageIndex, (int)nbPages);
+        }
     }
 }
 
@@ -530,7 +545,14 @@
 {
     NSUInteger nbPages = self.subviews.count;
     for (NSUInteger i = 0; i < nbPages; ++i)
-        [self.subviews.lastObject removeFromSuperview];
+    {
+        PLLayoutView *page = self.subviews.lastObject;
+        NSUInteger nbThumbs = page.subviews.count;
+        for (NSUInteger i = 0; i < nbThumbs; ++i)
+            [page.subviews.lastObject removeFromSuperviewWithoutNeedingDisplay];
+        [page removeFromSuperviewWithoutNeedingDisplay];
+    }
+    [self setNeedsDisplay:YES];
 }
 
 // Reshape all the pages of the document
@@ -554,20 +576,18 @@
             {
                 PLThumbnailView *thumb = [page.subviews objectAtIndex:j];
                 if (thumb.curDCM)
-                {
-                    [thumb retain];
                     [allDCMViews addObject:thumb];
-                }
             }
         }
         
         // Delete all the pages
         [self clearDocument];
-        [self setNeedsDisplay:YES];
         
         // Determine the number of needed pages
         NSUInteger pageSize = width * height;
         NSUInteger newDocumentSize = nbThumbs % pageSize == 0 ? nbThumbs / pageSize : 1 + nbThumbs / pageSize;
+        if (!newDocumentSize)
+            newDocumentSize = 1;
         
         // Reshape the pages and fill them with the stored DCMViews
         for (NSUInteger i = 0; i < newDocumentSize; ++i)
@@ -590,8 +610,8 @@
         
         [allDCMViews release];
         [self resizePLDocumentView:nil];
+        [self setNeedsDisplay:YES];
     }
-    NSLog(@"Pages left: %d", (int)self.subviews.count);
 }
 
 
@@ -604,7 +624,7 @@
     if (!nbPages)
         return;
     
-    // Look for pages that have more less 1/3 filled views
+    // Look for pages that have less than 1/3 filled views
     BOOL sparsePage = NO;
     
     for (NSUInteger i = 0; i < nbPages; ++i)
@@ -637,6 +657,9 @@
     [saveDialog setNameFieldStringValue:@"report.pdf"];
     if ([saveDialog runModal] == NSFileHandlingPanelCancelButton)
         return;
+    
+    WaitRendering* waiting = [[WaitRendering alloc] init:NSLocalizedString(@"Saving File...", nil)];
+	[waiting showWindow:self];
     
     NSString *filename = [NSString stringWithFormat:@"%@/%@", saveDialog.directory, saveDialog.nameFieldStringValue];
     PDFDocument *layoutPDF = [[PDFDocument alloc] init];
@@ -691,8 +714,13 @@
             else if (maxWidth * pageRatio < maxHeight)
                 maxWidth = maxHeight / pageRatio;
             
+            CGFloat newThumbHeight = roundf(maxHeight / matrixHeight);
+            CGFloat newThumbWidth = roundf(maxWidth / matrixWidth);
+            NSRect newThumbFrame = NSMakeRect(0, 0, newThumbWidth, newThumbHeight);
+            NSSize newPageSize = NSMakeSize(roundf(newThumbWidth * matrixWidth), roundf(newThumbHeight * matrixHeight));
+            
             // Draw images on page
-            NSImage *pageImage = [[NSImage alloc] initWithSize:NSMakeSize(maxWidth, maxHeight)];
+            NSImage *pageImage = [[NSImage alloc] initWithSize:newPageSize];
             [[NSColor blackColor] setFill];
             
             // Draw black background
@@ -701,10 +729,6 @@
                 [NSBezierPath fillRect:NSMakeRect(0, 0, maxWidth, maxHeight)];
             }
             [pageImage unlockFocus];
-            
-            CGFloat newThumbHeight = maxHeight / matrixHeight;
-            CGFloat newThumbWidth = maxWidth / matrixWidth;
-            NSRect newThumbFrame = NSMakeRect(0, 0, newThumbWidth, newThumbHeight);
             
             // CAUTION!! The coordinates are flipped for all the views in the PrintingLayout plugin, not for NSImage
             NSPoint origin = NSZeroPoint;
@@ -725,7 +749,6 @@
                     
                     // Get full image and draw it on pageImage
                     NSImage *fullImage = [thumb.imageObj imageAsScreenCapture:frame];
-                    
                     NSImage *newThumb = [[NSImage alloc] initWithSize:NSMakeSize(newThumbWidth, newThumbHeight)];
                     
                     // Draw black background on thumbnail
@@ -737,7 +760,20 @@
                     [newThumb unlockFocus];
                     
                     // Draw image in thumbnail
-                    [pageImage lockFocus];
+                    @try {
+                        [pageImage lockFocus];
+                    }
+                    @catch (NSException *e)
+                    {
+                        NSLog(@"PageImage exception %@ at page %d, width %d, height %d because of %@", e.name, (int)i, (int)x, (int)y, e.reason);
+                        [newThumb release];
+                        [pageImage release];
+                        [layoutPDF release];
+                        [waiting close];
+                        [waiting autorelease];
+                        NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
+                        return;
+                    }
                     {
                         [newThumb drawAtPoint:origin fromRect:newThumbFrame operation:NSCompositeCopy fraction:1.0];
                     }
@@ -753,15 +789,20 @@
             
             // Put image on PDF page and insert page in PDF document
             PDFPage *layoutPage = [[PDFPage alloc] initWithImage:pageImage];
+            [pageImage release];
+            
             [layoutPage setBounds:pageBounds forBox:kPDFDisplayBoxMediaBox];
             [layoutPDF insertPage:layoutPage atIndex:pageNumber];
-            
-            [pageImage release];
             [layoutPage release];
         }
     }
     
-    if (![layoutPDF writeToFile:filename])
+    
+    BOOL error = [layoutPDF writeToFile:filename];
+    [waiting close];
+	[waiting autorelease];
+
+    if (!error)
         NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
     else
     {

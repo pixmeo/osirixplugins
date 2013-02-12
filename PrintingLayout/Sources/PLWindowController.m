@@ -88,10 +88,46 @@
     [self updateWindowTitle];
 }
 
+- (IBAction)pageAction:(id)sender
+{
+    NSInteger clickedSegment = [sender selectedSegment];
+    
+    switch (clickedSegment)
+    {
+        case 0:
+            [self addPage:sender];
+            break;
+            
+        case 1:
+            [self insertPage:sender];
+            break;
+        
+        case 2:
+            [self deletePage:sender];
+            break;
+            
+        default:
+            break;
+    }
+}
+
 - (IBAction)addPage:(id)sender
 {
     [fullDocumentView newPage];
+    
+    //TODO Resolves a bug: if going from no pages to one page, the page exists but none of the views are displayed, even with setNeedsDisplay:YES
+    if (fullDocumentView.subviews.count == 1)
+    {
+        [fullDocumentView newPage];
+        [self deletePage:nil];
+    }
+    
     [self updateWindowTitle];
+    if (currentPage < 0 || fullDocumentView.currentPageIndex < 0)
+    {
+        currentPage = 0;
+        fullDocumentView.currentPageIndex = 0;
+    }
 }
 
 - (IBAction)deletePage:(id)sender
@@ -99,10 +135,11 @@
     if (currentPage >= 0)
     {
         [fullDocumentView removeCurrentPage];
-        if (currentPage >= fullDocumentView.subviews.count)
+        NSUInteger nbPages = fullDocumentView.subviews.count;
+        if (currentPage >= nbPages)
         {
-            --currentPage;
-            fullDocumentView.currentPageIndex--;
+            currentPage = nbPages - 1;
+            fullDocumentView.currentPageIndex = currentPage;
             [fullDocumentView goToPage:currentPage];
         }
 
@@ -207,7 +244,8 @@
 
 - (IBAction)clearViewsInLayout:(id)sender
 {
-    [[fullDocumentView.subviews objectAtIndex:currentPage] clearAllThumbnailsViews];
+    if (fullDocumentView.subviews.count && currentPage > -1)
+        [[fullDocumentView.subviews objectAtIndex:currentPage] clearAllThumbnailsViews];
 }
 
 #pragma mark-Import actions
@@ -342,7 +380,7 @@
     [self saveAllROIs];
     
     // Export the PLDocumentView into a DICOM file
-    [[fullDocumentView.subviews objectAtIndex:currentPage] saveLayoutViewToDicom];
+//    [[fullDocumentView.subviews objectAtIndex:currentPage] saveLayoutViewToDicom];
 }
 
 - (IBAction)exportViewToPDF:(id)sender
@@ -360,7 +398,7 @@
 {
     if (currentPage < fullDocumentView.subviews.count - 1)
     {
-        ++(self.currentPage);
+        self.currentPage++;
         fullDocumentView.currentPageIndex = currentPage;
         [fullDocumentView pageDown:sender];
         [self updateWindowTitle];
@@ -371,11 +409,21 @@
 {
     if (currentPage > 0)
     {
-        --(self.currentPage);
+        self.currentPage--;
         fullDocumentView.currentPageIndex = currentPage;
         [fullDocumentView pageUp:sender];
         [self updateWindowTitle];
     }
+}
+
+- (void)scrollToBeginningOfDocument:(id)sender
+{
+    NSLog(@"go to beginning");
+}
+
+- (void)scrollToEndOfDocument:(id)sender
+{
+    NSLog(@"go to end");
 }
 
 - (IBAction)pageByPageNavigation:(id)sender
@@ -402,9 +450,9 @@
 - (void)updateWindowTitle
 {
     if (scrollViewFormat && [[[scrollView.documentView subviews] objectAtIndex:0] subviews].count)
-        [[self window] setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", currentPage < 0 ? 1 : (int)currentPage + 1, (int)[fullDocumentView.subviews count]]];
+        [self.window setTitle:[NSString stringWithFormat:@"Printing Layout (page %d of %d)", currentPage < 0 ? 1 : (int)currentPage + 1, (int)[fullDocumentView.subviews count]]];
     else
-        [[self window] setTitle:@"Printing Layout"];
+        [self.window setTitle:@"Printing Layout"];
 }
 
 - (void)currentPageUpdated:(NSNotification*)notification
@@ -443,6 +491,13 @@
 - (void)addToUndoQueue:(NSString*) string
 {
     NSLog(@"Undo currently unavailable for changes done inside Printing Layout.");
+}
+
+#pragma mark-Specific to ViewerController.m
+
+- (BOOL)registeredViewer
+{
+    return NO;
 }
 
 //- (void) windowDidBecomeKey:(NSNotification *)aNotification

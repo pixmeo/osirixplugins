@@ -652,7 +652,7 @@
 											<string key="NSFrame">{{153, 620}, {57, 20}}</string>
 											<reference key="NSSuperview" ref="139286922"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1006769607"/>
+											<reference key="NSNextKeyView" ref="753682543"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSSegmentedCell" key="NSCell" id="269333097">
@@ -690,78 +690,60 @@
 											</object>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										</object>
-										<object class="NSButton" id="1006769607">
+										<object class="NSTextField" id="753682543">
 											<reference key="NSNextResponder" ref="139286922"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{63, 488}, {101, 32}}</string>
+											<string key="NSFrame">{{15, 596}, {34, 17}}</string>
 											<reference key="NSSuperview" ref="139286922"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="620253799"/>
-											<string key="NSReuseIdentifierKey">_NS:9</string>
+											<reference key="NSNextKeyView" ref="110626164"/>
+											<string key="NSReuseIdentifierKey">_NS:1535</string>
 											<bool key="NSEnabled">YES</bool>
-											<object class="NSButtonCell" key="NSCell" id="421210562">
-												<int key="NSCellFlags">67108864</int>
-												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Add page</string>
+											<object class="NSTextFieldCell" key="NSCell" id="499220166">
+												<int key="NSCellFlags">68157504</int>
+												<int key="NSCellFlags2">272630784</int>
+												<string key="NSContents">Page</string>
 												<reference key="NSSupport" ref="750412740"/>
-												<string key="NSCellIdentifier">_NS:9</string>
-												<reference key="NSControlView" ref="1006769607"/>
-												<int key="NSButtonFlags">-2038284288</int>
-												<int key="NSButtonFlags2">129</int>
-												<string key="NSAlternateContents"/>
-												<string key="NSKeyEquivalent"/>
-												<int key="NSPeriodicDelay">200</int>
-												<int key="NSPeriodicInterval">25</int>
+												<string key="NSCellIdentifier">_NS:1535</string>
+												<reference key="NSControlView" ref="753682543"/>
+												<reference key="NSBackgroundColor" ref="455874330"/>
+												<reference key="NSTextColor" ref="263591193"/>
 											</object>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										</object>
-										<object class="NSButton" id="620253799">
+										<object class="NSSegmentedControl" id="110626164">
 											<reference key="NSNextResponder" ref="139286922"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{58, 455}, {111, 32}}</string>
-											<reference key="NSSuperview" ref="139286922"/>
-											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="901579657"/>
-											<string key="NSReuseIdentifierKey">_NS:9</string>
-											<bool key="NSEnabled">YES</bool>
-											<object class="NSButtonCell" key="NSCell" id="1010412079">
-												<int key="NSCellFlags">67108864</int>
-												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Insert page</string>
-												<reference key="NSSupport" ref="750412740"/>
-												<string key="NSCellIdentifier">_NS:9</string>
-												<reference key="NSControlView" ref="620253799"/>
-												<int key="NSButtonFlags">-2038284288</int>
-												<int key="NSButtonFlags2">129</int>
-												<string key="NSAlternateContents"/>
-												<string key="NSKeyEquivalent"/>
-												<int key="NSPeriodicDelay">200</int>
-												<int key="NSPeriodicInterval">25</int>
-											</object>
-											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-										</object>
-										<object class="NSButton" id="901579657">
-											<reference key="NSNextResponder" ref="139286922"/>
-											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{56, 422}, {115, 32}}</string>
+											<string key="NSFrame">{{56, 590}, {170, 24}}</string>
 											<reference key="NSSuperview" ref="139286922"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="662975378"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
-											<object class="NSButtonCell" key="NSCell" id="4776890">
+											<object class="NSSegmentedCell" key="NSCell" id="79529129">
 												<int key="NSCellFlags">67108864</int>
-												<int key="NSCellFlags2">134217728</int>
-												<string key="NSContents">Delete page</string>
-												<reference key="NSSupport" ref="750412740"/>
+												<int key="NSCellFlags2">0</int>
+												<reference key="NSSupport" ref="26"/>
 												<string key="NSCellIdentifier">_NS:9</string>
-												<reference key="NSControlView" ref="901579657"/>
-												<int key="NSButtonFlags">-2038284288</int>
-												<int key="NSButtonFlags2">129</int>
-												<string key="NSAlternateContents"/>
-												<string key="NSKeyEquivalent"/>
-												<int key="NSPeriodicDelay">200</int>
-												<int key="NSPeriodicInterval">25</int>
+												<reference key="NSControlView" ref="110626164"/>
+												<array class="NSMutableArray" key="NSSegmentImages">
+													<object class="NSSegmentItem">
+														<string key="NSSegmentItemLabel">Add</string>
+														<int key="NSSegmentItemImageScaling">0</int>
+													</object>
+													<object class="NSSegmentItem">
+														<string key="NSSegmentItemLabel">Insert</string>
+														<int key="NSSegmentItemTag">1</int>
+														<int key="NSSegmentItemImageScaling">0</int>
+													</object>
+													<object class="NSSegmentItem">
+														<string key="NSSegmentItemLabel">Delete</string>
+														<int key="NSSegmentItemImageScaling">0</int>
+													</object>
+												</array>
+												<int key="NSSelectedSegment">1</int>
+												<int key="NSTrackingMode">2</int>
+												<int key="NSSegmentStyle">1</int>
 											</object>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										</object>
@@ -1028,7 +1010,7 @@
 											<string key="NSFrame">{{15, 289}, {61, 26}}</string>
 											<reference key="NSSuperview" ref="139286922"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="447707510"/>
+											<reference key="NSNextKeyView" ref="266378794"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSPopUpButtonCell" key="NSCell" id="185817952">
@@ -1378,7 +1360,7 @@
 											</object>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 										</object>
-										<object class="NSTextField" id="447707510">
+										<object class="NSTextField" id="266378794">
 											<reference key="NSNextResponder" ref="139286922"/>
 											<int key="NSvFlags">268</int>
 											<string key="NSFrame">{{72, 297}, {47, 11}}</string>
@@ -1387,7 +1369,7 @@
 											<reference key="NSNextKeyView" ref="174118798"/>
 											<string key="NSReuseIdentifierKey">_NS:1535</string>
 											<bool key="NSEnabled">YES</bool>
-											<object class="NSTextFieldCell" key="NSCell" id="560851560">
+											<object class="NSTextFieldCell" key="NSCell" id="968968362">
 												<int key="NSCellFlags">68157504</int>
 												<int key="NSCellFlags2">71304192</int>
 												<string key="NSContents">n pages</string>
@@ -1397,7 +1379,7 @@
 													<int key="NSfFlags">3614</int>
 												</object>
 												<string key="NSCellIdentifier">_NS:1535</string>
-												<reference key="NSControlView" ref="447707510"/>
+												<reference key="NSControlView" ref="266378794"/>
 												<reference key="NSBackgroundColor" ref="455874330"/>
 												<reference key="NSTextColor" ref="263591193"/>
 											</object>
@@ -2557,22 +2539,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">addPage:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="1006769607"/>
-					</object>
-					<int key="connectionID">961</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">insertPage:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="620253799"/>
-					</object>
-					<int key="connectionID">970</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">exportViewToPDF:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="867674532"/>
@@ -2594,14 +2560,6 @@
 						<reference key="destination" ref="269333097"/>
 					</object>
 					<int key="connectionID">991</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">deletePage:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="901579657"/>
-					</object>
-					<int key="connectionID">1002</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2743,7 +2701,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">documentSizeIndicator</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="447707510"/>
+						<reference key="destination" ref="266378794"/>
 					</object>
 					<int key="connectionID">1273</int>
 				</object>
@@ -2754,6 +2712,14 @@
 						<reference key="destination" ref="595406124"/>
 					</object>
 					<int key="connectionID">1274</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">pageAction:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="110626164"/>
+					</object>
+					<int key="connectionID">1279</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2851,9 +2817,6 @@
 							<reference ref="291549621"/>
 							<reference ref="979273676"/>
 							<reference ref="971638474"/>
-							<reference ref="1006769607"/>
-							<reference ref="620253799"/>
-							<reference ref="901579657"/>
 							<reference ref="581410324"/>
 							<reference ref="160828575"/>
 							<reference ref="592578253"/>
@@ -2867,7 +2830,9 @@
 							<reference ref="269576215"/>
 							<reference ref="595406124"/>
 							<reference ref="174118798"/>
-							<reference ref="447707510"/>
+							<reference ref="266378794"/>
+							<reference ref="753682543"/>
+							<reference ref="110626164"/>
 						</array>
 						<reference key="parent" ref="1006"/>
 						<string key="objectName">ToolOptions</string>
@@ -3115,20 +3080,6 @@
 						<reference key="parent" ref="356157334"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">958</int>
-						<reference key="object" ref="1006769607"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="421210562"/>
-						</array>
-						<reference key="parent" ref="767879231"/>
-						<string key="objectName">Add page Push Button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">959</int>
-						<reference key="object" ref="421210562"/>
-						<reference key="parent" ref="1006769607"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">623</int>
 						<reference key="object" ref="341067359"/>
 						<array class="NSMutableArray" key="children">
@@ -3162,20 +3113,6 @@
 						<reference key="parent" ref="893916648"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">967</int>
-						<reference key="object" ref="620253799"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1010412079"/>
-						</array>
-						<reference key="parent" ref="767879231"/>
-						<string key="objectName">Insert page Push Button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">968</int>
-						<reference key="object" ref="1010412079"/>
-						<reference key="parent" ref="620253799"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">973</int>
 						<reference key="object" ref="269576215"/>
 						<array class="NSMutableArray" key="children">
@@ -3188,20 +3125,6 @@
 						<int key="objectID">974</int>
 						<reference key="object" ref="348448838"/>
 						<reference key="parent" ref="269576215"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">975</int>
-						<reference key="object" ref="901579657"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="4776890"/>
-						</array>
-						<reference key="parent" ref="767879231"/>
-						<string key="objectName">Delete page Push Button</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">976</int>
-						<reference key="object" ref="4776890"/>
-						<reference key="parent" ref="901579657"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">987</int>
@@ -3985,16 +3908,42 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1271</int>
-						<reference key="object" ref="447707510"/>
+						<reference key="object" ref="266378794"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="560851560"/>
+							<reference ref="968968362"/>
 						</array>
 						<reference key="parent" ref="767879231"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1272</int>
-						<reference key="object" ref="560851560"/>
-						<reference key="parent" ref="447707510"/>
+						<reference key="object" ref="968968362"/>
+						<reference key="parent" ref="266378794"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1275</int>
+						<reference key="object" ref="110626164"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="79529129"/>
+						</array>
+						<reference key="parent" ref="767879231"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1276</int>
+						<reference key="object" ref="79529129"/>
+						<reference key="parent" ref="110626164"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1277</int>
+						<reference key="object" ref="753682543"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="499220166"/>
+						</array>
+						<reference key="parent" ref="767879231"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1278</int>
+						<reference key="object" ref="499220166"/>
+						<reference key="parent" ref="753682543"/>
 					</object>
 				</array>
 			</object>
@@ -4106,6 +4055,11 @@
 				<string key="1267.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1271.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1272.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1275.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<integer value="0" key="1276.IBNSSegmentedControlInspectorSelectedSegmentMetadataKey"/>
+				<string key="1276.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1277.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="1278.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="128.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="187.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="188.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4228,14 +4182,8 @@
 				<string key="846.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="863.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="947.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="958.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="959.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="967.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="968.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="973.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="974.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="975.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="976.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="987.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<integer value="1" key="988.IBNSSegmentedControlInspectorSelectedSegmentMetadataKey"/>
 				<string key="988.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4246,7 +4194,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1274</int>
+			<int key="maxID">1279</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4302,6 +4250,7 @@
 						<string key="importParameters:">id</string>
 						<string key="insertPage:">id</string>
 						<string key="intervalSliderAction:">id</string>
+						<string key="pageAction:">id</string>
 						<string key="pageByPageNavigation:">id</string>
 						<string key="reshapeLayout:">id</string>
 						<string key="startSliderAction:">id</string>
@@ -4360,6 +4309,10 @@
 						</object>
 						<object class="IBActionInfo" key="intervalSliderAction:">
 							<string key="name">intervalSliderAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="pageAction:">
+							<string key="name">pageAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="pageByPageNavigation:">

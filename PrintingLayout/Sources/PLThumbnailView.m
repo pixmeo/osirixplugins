@@ -146,29 +146,6 @@
             
             [self fillView:gridIndex withDCMView:*draggedView atIndex:index];
             free(draggedView);
-//            NSMutableArray *pixList = [NSMutableArray array];
-//            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:index] retain]];
-//            
-//            NSMutableArray *filesList = [NSMutableArray array];
-//            if ([[*draggedView dcmFilesList] count])
-//            {
-//                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:index] retain]];
-//            }
-//            
-//            NSMutableArray *roiList = [NSMutableArray array];
-//            if ([[*draggedView dcmRoiList] count])
-//            {
-//                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:index] retain]];
-//            }
-//            
-//            [self setPixels:pixList
-//                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
-//                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
-//                 firstImage:0
-//                      level:'i'
-//                      reset:YES];
-//            free(draggedView);
-//            self.layoutIndex = gridIndex;
         }
     }
 }
@@ -193,29 +170,6 @@
             
             [self fillView:gridIndex withDCMView:*draggedView atIndex:imageIndex];
             free(draggedView);
-//            NSMutableArray *pixList = [NSMutableArray array];
-//            [pixList addObject:[[[*draggedView dcmPixList] objectAtIndex:imageIndex] retain]];
-//            
-//            NSMutableArray *filesList = [NSMutableArray array];
-//            if ([[*draggedView dcmFilesList] count])
-//            {
-//                [filesList addObject:[[[*draggedView dcmFilesList] objectAtIndex:imageIndex] retain]];
-//            }
-//            
-//            NSMutableArray *roiList = [NSMutableArray array];
-//            if ([[*draggedView dcmRoiList] count])
-//            {
-//                [roiList addObject:[[[*draggedView dcmRoiList] objectAtIndex:imageIndex] retain]];
-//            }
-//            
-//            [self setPixels:pixList
-//                      files:[[*draggedView dcmFilesList]   count] ? filesList  : nil
-//                       rois:[[*draggedView dcmRoiList]     count] ? roiList    : nil
-//                 firstImage:0
-//                      level:'i'
-//                      reset:YES];
-//            free(draggedView);
-//            self.layoutIndex = gridIndex;
             
             return YES;
         }
@@ -229,19 +183,15 @@
     if (imageIndex < dcm.dcmPixList.count)
     {
         NSMutableArray *pixList = [NSMutableArray array];
-        [pixList addObject:[[[dcm dcmPixList] objectAtIndex:imageIndex] retain]];
+        [pixList addObject:[[dcm dcmPixList] objectAtIndex:imageIndex]];
         
         NSMutableArray *filesList = [NSMutableArray array];
         if ([[dcm dcmFilesList] count])
-        {
-            [filesList addObject:[[[dcm dcmFilesList] objectAtIndex:imageIndex] retain]];
-        }
+            [filesList addObject:[[dcm dcmFilesList] objectAtIndex:imageIndex]];
         
         NSMutableArray *roiList = [NSMutableArray array];
         if ([[dcm dcmRoiList] count])
-        {
-            [roiList addObject:[[[dcm dcmRoiList] objectAtIndex:imageIndex] retain]];
-        }
+            [roiList addObject:[[dcm dcmRoiList] objectAtIndex:imageIndex]];
         
         [self setPixels:pixList
                   files:[[dcm dcmFilesList]   count] ? filesList  : nil
@@ -276,9 +226,7 @@
         
         endFrame.size.width -= size;
         if (side == left)
-        {
             endFrame.origin.x += size;
-        }
         
         [viewDict setObject:[NSValue valueWithRect:endFrame] forKey:NSViewAnimationEndFrameKey];
         shrink = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:viewDict]];
@@ -315,16 +263,16 @@
 
 - (void)clearView
 {
-    [self setPixels:nil files:nil rois:nil firstImage:0 level:0 reset:YES];
+    [self setPixels:nil files:nil rois:nil firstImage:0 level:0 reset:YES]; // A bit dirty?
     self.isSelected = NO;
     [self setNeedsDisplay:YES];
 }
 
-//- (void)resetView
+//- (void)resetView:(id)sender
 //{
 //}
 //
-//- (void)rescaleView
+//- (void)rescaleView:(id)sender
 //{
 //}
 
@@ -357,7 +305,6 @@
         case NSRightArrowFunctionKey:
         case NSHomeFunctionKey:
         case NSEndFunctionKey:
-            NSLog(@"%c",key);
             [self.superview.superview keyDown:event];
             break;
             
@@ -384,8 +331,8 @@
         {
             NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
             [theMenu insertItemWithTitle:@"Delete"      	action:@selector(clearView)     keyEquivalent:@"" atIndex:0];
-            [theMenu insertItemWithTitle:@"Reset"       	action:@selector(resetView)     keyEquivalent:@"" atIndex:1];
-            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(rescaleView)   keyEquivalent:@"" atIndex:2];
+            [theMenu insertItemWithTitle:@"Reset"       	action:@selector(resetView:)    keyEquivalent:@"" atIndex:1];
+            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(rescaleView:)  keyEquivalent:@"" atIndex:2];
             
             if (isSelected)
                 [theMenu insertItemWithTitle:@"Deselect"    action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
@@ -416,14 +363,10 @@
     // Tell the layout view that the current thumbnail is the one dragged
     [parentView setDraggedThumbnailIndex:layoutIndex];
     
-    if ([event type] == NSLeftMouseDown && [event clickCount] == 2)
-    {
-        [super startDrag:nil];
-    }
-    else
-    {
+//    if ([event type] == NSLeftMouseDown && [event clickCount] == 2)
+//        [super startDrag:nil];
+//    else
         [super mouseDown:event];
-    }
 }
 
 @end
