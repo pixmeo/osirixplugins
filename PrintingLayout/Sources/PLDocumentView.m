@@ -658,17 +658,17 @@
     if ([saveDialog runModal] == NSFileHandlingPanelCancelButton)
         return;
     
-    WaitRendering* waiting = [[WaitRendering alloc] init:NSLocalizedString(@"Saving File...", nil)];
+    WaitRendering* waiting = [[[WaitRendering alloc] init:NSLocalizedString(@"Saving File...", nil)] autorelease];
 	[waiting showWindow:self];
     
     NSString *filename = [NSString stringWithFormat:@"%@/%@", saveDialog.directory, saveDialog.nameFieldStringValue];
-    PDFDocument *layoutPDF = [[PDFDocument alloc] init];
+    PDFDocument *layoutPDF = [[[PDFDocument alloc] init] autorelease];
     NSInteger pageNumber = -1;  // Index for PDF document's page
     CGFloat pageRatio = getRatioFromPaperFormat(pageFormat);
     NSRect pageBounds = getPDFPageBoundsFromPaperFormat(pageFormat);    // The bounds in pixels for each page
     
     for (NSUInteger i = 0; i < nbPages; ++i)
-    {
+    @autoreleasepool{
         PLLayoutView *page = [self.subviews objectAtIndex:i];
         
         if (page.filledThumbs)
@@ -720,7 +720,7 @@
             NSSize newPageSize = NSMakeSize(roundf(newThumbWidth * matrixWidth), roundf(newThumbHeight * matrixHeight));
             
             // Draw images on page
-            NSImage *pageImage = [[NSImage alloc] initWithSize:newPageSize];
+            NSImage *pageImage = [[[NSImage alloc] initWithSize:newPageSize] autorelease];
             [[NSColor blackColor] setFill];
             
             // Draw black background
@@ -749,7 +749,7 @@
                     
                     // Get full image and draw it on pageImage
                     NSImage *fullImage = [thumb.imageObj imageAsScreenCapture:frame];
-                    NSImage *newThumb = [[NSImage alloc] initWithSize:NSMakeSize(newThumbWidth, newThumbHeight)];
+                    NSImage *newThumb = [[[NSImage alloc] initWithSize:NSMakeSize(newThumbWidth, newThumbHeight)] autorelease];
                     
                     // Draw black background on thumbnail
                     [newThumb lockFocus];
@@ -760,20 +760,7 @@
                     [newThumb unlockFocus];
                     
                     // Draw image in thumbnail
-                    @try {
-                        [pageImage lockFocus];
-                    }
-                    @catch (NSException *e)
-                    {
-                        NSLog(@"PageImage exception %@ at page %d, width %d, height %d because of %@", e.name, (int)i, (int)x, (int)y, e.reason);
-                        [newThumb release];
-                        [pageImage release];
-                        [layoutPDF release];
-                        [waiting close];
-                        [waiting autorelease];
-                        NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
-                        return;
-                    }
+                    [pageImage lockFocus];
                     {
                         [newThumb drawAtPoint:origin fromRect:newThumbFrame operation:NSCompositeCopy fraction:1.0];
                     }
@@ -781,26 +768,20 @@
                     
                     // Move x origin
                     origin.x += newThumbWidth;
-                    [newThumb release];
                 }
                 
                 origin.y += newThumbHeight;
             }
             
             // Put image on PDF page and insert page in PDF document
-            PDFPage *layoutPage = [[PDFPage alloc] initWithImage:pageImage];
-            [pageImage release];
-            
+            PDFPage *layoutPage = [[[PDFPage alloc] initWithImage:pageImage] autorelease];
             [layoutPage setBounds:pageBounds forBox:kPDFDisplayBoxMediaBox];
             [layoutPDF insertPage:layoutPage atIndex:pageNumber];
-            [layoutPage release];
         }
     }
     
-    
     BOOL error = [layoutPDF writeToFile:filename];
     [waiting close];
-	[waiting autorelease];
 
     if (!error)
         NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
@@ -809,8 +790,6 @@
         NSString *msg = [NSString stringWithFormat:@"Your file has been saved to\n%@",filename];
         NSRunAlertPanel(NSLocalizedString(@"Export file", nil), NSLocalizedString(msg, nil), NSLocalizedString(@"OK", nil), nil, nil);
     }
-    
-    [layoutPDF release];
 }
 
 #pragma mark-Other methods
