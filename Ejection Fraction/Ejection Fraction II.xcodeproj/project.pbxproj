@@ -19,7 +19,6 @@
 		5969FC1F11184417006C9938 /* Hemi-ellipse-Preview.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 5969FC1E11184417006C9938 /* Hemi-ellipse-Preview.pdf */; };
 		596DF1FA10B59936006351CD /* EjectionFractionWorkflow+OsiriX.h in Headers */ = {isa = PBXBuildFile; fileRef = 596DF1F810B59936006351CD /* EjectionFractionWorkflow+OsiriX.h */; };
 		596DF1FB10B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */; };
-		597F141411A40C0F003E22B1 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 597F141311A40C0F003E22B1 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5986F7B510DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = 5986F7B310DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.h */; };
 		5986F7B610DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5986F7B410DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.mm */; };
 		5987F5D3103018A5006D39F5 /* Ejection_Fraction_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 5987F5D2103018A5006D39F5 /* Ejection_Fraction_Prefix.pch */; };
@@ -47,6 +46,7 @@
 		59FB4F7810A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FB4F7610A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h */; };
 		59FB4F7910A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FB4F7710A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		CE7FC25F16CB7D00003E9474 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,7 +65,6 @@
 		5969FC1E11184417006C9938 /* Hemi-ellipse-Preview.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "Hemi-ellipse-Preview.pdf"; path = "Resources/Previews/Hemi-ellipse-Preview.pdf"; sourceTree = "<group>"; };
 		596DF1F810B59936006351CD /* EjectionFractionWorkflow+OsiriX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "EjectionFractionWorkflow+OsiriX.h"; path = "Sources/EjectionFractionWorkflow+OsiriX.h"; sourceTree = "<group>"; };
 		596DF1F910B59936006351CD /* EjectionFractionWorkflow+OsiriX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "EjectionFractionWorkflow+OsiriX.mm"; path = "Sources/EjectionFractionWorkflow+OsiriX.mm"; sourceTree = "<group>"; };
-		597F141311A40C0F003E22B1 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
 		5986F7B310DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EjectionFractionDicomSaveDialog.h; path = Sources/EjectionFractionDicomSaveDialog.h; sourceTree = "<group>"; };
 		5986F7B410DBAFEA00D28EFB /* EjectionFractionDicomSaveDialog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = EjectionFractionDicomSaveDialog.mm; path = Sources/EjectionFractionDicomSaveDialog.mm; sourceTree = "<group>"; };
 		5987F5D2103018A5006D39F5 /* Ejection_Fraction_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Ejection_Fraction_Prefix.pch; path = Sources/Ejection_Fraction_Prefix.pch; sourceTree = "<group>"; };
@@ -94,6 +93,7 @@
 		59FB4F7610A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeichholzEjectionFractionAlgorithm.h; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.h; sourceTree = "<group>"; };
 		59FB4F7710A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TeichholzEjectionFractionAlgorithm.mm; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* Ejection Fraction.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ejection Fraction.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				597F141411A40C0F003E22B1 /* OsiriXAPI.framework in Frameworks */,
+				CE7FC25F16CB7D00003E9474 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +124,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				597F141311A40C0F003E22B1 /* OsiriXAPI.framework */,
+				CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
@@ -335,6 +335,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../osirix-trunk/build/Development/\"",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;

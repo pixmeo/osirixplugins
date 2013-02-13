@@ -38,7 +38,7 @@ NSString* Syst = @"Systole";
 }
 
 -(void)dealloc {
-	DLog(@"%X [EjectionFractionWorkflow dealloc]", self);
+	DLog(@"%@ [EjectionFractionWorkflow dealloc]", self);
 	[self deallocOsiriX];
 	[self setAlgorithm:NULL];
 //	[self setViewer:NULL];

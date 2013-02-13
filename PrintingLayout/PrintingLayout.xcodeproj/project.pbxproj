@@ -20,11 +20,11 @@
 		6198F05A1654092F00C20488 /* PLUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 6198F0581654092F00C20488 /* PLUtils.h */; };
 		61E054E015F4EB9B00BCF654 /* PLThumbnailView.h in Headers */ = {isa = PBXBuildFile; fileRef = 61E054DE15F4EB9B00BCF654 /* PLThumbnailView.h */; };
 		61E054E115F4EB9B00BCF654 /* PLThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61E054DF15F4EB9B00BCF654 /* PLThumbnailView.m */; };
-		8420023212E829A200E1E9CE /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8420023112E829A200E1E9CE /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49AE048680CD000E48DA /* PrintingLayout_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* PrintingLayout_Prefix.pch */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		ABA48A650680BB600089EB4F /* PLFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* PLFilter.h */; };
 		ABA48A670680BB690089EB4F /* PLFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* PLFilter.m */; };
+		CE4AC74116A15F16008046CA /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4AC74016A15F16008046CA /* OsiriXAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,11 +45,11 @@
 		6198F0581654092F00C20488 /* PLUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLUtils.h; path = Sources/PLUtils.h; sourceTree = SOURCE_ROOT; };
 		61E054DE15F4EB9B00BCF654 /* PLThumbnailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PLThumbnailView.h; path = Sources/PLThumbnailView.h; sourceTree = "<group>"; };
 		61E054DF15F4EB9B00BCF654 /* PLThumbnailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PLThumbnailView.m; path = Sources/PLThumbnailView.m; sourceTree = "<group>"; };
-		8420023112E829A200E1E9CE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* PrintingLayout.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrintingLayout.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA48A640680BB600089EB4F /* PLFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PLFilter.h; path = Sources/PLFilter.h; sourceTree = "<group>"; };
 		ABA48A660680BB690089EB4F /* PLFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PLFilter.m; path = Sources/PLFilter.m; sourceTree = "<group>"; };
+		CE4AC74016A15F16008046CA /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +58,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				8420023212E829A200E1E9CE /* OsiriXAPI.framework in Frameworks */,
+				CE4AC74116A15F16008046CA /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				8420023112E829A200E1E9CE /* OsiriXAPI.framework */,
+				CE4AC74016A15F16008046CA /* OsiriXAPI.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);
@@ -268,6 +268,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"../../osirix-trunk/build/Development",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -312,6 +313,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"../../osirix-trunk/build/Development",
+					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
 				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

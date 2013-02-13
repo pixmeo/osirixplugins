@@ -107,28 +107,55 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
     return _expectedRoiId;
 }
 
--(short)pixIndexForRoi:(ROI*)roi {
-//	DCMPix* pix = [roi pix];
-	NSArray* dcmRoiList = [[roi curView] dcmRoiList];
-	for (NSUInteger i = 0; i < [dcmRoiList count]; ++i)
-		for (ROI* roii in [dcmRoiList objectAtIndex:i])
-			if (roii == roi)
-				return i;
-	[NSException raise:NSGenericException format:@"Couldn't find ROI in list"];
-	return -1;
-}
-
 -(void)selectOrOpenViewerForRoiWithId:(NSString*)roiId
 {
     @try
     {
         ROI* roi = [self roiForId:roiId];
         
-        if (roi) {
+        if (roi)
+        {
             DCMView* view = [roi curView];
             ViewerController* viewer = [[view window] windowController];
             [[view window] makeKeyAndOrderFront:self];
-            [viewer setImageIndex:[self pixIndexForRoi:roi]];
+            
+            
+            if( [[roi curView] is2DViewer])
+            {
+                ViewerController* v = [[roi curView] windowController];
+                
+                for( int m = 0; m < v.maxMovieIndex; m++)
+                {
+                    NSArray* dcmRoiList = [v roiList: m];
+                    
+                    for (NSUInteger i = 0; i < [dcmRoiList count]; ++i)
+                        for (ROI* roii in [dcmRoiList objectAtIndex:i])
+                            if (roii == roi)
+                            {
+                                if( [[roi curView] flippedData])
+                                {
+                                    [viewer setMovieIndex: m];
+                                    [viewer setImageIndex: [dcmRoiList count] -i -1];
+                                }
+                                else
+                                {
+                                    [viewer setMovieIndex: m];
+                                    [viewer setImageIndex: i];
+                                }
+                            }
+                }
+            }
+            else
+            {
+                NSArray* dcmRoiList = [[roi curView] dcmRoiList];
+                
+                for (NSUInteger i = 0; i < [dcmRoiList count]; ++i)
+                    for (ROI* roii in [dcmRoiList objectAtIndex:i])
+                        if (roii == roi)
+                            [viewer setImageIndex: i];
+            }
+            
+            
             [viewer selectROI:roi deselectingOther:YES];
         } else {
             NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
