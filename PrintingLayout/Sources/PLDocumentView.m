@@ -672,6 +672,7 @@
         PLLayoutView *page = [self.subviews objectAtIndex:i];
         
         if (page.filledThumbs)
+        @autoreleasepool
         {
             ++pageNumber;
             

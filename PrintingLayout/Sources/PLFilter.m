@@ -27,8 +27,12 @@
 - (long) filterImage:(NSString*) menuName
 {
     PLWindowController *layoutController = [[PLWindowController alloc] init];
+// Window opening depends on debug mode
+#ifndef NDEBUG
     [NSTimer scheduledTimerWithTimeInterval:1. target:[layoutController window] selector:@selector(makeKeyAndOrderFront:) userInfo:nil repeats:NO];
-//    [[layoutController window] makeKeyAndOrderFront:self];
+#else
+    [[layoutController window] makeKeyAndOrderFront:self];
+#endif
     
     return 0;
 }
