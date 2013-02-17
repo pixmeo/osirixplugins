@@ -217,28 +217,44 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
 
 extern float ROIColorR, ROIColorG, ROIColorB; // declared in ROI.m
 
--(void)setRoi:(ROI*)roi forId:(NSString*)roiId {
-	ROI* prevRoi = [self roiForId:roiId];
-	
-	if (prevRoi) {
-		if (roi == prevRoi) return;
-		[prevRoi setName:NULL];
-		RGBColor color = {[[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorR"], [[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorG"], [[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorB"]};
-		[prevRoi setColor:color globally:NO];
-	}
-	
-	DLog(@"Setting %@ as %@", [roi name], roiId);
-	
-	if (roi)
-		[_rois setObject:roi forKey:roiId];
-	else [_rois removeObjectForKey:roiId];
-	
-	[roi setName:roiId];
-	[roi setNSColor:[_algorithm colorForRoiId:roiId] globally:NO];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowROIAssignedNotification object:self userInfo:[NSDictionary dictionaryWithObject:roiId forKey:EjectionFractionWorkflowROIIdInfo]];
+-(void)setRoi:(ROI*)roi forId:(NSString*)roiId
+{
+    [roiId retain]; // We have to retain it, because roiId IS the roi.name value -> if we [_rois removeObjectForKey:roiId], this value can have a retain count == 0
+    
+    @try
+    {
+        ROI* prevRoi = [self roiForId:roiId];
+        
+        if (prevRoi) {
+            if (roi == prevRoi) return;
+            [prevRoi setName:@""];
+            RGBColor color = {[[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorR"], [[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorG"], [[NSUserDefaults standardUserDefaults] floatForKey: @"ROIColorB"]};
+            [prevRoi setColor:color globally:NO];
+        }
+        
+        DLog(@"Setting %@ as %@", [roi name], roiId);
+        
+        if (roi)
+        {
+            [_rois setObject:roi forKey:roiId];
+            
+            [roi setName:roiId];
+            [roi setNSColor:[_algorithm colorForRoiId:roiId] globally:NO];
+        }
+        else
+            [_rois removeObjectForKey:roiId];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:EjectionFractionWorkflowROIAssignedNotification object:self userInfo:[NSDictionary dictionaryWithObject:roiId forKey:EjectionFractionWorkflowROIIdInfo]];
+        
+        [self updateResult];
+    }
+    @catch (NSException *exception) {
+        NSLog( @"%@", exception);
+    }
+    @finally {
+        [roiId autorelease];
+    }
 
-	[self updateResult];
 }
 
 -(void)roiAdded:(NSNotification*)notification {
@@ -257,11 +273,7 @@ extern float ROIColorR, ROIColorG, ROIColorB; // declared in ROI.m
 	ROI* roi = [notification object];
 	NSString* roiId = [self idForRoi:roi];
 	if (roiId)
-    {
 		[self setRoi:NULL forId:roiId];
-        
-		[self selectOrOpenViewerForRoiWithId:roiId];
-	}
 }
 
 -(void)showDetails {
