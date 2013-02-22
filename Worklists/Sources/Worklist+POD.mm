@@ -78,7 +78,7 @@
             // get POD servers list
             
             NSMutableArray* dicomNodes = [NSMutableArray array];
-            NSArray* allDicomNodes = [DCMNetServiceDelegate DICOMServersList];
+            NSArray* allDicomNodes = [DCMNetServiceDelegate DICOMServersListSendOnly:NO QROnly:NO cached:YES];
             for (NSDictionary* si in [NSUserDefaults.standardUserDefaults arrayForKey:@"comparativeSearchDICOMNodes"])
                 for (NSDictionary* di in allDicomNodes)
                     if ([[si objectForKey:@"AETitle"] isEqualToString:[di objectForKey:@"AETitle"]] &&

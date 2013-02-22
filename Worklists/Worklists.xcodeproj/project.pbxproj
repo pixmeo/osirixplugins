@@ -49,7 +49,7 @@
 		592685C111D2056D00CFA81F /* WorklistsPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WorklistsPreferencesController.h; path = Sources/WorklistsPreferencesController.h; sourceTree = "<group>"; };
 		592685C211D2056D00CFA81F /* WorklistsPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WorklistsPreferencesController.m; path = Sources/WorklistsPreferencesController.m; sourceTree = "<group>"; };
 		592685DE11D2089100CFA81F /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
-		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
+		59A3C9EC130D6BB5001937EB /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = SOURCE_ROOT; };
 		59A3CBB1130D704E001937EB /* WorklistsPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = WorklistsPlugin.mm; path = Sources/WorklistsPlugin.mm; sourceTree = "<group>"; };
 		71546BE515FF6343004B154B /* Worklists.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Worklists.png; path = Resources/Worklists.png; sourceTree = "<group>"; };
 		71AFB40216034DDF00E93F17 /* album.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = album.png; path = Resources/album.png; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -388,7 +388,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
@@ -418,7 +418,7 @@
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -449,7 +449,7 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
