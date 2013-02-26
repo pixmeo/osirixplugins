@@ -38,7 +38,7 @@
 
 	NSArray					*pixList = [viewerController pixList];
 	long					i, j, k, numCsvPoints, numROIs;
-	EXPORT_FILE_TYPE		fileType;
+	EXPORT_FILE_TYPE		fileType = FT_CSV;
 	
 	if ( retCode != NSFileHandlingPanelOKButton ) return;
 	
@@ -49,11 +49,8 @@
 		fileType = FT_CSV;
 	} else if ( [ [ ftsel xmlRadio ] state ] == NSOnState ) {
 		fileType = FT_XML;
-	} else {
-		fileType = FT_NONE;
 	}
-	assert( fileType != FT_NONE );
-	
+    
 	// prepare for final output
 	NSMutableDictionary		*seriesInfo = [ [ NSMutableDictionary alloc ] init ];
 	NSMutableArray			*imagesInSeries = [ NSMutableArray arrayWithCapacity: 0 ];
