@@ -18,6 +18,7 @@
 		ABB76345067FB2A8000912C1 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633E067FB2A8000912C1 /* ROI.h */; };
 		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
 		CE25C4BE07BD5CFA00AFB3EA /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE25C4BD07BD5CFA00AFB3EA /* Accelerate.framework */; };
+		CEA04CBA16EDB981000F3199 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA04CB916EDB981000F3199 /* OsiriXAPI.framework */; };
 		CECC306707B798CA002DE2E3 /* ResampleData_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CECC306007B798CA002DE2E3 /* ResampleData_Prefix.pch */; };
 		CECC308307B798F2002DE2E3 /* ResampleDataFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = CECC307507B798F2002DE2E3 /* ResampleDataFilter.h */; };
 		CECC308507B798F2002DE2E3 /* ResampleDataFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECC307A07B798F2002DE2E3 /* ResampleDataFilter.m */; };
@@ -40,6 +41,7 @@
 		ABB7633E067FB2A8000912C1 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
 		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
 		CE25C4BD07BD5CFA00AFB3EA /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
+		CEA04CB916EDB981000F3199 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		CECC306007B798CA002DE2E3 /* ResampleData_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ResampleData_Prefix.pch; sourceTree = "<group>"; };
 		CECC307507B798F2002DE2E3 /* ResampleDataFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ResampleDataFilter.h; sourceTree = "<group>"; };
 		CECC307A07B798F2002DE2E3 /* ResampleDataFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ResampleDataFilter.m; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				CE25C4BE07BD5CFA00AFB3EA /* Accelerate.framework in Frameworks */,
+				CEA04CBA16EDB981000F3199 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +115,7 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEA04CB916EDB981000F3199 /* OsiriXAPI.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 			);
@@ -206,7 +210,11 @@
 			isa = PBXProject;
 			buildConfigurationList = CE6A9B5308AC847E00D0C1EE /* Build configuration list for PBXProject "ResampleData" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Duplicate */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -276,7 +284,11 @@
 				BUNDLE_LOADER = "";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -292,7 +304,6 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				MACH_O_TYPE = mh_bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -313,14 +324,10 @@
 		CE6A9B5408AC847E00D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc64,
-					x86_64,
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};
