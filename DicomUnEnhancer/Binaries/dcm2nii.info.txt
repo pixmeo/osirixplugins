@@ -1,0 +1,13 @@
+dcm2nii
+downloaded from http://www.cabiatl.com/mricro/mricron/dcm2nii.html
+
+    tested with: dcm2nii -g N -r N -o out_folder_path in_folder_path
+ user asked for: dcm2nii -g Y -r Y -o out_folder_path in_folder_path
+ 
+License
+
+Chris Rorden's MRIcron, copyright 2007, all rights reserved. Redistribution and use in binary forms, with or without modification, are permitted provided inclusion of the copyright notice, this list of conditions and the following disclaimer is provided with the distribution:
+Neither the name of the copyright owner nor the name of this project (MRIcron) may be used to endorse or promote products derived from this software without specific prior written permission.This software is provided by the copyright holder "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the copyright owner be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.
+
+Important note: dcm2nii is still beta software - please carefully monitor the output from this software. In particular, be aware of potential left-right flipping. This has only been tested with Philips Intera DICOM, Siemens Trio DICOM and Philips Intera PAR/REC images. This software is provided under the BSD license.
+

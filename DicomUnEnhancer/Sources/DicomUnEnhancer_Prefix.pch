@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'ExportSeriesAsNifti' target in the 'ExportSeriesAsNifti' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <AppKit/AppKit.h>
+#endif

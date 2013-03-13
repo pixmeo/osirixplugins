@@ -1,0 +1,383 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		59391B1F144C0978007B330D /* NIfTIAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59391B1E144C0978007B330D /* NIfTIAccessoryView.xib */; };
+		59391B23144C21ED007B330D /* DICOMAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59391B22144C21ED007B330D /* DICOMAccessoryView.xib */; };
+		59391B27144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 59391B24144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.h */; };
+		59391B28144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59391B25144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.mm */; };
+		59391B2C144C2C7A007B330D /* DicomUnEnhancer+Defaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 59391B2A144C2C7A007B330D /* DicomUnEnhancer+Defaults.h */; };
+		59391B2D144C2C7A007B330D /* DicomUnEnhancer+Defaults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59391B2B144C2C7A007B330D /* DicomUnEnhancer+Defaults.mm */; };
+		5939C3AC144713E300A6D158 /* DicomUnEnhancer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5939C3A8144713E300A6D158 /* DicomUnEnhancer.h */; };
+		5939C3AD144713E300A6D158 /* DicomUnEnhancer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5939C3A9144713E300A6D158 /* DicomUnEnhancer.mm */; };
+		5939C3AE144713E300A6D158 /* DicomUnEnhancerDCMTK.h in Headers */ = {isa = PBXBuildFile; fileRef = 5939C3AA144713E300A6D158 /* DicomUnEnhancerDCMTK.h */; };
+		5939C3AF144713E300A6D158 /* DicomUnEnhancerDCMTK.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5939C3AB144713E300A6D158 /* DicomUnEnhancerDCMTK.mm */; };
+		599BEEFC1429C48100B45236 /* dcm2nii in CopyFiles */ = {isa = PBXBuildFile; fileRef = 599BEEF91429C45D00B45236 /* dcm2nii */; };
+		599BEEFE1429C49400B45236 /* dcm2nii.info.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 599BEEFD1429C49400B45236 /* dcm2nii.info.txt */; };
+		59A48A9314471CFA00B934DD /* DicomUnEnhancer.png in Resources */ = {isa = PBXBuildFile; fileRef = 59A48A9214471CFA00B934DD /* DicomUnEnhancer.png */; };
+		59F3430F14448535004904DE /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F3430E14448535004904DE /* OsiriXAPI.framework */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		599BEEFB1429C47600B45236 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				599BEEFC1429C48100B45236 /* dcm2nii in CopyFiles */,
+				599BEEFE1429C49400B45236 /* dcm2nii.info.txt in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		59391B1E144C0978007B330D /* NIfTIAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NIfTIAccessoryView.xib; path = Resources/NIfTIAccessoryView.xib; sourceTree = "<group>"; };
+		59391B22144C21ED007B330D /* DICOMAccessoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DICOMAccessoryView.xib; path = Resources/DICOMAccessoryView.xib; sourceTree = "<group>"; };
+		59391B24144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DicomUnEnhancerNIfTIAccessoryViewController.h; path = Sources/DicomUnEnhancerNIfTIAccessoryViewController.h; sourceTree = "<group>"; };
+		59391B25144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DicomUnEnhancerNIfTIAccessoryViewController.mm; path = Sources/DicomUnEnhancerNIfTIAccessoryViewController.mm; sourceTree = "<group>"; };
+		59391B2A144C2C7A007B330D /* DicomUnEnhancer+Defaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DicomUnEnhancer+Defaults.h"; path = "Sources/DicomUnEnhancer+Defaults.h"; sourceTree = "<group>"; };
+		59391B2B144C2C7A007B330D /* DicomUnEnhancer+Defaults.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "DicomUnEnhancer+Defaults.mm"; path = "Sources/DicomUnEnhancer+Defaults.mm"; sourceTree = "<group>"; };
+		5939C3A8144713E300A6D158 /* DicomUnEnhancer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DicomUnEnhancer.h; path = Sources/DicomUnEnhancer.h; sourceTree = "<group>"; };
+		5939C3A9144713E300A6D158 /* DicomUnEnhancer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DicomUnEnhancer.mm; path = Sources/DicomUnEnhancer.mm; sourceTree = "<group>"; };
+		5939C3AA144713E300A6D158 /* DicomUnEnhancerDCMTK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DicomUnEnhancerDCMTK.h; path = Sources/DicomUnEnhancerDCMTK.h; sourceTree = "<group>"; };
+		5939C3AB144713E300A6D158 /* DicomUnEnhancerDCMTK.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DicomUnEnhancerDCMTK.mm; path = Sources/DicomUnEnhancerDCMTK.mm; sourceTree = "<group>"; };
+		599BEEF91429C45D00B45236 /* dcm2nii */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = dcm2nii; path = Binaries/dcm2nii; sourceTree = "<group>"; };
+		599BEEFD1429C49400B45236 /* dcm2nii.info.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = dcm2nii.info.txt; path = Binaries/dcm2nii.info.txt; sourceTree = "<group>"; };
+		59A48A9214471CFA00B934DD /* DicomUnEnhancer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DicomUnEnhancer.png; path = Resources/DicomUnEnhancer.png; sourceTree = "<group>"; };
+		59F3430E14448535004904DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* DicomUnEnhancer.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DicomUnEnhancer.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				59F3430F14448535004904DE /* OsiriXAPI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* ExportSeriesAsNifti */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				599BEEF81429C44B00B45236 /* Binaries */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = ExportSeriesAsNifti;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				59F3430E14448535004904DE /* OsiriXAPI.framework */,
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				59A48A9214471CFA00B934DD /* DicomUnEnhancer.png */,
+				59391B1E144C0978007B330D /* NIfTIAccessoryView.xib */,
+				59391B22144C21ED007B330D /* DICOMAccessoryView.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5939C3A8144713E300A6D158 /* DicomUnEnhancer.h */,
+				5939C3A9144713E300A6D158 /* DicomUnEnhancer.mm */,
+				59391B2A144C2C7A007B330D /* DicomUnEnhancer+Defaults.h */,
+				59391B2B144C2C7A007B330D /* DicomUnEnhancer+Defaults.mm */,
+				5939C3AA144713E300A6D158 /* DicomUnEnhancerDCMTK.h */,
+				5939C3AB144713E300A6D158 /* DicomUnEnhancerDCMTK.mm */,
+				59391B24144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.h */,
+				59391B25144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.mm */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* DicomUnEnhancer.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		599BEEF81429C44B00B45236 /* Binaries */ = {
+			isa = PBXGroup;
+			children = (
+				599BEEF91429C45D00B45236 /* dcm2nii */,
+				599BEEFD1429C49400B45236 /* dcm2nii.info.txt */,
+			);
+			name = Binaries;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5939C3AC144713E300A6D158 /* DicomUnEnhancer.h in Headers */,
+				5939C3AE144713E300A6D158 /* DicomUnEnhancerDCMTK.h in Headers */,
+				59391B27144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.h in Headers */,
+				59391B2C144C2C7A007B330D /* DicomUnEnhancer+Defaults.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* DicomUnEnhancer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DicomUnEnhancer" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				599BEEFB1429C47600B45236 /* CopyFiles */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				8D5B49B5048680CD000E48DA /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DicomUnEnhancer;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* DicomUnEnhancer.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DicomUnEnhancer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* ExportSeriesAsNifti */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* DicomUnEnhancer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				59A48A9314471CFA00B934DD /* DicomUnEnhancer.png in Resources */,
+				59391B1F144C0978007B330D /* NIfTIAccessoryView.xib in Resources */,
+				59391B23144C21ED007B330D /* DICOMAccessoryView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8D5B49B5048680CD000E48DA /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5939C3AD144713E300A6D158 /* DicomUnEnhancer.mm in Sources */,
+				5939C3AF144713E300A6D158 /* DicomUnEnhancerDCMTK.mm in Sources */,
+				59391B28144C2454007B330D /* DicomUnEnhancerNIfTIAccessoryViewController.mm in Sources */,
+				59391B2D144C2C7A007B330D /* DicomUnEnhancer+Defaults.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9108AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"../../../osirix-trunk/build/Development",
+					"$(inherited)",
+					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/DicomUnEnhancer_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = DicomUnEnhancer;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"../../../osirix-trunk/build/Development",
+					"$(inherited)",
+					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
+				);
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/DicomUnEnhancer_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Plug-ins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = DicomUnEnhancer;
+				SECTORDER_FLAGS = "";
+				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE6A9A9508AC841300D0C1EE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.6;
+			};
+			name = Development;
+		};
+		CE6A9A9608AC841300D0C1EE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				SDKROOT = macosx10.6;
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "DicomUnEnhancer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9108AC841300D0C1EE /* Development */,
+				CE6A9A9208AC841300D0C1EE /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DicomUnEnhancer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9508AC841300D0C1EE /* Development */,
+				CE6A9A9608AC841300D0C1EE /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
