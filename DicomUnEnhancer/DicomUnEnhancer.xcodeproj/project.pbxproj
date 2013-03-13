@@ -55,7 +55,7 @@
 		599BEEF91429C45D00B45236 /* dcm2nii */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = dcm2nii; path = Binaries/dcm2nii; sourceTree = "<group>"; };
 		599BEEFD1429C49400B45236 /* dcm2nii.info.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = dcm2nii.info.txt; path = Binaries/dcm2nii.info.txt; sourceTree = "<group>"; };
 		59A48A9214471CFA00B934DD /* DicomUnEnhancer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DicomUnEnhancer.png; path = Resources/DicomUnEnhancer.png; sourceTree = "<group>"; };
-		59F3430E14448535004904DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
+		59F3430E14448535004904DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DicomUnEnhancer.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DicomUnEnhancer.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -264,9 +264,8 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"../../../osirix-trunk/build/Development",
+					../../osirix/build/Development,
 					"$(inherited)",
-					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -305,9 +304,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"../../../osirix-trunk/build/Development",
+					../../osirix/build/Development,
 					"$(inherited)",
-					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
 				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -343,7 +341,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};
@@ -352,7 +350,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx10.7;
 			};
 			name = Deployment;
 		};
