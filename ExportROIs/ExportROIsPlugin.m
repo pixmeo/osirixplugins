@@ -113,6 +113,7 @@
 			
 			float area = 0, length = 0;
 			NSMutableDictionary	*dataString = [roi dataString];
+			NSMutableArray *dataValues = [roi dataValues];
 			
 			if( [dataString objectForKey:@"AreaCM2"]) area = [[dataString objectForKey:@"AreaCM2"] floatValue];
 			if( [dataString objectForKey:@"AreaPIX2"]) area = [[dataString objectForKey:@"AreaPIX2"] floatValue];
@@ -158,6 +159,7 @@
 			//   NumberOfPoints	: number of points
 			//   Point_mm		: array of point (x,y,z) in mm unit
 			//   Point_px		: array of point (x,y) in pixel unit
+			//   Point_value	: array of pixel values
 			[ roiInfo setObject: [ NSNumber numberWithLong: j ] forKey: @"IndexInImage" ];
 			[ roiInfo setObject: [ NSNumber numberWithFloat: mean ] forKey: @"Mean" ];
 			[ roiInfo setObject: [ NSNumber numberWithFloat: min ] forKey: @"Min" ];
@@ -172,6 +174,7 @@
 			[ roiInfo setObject: [ NSNumber numberWithLong: [ roiPoints count ] ] forKey: @"NumberOfPoints" ];
 			[ roiInfo setObject: mmXYZ forKey: @"Point_mm" ];
 			[ roiInfo setObject: pixXY forKey: @"Point_px" ];
+			[ roiInfo setObject: dataValues forKey: @"Point_value" ];
 			
 			[ roisInImage addObject: roiInfo ];
 		}
