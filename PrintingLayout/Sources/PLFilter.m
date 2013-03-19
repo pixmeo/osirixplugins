@@ -6,6 +6,7 @@
 //
 
 #import "PLFilter.h"
+#import "PLWindowController.h"
 #import <objc/runtime.h>
 #import <OsiriXAPI/DCMView.h>
 
@@ -20,7 +21,6 @@
 - (void) initPlugin
 {
     [self filterImage:nil];
-    
     [self setupSwizzles];
 }
 
@@ -43,10 +43,43 @@
     Method newMethod = class_getInstanceMethod([DCMView class], @selector(printingLayoutTimeIntervalForDrag));
     Method replacedMethod = class_getInstanceMethod([DCMView class], @selector(timeIntervalForDrag));
     method_exchangeImplementations(newMethod, replacedMethod);
+}
+
+- (BOOL) handleEvent:(NSEvent *)event forViewer:(ViewerController*)controller
+{
+    if (event.type == NSKeyDown)
+    {
+        unichar key = [event.characters characterAtIndex:0];
+
+        switch (key)
+        {
+            case 'p':
+                if (event.modifierFlags & NSCommandKeyMask)
+                {
+                    NSLog(@"Command - p");
+                    break;
+                }
+                
+            case NSF1FunctionKey:
+            case NSF2FunctionKey:
+            case NSF3FunctionKey:
+                for (NSWindow *window in [NSApp windows])
+                {
+                    if ([window.windowController class] == [PLWindowController class])
+                    {
+                        PLWindowController *wc = window.windowController;
+                        [wc.fullDocumentView keyDown:event];
+                        return YES;
+                    }
+                }
+                break;
+                
+            default:
+                break;
+        }
+    }
     
-    newMethod = class_getInstanceMethod([DCMView class], @selector(printingLayoutActionForHotKey:));
-    replacedMethod = class_getInstanceMethod([DCMView class], @selector(actionPluginForHotKey:));
-    method_exchangeImplementations(newMethod, replacedMethod);
+    return NO;
 }
 
 @end

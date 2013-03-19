@@ -106,6 +106,27 @@
         [self pageDown:nil];
 }
 
+- (BOOL)handleViewerEvent:(NSEvent*)event
+{
+    BOOL handled = NO;
+    if (event.type == NSKeyDown)
+    {
+        switch (event.keyCode)
+        {
+            case NSF5FunctionKey:
+            case NSF6FunctionKey:
+            case NSF7FunctionKey:
+                handled = YES;
+                break;
+                
+            default:
+                break;
+        }
+    }
+    
+    return handled;
+}
+
 - (void)keyDown:(NSEvent *)event
 {
     if ([[event characters] length] == 0)
@@ -119,7 +140,8 @@
 
     switch (key)
     {
-        case NSF16FunctionKey:
+        case NSF1FunctionKey:
+//        case NSF5FunctionKey:
             // Insert one image
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
@@ -185,7 +207,14 @@
             }
             break;
             
-        case NSF17FunctionKey:
+        case NSF3FunctionKey:
+//        case NSF7FunctionKey:
+            // Insert partial series
+            NSLog(@"Insert partial series.");
+//            break;
+            
+        case NSF2FunctionKey:
+//        case NSF6FunctionKey:
             // Insert whole series
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
@@ -219,11 +248,6 @@
             }
             break;
             
-        case NSF18FunctionKey:
-            // Insert partial series
-            NSLog(@"Insert partial series.");
-            break;
-
         case NSPageUpFunctionKey:
         case NSUpArrowFunctionKey:
         case NSLeftArrowFunctionKey:

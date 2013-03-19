@@ -49,7 +49,7 @@
 		AB5D36050680E57E00F4007A /* PrintingLayout.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PrintingLayout.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA48A640680BB600089EB4F /* PLFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PLFilter.h; path = Sources/PLFilter.h; sourceTree = "<group>"; };
 		ABA48A660680BB690089EB4F /* PLFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PLFilter.m; path = Sources/PLFilter.m; sourceTree = "<group>"; };
-		CE4AC74016A15F16008046CA /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
+		CE4AC74016A15F16008046CA /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,7 +268,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"../../osirix-trunk/build/Development",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -313,7 +313,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"../../osirix-trunk/build/Development",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
