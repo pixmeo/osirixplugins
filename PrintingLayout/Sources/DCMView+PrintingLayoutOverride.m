@@ -8,6 +8,7 @@
 
 #import "DCMView+PrintingLayoutOverride.h"
 #import "PLWindowController.h"
+#import <OsiriXAPI/ViewerController.h>
 
 @implementation DCMView (PrintingLayoutOverride)
 
@@ -17,15 +18,27 @@
     NSArray * windowList = [NSApp windows];
     NSUInteger nbWindows = [windowList count];
     
+    // If there is at least one PLWindowController in the window list, then the drag & drop timer is changed
     for (NSUInteger i = 0; i < nbWindows; ++i)
     {
-        if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"PLWindowController"])
+        if ([[[windowList objectAtIndex:i] windowController] class] == [PLWindowController class])
         {
-            return .15;
+            return .1;
         }
     }
     
     return 1.;
+}
+
+- (void)printingLayoutOpenOnPrint:(id)sender
+{
+    for (NSWindow *window in [NSApp windows])
+    {
+        if ([window.windowController class] == [ViewerController class])
+        {
+            [window.windowController executeFilterFromString:@"PrintingLayout"];
+        }
+    }
 }
 
 @end

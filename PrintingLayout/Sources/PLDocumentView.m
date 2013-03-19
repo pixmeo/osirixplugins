@@ -218,7 +218,7 @@
             // Insert whole series
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
-                if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"ViewerController"])
+                if ([[[windowList objectAtIndex:i] windowController] class] == [ViewerController class])
                 {
                     // Get the current DCMView
                     DCMView *imageToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] imageView];

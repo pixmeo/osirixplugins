@@ -43,6 +43,10 @@
     Method newMethod = class_getInstanceMethod([DCMView class], @selector(printingLayoutTimeIntervalForDrag));
     Method replacedMethod = class_getInstanceMethod([DCMView class], @selector(timeIntervalForDrag));
     method_exchangeImplementations(newMethod, replacedMethod);
+    
+    newMethod = class_getInstanceMethod([DCMView class], @selector(printingLayoutOpenOnPrint:));
+    replacedMethod = class_getInstanceMethod([DCMView class], @selector(print:));
+    method_exchangeImplementations(newMethod, replacedMethod);
 }
 
 - (BOOL) handleEvent:(NSEvent *)event forViewer:(ViewerController*)controller
