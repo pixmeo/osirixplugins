@@ -72,6 +72,7 @@
 - (IBAction)endSliderAction:(id)sender;
 - (IBAction)importLayoutChoice:(id)sender;
 - (IBAction)updateDocSizeIndicator:(id)sender;
+- (IBAction)updateScaleToFitPreference:(id)sender;
 - (void)updateImportPageNumber;
 - (void)updateHeight;
 - (void)updateWidth;
