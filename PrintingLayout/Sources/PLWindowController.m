@@ -22,6 +22,7 @@
 @synthesize scrollViewFormat;
 @synthesize currentPage;
 @synthesize fullDocumentView;
+@synthesize annotationRadioButton;
 @synthesize importInterval, importStart, importEnd, importWidth, importHeight;
 @synthesize importWindow;
 
@@ -104,35 +105,6 @@
         default:
             break;
     }
-}
-
-- (IBAction)setAnnotation:(id)sender
-{
-    switch ([sender tag])
-    {
-        case 0:
-            [[NSUserDefaults standardUserDefaults] setInteger: annotFull forKey: @"ANNOTATIONS"];
-            break;
-            
-        case 1:
-            [[NSUserDefaults standardUserDefaults] setInteger: annotBase forKey: @"ANNOTATIONS"];
-            break;
-            
-        case 2:
-            [[NSUserDefaults standardUserDefaults] setInteger: annotGraphics forKey: @"ANNOTATIONS"];
-            break;
-            
-        default:
-            [[NSUserDefaults standardUserDefaults] setInteger: annotNone forKey: @"ANNOTATIONS"];
-            break;
-    }
-    [DCMView setDefaults];
-    NSNotificationCenter *nc;
-    nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName: OsirixUpdateViewNotification object: self userInfo: nil];
-    
-    for( ViewerController *v in [ViewerController getDisplayed2DViewers])
-        [v setWindowTitle: self];
 }
 
 #pragma mark-Layout management
@@ -534,13 +506,6 @@
         }
     }
 }
-
--(void)updateAnnotation:(NSNotification*)notification
-{
-    
-}
-
-
 
 #pragma mark-Undo management
 //Cf. ViewerController.m from OsiriX API

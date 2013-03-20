@@ -30,6 +30,7 @@
     paperSize               scrollViewFormat;
     NSLayoutConstraint      *ratioConstraint;
     NSInteger               currentPage;
+    IBOutlet NSMatrix       *annotationRadioButton;
     
     // Attributes specific to "whole serie import box"
     IBOutlet NSPanel        *importPanel;
@@ -49,6 +50,7 @@
 @property paperSize                 scrollViewFormat;
 @property NSInteger                 currentPage;
 @property (readonly) PLDocumentView *fullDocumentView;
+@property (readonly) NSMatrix       *annotationRadioButton;
 @property NSUInteger                importInterval, importStart, importEnd, importWidth, importHeight;
 @property (readonly) NSWindow       *importWindow;
 
@@ -82,4 +84,5 @@
 - (void)saveAllROIs;
 - (void)prepareImportBox:(NSUInteger)serieSize;
 
+- (IBAction)annotation:(id)sender;
 @end

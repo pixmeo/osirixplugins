@@ -34,6 +34,7 @@
         self.isSelected              = NO;
         self.shrinking               = none;
         self.layoutIndex             = -1;
+        self.annotationType          = annotNone;
         
         [self setPostsFrameChangedNotifications:NO];
     }
@@ -53,6 +54,7 @@
         
         self.originalFrame           = frame;
         drawingFrameRect             = frame;
+        self.annotationType          = annotNone;
         
         [self setPostsFrameChangedNotifications:NO];
     }
@@ -75,6 +77,19 @@
 }
 
 #pragma mark-View's graphic management
+
+//- (void)drawRect:(NSRect)dirtyRect
+//{
+//    // Memorize the general preference, and force it to be "none" for the printing layout
+//    NSInteger annotations = [[NSUserDefaults standardUserDefaults] integerForKey:@"ANNOTATIONS"];
+//    [[NSUserDefaults standardUserDefaults] setInteger:annotNone forKey:@"ANNOTATIONS"];
+//    [DCMView setDefaults];
+//    [super drawRect:dirtyRect];
+//    
+//    // Go back to previous case
+//    [[NSUserDefaults standardUserDefaults] setInteger:annotations forKey:@"ANNOTATIONS"];
+//    [DCMView setDefaults];
+//}
 
 - (void)drawRectAnyway:(NSRect)aRect
 {
