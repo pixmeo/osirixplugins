@@ -36,7 +36,7 @@
     {
         if ([window.windowController class] == [ViewerController class])
         {
-            [window.windowController executeFilterFromString:@"PrintingLayout"];
+            [(ViewerController*)window.windowController executeFilterFromString:@"PrintingLayout"];
         }
     }
 }
