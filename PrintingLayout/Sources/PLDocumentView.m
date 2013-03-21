@@ -41,8 +41,6 @@
         self.topMargin       = floorf(frame.size.width / 200) + 1;
         self.sideMargin      = roundf(5 * topMargin / 2);
         self.bottomMargin    = 3 * topMargin;
-//        pageHeight = frame.size.height - topMargin - bottomMargin;
-//        pageWidth = frame.size.width - 2 * sideMargin;
 
         // Create the PLLayoutView
         NSRect layoutFrame = NSMakeRect(sideMargin, topMargin, frame.size.width - 2 * sideMargin, frame.size.height - bottomMargin);
@@ -141,7 +139,6 @@
     switch (key)
     {
         case NSF1FunctionKey:
-//        case NSF5FunctionKey:
             // Insert one image
             for (NSUInteger i = 0; i < nbWindows; ++i)
             {
@@ -204,48 +201,23 @@
                 
                     [self insertImage:imageToImport atIndex:imageToImport.curImage toPage:pageIndex inView:viewIndex];
                 }
+                [(PLWindowController*)self.window.windowController layoutMatrixUpdated];
             }
             break;
             
+        case NSF2FunctionKey:
+            // Insert whole series
+            [self insertSeries:nil];
+            [(PLWindowController*)self.window.windowController layoutMatrixUpdated];
+            [self setNeedsDisplay:YES];
+            break;
+            
         case NSF3FunctionKey:
-//        case NSF7FunctionKey:
+        case NSF5FunctionKey:
             // Insert partial series
             NSLog(@"Insert partial series.");
-//            break;
-            
-        case NSF2FunctionKey:
-//        case NSF6FunctionKey:
-            // Insert whole series
-            for (NSUInteger i = 0; i < nbWindows; ++i)
-            {
-                if ([[[windowList objectAtIndex:i] windowController] class] == [ViewerController class])
-                {
-                    // Get the current DCMView
-                    DCMView *imageToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] imageView];
-                    NSUInteger nbImgs = imageToImport.dcmPixList.count;
-                    
-                    // Create enough pages
-                    if (![[self.subviews objectAtIndex:currentPageIndex] updateLayoutViewWidth:4 height:6])
-                        return;
-
-                    if (nbImgs > 24)
-                    {
-                        NSUInteger nbPages = (nbImgs + 1) / 24;
-                        
-                        for (NSUInteger j = 1; j <= nbPages; ++j)
-                        {
-                            [self insertPageAtIndex:currentPageIndex + j];
-                            if (![[self.subviews objectAtIndex:currentPageIndex + j] updateLayoutViewWidth:4 height:6])
-                                return;
-                        }
-                    }
-                    
-                    // Import images
-                    NSUInteger startingView = currentPageIndex;
-                    for (NSUInteger j = 0; j < nbImgs; ++j)
-                        [self insertImage:imageToImport atIndex:j toPage:startingView + j / 24 inView:j % 24];
-                }
-            }
+            [self insertPartial:nil];
+            [(PLWindowController*)self.window.windowController layoutMatrixUpdated];
             break;
             
         case NSPageUpFunctionKey:
@@ -272,9 +244,7 @@
             
         case NSBackspaceCharacter:
         case NSDeleteCharacter:
-        {
-            NSUInteger nbPages = self.subviews.count;
-            for (NSUInteger i = 0; i < nbPages; ++i)
+            for (NSUInteger i = 0; i < self.subviews.count; ++i)
             {
                 PLLayoutView *layout = [self.subviews objectAtIndex:i];
                 NSUInteger nbSubviews = layout.subviews.count;
@@ -289,7 +259,6 @@
                     }
                 }
             }
-        }
             [self setNeedsDisplay:YES];
             break;
             
@@ -338,22 +307,54 @@
 
 - (IBAction)insertImage:(id)sender
 {
-    NSPasteboard *pasteboard = [sender representedObject];
-    
-    if (![pasteboard dataForType:pasteBoardOsiriX])
-        NSLog(@"No data in pasteboardOsiriX");
-    
-    [self insertPageAtIndex:currentPageIndex];
-    
-    if (currentPageIndex < 0)
-        currentPageIndex = 0;
-    
-    [[self.subviews objectAtIndex:currentPageIndex] importImage:sender];
+//    NSPasteboard *pasteboard = [sender representedObject];
+//    
+//    if (![pasteboard dataForType:pasteBoardOsiriX])
+//        NSLog(@"No data in pasteboardOsiriX");
+//    
+//    [self insertPageAtIndex:currentPageIndex];
+//    
+//    if (currentPageIndex < 0)
+//        currentPageIndex = 0;
+//    
+//    [[self.subviews objectAtIndex:currentPageIndex] importImage:sender];
 }
 
 - (IBAction)insertSeries:(id)sender
 {
+    NSArray * windowList = [NSApp windows];
+    NSUInteger nbWindows = [windowList count];
     
+    for (NSUInteger i = 0; i < nbWindows; ++i)
+    {
+        if ([[[windowList objectAtIndex:i] windowController] class] == [ViewerController class])
+        {
+            // Get the current DCMView
+            DCMView *imageToImport = [(ViewerController*)[[windowList objectAtIndex:i] windowController] imageView];
+            NSUInteger nbImgs = imageToImport.dcmPixList.count;
+            
+            // Create enough pages
+            if (![[self.subviews objectAtIndex:currentPageIndex] updateLayoutViewWidth:4 height:6])
+                return;
+            
+            if (nbImgs > 24)
+            {
+                NSUInteger nbPages = (nbImgs + 1) / 24;
+                
+                for (NSUInteger j = 1; j <= nbPages; ++j)
+                {
+                    [self insertPageAtIndex:currentPageIndex + j];
+                    if (![[self.subviews objectAtIndex:currentPageIndex + j] updateLayoutViewWidth:4 height:6])
+                        return;
+                }
+            }
+            
+            // Import images
+            NSUInteger startingView = currentPageIndex;
+            for (NSUInteger j = 0; j < nbImgs; ++j)
+                [self insertImage:imageToImport atIndex:j toPage:startingView + j / 24 inView:j % 24];
+        }
+    }
 }
 
 - (IBAction)insertPartial:(id)sender
@@ -398,9 +399,9 @@
 {
     NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Import DICOM Menu"];
     NSMenuItem *menuItem;
-    menuItem = [theMenu insertItemWithTitle:@"Import Current image"         action:@selector(insertImage:)      keyEquivalent:@"" atIndex:0];
+    menuItem = [theMenu insertItemWithTitle:@"Import Current image"     action:@selector(insertImage:)      keyEquivalent:@"" atIndex:0];
     [menuItem setRepresentedObject:[sender draggingPasteboard]];
-    menuItem = [theMenu insertItemWithTitle:@"Import Whole series"          action:@selector(insertSeries:)     keyEquivalent:@"" atIndex:1];
+    menuItem = [theMenu insertItemWithTitle:@"Import Whole series"      action:@selector(insertSeries:)     keyEquivalent:@"" atIndex:1];
     [menuItem setRepresentedObject:[sender draggingPasteboard]];
     menuItem = [theMenu insertItemWithTitle:@"Import Part of series"    action:@selector(insertPartial:)    keyEquivalent:@"" atIndex:2];
     [menuItem setRepresentedObject:[sender draggingPasteboard]];
@@ -414,7 +415,7 @@
     
     [NSMenu popUpContextMenu:theMenu withEvent:fakeEvent forView:self];
 
-    // Does not work: problem with selectors. Maybe check with the XploreWebRC project?
+    // Following does not work: problem with selectors. Maybe compare with what has been done in the XploreWebRC project?
 //    NSPoint draglocation = [self convertPoint:[sender draggingLocation] fromView:nil];
 //    [theMenu setAutoenablesItems:false];  // Make the items
 //    [theMenu popUpMenuPositioningItem:nil atLocation:draglocation inView:self];
@@ -433,6 +434,7 @@
 - (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
     self.isDraggingDestination = NO;
+    [(PLWindowController*)self.window.windowController layoutMatrixUpdated];
     [self setNeedsDisplay:YES];
     
     return;
@@ -521,9 +523,9 @@
     NSUInteger nbSubviews = self.subviews.count;
     if (index < nbSubviews - 1)
     {
-        NSMutableArray *shiftedViews = [[NSMutableArray alloc] initWithCapacity:nbSubviews - index];
+        NSMutableArray *shiftedViews = [[NSMutableArray alloc] initWithCapacity:nbSubviews - index/* + 1*/];
         // Store views that will be shifted
-        while (self.subviews.count > index)
+        while (self.subviews.count >/*=*/ index)
         {
             [shiftedViews addObject:[self.subviews lastObject]];
             [[self.subviews lastObject] removeFromSuperviewWithoutNeedingDisplay];
@@ -533,6 +535,12 @@
         [self addSubview:[[[PLLayoutView alloc] initWithFrame:NSZeroRect] autorelease]];
         
         // Put back views
+//        while ([shiftedViews count])
+//        {
+//            [self addSubview:[shiftedViews lastObject]];
+//            [shiftedViews removeAllObjects];
+//
+//        }
         for (NSInteger i = nbSubviews - index - 1; i >= 0; --i)
             [self addSubview:[shiftedViews objectAtIndex:i]];
         
