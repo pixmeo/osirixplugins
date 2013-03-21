@@ -12,7 +12,7 @@
 
 @implementation DCMView (PrintingLayoutOverride)
 
-// Used to change the DCMView timer for drag & drop when the plugin is on, without limiting it to the plugin window.
+// Swizzle: changes the DCMView timer for drag & drop when the plugin is on, without limiting it to the plugin window.
 - (NSTimeInterval)printingLayoutTimeIntervalForDrag
 {
     NSArray * windowList = [NSApp windows];
@@ -30,6 +30,7 @@
     return 1.;
 }
 
+// Swizzle: overrides the cmd-P (print) command when the plugin is present
 - (void)printingLayoutOpenOnPrint:(id)sender
 {
     for (NSWindow *window in [NSApp windows])
