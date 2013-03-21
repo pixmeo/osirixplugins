@@ -83,9 +83,10 @@
 							<string key="NSToolbarItemPaletteLabel">Export list</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSPopUpButton" key="NSToolbarItemView" id="124889777">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">268</int>
 								<string key="NSFrame">{{0, 14}, {100, 25}}</string>
+								<reference key="NSSuperview"/>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSPopUpButtonCell" key="NSCell" id="287618151">
 									<int key="NSCellFlags">-2076180416</int>
@@ -224,9 +225,10 @@
 							<string key="NSToolbarItemPaletteLabel">Mouse button function</string>
 							<nil key="NSToolbarItemToolTip"/>
 							<object class="NSMatrix" key="NSToolbarItemView" id="504739509">
-								<nil key="NSNextResponder"/>
+								<reference key="NSNextResponder"/>
 								<int key="NSvFlags">256</int>
-								<string key="NSFrame">{{0, 14}, {182, 33}}</string>
+								<string key="NSFrame">{{0, 14}, {188, 33}}</string>
+								<reference key="NSSuperview"/>
 								<bool key="NSEnabled">YES</bool>
 								<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								<int key="NSNumRows">1</int>
@@ -344,7 +346,7 @@
 										<int key="NSPeriodicInterval">75</int>
 									</object>
 								</array>
-								<string key="NSCellSize">{32, 33}</string>
+								<string key="NSCellSize">{33, 33}</string>
 								<string key="NSIntercellSpacing">{-2, 0}</string>
 								<int key="NSMatrixFlags">1140850688</int>
 								<string key="NSCellClass">NSActionCell</string>
@@ -375,8 +377,8 @@
 							<nil key="NSToolbarItemImage"/>
 							<nil key="NSToolbarItemTarget"/>
 							<nil key="NSToolbarItemAction"/>
-							<string key="NSToolbarItemMinSize">{182, 33}</string>
-							<string key="NSToolbarItemMaxSize">{212, 33}</string>
+							<string key="NSToolbarItemMinSize">{176, 33}</string>
+							<string key="NSToolbarItemMaxSize">{224, 33}</string>
 							<bool key="NSToolbarItemEnabled">YES</bool>
 							<bool key="NSToolbarItemAutovalidates">YES</bool>
 							<int key="NSToolbarItemTag">0</int>
@@ -1548,10 +1550,9 @@
 										<object class="NSMatrix" id="524679747">
 											<reference key="NSNextResponder" ref="139286922"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{29, 223}, {158, 78}}</string>
+											<string key="NSFrame">{{29, 219}, {169, 82}}</string>
 											<reference key="NSSuperview" ref="139286922"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<bool key="NSEnabled">YES</bool>
 											<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
@@ -1656,7 +1657,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<int key="NSPeriodicInterval">75</int>
 												</object>
 											</array>
-											<string key="NSCellSize">{158, 18}</string>
+											<string key="NSCellSize">{169, 19}</string>
 											<string key="NSIntercellSpacing">{4, 2}</string>
 											<int key="NSMatrixFlags">1151868928</int>
 											<string key="NSCellClass">NSActionCell</string>
@@ -1714,7 +1715,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<reference key="NSBackgroundColor" ref="455874330"/>
 											<reference key="NSCellBackgroundColor" ref="632383055"/>
 											<reference key="NSFont" ref="750412740"/>
-											<bool key="NSAutorecalculatesCellSize">YES</bool>
 										</object>
 										<object class="NSTextField" id="231592740">
 											<reference key="NSNextResponder" ref="139286922"/>
@@ -1786,7 +1786,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 													<string key="NSFrameSize">{510, 690}</string>
 													<reference key="NSSuperview" ref="893916648"/>
 													<reference key="NSWindow"/>
-													<reference key="NSNextKeyView"/>
 													<string key="NSReuseIdentifierKey">_NS:9</string>
 													<string key="NSClassName">PLDocumentView</string>
 												</object>
@@ -1794,7 +1793,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<string key="NSFrameSize">{510, 690}</string>
 											<reference key="NSSuperview" ref="125832237"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="1066436112"/>
+											<reference key="NSNextKeyView" ref="688906546"/>
 											<string key="NSReuseIdentifierKey">_NS:13</string>
 										</object>
 									</array>
@@ -1844,7 +1843,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 							<string key="NSFrame">{{251, 20}, {510, 690}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="688906546"/>
+							<reference key="NSNextKeyView" ref="125832237"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<int key="NSsFlags">133632</int>
 							<reference key="NSVScroller" ref="688906546"/>
@@ -4496,7 +4495,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="addPage:">id</string>
 						<string key="adjustLayoutHeight:">id</string>
 						<string key="adjustLayoutWidth:">id</string>
-						<string key="annotation:">id</string>
 						<string key="changeTool:">id</string>
 						<string key="clearViewsInLayout:">id</string>
 						<string key="deletePage:">id</string>
@@ -4527,10 +4525,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						</object>
 						<object class="IBActionInfo" key="adjustLayoutWidth:">
 							<string key="name">adjustLayoutWidth:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="annotation:">
-							<string key="name">annotation:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="changeTool:">
