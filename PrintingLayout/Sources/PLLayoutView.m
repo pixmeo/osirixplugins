@@ -524,6 +524,8 @@
     {
         [[self.subviews objectAtIndex:i] setIsDraggingDestination:NO];
     }
+    
+    [(PLWindowController*)self.window.windowController layoutMatrixUpdated];
     [self setNeedsDisplay:YES];
 }
 

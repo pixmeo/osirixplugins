@@ -40,7 +40,7 @@
         self.currentPage         = -1;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated:) name:NSViewBoundsDidChangeNotification object:scrollView.contentView];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnnotation:) name:OsirixUpdateViewNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnnotation:) name:OsirixUpdateViewNotification object:nil];
     }
     
     return self;

@@ -57,16 +57,10 @@
 
         switch (key)
         {
-            case 'p':
-                if (event.modifierFlags & NSCommandKeyMask)
-                {
-                    NSLog(@"Command - p");
-                    break;
-                }
-                
             case NSF1FunctionKey:
             case NSF2FunctionKey:
             case NSF3FunctionKey:
+            case NSF5FunctionKey:
                 for (NSWindow *window in [NSApp windows])
                 {
                     if ([window.windowController class] == [PLWindowController class])

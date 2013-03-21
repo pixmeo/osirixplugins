@@ -21,8 +21,8 @@
     CGFloat     bottomMargin;
     
     paperSize   pageFormat;
-    CGFloat     pageWidth;      // keep or not?
-    CGFloat     pageHeight;     // keep or not?
+    CGFloat     pageWidth;
+    CGFloat     pageHeight;
     
     int         currentPageIndex;
 }
