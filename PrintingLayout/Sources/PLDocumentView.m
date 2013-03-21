@@ -702,7 +702,6 @@
     // Memorize the general preference, and force it to be the local definition
     NSInteger annotations = [[NSUserDefaults standardUserDefaults] integerForKey:@"ANNOTATIONS"];
     [[NSUserDefaults standardUserDefaults] setInteger:[[[(PLWindowController*)self.window.windowController annotationRadioButton] selectedCell] tag] forKey:@"ANNOTATIONS"];
-    [DCMView setDefaults];
     
     for (NSUInteger i = 0; i < nbPages; ++i)
     @autoreleasepool{
@@ -823,7 +822,6 @@
 
     // Put back the original annotation preference
     [[NSUserDefaults standardUserDefaults] setInteger:annotations forKey:@"ANNOTATIONS"];
-    [DCMView setDefaults];
     
     if (!error)
         NSRunAlertPanel(NSLocalizedString(@"Export Error", nil), NSLocalizedString(@"Your file has not been saved.", nil), NSLocalizedString(@"OK", nil), nil, nil);
