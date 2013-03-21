@@ -84,5 +84,4 @@
 - (void)saveAllROIs;
 - (void)prepareImportBox:(NSUInteger)serieSize;
 
-- (IBAction)annotation:(id)sender;
 @end
