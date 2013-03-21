@@ -76,6 +76,12 @@
 	return NO;
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"ANNOTATIONS"])
+        return;
+}
+
 #pragma mark-View's graphic management
 
 //- (void)drawRect:(NSRect)dirtyRect
@@ -309,6 +315,7 @@
     
     switch (key)
     {
+        // Seems not to be used
         case NSF1FunctionKey:
         case NSF2FunctionKey:
         case NSF3FunctionKey:
@@ -321,6 +328,10 @@
         case NSHomeFunctionKey:
         case NSEndFunctionKey:
             [self.superview.superview keyDown:event];
+            break;
+
+        // Prevent annotation type to be changed in a key/selected thumbnail
+        case NSTabCharacter:
             break;
             
         default:
@@ -347,7 +358,7 @@
             NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
             [theMenu insertItemWithTitle:@"Delete"      	action:@selector(clearView)     keyEquivalent:@"" atIndex:0];
             [theMenu insertItemWithTitle:@"Reset"       	action:@selector(resetView:)    keyEquivalent:@"" atIndex:1];
-            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(scaleToFit)  keyEquivalent:@"" atIndex:2];
+            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(scaleToFit)    keyEquivalent:@"" atIndex:2];
             
             if (isSelected)
                 [theMenu insertItemWithTitle:@"Deselect"    action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
