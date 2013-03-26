@@ -34,7 +34,7 @@
         self.isSelected              = NO;
         self.shrinking               = none;
         self.layoutIndex             = -1;
-        self.annotationType          = annotNone;
+        self.annotationType          = annotGraphics;
         COPYSETTINGSINSERIES         = NO;
         
         [self setPostsFrameChangedNotifications:NO];
@@ -55,7 +55,7 @@
         
         self.originalFrame           = frame;
         drawingFrameRect             = frame;
-        self.annotationType          = annotNone;
+        self.annotationType          = annotGraphics;
         COPYSETTINGSINSERIES         = NO;
         
         [self setPostsFrameChangedNotifications:NO];
