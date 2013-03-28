@@ -93,7 +93,7 @@
 		59FB4F7610A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeichholzEjectionFractionAlgorithm.h; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.h; sourceTree = "<group>"; };
 		59FB4F7710A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TeichholzEjectionFractionAlgorithm.mm; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* Ejection Fraction.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ejection Fraction.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
+		CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,9 +228,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D5B49AC048680CD000E48DA /* Ejection Fraction II */ = {
+		8D5B49AC048680CD000E48DA /* Ejection Fraction */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Ejection Fraction II" */;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Ejection Fraction" */;
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
@@ -242,7 +242,7 @@
 			);
 			dependencies = (
 			);
-			name = "Ejection Fraction II";
+			name = "Ejection Fraction";
 			productInstallPath = "$(HOME)/Library/Bundles";
 			productName = Invert;
 			productReference = AB5D36050680E57E00F4007A /* Ejection Fraction.osirixplugin */;
@@ -253,7 +253,7 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Ejection Fraction II" */;
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Ejection Fraction" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -267,7 +267,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D5B49AC048680CD000E48DA /* Ejection Fraction II */,
+				8D5B49AC048680CD000E48DA /* Ejection Fraction */,
 			);
 		};
 /* End PBXProject section */
@@ -332,11 +332,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development/\"",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -380,6 +376,7 @@
 					ppc64,
 					x86_64,
 				);
+				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 			};
@@ -388,7 +385,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Ejection Fraction II" */ = {
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Ejection Fraction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9108AC841300D0C1EE /* Development */,
@@ -396,7 +393,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Development;
 		};
-		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Ejection Fraction II" */ = {
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Ejection Fraction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9508AC841300D0C1EE /* Development */,
