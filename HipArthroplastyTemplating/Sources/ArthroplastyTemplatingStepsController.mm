@@ -877,17 +877,14 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_viewerController deselectAllROIs];
 		
 		NSDictionary* d = [_viewerController exportDICOMFileInt:YES withName:name];
-		if (d.count) {
-			NSArray* files = [NSArray arrayWithObject:d];
-			[BrowserController addFiles:[files valueForKey:@"file"]
-							  toContext:[[BrowserController currentBrowser] managedObjectContext]
-							 toDatabase:[BrowserController currentBrowser]
-							  onlyDICOM:YES 
-					   notifyAddedFiles:YES
-					parseExistingObject:YES
-							   dbFolder:[[BrowserController currentBrowser] documentsDirectory]
-					  generatedByOsiriX:YES];
-		} else [[BrowserController currentBrowser] checkIncoming:self];
+		if (d.count)
+            [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject:[d valueForKey: @"file"]]
+                                                                        postNotifications: YES
+                                                                                dicomOnly: YES
+                                                                      rereadExistingItems: YES
+                                                                        generatedByOsiriX: YES];
+		else
+            [[DicomDatabase activeLocalDatabase] importFilesFromIncomingDir];
 		
 		// send to PACS
 		if ([_sendToPACSButton state]==NSOnState)

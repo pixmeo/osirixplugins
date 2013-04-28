@@ -46,7 +46,7 @@
 		59FB4F7810A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = 59FB4F7610A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h */; };
 		59FB4F7910A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59FB4F7710A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		CE7FC25F16CB7D00003E9474 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */; };
+		CEB6E5BC172D126500826F3F /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB6E5BB172D126500826F3F /* OsiriXAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,7 +93,7 @@
 		59FB4F7610A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeichholzEjectionFractionAlgorithm.h; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.h; sourceTree = "<group>"; };
 		59FB4F7710A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TeichholzEjectionFractionAlgorithm.mm; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* Ejection Fraction.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ejection Fraction.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
+		CEB6E5BB172D126500826F3F /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,7 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				CE7FC25F16CB7D00003E9474 /* OsiriXAPI.framework in Frameworks */,
+				CEB6E5BC172D126500826F3F /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,7 +124,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */,
+				CEB6E5BB172D126500826F3F /* OsiriXAPI.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
@@ -336,6 +336,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../osirix-trunk/build/Development/\"",
 					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
