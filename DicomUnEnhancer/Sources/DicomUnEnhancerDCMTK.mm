@@ -9,9 +9,9 @@
 #import "DicomUnEnhancerDCMTK.h"
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <OsiriXAPI/NSThread+N2.h>
-#import <OsiriXAPI/dcfilefo.h>
-#import <OsiriXAPI/dcuid.h>
-#import <OsiriXAPI/dcmimage.h>
+#import "dcmimage.h"
+#import "dcfilefo.h"
+#import "dcuid.h"
 
 /*void describe(DcmSequenceOfItems* items) {
     for (unsigned int i = 0; i < items->card(); ++i) {

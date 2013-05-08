@@ -20,6 +20,7 @@
 #import <OsiriXAPI/Notifications.h>
 #import <OsiriXAPI/NSThread+N2.h>
 #import <objc/runtime.h>
+#import <OsiriXAPI/PluginManager.h>
 
 
 @interface WorklistsArrayController : NSArrayController
@@ -36,6 +37,7 @@
 
 @synthesize worklists = _worklists;
 @synthesize urlSyncTimer = _urlSyncTimer;
+@synthesize refreshDisabled = _refreshDisabled;
 
 static WorklistsPlugin* WorklistsPluginInstance = nil;
 static NSString* const Worklists = @"Worklists";
@@ -83,7 +85,9 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
     
     [NSUserDefaultsController.sharedUserDefaultsController removeObserver:self];
     [NSNotificationCenter.defaultCenter removeObserver:self];
+    
     self.urlSyncTimer = nil;
+    [_refreshReenableTimer release];
     
     [_cachePath release];
     [_worklistObjs release];
@@ -99,43 +103,42 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"WorklistsPreferences" inBundle:[NSBundle bundleForClass:[self class]] withTitle:Worklists image:image];
     
     Method method;
-    IMP imp;
+    //IMP imp;
     
     Class BrowserControllerClass = [BrowserController class];
     
     method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:willDisplayCell:forTableColumn:row:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
-    imp = method_getImplementation(method);
-    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:), imp, method_getTypeEncoding(method));
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:), method_getImplementation(method), method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:willDisplayCell:forTableColumn:row:)));
     
     method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:validateDrop:proposedRow:proposedDropOperation:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
-    imp = method_getImplementation(method);
-    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:validateDrop:proposedRow:proposedDropOperation:), imp, method_getTypeEncoding(method));
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:validateDrop:proposedRow:proposedDropOperation:), method_getImplementation(method), method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:validateDrop:proposedRow:proposedDropOperation:)));
     
     method = class_getInstanceMethod(BrowserControllerClass, @selector(tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
-    imp = method_getImplementation(method);
-    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:), imp, method_getTypeEncoding(method));
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:), method_getImplementation(method), method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_tableView:toolTipForCell:rect:tableColumn:row:mouseLocation:)));
     
     method = class_getInstanceMethod(BrowserControllerClass, @selector(menuWillOpen:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
-    imp = method_getImplementation(method);
-    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_menuWillOpen:), imp, method_getTypeEncoding(method));
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_menuWillOpen:), method_getImplementation(method), method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_menuWillOpen:)));
     
     method = class_getInstanceMethod(BrowserControllerClass, @selector(outlineView:willDisplayCell:forTableColumn:item:));
     if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
-    imp = method_getImplementation(method);
-    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_outlineView:willDisplayCell:forTableColumn:item:), imp, method_getTypeEncoding(method));
+    class_addMethod(BrowserControllerClass, @selector(_Worklists_BrowserController_outlineView:willDisplayCell:forTableColumn:item:), method_getImplementation(method), method_getTypeEncoding(method));
     method_setImplementation(method, class_getMethodImplementation([self class], @selector(_Worklists_BrowserController_outlineView:willDisplayCell:forTableColumn:item:)));
-}
-
-- (long)filterImage:(NSString*)menuName {
-	return 0;
+    
+    Class PluginManagerClass = [PluginManager class];
+    
+    method = class_getClassMethod(PluginManagerClass, @selector(setMenus::::));
+    if (!method) [NSException raise:NSGenericException format:@"bad OsiriX version"];
+    class_addMethod(object_getClass(PluginManagerClass), @selector(_Worklists_PluginManager_setMenus::::), method_getImplementation(method), method_getTypeEncoding(method));
+    method_setImplementation(method, method_getImplementation(class_getClassMethod([self class], @selector(_Worklists_PluginManager_setMenus::::))));
+    
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
@@ -283,6 +286,38 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 + (void)refreshAlbumsForDatabase:(DicomDatabase*)db {
     [NSNotificationCenter.defaultCenter postNotificationName:O2DatabaseInvalidateAlbumsCacheNotification object:db];
     [BrowserController.currentBrowser refreshAlbums];
+}
+
+- (void)updateMenuItem {
+    [_pluginMenuItem setState:(_refreshDisabled? NSOnState : NSOffState)];
+}
+
+- (long)filterImage:(NSString*)menuName {
+    if (_refreshDisabled) {
+        [_refreshReenableTimer invalidate];
+        _refreshReenableTimer = nil;
+        _refreshDisabled = NO;
+        [self updateMenuItem];
+    } else {
+        NSAlert* alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Worklists won't be refreshed for the next 60 minutes.", nil) defaultButton:nil alternateButton:NSLocalizedString(@"Cancel", nil) otherButton:nil informativeTextWithFormat:NSLocalizedString(@"After 60 minutes, worklists will automatically start refreshing again, but you can use this menu item to re-enable worklists when you're done.", nil)];
+        [alert beginSheetModalForWindow:nil modalDelegate:self didEndSelector:@selector(_disableRefreshSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    }
+    
+	return 0;
+}
+
+- (void)_disableRefreshSheetDidEnd:(NSAlert*)alert returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo {
+    if (returnCode == NSOKButton) {
+        _refreshDisabled = YES;
+        [self updateMenuItem];
+        _refreshReenableTimer = [NSTimer scheduledTimerWithTimeInterval:3600 target:[WorklistsNonretainingTimerInvoker invokerWithTarget:self selector:@selector(_timedReenableRefresh:)] selector:@selector(fire:) userInfo:nil repeats:NO];
+    }
+}
+
+- (void)_timedReenableRefresh:(NSTimer*)timer {
+    _refreshReenableTimer = nil;
+    _refreshDisabled = NO;
+    [self updateMenuItem];
 }
 
 #pragma mark BrowserController
@@ -454,6 +489,33 @@ NSString* const WorklistAlbumIDsDefaultsKey = @"Worklist Album IDs";
 - (void)_Worklists_BrowserController_outlineView:(NSOutlineView*)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn*)column item:(id)item {
     [self _Worklists_BrowserController_outlineView:outlineView willDisplayCell:cell forTableColumn:column item:item];
     [WorklistsPluginInstance _BrowserController:(id)self outlineView:outlineView willDisplayCell:cell forTableColumn:column item:item];
+}
+
+- (void)_PluginManager_setMenus:(NSMenu*)filtersMenu :(NSMenu*)roisMenu :(NSMenu*)othersMenu :(NSMenu*)dbMenu {
+    NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+    
+    _pluginMenuItem = nil;
+    
+    for (NSMenuItem* mi in dbMenu.itemArray) {
+        if (mi.representedObject) { // we recently started setting the NSMenuItem's representedObject to the plugin's NSBundle instance
+            if (mi.representedObject != bundle)
+                continue;
+        } else // previously, the only way to identify the menus was by their title
+            if (![mi.title isEqualToString:@"Temporarily disable Worklists refresh"])
+                continue;
+        
+        // mi is our menu item
+        _pluginMenuItem = mi;
+            
+        break; // we don't have other menu items
+    }
+    
+    [self updateMenuItem];
+}
+
++ (void)_Worklists_PluginManager_setMenus:(NSMenu*)filtersMenu :(NSMenu*)roisMenu :(NSMenu*)othersMenu :(NSMenu*)dbMenu {
+    [self _Worklists_PluginManager_setMenus:filtersMenu :roisMenu :othersMenu :dbMenu];
+    [WorklistsPluginInstance _PluginManager_setMenus:filtersMenu :roisMenu :othersMenu :dbMenu];
 }
 
 @end
