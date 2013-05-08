@@ -15,10 +15,14 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.1.0</string>
 	<key>NSPrincipalClass</key>
 	<string>WorklistsPlugin</string>
 	<key>pluginType</key>
-	<string>Other</string>
+	<string>Database</string>
+	<key>MenuTitles</key>
+	<array>
+		<string>Temporarily disable Worklists refresh</string>
+	</array>
 </dict>
 </plist>

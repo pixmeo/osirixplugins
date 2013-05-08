@@ -13,8 +13,6 @@
 		717FD97716C4E69900CE8222 /* ReporterPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 717FD97616C4E69900CE8222 /* ReporterPrefsController.m */; };
 		717FD97916C4E71200CE8222 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 717FD97816C4E71200CE8222 /* PreferencePanes.framework */; };
 		717FD97A16C4EA4800CE8222 /* ReporterPrefs.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 717FD95F16C4E06B00CE8222 /* ReporterPrefs.prefPane */; };
-		71CD3888151B7657008B5E86 /* KBPopUpToolbarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 71CD3886151B7657008B5E86 /* KBPopUpToolbarItem.h */; };
-		71CD3889151B7657008B5E86 /* KBPopUpToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 71CD3887151B7657008B5E86 /* KBPopUpToolbarItem.m */; };
 		71FD07B8151B5FA5001DA7FE /* Reporter.png in Resources */ = {isa = PBXBuildFile; fileRef = 71FD07B7151B5FA5001DA7FE /* Reporter.png */; };
 		8420023212E829A200E1E9CE /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8420023112E829A200E1E9CE /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49AE048680CD000E48DA /* Reporter_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Reporter_Prefix.pch */; };
@@ -49,10 +47,8 @@
 		717FD97516C4E69900CE8222 /* ReporterPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReporterPrefsController.h; path = Sources/ReporterPrefsController.h; sourceTree = SOURCE_ROOT; };
 		717FD97616C4E69900CE8222 /* ReporterPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReporterPrefsController.m; path = Sources/ReporterPrefsController.m; sourceTree = SOURCE_ROOT; };
 		717FD97816C4E71200CE8222 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = ../../../../../../System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<group>"; };
-		71CD3886151B7657008B5E86 /* KBPopUpToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KBPopUpToolbarItem.h; path = Sources/KBPopUpToolbarItem.h; sourceTree = "<group>"; };
-		71CD3887151B7657008B5E86 /* KBPopUpToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KBPopUpToolbarItem.m; path = Sources/KBPopUpToolbarItem.m; sourceTree = "<group>"; };
 		71FD07B7151B5FA5001DA7FE /* Reporter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Reporter.png; path = Resources/Reporter.png; sourceTree = "<group>"; };
-		8420023112E829A200E1E9CE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
+		8420023112E829A200E1E9CE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* Reporter.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Reporter.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA48A640680BB600089EB4F /* ReporterFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ReporterFilter.h; path = Sources/ReporterFilter.h; sourceTree = "<group>"; };
@@ -154,8 +150,6 @@
 			isa = PBXGroup;
 			children = (
 				32DBCF630370AF2F00C91783 /* Reporter_Prefix.pch */,
-				71CD3886151B7657008B5E86 /* KBPopUpToolbarItem.h */,
-				71CD3887151B7657008B5E86 /* KBPopUpToolbarItem.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -200,7 +194,6 @@
 			files = (
 				8D5B49AE048680CD000E48DA /* Reporter_Prefix.pch in Headers */,
 				ABA48A650680BB600089EB4F /* ReporterFilter.h in Headers */,
-				71CD3888151B7657008B5E86 /* KBPopUpToolbarItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +312,6 @@
 			files = (
 				ABA48A670680BB690089EB4F /* ReporterFilter.mm in Sources */,
 				7170F8F6151A010100DC48DF /* Reporter.applescript in Sources */,
-				71CD3889151B7657008B5E86 /* KBPopUpToolbarItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,11 +403,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"../../osirix-trunk/build/Development/",
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -452,11 +439,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"../../osirix-trunk/build/Development/",
-				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
@@ -490,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 			};
@@ -499,6 +482,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx10.7;
 			};
@@ -514,6 +498,7 @@
 				717FD97016C4E06B00CE8222 /* Deployment */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Development;
 		};
 		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "Reporter" */ = {
 			isa = XCConfigurationList;

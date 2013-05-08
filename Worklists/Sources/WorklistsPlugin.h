@@ -23,10 +23,14 @@ extern NSString* const WorklistAlbumIDsDefaultsKey;
     NSMutableDictionary* _worklistObjs;
     NSMutableDictionary* _errors;
     NSTimer* _urlSyncTimer;
+    NSMenuItem* _pluginMenuItem;
+    BOOL _refreshDisabled;
+    NSTimer* _refreshReenableTimer;
 }
 
 @property(readonly,retain) NSArrayController* worklists;
 @property(readonly,retain) NSTimer* urlSyncTimer;
+@property(readonly) BOOL refreshDisabled;
 
 + (WorklistsPlugin*)instance;
 
