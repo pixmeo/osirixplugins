@@ -8,6 +8,9 @@
 #import <Foundation/Foundation.h>
 #import <OsiriXAPI/PluginFilter.h>
 #import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/DicomSeries.h>
+#import <OsiriXAPI/DicomImage.h>
 
 #import <Cocoa/Cocoa.h>
 
@@ -25,7 +28,6 @@
 }
 
 - (long) filterImage:(NSString*) menuName;
-
 
 @end
 

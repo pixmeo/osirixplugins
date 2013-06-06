@@ -956,48 +956,54 @@
 
 - (void) prepareCDContent: (NSMutableArray*) dbObjects :(NSMutableArray*) originalDbObjects
 {
-    NSThread* thread = [NSThread currentThread];
+	NSThread* thread = [NSThread currentThread];
     
 	[finalSizeField performSelectorOnMainThread:@selector(setStringValue:) withObject:@"" waitUntilDone:YES];
     
 	@try
-    {
-        NSEnumerator *enumerator;
-        if( anonymizedFiles) enumerator = [anonymizedFiles objectEnumerator];
-        else enumerator = [files objectEnumerator];
+	{
+		NSEnumerator *enumerator;
+		if( anonymizedFiles) enumerator = [anonymizedFiles objectEnumerator];
+		else enumerator = [files objectEnumerator];
         
-        NSString *file;
-        NSString *burnFolder = [self folderToBurn];
-        NSString *dicomdirPath = [NSString stringWithFormat:@"%@/DICOMDIR",burnFolder];
-        NSString *subFolder = [NSString stringWithFormat:@"%@/DICOM",burnFolder];
-        NSFileManager *manager = [NSFileManager defaultManager];
-        int i = 0;
+		NSString *file;
+    NSString *burnFolder = [self folderToBurn];
+    NSString *dicomdirPath = [NSString stringWithFormat:@"%@/DICOMDIR",burnFolder];
+    NSString *subFolder = [NSString stringWithFormat:@"%@/DICOM",burnFolder];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    int i = 0;
 
-        //create burn Folder and dicomdir.
+		//create burn Folder and dicomdir.
 	
-        if( ![manager fileExistsAtPath:burnFolder])
-            [manager createDirectoryAtPath:burnFolder attributes:nil];
-        if( ![manager fileExistsAtPath:subFolder])
-            [manager createDirectoryAtPath:subFolder attributes:nil];
-        if( ![manager fileExistsAtPath:dicomdirPath])
-            [manager copyPath:[[NSBundle mainBundle] pathForResource:@"DICOMDIR" ofType:nil] toPath:dicomdirPath handler:nil];
+		if( ![manager fileExistsAtPath:burnFolder])
+			[manager createDirectoryAtPath:burnFolder attributes:nil];
+		if( ![manager fileExistsAtPath:subFolder])
+			[manager createDirectoryAtPath:subFolder attributes:nil];
+		if( ![manager fileExistsAtPath:dicomdirPath])
+			[manager copyPath:[[NSBundle mainBundle] pathForResource:@"DICOMDIR" ofType:nil] toPath:dicomdirPath handler:nil];
       
 			
 			
+		
+		
+		
 			
 			
-			NSLog(@"=== SandBox start ===");
-			NSString *dicomFolder = [burnFolder stringByAppendingPathComponent:@"DicomFolder"];
+		NSLog(@"=== SandBox start ===");
+		
+		NSString *dicomFolder = [burnFolder stringByAppendingPathComponent:@"DicomFolder"];
+		[manager createDirectoryAtPath:dicomFolder withIntermediateDirectories:FALSE attributes:nil error:nil];
+		
+		NSMutableArray *dicomImages = [DicomImage dicomImagesInObjects:dbObjects];
+		[XMLGenerator createDicomStructureAtPath:dicomFolder withFiles:files withCorrespondingImages:dicomImages];
+		
+		NSLog(@"=== SandBox end ===");
 			
-			if( ![manager fileExistsAtPath:dicomFolder])
-				[manager createDirectoryAtPath:dicomFolder attributes:nil];
 			
-			NSMutableArray *filesTest = [NSMutableArray array];
-			
-			
-			
-			
-			
+		
+		
+		
+		
 			
         NSMutableArray *newFiles = [NSMutableArray array];
         NSMutableArray *compressedArray = [NSMutableArray array];
@@ -1031,25 +1037,7 @@
             }
             [newFiles addObject:newPath];
             [pool release];
-					
-					[filesTest addObject:file];
         }
-			
-			[XMLGenerator createDicomStructureWithFiles:filesTest atPath:dicomFolder withObjects:dbObjectsID];
-			
-			NSLog(@"=== SandBox end ===");
-			
-			
-//			DicomImage *dicomImage = [dbObjectsID lastObject];
-//			NSImage *thumbnail = [dicomImage thumbnail];
-//			[thumbnail saveAsJpegWithName:[dicomFolder stringByAppendingPathComponent:@"test.jpg"]];
-			
-			
-			
-			
-			
-			
-			
       
         if( [newFiles count] > 0 && cancelled == NO)
         {

@@ -18,11 +18,7 @@
 }
 
 - (long) filterImage:(NSString*) menuName
-{
-	//NSAlert *myAlert = [NSAlert alertWithMessageText:@"HELLOW" defaultButton:@"Hello" alternateButton:nil otherButton:nil informativeTextWithFormat:@"cjievbéaebfakébjw"];
-	
-	//[myAlert runModal];
-	
+{	
 	BrowserController *currentBrowser = [BrowserController currentBrowser];
 	
 	NSMutableArray *managedObjects = [NSMutableArray array];
@@ -34,10 +30,14 @@
 		filesToBurn = [currentBrowser filesForDatabaseOutlineSelection:managedObjects onlyImages:NO];
 	
 	m_window = [[S_BurnerWindowController alloc] initWithFiles:filesToBurn managedObjects:managedObjects];
-	
 	[m_window showWindow:self];
 	
 	return 0;
 }
 
 @end
+
+
+
+
+
