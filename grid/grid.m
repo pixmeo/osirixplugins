@@ -385,18 +385,12 @@ static NSArray *gridMenuNames;
 
         if(s)
         {
-            BrowserController *bc = [BrowserController currentBrowser];
-            //NSArray *objects = 
-            [BrowserController addFiles: [NSArray arrayWithObject:[s valueForKey: @"file"]]
-                                                 toContext: [bc managedObjectContext]
-                                                toDatabase: bc
-                                                 onlyDICOM: YES 
-                                          notifyAddedFiles: YES
-                                       parseExistingObject: YES
-                                                  dbFolder: [bc documentsDirectory]
-                                         generatedByOsiriX: YES
-                                ];
-            //[bc selectServer: objects];
+            [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject:[s valueForKey: @"file"]]
+                                                     postNotifications: YES
+                                                             dicomOnly: YES
+                                                   rereadExistingItems: YES
+                                                     generatedByOsiriX: YES];
+            
             [viewerController adjustSlider];
             
         }

@@ -656,11 +656,11 @@ static NSString* const KOSReconstructionsSeriesName = NSLocalizedString(@"OsiriX
         
         // import the file into our DB
         DicomDatabase* database = [DicomDatabase databaseForContext:study.managedObjectContext];
-        NSArray* images = [database addFilesAtPaths:[NSArray arrayWithObject:path]
-                                  postNotifications:YES
-                                          dicomOnly:YES 
-                                rereadExistingItems:YES
-                                  generatedByOsiriX:YES];
+        NSArray* imageIDs = [database addFilesAtPaths:[NSArray arrayWithObject:path]
+                                    postNotifications:YES
+                                            dicomOnly:YES
+                                  rereadExistingItems:YES
+                                    generatedByOsiriX:YES];
         
         // upload the new file to the DICOM node
         if ([NSUserDefaults.standardUserDefaults boolForKey:KOSSynchronizeKey]) // plugin is active
@@ -687,8 +687,8 @@ static NSString* const KOSReconstructionsSeriesName = NSLocalizedString(@"OsiriX
             }];
         
         // set the new images as key images
-        for (DicomImage* image in images)
-            [image setIsKeyImage:[NSNumber numberWithBool:YES]];
+        for (DicomImage* imageID in imageIDs)
+            [[database objectWithID:imageID] setIsKeyImage:[NSNumber numberWithBool:YES]];
         
     } else
         [self _ViewerController_setKeyImage:sender];

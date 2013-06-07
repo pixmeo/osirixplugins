@@ -241,49 +241,49 @@
     }
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(DCMView *)contextInfo
 {
-    DCMView *dicomView =(DCMView*)contextInfo;
+    DCMView *dicomView = contextInfo;
     PLWindowController *wc = self.window.windowController;
-    NSUInteger start = wc.importStart - 1;
-    NSUInteger increment = wc.importInterval;
     
-    NSUInteger nbImages = (wc.importEnd - wc.importStart + 1) / increment;
-    NSUInteger imgPerPage = wc.importWidth * wc.importHeight;
-    
-    NSUInteger nbPages = nbImages % imgPerPage ? 1 + nbImages / imgPerPage : nbImages / imgPerPage;
+    NSUInteger start        = wc.importStart - 1;
+    NSUInteger increment    = wc.importInterval;
+    NSUInteger imgPerPage   = wc.importWidth * wc.importHeight;
     NSUInteger  newHeight   = wc.importHeight,
                 newWidth    = wc.importWidth;
     
-    // Create enough pages to import all desired images and resize them to the desired layout
+    // Resize the current page to the desired layout
     if (![self updateLayoutViewWidth:newWidth height:newHeight])
         return;
     
     PLDocumentView *motherView = (PLDocumentView*)self.superview;
-    NSUInteger currentPage = motherView.currentPageIndex;
-    if (nbPages > 1)
+    NSUInteger page = motherView.currentPageIndex;
+    
+    // Import images
+    NSUInteger currentImg = start;
+    NSUInteger currentPage = page;
+    NSUInteger currentThumb = 0;
+    while (currentImg < wc.importEnd)
     {
-        for (NSUInteger i = 1; i < nbPages; ++i)
+        PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:currentPage];
+        PLThumbnailView *thumb = [[pageToFill subviews] objectAtIndex:currentThumb];
+        
+        if ([thumb fillView:currentThumb withDCMView:dicomView atIndex:currentImg])
+            pageToFill.filledThumbs++;
+        
+        currentImg += increment;
+        currentThumb++;
+        
+        if (currentThumb == imgPerPage) // The current page is full
         {
-            NSUInteger pageIndex = currentPage + i;
-            [motherView insertPageAtIndex:pageIndex];
-            PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:pageIndex];
+            currentPage++;
+            currentThumb = 0;
+            // Create a new page and resize it to the desired layout
+            [motherView insertPageAtIndex:currentPage];
+            PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:currentPage];
             
             if (![pageToFill updateLayoutViewWidth:newWidth height:newHeight])
                 return;
-        }
-    }
-    
-    // Import images
-    for (NSUInteger i = 0; i < nbPages; ++i)
-    {
-        PLLayoutView *pageToFill = [motherView.subviews objectAtIndex:i + currentPage];
-        
-        for (NSUInteger j = 0; j < imgPerPage; ++j)
-        {
-            PLThumbnailView *thumb = [[pageToFill subviews] objectAtIndex:j];
-            if ([thumb fillView:j withDCMView:dicomView atIndex:start + j + imgPerPage * i])
-                pageToFill.filledThumbs++;
         }
     }
     
@@ -524,6 +524,8 @@
     {
         [[self.subviews objectAtIndex:i] setIsDraggingDestination:NO];
     }
+    
+    [(PLWindowController*)self.window.windowController layoutMatrixUpdated];
     [self setNeedsDisplay:YES];
 }
 

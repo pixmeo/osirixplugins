@@ -14,10 +14,11 @@
 //
 
 #import "xmlrpcFilter.h"
-#import "DCMPix.h"
-#import "ViewerController.h"
-#import "DicomFile.h"
-#import "BrowserController.h"
+#import "OsiriXAPI/PluginFilter.h"
+#import "OsiriXAPI/DCMPix.h"
+#import "OsiriXAPI/ViewerController.h"
+#import "OsiriXAPI/DicomFile.h"
+#import "OsiriXAPI/BrowserController.h"
 
 @implementation xmlrpcFilter
 

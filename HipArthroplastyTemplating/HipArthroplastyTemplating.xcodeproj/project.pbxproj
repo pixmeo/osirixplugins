@@ -106,7 +106,7 @@
 		59F6A17010564067008585F5 /* ArthroplastyTemplatingWindowController+OsiriX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+OsiriX.mm"; sourceTree = "<group>"; };
 		59F6A17410564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ArthroplastyTemplatingWindowController+Templates.h"; sourceTree = "<group>"; };
 		59F6A17510564159008585F5 /* ArthroplastyTemplatingWindowController+Templates.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "ArthroplastyTemplatingWindowController+Templates.mm"; sourceTree = "<group>"; };
-		712BC55D15871807005460E6 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
+		712BC55D15871807005460E6 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		713D45E115AD861000B392E0 /* Versions.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Versions.txt; sourceTree = "<group>"; };
 		718D0AE8159C8E9A00F27CE9 /* HipAT2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HipAT2D.h; sourceTree = "<group>"; };
 		718D0AE9159C8E9A00F27CE9 /* HipAT2D.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HipAT2D.mm; sourceTree = "<group>"; };
@@ -419,7 +419,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Accelerate.framework/Versions/A/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;

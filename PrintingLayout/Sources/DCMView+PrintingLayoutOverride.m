@@ -8,37 +8,36 @@
 
 #import "DCMView+PrintingLayoutOverride.h"
 #import "PLWindowController.h"
+#import <OsiriXAPI/ViewerController.h>
 
 @implementation DCMView (PrintingLayoutOverride)
 
-// Used to change the DCMView timer for drag & drop when the plugin is on without limiting it to the plugin window.
+// Swizzle: changes the DCMView timer for drag & drop when the plugin is on, without limiting it to the plugin window.
 - (NSTimeInterval)printingLayoutTimeIntervalForDrag
 {
     NSArray * windowList = [NSApp windows];
     NSUInteger nbWindows = [windowList count];
     
+    // If there is at least one PLWindowController in the window list, then the drag & drop timer is changed
     for (NSUInteger i = 0; i < nbWindows; ++i)
     {
-        if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"PLWindowController"])
+        if ([[[windowList objectAtIndex:i] windowController] class] == [PLWindowController class])
         {
-            return .15;
+            return .1;
         }
     }
     
     return 1.;
 }
 
-// Used to let the '<' key send DCMView to the PLDocumentView
-- (void)printingLayoutActionForHotKey:(NSEvent*)event
+// Swizzle: overrides the cmd-P (print) command when the plugin is present
+- (void)printingLayoutOpenOnPrint:(id)sender
 {
-    NSArray * windowList = [NSApp windows];
-    NSUInteger nbWindows = [windowList count];
-    
-    for (NSUInteger i = 0; i < nbWindows; ++i)
+    for (NSWindow *window in [NSApp windows])
     {
-        if ([[[[windowList objectAtIndex:i] windowController] className] isEqualToString:@"PLWindowController"])
+        if ([window.windowController class] == [ViewerController class])
         {
-            [[(PLWindowController*)[[windowList objectAtIndex:i] windowController] fullDocumentView] keyDown:event];
+            [(ViewerController*)window.windowController executeFilterFromString:@"PrintingLayout"];
         }
     }
 }

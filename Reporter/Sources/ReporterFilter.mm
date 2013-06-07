@@ -17,12 +17,12 @@
 #import <OsiriXAPI/N2Stuff.h>
 #import <OsiriXAPI/NSUserDefaults+OsiriX.h>
 #import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/KBPopUpToolbarItem.h>
 
 #import <objc/runtime.h>
 //#import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/ViewerController.h>
 #import <OsiriXAPI/ToolbarPanel.h>
-#import "KBPopUpToolbarItem.h"
 
 @interface ReporterFilter ()
 
@@ -234,7 +234,7 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
 //    static NSString* ReporterIconFilePath = [[[NSBundle bundleForClass:[ReporterFilter class]] pathForImageResource:@"Reporter"] retain];
     
     if ([itemIdentifier isEqualToString:ReporterViewerToolbarItemIdentifier]) {
-        ReporterKBPopUpToolbarItem* item = [[[ReporterKBPopUpToolbarItem alloc] initWithItemIdentifier:ReporterViewerToolbarItemIdentifier] autorelease];
+        KBPopUpToolbarItem* item = [[[KBPopUpToolbarItem alloc] initWithItemIdentifier:ReporterViewerToolbarItemIdentifier] autorelease];
         item.label = item.paletteLabel = NSLocalizedString(@"Reporter", @"Name of toolbar item");
         item.image = [[[NSImage alloc] initWithContentsOfURL:[[NSBundle bundleForClass:[self class]] URLForResource:@"Reporter" withExtension:@"png"]] autorelease];
         [item.image setSize:NSMakeSize(33,33)];

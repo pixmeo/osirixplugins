@@ -34,6 +34,8 @@
         self.isSelected              = NO;
         self.shrinking               = none;
         self.layoutIndex             = -1;
+        self.annotationType          = annotGraphics;
+        COPYSETTINGSINSERIES         = NO;
         
         [self setPostsFrameChangedNotifications:NO];
     }
@@ -53,6 +55,8 @@
         
         self.originalFrame           = frame;
         drawingFrameRect             = frame;
+        self.annotationType          = annotGraphics;
+        COPYSETTINGSINSERIES         = NO;
         
         [self setPostsFrameChangedNotifications:NO];
     }
@@ -74,7 +78,26 @@
 	return NO;
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"ANNOTATIONS"])
+        return;
+}
+
 #pragma mark-View's graphic management
+
+//- (void)drawRect:(NSRect)dirtyRect
+//{
+//    // Memorize the general preference, and force it to be "none" for the printing layout
+//    NSInteger annotations = [[NSUserDefaults standardUserDefaults] integerForKey:@"ANNOTATIONS"];
+//    [[NSUserDefaults standardUserDefaults] setInteger:annotNone forKey:@"ANNOTATIONS"];
+//    [DCMView setDefaults];
+//    [super drawRect:dirtyRect];
+//    
+//    // Go back to previous case
+//    [[NSUserDefaults standardUserDefaults] setInteger:annotations forKey:@"ANNOTATIONS"];
+//    [DCMView setDefaults];
+//}
 
 - (void)drawRectAnyway:(NSRect)aRect
 {
@@ -268,13 +291,12 @@
     [self setNeedsDisplay:YES];
 }
 
-//- (void)resetView:(id)sender
-//{
-//}
-//
-//- (void)rescaleView:(id)sender
-//{
-//}
+- (void)resetView:(id)sender
+{
+    [self scaleToFit];
+    [self setRotation:0.f];
+    [self setWLWW:[[self curDCM] savedWL] :[[self curDCM] savedWW]];
+}
 
 - (void)selectView
 {
@@ -295,8 +317,10 @@
     
     switch (key)
     {
-        case 60: // '<'
-        case 62: // '>'
+        // Seems not to be used
+        case NSF1FunctionKey:
+        case NSF2FunctionKey:
+        case NSF3FunctionKey:
         case NSPageUpFunctionKey:
         case NSUpArrowFunctionKey:
         case NSLeftArrowFunctionKey:
@@ -306,6 +330,10 @@
         case NSHomeFunctionKey:
         case NSEndFunctionKey:
             [self.superview.superview keyDown:event];
+            break;
+
+        // Prevent annotation type to be changed in a key/selected thumbnail
+        case NSTabCharacter:
             break;
             
         default:
@@ -332,7 +360,7 @@
             NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
             [theMenu insertItemWithTitle:@"Delete"      	action:@selector(clearView)     keyEquivalent:@"" atIndex:0];
             [theMenu insertItemWithTitle:@"Reset"       	action:@selector(resetView:)    keyEquivalent:@"" atIndex:1];
-            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(rescaleView:)  keyEquivalent:@"" atIndex:2];
+            [theMenu insertItemWithTitle:@"Rescale"         action:@selector(scaleToFit)    keyEquivalent:@"" atIndex:2];
             
             if (isSelected)
                 [theMenu insertItemWithTitle:@"Deselect"    action:@selector(selectView)    keyEquivalent:@"" atIndex:3];
