@@ -7,6 +7,31 @@
 
 #import "XMLGenerator.h"
 
+#import "AppController.h"
+#import "WaitRendering.h"
+#import "S_BurnerWindowController.h"
+#import <OsiriX/DCM.h>
+#import "MutableArrayCategory.h"
+#import <DiscRecordingUI/DRSetupPanel.h>
+#import <DiscRecordingUI/DRBurnSetupPanel.h>
+#import <DiscRecordingUI/DRBurnProgressPanel.h>
+#import "BrowserController.h"
+#import "DicomStudy.h"
+#import "DicomSeries.h"
+#import "DicomImage.h"
+#import "DicomStudy+Report.h"
+#import "Anonymization.h"
+#import "AnonymizationPanelController.h"
+#import "AnonymizationViewController.h"
+#import "ThreadsManager.h"
+#import "NSThread+N2.h"
+#import "NSFileManager+N2.h"
+#import "N2Debug.h"
+#import "NSImage+N2.h"
+#import "DicomDir.h"
+#import "DicomDatabase.h"
+#import <DiskArbitration/DiskArbitration.h>
+
 
 @interface NSImage(saveAsJpegWithName)
 - (void) saveAsJpegWithName:(NSString*) fileName;
@@ -134,6 +159,24 @@
 		}
 	}
 	
+//	NSLog(@"************ Check 1");
+//	
+//	DCMObject *object = [[patientsList lastObject] dcmObject];
+//	NSXMLDocument *doc = [object xmlDocument];
+//	
+//	NSData *xmlData = [doc XMLDataWithOptions:NSXMLNodePrettyPrint];
+//	NSString* outputPath = [[NSString alloc] initWithString:[path stringByAppendingPathComponent:@"test.xml"]];
+//
+//	NSLog(@"************ Check 2");
+//	
+//	if (![xmlData writeToFile:outputPath atomically:YES])
+//	{
+//		NSLog(@"Could not write document out AAAAAAA");
+//	}
+//	[doc release];
+//	
+//	NSLog(@"************ Check 7");
+	
 	NSXMLElement *rootXML = (NSXMLElement*)[NSXMLNode elementWithName:@"dicom"];
 	int compteur = 0;
 	
@@ -178,9 +221,12 @@
 				
 				for (id instance in [series children])
 				{
+					DCMObject *instanceDicomObject = [instance dcmObject];
+					NSString *fileName = [NSString stringWithFormat:@"%@/%05d", seriesPath, compteur];
+
 					// Write dicom file
-					[[instance dcmObject] writeToFile:[NSString stringWithFormat:@"%@/%05d", seriesPath, compteur] withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality:DCMLosslessQuality atomically:YES];
-					
+					[instanceDicomObject writeToFile:fileName withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality:DCMLosslessQuality atomically:YES];
+
 					// Add instances to xml file
 					NSXMLElement *instanceNode = (NSXMLElement*)[NSXMLNode elementWithName:@"Instance"];
 					[instanceNode setAttributes:[NSArray arrayWithObjects:
@@ -198,9 +244,26 @@
 				[studyNode addChild:seriesNode];
 				
 				// Create thumbnail
-				NSData *imageSeries = [[[images objectAtIndex:(compteur-1)] series] thumbnail];
+				DicomImage *dicomImage = [images objectAtIndex:(compteur-1)];
+				NSData *imageSeries = [[dicomImage series] thumbnail];
 				NSImage *im = [[NSImage alloc] initWithData:imageSeries];
 				[im saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail.jpg"]];
+				
+				NSLog(@"dicomImage class name : %@", [dicomImage className]);
+				
+				
+				
+				// Test bigger thumbnails
+				
+				//NSImage *testimage = [dicomImage image];
+				//NSData *test = [[dicomImage series] images];
+				
+//				NSSize size;
+//				size = NSMakeSize(70, 70);
+//
+//				NSImage* test2 = [(NSImage*)dicomImage imageByScalingProportionallyToSize:size];
+//				[test2 saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail_2.jpg"]];
+
 			}
 		}
 	}
@@ -238,7 +301,7 @@
 																[NSXMLNode attributeWithName:@"PatientID" stringValue:[object attributeValueWithName:@"PatientID"]],
 																[NSXMLNode attributeWithName:@"PatientName" stringValue:[object attributeValueWithName:@"PatientsName"]],
 																[NSXMLNode attributeWithName:@"PatientBirthDate" stringValue:[object attributeValueWithName:@"PatientsBirthDate"]],
-																[NSXMLNode attributeWithName:@"PatientSex" stringValue:[object attributeValueWithName:@"PatientsSex"]],
+																[NSXMLNode attributeWithName:@"PatientSex" stringValue:[object attributeValueWithName:@"patientSex"]],
 																nil];
 	return patientAttributes;
 }
