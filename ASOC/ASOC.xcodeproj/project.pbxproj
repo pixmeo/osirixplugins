@@ -1,0 +1,249 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4A173D1E1590AA5600DD8F17 /* html in Resources */ = {isa = PBXBuildFile; fileRef = 4A173D1D1590AA5600DD8F17 /* html */; };
+		4A173D2E1591676500DD8F17 /* ASOC.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A173D2C1591676500DD8F17 /* ASOC.h */; };
+		4A173D2F1591676500DD8F17 /* ASOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A173D2D1591676500DD8F17 /* ASOC.m */; };
+		4A8A872A1771E7A700B3FA10 /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A8A87291771E7A700B3FA10 /* AppleScriptObjC.framework */; };
+		4A8A87581772154500B3FA10 /* ASOCscript.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 4A8A87571772154500B3FA10 /* ASOCscript.applescript */; };
+		4A8A875C177224F400B3FA10 /* SERunScriptApplicationImage.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 4A8A875B177224F400B3FA10 /* SERunScriptApplicationImage.tiff */; };
+		4A8A876517722B9B00B3FA10 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4A173D1D1590AA5600DD8F17 /* html */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = html; sourceTree = "<group>"; };
+		4A173D2C1591676500DD8F17 /* ASOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASOC.h; sourceTree = "<group>"; };
+		4A173D2D1591676500DD8F17 /* ASOC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASOC.m; sourceTree = "<group>"; };
+		4A8A87291771E7A700B3FA10 /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
+		4A8A87571772154500B3FA10 /* ASOCscript.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ASOCscript.applescript; sourceTree = "<group>"; };
+		4A8A87591772163300B3FA10 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		4A8A875B177224F400B3FA10 /* SERunScriptApplicationImage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SERunScriptApplicationImage.tiff; sourceTree = "<group>"; };
+		4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../../../../../Library/Frameworks/OsiriXAPI.framework; sourceTree = "<group>"; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AB5D36050680E57E00F4007A /* ASOC.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ASOC.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A8A876517722B9B00B3FA10 /* OsiriXAPI.framework in Frameworks */,
+				4A8A872A1771E7A700B3FA10 /* AppleScriptObjC.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* EpsonCD */ = {
+			isa = PBXGroup;
+			children = (
+				4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */,
+				4A8A87591772163300B3FA10 /* README.txt */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = EpsonCD;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				4A8A87291771E7A700B3FA10 /* AppleScriptObjC.framework */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4A8A875B177224F400B3FA10 /* SERunScriptApplicationImage.tiff */,
+				4A8A87571772154500B3FA10 /* ASOCscript.applescript */,
+				4A173D1D1590AA5600DD8F17 /* html */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4A173D2C1591676500DD8F17 /* ASOC.h */,
+				4A173D2D1591676500DD8F17 /* ASOC.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB5D36050680E57E00F4007A /* ASOC.osirixplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8D5B49AD048680CD000E48DA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A173D2E1591676500DD8F17 /* ASOC.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* ASOC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "ASOC" */;
+			buildPhases = (
+				8D5B49AD048680CD000E48DA /* Headers */,
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ASOC;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = Invert;
+			productReference = AB5D36050680E57E00F4007A /* ASOC.osirixplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ASOC" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* EpsonCD */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* ASOC */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A173D1E1590AA5600DD8F17 /* html in Resources */,
+				4A8A875C177224F400B3FA10 /* SERunScriptApplicationImage.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4A173D2F1591676500DD8F17 /* ASOC.m in Sources */,
+				4A8A87581772154500B3FA10 /* ASOCscript.applescript in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CE6A9A9308AC841300D0C1EE /* Plugins */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(inherited)",
+				);
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "/Users/jacques/Library/Application Support/OsiriX/Plugins";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Bundle;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ASOC;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+			};
+			name = Plugins;
+		};
+		CE6A9A9708AC841300D0C1EE /* Plugins */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALTERNATE_OWNER = OsiriXUser;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CONFIGURATION_BUILD_DIR = "/Users/$(INSTALL_OWNER)/Library/Application Support/OsiriX/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx10.7;
+				SYMROOT = "/Users/$(INSTALL_OWNER)/build";
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Plugins;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6A9A9008AC841300D0C1EE /* Build configuration list for PBXNativeTarget "ASOC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9308AC841300D0C1EE /* Plugins */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Plugins;
+		};
+		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ASOC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6A9A9708AC841300D0C1EE /* Plugins */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Plugins;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
