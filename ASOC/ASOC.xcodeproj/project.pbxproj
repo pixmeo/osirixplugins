@@ -24,7 +24,7 @@
 		4A8A87571772154500B3FA10 /* ASOCscript.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = ASOCscript.applescript; sourceTree = "<group>"; };
 		4A8A87591772163300B3FA10 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		4A8A875B177224F400B3FA10 /* SERunScriptApplicationImage.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = SERunScriptApplicationImage.tiff; sourceTree = "<group>"; };
-		4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../../../../../Library/Frameworks/OsiriXAPI.framework; sourceTree = "<group>"; };
+		4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = /Library/Frameworks/OsiriXAPI.framework; sourceTree = "<absolute>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* ASOC.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ASOC.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -45,7 +45,6 @@
 		089C166AFE841209C02AAC07 /* EpsonCD */ = {
 			isa = PBXGroup;
 			children = (
-				4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */,
 				4A8A87591772163300B3FA10 /* README.txt */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -58,6 +57,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				4A8A876417722B9B00B3FA10 /* OsiriXAPI.framework */,
 				4A8A87291771E7A700B3FA10 /* AppleScriptObjC.framework */,
 			);
 			name = "Frameworks and Libraries";
