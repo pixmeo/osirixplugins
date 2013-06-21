@@ -1,7 +1,7 @@
 ASOC (AppleScript Objective-C)
 ==============================
 
-This is a level of integration between AppleScript and Objective-C available from Mac OS X 10.6 onwards. 
+This is a level of integration between AppleScript and Objective-C available since Mac OS X 10.6 onwards. 
 
 Scripts are transformed into Objective-C subclasses of NSObject (or of any other class defined in the  property parent: of the script) at runtime, during the execution of the method loadAppleScriptObjectiveCScripts. 
 
