@@ -58,7 +58,7 @@
 		598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRXYDataSet.h; sourceTree = "<group>"; };
 		598960820F9EFC5E00BEFEE4 /* GraphKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GraphKit.framework; path = /System/Library/PrivateFrameworks/GraphKit.framework; sourceTree = "<absolute>"; };
 		59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROI_Enhancement_II.pch; path = Sources/ROI_Enhancement_II.pch; sourceTree = "<group>"; };
-		59F9B20310C95907008A6EF1 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
+		59F9B20310C95907008A6EF1 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = SOURCE_ROOT; };
 		59F9B30C10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoiEnhancementAreaDataSet.h; path = Sources/RoiEnhancementAreaDataSet.h; sourceTree = "<group>"; };
 		59F9B30D10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RoiEnhancementAreaDataSet.mm; path = Sources/RoiEnhancementAreaDataSet.mm; sourceTree = "<group>"; };
 		59F9B30E10C95AC5008A6EF1 /* RoiEnhancementChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoiEnhancementChart.h; path = Sources/RoiEnhancementChart.h; sourceTree = "<group>"; };
@@ -344,7 +344,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix-trunk/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -370,6 +370,7 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "ROI-Enhancement";
+				SDKROOT = macosx10.7;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = (
@@ -395,7 +396,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix-trunk/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -421,6 +422,7 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "ROI-Enhancement";
+				SDKROOT = macosx10.7;
 				SECTORDER_FLAGS = "";
 				USER_HEADER_SEARCH_PATHS = "";
 				WARNING_CFLAGS = (

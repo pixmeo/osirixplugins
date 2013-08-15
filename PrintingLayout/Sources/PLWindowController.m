@@ -40,6 +40,7 @@
         self.currentPage         = -1;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated:) name:NSViewBoundsDidChangeNotification object:scrollView.contentView];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close) name:OsirixCloseViewerNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnnotation:) name:OsirixUpdateViewNotification object:nil];
     }
     
@@ -178,26 +179,6 @@
 {
     [fullDocumentView insertPageAtIndex:currentPage];
     [self updateWindowTitle];
-}
-
-- (IBAction)updateGridLayoutFromButton:(id)sender
-{
-//    NSString *name =[layoutChoiceButton selectedItem].title;
-//    NSArray *c = [name componentsSeparatedByString:@"x"];
-//    
-//    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
-//    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
-//    
-//    if ([[fullDocumentView.subviews objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
-//    {
-//        self.widthValue = newWidth;
-//        self.heightValue = newHeight;
-//        [self updateWidth];
-//        [self updateHeight];
-//        
-//        [[fullDocumentView.subviews objectAtIndex:currentPage] reorderLayoutMatrix];
-//        [fullDocumentView resizePLDocumentView];
-//    }
 }
 
 - (IBAction)reshapeLayout:(id)sender

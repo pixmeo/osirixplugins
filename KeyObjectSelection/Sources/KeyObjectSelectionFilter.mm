@@ -443,7 +443,7 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
                                                                   transferSyntax:0
                                                                      compression:1.0
                                                                  extraParameters:nil] autorelease];
-            [storescu run:self];
+            [storescu run:(id)self];
         }];
 }
 
@@ -683,7 +683,7 @@ static NSString* const KOSReconstructionsSeriesName = NSLocalizedString(@"OsiriX
                                                                       transferSyntax:0
                                                                          compression:1.0
                                                                      extraParameters:nil] autorelease];
-                [storescu run:self];
+                [storescu run:(id)self];
             }];
         
         // set the new images as key images

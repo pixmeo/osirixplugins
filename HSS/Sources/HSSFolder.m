@@ -36,7 +36,7 @@
 
 - (void)syncWithAPIFolders:(NSArray*)items {
     NSMutableArray* folders = [[[self.content filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"className = %@", [HSSFolder className]]] mutableCopy] autorelease];
-    
+
     for (NSDictionary* item in items) {
         NSString* oid = [[item valueForKey:@"oid"] ofClass:[NSString class]];
         
@@ -50,12 +50,16 @@
         folder.assignable = YES; // [[[item valueForKey:@"assignable"] ofClass:[NSString class]] boolValue]; // since feb 10 2012 the API only returns assignable folders
         folder.numCases = [[[item valueForKey:@"num_cases"] ofClass:[NSString class]] integerValue];
 
-        NSMutableAttributedString* desc = [[[NSMutableAttributedString alloc] initWithHTML:[[item valueForKey:@"description"] dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
+        id descTmp = [item valueForKey:@"description"];
+        
+        NSMutableAttributedString* desc = [[[NSMutableAttributedString alloc] initWithHTML:[descTmp==[NSNull null]?@"":descTmp dataUsingEncoding:NSUTF8StringEncoding] documentAttributes:NULL] autorelease];
         [desc setAttributes:[NSDictionary dictionary] range:desc.range]; // this removes all formatting, including links
         [desc addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:NSFont.smallSystemFontSize] range:desc.range];
         folder.desc = desc;
         
+        NSLog(@"  syncWithAPIFolders:");
         [folder syncWithAPIFolders:[[item valueForKey:@"children"] ofClass:[NSArray class]]];
+        NSLog(@"  …done");
         
         if (![self.content containsObject:folder])
             [self addObject:folder];

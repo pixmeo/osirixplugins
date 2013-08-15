@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Accept all HTTPS certificates</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -12,23 +14,21 @@
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.1.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.1.3</string>
-	<key>NSPrincipalClass</key>
-	<string>HSS</string>
+	<key>HSS base URL</key>
+	<string>https://collimage.hcuge.ch/studyshare</string>
+	<key>HSS base URL - TEST</key>
+	<string>https://vmlouvre.hcuge.ch/studyshare</string>
 	<key>MenuTitles</key>
 	<array>
 		<string>Export to HSS</string>
 	</array>
+	<key>NSPrincipalClass</key>
+	<string>HSS</string>
 	<key>pluginType</key>
 	<string>Database</string>
-	<key>HSS base URL - TEST</key>
-	<string>https://vmlouvre.hcuge.ch/studyshare</string>
-	<key>HSS base URL</key>
-	<string>https://collimage.hcuge.ch/studyshare</string>
-	<key>Accept all HTTPS certificates</key>
-	<true/>
 </dict>
 </plist>
