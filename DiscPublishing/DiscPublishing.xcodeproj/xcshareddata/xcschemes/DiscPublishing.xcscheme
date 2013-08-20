@@ -48,7 +48,7 @@
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <PathRunnable
-         FilePath = "/Users/ale/Work/Repositories/osirix-trunk/build/Development/OsiriX.app">
+         FilePath = "/Users/admin/osirix/build/Development/OsiriX.app">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -62,10 +62,6 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--TestDiscPublishing"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "--LoadPlugin $(PROJECT_DIR)/$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).$(WRAPPER_EXTENSION)"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

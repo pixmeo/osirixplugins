@@ -69,10 +69,18 @@ static NSString* PreventNullString(NSString* s) {
 	
 	_options = [options retain];
 
-    _icontext = [[NSManagedObjectContext alloc] init];
+    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]]) // OsiriX 5.7 and higher
+    {
+        N2ManagedDatabase *database = [[[images objectAtIndex:0] managedObjectContext] database];
+        _icontext = [[N2ManagedObjectContext alloc] initWithDatabase: database];
+    }
+    else
+    {
+        _icontext = [[NSManagedObjectContext alloc] init];
+    }
     _icontext.undoManager = nil;
     _icontext.persistentStoreCoordinator = [[[images objectAtIndex:0] managedObjectContext] persistentStoreCoordinator];
-
+    
 	_images = [[NSMutableArray alloc] init];
     for (DicomImage* image in images) {
         DicomImage* iimage = (DicomImage*)[_icontext objectWithID:image.objectID];
