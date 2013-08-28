@@ -68,8 +68,8 @@ static NSString* PreventNullString(NSString* s) {
 	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[images objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
 	
 	_options = [options retain];
-
-    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]]) // OsiriX 5.7 and higher
+    
+    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]] && [N2ManagedObjectContext instancesRespondToSelector: @selector( initWithDatabase:)])
     {
         N2ManagedDatabase *database = [[[images objectAtIndex:0] managedObjectContext] database];
         _icontext = [[N2ManagedObjectContext alloc] initWithDatabase: database];
