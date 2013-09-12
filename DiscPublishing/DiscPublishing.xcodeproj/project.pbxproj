@@ -53,13 +53,11 @@
 		5973458F1185E6AF00DA86F3 /* DiscPublishingPreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5973458E1185E6AF00DA86F3 /* DiscPublishingPreferencesController.mm */; };
 		597345941185E70300DA86F3 /* Warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 5994EBBB114921F4006E0DF7 /* Warning.png */; };
 		5973465D1185F2FD00DA86F3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5973465C1185F2FD00DA86F3 /* Icon.png */; };
-		598C9AE61153C4BA007B7524 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598C9AE51153C4BA007B7524 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5994E8CE114690E6006E0DF7 /* OsiriX.framework */; };
 		59BDEF6A117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 59BDEF68117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h */; };
 		59BDEF6B117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59BDEF69117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.mm */; };
 		59BDFB9C1185B7DF007F1F2C /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */; };
 		59BDFBC01185BB75007F1F2C /* DiscPublishingPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 59BDFBBE1185BB75007F1F2C /* DiscPublishingPreferences.xib */; };
-		59BDFBC51185BE46007F1F2C /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598C9AE51153C4BA007B7524 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		59BDFC271185C496007F1F2C /* DiscPublishingPreferences.prefPane in Resources */ = {isa = PBXBuildFile; fileRef = 59BDFB901185B794007F1F2C /* DiscPublishingPreferences.prefPane */; };
 		59DC28BA11C613E000DAD5B4 /* NSString+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 59DC28B811C613E000DAD5B4 /* NSString+DiscPublishing.h */; };
 		59DC28BB11C613E000DAD5B4 /* NSString+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59DC28B911C613E000DAD5B4 /* NSString+DiscPublishing.mm */; };
@@ -72,8 +70,6 @@
 		59E37D3A117457D900E84FE3 /* DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59E37D38117457D900E84FE3 /* DiscPublishing.mm */; };
 		59E37E73117466F700E84FE3 /* Standard.dcover in Resources */ = {isa = PBXBuildFile; fileRef = 59E37E70117466F700E84FE3 /* Standard.dcover */; };
 		59E381CA1177177900E84FE3 /* DiscPublishingJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 59E381C81177177900E84FE3 /* DiscPublishingJob.h */; };
-		59E3EFCD121A684500DD4552 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59E3EFCC121A684500DD4552 /* Growl.framework */; };
-		59E3EFEE121A6FC300DD4552 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59E3EFCC121A684500DD4552 /* Growl.framework */; };
 		59F0D251131F8A2400E3F979 /* Nitrogen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0D250131F8A2400E3F979 /* Nitrogen.framework */; };
 		59F0D29F131F8A3D00E3F979 /* Nitrogen.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 59F0D250131F8A2400E3F979 /* Nitrogen.framework */; };
 		7124006D14C573F70023BD31 /* DiscPublishingTool.h in Headers */ = {isa = PBXBuildFile; fileRef = 7124006C14C573F70023BD31 /* DiscPublishingTool.h */; };
@@ -83,6 +79,10 @@
 		7195995115DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.h in Headers */ = {isa = PBXBuildFile; fileRef = 7195994F15DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.h */; };
 		7195995215DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7195995015DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.mm */; };
 		71E2F68E15F09C88004DDC99 /* Disc Cover 3 PE.app in Copy Executables */ = {isa = PBXBuildFile; fileRef = 71E2F68A15F09B9B004DDC99 /* Disc Cover 3 PE.app */; };
+		8454B59117C396F000CC14BE /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8454B59017C396F000CC14BE /* OsiriXAPI.framework */; };
+		8454B59517C3973300CC14BE /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8454B59417C3973300CC14BE /* Growl.framework */; };
+		8454B59617C3973300CC14BE /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8454B59417C3973300CC14BE /* Growl.framework */; };
+		84629F2D17CE26B4007E6C26 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 8454B59417C3973300CC14BE /* Growl.framework */; };
 		8D5B49AE048680CD000E48DA /* Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF630370AF2F00C91783 /* Prefix.pch */; };
 /* End PBXBuildFile section */
 
@@ -124,8 +124,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				84629F2D17CE26B4007E6C26 /* Growl.framework in Copy Frameworks */,
 				59F0D29F131F8A3D00E3F979 /* Nitrogen.framework in Copy Frameworks */,
-				59E3EFEE121A6FC300DD4552 /* Growl.framework in Copy Frameworks */,
 				5900F90F11916356001E899B /* JobManager.framework in Copy Frameworks */,
 				5900F91011916356001E899B /* JobProcessor.framework in Copy Frameworks */,
 				5900F91111916356001E899B /* PTRobot.framework in Copy Frameworks */,
@@ -202,8 +202,7 @@
 		5973458D1185E6AF00DA86F3 /* DiscPublishingPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingPreferencesController.h; path = Classes/DiscPublishingPreferencesController.h; sourceTree = "<group>"; };
 		5973458E1185E6AF00DA86F3 /* DiscPublishingPreferencesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingPreferencesController.mm; path = Classes/DiscPublishingPreferencesController.mm; sourceTree = "<group>"; };
 		5973465C1185F2FD00DA86F3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Resources/Icon.png; sourceTree = "<group>"; };
-		598C9AE51153C4BA007B7524 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = SOURCE_ROOT; };
-		5994E8CE114690E6006E0DF7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = "../../osirix-trunk/build/Development/OsiriX.framework"; sourceTree = SOURCE_ROOT; };
+		5994E8CE114690E6006E0DF7 /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/build/Development/OsiriX.framework; sourceTree = SOURCE_ROOT; };
 		5994EBBB114921F4006E0DF7 /* Warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Warning.png; path = Resources/Warning.png; sourceTree = "<group>"; };
 		59B3FC05117C38330027B0DB /* Weird.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Weird.txt; sourceTree = "<group>"; };
 		59BDEF68117DA5C7007F1F2C /* NSUserDefaultsController+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaultsController+DiscPublishing.h"; path = "Classes/NSUserDefaultsController+DiscPublishing.h"; sourceTree = "<group>"; };
@@ -228,8 +227,7 @@
 		59E384241178868500E84FE3 /* JobManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobManager.framework; path = Libs/JobManager.framework; sourceTree = "<group>"; };
 		59E384251178868500E84FE3 /* JobProcessor.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JobProcessor.framework; path = Libs/JobProcessor.framework; sourceTree = "<group>"; };
 		59E384261178868500E84FE3 /* PTRobot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PTRobot.framework; path = Libs/PTRobot.framework; sourceTree = "<group>"; };
-		59E3EFCC121A684500DD4552 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = "../../osirix-trunk/Binaries/Growl.framework"; sourceTree = SOURCE_ROOT; };
-		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = "../../osirix-trunk/nitrogen/build/Development/Nitrogen.framework"; sourceTree = SOURCE_ROOT; };
+		59F0D250131F8A2400E3F979 /* Nitrogen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Nitrogen.framework; path = Resources/Nitrogen.framework; sourceTree = SOURCE_ROOT; };
 		59FCD7AD11905E56007B28E0 /* DiscPublishingToolAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingToolAppDelegate.h; path = Classes/DiscPublishingToolAppDelegate.h; sourceTree = "<group>"; };
 		59FCD7B011905E78007B28E0 /* DiscPublishingToolAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = DiscPublishingToolAppDelegate.mm; path = Classes/DiscPublishingToolAppDelegate.mm; sourceTree = "<group>"; };
 		7124006C14C573F70023BD31 /* DiscPublishingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiscPublishingTool.h; path = Classes/DiscPublishingTool.h; sourceTree = "<group>"; };
@@ -238,6 +236,8 @@
 		7195994F15DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+DiscPublishing.h"; path = "Classes/NSUserDefaults+DiscPublishing.h"; sourceTree = "<group>"; };
 		7195995015DD3ED0009126E1 /* NSUserDefaults+DiscPublishing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSUserDefaults+DiscPublishing.mm"; path = "Classes/NSUserDefaults+DiscPublishing.mm"; sourceTree = "<group>"; };
 		71E2F68A15F09B9B004DDC99 /* Disc Cover 3 PE.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = "Disc Cover 3 PE.app"; path = "Libs/Disc Cover 3 PE.app"; sourceTree = "<group>"; };
+		8454B59017C396F000CC14BE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
+		8454B59417C3973300CC14BE /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Resources/Growl.framework; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* DiscPublishing.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiscPublishing.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -251,8 +251,8 @@
 				5900F6701190677F001E899B /* PTRobot.framework in Frameworks */,
 				5900F68011906784001E899B /* as_storage.framework in Frameworks */,
 				59DEC7B511995E7800E0343A /* Carbon.framework in Frameworks */,
-				59E3EFCD121A684500DD4552 /* Growl.framework in Frameworks */,
 				59F0D251131F8A2400E3F979 /* Nitrogen.framework in Frameworks */,
+				8454B59617C3973300CC14BE /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,7 +261,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				59BDFB9C1185B7DF007F1F2C /* PreferencePanes.framework in Frameworks */,
-				59BDFBC51185BE46007F1F2C /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,8 +269,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5994E8CF114690E6006E0DF7 /* OsiriX.framework in Frameworks */,
-				598C9AE61153C4BA007B7524 /* OsiriXAPI.framework in Frameworks */,
 				59DEC7B411995E7800E0343A /* Carbon.framework in Frameworks */,
+				8454B59117C396F000CC14BE /* OsiriXAPI.framework in Frameworks */,
+				8454B59517C3973300CC14BE /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,13 +298,13 @@
 			isa = PBXGroup;
 			children = (
 				59F0D250131F8A2400E3F979 /* Nitrogen.framework */,
-				59E3EFCC121A684500DD4552 /* Growl.framework */,
+				8454B59417C3973300CC14BE /* Growl.framework */,
 				59E384241178868500E84FE3 /* JobManager.framework */,
 				59E384251178868500E84FE3 /* JobProcessor.framework */,
 				59E384261178868500E84FE3 /* PTRobot.framework */,
 				59E384231178868500E84FE3 /* as_storage.framework */,
+				8454B59017C396F000CC14BE /* OsiriXAPI.framework */,
 				5994E8CE114690E6006E0DF7 /* OsiriX.framework */,
-				598C9AE51153C4BA007B7524 /* OsiriXAPI.framework */,
 				59BDFB9B1185B7DF007F1F2C /* PreferencePanes.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				59DEC7B311995E7800E0343A /* Carbon.framework */,
@@ -743,6 +743,8 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../osirix-trunk/nitrogen/build/Development",
 					"$(SRCROOT)/../../osirix-trunk/Binaries",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
+					"\"$(SRCROOT)/Resources\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
@@ -769,6 +771,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libs\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_RTTI = YES;
@@ -806,6 +809,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Libs\"",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
+					"\"$(SRCROOT)/Resources\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -843,7 +848,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/System/Library/Frameworks\"",
 					"\"$(SRCROOT)/Libs\"",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
 				);
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				SDKROOT = macosx10.7;

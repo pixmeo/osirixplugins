@@ -68,11 +68,19 @@ static NSString* PreventNullString(NSString* s) {
 	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[images objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
 	
 	_options = [options retain];
-
-    _icontext = [[NSManagedObjectContext alloc] init];
+    
+    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]] && [N2ManagedObjectContext instancesRespondToSelector: @selector( initWithDatabase:)])
+    {
+        N2ManagedDatabase *database = [[[images objectAtIndex:0] managedObjectContext] database];
+        _icontext = [[N2ManagedObjectContext alloc] initWithDatabase: database];
+    }
+    else
+    {
+        _icontext = [[NSManagedObjectContext alloc] init];
+    }
     _icontext.undoManager = nil;
     _icontext.persistentStoreCoordinator = [[[images objectAtIndex:0] managedObjectContext] persistentStoreCoordinator];
-
+    
 	_images = [[NSMutableArray alloc] init];
     for (DicomImage* image in images) {
         DicomImage* iimage = (DicomImage*)[_icontext objectWithID:image.objectID];

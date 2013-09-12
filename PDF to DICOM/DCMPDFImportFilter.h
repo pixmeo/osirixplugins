@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OsiriXAPI/PluginFilter.h"
+#import <OsiriXAPI/PluginFilter.h>
 
 @class DCMCalendarDate;
 

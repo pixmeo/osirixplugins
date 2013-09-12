@@ -35,6 +35,8 @@
 	{
 		NSMutableDictionary	*httpServerMessage = [note object];
 		
+        NSLog( @"%@", httpServerMessage);
+        
         // You will also receive this notification when XMLRPC methods are called through an osirix:// URL
         // In this case, the notification dictionary won't contain an NSXMLDocument and request parameters will be available directly in the dictionary.
         // The following code shows you how to obtain the parameters, no matter if XMLRPC or osirix://

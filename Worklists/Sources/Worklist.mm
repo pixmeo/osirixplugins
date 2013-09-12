@@ -180,7 +180,7 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
         
         if (ti != -1) {
             if (!self.refreshTimer || _refreshTimer.timeInterval != ti)
-                self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistsNonretainingTimerInvoker invokerWithTarget:self selector:@selector(initiateRefresh)] selector:@selector(fire:) userInfo:nil repeats:YES];
+                self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:ti target:[WorklistsNonretainingTimerInvoker invokerWithTarget:self selector:@selector(_timedInitiateRefresh:)] selector:@selector(fire:) userInfo:nil repeats:YES];
             [_refreshTimer fire];
         } else {
             self.refreshTimer = nil;
@@ -539,6 +539,12 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     } @finally {
         [pool release];
     }
+}
+
+- (void)_timedInitiateRefresh:(NSTimer*)timer {
+    if ([[WorklistsPlugin instance] refreshDisabled])
+        return;
+    [self initiateRefresh];
 }
 
 - (void)initiateRefresh {

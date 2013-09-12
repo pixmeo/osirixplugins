@@ -48,7 +48,7 @@
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <PathRunnable
-         FilePath = "/Users/ale/Work/Repositories/osirix-trunk/build/Development/OsiriX.app">
+         FilePath = "/Users/ale/Work/osirix/build/Development/OsiriX.app">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -61,7 +61,7 @@
       </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--LoadPlugin $(PROJECT_DIR)/$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).$(WRAPPER_EXTENSION)"
+            argument = "--LoadPlugin &quot;$(BUILT_PRODUCTS_DIR)/$(PRODUCT_NAME).$(WRAPPER_EXTENSION)&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

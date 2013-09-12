@@ -9,9 +9,9 @@
 #import "DicomUnEnhancerDCMTK.h"
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <OsiriXAPI/NSThread+N2.h>
-#import <OsiriXAPI/dcfilefo.h>
-#import <OsiriXAPI/dcuid.h>
-#import <OsiriXAPI/dcmimage.h>
+#import "dcmimage.h"
+#import "dcfilefo.h"
+#import "dcuid.h"
 
 /*void describe(DcmSequenceOfItems* items) {
     for (unsigned int i = 0; i < items->card(); ++i) {
@@ -173,6 +173,14 @@ static BOOL _copyItem(DcmItem* from, const DcmTagKey& key, DcmItem* destination)
                         _copyItem(tmpItem, DcmTagKey(0x0018,0x0093), outdataset);
                         _copyItem(tmpItem, DcmTagKey(0x0018,0x0094), outdataset);
                         _copyItem(tmpItem, DcmTagKey(0x0018,0x1312), outdataset);
+                        
+                        // request from Brainlab: 0018,1312 from "COLUMN" to "COL"
+                        if (outdataset->findAndGetElement(DcmTagKey(0x0018,0x1312), tmpElement).good()) {
+                            OFString s;
+                            if (tmpElement->ident() == EVR_CS && tmpElement->getOFString(s,0).good() && s.compare("COLUMN") == 0)
+                                tmpElement->DcmElement::putString("COL");
+                        }
+                        
                         // (0018,9058), (0018,9231) and (0018,9232) should go in sequence (2005,140f), but we don't
                     }
                 

@@ -72,7 +72,7 @@
 	for ( i = 0; i < [ roiSeriesList count ]; i++ ) {
 		
 		// current DICOM pix
-		DCMPix *pix = [ pixList objectAtIndex: i ];
+		DCMPix *pix = [pixList objectAtIndex: i];
 		
 		// array of ROI in current pix
 		NSArray *roiImageList = [ roiSeriesList objectAtIndex: i ];
@@ -82,10 +82,12 @@
 
 		// walk through each ROI in current pix
 		numROIs = [ roiImageList count ];
-		for ( j = 0; j < numROIs; j++ ) {
+		for ( j = 0; j < numROIs; j++ )
+        {
+			ROI *roi = [roiImageList objectAtIndex: j ];
 			
-			ROI *roi = [ roiImageList objectAtIndex: j ];
-			
+            [roi setPix: pix];
+            
 			NSString *roiName = [ roi name ];
 			
 			float mean = 0, min = 0, max = 0, total = 0, dev = 0;
@@ -132,7 +134,7 @@
 				[ pix convertPixX: pt.x pixY: pt.y toDICOMCoords: locs ];
 
 				[ mmXYZ addObject: [ NSString stringWithFormat: @"(%f, %f, %f)", locs[0], locs[1], locs[2] ] ];
-				NSLog( @"ROI %d - %d (%@): %f, %f, %f", (int)i, (int)j, roiName, locs[0], locs[1], locs[2] );
+//				NSLog( @"ROI %d - %d (%@): %f, %f, %f", (int)i, (int)j, roiName, locs[0], locs[1], locs[2] );
 
 				//NSArray *pxXY = [ NSArray arrayWithObjects: [ NSNumber numberWithFloat: pt.x ], [ NSNumber numberWithFloat: pt.y ] ];
 				//[ xyzInRoi addObject: xyz ];
@@ -148,7 +150,7 @@
 			
 			if ( fileType == FT_CSV ) {
 				[ csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%d,%d,%@%c",
-                 i, j, mean, min, max, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, [ roi type ], numCsvPoints, csvRoiPoints, LF ];
+                 (int)i, (int)j, mean, min, max, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF ];
 			}
 						
 			// roiInfo stands for a ROI
@@ -223,12 +225,11 @@
 
 - (void) initPlugin
 {
-	NSLog( @"Init ExportROIsPlugin");
 }
 
 - (long) filterImage:(NSString*) menuName
 {
-	long		ret;
+	long ret = 0;
 	
 	if ( [ menuName isEqualToString: @"Export ROIs" ] ) {
 

@@ -267,7 +267,7 @@
                 if ([image managedObjectContext] == [[DicomDatabase defaultDatabase] managedObjectContext]) {
                     DiscPublishingPatientStack* dpps = [self stackForImage:image serviceId:sid];
                     if (![dpps.images containsObject:image])
-                        if (image.modality && ![image.modality isEqual:@"SR"]) // TODO: why?
+                        if (image.modality /*&& ![image.modality isEqual:@"SR"]*/) // TODO: why?
                             [dpps addImage:image];
                 }
             } @catch (NSException* e) {
