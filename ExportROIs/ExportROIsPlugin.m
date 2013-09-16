@@ -205,8 +205,11 @@
 
 		[ fname appendString: @".csv" ];
 		const char *str = [ csvText cStringUsingEncoding: NSASCIIStringEncoding ];
-		NSData *data = [ NSData dataWithBytes: str length: strlen( str ) ];
-		[ data writeToFile: fname atomically: YES ];
+        if (str)
+        {
+            NSData *data = [ NSData dataWithBytes: str length: strlen( str ) ];
+            [ data writeToFile: fname atomically: YES ];
+        }
 
 	} else {
 	
