@@ -1,30 +1,22 @@
 //
-//  SandBoxTestFilter.h
-//  SandBoxTest
+//  SandBoxFilter.h
+//  SandBox
 //
 //  Copyright (c) 2013 Thomas. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <OsiriXAPI/PluginFilter.h>
-#import <OsiriXAPI/BrowserController.h>
-#import <OsiriXAPI/DicomStudy.h>
-#import <OsiriXAPI/DicomSeries.h>
-#import <OsiriXAPI/DicomImage.h>
+#import <SandboxWindowController.h>
 
 #import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <OsiriXAPI/PluginFilter.h>
 
-#import <S_BurnerWindowController.h>
-
-@class DRTrack;
-@class DicomDatabase;
 
 
 
 @interface SandBoxFilter : PluginFilter
 {
-	S_BurnerWindowController *m_window;
-	
+	SandboxWindowController *m_window;
 }
 
 - (long) filterImage:(NSString*) menuName;

@@ -16,9 +16,10 @@
 		E91D91DD173A7332002A6669 /* SandBox_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = E91D91DC173A7332002A6669 /* SandBox_Prefix.pch */; };
 		E93A79E4174B6A4800BC4F42 /* XMLGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = E93A79E2174B6A4800BC4F42 /* XMLGenerator.h */; };
 		E93A79E5174B6A4800BC4F42 /* XMLGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A79E3174B6A4800BC4F42 /* XMLGenerator.m */; };
-		E95C223F173A955D002771EE /* S_BurnViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = E95C223D173A955D002771EE /* S_BurnViewer.xib */; };
-		E98246E1173A8172003C0B2B /* S_BurnerWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = E98246DF173A8172003C0B2B /* S_BurnerWindowController.h */; };
-		E98246E2173A8172003C0B2B /* S_BurnerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E98246E0173A8172003C0B2B /* S_BurnerWindowController.m */; };
+		E95C223F173A955D002771EE /* SandboxViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = E95C223D173A955D002771EE /* SandboxViewer.xib */; };
+		E97EB223178B064100BF7E26 /* DAVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97EB222178B064100BF7E26 /* DAVKit.framework */; };
+		E9EB87D817FAC33F004AA58C /* SandboxWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = E9EB87D617FAC33F004AA58C /* SandboxWindowController.h */; };
+		E9EB87D917FAC33F004AA58C /* SandboxWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EB87D717FAC33F004AA58C /* SandboxWindowController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,9 +36,10 @@
 		E91D91DC173A7332002A6669 /* SandBox_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SandBox_Prefix.pch; sourceTree = "<group>"; };
 		E93A79E2174B6A4800BC4F42 /* XMLGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLGenerator.h; sourceTree = "<group>"; };
 		E93A79E3174B6A4800BC4F42 /* XMLGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLGenerator.m; sourceTree = "<group>"; };
-		E95C223E173A955D002771EE /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/S_BurnViewer.xib; sourceTree = "<group>"; };
-		E98246DF173A8172003C0B2B /* S_BurnerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = S_BurnerWindowController.h; sourceTree = "<group>"; };
-		E98246E0173A8172003C0B2B /* S_BurnerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = S_BurnerWindowController.m; sourceTree = "<group>"; };
+		E95C223E173A955D002771EE /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SandboxViewer.xib; sourceTree = "<group>"; };
+		E97EB222178B064100BF7E26 /* DAVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DAVKit.framework; path = ../../DAVKit/build/DAVKit/Build/Products/Debug/DAVKit.framework; sourceTree = "<group>"; };
+		E9EB87D617FAC33F004AA58C /* SandboxWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SandboxWindowController.h; sourceTree = "<group>"; };
+		E9EB87D717FAC33F004AA58C /* SandboxWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SandboxWindowController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				8420023212E829A200E1E9CE /* OsiriXAPI.framework in Frameworks */,
 				E90CDBAA173A760600580756 /* OsiriX.framework in Frameworks */,
+				E97EB223178B064100BF7E26 /* DAVKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +72,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				E97EB222178B064100BF7E26 /* DAVKit.framework */,
 				E90CDBA9173A760600580756 /* OsiriX.framework */,
 				8420023112E829A200E1E9CE /* OsiriXAPI.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
@@ -80,7 +84,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E95C223D173A955D002771EE /* S_BurnViewer.xib */,
+				E95C223D173A955D002771EE /* SandboxViewer.xib */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -131,8 +135,8 @@
 		AB2C26750677B0C400A08910 /* SandBoxFilter */ = {
 			isa = PBXGroup;
 			children = (
-				E98246DF173A8172003C0B2B /* S_BurnerWindowController.h */,
-				E98246E0173A8172003C0B2B /* S_BurnerWindowController.m */,
+				E9EB87D617FAC33F004AA58C /* SandboxWindowController.h */,
+				E9EB87D717FAC33F004AA58C /* SandboxWindowController.m */,
 				E90CDBA5173A755200580756 /* SandBoxFilter.h */,
 				E90CDBA6173A755200580756 /* SandBoxFilter.m */,
 				E93A79E2174B6A4800BC4F42 /* XMLGenerator.h */,
@@ -150,8 +154,8 @@
 			files = (
 				E91D91DD173A7332002A6669 /* SandBox_Prefix.pch in Headers */,
 				E90CDBA7173A755200580756 /* SandBoxFilter.h in Headers */,
-				E98246E1173A8172003C0B2B /* S_BurnerWindowController.h in Headers */,
 				E93A79E4174B6A4800BC4F42 /* XMLGenerator.h in Headers */,
+				E9EB87D817FAC33F004AA58C /* SandboxWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,7 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				E95C223F173A955D002771EE /* S_BurnViewer.xib in Resources */,
+				E95C223F173A955D002771EE /* SandboxViewer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,8 +237,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E90CDBA8173A755200580756 /* SandBoxFilter.m in Sources */,
-				E98246E2173A8172003C0B2B /* S_BurnerWindowController.m in Sources */,
 				E93A79E5174B6A4800BC4F42 /* XMLGenerator.m in Sources */,
+				E9EB87D917FAC33F004AA58C /* SandboxWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,12 +253,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		E95C223D173A955D002771EE /* S_BurnViewer.xib */ = {
+		E95C223D173A955D002771EE /* SandboxViewer.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E95C223E173A955D002771EE /* English */,
 			);
-			name = S_BurnViewer.xib;
+			name = SandboxViewer.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -271,6 +275,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/../../../osirix-trunk/build/Development\"",
 					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../DAVKit/build/DAVKit/Build/Products/Debug\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -319,6 +324,7 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/../../../osirix-trunk/build/Development\"",
 					"\"$(SRCROOT)/../../osirix-trunk/build/Development\"",
+					"\"$(SRCROOT)/../../DAVKit/build/DAVKit/Build/Products/Debug\"",
 				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

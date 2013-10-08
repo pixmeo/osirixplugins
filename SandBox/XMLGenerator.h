@@ -13,7 +13,6 @@
 
 #import <OsiriX/DCM.h>
 
-#import <S_BurnerWindowController.h>
 
 
 @interface S_DicomNode : NSObject
