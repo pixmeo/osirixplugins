@@ -9,7 +9,6 @@
 
 #import "AppController.h"
 #import "WaitRendering.h"
-//#import "S_BurnerWindowController.h"
 #import <OsiriX/DCM.h>
 #import "MutableArrayCategory.h"
 #import <DiscRecordingUI/DRSetupPanel.h>
@@ -59,6 +58,7 @@
 @synthesize parent;
 @synthesize children;
 @synthesize dcmObject;
+@synthesize originalFile;
 
 - (id) initWithDCMObject:(DCMObject*)object
 {
@@ -89,6 +89,7 @@
 	[dcmObject release];
 	[parent release];
 	[children release];
+	[originalFile dealloc];
 	[super dealloc];
 }
 
@@ -102,7 +103,7 @@
 
 + (void) createDicomStructureAtPath:(NSString*)path withFiles:(NSMutableArray*)files withCorrespondingImages:(NSMutableArray*)images
 {
-	NSLog(@"************ Check 1");
+	NSLog(@"************ Start Create Dicom Structure");
 	
 	NSFileManager *manager = [NSFileManager defaultManager]; // For create folders
 	
@@ -122,11 +123,39 @@
 	
 	NSMutableArray *patientsList = [NSMutableArray array];
 	
-	for (id file in files)
-	{		
-		DCMObject *dcmObject = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
+	
+	
+	NSEnumerator *enumerator;
+	//if( anonymizedFiles)
+	//enumerator = [anonymizedFiles objectEnumerator];
+	//else
+		enumerator = [files objectEnumerator];
+	NSString *file;
+	
+	
+	while(file = [enumerator nextObject])
+		//for (id file in files)
+	{
+		NSLog(@"file : %@", file);
+		
+		
+		
+		
+		
+		DCMObject *dcmObject = nil;
+		
+
+		dcmObject = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
+
+		
+		
+		
+		
+		
 		if (dcmObject)	// <- it's a DICOM file
 		{
+			NSLog(@"It's a dicom file");
+			
 			// New patient
 			if (![patientID isEqualToString:[dcmObject attributeValueWithName:@"PatientID"]])
 			{
@@ -139,30 +168,41 @@
 			if (![studyInstanceUID isEqualToString:[dcmObject attributeValueWithName:@"StudyInstanceUID"]])
 			{
 				studyInstanceUID = (NSString*)[dcmObject attributeValueWithName:@"StudyInstanceUID"];
-				study = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-				[study setParent:patient];
+				if (patient)
+				{
+					study = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
+					[study setParent:patient];
+				}
 			}
 			
 			// New series
 			if (![seriesInstanceUID isEqualToString:[dcmObject attributeValueWithName:@"SeriesInstanceUID"]])
 			{
 				seriesInstanceUID = (NSString*)[dcmObject attributeValueWithName:@"SeriesInstanceUID"];
-				series = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-				[series setParent:study];
+				if (study)
+				{
+					series = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
+					[series setParent:study];
+				}
 			}
 			
 			// New instance
 			if (![SOPInstanceUID isEqualToString:[dcmObject attributeValueWithName:@"SOPInstanceUID"]])
 			{
 				SOPInstanceUID = (NSString*)[dcmObject attributeValueWithName:@"SOPInstanceUID"];
-				instance = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-				[instance setParent:series];
+				if (series)
+				{
+					instance = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
+					[instance setParent:series];
+					NSLog(@"TOTO");
+					[instance setOriginalFile:file];
+				}
 			}
 		}
 	}
 	
-//	NSLog(@"************ Check 1");
-//	
+	NSLog(@"************ Check 1");
+	
 //	DCMObject *object = [[patientsList lastObject] dcmObject];
 //	NSXMLDocument *doc = [object xmlDocument];
 //	
@@ -234,8 +274,18 @@
 					//NSLog(@"Instance path : %@", instancePath);
 					
 					// Write dicom file
-					bool temp = [instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality:DCMLosslessQuality atomically:YES];
+					//bool temp = [instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality:DCMLosslessQuality atomically:YES];
 
+					
+					
+					if( [[instanceDicomObject transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+						[instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
+					else
+						[manager copyPath:[instance originalFile] toPath:instancePath handler:nil];
+					//[manager copyItemAtURL:[instance originalFile] toURL:instancePath error:nil];
+					
+					
+					
 					//NSLog(@"************ Check Instance 2");
 					
 					// Add instances to xml file
@@ -281,6 +331,9 @@
 			}
 		}
 	}
+	
+	NSLog(@"************ End Create Dicom Structure");	
+	
 	[self generateXMLFile:@"dicom-structure.xml" atPath:path withContent:rootXML];
 }
 
