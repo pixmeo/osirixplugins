@@ -1,0 +1,558 @@
+<channel>
+  <id>3e410514-dea0-435e-81da-8ab03676024c</id>
+  <name>Rapports EDL</name>
+  <description></description>
+  <enabled>true</enabled>
+  <version>2.2.1.5861</version>
+  <lastModified>
+    <time>1381759503327</time>
+    <timezone>Europe/Zurich</timezone>
+  </lastModified>
+  <revision>28</revision>
+  <sourceConnector>
+    <name>sourceConnector</name>
+    <properties>
+      <property name="DataType">LLP Listener</property>
+      <property name="ackCodeError">AE</property>
+      <property name="ackCodeRejected">AR</property>
+      <property name="ackCodeSuccessful">AA</property>
+      <property name="ackIP"></property>
+      <property name="ackMsgError">An Error Occured Processing Message.</property>
+      <property name="ackMsgRejected">Message Rejected.</property>
+      <property name="ackMsgSuccessful"></property>
+      <property name="ackOnNewConnection">0</property>
+      <property name="ackPort"></property>
+      <property name="bufferSize">65536</property>
+      <property name="charEncoding">hex</property>
+      <property name="charsetEncoding">windows-1252</property>
+      <property name="checkMSH15">0</property>
+      <property name="host">127.0.0.1</property>
+      <property name="messageEnd">0x1C</property>
+      <property name="messageStart">0x0B</property>
+      <property name="port">6661</property>
+      <property name="processBatchFiles">0</property>
+      <property name="receiveTimeout">0</property>
+      <property name="reconnectInterval">5000</property>
+      <property name="recordSeparator">0x0D</property>
+      <property name="responseFromTransformer">0</property>
+      <property name="responseValue">None</property>
+      <property name="segmentEnd">0x0D</property>
+      <property name="sendACK">1</property>
+      <property name="serverMode">1</property>
+      <property name="tcpProtocolClassName">org.mule.providers.tcp.protocols.TcpProtocol</property>
+      <property name="useStrictLLP">1</property>
+      <property name="waitForEndOfMessageCharacter">0</property>
+    </properties>
+    <transformer>
+      <steps/>
+      <inboundProtocol>HL7V2</inboundProtocol>
+      <outboundProtocol>HL7V2</outboundProtocol>
+      <inboundProperties>
+        <property name="convertLFtoCR">true</property>
+        <property name="handleRepetitions">false</property>
+        <property name="handleSubcomponents">false</property>
+        <property name="stripNamespaces">true</property>
+        <property name="useStrictParser">false</property>
+        <property name="useStrictValidation">false</property>
+      </inboundProperties>
+      <outboundProperties>
+        <property name="convertLFtoCR">true</property>
+        <property name="handleRepetitions">false</property>
+        <property name="handleSubcomponents">false</property>
+        <property name="stripNamespaces">true</property>
+        <property name="useStrictParser">false</property>
+        <property name="useStrictValidation">false</property>
+      </outboundProperties>
+    </transformer>
+    <filter>
+      <rules/>
+    </filter>
+    <transportName>LLP Listener</transportName>
+    <mode>SOURCE</mode>
+    <enabled>true</enabled>
+    <version>2.2.1.5861</version>
+  </sourceConnector>
+  <destinationConnectors>
+    <connector>
+      <name>Destination 1</name>
+      <properties>
+        <property name="DataType">File Writer</property>
+        <property name="FTPAnonymous">1</property>
+        <property name="binary">0</property>
+        <property name="charsetEncoding">UTF-8</property>
+        <property name="errorOnExists">0</property>
+        <property name="host">/Users/administrateur/Documents/Mirth_Destination</property>
+        <property name="outputAppend">0</property>
+        <property name="outputPattern">${UUID}.txt</property>
+        <property name="passive">1</property>
+        <property name="password">anonymous</property>
+        <property name="scheme">file</property>
+        <property name="secure">1</property>
+        <property name="template">&lt;AccessionNumber&gt;${accessionNumber}&lt;/AccessionNumber&gt;
+
+&lt;PatientID&gt;${patientIdentification_patientIdentifierList_id}&lt;/PatientID&gt;
+
+&lt;PatientBirthdate&gt;${patientIdentification_dateOrTimeOfBirth_timeOfAnEvent}&lt;/PatientBirthdate&gt;
+
+&lt;StudyDate&gt;${observationRequest_observationDateOrTime_timeOfAnEvent}&lt;/StudyDate&gt;
+
+&lt;ReferringPhysician&gt;${patientVisit_referringDoctor_familyLastName} ${patientVisit_referringDoctor_givenName}&lt;/ReferringPhysician&gt;
+
+&lt;PatientName&gt;${patientIdentification_patientName_familyLastName} ${patientIdentification_patientName_givenName}, ${patientIdentification_dateOrTimeOfBirth_timeOfAnEvent}&lt;/PatientName&gt;
+
+&lt;PerformingPhysician&gt;${performingPhysician}&lt;/PerformingPhysician&gt;
+
+&lt;Report&gt;${obs}&lt;/Report&gt;</property>
+        <property name="temporary">0</property>
+        <property name="timeout">10000</property>
+        <property name="username">anonymous</property>
+        <property name="validateConnections">1</property>
+      </properties>
+      <transformer>
+        <steps>
+          <step>
+            <sequenceNumber>0</sequenceNumber>
+            <name>observationRequest_placerField2_value</name>
+            <script>var mapping;try { mapping = msg[&apos;OBR&apos;][&apos;OBR.19&apos;][&apos;OBR.19.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;observationRequest_placerField2_value&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>observationRequest_placerField2_value</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;OBR&apos;][&apos;OBR.19&apos;][&apos;OBR.19.1&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>1</sequenceNumber>
+            <name>patientIdentification_patientIdentifierList_id</name>
+            <script>var mapping;try { mapping = msg[&apos;PID&apos;][&apos;PID.3&apos;][&apos;PID.3.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;patientIdentification_patientIdentifierList_id&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>patientIdentification_patientIdentifierList_id</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PID&apos;][&apos;PID.3&apos;][&apos;PID.3.1&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>2</sequenceNumber>
+            <name>patientVisit_referringDoctor_familyLastName</name>
+            <script>var mapping;try { mapping = msg[&apos;PV1&apos;][&apos;PV1.8&apos;][&apos;PV1.8.2&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;patientVisit_referringDoctor_familyLastName&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>patientVisit_referringDoctor_familyLastName</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PV1&apos;][&apos;PV1.8&apos;][&apos;PV1.8.2&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>3</sequenceNumber>
+            <name>patientVisit_referringDoctor_givenName</name>
+            <script>var mapping;try { mapping = msg[&apos;PV1&apos;][&apos;PV1.8&apos;][&apos;PV1.8.3&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;patientVisit_referringDoctor_givenName&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>patientVisit_referringDoctor_givenName</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PV1&apos;][&apos;PV1.8&apos;][&apos;PV1.8.3&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>4</sequenceNumber>
+            <name>msg</name>
+            <script>var obs =&quot;&quot;;
+
+var len=msg[&apos;OBX&apos;].length();
+for(i=0;i&lt;len;i++)
+{
+	obs += msg[&apos;OBX&apos;][i][&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString() + &quot;\n&quot;;
+	channelMap.put(&apos;obs&apos;, obs);
+}</script>
+            <type>JavaScript</type>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>var obs =&quot;&quot;;
+
+var len=msg[&apos;OBX&apos;].length();
+for(i=0;i&lt;len;i++)
+{
+	obs += msg[&apos;OBX&apos;][i][&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString() + &quot;\n&quot;;
+	channelMap.put(&apos;obs&apos;, obs);
+}</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>5</sequenceNumber>
+            <name>patientIdentification_patientName_familyLastName</name>
+            <script>var mapping;try { mapping = msg[&apos;PID&apos;][&apos;PID.5&apos;][&apos;PID.5.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;patientIdentification_patientName_familyLastName&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>patientIdentification_patientName_familyLastName</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PID&apos;][&apos;PID.5&apos;][&apos;PID.5.1&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>6</sequenceNumber>
+            <name>patientIdentification_patientName_givenName</name>
+            <script>var mapping;try { mapping = msg[&apos;PID&apos;][&apos;PID.5&apos;][&apos;PID.5.2&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;patientIdentification_patientName_givenName&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>patientIdentification_patientName_givenName</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PID&apos;][&apos;PID.5&apos;][&apos;PID.5.2&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>7</sequenceNumber>
+            <name>patientIdentification_dateOrTimeOfBirth_timeOfAnEvent</name>
+            <script>var mapping;try { mapping = msg[&apos;PID&apos;][&apos;PID.7&apos;][&apos;PID.7.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;patientIdentification_dateOrTimeOfBirth_timeOfAnEvent&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>patientIdentification_dateOrTimeOfBirth_timeOfAnEvent</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PID&apos;][&apos;PID.7&apos;][&apos;PID.7.1&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>8</sequenceNumber>
+            <name>accessionNumber</name>
+            <script>var mapping;try { mapping = msg[&apos;OBR&apos;][&apos;OBR.3&apos;][&apos;OBR.3.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;accessionNumber&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>accessionNumber</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;OBR&apos;][&apos;OBR.3&apos;][&apos;OBR.3.1&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>9</sequenceNumber>
+            <name>performingPhysician</name>
+            <script>var mapping;try { mapping = msg[&apos;PV1&apos;][&apos;PV1.7&apos;][&apos;PV1.7.2&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;performingPhysician&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>performingPhysician</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;PV1&apos;][&apos;PV1.7&apos;][&apos;PV1.7.2&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+          <step>
+            <sequenceNumber>10</sequenceNumber>
+            <name>observationRequest_observationDateOrTime_timeOfAnEvent</name>
+            <script>var mapping;try { mapping = msg[&apos;OBR&apos;][&apos;OBR.7&apos;][&apos;OBR.7.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;observationRequest_observationDateOrTime_timeOfAnEvent&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+            <type>Mapper</type>
+            <data class="map">
+              <entry>
+                <string>Variable</string>
+                <string>observationRequest_observationDateOrTime_timeOfAnEvent</string>
+              </entry>
+              <entry>
+                <string>DefaultValue</string>
+                <string></string>
+              </entry>
+              <entry>
+                <string>Mapping</string>
+                <string>msg[&apos;OBR&apos;][&apos;OBR.7&apos;][&apos;OBR.7.1&apos;].toString()</string>
+              </entry>
+              <entry>
+                <string>RegularExpressions</string>
+                <list/>
+              </entry>
+              <entry>
+                <string>isGlobal</string>
+                <string>channel</string>
+              </entry>
+            </data>
+          </step>
+        </steps>
+        <inboundTemplate encoding="base64">TVNIfF5+XCZ8WFBMT1JFfEVETHxTRVJWV0VCfExBVE9VUnwyMDEzMDYxODEzMzB8fE9SVV5SMDF8
+QTEwMDcyMzUyOTk0fFB8Mi4zLjF8fHx8fHw4ODU5LzENUElEfHx8MzU5NjQ0Xl5eT1BBTEV8fEJM
+QVJET05FXkNZQkVMRXx8MTk3ODAyMTB8Rnx8fENoZW1pbiBkZXMgTXlvc290aXMgOF5eVkVSTklF
+Ul5eMTIxNHx8MDc4LjYyOS4xNC45NXx8fHx8ODgwODgyDVBWMXx8QnwyNDBeXl5MQVRPVVJeXl5e
+XlJhZGlvbG9naWUgY29udi58fHx8SEFQSF5QaGlsaXBwIEhBVVNFUl58ODBeR09MQVktUEVURVJT
+RU5eTUFSSUpBfHxITFR8fHx8fHx8fHwzNTk2NDQvMDAxDU9CUnx8fEExMDA3MjI3OTcxNHxJUkNF
+UkVeSVJNIENlcmVicmFsZV5FREx8fHwyMDEzMDYxNDEzMjh8fHx8fHx8fHxIQVBIXlBoaWxpcHAg
+SEFVU0VSXnx8QTEwMDcyMjc5NzE0fEExMDA3MjI3OTcwN3xBMTAwNzIyNzk3MDd8fHx8SVJNMnxG
+fHwxXm9uY2VeXjIwMTMwNjE0MTMyOF5eUnx8fHx8DU9CWHwxfFRYfElSQ0VSRV5JUk0gQ2VyZWJy
+YWxlXkVETHx8LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tfHx8fHx8Rnx8fDIwMTMwNjE0
+MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDJ8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVe
+RURMfHxDT01QVEUtUkVORFUgUmVmLiBBMTAwNzIzNDk5OTR8fHx8fHxGfHx8MjAxMzA2MTQxMzI4
+fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8M3xUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8
+fC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLXx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhB
+UEheUGhpbGlwcCBIQVVTRVJeDU9CWHw0fFRYfElSQ0VSRV5JUk0gQ2VyZWJyYWxlXkVETHx8fHx8
+fHx8Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDV8VFh8SVJDRVJF
+XklSTSBDZXJlYnJhbGVeRURMfHxJUk0gZGUgbCdheGUgaHlwb3RoYWxhbW8taHlwb3BoeXNhaXJl
+IGR1IDE0IGp1aW4gMjAxM3x8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVT
+RVJeDU9CWHw2fFRYfElSQ0VSRV5JUk0gQ2VyZWJyYWxlXkVETHx8fHx8fHx8Rnx8fDIwMTMwNjE0
+MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDd8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVe
+RURMfHxSZW5zZWlnbmVtZW50fHx8fHx8Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5QaGlsaXBwIEhB
+VVNFUl4NT0JYfDh8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHxCaWxhbiBkJ8Opdm9sdXRp
+b24gYXByw6hzIDUgbWFpIDIwMTEgcG91ciB1biBtYWNyby1hZMOpbm9tZSBoeXBvcGh5c2FpcmUg
+bm9uIHPDqWNyw6l0YW50IHRyYWl0w6kgcGFyIGNoaXJ1cmdpZS58fHx8fHxGfHx8MjAxMzA2MTQx
+MzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8OXxUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5F
+REx8fHx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVTRVJeDU9CWHwxMHxU
+WHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8fFRlY2huaXF1ZSB8fHx8fHxGfHx8MjAxMzA2MTQx
+MzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8MTF8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVe
+RURMfHxFeGFtZW4gcsOpYWxpc8OpIHN1ciBsJ2FwcGFyZWlsIFBISUxJUFMgQUNISUVWQSAzIFRl
+c2xhLiBMJ2F4ZSBoeXBvdGhhbGFtby1oeXBvcGh5c2FpcmUgZXN0IGV4YW1pbsOpIGVuIHBvbmTD
+qXJhdGlvbiBUMSBkYW5zIGxlIHBsYW4gc2FnaXR0YWwgZW4gY291cGVzIGRlIDEsNSBtbSwgVDIg
+ZGFucyBsZSBwbGFuIGNvcm9uYWwgZW4gY291cGVzIGRlIDIgbW0sIHB1aXMgYXByw6hzIGFkbWlu
+aXN0cmF0aW9uIGdhZG9saW5pdW0sIGVuIHBvbmTDqXJhdGlvbiBUMSBkYW5zIGxlcyBwbGFucyBz
+YWdpdHRhbCBldCBjb3JvbmFsIGVuIGNvdXBlcyBkZSAxLDUgbW0ufHx8fHx8Rnx8fDIwMTMwNjE0
+MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDEyfFRYfElSQ0VSRV5JUk0gQ2VyZWJyYWxl
+XkVETHx8QSBkaXNwb3NpdGlvbiBsJ2V4YW1lbiBJUk0gcHLDqS1vcMOpcmF0b2lyZSBkdSA1IG1h
+aSAyMDExIGV0IGxlIHByZW1pZXIgY29udHLDtGxlIHBvc3Qtb3DDqXJhdG9pcmUgZHUgMjQgbm92
+ZW1icmUgMjAxMS58fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1P
+Qlh8MTN8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHx8fHx8fHxGfHx8MjAxMzA2MTQxMzI4
+fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8MTR8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURM
+fHxEZXNjcmlwdGlvbnx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVTRVJe
+DU9CWHwxNXxUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8fFBhciByYXBwb3J0IMOgIGwnZXhh
+bWVuIGNvbXBhcmF0aWYgcHLDqS1vcMOpcmF0b2lyZSBkdSA1IG1haSAyMDExLCBsZSB2b2x1bWlu
+ZXV4IG1hY3JvLWFkw6lub21lIGt5c3RpcXVlIGEgw6l0w6kgcsOpc8OpcXXDqSBlbiB0b3RhbGl0
+w6kgZXQgbGUgY2hpYXNtYSBvcHRpcXVlIGVzdCByZXZlbnUgZW4gcG9zaXRpb24gcGh5c2lvbG9n
+aXF1ZSBhbG9ycyBxdSdpbCDDqXRhaXQgcmVmb3Vsw6kgY3LDom5pYWxlbWVudCBzdXIgbGUgYmls
+YW4gcHLDqS1vcMOpcmF0b2lyZS4gfHx8fHx8Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5QaGlsaXBw
+IEhBVVNFUl4NT0JYfDE2fFRYfElSQ0VSRV5JUk0gQ2VyZWJyYWxlXkVETHx8T24gbmUgY29uc3Rh
+dGUgYXVjdW4gcsOpc2lkdSBkZSBtYWNyby1hZMOpbm9tZSwgbmkgZGUgZm9ybWF0aW9uIGt5c3Rp
+cXVlLiB8fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8MTd8
+VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHxMJ2Fkw6lub2h5cG9waHlzZSByw6lzaWR1ZWwg
+ZXN0IGFjY29sw6kgc3VyIGxlIHZlcnNhbnQgZHJvaXQgZGUgbGEgc2VsbGUgdHVyY2lxdWUgZXQg
+aWwgcGVyc2lzdGUgdW5lIGTDqXZpYXRpb24gZHJvaXRlIGRlIGxhIHRpZ2UgcGl0dWl0YWlyZS4g
+fHx8fHx8Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDE4fFRYfElS
+Q0VSRV5JUk0gQ2VyZWJyYWxlXkVETHx8SWwgbid5IGEgcGFzIGRlIGzDqXNpb24gYXUgc2VpbiBk
+ZXMgc2ludXMgY2F2ZXJuZXV4LiB8fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAg
+SEFVU0VSXg1PQlh8MTl8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHxQYXMgZCfDqXJvc2lv
+biBkdSBwbGFuY2hlciBkZSBsYSBzZWxsZSB0dXJjaXF1ZS4gfHx8fHx8Rnx8fDIwMTMwNjE0MTMy
+OHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDIwfFRYfElSQ0VSRV5JUk0gQ2VyZWJyYWxlXkVE
+THx8TGEgc2VsbGUgdHVyY2lxdWUgZXN0IMOpbGFyZ2llIHNlY29uZGFpcmVtZW50IMOgIGwnYW5j
+aWVuIGVmZmV0IGRlIG1hc3NlLiB8fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAg
+SEFVU0VSXg1PQlh8MjF8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHxQYXMgZGUgYm9tYmVt
+ZW50IGR1IGRpYXBocmFnbWUgc2VsbGFpcmUufHx8fHx8Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5Q
+aGlsaXBwIEhBVVNFUl4NT0JYfDIyfFRYfElSQ0VSRV5JUk0gQ2VyZWJyYWxlXkVETHx8fHx8fHx8
+Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDIzfFRYfElSQ0VSRV5J
+Uk0gQ2VyZWJyYWxlXkVETHx8Q29uY2x1c2lvbnx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEhe
+UGhpbGlwcCBIQVVTRVJeDU9CWHwyNHxUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8fFBhcyBk
+ZSByw6lzaWR1LCBuaSBkZSByw6ljaWRpdmUgZHUgbWFjcm8tYWTDqW5vbWUga3lzdGlxdWUgcsOp
+c8OpcXXDqSBjaGlydXJnaWNhbGVtZW50LiBTdGF0dXMgaW5jaGFuZ8OpIHBhciByYXBwb3J0IMOg
+IGwnZXhhbWVuIGNvbXBhcmF0aWYgcG9zdC1vcMOpcmF0b2lyZSBkdSAyNCBub3ZlbWJyZSAyMDEx
+Lnx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVTRVJeDU9CWHwyNXxUWHxJ
+UkNFUkVeSVJNIENlcmVicmFsZV5FREx8fHx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhp
+bGlwcCBIQVVTRVJeDU9CWHwyNnxUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8fCAgfHx8fHx8
+Rnx8fDIwMTMwNjE0MTMyOHx8SEFQSF5QaGlsaXBwIEhBVVNFUl4NT0JYfDI3fFRYfElSQ0VSRV5J
+Uk0gQ2VyZWJyYWxlXkVETHx8QXZlYyBtZXMgbWVpbGxldXJlcyBzYWx1dGF0aW9ucyx8fHx8fHxG
+fHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8Mjh8VFh8SVJDRVJFXklS
+TSBDZXJlYnJhbGVeRURMfHx8fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAgSEFV
+U0VSXg1PQlh8Mjl8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHxEciBQaGlsaXBwIEhBVVNF
+Unx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVTRVJeDU9CWHwzMHxUWHxJ
+UkNFUkVeSVJNIENlcmVicmFsZV5FREx8fHx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhp
+bGlwcCBIQVVTRVJeDU9CWHwzMXxUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8fHx8fHx8fEZ8
+fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVTRVJeDU9CWHwzMnxUWHxJUkNFUkVeSVJN
+IENlcmVicmFsZV5FREx8fHx8fHx8fEZ8fHwyMDEzMDYxNDEzMjh8fEhBUEheUGhpbGlwcCBIQVVT
+RVJeDU9CWHwzM3xUWHxJUkNFUkVeSVJNIENlcmVicmFsZV5FREx8fENvcGllIGF1IERyIEFuZHJh
+ZGUgUCBldCBEciBNb21qaWFuICggTmV1cm8tY2hpci4gSFVHICl8fHx8fHxGfHx8MjAxMzA2MTQx
+MzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8MzR8VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVe
+RURMfHx8fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBIXlBoaWxpcHAgSEFVU0VSXg1PQlh8MzV8
+VFh8SVJDRVJFXklSTSBDZXJlYnJhbGVeRURMfHx8fHx8fHxGfHx8MjAxMzA2MTQxMzI4fHxIQVBI
+XlBoaWxpcHAgSEFVU0VSXg0=</inboundTemplate>
+        <outboundTemplate encoding="base64"></outboundTemplate>
+        <inboundProtocol>HL7V2</inboundProtocol>
+        <outboundProtocol>HL7V2</outboundProtocol>
+        <inboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </inboundProperties>
+        <outboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </outboundProperties>
+      </transformer>
+      <filter>
+        <rules/>
+      </filter>
+      <transportName>File Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <version>2.2.1.5861</version>
+    </connector>
+  </destinationConnectors>
+  <properties>
+    <property name="clearGlobalChannelMap">true</property>
+    <property name="dont_store_filtered">false</property>
+    <property name="encryptData">false</property>
+    <property name="error_messages_only">false</property>
+    <property name="initialState">started</property>
+    <property name="max_message_age">30</property>
+    <property name="store_messages">true</property>
+    <property name="synchronous">true</property>
+    <property name="transactional">false</property>
+  </properties>
+  <preprocessingScript>return message;</preprocessingScript>
+  <postprocessingScript>// This script executes once after a message has been processed
+return;</postprocessingScript>
+  <deployScript>// This script executes once when the channel is deployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</deployScript>
+  <shutdownScript>// This script executes once when the channel is undeployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</shutdownScript>
+</channel>
