@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		616A8DAE1804624000A46B01 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616A8DAD1804623F00A46B01 /* Cocoa.framework */; };
+		616A8DB01804624A00A46B01 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 616A8DAF1804624A00A46B01 /* PreferencePanes.framework */; };
 		7116D73A1574A91300FA293A /* OsiriX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116D7391574A91300FA293A /* OsiriX.framework */; };
-		7116D74815751B9A00FA293A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116D74715751B9A00FA293A /* Cocoa.framework */; };
-		7116D74A15751B9A00FA293A /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116D74915751B9A00FA293A /* PreferencePanes.framework */; };
 		7116D76415751C4B00FA293A /* KeyObjectSelectionPrefsPane.h in Headers */ = {isa = PBXBuildFile; fileRef = 7116D76215751C4B00FA293A /* KeyObjectSelectionPrefsPane.h */; };
 		7116D76515751C4B00FA293A /* KeyObjectSelectionPrefsPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 7116D76315751C4B00FA293A /* KeyObjectSelectionPrefsPane.m */; };
 		7116D76715751C5800FA293A /* KeyObjectSelectionPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7116D76615751C5800FA293A /* KeyObjectSelectionPrefs.xib */; };
@@ -40,10 +40,10 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* KeyObjectSelection_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeyObjectSelection_Prefix.pch; path = Sources/KeyObjectSelection_Prefix.pch; sourceTree = "<group>"; };
+		616A8DAD1804623F00A46B01 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		616A8DAF1804624A00A46B01 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/PreferencePanes.framework; sourceTree = DEVELOPER_DIR; };
 		7116D7391574A91300FA293A /* OsiriX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriX.framework; path = ../../osirix/build/Development/OsiriX.framework; sourceTree = "<group>"; };
 		7116D74515751B9A00FA293A /* KeyObjectSelectionPrefs.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeyObjectSelectionPrefs.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
-		7116D74715751B9A00FA293A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		7116D74915751B9A00FA293A /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = System/Library/Frameworks/PreferencePanes.framework; sourceTree = SDKROOT; };
 		7116D74C15751B9A00FA293A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		7116D74D15751B9A00FA293A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7116D74E15751B9B00FA293A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -65,8 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7116D74815751B9A00FA293A /* Cocoa.framework in Frameworks */,
-				7116D74A15751B9A00FA293A /* PreferencePanes.framework in Frameworks */,
+				616A8DB01804624A00A46B01 /* PreferencePanes.framework in Frameworks */,
+				616A8DAE1804624000A46B01 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,8 +175,8 @@
 		7116D74615751B9A00FA293A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7116D74715751B9A00FA293A /* Cocoa.framework */,
-				7116D74915751B9A00FA293A /* PreferencePanes.framework */,
+				616A8DAF1804624A00A46B01 /* PreferencePanes.framework */,
+				616A8DAD1804623F00A46B01 /* Cocoa.framework */,
 				7116D74B15751B9A00FA293A /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -263,7 +263,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "KeyObjectSelection" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -378,9 +378,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Resources/Prefs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				LD_NO_PIE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Development;
@@ -405,9 +406,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "Resources/Prefs-Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				LD_NO_PIE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Deployment;
@@ -415,7 +417,6 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
@@ -435,7 +436,7 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -458,7 +459,6 @@
 		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -474,7 +474,7 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -498,17 +498,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_PREFIX_HEADER = Sources/KeyObjectSelection_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Development;
 		};
@@ -516,17 +521,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				GCC_PREFIX_HEADER = Sources/KeyObjectSelection_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Deployment;
 		};
