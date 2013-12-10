@@ -250,7 +250,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HSS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -426,7 +426,8 @@
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = NO;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = NO;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = NO;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
 			};
 			name = Development;
 		};
@@ -437,7 +438,8 @@
 				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = NO;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = NO;
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = NO;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
 			};
 			name = Deployment;
 		};

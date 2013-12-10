@@ -190,7 +190,7 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
         
         [_diagnosisField setEnabled:enable];
         [_historyField setEnabled:enable];
-        if (enable != [_nameField isEnabled]) {
+        if (_doneFetchingCases && enable != [_nameField isEnabled]) {
             [_nameField setEnabled:enable];
             [self.medcase setCaseName:(merge? item.name : @"")];
         }
@@ -259,6 +259,7 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
 
 - (void)_getUserFolderTreeThread {
     @autoreleasepool {
+        _doneFetchingCases = NO;
         NSArray* related = nil;
         @try {
             NSError* error = nil;
@@ -478,6 +479,7 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
     a.animationCurve = NSAnimationEaseIn;
     [a startAnimation];
     self.animation = a;
+    _doneFetchingCases = YES;
 }
 
 /*- (void)_getFolderThread:(NSArray*)args {
