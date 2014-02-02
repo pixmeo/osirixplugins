@@ -55,6 +55,7 @@
 
 @implementation S_DicomNode
 
+@synthesize identifier;
 @synthesize parent;
 @synthesize children;
 @synthesize dcmObject;
@@ -86,16 +87,15 @@
 
 - (void) dealloc
 {
+	[identifier release];
 	[dcmObject release];
 	[parent release];
 	[children release];
-	[originalFile dealloc];
+	[originalFile release];
 	[super dealloc];
 }
 
 @end
-
-
 
 
 
@@ -107,236 +107,844 @@
 	
 	NSFileManager *manager = [NSFileManager defaultManager]; // For create folders
 	
-	NSString *patientPath = path;
-	NSString *studyPath = path;
-	NSString *seriesPath = path;
 	
-	NSString *patientID = @"";
-	NSString *studyInstanceUID = @"";
-	NSString *seriesInstanceUID = @"";
-	NSString *SOPInstanceUID = @"";
+	NSMutableArray *patientIDList = [NSMutableArray array];
+	NSMutableArray *studyIDList = [NSMutableArray array];
+	NSMutableArray *seriesIDList = [NSMutableArray array];
+	NSMutableArray *instanceIDList = [NSMutableArray array];
 	
-	S_DicomNode *patient;
-	S_DicomNode *study;
-	S_DicomNode *series;
-	S_DicomNode *instance;
+	NSMutableArray *patientPathList = [NSMutableArray array];
+	NSMutableArray *studyPathList = [NSMutableArray array];
+	NSMutableArray *seriesPathList = [NSMutableArray array];
+
+	NSMutableArray *patientNodeList = [NSMutableArray array];
+	NSMutableArray *studyNodeList = [NSMutableArray array];
+	NSMutableArray *seriesNodeList = [NSMutableArray array];
 	
-	NSMutableArray *patientsList = [NSMutableArray array];
-	
+	NSMutableArray *patientXMLList = [NSMutableArray array];
+	NSMutableArray *studyXMLList = [NSMutableArray array];
+	NSMutableArray *seriesXMLList = [NSMutableArray array];
+
 	
 	
 	NSEnumerator *enumerator;
 	//if( anonymizedFiles)
 	//enumerator = [anonymizedFiles objectEnumerator];
 	//else
-		enumerator = [files objectEnumerator];
+	enumerator = [files objectEnumerator];
 	NSString *file;
 	
 	
-	while(file = [enumerator nextObject])
-		//for (id file in files)
-	{
-		NSLog(@"file : %@", file);
-		
-		
-		
-		
-		
-		DCMObject *dcmObject = nil;
-		
-
-		dcmObject = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
-
-		
-		
-		
-		
-		
-		if (dcmObject)	// <- it's a DICOM file
-		{
-			NSLog(@"It's a dicom file");
-			
-			// New patient
-			if (![patientID isEqualToString:[dcmObject attributeValueWithName:@"PatientID"]])
-			{
-				patientID = (NSString*)[dcmObject attributeValueWithName:@"PatientID"];
-				patient = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-				[patientsList addObject:patient];
-			}
-			
-			// New study
-			if (![studyInstanceUID isEqualToString:[dcmObject attributeValueWithName:@"StudyInstanceUID"]])
-			{
-				studyInstanceUID = (NSString*)[dcmObject attributeValueWithName:@"StudyInstanceUID"];
-				if (patient)
-				{
-					study = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-					[study setParent:patient];
-				}
-			}
-			
-			// New series
-			if (![seriesInstanceUID isEqualToString:[dcmObject attributeValueWithName:@"SeriesInstanceUID"]])
-			{
-				seriesInstanceUID = (NSString*)[dcmObject attributeValueWithName:@"SeriesInstanceUID"];
-				if (study)
-				{
-					series = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-					[series setParent:study];
-				}
-			}
-			
-			// New instance
-			if (![SOPInstanceUID isEqualToString:[dcmObject attributeValueWithName:@"SOPInstanceUID"]])
-			{
-				SOPInstanceUID = (NSString*)[dcmObject attributeValueWithName:@"SOPInstanceUID"];
-				if (series)
-				{
-					instance = [[S_DicomNode alloc] initWithDCMObject:dcmObject];
-					[instance setParent:series];
-					NSLog(@"TOTO");
-					[instance setOriginalFile:file];
-				}
-			}
-		}
-	}
-	
-	NSLog(@"************ Check 1");
-	
-//	DCMObject *object = [[patientsList lastObject] dcmObject];
-//	NSXMLDocument *doc = [object xmlDocument];
-//	
-//	NSData *xmlData = [doc XMLDataWithOptions:NSXMLNodePrettyPrint];
-//	NSString* outputPath = [[NSString alloc] initWithString:[path stringByAppendingPathComponent:@"test.xml"]];
-//
-//	NSLog(@"************ Check 2");
-//	
-//	if (![xmlData writeToFile:outputPath atomically:YES])
-//	{
-//		NSLog(@"Could not write document out AAAAAAA");
-//	}
-//	[doc release];
-//	
-//	NSLog(@"************ Check 7");
-	
-	NSXMLElement *rootXML = (NSXMLElement*)[NSXMLNode elementWithName:@"DicomStructure"];
 	int compteur = 0;
 	
-	for (id patient in patientsList)
+	NSXMLElement *rootXML = (NSXMLElement*)[NSXMLNode elementWithName:@"DicomStructure"];
+	
+	while (file = [enumerator nextObject])
 	{
-		patientID = (NSString*)[[patient dcmObject] attributeValueWithName:@"PatientID"];
-		NSString* patientBirthDate = (NSString*)[[patient dcmObject] attributeValueWithName:@"PatientsBirthDate"];
-		NSString* patientPath = [NSString stringWithFormat:@"%@/%@%@%@", path, patientID, @"-", patientBirthDate];
+		compteur++;
+		//NSLog(@"CompteurAAA : %d", compteur);
 		
-		[manager createDirectoryAtPath:patientPath withIntermediateDirectories:FALSE attributes:nil error:nil];
-		
-		NSXMLElement *patientXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
-		NSXMLElement *patientNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Patient"];
-		[patientNode setAttributes:[self patientAttributes:[patient dcmObject]]];
-		[patientXML addChild:patientNode];
-		[self generateXMLFile:@"index.xml" atPath:patientPath withContent:patientXML];
-		[patientNode detach];
-		[rootXML addChild:patientNode];
-		
-		for (id study in [patient children])
+		@autoreleasepool
 		{
-			studyInstanceUID = (NSString*)[[study dcmObject] attributeValueWithName:@"StudyInstanceUID"];
-			studyPath = [patientPath stringByAppendingPathComponent:studyInstanceUID];
-			[manager createDirectoryAtPath:studyPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+			DCMObject *dcmObjectTest = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
 			
-			NSXMLElement *studyXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
-			NSXMLElement *studyNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Study"];
-			[studyNode setAttributes:[self studyAttributes:[study dcmObject]]];
-			[studyXML addChild:studyNode];
-			[self generateXMLFile:@"index.xml" atPath:studyPath withContent:studyXML];
-			[studyNode detach];
-			[patientNode addChild:studyNode];
-			
-			for (id series in [study children])
+			if (dcmObjectTest)	// <- it's a DICOM file
 			{
-				seriesInstanceUID = (NSString*)[[series dcmObject] attributeValueWithName:@"SeriesInstanceUID"];
-				seriesPath = [studyPath stringByAppendingPathComponent:seriesInstanceUID];
-				[manager createDirectoryAtPath:seriesPath withIntermediateDirectories:FALSE attributes:nil error:nil];
 				
-				NSXMLElement *seriesXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
-				NSXMLElement *seriesNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Series"];
-				[seriesNode setAttributes:[self seriesAttributes:[series dcmObject]]];
-				[seriesXML addChild:seriesNode];
-				
-				for (id instance in [series children])
+				// New patient
+				if (![[patientIDList lastObject] isEqualToString:[dcmObjectTest attributeValueWithName:@"PatientID"]])
 				{
-					DCMObject *instanceDicomObject = [instance dcmObject];
-					NSString *instanceFileName = [instanceDicomObject attributeValueWithName:@"SOPInstanceUID"];
-					NSString *instancePath = [NSString stringWithFormat:@"%@/%@", seriesPath, instanceFileName];
+					NSString* patientID = (NSString*)[dcmObjectTest attributeValueWithName:@"PatientID"];
+					[patientIDList addObject:patientID];
 					
-					//NSLog(@"************ Check Instance 1");
-					//NSLog(@"Instance file name : %@", instanceFileName);
-					//NSLog(@"Instance path : %@", instancePath);
+					NSString* patientBirthDate = (NSString*)[dcmObjectTest attributeValueWithName:@"PatientsBirthDate"];
+					
+					NSString* patientPath = [NSString stringWithFormat:@"%@/%@%@%@", path, patientID, @"-", patientBirthDate];
+					[patientPathList addObject:patientPath];
+					
+					[manager createDirectoryAtPath:patientPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+					
+					NSXMLElement* patientXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+					[patientXMLList addObject:patientXML];
+					
+					NSXMLElement* patientNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Patient"];
+					[patientNodeList addObject:patientNode];
+					
+					[patientNode setAttributes:[self patientAttributes:dcmObjectTest]];
+					[patientXML addChild:patientNode];
+					
+					[self generateXMLFile:@"index.xml" atPath:patientPath withContent:patientXML];
+					[patientNode detach];
+					[rootXML addChild:patientNode];
+				}
+				
+				// New study
+				if (![[studyIDList lastObject] isEqualToString:[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"]])
+				{
+					NSString* studyInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"];
+					[studyIDList addObject:studyInstanceUID];
+					
+					NSString* studyPath = [[patientPathList lastObject] stringByAppendingPathComponent:studyInstanceUID];
+					[studyPathList addObject:studyPath];
+					
+					[manager createDirectoryAtPath:studyPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+					
+					NSXMLElement* studyXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+					[studyXMLList addObject:studyXML];
+					
+					NSXMLElement* studyNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Study"];
+					[studyNodeList addObject:studyNode];
+					
+					[studyNode setAttributes:[self studyAttributes:dcmObjectTest]];
+					[studyXML addChild:studyNode];
+					
+					[self generateXMLFile:@"index.xml" atPath:studyPath withContent:studyXML];
+					[studyNode detach];
+					[[patientNodeList lastObject] addChild:studyNode];
+				}
+				
+				// New series
+				if (![[seriesIDList lastObject] isEqualToString:[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"]])
+				{
+					NSString* seriesInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"];
+					[seriesIDList addObject:seriesInstanceUID];
+					
+					NSString* seriesPath = [[studyPathList lastObject] stringByAppendingPathComponent:seriesInstanceUID];
+					[seriesPathList addObject:seriesPath];
+					
+					[manager createDirectoryAtPath:seriesPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+					
+					NSXMLElement* seriesXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+					[seriesXMLList addObject:seriesXML];
+					
+					NSXMLElement* seriesNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Series"];
+					[seriesNodeList addObject:seriesNode];
+					
+					[seriesNode setAttributes:[self seriesAttributes:dcmObjectTest]];
+					[seriesXML addChild:seriesNode];
+				}
+				
+				// New instance
+				if (![[instanceIDList lastObject] isEqualToString:[dcmObjectTest attributeValueWithName:@"SOPInstanceUID"]])
+				{
+					NSString* SOPInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"SOPInstanceUID"];
+					[instanceIDList addObject:SOPInstanceUID];
+					
+					NSString *instanceFileName = [dcmObjectTest attributeValueWithName:@"SOPInstanceUID"];
+					NSString *instancePath = [NSString stringWithFormat:@"%@/%@", [seriesPathList lastObject], instanceFileName];
 					
 					// Write dicom file
-					//bool temp = [instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality:DCMLosslessQuality atomically:YES];
-
-					
-					
-					if( [[instanceDicomObject transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
-						[instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
+					if( [[dcmObjectTest transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+						[dcmObjectTest writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
 					else
-						[manager copyPath:[instance originalFile] toPath:instancePath handler:nil];
-					//[manager copyItemAtURL:[instance originalFile] toURL:instancePath error:nil];
-					
-					
-					
-					//NSLog(@"************ Check Instance 2");
+						[manager copyPath:file toPath:instancePath handler:nil];
 					
 					// Add instances to xml file
 					NSXMLElement *instanceNode = (NSXMLElement*)[NSXMLNode elementWithName:@"Instance"];
 					[instanceNode setAttributes:[NSArray arrayWithObjects:
-																			[NSXMLNode attributeWithName:@"SOPInstanceUID" stringValue:instanceFileName],
-																			[NSXMLNode attributeWithName:@"InstanceNumber" stringValue:[NSString stringWithFormat:@"%i", compteur]],
-																			[NSXMLNode attributeWithName:@"DirectDownloadFile" stringValue:@""],
-																			nil]];
-					[seriesNode addChild:instanceNode];
+																			 [NSXMLNode attributeWithName:@"SOPInstanceUID" stringValue:instanceFileName],
+																			 [NSXMLNode attributeWithName:@"InstanceNumber" stringValue:[NSString stringWithFormat:@"%i", compteur]],
+																			 [NSXMLNode attributeWithName:@"DirectDownloadFile" stringValue:@""],
+																			 nil]];
+					[[seriesNodeList lastObject] addChild:instanceNode];
 					
-					compteur++;
 				}
 				
-				[self generateXMLFile:@"index.xml" atPath:seriesPath withContent:seriesXML];
-				[seriesNode detach];
-				[studyNode addChild:seriesNode];
+				// Create the series xml file (did after because of listing the instances)
+				if (file != [files lastObject])
+				{
+					if (![[seriesIDList lastObject] isEqualToString:[[DCMObject objectWithContentsOfFile:[files objectAtIndex:compteur] decodingPixelData:NO] attributeValueWithName:@"SeriesInstanceUID"]])
+					{
+						[self generateXMLFile:@"index.xml" atPath:[seriesPathList lastObject] withContent:[seriesXMLList lastObject]];
+						[[seriesNodeList lastObject] detach];
+						[[studyNodeList lastObject] addChild:[seriesNodeList lastObject]];
+					}
+				}
+				else
+				{
+					[self generateXMLFile:@"index.xml" atPath:[seriesPathList lastObject] withContent:[seriesXMLList lastObject]];
+					[[seriesNodeList lastObject] detach];
+					[[studyNodeList lastObject] addChild:[seriesNodeList lastObject]];
+				}
 				
-				// Create thumbnail
-				DicomImage *dicomImage = [images objectAtIndex:(compteur-1)];
-				NSData *imageSeries = [[dicomImage series] thumbnail];
-				NSImage *im = [[NSImage alloc] initWithData:imageSeries];
-				[im saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail.jpg"]];
-				
-				//NSLog(@"dicomImage class name : %@", [dicomImage className]);
-				
-				
-				
-				
-				
-				
-				// Test bigger thumbnails
-				
-				//NSImage *testimage = [dicomImage image];
-				//NSData *test = [[dicomImage series] images];
-				
-//				NSSize size;
-//				size = NSMakeSize(70, 70);
-//
-//				NSImage* test2 = [(NSImage*)dicomImage imageByScalingProportionallyToSize:size];
-//				[test2 saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail_2.jpg"]];
-
 			}
 		}
 	}
-	
-	NSLog(@"************ End Create Dicom Structure");	
-	
+
 	[self generateXMLFile:@"dicom-structure.xml" atPath:path withContent:rootXML];
+	NSLog(@"************ End Create Dicom Structure");
 }
 
+
+
+//+ (void) createDicomStructureAtPath:(NSString*)path withFiles:(NSMutableArray*)files withCorrespondingImages:(NSMutableArray*)images
+//{
+//	NSLog(@"************ Start Create Dicom Structure");
+//	
+//	NSFileManager *manager = [NSFileManager defaultManager]; // For create folders
+//	
+//	NSEnumerator *enumerator;
+//	//if( anonymizedFiles)
+//	//enumerator = [anonymizedFiles objectEnumerator];
+//	//else
+//	enumerator = [files objectEnumerator];
+//	NSString *file;
+//	
+//	
+//	
+//	NSXMLElement *rootXML = (NSXMLElement*)[NSXMLNode elementWithName:@"DicomStructure"];
+//	int compteur = 0;
+//	
+//	
+//	NSString *patientID = @"";
+//	NSString *studyInstanceUID = @"";
+//	NSString *seriesInstanceUID = @"";
+//	NSString *SOPInstanceUID = @"";
+//	
+//	NSString *patientPath = path;
+//	NSString *studyPath = path;
+//	NSString *seriesPath = path;
+//	NSString *instancePath = path;
+//	
+//	NSXMLElement *patientNode;
+//	NSXMLElement *studyNode;
+//	NSXMLElement *seriesNode;
+//	NSXMLElement *instanceNode;
+//	
+//	NSXMLElement *patientXML;
+//	NSXMLElement *studyXML;
+//	NSXMLElement *seriesXML;
+//	
+//	//S_DicomNode* currentPatient = nil;
+//	
+//	while (file = [enumerator nextObject])
+//	{
+//		//NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//		//@autoreleasepool {
+//		
+//		compteur++;
+//		NSLog(@"CompteurAAA : %d", compteur);
+//		
+//		DCMObject *dcmObjectTest = [[DCMObject objectWithContentsOfFile:file decodingPixelData:NO] autorelease];
+//		
+//		
+//		if (dcmObjectTest)	// <- it's a DICOM file
+//		{
+//			
+//			
+//				
+//			// New patient
+//			if (![patientID isEqualToString:[dcmObjectTest attributeValueWithName:@"PatientID"]])
+//			{
+//				patientID = [dcmObjectTest attributeValueWithName:@"PatientID"];
+//				NSString* patientBirthDate = (NSString*)[dcmObjectTest attributeValueWithName:@"PatientsBirthDate"];
+//				patientPath = [NSString stringWithFormat:@"%@/%@%@%@", path, patientID, @"-", patientBirthDate];
+//				[manager createDirectoryAtPath:patientPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+//				
+//				patientXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+//				patientNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Patient"];
+//				[patientNode setAttributes:[self patientAttributes:dcmObjectTest]];
+//				[patientXML addChild:patientNode];
+//				[self generateXMLFile:@"index.xml" atPath:patientPath withContent:patientXML];
+//				[patientNode detach];
+//				[rootXML addChild:patientNode];
+//			}
+//			
+//			
+////			// New study
+////			if (![studyInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"]])
+////			{
+////				
+////				studyInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"];
+////				studyPath = [patientPath stringByAppendingPathComponent:studyInstanceUID];
+////				[manager createDirectoryAtPath:studyPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+////				
+////				studyXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+////				studyNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Study"];
+////				[studyNode setAttributes:[self studyAttributes:dcmObjectTest]];
+////				[studyXML addChild:studyNode];
+////				[self generateXMLFile:@"index.xml" atPath:studyPath withContent:studyXML];
+////				[studyNode detach];
+////				[patientNode addChild:studyNode];
+////				
+////			}
+//			
+//			
+////			// New series
+////			if (![g_seriesInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"]])
+////			{
+////				
+////				g_seriesInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"];
+////				
+////				seriesPath = [studyPath stringByAppendingPathComponent:g_seriesInstanceUID];
+////				[manager createDirectoryAtPath:seriesPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+////				
+////				seriesXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+////				seriesNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Series"];
+////				[seriesNode setAttributes:[self seriesAttributes:dcmObjectTest]];
+////				[seriesXML addChild:seriesNode];
+////				
+////			}
+//			
+//			
+//			//			// New instance
+//			//			if (![SOPInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"SOPInstanceUID"]])
+//			//			{
+//			//
+//			//				//DCMObject *instanceDicomObject = dcmObjectTest;
+//			//				NSString* instanceFileName = [dcmObjectTest attributeValueWithName:@"SOPInstanceUID"];
+//			//				instancePath = [NSString stringWithFormat:@"%@/%@", seriesPath, instanceFileName];
+//			//
+//			////				NSLog(@"************ Check Instance 1");
+//			////				NSLog(@"Instance file name : %@", instanceFileName);
+//			////				NSLog(@"Instance path : %@", instancePath);
+//			////
+//			//
+//			//				if( [[dcmObjectTest transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+//			//					[dcmObjectTest writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
+//			//				else
+//			//					[manager copyPath:file toPath:instancePath handler:nil];
+//			//
+//			//				// Add instances to xml file
+//			//				instanceNode = (NSXMLElement*)[NSXMLNode elementWithName:@"Instance"];
+//			//				[instanceNode setAttributes:[NSArray arrayWithObjects:
+//			//																		 [NSXMLNode attributeWithName:@"SOPInstanceUID" stringValue:instanceFileName],
+//			//																		 [NSXMLNode attributeWithName:@"InstanceNumber" stringValue:[NSString stringWithFormat:@"%i", compteur]],
+//			//																		 [NSXMLNode attributeWithName:@"DirectDownloadFile" stringValue:@""],
+//			//																		 nil]];
+//			//				[seriesNode addChild:instanceNode];
+//			//
+//			//
+//			//
+//			//
+//			//			}
+//			//
+//			//
+//			//			if (file != [files lastObject])
+//			//			{
+//			//
+//			//				if (![seriesInstanceUID isEqualToString:[[DCMObject objectWithContentsOfFile:[files objectAtIndex:compteur] decodingPixelData:NO] attributeValueWithName:@"SeriesInstanceUID"]])
+//			//				{
+//			//					[self generateXMLFile:@"index.xml" atPath:seriesPath withContent:seriesXML];
+//			//					[seriesNode detach];
+//			//					[studyNode addChild:seriesNode];
+//			//				}
+//			//			}
+//			//			else
+//			//			{
+//			//				[self generateXMLFile:@"index.xml" atPath:seriesPath withContent:seriesXML];
+//			//				[seriesNode detach];
+//			//				[studyNode addChild:seriesNode];
+//			//			}
+//			//
+//			//
+//			//			// Create thumbnail
+//			//			DicomImage* dicomImage = [images objectAtIndex:(compteur-1)];
+//			//			NSData* imageSeries = [[dicomImage series] thumbnail];
+//			//			NSImage* im = [[NSImage alloc] initWithData:imageSeries];
+//			//			[im saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail.jpg"]];
+//			//			[im release];
+//			
+//			
+//		}
+//		
+//		//}
+//		//[pool release];
+//	}
+//	
+//	
+//	
+//	
+//	
+//	
+//	NSLog(@"************ End Create Dicom Structure");	
+//	
+//	[self generateXMLFile:@"dicom-structure.xml" atPath:path withContent:rootXML];
+//}
+
+
+
+
+//// BAD Access sur seriesInstanceUID
+//+ (void) createDicomStructureAtPath:(NSString*)path withFiles:(NSMutableArray*)files withCorrespondingImages:(NSMutableArray*)images
+//{
+//	NSLog(@"************ Start Create Dicom Structure");
+//	
+//	NSFileManager *manager = [NSFileManager defaultManager]; // For create folders
+//	
+//	NSEnumerator *enumerator;
+//	//if( anonymizedFiles)
+//	//enumerator = [anonymizedFiles objectEnumerator];
+//	//else
+//		enumerator = [files objectEnumerator];
+//	NSString *file;
+//	
+//	
+//	
+//	NSXMLElement *rootXML = (NSXMLElement*)[NSXMLNode elementWithName:@"DicomStructure"];
+//	int compteur = 0;
+//	
+//
+//	NSString *patientID = @"";
+//	NSString *studyInstanceUID = @"";
+//	NSString *seriesInstanceUID = @"";
+//	NSString *SOPInstanceUID = @"";
+//
+//	NSString *patientPath = path;
+//	NSString *studyPath = path;
+//	NSString *seriesPath = path;
+//	NSString *instancePath = path;
+//	
+//	NSXMLElement *patientNode;
+//	NSXMLElement *studyNode;
+//	NSXMLElement *seriesNode;
+//	NSXMLElement *instanceNode;
+//	
+//	NSXMLElement *patientXML;
+//	NSXMLElement *studyXML;
+//	NSXMLElement *seriesXML;
+//	
+//	S_DicomNode* currentPatient = nil;
+//	
+//	while (file = [enumerator nextObject])
+//	{
+//		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//		//@autoreleasepool {
+//			
+//		DCMObject *dcmObjectTest;
+//		
+//		compteur++;
+//		NSLog(@"CompteurAAA : %d", compteur);
+//		
+//		
+//		dcmObjectTest = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
+//		
+//		
+//			
+//		if (dcmObjectTest)	// <- it's a DICOM file
+//		{
+//						
+//			NSString* pathLoad = [path stringByAppendingPathComponent:@"dicom-structure.xml"];
+//			NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL: [NSURL fileURLWithPath:pathLoad] options:0 error:NULL];
+//			rootXML = [doc rootElement];
+//
+//			if ([[rootXML elementsForName:@"Patient"] count] == 0)
+//				patientID = @"";
+//			else
+//				patientID = (NSString*)[[[rootXML elementsForName:@"Patient"] lastObject] attributeWithName:@"PatientID"];
+//			
+//			if (![patientID isEqualToString:[dcmObjectTest attributeValueWithName:@"PatientID"]])
+//			{
+//				patientNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Patient"];
+//				[patientNode setAttributes:[self patientAttributes:dcmObjectTest]];
+//				[rootXML addChild:patientNode];
+//			}
+//				
+//
+//			
+//			
+////			// New patient
+////			if (![patientID isEqualToString:[dcmObjectTest attributeValueWithName:@"PatientID"]])
+////			{
+////				patientID = (NSString*)[dcmObjectTest attributeValueWithName:@"PatientID"];
+////				NSString* patientBirthDate = (NSString*)[dcmObjectTest attributeValueWithName:@"PatientsBirthDate"];
+////				patientPath = [NSString stringWithFormat:@"%@/%@%@%@", path, patientID, @"-", patientBirthDate];
+////				[manager createDirectoryAtPath:patientPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+////				
+////				patientXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+////				patientNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Patient"];
+////				[patientNode setAttributes:[self patientAttributes:dcmObjectTest]];
+////				[patientXML addChild:patientNode];
+////				[self generateXMLFile:@"index.xml" atPath:patientPath withContent:patientXML];
+////				[patientNode detach];
+////				[rootXML addChild:patientNode];
+////			}
+//			
+////			NSString* studyTest = studyInstanceUID;
+////			NSString* studyTest2 = [dcmObjectTest attributeValueWithName:@"StudyInstanceUID"];
+////			
+////			// New study
+////			if (![studyInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"]])
+////			{
+////					
+////				studyInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"];
+////				studyPath = [patientPath stringByAppendingPathComponent:studyInstanceUID];
+////				[manager createDirectoryAtPath:studyPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+////					
+////				studyXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+////				studyNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Study"];
+////				[studyNode setAttributes:[self studyAttributes:dcmObjectTest]];
+////				[studyXML addChild:studyNode];
+////				[self generateXMLFile:@"index.xml" atPath:studyPath withContent:studyXML];
+////				[studyNode detach];
+////				[patientNode addChild:studyNode];
+////					
+////			}
+//				
+////			NSString* seriesTest = seriesInstanceUID;
+////			NSString* seriesTest2 = [dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"];
+////			
+////
+////			// New series
+////			if (![seriesInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"]])
+////			{
+////
+////				//[seriesInstanceUID release];
+////				seriesInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"];
+////				//[seriesInstanceUID initWithString:[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"]];
+////				[seriesInstanceUID retain];
+////				seriesPath = [studyPath stringByAppendingPathComponent:seriesInstanceUID];
+////				[manager createDirectoryAtPath:seriesPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+////					
+////				seriesXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+////				seriesNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Series"];
+////				[seriesNode setAttributes:[self seriesAttributes:dcmObjectTest]];
+////				[seriesXML addChild:seriesNode];
+////					
+////			}
+//				
+//
+////			// New instance
+////			if (![SOPInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"SOPInstanceUID"]])
+////			{
+////
+////				//DCMObject *instanceDicomObject = dcmObjectTest;
+////				NSString* instanceFileName = [dcmObjectTest attributeValueWithName:@"SOPInstanceUID"];
+////				instancePath = [NSString stringWithFormat:@"%@/%@", seriesPath, instanceFileName];
+////					
+//////				NSLog(@"************ Check Instance 1");
+//////				NSLog(@"Instance file name : %@", instanceFileName);
+//////				NSLog(@"Instance path : %@", instancePath);
+//////					
+////					
+////				if( [[dcmObjectTest transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+////					[dcmObjectTest writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
+////				else
+////					[manager copyPath:file toPath:instancePath handler:nil];
+////					
+////				// Add instances to xml file
+////				instanceNode = (NSXMLElement*)[NSXMLNode elementWithName:@"Instance"];
+////				[instanceNode setAttributes:[NSArray arrayWithObjects:
+////																		 [NSXMLNode attributeWithName:@"SOPInstanceUID" stringValue:instanceFileName],
+////																		 [NSXMLNode attributeWithName:@"InstanceNumber" stringValue:[NSString stringWithFormat:@"%i", compteur]],
+////																		 [NSXMLNode attributeWithName:@"DirectDownloadFile" stringValue:@""],
+////																		 nil]];
+////				[seriesNode addChild:instanceNode];
+////					
+////
+////
+////						
+////			}
+////				
+////				
+////			if (file != [files lastObject])
+////			{
+////					
+////				if (![seriesInstanceUID isEqualToString:[[DCMObject objectWithContentsOfFile:[files objectAtIndex:compteur] decodingPixelData:NO] attributeValueWithName:@"SeriesInstanceUID"]])
+////				{
+////					[self generateXMLFile:@"index.xml" atPath:seriesPath withContent:seriesXML];
+////					[seriesNode detach];
+////					[studyNode addChild:seriesNode];
+////				}
+////			}
+////			else
+////			{
+////				[self generateXMLFile:@"index.xml" atPath:seriesPath withContent:seriesXML];
+////				[seriesNode detach];
+////				[studyNode addChild:seriesNode];
+////			}
+////				
+////				
+////			// Create thumbnail
+////			DicomImage* dicomImage = [images objectAtIndex:(compteur-1)];
+////			NSData* imageSeries = [[dicomImage series] thumbnail];
+////			NSImage* im = [[NSImage alloc] initWithData:imageSeries];
+////			[im saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail.jpg"]];
+////			[im release];
+//			
+//			
+//		}
+//			
+//		//}
+//		[self generateXMLFile:@"dicom-structure.xml" atPath:path withContent:rootXML];
+//		[pool release];
+//	}
+//	
+//	
+//	
+//	
+//	
+//	
+//	NSLog(@"************ End Create Dicom Structure");	
+//	
+//	[self generateXMLFile:@"dicom-structure.xml" atPath:path withContent:rootXML];
+//}
+
+
+
+
+
+//// Original
+//+ (void) createDicomStructureAtPath:(NSString*)path withFiles:(NSMutableArray*)files withCorrespondingImages:(NSMutableArray*)images
+//{
+//	NSLog(@"************ Start Create Dicom Structure");
+//	
+//	NSFileManager *manager = [NSFileManager defaultManager]; // For create folders
+//	
+//	NSString *patientPath = path;
+//	NSString *studyPath = path;
+//	NSString *seriesPath = path;
+//	
+//	NSString *patientID = @"";
+//	NSString *studyInstanceUID = @"";
+//	NSString *seriesInstanceUID = @"";
+//	NSString *SOPInstanceUID = @"";
+//	
+//	
+//	
+//	NSMutableArray *patientsList = [NSMutableArray array];
+//	
+//	
+//	
+//	NSEnumerator *enumerator;
+//	//if( anonymizedFiles)
+//	//enumerator = [anonymizedFiles objectEnumerator];
+//	//else
+//	enumerator = [files objectEnumerator];
+//	NSString *file;
+//	
+//	
+//	int compteurTest = 0;
+//	int limite = 1106;
+//	
+//	while (file = [enumerator nextObject])
+//	{
+//		//for (id file in files)
+//		@autoreleasepool{
+//			
+//			compteurTest++;
+//			//NSLog(@"file : %@", file);
+//			
+//			
+//			
+//			
+//			
+//			DCMObject *dcmObjectTest = nil;
+//			
+//			
+//			NSLog(@"CompteurTest : %i", compteurTest);
+//			if (compteurTest > limite)
+//			{
+//				
+//			}
+//			
+//			
+//			NSLog(@"File : %@", file);
+//			if (file)
+//				dcmObjectTest = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO]; // Error
+//			
+//			
+//			
+//			S_DicomNode *patient;
+//			S_DicomNode *study;
+//			S_DicomNode *series;
+//			S_DicomNode *instance;
+//			
+//			
+//			if (dcmObjectTest)	// <- it's a DICOM file
+//			{
+//				//NSLog(@"It's a dicom file");
+//				
+//				// New patient
+//				if (![patientID isEqualToString:[dcmObjectTest attributeValueWithName:@"PatientID"]])
+//				{
+//					
+//					patientID = (NSString*)[dcmObjectTest attributeValueWithName:@"PatientID"];
+//					patient = [[[S_DicomNode alloc] initWithDCMObject:dcmObjectTest] autorelease];
+//					[patientsList addObject:patient];
+//					
+//				}
+//				
+//				// New study
+//				if (![studyInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"]])
+//				{
+//					studyInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"StudyInstanceUID"];
+//					if (patient)
+//					{
+//						study = [[[S_DicomNode alloc] initWithDCMObject:dcmObjectTest] autorelease];
+//						[study setParent:patient];
+//					}
+//				}
+//				
+//				// New series
+//				if (![seriesInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"]])
+//				{
+//					seriesInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"SeriesInstanceUID"];
+//					if (study)
+//					{
+//						series = [[[S_DicomNode alloc] initWithDCMObject:dcmObjectTest] autorelease];
+//						[series setParent:study];
+//					}
+//				}
+//				
+//				// New instance
+//				if (![SOPInstanceUID isEqualToString:[dcmObjectTest attributeValueWithName:@"SOPInstanceUID"]])
+//				{
+//					SOPInstanceUID = (NSString*)[dcmObjectTest attributeValueWithName:@"SOPInstanceUID"];
+//					if (series)
+//					{
+//						instance = [[S_DicomNode alloc] initWithDCMObject:dcmObjectTest];
+//						[instance setParent:series];
+//						//NSLog(@"TOTO");
+//						[instance setOriginalFile:file];
+//					}
+//				}
+//			}
+//			
+//			//		[patient release];
+//			//		[study release];
+//			//		[series release];
+//			//[dcmObjectTest release];
+//			//[dcmObjectTest dealloc];
+//			
+//		}
+//	}
+//	
+//	NSLog(@"************ Check 1");
+//	
+//	//	DCMObject *object = [[patientsList lastObject] dcmObject];
+//	//	NSXMLDocument *doc = [object xmlDocument];
+//	//
+//	//	NSData *xmlData = [doc XMLDataWithOptions:NSXMLNodePrettyPrint];
+//	//	NSString* outputPath = [[NSString alloc] initWithString:[path stringByAppendingPathComponent:@"test.xml"]];
+//	//
+//	//	NSLog(@"************ Check 2");
+//	//
+//	//	if (![xmlData writeToFile:outputPath atomically:YES])
+//	//	{
+//	//		NSLog(@"Could not write document out AAAAAAA");
+//	//	}
+//	//	[doc release];
+//	//
+//	//	NSLog(@"************ Check 7");
+//	
+//	NSXMLElement *rootXML = (NSXMLElement*)[NSXMLNode elementWithName:@"DicomStructure"];
+//	int compteur = 0;
+//	
+//	for (id patient in patientsList)
+//	{
+//		patientID = (NSString*)[[patient dcmObject] attributeValueWithName:@"PatientID"];
+//		NSString* patientBirthDate = (NSString*)[[patient dcmObject] attributeValueWithName:@"PatientsBirthDate"];
+//		NSString* patientPath = [NSString stringWithFormat:@"%@/%@%@%@", path, patientID, @"-", patientBirthDate];
+//		
+//		[manager createDirectoryAtPath:patientPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+//		
+//		NSXMLElement *patientXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+//		NSXMLElement *patientNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Patient"];
+//		[patientNode setAttributes:[self patientAttributes:[patient dcmObject]]];
+//		[patientXML addChild:patientNode];
+//		[self generateXMLFile:@"index.xml" atPath:patientPath withContent:patientXML];
+//		[patientNode detach];
+//		[rootXML addChild:patientNode];
+//		
+//		for (id study in [patient children])
+//		{
+//			studyInstanceUID = (NSString*)[[study dcmObject] attributeValueWithName:@"StudyInstanceUID"];
+//			studyPath = [patientPath stringByAppendingPathComponent:studyInstanceUID];
+//			[manager createDirectoryAtPath:studyPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+//			
+//			NSXMLElement *studyXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+//			NSXMLElement *studyNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Study"];
+//			[studyNode setAttributes:[self studyAttributes:[study dcmObject]]];
+//			[studyXML addChild:studyNode];
+//			[self generateXMLFile:@"index.xml" atPath:studyPath withContent:studyXML];
+//			[studyNode detach];
+//			[patientNode addChild:studyNode];
+//			
+//			for (id series in [study children])
+//			{
+//				seriesInstanceUID = (NSString*)[[series dcmObject] attributeValueWithName:@"SeriesInstanceUID"];
+//				seriesPath = [studyPath stringByAppendingPathComponent:seriesInstanceUID];
+//				[manager createDirectoryAtPath:seriesPath withIntermediateDirectories:FALSE attributes:nil error:nil];
+//				
+//				NSXMLElement *seriesXML = (NSXMLElement *)[NSXMLNode elementWithName:@"DicomStructure"];
+//				NSXMLElement *seriesNode = (NSXMLElement *)[NSXMLNode elementWithName:@"Series"];
+//				[seriesNode setAttributes:[self seriesAttributes:[series dcmObject]]];
+//				[seriesXML addChild:seriesNode];
+//				
+//				for (id instance in [series children])
+//				{
+//					DCMObject *instanceDicomObject = [instance dcmObject];
+//					NSString *instanceFileName = [instanceDicomObject attributeValueWithName:@"SOPInstanceUID"];
+//					NSString *instancePath = [NSString stringWithFormat:@"%@/%@", seriesPath, instanceFileName];
+//					
+//					//NSLog(@"************ Check Instance 1");
+//					//NSLog(@"Instance file name : %@", instanceFileName);
+//					//NSLog(@"Instance path : %@", instancePath);
+//					
+//					// Write dicom file
+//					//bool temp = [instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality:DCMLosslessQuality atomically:YES];
+//					
+//					
+//					
+//					if( [[instanceDicomObject transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+//						[instanceDicomObject writeToFile:instancePath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
+//					else
+//						[manager copyPath:[instance originalFile] toPath:instancePath handler:nil];
+//					//[manager copyItemAtURL:[instance originalFile] toURL:instancePath error:nil];
+//					
+//					
+//					
+//					//NSLog(@"************ Check Instance 2");
+//					
+//					// Add instances to xml file
+//					NSXMLElement *instanceNode = (NSXMLElement*)[NSXMLNode elementWithName:@"Instance"];
+//					[instanceNode setAttributes:[NSArray arrayWithObjects:
+//																			 [NSXMLNode attributeWithName:@"SOPInstanceUID" stringValue:instanceFileName],
+//																			 [NSXMLNode attributeWithName:@"InstanceNumber" stringValue:[NSString stringWithFormat:@"%i", compteur]],
+//																			 [NSXMLNode attributeWithName:@"DirectDownloadFile" stringValue:@""],
+//																			 nil]];
+//					[seriesNode addChild:instanceNode];
+//					
+//					compteur++;
+//				}
+//				
+//				[self generateXMLFile:@"index.xml" atPath:seriesPath withContent:seriesXML];
+//				[seriesNode detach];
+//				[studyNode addChild:seriesNode];
+//				
+//				// Create thumbnail
+//				DicomImage *dicomImage = [images objectAtIndex:(compteur-1)];
+//				NSData *imageSeries = [[dicomImage series] thumbnail];
+//				NSImage *im = [[NSImage alloc] initWithData:imageSeries];
+//				[im saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail.jpg"]];
+//				
+//				//NSLog(@"dicomImage class name : %@", [dicomImage className]);
+//
+//				
+//				
+//				
+//				
+//				
+//				// Test bigger thumbnails
+//				
+//				//NSImage *testimage = [dicomImage image];
+//				//NSData *test = [[dicomImage series] images];
+//				
+//				//				NSSize size;
+//				//				size = NSMakeSize(70, 70);
+//				//
+//				//				NSImage* test2 = [(NSImage*)dicomImage imageByScalingProportionallyToSize:size];
+//				//				[test2 saveAsJpegWithName:[seriesPath stringByAppendingPathComponent:@"thumbnail_2.jpg"]];
+//				
+//			}
+//		}
+//	}
+//	
+//	NSLog(@"************ End Create Dicom Structure");
+//	
+//	[self generateXMLFile:@"dicom-structure.xml" atPath:path withContent:rootXML];
+//}
 
 
 + (void) generateXMLFile:(NSString*)fileName atPath:(NSString*)path withContent:(NSXMLElement*)content
@@ -350,7 +958,7 @@
 	[xmlDoc setVersion:@"1.0"];
 	[xmlDoc setCharacterEncoding:@"UTF-8"];
 	
-	NSString* outputPath = [[NSString alloc] initWithString:[path stringByAppendingPathComponent:fileName]];
+	NSString* outputPath = [[[NSString alloc] initWithString:[path stringByAppendingPathComponent:fileName]] autorelease];
 	
 	NSData *xmlData = [xmlDoc XMLDataWithOptions:NSXMLNodePrettyPrint];
 	if (![xmlData writeToFile:outputPath atomically:YES])

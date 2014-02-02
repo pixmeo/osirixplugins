@@ -107,40 +107,59 @@
 		// C'est là que ça plante pour les gros fichiers
 		[XMLGenerator createDicomStructureAtPath:dicomFolder withFiles:files withCorrespondingImages:dicomImages];	// Sandbox
 		
+		//////////////
 		
 		
 		
-		while((file = [enumerator nextObject]) && cancelled == NO)
-		{
-			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-			NSString *newPath = [NSString stringWithFormat:@"%@/%05d", subFolder, i++];
-			DCMObject *dcmObject = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
-			//Don't want Big Endian, May not be readable
-			if( [[dcmObject transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
-				[dcmObject writeToFile:newPath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
-			else
-				[manager copyPath:file toPath:newPath handler:nil];
-			
-			if( dcmObject)	// <- it's a DICOM file
-			{
-				switch( [compressionMode selectedTag])
-				{
-					case 0:
-						break;
-						
-					case 1:
-						[compressedArray addObject: newPath];
-						break;
-						
-					case 2:
-						[compressedArray addObject: newPath];
-						break;
-				}
-			}
-			
-			[newFiles addObject:newPath];
-			[pool release];
-		}
+
+		
+		
+		
+		
+		
+		
+		
+		///////////////
+		
+		
+		NSLog(@"Fin =====");
+		
+		
+//		while((file = [enumerator nextObject]) && cancelled == NO)
+//		{
+//			NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//			NSString *newPath = [NSString stringWithFormat:@"%@/%05d", subFolder, i++];
+//			DCMObject *dcmObject = [DCMObject objectWithContentsOfFile:file decodingPixelData:NO];
+//			//Don't want Big Endian, May not be readable
+//			if( [[dcmObject transferSyntax] isEqualToTransferSyntax:[DCMTransferSyntax ExplicitVRBigEndianTransferSyntax]])
+//				[dcmObject writeToFile:newPath withTransferSyntax:[DCMTransferSyntax ImplicitVRLittleEndianTransferSyntax] quality: DCMLosslessQuality atomically:YES];
+//			else
+//				[manager copyPath:file toPath:newPath handler:nil];
+//			
+//			if( dcmObject)	// <- it's a DICOM file
+//			{
+//				switch( [compressionMode selectedTag])
+//				{
+//					case 0:
+//						break;
+//						
+//					case 1:
+//						[compressedArray addObject: newPath];
+//						break;
+//						
+//					case 2:
+//						[compressedArray addObject: newPath];
+//						break;
+//				}
+//			}
+//			
+//			[newFiles addObject:newPath];
+//			[pool release];
+//		}
+		
+		
+		///////////////
+		
 		
 //		if( [newFiles count] > 0 && cancelled == NO)
 //		{

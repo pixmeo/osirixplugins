@@ -21,7 +21,7 @@
 
 - (void) initPlugin
 {
-	
+	NSLog(@"SandBox : COUCOU");
 }
 
 - (long) filterImage:(NSString*) menuName
