@@ -138,6 +138,9 @@
             if( institutionName)
                 [dcmObject setAttributeValues:[NSMutableArray arrayWithObject: institutionName] forName:@"InstitutionName"];
             
+            if( studyDescription)
+                [dcmObject setAttributeValues:[NSMutableArray arrayWithObject: studyDescription] forName:@"StudyDescription"];
+            
             if (patientSex)
                 [dcmObject setAttributeValues:[NSMutableArray arrayWithObject: patientSex] forName:@"PatientsSex"];
             else

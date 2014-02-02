@@ -170,6 +170,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = BF90E90E088F520B0078E0EC /* Build configuration list for PBXProject "PDFToDicom" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -279,7 +281,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.8;
 			};
 			name = Development;
 		};
