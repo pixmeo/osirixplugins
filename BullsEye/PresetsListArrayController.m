@@ -14,14 +14,18 @@
 
 - (void)add:(id)sender
 {
-	[self addObject: [NSMutableDictionary dictionaryWithObjectsAndKeys: @"New Preset", @"name", nil]];
-	
+    id newObject = [NSMutableDictionary dictionaryWithObjectsAndKeys: @"New Preset", @"name", nil];
+	[self addObject: newObject];
+    
+    [self setSelectionIndex: [self.arrangedObjects count]-1];
+    
 	[[BullsEyeView view] refresh];
 }
 
 - (void)remove:(id)sender
 {
 	[super remove: sender];
+    
 	[[BullsEyeView view] refresh];
 }
 
