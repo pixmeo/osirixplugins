@@ -57,9 +57,9 @@
         [desc addAttribute:NSFontAttributeName value:[NSFont systemFontOfSize:NSFont.smallSystemFontSize] range:desc.range];
         folder.desc = desc;
         
-        NSLog(@"  syncWithAPIFolders:");
+//        NSLog(@"  syncWithAPIFolders:");
         [folder syncWithAPIFolders:[[item valueForKey:@"children"] ofClass:[NSArray class]]];
-        NSLog(@"  …done");
+//        NSLog(@"  …done");
         
         if (![self.content containsObject:folder])
             [self addObject:folder];
