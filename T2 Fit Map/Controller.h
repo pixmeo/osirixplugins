@@ -9,7 +9,7 @@
 #import <AppKit/AppKit.h>
 #import "Graph.h"
 
-@interface ControllerT2Fit : NSWindowController {
+@interface ControllerT2Fit : NSWindowController <NSWindowDelegate>{
 
 					MappingT2FitFilter	*filter;
 					ViewerController	*blendedWindow;

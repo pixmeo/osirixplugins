@@ -8,7 +8,7 @@
 
 #include "math.h"
 
-#import "PluginFilter.h"
+#import <OsiriXAPI/PluginFilter.h>
 #import "Mapping.h"
 
 #import "Controller.h"
@@ -184,7 +184,7 @@
 	long				i, x, y;
 	unsigned char		*emptyData;
 	float				*dstImage;
-	float				factor, threshold, thresholdSet, minValue, background;
+	float				factor, thresholdSet, minValue, background;
 	
 	BOOL				meanMode;
 	
@@ -225,8 +225,6 @@
 	background = [backgroundSignal floatValue];
 	thresholdSet = 0;
 	minValue = 99999;
-	
-	NSLog(@"Threshold:%0.0f", threshold);
 	
 	meanMode = [[mode selectedCell] tag];
 	
@@ -419,16 +417,16 @@
 	}
 
 	for ( DCMPix *p in pixListResult)
-	{
-		[p setEchotime: 0L];
-	}
+        p.echoTime = 0;
 
 
 	// Try to find the TEs...
 	
 	for( i = 0; i < [[pixListArrays objectAtIndex: 0] count]; i++)
 	{
-		TEValues[ i] = [[[[pixListArrays objectAtIndex: 0] objectAtIndex: i] echotime] floatValue] / 1000.;
+        DCMPix *p = [[pixListArrays objectAtIndex: 0] objectAtIndex: i];
+        
+		TEValues[ i] = p.echoTime / 1000.;
 	}
 	
 	[TETable reloadData];
