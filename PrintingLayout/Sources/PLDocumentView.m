@@ -690,24 +690,27 @@
     if ([saveDialog runModal] == NSFileHandlingPanelCancelButton)
         return;
     
+    // Wait panel
     WaitRendering* waiting = [[[WaitRendering alloc] init:NSLocalizedString(@"Saving File...", nil)] autorelease];
 	[waiting showWindow:self];
     
-    NSString *filename = [NSString stringWithFormat:@"%@/%@", saveDialog.directory, saveDialog.nameFieldStringValue];
+    NSString *filename = [NSString stringWithFormat:@"%@/%@", saveDialog.directoryURL, saveDialog.nameFieldStringValue]; // Get filename from save panel
     PDFDocument *layoutPDF = [[[PDFDocument alloc] init] autorelease];
     NSInteger pageNumber = -1;  // Index for PDF document's page
     CGFloat pageRatio = getRatioFromPaperFormat(pageFormat);
-    NSRect pageBounds = getPDFPageBoundsFromPaperFormat(pageFormat);    // The bounds in pixels for each page
+    NSRect pageBounds = getPDFPageBoundsFromPaperFormat(pageFormat); // The bounds in pixels for each page
     
     // Memorize the general preference, and force it to be the local definition
     NSInteger annotations = [[NSUserDefaults standardUserDefaults] integerForKey:@"ANNOTATIONS"];
     [[NSUserDefaults standardUserDefaults] setInteger:[[[(PLWindowController*)self.window.windowController annotationRadioButton] selectedCell] tag] forKey:@"ANNOTATIONS"];
     
+    // Export page by page
     for (NSUInteger i = 0; i < nbPages; ++i)
     @autoreleasepool{
         PLLayoutView *page = [self.subviews objectAtIndex:i];
         
-        if (page.filledThumbs)
+        // Only export pages with data
+//        if (page.filledThumbs)
         @autoreleasepool
         {
             ++pageNumber;
@@ -716,8 +719,8 @@
                         matrixHeight    = page.layoutMatrixHeight;
             
             // Determine the minimal sizes of the pdfPage
-            CGFloat maxWidth        = 0.,
-                    maxHeight       = 0.;
+            CGFloat maxWidth    = 0.,
+                    maxHeight   = 0.;
             
             for (NSUInteger y = 0; y < matrixHeight; ++y)
             {
@@ -753,6 +756,12 @@
             
             CGFloat newThumbHeight = roundf(maxHeight / matrixHeight);
             CGFloat newThumbWidth = roundf(maxWidth / matrixWidth);
+            
+            if (newThumbHeight == 0)
+            {
+                newThumbHeight = 594;
+                newThumbWidth = 420;
+            }
             NSRect newThumbFrame = NSMakeRect(0, 0, newThumbWidth, newThumbHeight);
             NSSize newPageSize = NSMakeSize(roundf(newThumbWidth * matrixWidth), roundf(newThumbHeight * matrixHeight));
             
@@ -769,6 +778,7 @@
             
             // CAUTION!! The coordinates are flipped for all the views in the PrintingLayout plugin, not for NSImage
             NSPoint origin = NSZeroPoint;
+            if (page.filledThumbs)
             for (NSInteger y = matrixHeight - 1; y >= 0 ; --y)
             {
                 NSUInteger currentLine = y * matrixWidth;

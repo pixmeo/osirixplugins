@@ -25,10 +25,10 @@
 #import "RoiEnhancementDicomSaveDialog.h"
 #import "OsiriXAPI/Notifications.h"
 
-const NSString* FileTypePDF = @"pdf";
-const NSString* FileTypeTIFF = @"tiff";
-const NSString* FileTypeDICOM = @"dcm";
-const NSString* FileTypeCSV = @"csv";
+NSString* const FileTypePDF = @"pdf";
+NSString* const FileTypeTIFF = @"tiff";
+NSString* const FileTypeDICOM = @"dcm";
+NSString* const FileTypeCSV = @"csv";
 
 
 @implementation RoiEnhancementInterface
@@ -95,7 +95,7 @@ const NSString* FileTypeCSV = @"csv";
 	if (accessoryView)
 		[panel setAccessoryView:accessoryView];
 	
-	NSManagedObject* infoData = [[[_viewer imageView] curDCM] imageObj];
+	NSManagedObject* infoData = (NSManagedObject*)[[[_viewer imageView] curDCM] imageObj];
 	NSString* filename = [NSString stringWithFormat:@"%@ ROI Enhancement", [infoData valueForKeyPath:@"series.study.name"]];
 	
 	[panel beginSheetForDirectory:NULL file:filename modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];

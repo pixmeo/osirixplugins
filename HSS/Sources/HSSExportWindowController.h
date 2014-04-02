@@ -15,6 +15,7 @@
 
 @interface HSSExportWindowController : NSWindowController<NSWindowDelegate,NSOutlineViewDelegate,NSMenuDelegate> {
     BOOL _alreadyDidBecomeSheet;
+    BOOL _doneFetchingCases;
     NSArray* _images;
     NSArray* _series;
     HSSAPISession* _session;

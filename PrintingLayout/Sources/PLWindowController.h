@@ -59,7 +59,6 @@
 - (IBAction)deletePage:(id)sender;
 - (IBAction)insertPage:(id)sender;
 - (IBAction)updateViewRatio:(id)sender;
-- (IBAction)updateGridLayoutFromButton:(id)sender;
 - (IBAction)reshapeLayout:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
