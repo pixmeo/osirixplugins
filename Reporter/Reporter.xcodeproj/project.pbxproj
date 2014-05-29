@@ -409,7 +409,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
@@ -442,7 +441,6 @@
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
@@ -473,8 +471,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};
@@ -483,8 +479,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
 			};
 			name = Deployment;
 		};
