@@ -44,7 +44,10 @@
 
 +(NSString*)saveImageInTmp:(NSImage*)image {
     NSBitmapImageRep* rep = [image.representations objectAtIndex:0];
-    NSString* path = [[NSFileManager.defaultManager tmpFilePathInTmp] stringByAppendingPathExtension:@"png"];
+    NSString* path = @"~/Desktop/test.png";
+    
+    path = [path stringByExpandingTildeInPath];
+    
     if ([[rep representationUsingType:NSPNGFileType properties:nil] writeToFile:path atomically:NO])
         return path;
     return nil;
@@ -70,7 +73,8 @@
             NSDictionary* errs = nil;
             [as runWithArguments:[NSArray arrayWithObjects: reportFilePath, [add objectAtIndex:0], [add objectAtIndex:1], [add objectAtIndex:2], /*[NSNumber numberWithInteger:[NSUserDefaults.standardUserDefaults boolForKey:ReporterReplaceDefaultsKey]],*/ nil] error:&errs];
             if (errs.count) NSLog(@"Reporter AppleScript errors: %@", errs);
-            [NSFileManager.defaultManager removeItemAtPath:[add objectAtIndex:0] error:NULL];
+            
+            [NSFileManager.defaultManager removeItemAtPath:[add objectAtIndex:1] error:NULL];
         }
     } @catch (NSException* e) {
         N2LogExceptionWithStackTrace(e);
