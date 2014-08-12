@@ -93,11 +93,7 @@
 		59FB4F7610A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TeichholzEjectionFractionAlgorithm.h; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.h; sourceTree = "<group>"; };
 		59FB4F7710A2D68800283D52 /* TeichholzEjectionFractionAlgorithm.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TeichholzEjectionFractionAlgorithm.mm; path = Sources/Algorithms/TeichholzEjectionFractionAlgorithm.mm; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* Ejection Fraction.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Ejection Fraction.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-<<<<<<< HEAD:Ejection Fraction/Ejection Fraction II.xcodeproj/project.pbxproj
 		CEB6E5BB172D126500826F3F /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
-=======
-		CE7FC25E16CB7D00003E9474 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
->>>>>>> master:Ejection Fraction/Ejection Fraction.xcodeproj/project.pbxproj
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +253,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "Ejection Fraction" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -333,19 +331,9 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-<<<<<<< HEAD:Ejection Fraction/Ejection Fraction II.xcodeproj/project.pbxproj
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../osirix-trunk/build/Development/\"",
-					"\"$(SRCROOT)/../../osirix/osirix/build/Development\"",
-					"\"$(SRCROOT)/../../osirix/build/Development\"",
-				);
-=======
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
->>>>>>> master:Ejection Fraction/Ejection Fraction.xcodeproj/project.pbxproj
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -368,7 +356,6 @@
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = "Ejection Fraction";
-				SDKROOT = macosx10.7;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -383,15 +370,10 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					ppc64,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Development;
 		};
