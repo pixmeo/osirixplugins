@@ -16,6 +16,7 @@
 #import "HSSAPISession.h"
 #import "HSSFolder.h"
 #import "HSSMedcase.h"
+#import <OsiriXAPI/DicomStudy.h>
 #import <OsiriXAPI/DicomSeries.h>
 #import <OsiriXAPI/DicomImage.h>
 #import "HSSMedcaseCreation.h"
@@ -29,6 +30,7 @@
 
 @property(retain,readwrite) NSArray* series;
 @property(retain,readwrite) NSArray* images;
+@property(retain,readwrite) NSArray* keyImages;
 @property(retain,readwrite) HSSAPISession* session;
 @property(retain,readwrite) HSSMedcaseCreation* medcase;
 @property(retain,readwrite) NSAnimation* animation;
@@ -39,6 +41,7 @@
 
 @synthesize series = _series;
 @synthesize images = _images;
+@synthesize keyImages = _keyImages;
 @synthesize session = _session;
 @synthesize medcase = _medcase;
 @synthesize folder = _folder;
@@ -68,6 +71,17 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
 	return self;
 }
 
+//- (id)initWithPatientKeyImages:(NSArray*)keyImages series:(NSArray*)series images:(NSArray*)images {
+//	if ((self = [super initWithWindowNibName:@"HSSExportWindow"])) {
+//        self.series = series;
+//        self.images = images;
+//        self.keyImages = keyImages;
+//        self.medcase = [[[HSSMedcaseCreation alloc] initWithSession:nil] autorelease];
+//    }
+//	
+//	return self;
+//}
+
 + (NSArray*)imagesInSeries:(NSArray*)series {
     NSMutableArray* images = [NSMutableArray array];
     
@@ -85,6 +99,29 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
     for (DicomImage* image in [self imagesInSeries:series])
         if (image.storedIsKeyImage.boolValue)
             [images addObject:image];
+    
+    return images;
+}
+
++ (NSArray*)keyImagesForSelectedPatient:(NSArray*)series {
+    
+//    NSString* patientUID = [[series objectAtIndex:0] patientUID];
+    // TODO voir comment fonctionne le filtre de recherche
+//    NSArray	*albumArray = controller.albumArray;
+//    
+//    if( [albumArray count] > controller.albumTable.selectedRow)
+//    {
+//        NSManagedObject	*album = [albumArray objectAtIndex:controller.albumTable.selectedRow];
+//        studies = [[[album valueForKey:@"studies"] allObjects] sortedArrayUsingDescriptors:sortDescriptors];
+//    }
+    
+    NSMutableArray* images = [NSMutableArray array];
+    NSArray *allStudies = [[[series objectAtIndex:0] study] studiesForThisPatient];
+    for (DicomStudy *study in allStudies)
+        for (DicomSeries* serie in study.series)
+            for (DicomImage* image in serie.images)
+                if (image.storedIsKeyImage.boolValue)
+                    [images addObject:image];
     
     return images;
 }
@@ -142,6 +179,13 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
     else cell.title = [NSString stringWithFormat:NSLocalizedString(@"Selected images (%d)", nil), (int)count];
     if (pimages.count > count)
         cell.title = [NSString stringWithFormat:@"%@ - %@", cell.title, NSLocalizedString(@"multiframe files excluded", @"keep this string short...")];
+    [cell setEnabled:(count > 0)];
+    
+    cell = [_imagesMatrix cellWithTag:3];
+    NSArray* patientsKeyImages = [[self class] keyImagesForSelectedPatient:self.series];
+    keyImages = [[self class] imagesExcludingMultiframes:patientsKeyImages];
+    count = [keyImages count];
+    cell.title = [NSString stringWithFormat:NSLocalizedString(@"All key images for selected patient (%d)", nil), (int)count];
     [cell setEnabled:(count > 0)];
 
     [_imagesMatrix selectCellWithTag:2]; // default d'apres la spec
@@ -551,6 +595,8 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
             return [[self class] keyImagesInSeries:self.series];
         case 2: // current image(s)
             return self.images;
+        case 3: // all key images for selected patient
+            return [[self class] keyImagesForSelectedPatient:self.series];
     }
     
     return nil;
