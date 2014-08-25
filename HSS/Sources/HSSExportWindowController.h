@@ -18,6 +18,7 @@
     BOOL _doneFetchingCases;
     NSArray* _images;
     NSArray* _series;
+    NSArray* _keyImages;
     HSSAPISession* _session;
     HSSMedcaseCreation* _medcase;
     NSAnimation* _animation;
@@ -37,6 +38,7 @@
 }
 
 @property(retain,readonly) NSArray* images;
+@property(retain,readonly) NSArray* keyImages;
 @property(retain,readonly) NSArray* series;
 @property(retain,readonly) HSSAPISession* session;
 @property(retain,readonly) HSSMedcaseCreation* medcase;
@@ -56,6 +58,7 @@
 @property(assign) IBOutlet NSButton* sendButton;
 
 - (id)initWithSeries:(NSArray*)series images:(NSArray*)images;
+//- (id)initWithPatientKeyImages:(NSArray*)keyImages series:(NSArray*)series images:(NSArray*)images;
 - (void)beginSheetOnWindow:(NSWindow*)parentWindow;
 
 - (IBAction)sendAction:(id)sender;
