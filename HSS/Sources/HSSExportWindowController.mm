@@ -186,6 +186,8 @@ static NSString* const HSSExportWindowControllerContext = @"HSSExportWindowContr
     keyImages = [[self class] imagesExcludingMultiframes:patientsKeyImages];
     count = [keyImages count];
     cell.title = [NSString stringWithFormat:NSLocalizedString(@"All key images for selected patient (%d)", nil), (int)count];
+    if (patientsKeyImages.count > count)
+        cell.title = [NSString stringWithFormat:@"%@ - %@", cell.title, NSLocalizedString(@"multiframe files excluded", @"keep this string short...")];
     [cell setEnabled:(count > 0)];
 
     [_imagesMatrix selectCellWithTag:2]; // default d'apres la spec
