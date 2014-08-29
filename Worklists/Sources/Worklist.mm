@@ -390,18 +390,18 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 
                 DcmDataset* dataset = dcmff.getDataset();
                 dataset->insertEmptyElement(DCM_AccessionNumber);
-                dataset->insertEmptyElement(DCM_ReferringPhysicianName);
-                dataset->insertEmptyElement(DCM_PatientName);
+                dataset->insertEmptyElement(DCM_ReferringPhysiciansName);
+                dataset->insertEmptyElement(DCM_PatientsName);
                 dataset->insertEmptyElement(DCM_PatientID);
-                dataset->insertEmptyElement(DCM_PatientBirthDate);
-                dataset->insertEmptyElement(DCM_PatientSex);
+                dataset->insertEmptyElement(DCM_PatientsBirthDate);
+                dataset->insertEmptyElement(DCM_PatientsSex);
                 dataset->insertEmptyElement(DCM_StudyInstanceUID);
                 dataset->insertEmptyElement(DCM_RequestedProcedureDescription);
                 
                 DcmItem* spssi;
                 dataset->findOrCreateSequenceItem(DCM_ScheduledProcedureStepSequence, spssi);
                 spssi->insertEmptyElement(DCM_Modality);
-                spssi->insertEmptyElement(DCM_ScheduledPerformingPhysicianName);
+                spssi->insertEmptyElement(DCM_ScheduledPerformingPhysiciansName);
                 spssi->insertEmptyElement(DCM_ScheduledProcedureStepStartDate);
                 spssi->insertEmptyElement(DCM_ScheduledProcedureStepStartTime);
                 
