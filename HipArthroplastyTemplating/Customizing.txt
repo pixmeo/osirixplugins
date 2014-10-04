@@ -2,31 +2,55 @@ You will be able to add your own templates to the plugin: add a folder
 "My Templates" (it must end with "Templates") to the plugin's  
 Resources directory, and inside that folder use the same structure as  
 in the MEDACTA Templates folder:
+
 - every implant has a TXT file and one or two PDF files (anterior/ 
 posterior, lateral) for every available size
+
 - the txt file contains values for: FIXATION_TYPE, PRODUCT_GROUP,  
 IMPLANT_MANUFACTURER, MODULARITY_INFO, PRODUCT_FAMILY_NAME,  
 TYPE_OF_SURGERY, COMPONENT_TYPE, SIZE, REF_NO,  
 PDF_FILE_AP, PDF_FILE_ML
+
 - coordinates of "origin" in the pdf (rotation point for cups, center  
-for stems): AP_ORIGIN_X, AP_ORIGIN_Y, ML_ORIGIN_X, ML_ORIGIN_Y,
+for stems): AP_ORIGIN_X, AP_ORIGIN_Y, ML_ORIGIN_X, ML_ORIGIN_Y; coordinates are in millimeters, from the bottom left corner of the PDF
+
 - in stem, coordinates of the different neck-length rotation points  
 (fixed points common with the cup): AP_HEAD_ROTATION_POINT_1_X, ....,  
-ML_HEAD_ROTATION_POINT_5_Y (1 is interpreted as XS, then S, M, L, XL)
+ML_HEAD_ROTATION_POINT_5_Y (1 is interpreted as XS, then S, M, L, XL), 
+
 - LEFT_RIGHT says which leg the product is for: "RIGHT", "LEFT",
-"LEFT AND RIGHT", "BOTH"
+"LEFT AND RIGHT", "BOTH", "Neutral" --- If the value contains "RIGHT", it is flagged as ok for right side, if it contains "LEFT" is it flagged as ok for left side, if it isn't flagged for neither right nor left, it is considered valid for both sides, so an empty field is ok for both.
+
 - for products that aren't usable on both legs, OTHER_SIDE_REF_NO says 
 which product is to be used for the other leg
+
 - ORIENTATION indicates the leg for which the template is drawn on the
-original PDF. 
+original PDF. Must be either RIGHT or LEFT.
+
 - AP_HEAD_ROTATION_RADS indicates by how many radiants the object is 
 already rotated on the PDF, so if your product is shown vertically then use 0
+
+- SIZE is supposed to be numerical
+
+- PDF_FILE_AP must contain the PDF file extension, and the value must match the filename, also with uppercase and lowercase letters. Abc.PDF won't match Abc.pdf, and neither will abc.pdf
+
+- Some fields are just displayed and used for matching search filters: MODULARITY_INFO, TYPE_OF_SURGERY, PRODUCT_GROUP
+
+- Other values are ignored: NECK_ANGLE, OFFSET, CONE, CHANGE_TYPE, CHANGE_INFO, REPLACED_REF_NO, NOT_FOR_SALE_IN_TERRITORIES, DB_PART_NO, DB_PART_REV, TEMPLATE_GROUP, INFO_FILE, ...
+
+- We suggest you concentrate on the AP PDFs and details: these are the ones that users will overlay on their patients' RX. ML are there but will never be actually used, so don't lose valuable time on ML coords.
 
 Late versions of the plugin also load templates from all folders ending with 
 Templates in /Library/Application Support/OsiriX/HipArthroplastyTemplating
 and ~/Library/Application Support/OsiriX/HipArthroplastyTemplating, so you
-don;t need to modify the plugin, you can just distribute a package that 
+don't need to modify the plugin, you can just distribute a package that 
 installs your templates there.
+
+Out of a whole PDF, only the central part, where the implant is drawn, should be considered and overlaid. You should specify the coordinates of the rectangle that bounds the region of interest using the plugin:
+- Prepare PDFs and TXTs and inject them into the plugin
+- Launch the plugin, and one by one visit your templates
+- For every template, you will notice that, when displayed, no ROI is specified on the PDF. You should specify the ROI by pushing the Command key and dragging a rectangle around the central part of the PDF. Your rectangle will be slightly transformed by the plugin, and saved.
+- Once all your templates have their ROI, quit OsiriX, open the plugin's prefs plist at ~/Library/Preferences/com.osirix.hiparthroplastytemplating.plist and copy the bounds into a new plist. Save the new plist as _Bounds.plist and place it at the root of your Templates folder.
 
 The plugin also supports proximal/distal stems, contact us if you want more 
 information about this.
