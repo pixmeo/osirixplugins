@@ -203,13 +203,8 @@
 	NSMutableString *fname = [ NSMutableString stringWithString: [ sheet filename ] ];
 	if ( fileType == FT_CSV ) {
 
-		[ fname appendString: @".csv" ];
-		const char *str = [ csvText cStringUsingEncoding: NSASCIIStringEncoding ];
-        if (str)
-        {
-            NSData *data = [ NSData dataWithBytes: str length: strlen( str ) ];
-            [ data writeToFile: fname atomically: YES ];
-        }
+		[fname appendString: @".csv" ];
+        [csvText writeToFile: fname atomically: YES encoding: NSUTF8StringEncoding error: nil];
 
 	} else {
 	

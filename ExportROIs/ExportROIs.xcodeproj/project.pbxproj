@@ -10,9 +10,9 @@
 		8202B233092EC3930013789F /* FileTypeSelector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8202B232092EC3930013789F /* FileTypeSelector.nib */; };
 		82128236092EBCE20093B432 /* FileTypeSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 82128235092EBCE20093B432 /* FileTypeSelector.h */; };
 		82128238092EBD0A0093B432 /* FileTypeSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 82128237092EBD0A0093B432 /* FileTypeSelector.m */; };
-		84DC787F176A23EC00997A56 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DC787E176A23EC00997A56 /* OsiriXAPI.framework */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		CE54757119E2EE550052F3B9 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE54757019E2EE550052F3B9 /* OsiriXAPI.framework */; };
 		DB38E3AA08CDCFCB00E80768 /* ExportROIsPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = DB38E3A808CDCFCB00E80768 /* ExportROIsPlugin.h */; };
 		DB38E3AB08CDCFCB00E80768 /* ExportROIsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DB38E3A908CDCFCB00E80768 /* ExportROIsPlugin.m */; };
 		DB38E3AD08CDCFDE00E80768 /* ExportROIs_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = DB38E3AC08CDCFDE00E80768 /* ExportROIs_Prefix.pch */; };
@@ -27,8 +27,8 @@
 		82128235092EBCE20093B432 /* FileTypeSelector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FileTypeSelector.h; sourceTree = "<group>"; };
 		82128237092EBD0A0093B432 /* FileTypeSelector.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FileTypeSelector.m; sourceTree = "<group>"; };
 		82CD775408DDAB9100BDF92A /* ExportROIs.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExportROIs.osirixplugin; sourceTree = BUILT_PRODUCTS_DIR; };
-		84DC787E176A23EC00997A56 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE54757019E2EE550052F3B9 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix/build/Deployment 64-bit/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		DB38E3A808CDCFCB00E80768 /* ExportROIsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExportROIsPlugin.h; sourceTree = "<group>"; };
 		DB38E3A908CDCFCB00E80768 /* ExportROIsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExportROIsPlugin.m; sourceTree = "<group>"; };
 		DB38E3AC08CDCFDE00E80768 /* ExportROIs_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExportROIs_Prefix.pch; sourceTree = "<group>"; };
@@ -40,7 +40,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				84DC787F176A23EC00997A56 /* OsiriXAPI.framework in Frameworks */,
+				CE54757119E2EE550052F3B9 /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,7 +63,6 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				84DC787E176A23EC00997A56 /* OsiriXAPI.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);
@@ -90,6 +89,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE54757019E2EE550052F3B9 /* OsiriXAPI.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -180,6 +180,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "ExportROIs" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -254,6 +256,8 @@
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					/Users/antoinerosset/osirix/build/Deployment,
+					"64-bit",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix-trunk/build/Development\"";
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../osirix/build/Development\"";
@@ -292,8 +296,7 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 			};
 			name = Development;
