@@ -65,7 +65,10 @@
     if (![_autoretrieveLock tryLock])
         return;
     @try {
-        @synchronized (self) {
+        
+        static NSString *singleRetrieveAtATime= @"singleRetrieveAtATime";
+        
+        @synchronized (singleRetrieveAtATime) { // @synchronized (self) wasnt working...
             NSThread* arthread = [NSThread isMainThread]? nil : [NSThread currentThread];
             arthread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing %@", nil), [_properties objectForKey:WorklistNameKey]];
             arthread.status = [NSString stringWithFormat:NSLocalizedString(@"Synchronizing with POD nodes...", nil)];
@@ -130,7 +133,8 @@
                     ++(*subthreadsp);
                 }
 
-                [NSThread performBlockInBackground:^{
+//                [NSThread performBlockInBackground:^
+                {
                     @try {
                         // NSLog(@"Querying %@ ...", studyInstanceUID);
                         DicomStudy* istudy;
@@ -185,7 +189,7 @@
                                                                                            extraParameters:dn];
                                 [slQueryNode setShowErrorMessage:NO];
                                 
-                                [slQueryNode setupNetworkWithSyntax:UID_FINDStudyRootQueryRetrieveInformationModel dataset:&slDataset destination:nil];
+                                [slQueryNode setupNetworkWithSyntax:UID_FINDStudyRootQueryRetrieveInformationModel dataset:&slDataset];
                                 
                                 if (!slQueryNode.children.count && mode == 0)
                                     continue; // no such study on PACS, switch to AccessionNumber mode or give up...
@@ -442,7 +446,8 @@
                             --(*subthreadsp);
                         }
                     }
-                }];
+                }
+//                ];
             }
             
             while (subthreads)
