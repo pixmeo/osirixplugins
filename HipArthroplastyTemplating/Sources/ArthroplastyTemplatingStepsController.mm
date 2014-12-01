@@ -220,7 +220,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		NSTimeInterval group = [NSDate timeIntervalSinceReferenceDate];
 		[landmark setGroupID:group];
 		[*axis setGroupID:group];
-		[[_viewerController imageView] roiSet:*axis];
+        [*axis setCurView: _viewerController.imageView];
 		[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:*axis];
 		[*axis release];
 	}
@@ -267,7 +267,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			*axis = [[HATROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX :_horizontalAxis.pixelSpacingY :_horizontalAxis.imageOrigin];
 			[*axis setThickness:1]; [*axis setOpacity:.5];
 			[*axis setSelectable:NO];
-			[[_viewerController imageView] roiSet:*axis];
+            [*axis setCurView: _viewerController.imageView];
 			[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:*axis];
 			[*axis release];
 		}
@@ -446,7 +446,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
                             ROI* nroi = [[ROI alloc] initWithType:tMesure :roi.pixelSpacingX :roi.pixelSpacingY :roi.imageOrigin];
                             [nroi addPoint:[[ps objectAtIndex:0] nsPoint]];
                             [nroi addPoint:[[ps objectAtIndex:1] nsPoint]];
-                            [[_viewerController imageView] roiSet:nroi];
+                            [nroi setCurView: _viewerController.imageView];
                             [[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:nroi];
                             [[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:nroi userInfo:NULL];
                         }];
@@ -656,7 +656,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	else if (step == _stepSave)
 		selfKey = YES;
 	
-	[_viewerController setROIToolTag:tool];
+	[_viewerController setROIToolTag: (ToolMode) tool];
 	if (showTemplates)
 		[self showTemplatesPanel:self];
 	else if (!_userOpenedTemplates) [self hideTemplatesPanel];
@@ -794,8 +794,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_femurLandmark setDisplayTextualData:NO];
 		
 		_femurLandmarkOther = _femurLandmarkOriginal == _landmark1? _landmark2 : _landmark1;
-		
-		[[_viewerController imageView] roiSet:_femurLandmark];
+		[_femurLandmark setCurView: _viewerController.imageView];
 		[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:_femurLandmark];
 		[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_femurLandmark userInfo:NULL];
 		
@@ -833,7 +832,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_originalFemurOpacityLayer setDisplayTextualData:NO];
 		[_originalFemurOpacityLayer roiMove:[[[_femurLayer points] objectAtIndex:0] point]-[[[_originalFemurOpacityLayer points] objectAtIndex:0] point]-([temp size]-[bitmap size])/2];
 		[_originalFemurOpacityLayer setNSColor:[[NSColor redColor] colorWithAlphaComponent:.5]];
-		[[_viewerController imageView] roiSet:_originalFemurOpacityLayer];
+        [_originalFemurOpacityLayer setCurView: _viewerController.imageView];
 		[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_originalFemurOpacityLayer userInfo:NULL];
 
 		[_femurRoi setROIMode:ROI_sleep];
@@ -1079,7 +1078,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
         long m = [_distalStemLayer ROImode];
         [_distalStemLayer setROIMode:ROI_selected];
         [_distalStemLayer roiMove:dp];
-        [_distalStemLayer setROIMode:m];
+        [_distalStemLayer setROIMode: (ROI_mode) m];
     }
     
     --_isMyRoiManupulation;
@@ -1170,7 +1169,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			BOOL left = pt.x < [[[_viewerController imageView] curDCM] pwidth]/2;
 			_infoBox = [[ROI alloc] initWithType:tText :[[_viewerController imageView] pixelSpacingX] :[[_viewerController imageView] pixelSpacingY] :[[_viewerController imageView] origin]];
 			[_infoBox setROIRect:NSMakeRect([[[_viewerController imageView] curDCM] pwidth]/4*(left?3:1), [[[_viewerController imageView] curDCM] pheight]/3*2, 0.0, 0.0)];
-			[[_viewerController imageView] roiSet:_infoBox];
+            [_infoBox setCurView: _viewerController.imageView];
 			[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:_infoBox];
 			[[NSNotificationCenter defaultCenter] postNotificationName:OsirixROIChangeNotification object:_infoBox userInfo:NULL];
 			[_infoBox release];
