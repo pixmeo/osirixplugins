@@ -12,6 +12,8 @@
      PURPOSE.
 =========================================================================*/
 
+#define OSIRIX_VIEWER
+
 #import "RoiEnhancementChart.h"
 #import <OsiriXAPI/DCMPix.h>
 #import <GRAxes.h>
@@ -22,6 +24,7 @@
 #import "RoiEnhancementROIList.h"
 #import <OsiriXAPI/ROI.h>
 #import <OsiriXAPI/DCMView.h>
+#import <OsiriXAPI/DCMPix.h>
 #import "RoiEnhancementOptions.h"
 
 @implementation RoiEnhancementChart
@@ -128,27 +131,41 @@
 		return [[[_interface viewer] pixList] count];
 }
 
--(void)yValueForROIRec:(RoiEnhancementROIRec*)roiRec element:(NSInteger)element min:(float*)min mean:(float*)mean max:(float*)max {
-	NSString *keyPix;
+-(void)yValueForROIRec:(RoiEnhancementROIRec*)roiRec element:(NSInteger)element min:(float*)min mean:(float*)mean max:(float*)max
+{
+	NSString *keyPix = nil;
+    
 	if ([[_interface options] xRangeMode] == XRange4thDimension)
-		keyPix = [NSString stringWithFormat: @"%X", [[_interface viewer] pixList: element]];
-	else keyPix = [NSString stringWithFormat: @"%X", [[[_interface viewer] pixList] objectAtIndex:element]];
+		keyPix = [NSString stringWithFormat: @"%lX", (unsigned long) [[_interface viewer] pixList: element]];
+	else
+        keyPix = [NSString stringWithFormat: @"%lX", (unsigned long) [[[_interface viewer] pixList] objectAtIndex:element]];
 	
 	NSMutableDictionary* cache = [_cache objectForKey:[roiRec roi]];
 	
 	if ([cache objectForKey:keyPix] == NULL) {
-		if ([[_interface options] xRangeMode] == XRange4thDimension) {
-			[[[[_interface viewer] pixList: element] objectAtIndex:[[[_interface viewer] imageView] curImage]] computeROI:[roiRec roi] :mean :NULL :NULL :min :max];
-		} else {
+		if ([[_interface options] xRangeMode] == XRange4thDimension)
+        {
+            DCMPix *p = [[[_interface viewer] pixList: element] objectAtIndex:[[[_interface viewer] imageView] curImage]];
+			[p computeROI:[roiRec roi] :mean :NULL :NULL :min :max];
+		} else
+        {
 			if ([[[_interface viewer] imageView] flippedData])
 				element = [[[_interface viewer] pixList] count]-element-1;
-			[[[[_interface viewer] pixList] objectAtIndex:element] computeROI:[roiRec roi] :mean :NULL :NULL :min :max];
+            
+            DCMPix *p = [[[_interface viewer] pixList] objectAtIndex:element];
+			[p computeROI:[roiRec roi] :mean :NULL :NULL :min :max];
 		}
 		
-		NSMutableDictionary *imageCache = [NSMutableDictionary dictionary];	
-		[imageCache setValue: [NSNumber numberWithFloat:*mean] forKey: @"mean"];
-		[imageCache setValue: [NSNumber numberWithFloat:*min] forKey: @"min"];
-		[imageCache setValue: [NSNumber numberWithFloat:*max] forKey: @"max"];
+		NSMutableDictionary *imageCache = [NSMutableDictionary dictionary];
+        
+        if( mean)
+            [imageCache setValue: [NSNumber numberWithFloat:*mean] forKey: @"mean"];
+		
+        if( min)
+            [imageCache setValue: [NSNumber numberWithFloat:*min] forKey: @"min"];
+		
+        if( max)
+            [imageCache setValue: [NSNumber numberWithFloat:*max] forKey: @"max"];
 		
 		if (!cache) {
 			cache = [NSMutableDictionary dictionary];
@@ -160,9 +177,15 @@
 	else
 	{
 		NSDictionary *imageCache = [cache objectForKey:keyPix];
-		*mean = [[imageCache valueForKey:@"mean"] floatValue];
-		*min = [[imageCache valueForKey:@"min"] floatValue];
-		*max = [[imageCache valueForKey:@"max"] floatValue];
+        
+        if( mean)
+            *mean = [[imageCache valueForKey:@"mean"] floatValue];
+        
+        if( min)
+            *min = [[imageCache valueForKey:@"min"] floatValue];
+		
+        if( max)
+            *max = [[imageCache valueForKey:@"max"] floatValue];
 	}
 }
 
