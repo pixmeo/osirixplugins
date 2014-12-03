@@ -55,7 +55,7 @@
 @end
 
 @interface DiscPublishingPatientStack : NSObject {
-    NSMutableArray* _images;
+    NSMutableArray* _imagesID;
     DiscPublishingDummyThread* _dummyThread;
     NSDate* _lastAdditionDate;
     NSTimer* _refreshTimer;
@@ -79,7 +79,7 @@
         _dummyThread.supportsCancel = YES;
         [ThreadsManager.defaultManager addThreadAndStart:_dummyThread];
         
-        _images = [[NSMutableArray alloc] init];
+        _imagesID = [[NSMutableArray alloc] init];
         
         _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(_timerRefresh:) userInfo:nil repeats:YES];
     }
@@ -94,13 +94,13 @@
 
 -(void)dealloc {
     [_dummyThread release];
-    [_images release];
+    [_imagesID release];
     self.lastAdditionDate = nil;
     [super dealloc];
 }
 
--(NSArray*)images {
-    return _images;
+-(NSArray*)imagesID {
+    return _imagesID;
 }
 
 + (NSString*)timeString:(NSTimeInterval)time {
@@ -134,14 +134,14 @@
 }
 
 -(void)addImage:(DicomImage*)image {
-    [_images addObject:image];
+    [_imagesID addObject: image.objectID];
     self.lastAdditionDate = [NSDate date];
 }
 
 -(void)_timerRefresh:(NSTimer*)timer {
     if (_lastAdditionDate) {
         CGFloat s = floorf(-[_lastAdditionDate timeIntervalSinceNow]);
-        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_images.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil)), [[self class] timeString:s]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
+        _dummyThread.status = [NSString stringWithFormat:NSLocalizedString(@"%@, %@ since last transfer", nil), N2LocalizedSingularPluralCount(_imagesID.count, NSLocalizedString(@"image", nil), NSLocalizedString(@"images", nil)), [[self class] timeString:s]/*N2LocalizedSingularPluralCount(s, @"second", @"seconds")*/];
     }
 }
 
@@ -201,8 +201,11 @@
                     [dpps invalidate];
                     [serviceStacks removeObjectForKey:key];
                     
-                    DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:dpps.images options:[NSUserDefaultsController.sharedUserDefaultsController DPOptionsForServiceId:sid]] autorelease];
-                    [[ThreadsManager defaultManager] addThreadAndStart:dppd];
+                    if( dpps.imagesID.count)
+                    {
+                        DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImagesID:dpps.imagesID options:[NSUserDefaultsController.sharedUserDefaultsController DPOptionsForServiceId:sid]] autorelease];
+                        [[ThreadsManager defaultManager] addThreadAndStart:dppd];
+                    }
                     
                     [dpps release];
                 }
@@ -262,13 +265,15 @@
         if (!active)
             return;
         
+        NSPersistentStoreCoordinator *co = [[[DicomDatabase defaultDatabase] managedObjectContext] persistentStoreCoordinator];
         for (DicomImage* image in addedImages)
             @try {
-                if ([image managedObjectContext] == [[DicomDatabase defaultDatabase] managedObjectContext]) {
+                if( image.managedObjectContext.persistentStoreCoordinator == co)
+                {
                     DiscPublishingPatientStack* dpps = [self stackForImage:image serviceId:sid];
-                    if (![dpps.images containsObject:image])
+                    if (![dpps.imagesID containsObject: image.objectID])
                         if (image.modality /*&& ![image.modality isEqual:@"SR"]*/) // TODO: why?
-                            [dpps addImage:image];
+                            [dpps addImage: image];
                 }
             } @catch (NSException* e) {
                 NSLog(@"[DiscPublishingFilesManager observeDatabaseAddition:] error: %@", e.reason);
@@ -289,9 +294,9 @@
             for (NSString* sid in _serviceStacks.allKeys) { // allKeys in not mutable, so we can safely iterate
                 NSMutableDictionary* serviceStacks = [_serviceStacks objectForKey:sid]; // by patient
                 for (DiscPublishingPatientStack* dpps in [serviceStacks allValues]) {
-                    for (DicomImage* image in dpps.images)
-                        if ([images containsObject:image])
-                            [images removeObject:image];
+                    for (NSManagedObjectID *imageID in dpps.imagesID)
+                        if ([images containsObject:imageID])
+                            [images removeObject:imageID];
                 }
             }
         }

@@ -63,30 +63,26 @@ static NSString* PreventNullString(NSString* s) {
 
 @synthesize window = _window;
 
--(id)initWithImages:(NSArray*)images options:(DiscPublishingOptions*)options {
+-(id)initWithImagesID:(NSArray*)images options:(DiscPublishingOptions*)options {
 	self = [super init];
-	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[images objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
-	
+    
 	_options = [options retain];
     
-    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]] && [N2ManagedObjectContext instancesRespondToSelector: @selector( initWithDatabase:)])
-    {
-        N2ManagedDatabase *database = [[[images objectAtIndex:0] managedObjectContext] database];
-        _icontext = [[N2ManagedObjectContext alloc] initWithDatabase: database];
-    }
-    else
-    {
-        _icontext = [[NSManagedObjectContext alloc] init];
-    }
-    _icontext.undoManager = nil;
-    _icontext.persistentStoreCoordinator = [[[images objectAtIndex:0] managedObjectContext] persistentStoreCoordinator];
+//    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]] && [N2ManagedObjectContext instancesRespondToSelector: @selector( initWithDatabase:)])
+//    {
+//        N2ManagedDatabase *database = [[[images objectAtIndex:0] managedObjectContext] database];
+//        _icontext = [[N2ManagedObjectContext alloc] initWithDatabase: database];
+//    }
+//    else
+//    {
+//        _icontext = [[NSManagedObjectContext alloc] init];
+//    }
     
-	_images = [[NSMutableArray alloc] init];
-    for (DicomImage* image in images) {
-        DicomImage* iimage = (DicomImage*)[_icontext objectWithID:image.objectID];
-        if (iimage)
-            [_images addObject:iimage];
-    }
+//    _icontext.undoManager = nil;
+//    _icontext.persistentStoreCoordinator = [[[images objectAtIndex:0] managedObjectContext] persistentStoreCoordinator];
+    
+	_imagesID = [[NSMutableArray alloc] init];
+    [_imagesID addObjectsFromArray: images];
 
 	_tmpPath = [[NSFileManager.defaultManager tmpFilePathInTmp] retain];
 	[[NSFileManager defaultManager] confirmDirectoryAtPath:_tmpPath];
@@ -98,20 +94,9 @@ static NSString* PreventNullString(NSString* s) {
 	[[NSFileManager defaultManager] removeItemAtPath:_tmpPath error:NULL];
 	[_tmpPath release];
 	[_options release];
-	[_images release];
-    [_icontext release];
+	[_imagesID release];
     self.window = nil;
 	[super dealloc];
-}
-
--(NSArray*)imagesBelongingToSeries:(DicomSeries*)series {
-	NSMutableArray* ret = [[NSMutableArray alloc] init];
-	
-	for (DicomImage* image in _images)
-		if ([image.series.seriesDICOMUID isEqual:series.seriesDICOMUID])
-			[ret addObject:image];
-	
-	return [ret autorelease];
 }
 
 +(NSArray*)selectSeriesOfSizes:(NSDictionary*)seriesSizes forDiscWithCapacity:(CGFloat)mediaCapacity {
@@ -214,10 +199,22 @@ static NSString* PreventNullString(NSString* s) {
 	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 	[dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
 
+    
+    NSManagedObjectContext *icontext = [[DicomDatabase defaultDatabase] independentContext];
+    NSMutableArray *images = [NSMutableArray array];
+    
+    for( NSManagedObjectID *imageID in _imagesID)
+        [images addObject: [icontext objectWithID: imageID]];
+    
+    
+    DicomImage *image = [images objectAtIndex:0];
+    self.name = [NSString stringWithFormat:@"Preparing disc data for %@", image.series.study.name];
+    
 	self.status = @"Detecting image series and studies...";
 	NSMutableArray* series = [[NSMutableArray alloc] init];
 	NSMutableArray* studies = [[NSMutableArray alloc] init];
-	for (DicomImage* image in _images) {
+	for (DicomImage* image in images)
+    {
 		if (![series containsObject:image.series])
 			[series addObject:image.series];
 		if (![studies containsObject:image.series.study])
@@ -351,10 +348,13 @@ static NSString* PreventNullString(NSString* s) {
                             [study transformPdfAtPath:path toDicomAtPath:dcmpath];
                             // add it to the db
                             NSArray* reportImageIDs = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
-                            NSArray* reportImages = [[DicomDatabase defaultDatabase] objectsWithIDs:reportImageIDs];
+                            
+                            NSMutableArray* reportImages = [NSMutableArray array];
+                            for( NSManagedObjectID *reportID in reportImageIDs)
+                                [reportImages addObject: [icontext objectWithID: reportID]];
                             
                             // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
-                            [_images addObjectsFromArray:reportImages];
+                            [images addObjectsFromArray:reportImages];
                             for (DicomImage* image in reportImages)
                                 if (![series containsObject:image.series])
                                     [series addObject:image.series];
@@ -401,7 +401,7 @@ static NSString* PreventNullString(NSString* s) {
                 self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
 
                 NSArray* images = serie.images.allObjects;
-                [self enterOperationWithRange:1.*processedImagesCount/_images.count:1.*images.count/_images.count];
+                [self enterOperationWithRange:1.*processedImagesCount/images.count:1.*images.count/images.count];
                 
     //            images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
                 images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options database:database seriesPaths:seriesPaths];
@@ -781,7 +781,7 @@ static NSString* PreventNullString(NSString* s) {
                                         /* 5 */ PreventNullString(studyDates),
                                         /* 6 */	PreventNullString([dateFormatter stringFromDate:[NSDate date]]),
                                        NULL], DPJobInfoMergeValuesKey,
-                                      [_images valueForKeyPath:@"objectID.URIRepresentation.absoluteString"], DPJobInfoObjectIDsKey,
+                                      [images valueForKeyPath:@"objectID.URIRepresentation.absoluteString"], DPJobInfoObjectIDsKey,
                                       NULL];
                 [[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
             } @catch (NSException* e) {
