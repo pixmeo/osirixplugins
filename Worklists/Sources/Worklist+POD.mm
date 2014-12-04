@@ -66,9 +66,7 @@
         return;
     @try {
         
-        static NSString *singleRetrieveAtATime= @"singleRetrieveAtATime";
-        
-        @synchronized (singleRetrieveAtATime) { // @synchronized (self) wasnt working...
+        @synchronized (self) {
             NSThread* arthread = [NSThread isMainThread]? nil : [NSThread currentThread];
             arthread.name = [NSString stringWithFormat:NSLocalizedString(@"Refreshing %@", nil), [_properties objectForKey:WorklistNameKey]];
             arthread.status = [NSString stringWithFormat:NSLocalizedString(@"Synchronizing with POD nodes...", nil)];
