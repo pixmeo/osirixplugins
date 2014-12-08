@@ -198,6 +198,8 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
         return;
     
     [db.managedObjectContext deleteObject:album];
+    [db.managedObjectContext save];
+    
     // refresh
     [WorklistsPlugin refreshAlbumsForDatabase:db];
 }
@@ -497,6 +499,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                             for (DicomSeries* s in [series.copy autorelease])
                                 [db.managedObjectContext deleteObject:s];
                             [db.managedObjectContext deleteObject:study];
+                            [db.managedObjectContext save];
                         }
                     }
                 }
