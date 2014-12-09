@@ -263,7 +263,11 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
 	BrowserController* bc = [BrowserController currentBrowser];
 	NSArray* sel = [bc databaseSelection];
 	
-	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:[self imagesIn:sel] options:[[NSUserDefaultsController sharedUserDefaultsController] DPOptionsForServiceId:nil]] autorelease];
+    NSMutableArray *objectsIDs = [NSMutableArray array];
+    for( DicomImage *i in [self imagesIn:sel])
+        [objectsIDs addObject: i.objectID];
+    
+	DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImagesID: objectsIDs options:[[NSUserDefaultsController sharedUserDefaultsController] DPOptionsForServiceId:nil]] autorelease];
     dppd.window = bc.window;
 	[[ThreadsManager defaultManager] addThreadAndStart:dppd];
 	
@@ -314,7 +318,12 @@ const static NSString* const RobotReadyTimerCallbackUserInfoStartDateKey = @"Sta
                     NSArray* images = [self imagesIn:matches];
                     
                     if (images.count) {
-                        DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImages:images options:[[NSUserDefaultsController sharedUserDefaultsController] DPOptionsForServiceId:nil]] autorelease];
+                        
+                        NSMutableArray *objectsIDs = [NSMutableArray array];
+                        for( DicomImage *i in images)
+                            [objectsIDs addObject: i.objectID];
+                        
+                        DiscPublishingPatientDisc* dppd = [[[DiscPublishingPatientDisc alloc] initWithImagesID: objectsIDs options:[[NSUserDefaultsController sharedUserDefaultsController] DPOptionsForServiceId:nil]] autorelease];
                         [[ThreadsManager defaultManager] addThreadAndStart:dppd];
                         
                         [result setObject:[NSNumber numberWithInt:images.count] forKey:@"count"];
