@@ -251,7 +251,11 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	return newAxis; // returns YES if the axis was changed
 }
 
--(void)updateInequality:(ROI**)axis from:(ROI*)roiFrom to:(ROI*)roiTo name:(NSString*)name positioning:(CGFloat)positioning value:(CGFloat*)value {
+-(void)updateInequality:(ROI**)axis from:(ROI*)roiFrom to:(ROI*)roiTo name:(NSString*)name positioning:(CGFloat)positioning value:(CGFloat*)value
+{
+    if( axis == nil)
+        return;
+    
 	if (!_horizontalAxis || [[_horizontalAxis points] count] < 2) {
 		if (*axis)
 			[self removeRoiFromViewer:*axis];
@@ -329,6 +333,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
         }
 		
 		if ([_steps currentStep] == _stepAxes)
+        {
 			if (!_horizontalAxis && [roi type] == tMesure) {
 				_horizontalAxis = roi;
 				[roi setName:@"Horizontal Axis"];
@@ -336,8 +341,9 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 				_femurAxis = roi;
 				[roi setName:@"Femur Axis"];
 			}
-		
+        }
 		if ([_steps currentStep] == _stepLandmarks)
+        {
 			if (!_landmark1 && [roi type] == t2DPoint) {
 				_landmark1 = roi;
 				[roi setDisplayTextualData:NO];
@@ -345,21 +351,25 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 				_landmark2 = roi;
 				[roi setDisplayTextualData:NO];
 			}
-		
+        }
+        
 		if ([_steps currentStep] == _stepCutting)
+        {
 			if (!_femurRoi && [roi type] == tPencil) {
 				_femurRoi = roi;
 				[roi setThickness:1]; [roi setOpacity:.5];
 				[roi setIsSpline:NO];
 				[roi setDisplayTextualData:NO];
 			}
-		
+        }
 		if ([_steps currentStep] == _stepCup)
+        {
 			if (!_cupLayer && [roi type] == tLayerROI) {
 				_cupLayer = roi;
 				_cupTemplate = [[_plugin templatesWindowController] templateAtPath:[roi layerReferenceFilePath]];
 			}
-		
+        }
+        
 		if ([_steps currentStep] == _stepStem) {
 			if (!_stemLayer && [roi type] == tLayerROI) {
 				_stemLayer = roi;
@@ -656,7 +666,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	else if (step == _stepSave)
 		selfKey = YES;
 	
-	[_viewerController setROIToolTag:tool];
+	[_viewerController setROIToolTag:(ToolMode) tool];
 	if (showTemplates)
 		[self showTemplatesPanel:self];
 	else if (!_userOpenedTemplates) [self hideTemplatesPanel];
@@ -1076,7 +1086,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
     
     NSPoint dp = [_stemLayer pointAtIndex:11]-[_distalStemLayer pointAtIndex:11]; // 11 is A, 13 is B
     if (dp != NSZeroPoint) {
-        long m = [_distalStemLayer ROImode];
+        ROI_mode m = [_distalStemLayer ROImode];
         [_distalStemLayer setROIMode:ROI_selected];
         [_distalStemLayer roiMove:dp];
         [_distalStemLayer setROIMode:m];
