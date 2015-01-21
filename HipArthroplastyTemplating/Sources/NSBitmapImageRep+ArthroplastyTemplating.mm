@@ -18,7 +18,7 @@ struct IntegerPoint {
 };
 
 -(void)detectAndApplyBorderTransparency:(uint8)alphaThreshold {
-	NSSize size = [self size];
+	NSSize size = [self size]; // TODO: pixelsHigh, pixelsWide
 	NSInteger width = size.width, height = size.height;
 	uint8* data = [self bitmapData];
 	
