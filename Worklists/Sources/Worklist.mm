@@ -198,6 +198,8 @@ NSString* const WorklistNoLongerThenIntervalKey = @"noLongerThenInterval";
         return;
     
     [db.managedObjectContext deleteObject:album];
+    [db.managedObjectContext save];
+    
     // refresh
     [WorklistsPlugin refreshAlbumsForDatabase:db];
 }
@@ -228,15 +230,15 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     
     if (response->findAndGetOFString(DCM_AccessionNumber, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"AccessionNumber"];
-    if (response->findAndGetOFString(DCM_ReferringPhysiciansName, string).good())
+    if (response->findAndGetOFString(DCM_ReferringPhysicianName, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ReferringPhysiciansName"];
-    if (response->findAndGetOFString(DCM_PatientsName, string).good())
+    if (response->findAndGetOFString(DCM_PatientName, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientsName"];
     if (response->findAndGetOFString(DCM_PatientID, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientID"];
-    if (response->findAndGetOFString(DCM_PatientsBirthDate, string).good())
+    if (response->findAndGetOFString(DCM_PatientBirthDate, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientsBirthDate"];
-    if (response->findAndGetOFString(DCM_PatientsSex, string).good())
+    if (response->findAndGetOFString(DCM_PatientSex, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"PatientsSex"];
     if (response->findAndGetOFString(DCM_StudyInstanceUID, string).good())
         [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"StudyInstanceUID"];
@@ -246,7 +248,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
     if (response->findAndGetSequenceItem(DCM_ScheduledProcedureStepSequence, item).good()) {
         if (item->findAndGetOFString(DCM_Modality, string).good())
             [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"Modality"];
-        if (item->findAndGetOFString(DCM_ScheduledPerformingPhysiciansName, string).good())
+        if (item->findAndGetOFString(DCM_ScheduledPerformingPhysicianName, string).good())
             [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ScheduledPerformingPhysiciansName"];
         if (item->findAndGetOFString(DCM_ScheduledProcedureStepStartDate, string).good())
             [entry setObject:[NSString stringWithCString:string.c_str() encoding:encoding] forKey:@"ScheduledProcedureStepStartDate"];
@@ -390,18 +392,18 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                 
                 DcmDataset* dataset = dcmff.getDataset();
                 dataset->insertEmptyElement(DCM_AccessionNumber);
-                dataset->insertEmptyElement(DCM_ReferringPhysiciansName);
-                dataset->insertEmptyElement(DCM_PatientsName);
+                dataset->insertEmptyElement(DCM_ReferringPhysicianName);
+                dataset->insertEmptyElement(DCM_PatientName);
                 dataset->insertEmptyElement(DCM_PatientID);
-                dataset->insertEmptyElement(DCM_PatientsBirthDate);
-                dataset->insertEmptyElement(DCM_PatientsSex);
+                dataset->insertEmptyElement(DCM_PatientBirthDate);
+                dataset->insertEmptyElement(DCM_PatientSex);
                 dataset->insertEmptyElement(DCM_StudyInstanceUID);
                 dataset->insertEmptyElement(DCM_RequestedProcedureDescription);
                 
                 DcmItem* spssi;
                 dataset->findOrCreateSequenceItem(DCM_ScheduledProcedureStepSequence, spssi);
                 spssi->insertEmptyElement(DCM_Modality);
-                spssi->insertEmptyElement(DCM_ScheduledPerformingPhysiciansName);
+                spssi->insertEmptyElement(DCM_ScheduledPerformingPhysicianName);
                 spssi->insertEmptyElement(DCM_ScheduledProcedureStepStartDate);
                 spssi->insertEmptyElement(DCM_ScheduledProcedureStepStartTime);
                 
@@ -497,6 +499,7 @@ static void _findUserCallback(void* callbackData, T_DIMSE_C_FindRQ* request, int
                             for (DicomSeries* s in [series.copy autorelease])
                                 [db.managedObjectContext deleteObject:s];
                             [db.managedObjectContext deleteObject:study];
+                            [db.managedObjectContext save];
                         }
                     }
                 }

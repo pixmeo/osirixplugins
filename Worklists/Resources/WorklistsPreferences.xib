@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WorklistsPreferencesController">
@@ -19,14 +19,14 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" visibleAtLaunch="NO" animationBehavior="default" id="776" userLabel="Preferences">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="487" width="566" height="427"/>
+            <rect key="contentRect" x="196" y="487" width="566" height="438"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="777">
-                <rect key="frame" x="0.0" y="0.0" width="566" height="427"/>
+                <rect key="frame" x="0.0" y="0.0" width="566" height="438"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <button id="981">
-                        <rect key="frame" x="20" y="53" width="24" height="21"/>
+                        <rect key="frame" x="20" y="64" width="24" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" title="+" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" controlSize="small" borderStyle="border" inset="2" id="984">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -47,7 +47,7 @@
                         </connections>
                     </button>
                     <button id="982">
-                        <rect key="frame" x="43" y="53" width="24" height="21"/>
+                        <rect key="frame" x="43" y="64" width="24" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="square" title="-" bezelStyle="shadowlessSquare" image="NSRemoveTemplate" imagePosition="only" alignment="center" controlSize="small" borderStyle="border" inset="2" id="983">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -68,20 +68,20 @@
                         </connections>
                     </button>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="956">
-                        <rect key="frame" x="20" y="73" width="120" height="334"/>
+                        <rect key="frame" x="20" y="84" width="120" height="334"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="DyX-Qz-IfZ">
                             <rect key="frame" x="1" y="1" width="118" height="332"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" rowHeight="14" id="957" customClass="WorklistsTableView">
-                                    <rect key="frame" x="0.0" y="0.0" width="119" height="332"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="118" height="332"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn width="116" minWidth="40" maxWidth="1000" id="961">
+                                        <tableColumn width="115" minWidth="40" maxWidth="1000" id="961">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Worklist">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -127,7 +127,7 @@
                         </connections>
                     </scrollView>
                     <textField verticalHuggingPriority="750" id="1019">
-                        <rect key="frame" x="157" y="390" width="80" height="14"/>
+                        <rect key="frame" x="157" y="401" width="80" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Host:" id="1020">
                             <font key="font" metaFont="smallSystem"/>
@@ -136,7 +136,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1023">
-                        <rect key="frame" x="452" y="390" width="29" height="14"/>
+                        <rect key="frame" x="452" y="401" width="29" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Port:" id="1024">
                             <font key="font" metaFont="smallSystem"/>
@@ -145,7 +145,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1025">
-                        <rect key="frame" x="157" y="365" width="80" height="14"/>
+                        <rect key="frame" x="157" y="376" width="80" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Called AET:" id="1026">
                             <font key="font" metaFont="smallSystem"/>
@@ -154,7 +154,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1072">
-                        <rect key="frame" x="157" y="296" width="80" height="14"/>
+                        <rect key="frame" x="157" y="307" width="80" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Refresh:" id="1073">
                             <font key="font" metaFont="smallSystem"/>
@@ -163,7 +163,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1118">
-                        <rect key="frame" x="157" y="272" width="80" height="14"/>
+                        <rect key="frame" x="157" y="283" width="80" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Auto-retrieve:" id="1119">
                             <font key="font" metaFont="smallSystem"/>
@@ -172,7 +172,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1021">
-                        <rect key="frame" x="242" y="388" width="205" height="19"/>
+                        <rect key="frame" x="242" y="399" width="205" height="19"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="1022">
                             <font key="font" metaFont="smallSystem"/>
@@ -183,17 +183,17 @@
                             <binding destination="-2" name="enabled" keyPath="worklists.selectedObjects.@count" id="1048"/>
                             <binding destination="-2" name="value" keyPath="worklists.selection.host" id="1065">
                                 <dictionary key="options">
-                                    <string key="NSNullPlaceholder">example.domain.com</string>
                                     <string key="NSNoSelectionPlaceholder" base64-UTF8="YES">
 IA
 </string>
+                                    <string key="NSNullPlaceholder">example.domain.com</string>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1027" id="1068"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1027">
-                        <rect key="frame" x="486" y="388" width="60" height="19"/>
+                        <rect key="frame" x="486" y="399" width="60" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="1028">
                             <numberFormatter key="formatter" formatterBehavior="10_0" positiveFormat="#" negativeFormat="#" localizesFormat="NO" hasThousandSeparators="NO" thousandSeparator="" id="1037">
@@ -202,9 +202,6 @@ IA
                                 </attributedString>
                                 <integer key="minimum" value="1"/>
                                 <integer key="maximum" value="65535"/>
-                                <metadata>
-                                    <bool key="localizesFormat" value="NO"/>
-                                </metadata>
                             </numberFormatter>
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -214,15 +211,15 @@ IA
                             <binding destination="-2" name="enabled" keyPath="worklists.selectedObjects.@count" id="1045"/>
                             <binding destination="-2" name="value" keyPath="worklists.selection.port" id="1071">
                                 <dictionary key="options">
-                                    <integer key="NSNullPlaceholder" value="104"/>
                                     <integer key="NSNoSelectionPlaceholder" value="104"/>
+                                    <integer key="NSNullPlaceholder" value="104"/>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1029" id="1069"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1029">
-                        <rect key="frame" x="242" y="363" width="304" height="19"/>
+                        <rect key="frame" x="242" y="374" width="304" height="19"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="1030">
                             <font key="font" metaFont="smallSystem"/>
@@ -233,17 +230,17 @@ IA
                             <binding destination="-2" name="enabled" keyPath="worklists.selectedObjects.@count" id="1047"/>
                             <binding destination="-2" name="value" keyPath="worklists.selection.calledAet" id="1117">
                                 <dictionary key="options">
-                                    <string key="NSNullPlaceholder">EXAMPLE</string>
                                     <string key="NSNoSelectionPlaceholder" base64-UTF8="YES">
 IA
 </string>
+                                    <string key="NSNullPlaceholder">EXAMPLE</string>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1109" id="1155"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1396">
-                        <rect key="frame" x="232" y="17" width="314" height="19"/>
+                        <rect key="frame" x="232" y="20" width="314" height="19"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="1397">
                             <font key="font" metaFont="smallSystem"/>
@@ -253,17 +250,17 @@ IA
                         <connections>
                             <binding destination="401" name="value" keyPath="values.WorklistsPlistURL" id="1411">
                                 <dictionary key="options">
-                                    <string key="NSNullPlaceholder">http://osirix.local/worklists.plist</string>
                                     <string key="NSNoSelectionPlaceholder" base64-UTF8="YES">
 IA
 </string>
+                                    <string key="NSNullPlaceholder">http://osirix.local/worklists.plist</string>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="981" id="1416"/>
                         </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1108">
-                        <rect key="frame" x="157" y="329" width="75" height="14"/>
+                        <rect key="frame" x="157" y="340" width="75" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Worklist AET:" id="1111">
                             <font key="font" metaFont="smallSystem"/>
@@ -272,7 +269,7 @@ IA
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="1109">
-                        <rect key="frame" x="242" y="327" width="304" height="19"/>
+                        <rect key="frame" x="242" y="338" width="304" height="19"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="1110">
                             <font key="font" metaFont="smallSystem"/>
@@ -283,17 +280,17 @@ IA
                             <binding destination="-2" name="enabled" keyPath="worklists.selectedObjects.@count" id="1112"/>
                             <binding destination="-2" name="value" keyPath="worklists.selection.callingAet" id="1116">
                                 <dictionary key="options">
-                                    <string key="NSNullPlaceholder">EXAMPLE</string>
                                     <string key="NSNoSelectionPlaceholder" base64-UTF8="YES">
 IA
 </string>
+                                    <string key="NSNullPlaceholder">EXAMPLE</string>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1074" id="1156"/>
                         </connections>
                     </textField>
                     <popUpButton verticalHuggingPriority="750" id="1074">
-                        <rect key="frame" x="239" y="291" width="211" height="22"/>
+                        <rect key="frame" x="239" y="302" width="211" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="manually" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-1" imageScaling="proportionallyDown" inset="2" selectedItem="1077" id="1075">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -343,15 +340,15 @@ IA
                             <binding destination="-2" name="enabled" keyPath="worklists.selectedObjects.@count" id="1087"/>
                             <binding destination="-2" name="selectedTag" keyPath="worklists.selection.refreshSeconds" id="1105">
                                 <dictionary key="options">
-                                    <integer key="NSNullPlaceholder" value="300"/>
                                     <integer key="NSNoSelectionPlaceholder" value="300"/>
+                                    <integer key="NSNullPlaceholder" value="300"/>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1120" id="1157"/>
                         </connections>
                     </popUpButton>
                     <popUpButton verticalHuggingPriority="750" id="1120">
-                        <rect key="frame" x="239" y="267" width="211" height="22"/>
+                        <rect key="frame" x="239" y="278" width="211" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="never" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="-1" imageScaling="proportionallyDown" inset="2" selectedItem="1133" id="1121">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -413,15 +410,15 @@ IA
                             <binding destination="-2" name="enabled" keyPath="worklists.selectedObjects.@count" id="1135"/>
                             <binding destination="-2" name="selectedTag" keyPath="worklists.selection.autoRetrieve" id="1140">
                                 <dictionary key="options">
-                                    <integer key="NSNullPlaceholder" value="30"/>
                                     <integer key="NSNoSelectionPlaceholder" value="30"/>
+                                    <integer key="NSNullPlaceholder" value="30"/>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1366" id="1412"/>
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" id="1314">
-                        <rect key="frame" x="157" y="200" width="392" height="14"/>
+                        <rect key="frame" x="157" y="211" width="392" height="14"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="When studies no longer appear in a worklist, " id="1334">
                             <font key="font" metaFont="smallSystem"/>
@@ -430,35 +427,35 @@ IA
                         </textFieldCell>
                     </textField>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="1102">
-                        <rect key="frame" x="160" y="352" width="386" height="5"/>
+                        <rect key="frame" x="160" y="363" width="386" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="1114">
-                        <rect key="frame" x="160" y="318" width="386" height="5"/>
+                        <rect key="frame" x="160" y="329" width="386" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="1160">
-                        <rect key="frame" x="160" y="219" width="386" height="5"/>
+                        <rect key="frame" x="160" y="230" width="386" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="1346">
-                        <rect key="frame" x="160" y="155" width="386" height="5"/>
+                        <rect key="frame" x="160" y="158" width="386" height="5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <button id="1184">
-                        <rect key="frame" x="157" y="134" width="391" height="18"/>
+                        <rect key="frame" x="157" y="137" width="391" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Only consider entries matching the following rule:" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="1185">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -470,7 +467,7 @@ IA
                         </connections>
                     </button>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="1236">
-                        <rect key="frame" x="160" y="53" width="386" height="76"/>
+                        <rect key="frame" x="160" y="56" width="386" height="76"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="wAa-Ol-HH5">
                             <rect key="frame" x="1" y="1" width="384" height="74"/>
@@ -583,8 +580,8 @@ IA
                             <outlet property="nextKeyView" destination="1403" id="1414"/>
                         </connections>
                     </scrollView>
-                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" id="1342">
-                        <rect key="frame" x="242" y="166" width="304" height="31"/>
+                    <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" id="1342">
+                        <rect key="frame" x="242" y="169" width="304" height="39"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         <size key="cellSize" width="98" height="18"/>
@@ -608,15 +605,15 @@ IA
                         <connections>
                             <binding destination="-2" name="selectedTag" keyPath="worklists.selection.noLongerThen" id="1363">
                                 <dictionary key="options">
-                                    <integer key="NSNullPlaceholder" value="0"/>
                                     <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                    <integer key="NSNullPlaceholder" value="0"/>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1315" id="1348"/>
                         </connections>
                     </matrix>
                     <popUpButton verticalHuggingPriority="750" id="1315">
-                        <rect key="frame" x="344" y="162" width="106" height="22"/>
+                        <rect key="frame" x="344" y="166" width="106" height="22"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="10 minutes" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" tag="600" imageScaling="proportionallyDown" inset="2" selectedItem="1326" id="1316">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -653,22 +650,22 @@ IA
                         <connections>
                             <binding destination="-2" name="enabled" keyPath="worklists.selection.noLongerThen" id="1359">
                                 <dictionary key="options">
-                                    <integer key="NSNullPlaceholder" value="0"/>
                                     <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                    <integer key="NSNullPlaceholder" value="0"/>
                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
                                 </dictionary>
                             </binding>
                             <binding destination="-2" name="selectedTag" keyPath="worklists.selection.noLongerThenInterval" id="1358">
                                 <dictionary key="options">
-                                    <integer key="NSNullPlaceholder" value="7200"/>
                                     <integer key="NSNoSelectionPlaceholder" value="7200"/>
+                                    <integer key="NSNullPlaceholder" value="7200"/>
                                 </dictionary>
                             </binding>
                             <outlet property="nextKeyView" destination="1184" id="1349"/>
                         </connections>
                     </popUpButton>
                     <textField verticalHuggingPriority="750" id="1364">
-                        <rect key="frame" x="157" y="248" width="385" height="14"/>
+                        <rect key="frame" x="157" y="259" width="385" height="14"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Auto-retrieve is based on Study Instance UIDs," id="1365">
                             <font key="font" metaFont="smallSystem"/>
@@ -677,7 +674,7 @@ IA
                         </textFieldCell>
                     </textField>
                     <button toolTip="Useful when RIS and PACS have a different StudyInstanceUID for the same study" id="1366">
-                        <rect key="frame" x="157" y="228" width="355" height="18"/>
+                        <rect key="frame" x="157" y="239" width="355" height="18"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="If there are no images, try searching by the Accession Number" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="1367">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -693,7 +690,7 @@ IA
                         </connections>
                     </button>
                     <button id="1403">
-                        <rect key="frame" x="17" y="17" width="209" height="18"/>
+                        <rect key="frame" x="17" y="20" width="209" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="check" title="Sync worklist entries with this URL:" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="1404">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -705,7 +702,7 @@ IA
                         </connections>
                     </button>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="1407">
-                        <rect key="frame" x="12" y="42" width="542" height="5"/>
+                        <rect key="frame" x="12" y="45" width="542" height="5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

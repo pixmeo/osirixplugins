@@ -112,7 +112,6 @@
 	[_systoleColorWell removeObserver:self forKeyPath:@"color"];
 	[_systoleColorWell release];
 	[_stepROIsResizer release];
-	DLog(@"%X [EjectionFractionStepsController dealloc]", self);
 	[_viewROIsTextFormat release];
 	[_viewResultTextFormat release];
 //	[_activeSteps release];
