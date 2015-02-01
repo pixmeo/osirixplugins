@@ -115,10 +115,10 @@ NSString* const FileTypeCSV = @"csv";
 	[self saveAs:FileTypeTIFF accessoryView:NULL];
 }
 
--(IBAction)saveAsDICOM:(id)sender {
-	[_dicomSaveOptionsBackgroundColor setColor:[_userDefaults color:@"dicom.color.background" otherwise:[_dicomSaveOptionsBackgroundColor color]]];
-	[self saveAs:FileTypeDICOM accessoryView:_dicomSaveOptions];
-}
+//-(IBAction)saveAsDICOM:(id)sender {
+//	[_dicomSaveOptionsBackgroundColor setColor:[_userDefaults color:@"dicom.color.background" otherwise:[_dicomSaveOptionsBackgroundColor color]]];
+//	[self saveAs:FileTypeDICOM accessoryView:_dicomSaveOptions];
+//}
 
 -(IBAction)saveAsCSV:(id)sender {
 	[_csvSaveOptionsIncludeHeaders setState:[_userDefaults bool:@"csv.headers.include" otherwise:[_csvSaveOptionsIncludeHeaders state]]];

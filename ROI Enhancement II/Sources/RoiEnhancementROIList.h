@@ -26,6 +26,7 @@ enum ROISel {
 @interface RoiEnhancementROIRec : NSObject {
 	RoiEnhancementROIList* _roiList;
 	ROI* _roi;
+    NSUInteger _roiIndexPixList;
 	NSMenuItem* _menuItem;
 	GRLineDataSet *_minDataSet, *_meanDataSet, *_maxDataSet;
 	RoiEnhancementAreaDataSet *_minmaxDataSet;
@@ -33,12 +34,13 @@ enum ROISel {
 }
 
 @property(readonly) ROI* roi;
+@property(readonly) NSUInteger roiIndexPixList;
 @property(readonly) NSMenuItem* menuItem;
 @property(readonly) GRLineDataSet *minDataSet, *meanDataSet, *maxDataSet;
 @property(readonly) RoiEnhancementAreaDataSet *minmaxDataSet;
 @property BOOL displayed;
 
--(id)init:(ROI*)roi forList:(RoiEnhancementROIList*)_roiList;
+-(id)init:(ROI*)roi forList:(RoiEnhancementROIList*)_roiList index:(NSUInteger) i;
 -(void)updateDisplayed;
 @end;
 

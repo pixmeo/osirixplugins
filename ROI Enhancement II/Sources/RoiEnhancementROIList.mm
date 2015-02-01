@@ -25,14 +25,16 @@
 @implementation RoiEnhancementROIRec
 @synthesize roi = _roi;
 @synthesize menuItem = _menuItem;
+@synthesize roiIndexPixList = _roiIndexPixList;
 @synthesize minDataSet = _minDataSet, meanDataSet = _meanDataSet, maxDataSet = _maxDataSet, minmaxDataSet = _minmaxDataSet;
 
--(id)init:(ROI*)roi forList:(RoiEnhancementROIList*)roiList {
+-(id)init:(ROI*)roi forList:(RoiEnhancementROIList*)roiList index:(NSUInteger)i{
 	self = [super init];
 	
 	_roiList = roiList;
 	_roi = [roi retain];
-	
+    _roiIndexPixList = i;
+    
 	_menuItem = [[NSMenuItem alloc] initWithTitle:[roi name] action:@selector(roiMenuItemSelected:) keyEquivalent:@""];
 	[_menuItem setTarget:roiList];
 	
@@ -186,22 +188,25 @@
 }
 
 // check whether the parameter ROI is in this graph's associated viewer
--(BOOL)isInViewer:(ROI*)roi {
+-(NSUInteger)indexInViewer:(ROI*)roi {
 	NSArray* roiSeriesList = [[_interface viewer] roiList];
 	for (unsigned i = 0; i < [roiSeriesList count]; ++i) {
 		NSArray* roiImageList = [roiSeriesList objectAtIndex:i];
 		if ([roiImageList containsObject:roi])
-			return YES;
+			return i;
 	}
 	
-	return NO;
+	return NSNotFound;
 }
 
 -(void)roiChange:(NSNotification*)notification
 {
 	ROI* roi = [notification object];
+    
+    
 	// if not in our viewer, ignore
-	if (![self isInViewer:roi])
+    NSUInteger index = [self indexInViewer:roi];
+    if (index == NSNotFound)
 		return;
 	
 	// if it doesn't have a surface, then we're not interested in it
@@ -211,7 +216,7 @@
 	RoiEnhancementROIRec* roiRec = [self findRecordByROI:roi];
 	if (!roiRec) { // not in list
 		// create record, store it in the list, add its menu item to the menu
-		roiRec = [[[RoiEnhancementROIRec alloc] init:roi forList:self] autorelease];
+		roiRec = [[[RoiEnhancementROIRec alloc] init:roi forList:self index: index] autorelease];
 		[_menu addItem:[roiRec menuItem]];
 		[_records addObject:roiRec];
 		[[roiRec meanDataSet] setProperty:[roi name] forKey:GRDataSetLegendLabel];

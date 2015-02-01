@@ -145,9 +145,13 @@
 	if ([cache objectForKey:keyPix] == NULL) {
 		if ([[_interface options] xRangeMode] == XRange4thDimension)
         {
-            DCMPix *p = [[[_interface viewer] pixList: element] objectAtIndex:[[[_interface viewer] imageView] curImage]];
+//            DCMPix *p = [[[_interface viewer] pixList: element] objectAtIndex:[[[_interface viewer] imageView] curImage]];
+            
+            DCMPix *p = [[[_interface viewer] pixList: element] objectAtIndex: roiRec.roiIndexPixList];
+            
 			[p computeROI:[roiRec roi] :mean :NULL :NULL :min :max];
-		} else
+		}
+        else
         {
 			if ([[[_interface viewer] imageView] flippedData])
 				element = [[[_interface viewer] pixList] count]-element-1;
