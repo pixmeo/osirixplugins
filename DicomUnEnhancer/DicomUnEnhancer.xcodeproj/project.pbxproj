@@ -157,8 +157,7 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXhead
-ersBuildPhase section */
+/* Begin PBXHeadersBuildPhase section */
 		8D5B49AD048680CD000E48DA /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -200,7 +199,7 @@ ersBuildPhase section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "DicomUnEnhancer" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -262,6 +261,7 @@ ersBuildPhase section */
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -280,7 +280,6 @@ ersBuildPhase section */
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -289,7 +288,7 @@ ersBuildPhase section */
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = DicomUnEnhancer;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				USER_HEADER_SEARCH_PATHS = "../../osirix/Binaries/dcmtk-source/dcmimgle ../../osirix/Binaries/dcmtk-source/config ../../osirix/Binaries/dcmtk-source/ofstd ../../osirix/Binaries/dcmtk-source/dcmdata";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -303,6 +302,7 @@ ersBuildPhase section */
 		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					../../osirix/build/Development,
@@ -317,7 +317,6 @@ ersBuildPhase section */
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -326,7 +325,7 @@ ersBuildPhase section */
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = DicomUnEnhancer;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				USER_HEADER_SEARCH_PATHS = "../../osirix/Binaries/dcmtk-source/dcmimgle ../../osirix/Binaries/dcmtk-source/config ../../osirix/Binaries/dcmtk-source/ofstd ../../osirix/Binaries/dcmtk-source/dcmdata";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -341,8 +340,8 @@ ersBuildPhase section */
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
 			};
 			name = Development;
 		};
@@ -350,8 +349,8 @@ ersBuildPhase section */
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
 			};
 			name = Deployment;
 		};

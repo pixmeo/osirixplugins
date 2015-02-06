@@ -52,7 +52,7 @@ static BOOL _copyItem(DcmItem* from, const DcmTagKey& key, DcmItem* destination)
     NSThread* thread = [NSThread currentThread];
     
     @try {
-        [thread enterSubthreadWithRange:0:1];
+        [thread enterOperationWithRange:0:1];
         
         if ([outputDirPath isEqualToString:@"/tmp"])
             outputDirPath = [NSFileManager.defaultManager tmpFilePathInTmp];
@@ -232,13 +232,13 @@ static BOOL _copyItem(DcmItem* from, const DcmTagKey& key, DcmItem* destination)
             }
             
             // save
-            NSString* outputFilePath = [outputDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d.dcm", ++outCounter]];
+            NSString* outputFilePath = [outputDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%d.dcm", (int)++outCounter]];
             outfileformat.saveFile(outputFilePath.fileSystemRepresentation, EXS_LittleEndianExplicit, EET_ExplicitLength);
         }
     } @catch (...) {
         @throw;
     } @finally {
-        [thread exitSubthread];
+        [thread exitOperation];
     }
     
     return outputDirPath;
