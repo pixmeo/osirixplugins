@@ -29,7 +29,8 @@
         NSMutableArray *images = [NSMutableArray array];
         
         if( [[[BrowserController currentBrowser] window] firstResponder] == [[BrowserController currentBrowser] oMatrix]) [[BrowserController currentBrowser] filesForDatabaseMatrixSelection: images];
-        else [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
+        else
+            [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
         
         NSString *source = nil;
         

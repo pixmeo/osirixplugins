@@ -135,6 +135,20 @@
 {
 	NSString *keyPix = nil;
     
+    if( [[roiRec roi] type] == tBall) // tBall not supported
+    {
+        if( mean)
+            *mean = 0;
+        
+        if( min)
+            *min = 0;
+        
+        if( max)
+            *max = 0;
+        
+        return;
+    }
+    
 	if ([[_interface options] xRangeMode] == XRange4thDimension)
 		keyPix = [NSString stringWithFormat: @"%lX", (unsigned long) [[_interface viewer] pixList: element]];
 	else
@@ -142,7 +156,8 @@
 	
 	NSMutableDictionary* cache = [_cache objectForKey:[roiRec roi]];
 	
-	if ([cache objectForKey:keyPix] == NULL) {
+	if ([cache objectForKey:keyPix] == NULL)
+    {
 		if ([[_interface options] xRangeMode] == XRange4thDimension)
         {
 //            DCMPix *p = [[[_interface viewer] pixList: element] objectAtIndex:[[[_interface viewer] imageView] curImage]];
