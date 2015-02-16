@@ -191,624 +191,635 @@ static NSString* PreventNullString(NSString* s) {
 }
 
 -(void)main {
-	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    self.supportsCancel = YES;
-    
-    NSDate* startingDate = [NSDate date];
-    
-	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
-
-    
-    NSManagedObjectContext *icontext = [[DicomDatabase defaultDatabase] independentContext];
-    NSMutableArray *images = [NSMutableArray array];
-    
-    for( NSManagedObjectID *imageID in _imagesID)
-        [images addObject: [icontext objectWithID: imageID]];
-    
-    
-    DicomImage *image = [images objectAtIndex:0];
-    self.name = [NSString stringWithFormat:@"Preparing disc data for %@", image.series.study.name];
-    
-	self.status = @"Detecting image series and studies...";
-	NSMutableArray* series = [[NSMutableArray alloc] init];
-	NSMutableArray* studies = [[NSMutableArray alloc] init];
-	for (DicomImage* image in images)
-    {
-		if (![series containsObject:image.series])
-			[series addObject:image.series];
-		if (![studies containsObject:image.series.study])
-			[studies addObject:image.series.study];
-	}
-	
-    DicomDatabase* database = [DPPhantomDicomDatabase databaseAtPath:[NSFileManager.defaultManager tmpFilePathInTmp]];
-
-/*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
-	NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-	[persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:NULL URL:NULL options:NULL error:NULL];
-    NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
-    [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
-	managedObjectContext.undoManager.levelsOfUndo = 1;	
-	[managedObjectContext.undoManager disableUndoRegistration];*/
-	
-    
-    
-    
-    NSMutableDictionary* matchedDataPerStudy = [NSMutableDictionary dictionary];
-    NSString* matchesDirPath = [_tmpPath stringByAppendingPathComponent:@"Matches"];
-    if (_options.fsMatchFlag) {
-        self.status = NSLocalizedString(@"Mounting match share...", nil);
+    @autoreleasepool {
+        self.supportsCancel = YES;
         
-        [NSFileManager.defaultManager confirmDirectoryAtPath:matchesDirPath];
+        NSDate* startingDate = [NSDate date];
         
-        NSString* shareMountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
-        [NSFileManager.defaultManager confirmDirectoryAtPath:shareMountPath];
-        
-        BOOL ok = YES;
-        
-        // mount!
-        @try {
-            NSURL* url = [NSURL URLWithString:_options.fsMatchShareUrl];
-            if (!url)
-                [NSException raise:NSGenericException format:@"Can't match data: invalid URL: %@", _options.fsMatchShareUrl];
-            
-            FSVolumeRefNum volumeRefNum = -1;
-            OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:shareMountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
-            if (err != noErr)
-                [NSException raise:NSGenericException format:@"Can't match data: FSMountServerVolumeSync error %d, URL was %@", (int)err, url];
-            
-            NSString* inShareMountPath = shareMountPath;
-            NSArray* pathComponents = [url pathComponents];
-            pathComponents = [pathComponents subarrayWithRange:NSMakeRange(2, pathComponents.count-2)];
-            if (pathComponents.count)
-                inShareMountPath = [shareMountPath stringByAppendingPathComponent:[pathComponents componentsJoinedByString:@"/"]];
-            
-            // mounted, now look for the data
-            self.status = NSLocalizedString(@"Matching share data...", nil);
-            
-            for (DicomStudy* study in studies) {
-                NSString* studyMatchesDirPath = [NSFileManager.defaultManager tmpFilePathInDir:matchesDirPath];
+        NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+        [dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
 
-                DicomImage* image = [[study images] anyObject];
-                DCMObject* obj = [[[DCMObject alloc] initWithContentsOfFile:[image completePath] decodingPixelData:NO] autorelease];
-                
-                NSMutableArray* tokens = [[[_options fsMatchTokens] mutableCopy] autorelease];
-                for (NSInteger i = 0; i < (int)tokens.count; ++i) {
-                    NSString* token = [tokens objectAtIndex:i];
-                    DCMAttributeTag* tag = [DCMAttributeTag tagWithName:token];
-                    if (!tag)
-                        tag = [DCMAttributeTag tagWithTagString:token];
-                    if (!tag)
-                        [NSException raise:NSGenericException format:@"Invalid token %@", token];
-                    
-                    DCMAttribute* attr = [obj attributeForTag:tag];
-                    if (!attr)
-                        [NSException raise:NSGenericException format:@"No value for token %@", token];
-                    
-                    id value = [attr value];
-                    if ([value respondsToSelector:@selector(stringValue)])
-                        value = [value stringValue];
-                    if (![value isKindOfClass:[NSString class]])
-                        [NSException raise:NSGenericException format:@"Invalid token value class %@", [value className]];
-                    
-                    [tokens replaceObjectAtIndex:i withObject:value];
-                }
-                
-                NSString* match = [tokens componentsJoinedByString:@""];
-
-                BOOL studyOk = NO;
-                while (!studyOk && !self.isCancelled) {
-                    NSArray* contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:inShareMountPath error:NULL];
-                    
-                    if (!contents)
-                        [NSException raise:NSGenericException format:@"Share mount problem, maybe the share is already mounted?"];
-                    
-                    @try {
-                        for (NSString* content in contents)
-                            if ([content hasPrefix:match]) { // a match! a match!
-                                studyOk = YES;
-                                // destination folder...
-                                [NSFileManager.defaultManager confirmDirectoryAtPath:studyMatchesDirPath];
-                                // copy
-                                [NSFileManager.defaultManager copyItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] toPath:[studyMatchesDirPath stringByAppendingPathComponent:content] error:NULL];
-                                if (_options.fsMatchDelete)
-                                    [NSFileManager.defaultManager removeItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] error:NULL];
-                            }
-                        
-                        // if found at least a document/folder, done with this study
-                    }
-                    @catch (NSException* e) {
-                        studyOk = NO;
-                    }
-                    
-                    if (!studyOk && -[startingDate timeIntervalSinceNow] > _options.fsMatchDelay) { // not ok, delay passed...
-                        if (!_options.fsMatchCondition)
-                            studyOk = YES; // optiopnal, skip to the next study
-                        else // otherwise, a file is NEEDED, and not found... and time is up. stop publishing....
-                            studyOk = ok = NO;
-                        break;
-                    }
-                    
-                    if (!studyOk && !self.isCancelled)
-                        [NSThread sleepForTimeInterval:1];
-                }
-                
-                if (!ok)
-                    break;
-                
-                if ([NSFileManager.defaultManager fileExistsAtPath:studyMatchesDirPath])
-                    [matchedDataPerStudy setObject:studyMatchesDirPath forKey:[NSValue valueWithPointer:study]];
-
-                if (_options.fsMatchToDicom) // make DICOM files from PDFs
-                    for (NSString* filename in [NSFileManager.defaultManager contentsOfDirectoryAtPath:studyMatchesDirPath error:NULL]) {
-                        NSString* path = [studyMatchesDirPath stringByAppendingPathComponent:filename];
-                        if ([[path pathExtension] caseInsensitiveCompare:@"pdf"] == NSOrderedSame) {
-                            // make dicom...
-                            NSString* dcmpath = [[DicomDatabase defaultDatabase] uniquePathForNewDataFileWithExtension:nil];
-                            [study transformPdfAtPath:path toDicomAtPath:dcmpath];
-                            // add it to the db
-                            NSArray* reportImageIDs = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
-                            
-                            NSMutableArray* reportImages = [NSMutableArray array];
-                            for( NSManagedObjectID *reportID in reportImageIDs)
-                                [reportImages addObject: [icontext objectWithID: reportID]];
-                            
-                            // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
-                            [images addObjectsFromArray:reportImages];
-                            for (DicomImage* image in reportImages)
-                                if (![series containsObject:image.series])
-                                    [series addObject:image.series];
-                        }
-                    }
-                
-                if (self.isCancelled)
-                    break;
-            }
-            
-            // done, unmount
-            
-            self.status = NSLocalizedString(@"Unmounting match share...", nil);
-            
-            [NSThread performBlockInBackground:^{ // unmounting is sometimes slow (probably because of spotlight), so we do it in a background thread
-                pid_t dissenter;
-                FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
-                [NSFileManager.defaultManager removeItemAtPath:shareMountPath error:NULL];
-            }];
-        }
-        @catch (NSException* e) {
-            ok = NO;
-            N2LogExceptionWithStackTrace(e);
-        }
         
-        if (!ok) { // match failure!
-            self.status = NSLocalizedString(@"Error: no match found, aborting...", nil);
-            NSLog(@"Error: no match found, publishment aborted");
-            NSDate* date = [NSDate date];
-            while (!self.isCancelled && -[date timeIntervalSinceNow] < 60)
-                [NSThread sleepForTimeInterval:0.05];
-            return;
-        }
-    }
-    
-	NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
-	NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
-	NSUInteger processedImagesCount = 0;
-	@try {
-        for (DicomSeries* serie in series)
+        NSManagedObjectContext *icontext = [[DicomDatabase defaultDatabase] independentContext];
+        NSMutableArray *images = [NSMutableArray array];
+        
+        for( NSManagedObjectID *imageID in _imagesID)
         {
-            @try
-            {
-                self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
+            DicomImage *i = [icontext objectWithID: imageID];
+            
+            if( i)
+                [images addObject: [icontext objectWithID: imageID]];
+        }
+        
+        DicomImage *image = [images objectAtIndex:0];
+        self.name = [NSString stringWithFormat:@"Preparing disc data for %@", image.series.study.name];
+        
+        self.status = @"Detecting image series and studies...";
+        NSMutableArray* series = [[NSMutableArray alloc] init];
+        NSMutableArray* studies = [[NSMutableArray alloc] init];
+        for (DicomImage* image in images)
+        {
+            if( image.series && ![series containsObject:image.series])
+                [series addObject:image.series];
+            if( image.series.study && ![studies containsObject:image.series.study])
+                [studies addObject:image.series.study];
+        }
+        
+        DicomDatabase* database = [DPPhantomDicomDatabase databaseAtPath:[NSFileManager.defaultManager tmpFilePathInTmp]];
 
-                NSArray* images = serie.images.allObjects;
-                [self enterOperationWithRange:1.*processedImagesCount/images.count:1.*images.count/images.count];
+    /*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
+        NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
+        [persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:NULL URL:NULL options:NULL error:NULL];
+        NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
+        managedObjectContext.undoManager.levelsOfUndo = 1;	
+        [managedObjectContext.undoManager disableUndoRegistration];*/
+        
+        
+        
+        
+        NSMutableDictionary* matchedDataPerStudy = [NSMutableDictionary dictionary];
+        NSString* matchesDirPath = [_tmpPath stringByAppendingPathComponent:@"Matches"];
+        if (_options.fsMatchFlag) {
+            self.status = NSLocalizedString(@"Mounting match share...", nil);
+            
+            [NSFileManager.defaultManager confirmDirectoryAtPath:matchesDirPath];
+            
+            NSString* shareMountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
+            [NSFileManager.defaultManager confirmDirectoryAtPath:shareMountPath];
+            
+            BOOL ok = YES;
+            
+            // mount!
+            @try {
+                NSURL* url = [NSURL URLWithString:_options.fsMatchShareUrl];
+                if (!url)
+                    [NSException raise:NSGenericException format:@"Can't match data: invalid URL: %@", _options.fsMatchShareUrl];
                 
-    //            images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
-                images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options database:database seriesPaths:seriesPaths];
+                FSVolumeRefNum volumeRefNum = -1;
+                OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:shareMountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
+                if (err != noErr)
+                    [NSException raise:NSGenericException format:@"Can't match data: FSMountServerVolumeSync error %d, URL was %@", (int)err, url];
                 
-                if (self.isCancelled)
-                    return;
+                NSString* inShareMountPath = shareMountPath;
+                NSArray* pathComponents = [url pathComponents];
+                pathComponents = [pathComponents subarrayWithRange:NSMakeRange(2, pathComponents.count-2)];
+                if (pathComponents.count)
+                    inShareMountPath = [shareMountPath stringByAppendingPathComponent:[pathComponents componentsJoinedByString:@"/"]];
                 
-                if (images.count) {
-                    serie = [(DicomImage*)[images objectAtIndex:0] series];
-                    NSString* tmpPath = [DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath];
-                        
-                    NSUInteger size;
-                    if ([_options zip]) {
-                        NSString* tmpZipPath = [[[NSFileManager defaultManager] tmpFilePathInTmp] stringByAppendingPathExtension:@"zip"];
-                        
-                        NSTask* task = [[NSTask alloc] init];
-                        [task setLaunchPath:@"/usr/bin/zip"];
-                        [task setArguments:[NSArray arrayWithObjects: @"-rq", tmpZipPath, tmpPath, NULL]];
-                        [task launch];
-                        [task waitUntilExit];
-                        [task release];
-                        
-                        size = [[[NSFileManager defaultManager] attributesOfItemAtPath:tmpZipPath error:NULL] fileSize];
-                        
-                        [[NSFileManager defaultManager] removeItemAtPath:tmpZipPath error:NULL];			
-                    } else size = [[NSFileManager defaultManager] sizeAtPath:tmpPath];
-                    [seriesSizes setObject:[NSNumber numberWithUnsignedInteger:size] forKey:[NSValue valueWithPointer:serie]];
+                // mounted, now look for the data
+                self.status = NSLocalizedString(@"Matching share data...", nil);
+                
+                for (DicomStudy* study in studies) {
+                    NSString* studyMatchesDirPath = [NSFileManager.defaultManager tmpFilePathInDir:matchesDirPath];
 
-                    processedImagesCount += images.count;
+                    DicomImage* image = [[study images] anyObject];
+                    DCMObject* obj = [[[DCMObject alloc] initWithContentsOfFile:[image completePath] decodingPixelData:NO] autorelease];
+                    
+                    NSMutableArray* tokens = [[[_options fsMatchTokens] mutableCopy] autorelease];
+                    for (NSInteger i = 0; i < (int)tokens.count; ++i) {
+                        NSString* token = [tokens objectAtIndex:i];
+                        DCMAttributeTag* tag = [DCMAttributeTag tagWithName:token];
+                        if (!tag)
+                            tag = [DCMAttributeTag tagWithTagString:token];
+                        if (!tag)
+                            [NSException raise:NSGenericException format:@"Invalid token %@", token];
+                        
+                        DCMAttribute* attr = [obj attributeForTag:tag];
+                        if (!attr)
+                            [NSException raise:NSGenericException format:@"No value for token %@", token];
+                        
+                        id value = [attr value];
+                        if ([value respondsToSelector:@selector(stringValue)])
+                            value = [value stringValue];
+                        if (![value isKindOfClass:[NSString class]])
+                            [NSException raise:NSGenericException format:@"Invalid token value class %@", [value className]];
+                        
+                        [tokens replaceObjectAtIndex:i withObject:value];
+                    }
+                    
+                    NSString* match = [tokens componentsJoinedByString:@""];
+
+                    BOOL studyOk = NO;
+                    while (!studyOk && !self.isCancelled) {
+                        NSArray* contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:inShareMountPath error:NULL];
+                        
+                        if (!contents)
+                            [NSException raise:NSGenericException format:@"Share mount problem, maybe the share is already mounted?"];
+                        
+                        @try {
+                            for (NSString* content in contents)
+                                if ([content hasPrefix:match]) { // a match! a match!
+                                    studyOk = YES;
+                                    // destination folder...
+                                    [NSFileManager.defaultManager confirmDirectoryAtPath:studyMatchesDirPath];
+                                    // copy
+                                    [NSFileManager.defaultManager copyItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] toPath:[studyMatchesDirPath stringByAppendingPathComponent:content] error:NULL];
+                                    if (_options.fsMatchDelete)
+                                        [NSFileManager.defaultManager removeItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] error:NULL];
+                                }
+                            
+                            // if found at least a document/folder, done with this study
+                        }
+                        @catch (NSException* e) {
+                            studyOk = NO;
+                        }
+                        
+                        if (!studyOk && -[startingDate timeIntervalSinceNow] > _options.fsMatchDelay) { // not ok, delay passed...
+                            if (!_options.fsMatchCondition)
+                                studyOk = YES; // optiopnal, skip to the next study
+                            else // otherwise, a file is NEEDED, and not found... and time is up. stop publishing....
+                                studyOk = ok = NO;
+                            break;
+                        }
+                        
+                        if (!studyOk && !self.isCancelled)
+                            [NSThread sleepForTimeInterval:1];
+                    }
+                    
+                    if (!ok)
+                        break;
+                    
+                    if ([NSFileManager.defaultManager fileExistsAtPath:studyMatchesDirPath])
+                        [matchedDataPerStudy setObject:studyMatchesDirPath forKey:[NSValue valueWithPointer:study]];
+
+                    if (_options.fsMatchToDicom) // make DICOM files from PDFs
+                        for (NSString* filename in [NSFileManager.defaultManager contentsOfDirectoryAtPath:studyMatchesDirPath error:NULL]) {
+                            NSString* path = [studyMatchesDirPath stringByAppendingPathComponent:filename];
+                            if ([[path pathExtension] caseInsensitiveCompare:@"pdf"] == NSOrderedSame) {
+                                // make dicom...
+                                NSString* dcmpath = [[DicomDatabase defaultDatabase] uniquePathForNewDataFileWithExtension:nil];
+                                [study transformPdfAtPath:path toDicomAtPath:dcmpath];
+                                // add it to the db
+                                NSArray* reportImageIDs = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
+                                
+                                NSMutableArray* reportImages = [NSMutableArray array];
+                                for( NSManagedObjectID *reportID in reportImageIDs)
+                                {
+                                    DicomImage *i = [icontext objectWithID: reportID];
+                                    
+                                    if( i)
+                                        [reportImages addObject: [icontext objectWithID: reportID]];
+                                }
+                                
+                                // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
+                                [images addObjectsFromArray:reportImages];
+                                for (DicomImage* image in reportImages)
+                                    if( image.series && ![series containsObject:image.series])
+                                        [series addObject:image.series];
+                            }
+                        }
+                    
+                    if (self.isCancelled)
+                        break;
                 }
+                
+                // done, unmount
+                
+                self.status = NSLocalizedString(@"Unmounting match share...", nil);
+                
+                [NSThread performBlockInBackground:^{ // unmounting is sometimes slow (probably because of spotlight), so we do it in a background thread
+                    pid_t dissenter;
+                    FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
+                    [NSFileManager.defaultManager removeItemAtPath:shareMountPath error:NULL];
+                }];
             }
             @catch (NSException* e) {
+                ok = NO;
                 N2LogExceptionWithStackTrace(e);
             }
-            @finally {
-                [self exitOperation];
-            }
             
-            if (self.isCancelled)
+            if (!ok) { // match failure!
+                self.status = NSLocalizedString(@"Error: no match found, aborting...", nil);
+                NSLog(@"Error: no match found, publishment aborted");
+                NSDate* date = [NSDate date];
+                while (!self.isCancelled && -[date timeIntervalSinceNow] < 60)
+                    [NSThread sleepForTimeInterval:0.05];
                 return;
-        }
-        
-        NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
-        if (_options.includeReports)
-        {
-            [[NSFileManager defaultManager] confirmDirectoryAtPath:reportsTmpPath];
-            
-            for (DicomStudy* study in studies)
-            {
-                if (study.reportURL)
-                {
-                    if( [study.reportURL hasPrefix: @"http://"] || [study.reportURL hasPrefix: @"https://"])
-                    {
-                        NSStringEncoding se = NULL;
-                        NSString *urlContent = [NSString stringWithContentsOfURL:[NSURL URLWithString:study.reportURL] usedEncoding:&se error:NULL];
-                        [urlContent writeToFile: [reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-                    }
-                    else
-                        [[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
-                }
             }
         }
         
-    //	DLog(@"paths: %@", seriesPaths);
+        NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
+        NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
+        NSUInteger processedImagesCount = 0;
+        @try {
+            for (DicomSeries* serie in series)
+            {
+                @try
+                {
+                    self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
 
-        NSUInteger discNumber = 1;
-        while (seriesSizes.count && !self.isCancelled) {
-            NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-            @try {
-                self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", (int) discNumber];
+                    NSArray* images = serie.images.allObjects;
+                    [self enterOperationWithRange:1.*processedImagesCount/images.count:1.*images.count/images.count];
+                    
+        //            images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
+                    images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options database:database seriesPaths:seriesPaths];
+                    
+                    if (self.isCancelled)
+                        return;
+                    
+                    if (images.count) {
+                        serie = [(DicomImage*)[images objectAtIndex:0] series];
+                        NSString* tmpPath = [DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath];
+                            
+                        NSUInteger size;
+                        if ([_options zip]) {
+                            NSString* tmpZipPath = [[[NSFileManager defaultManager] tmpFilePathInTmp] stringByAppendingPathExtension:@"zip"];
+                            
+                            NSTask* task = [[NSTask alloc] init];
+                            [task setLaunchPath:@"/usr/bin/zip"];
+                            [task setArguments:[NSArray arrayWithObjects: @"-rq", tmpZipPath, tmpPath, NULL]];
+                            [task launch];
+                            [task waitUntilExit];
+                            [task release];
+                            
+                            size = [[[NSFileManager defaultManager] attributesOfItemAtPath:tmpZipPath error:NULL] fileSize];
+                            
+                            [[NSFileManager defaultManager] removeItemAtPath:tmpZipPath error:NULL];			
+                        } else size = [[NSFileManager defaultManager] sizeAtPath:tmpPath];
+                        [seriesSizes setObject:[NSNumber numberWithUnsignedInteger:size] forKey:[NSValue valueWithPointer:serie]];
 
-                NSMutableArray* privateFiles = [NSMutableArray array];
-
-                NSString* discBaseDirPath = [[NSFileManager defaultManager] tmpFilePathInTmp];
-                [[NSFileManager defaultManager] confirmDirectoryAtPath:discBaseDirPath];
-        //		NSString* discBaseDirPath = [discTmpDirPath stringByAppendingPathComponent:@"DATA"];
-        //		[[NSFileManager defaultManager] confirmDirectoryAtPath:discBaseDirPath];
-        //		NSString* discFinalDirPath = [discTmpDirPath stringByAppendingPathComponent:@"FINAL"];
-        //		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
-                
-                NSDictionary* mediaCapacitiesBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacities];
-            //	NSLog(@"----- mcb %@", mediaCapacitiesBytes);
-                
-                if ([_options respondsToSelector:@selector(includeWeasis)] && _options.includeWeasis)
-                    [DiscPublishingPatientDisc copyWeasisToPath:discBaseDirPath];
-                
-                if (_options.includeOsirixLite)
-                    [DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
-                if (_options.includeAuxiliaryDir)
-                    [DiscPublishingPatientDisc copyContentsOfDirectory:_options.auxiliaryDirPath toPath:discBaseDirPath];
-                if (_options.includeReports) {
-                    NSString* reportsDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"Reports"];
-                    [privateFiles addObject:@"Reports"];
-                    [[NSFileManager defaultManager] copyItemAtPath:reportsTmpPath toPath:reportsDiscBaseDirPath error:NULL];
+                        processedImagesCount += images.count;
+                    }
                 }
-                if (_options.fsMatchFlag) {
-                    for (NSString* matchDir in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchesDirPath error:NULL]) {
-                        NSString* matchDirPath = [matchesDirPath stringByAppendingPathComponent:matchDir];
-                        for (NSString* matchItem in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchDirPath error:NULL]) {
-                            [NSFileManager.defaultManager copyItemAtPath:[matchDirPath stringByAppendingPathComponent:matchItem] toPath:[discBaseDirPath stringByAppendingPathComponent:matchItem] error:NULL];
-                            [privateFiles addObject:matchItem];
+                @catch (NSException* e) {
+                    N2LogExceptionWithStackTrace(e);
+                }
+                @finally {
+                    [self exitOperation];
+                }
+                
+                if (self.isCancelled)
+                    return;
+            }
+            
+            NSString* reportsTmpPath = [_tmpPath stringByAppendingPathComponent:@"Reports"];
+            if (_options.includeReports)
+            {
+                [[NSFileManager defaultManager] confirmDirectoryAtPath:reportsTmpPath];
+                
+                for (DicomStudy* study in studies)
+                {
+                    if (study.reportURL)
+                    {
+                        if( [study.reportURL hasPrefix: @"http://"] || [study.reportURL hasPrefix: @"https://"])
+                        {
+                            NSStringEncoding se = NULL;
+                            NSString *urlContent = [NSString stringWithContentsOfURL:[NSURL URLWithString:study.reportURL] usedEncoding:&se error:NULL];
+                            [urlContent writeToFile: [reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] atomically:YES encoding:NSUTF8StringEncoding error:NULL];
                         }
+                        else
+                            [[NSFileManager defaultManager] copyItemAtPath:study.reportURL toPath:[reportsTmpPath stringByAppendingPathComponent:[study.reportURL lastPathComponent]] error:NULL];
                     }
                 }
-                
-                NSUInteger tempSizeAtDiscBaseDir = [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
-                NSMutableDictionary* mediaCapacitiesBytesTemp = [NSMutableDictionary dictionaryWithCapacity:mediaCapacitiesBytes.count];
-                for (id key in mediaCapacitiesBytes)
-                    [mediaCapacitiesBytesTemp setObject:[NSNumber numberWithFloat:[[mediaCapacitiesBytes objectForKey:key] floatValue]-tempSizeAtDiscBaseDir] forKey:key];
-                mediaCapacitiesBytes = mediaCapacitiesBytesTemp;
-            //	NSLog(@"----- mcb %@", mediaCapacitiesBytes);
-                
-                // mediaCapacitiesBytes contains one or more disc capacities and seriesSizes contains the series still needing to be burnt
-                // what disc type between these in mediaCapacitiesBytes will we use?
-                NSUInteger totalSeriesSizes = 0;
-                for (id serie in seriesSizes)
-                    totalSeriesSizes += [[seriesSizes objectForKey:serie] unsignedIntValue];
-                id pickedMediaKey = nil;
-                // try pick the smallest that fits the data
-                //NSLog(@"----- Picking media... totalSeriesSizes is %d", totalSeriesSizes);
-                for (id key in mediaCapacitiesBytes) {
-                //	NSLog(@"Will it be %@ sized %f ?", key, [[mediaCapacitiesBytes objectForKey:key] floatValue]);
-                    if ([[mediaCapacitiesBytes objectForKey:key] floatValue] > totalSeriesSizes) { // fits
-                //		NSLog(@"\tIt may be...");
-                        if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] floatValue] < [[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]) { // forst OR is smaller than the one we picked earlier
-                //			NSLog(@"\tIt really may be...");
-                            pickedMediaKey = key;
+            }
+            
+        //	DLog(@"paths: %@", seriesPaths);
+
+            NSUInteger discNumber = 1;
+            while (seriesSizes.count && !self.isCancelled) {
+                NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+                @try {
+                    self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", (int) discNumber];
+
+                    NSMutableArray* privateFiles = [NSMutableArray array];
+
+                    NSString* discBaseDirPath = [[NSFileManager defaultManager] tmpFilePathInTmp];
+                    [[NSFileManager defaultManager] confirmDirectoryAtPath:discBaseDirPath];
+            //		NSString* discBaseDirPath = [discTmpDirPath stringByAppendingPathComponent:@"DATA"];
+            //		[[NSFileManager defaultManager] confirmDirectoryAtPath:discBaseDirPath];
+            //		NSString* discFinalDirPath = [discTmpDirPath stringByAppendingPathComponent:@"FINAL"];
+            //		[[NSFileManager defaultManager] confirmDirectoryAtPath:discFinalDirPath];
+                    
+                    NSDictionary* mediaCapacitiesBytes = [[NSUserDefaultsController sharedUserDefaultsController] discPublishingMediaCapacities];
+                //	NSLog(@"----- mcb %@", mediaCapacitiesBytes);
+                    
+                    if ([_options respondsToSelector:@selector(includeWeasis)] && _options.includeWeasis)
+                        [DiscPublishingPatientDisc copyWeasisToPath:discBaseDirPath];
+                    
+                    if (_options.includeOsirixLite)
+                        [DiscPublishingPatientDisc copyOsirixLiteToPath:discBaseDirPath];
+                    if (_options.includeAuxiliaryDir)
+                        [DiscPublishingPatientDisc copyContentsOfDirectory:_options.auxiliaryDirPath toPath:discBaseDirPath];
+                    if (_options.includeReports) {
+                        NSString* reportsDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"Reports"];
+                        [privateFiles addObject:@"Reports"];
+                        [[NSFileManager defaultManager] copyItemAtPath:reportsTmpPath toPath:reportsDiscBaseDirPath error:NULL];
+                    }
+                    if (_options.fsMatchFlag) {
+                        for (NSString* matchDir in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchesDirPath error:NULL]) {
+                            NSString* matchDirPath = [matchesDirPath stringByAppendingPathComponent:matchDir];
+                            for (NSString* matchItem in [NSFileManager.defaultManager contentsOfDirectoryAtPath:matchDirPath error:NULL]) {
+                                [NSFileManager.defaultManager copyItemAtPath:[matchDirPath stringByAppendingPathComponent:matchItem] toPath:[discBaseDirPath stringByAppendingPathComponent:matchItem] error:NULL];
+                                [privateFiles addObject:matchItem];
+                            }
                         }
-                    }
-                }
-                //NSLog(@"Picked media key %@", pickedMediaKey);
-                if (!pickedMediaKey) // data won't fit a single disc, pick the biggest of discs available
-                    for (id key in mediaCapacitiesBytes)
-                        if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] floatValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]) // forst OR is bigger than the one we picked earlier
-                            pickedMediaKey = key;
-                
-                DLog(@"media type will be: %@", pickedMediaKey);
-                
-                if (!pickedMediaKey) {
-                    [self cancel];
-                    [NSException raise:NSGenericException format:@"%@", NSLocalizedString(@"Something is wrong with the robot.", nil)];
-                }
-                
-                NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]];
-                [seriesSizes removeObjectsForKeys:discSeriesValues];
-                NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];
-                for (NSValue* serieValue in discSeriesValues)
-                    [discSeries addObject:(id)serieValue.pointerValue];
-                
-                NSString* discName = [DiscPublishingPatientDisc discNameForSeries:discSeries];
-                NSString* safeDiscName = [discName filenameString];
-                
-                // change label in Autorun.inf because ppl don't like "Weasis" to be the label in windows...
-                NSString* autorunInfPath = [discBaseDirPath stringByAppendingPathComponent:@"Autorun.inf"];
-                if ([NSFileManager.defaultManager fileExistsAtPath:autorunInfPath]) {
-                    NSStringEncoding encoding;
-                    NSString* autorunInf = [NSString stringWithContentsOfFile:autorunInfPath usedEncoding:&encoding error:nil];
-                    if (autorunInf.length) {
-                        autorunInf = [autorunInf stringByReplacingOccurrencesOfString:@"Label=Weasis" withString:[NSString stringWithFormat:@"Label=%@", safeDiscName]];
-                        [NSFileManager.defaultManager removeItemAtPath:autorunInfPath error:nil];
-                        [autorunInf writeToFile:autorunInfPath atomically:YES encoding:encoding error:nil];
-                    }
-                }
-                
-                NSMutableArray* discModalities = [NSMutableArray array];
-                for (DicomSeries* serie in discSeries)
-                    if (![discModalities containsObject:serie.modality])
-                        [discModalities addObject:serie.modality];
-                NSString* modalities = [discModalities componentsJoinedByString:@", "];
-                
-                NSMutableArray* discStudyNames = [NSMutableArray array];
-                for (DicomSeries* serie in discSeries)
-                    if (![discStudyNames containsObject:serie.study.studyName])
-                        [discStudyNames addObject:serie.study.studyName];
-                NSString* studyNames = [discStudyNames componentsJoinedByString:@", "];
-                
-                NSMutableArray* discStudyDates = [NSMutableArray array];
-                for (DicomSeries* serie in discSeries) {
-                    NSString* date = [dateFormatter stringFromDate:serie.study.date];
-                    if (![discStudyDates containsObject:date])
-                        [discStudyDates addObject:date];
-                }
-                NSString* studyDates = [discStudyDates componentsJoinedByString:@", "];			
-                
-                // prepare patients dictionary for html generation
-                
-                NSMutableDictionary* htmlExportDic = [NSMutableDictionary dictionary];
-                for (DicomSeries* serie in discSeries) {
-                    NSMutableArray* patientSeries = [htmlExportDic objectForKey:serie.study.name];
-                    if (!patientSeries) {
-                        patientSeries = [NSMutableArray array];
-                        [htmlExportDic setObject:patientSeries forKey:serie.study.name];
                     }
                     
-                    for (DicomImage* image in [serie sortedImages])
-                        [patientSeries addObject:image.series];
-                }
-                
-                if (self.isCancelled)
-                    return;
-                
-                // move DICOM files
-                
-                NSString* dicomDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
-                [[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDiscBaseDirPath];
-                [privateFiles addObject:[DiscPublishingPatientDisc dicomDirName]];
-                
-                NSUInteger fileNumber = 0;
-                for (DicomSeries* serie in discSeries)
-                {
-                    for (DicomImage* image in [serie sortedImages])
-                    {
-                        NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%06d", (int) (fileNumber++)]];
-                        NSError *error = nil;
-                        if( ![[NSFileManager defaultManager] moveItemAtPath:image.pathString toPath:newPath error: &error])
-                        {
-                            NSLog( @"******* moveItemAtPath failed: %@", error);
-                            
-                            if( [[NSFileManager defaultManager] fileExistsAtPath: image.pathString] == NO)
-                                NSLog( @"image.pathString fileDoesntExist");
-                            
-                            if( [[NSFileManager defaultManager] fileExistsAtPath: dicomDiscBaseDirPath] == NO)
-                                NSLog( @"dicomDiscBaseDirPath fileDoesntExist");
+                    NSUInteger tempSizeAtDiscBaseDir = [[NSFileManager defaultManager] sizeAtPath:discBaseDirPath];
+                    NSMutableDictionary* mediaCapacitiesBytesTemp = [NSMutableDictionary dictionaryWithCapacity:mediaCapacitiesBytes.count];
+                    for (id key in mediaCapacitiesBytes)
+                        [mediaCapacitiesBytesTemp setObject:[NSNumber numberWithFloat:[[mediaCapacitiesBytes objectForKey:key] floatValue]-tempSizeAtDiscBaseDir] forKey:key];
+                    mediaCapacitiesBytes = mediaCapacitiesBytesTemp;
+                //	NSLog(@"----- mcb %@", mediaCapacitiesBytes);
+                    
+                    // mediaCapacitiesBytes contains one or more disc capacities and seriesSizes contains the series still needing to be burnt
+                    // what disc type between these in mediaCapacitiesBytes will we use?
+                    NSUInteger totalSeriesSizes = 0;
+                    for (id serie in seriesSizes)
+                        totalSeriesSizes += [[seriesSizes objectForKey:serie] unsignedIntValue];
+                    id pickedMediaKey = nil;
+                    // try pick the smallest that fits the data
+                    //NSLog(@"----- Picking media... totalSeriesSizes is %d", totalSeriesSizes);
+                    for (id key in mediaCapacitiesBytes) {
+                    //	NSLog(@"Will it be %@ sized %f ?", key, [[mediaCapacitiesBytes objectForKey:key] floatValue]);
+                        if ([[mediaCapacitiesBytes objectForKey:key] floatValue] > totalSeriesSizes) { // fits
+                    //		NSLog(@"\tIt may be...");
+                            if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] floatValue] < [[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]) { // forst OR is smaller than the one we picked earlier
+                    //			NSLog(@"\tIt really may be...");
+                                pickedMediaKey = key;
+                            }
                         }
-                        image.pathString = newPath;
                     }
-                }
-                NSLog(@"disk %d series count is %d", (int)discNumber, (int)discSeries.count);
-                
-                if (self.isCancelled)
-                    return;
-                
-                // generate DICOMDIR: move DICOM to a tmp dir, execute generateDICOMDIRAtDirectory:withDICOMFilesInDirectory: in the tmp dir, move DICOM and DICOMDIR back to the working directory (to avoid dcmmkdir errors/warnings in stdout)
-                NSString* temporaryDirPathForDicomdirGeneration = [NSFileManager.defaultManager tmpFilePathInTmp];
-                NSString* temporaryDicomDirPathForDicomdirGeneration = [temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
-                [NSFileManager.defaultManager confirmDirectoryAtPath:temporaryDirPathForDicomdirGeneration];
-                [NSFileManager.defaultManager moveItemAtPath:dicomDiscBaseDirPath toPath:temporaryDicomDirPathForDicomdirGeneration error:NULL];
-                [DiscPublishingPatientDisc generateDICOMDIRAtDirectory:temporaryDirPathForDicomdirGeneration withDICOMFilesInDirectory:temporaryDirPathForDicomdirGeneration];
-                [NSFileManager.defaultManager moveItemAtPath:temporaryDicomDirPathForDicomdirGeneration toPath:dicomDiscBaseDirPath error:NULL];
-                [NSFileManager.defaultManager moveItemAtPath:[temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:@"DICOMDIR"] toPath:[discBaseDirPath stringByAppendingPathComponent:@"DICOMDIR"] error:NULL];
-                [NSFileManager.defaultManager removeItemAtPath:temporaryDirPathForDicomdirGeneration error:NULL];
-                [privateFiles addObject:@"DICOMDIR"];
-                
-                if (self.isCancelled)
-                    return;
-                
-                // move QTHTML files
-                
-                if (_options.includeHTMLQT) {
-                    NSString* htmlqtDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"HTML"];
-                    [[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtDiscBaseDirPath];
-                    [privateFiles addObject:@"HTML"];
-
+                    //NSLog(@"Picked media key %@", pickedMediaKey);
+                    if (!pickedMediaKey) // data won't fit a single disc, pick the biggest of discs available
+                        for (id key in mediaCapacitiesBytes)
+                            if (!pickedMediaKey || [[mediaCapacitiesBytes objectForKey:key] floatValue] > [[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]) // forst OR is bigger than the one we picked earlier
+                                pickedMediaKey = key;
+                    
+                    DLog(@"media type will be: %@", pickedMediaKey);
+                    
+                    if (!pickedMediaKey) {
+                        [self cancel];
+                        [NSException raise:NSGenericException format:@"%@", NSLocalizedString(@"Something is wrong with the robot.", nil)];
+                    }
+                    
+                    NSArray* discSeriesValues = [DiscPublishingPatientDisc selectSeriesOfSizes:seriesSizes forDiscWithCapacity:[[mediaCapacitiesBytes objectForKey:pickedMediaKey] floatValue]];
+                    [seriesSizes removeObjectsForKeys:discSeriesValues];
+                    NSMutableArray* discSeries = [NSMutableArray arrayWithCapacity:discSeriesValues.count];
+                    for (NSValue* serieValue in discSeriesValues)
+                        [discSeries addObject:(id)serieValue.pointerValue];
+                    
+                    NSString* discName = [DiscPublishingPatientDisc discNameForSeries:discSeries];
+                    NSString* safeDiscName = [discName filenameString];
+                    
+                    // change label in Autorun.inf because ppl don't like "Weasis" to be the label in windows...
+                    NSString* autorunInfPath = [discBaseDirPath stringByAppendingPathComponent:@"Autorun.inf"];
+                    if ([NSFileManager.defaultManager fileExistsAtPath:autorunInfPath]) {
+                        NSStringEncoding encoding;
+                        NSString* autorunInf = [NSString stringWithContentsOfFile:autorunInfPath usedEncoding:&encoding error:nil];
+                        if (autorunInf.length) {
+                            autorunInf = [autorunInf stringByReplacingOccurrencesOfString:@"Label=Weasis" withString:[NSString stringWithFormat:@"Label=%@", safeDiscName]];
+                            [NSFileManager.defaultManager removeItemAtPath:autorunInfPath error:nil];
+                            [autorunInf writeToFile:autorunInfPath atomically:YES encoding:encoding error:nil];
+                        }
+                    }
+                    
+                    NSMutableArray* discModalities = [NSMutableArray array];
+                    for (DicomSeries* serie in discSeries)
+                        if( serie.modality && ![discModalities containsObject:serie.modality])
+                            [discModalities addObject:serie.modality];
+                    NSString* modalities = [discModalities componentsJoinedByString:@", "];
+                    
+                    NSMutableArray* discStudyNames = [NSMutableArray array];
+                    for (DicomSeries* serie in discSeries)
+                        if( serie.study.studyName && ![discStudyNames containsObject:serie.study.studyName])
+                            [discStudyNames addObject:serie.study.studyName];
+                    NSString* studyNames = [discStudyNames componentsJoinedByString:@", "];
+                    
+                    NSMutableArray* discStudyDates = [NSMutableArray array];
                     for (DicomSeries* serie in discSeries) {
-                        NSString* serieHtmlQtBase = [[DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath] stringByAppendingPathComponent:@"HTMLQT"];
-                        // in in this series htmlqt folder, remove the html-extra folder: it will be generated later
-                        [[NSFileManager defaultManager] removeItemAtPath:[serieHtmlQtBase stringByAppendingPathComponent:@"html-extra"] error:NULL];
-                        // also remove all HTML files: they will be regenerated later, more complete
-                        NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:serieHtmlQtBase];
-                        NSMutableArray* files = [NSMutableArray array];
-                        while (NSString* subpath = [e nextObject]) {
-                            NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
-                            BOOL isDir;
-                            if ([[NSFileManager defaultManager] fileExistsAtPath:completePath isDirectory:&isDir] && !isDir && [completePath hasSuffix:@".html"])
-                                [[NSFileManager defaultManager] removeItemAtPath:completePath error:NULL];
-                            else if (!isDir)
-                                [files addObject:subpath];
+                        NSString* date = [dateFormatter stringFromDate:serie.study.date];
+                        if( date && ![discStudyDates containsObject:date])
+                            [discStudyDates addObject:date];
+                    }
+                    NSString* studyDates = [discStudyDates componentsJoinedByString:@", "];			
+                    
+                    // prepare patients dictionary for html generation
+                    
+                    NSMutableDictionary* htmlExportDic = [NSMutableDictionary dictionary];
+                    for (DicomSeries* serie in discSeries) {
+                        NSMutableArray* patientSeries = [htmlExportDic objectForKey:serie.study.name];
+                        if (!patientSeries) {
+                            patientSeries = [NSMutableArray array];
+                            [htmlExportDic setObject:patientSeries forKey:serie.study.name];
                         }
                         
-                        // now that the folder has been cleaned, merge its contents
-                            
-                        for (NSString* subpath in files) {
-                            NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
-                            NSString* subDirPath = [subpath stringByDeletingLastPathComponent];
-                            NSString* destinationDirPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subDirPath];
-                            [[NSFileManager defaultManager] confirmDirectoryAtPath:destinationDirPath];
-                            
-                            NSString* destinationPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subpath];
-                            // does such file already exist?
-                            if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) { // yes, change the destination name
-                                NSString* destinationFilename = [destinationPath lastPathComponent];
-                                NSString* destinationDir = [destinationPath substringToIndex:destinationPath.length-destinationFilename.length];
-                                NSString* destinationFilenameExt = [destinationFilename pathExtension];
-                                NSString* destinationFilenamePre = [destinationFilename substringToIndex:destinationFilename.length-destinationFilenameExt.length-1];
+                        for (DicomImage* image in [serie sortedImages])
+                        {
+                            if( image.series)
+                                [patientSeries addObject:image.series];
+                        }
+                    }
+                    
+                    if (self.isCancelled)
+                        return;
+                    
+                    // move DICOM files
+                    
+                    NSString* dicomDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
+                    [[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDiscBaseDirPath];
+                    [privateFiles addObject:[DiscPublishingPatientDisc dicomDirName]];
+                    
+                    NSUInteger fileNumber = 0;
+                    for (DicomSeries* serie in discSeries)
+                    {
+                        for (DicomImage* image in [serie sortedImages])
+                        {
+                            NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%06d", (int) (fileNumber++)]];
+                            NSError *error = nil;
+                            if( ![[NSFileManager defaultManager] moveItemAtPath:image.pathString toPath:newPath error: &error])
+                            {
+                                NSLog( @"******* moveItemAtPath failed: %@", error);
                                 
-                                for (NSUInteger i = 0; ; ++i) {
-                                    destinationFilename = [NSString stringWithFormat:@"%@_%i.%@", destinationFilenamePre, (int)i, destinationFilenameExt];
-                                    destinationPath = [destinationDir stringByAppendingPathComponent:destinationFilename];
-                                    if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
-                                        break;
-                                }
+                                if( [[NSFileManager defaultManager] fileExistsAtPath: image.pathString] == NO)
+                                    NSLog( @"image.pathString fileDoesntExist");
                                 
-                                NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:serie.id.intValue inSeriesPaths:seriesPaths];
-                                if (kind) {
-                                    [BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:serie.id.intValue kind:kind toSeriesPaths:seriesPaths];
-                                    DLog(@"renaming %@ to %@", subpath, destinationFilename);
-                                }
+                                if( [[NSFileManager defaultManager] fileExistsAtPath: dicomDiscBaseDirPath] == NO)
+                                    NSLog( @"dicomDiscBaseDirPath fileDoesntExist");
+                            }
+                            image.pathString = newPath;
+                        }
+                    }
+                    NSLog(@"disk %d series count is %d", (int)discNumber, (int)discSeries.count);
+                    
+                    if (self.isCancelled)
+                        return;
+                    
+                    // generate DICOMDIR: move DICOM to a tmp dir, execute generateDICOMDIRAtDirectory:withDICOMFilesInDirectory: in the tmp dir, move DICOM and DICOMDIR back to the working directory (to avoid dcmmkdir errors/warnings in stdout)
+                    NSString* temporaryDirPathForDicomdirGeneration = [NSFileManager.defaultManager tmpFilePathInTmp];
+                    NSString* temporaryDicomDirPathForDicomdirGeneration = [temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:[DiscPublishingPatientDisc dicomDirName]];
+                    [NSFileManager.defaultManager confirmDirectoryAtPath:temporaryDirPathForDicomdirGeneration];
+                    [NSFileManager.defaultManager moveItemAtPath:dicomDiscBaseDirPath toPath:temporaryDicomDirPathForDicomdirGeneration error:NULL];
+                    [DiscPublishingPatientDisc generateDICOMDIRAtDirectory:temporaryDirPathForDicomdirGeneration withDICOMFilesInDirectory:temporaryDirPathForDicomdirGeneration];
+                    [NSFileManager.defaultManager moveItemAtPath:temporaryDicomDirPathForDicomdirGeneration toPath:dicomDiscBaseDirPath error:NULL];
+                    [NSFileManager.defaultManager moveItemAtPath:[temporaryDirPathForDicomdirGeneration stringByAppendingPathComponent:@"DICOMDIR"] toPath:[discBaseDirPath stringByAppendingPathComponent:@"DICOMDIR"] error:NULL];
+                    [NSFileManager.defaultManager removeItemAtPath:temporaryDirPathForDicomdirGeneration error:NULL];
+                    [privateFiles addObject:@"DICOMDIR"];
+                    
+                    if (self.isCancelled)
+                        return;
+                    
+                    // move QTHTML files
+                    
+                    if (_options.includeHTMLQT) {
+                        NSString* htmlqtDiscBaseDirPath = [discBaseDirPath stringByAppendingPathComponent:@"HTML"];
+                        [[NSFileManager defaultManager] confirmDirectoryAtPath:htmlqtDiscBaseDirPath];
+                        [privateFiles addObject:@"HTML"];
+
+                        for (DicomSeries* serie in discSeries) {
+                            NSString* serieHtmlQtBase = [[DiscPublishingPatientDisc dirPathForSeries:serie inBaseDir:_tmpPath] stringByAppendingPathComponent:@"HTMLQT"];
+                            // in in this series htmlqt folder, remove the html-extra folder: it will be generated later
+                            [[NSFileManager defaultManager] removeItemAtPath:[serieHtmlQtBase stringByAppendingPathComponent:@"html-extra"] error:NULL];
+                            // also remove all HTML files: they will be regenerated later, more complete
+                            NSDirectoryEnumerator* e = [[NSFileManager defaultManager] enumeratorAtPath:serieHtmlQtBase];
+                            NSMutableArray* files = [NSMutableArray array];
+                            while (NSString* subpath = [e nextObject]) {
+                                NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
+                                BOOL isDir;
+                                if ([[NSFileManager defaultManager] fileExistsAtPath:completePath isDirectory:&isDir] && !isDir && [completePath hasSuffix:@".html"])
+                                    [[NSFileManager defaultManager] removeItemAtPath:completePath error:NULL];
+                                else if (!isDir)
+                                    [files addObject:subpath];
                             }
                             
-                            [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:NULL];
-                            [[NSFileManager defaultManager] moveItemAtPath:completePath toPath:destinationPath error:NULL];
+                            // now that the folder has been cleaned, merge its contents
+                                
+                            for (NSString* subpath in files) {
+                                NSString* completePath = [serieHtmlQtBase stringByAppendingPathComponent:subpath];
+                                NSString* subDirPath = [subpath stringByDeletingLastPathComponent];
+                                NSString* destinationDirPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subDirPath];
+                                [[NSFileManager defaultManager] confirmDirectoryAtPath:destinationDirPath];
+                                
+                                NSString* destinationPath = [htmlqtDiscBaseDirPath stringByAppendingPathComponent:subpath];
+                                // does such file already exist?
+                                if ([[NSFileManager defaultManager] fileExistsAtPath:destinationPath]) { // yes, change the destination name
+                                    NSString* destinationFilename = [destinationPath lastPathComponent];
+                                    NSString* destinationDir = [destinationPath substringToIndex:destinationPath.length-destinationFilename.length];
+                                    NSString* destinationFilenameExt = [destinationFilename pathExtension];
+                                    NSString* destinationFilenamePre = [destinationFilename substringToIndex:destinationFilename.length-destinationFilenameExt.length-1];
+                                    
+                                    for (NSUInteger i = 0; ; ++i) {
+                                        destinationFilename = [NSString stringWithFormat:@"%@_%i.%@", destinationFilenamePre, (int)i, destinationFilenameExt];
+                                        destinationPath = [destinationDir stringByAppendingPathComponent:destinationFilename];
+                                        if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
+                                            break;
+                                    }
+                                    
+                                    NSString* kind = [QTExportHTMLSummary kindOfPath:subpath forSeriesId:serie.id.intValue inSeriesPaths:seriesPaths];
+                                    if (kind) {
+                                        [BrowserController setPath:destinationPath relativeTo:htmlqtDiscBaseDirPath forSeriesId:serie.id.intValue kind:kind toSeriesPaths:seriesPaths];
+                                        DLog(@"renaming %@ to %@", subpath, destinationFilename);
+                                    }
+                                }
+                                
+                                [[NSFileManager defaultManager] removeItemAtPath:destinationPath error:NULL];
+                                [[NSFileManager defaultManager] moveItemAtPath:completePath toPath:destinationPath error:NULL];
+                            }
+                            
+                            [[NSFileManager defaultManager] removeItemAtPath:serieHtmlQtBase error:NULL];
+                            
+                            if (self.isCancelled)
+                                return;
                         }
                         
-                        [[NSFileManager defaultManager] removeItemAtPath:serieHtmlQtBase error:NULL];
+                        // generate html
                         
-                        if (self.isCancelled)
-                            return;
+        //				for (NSString* k in htmlExportDic)
+        //					NSLog(@"%@ has %d images", k, [[htmlExportDic objectForKey:k] count]);
+                        
+                        QTExportHTMLSummary* htmlExport = [[QTExportHTMLSummary alloc] init];
+                        [htmlExport setPatientsDictionary:htmlExportDic];
+                        [htmlExport setPath:htmlqtDiscBaseDirPath];
+                        [htmlExport setImagePathsDictionary:seriesPaths];
+                        [htmlExport createHTMLfiles];
+                        [htmlExport release];
                     }
                     
-                    // generate html
+                    if (self.isCancelled)
+                        return;
                     
-    //				for (NSString* k in htmlExportDic)
-    //					NSLog(@"%@ has %d images", k, [[htmlExportDic objectForKey:k] count]);
+                    if (_options.zip) {
+                        NSMutableArray* args = [NSMutableArray arrayWithObject:@"-r"];
+                        if (_options.zipEncrypt && [NSUserDefaultsController discPublishingIsValidPassword:_options.zipEncryptPassword]) {
+                            [args addObject:@"-eP"];
+                            [args addObject:_options.zipEncryptPassword];
+                            [args addObject:@"encryptedDICOM.zip"];
+                        } else 
+                            [args addObject:@"DICOM.zip"];
+                        
+                        [args addObjectsFromArray:privateFiles];
+                        
+                        NSTask* zipTask = [[NSTask alloc] init];
+                        [zipTask setLaunchPath: @"/usr/bin/zip"];
+                        [zipTask setCurrentDirectoryPath:discBaseDirPath];
+                        [zipTask setArguments:args];
+                        [zipTask launch];
+                        [zipTask waitUntilExit]; 
+                        [zipTask release];
+                        
+                        for (NSString* path in [discBaseDirPath stringsByAppendingPaths:privateFiles])
+                            [[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
+                    }
                     
-                    QTExportHTMLSummary* htmlExport = [[QTExportHTMLSummary alloc] init];
-                    [htmlExport setPatientsDictionary:htmlExportDic];
-                    [htmlExport setPath:htmlqtDiscBaseDirPath];
-                    [htmlExport setImagePathsDictionary:seriesPaths];
-                    [htmlExport createHTMLfiles];
-                    [htmlExport release];
+                    // move data to ~/Library/Application Support/OsiriX/DiscPublishing/Discs/<safeDiscName>
+                    
+                    NSString* discsDir = [DiscPublishing discsDirPath];
+                    [[NSFileManager defaultManager] confirmDirectoryAtPath:discsDir];
+                    
+                    NSString* discDir = [discsDir stringByAppendingPathComponent:safeDiscName];
+                    NSUInteger i = 0;
+                    while ([[NSFileManager defaultManager] fileExistsAtPath:discDir])
+                        discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, (int)(++i)]];
+                    [[NSFileManager defaultManager] moveItemAtPath:discBaseDirPath toPath:discDir error:NULL];
+                    
+                    // save information dict
+                    
+                    if (self.isCancelled)
+                        return;
+                    
+                    NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          safeDiscName, DPJobInfoDiscNameKey,
+                                          [NSNumber numberWithBool:_options.deleteOnCompletition], DPJobInfoDeleteWhenCompletedKey,
+                      //				  _options, DiscPublishingJobInfoOptionsKey,
+                                          _options.discCoverTemplatePath, DPJobInfoTemplatePathKey,
+                                          pickedMediaKey, DPJobInfoMediaTypeKey,
+                                          [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DPBurnSpeedDefaultsKey], DPJobInfoBurnSpeedKey,
+                                          [NSArray arrayWithObjects:
+                                            /* 1 */	PreventNullString(discName),
+                                            /* 2 */ PreventNullString([dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth]),
+                                            /* 3 */	PreventNullString(studyNames),
+                                            /* 4 */	PreventNullString(modalities),
+                                            /* 5 */ PreventNullString(studyDates),
+                                            /* 6 */	PreventNullString([dateFormatter stringFromDate:[NSDate date]]),
+                                           NULL], DPJobInfoMergeValuesKey,
+                                          [images valueForKeyPath:@"objectID.URIRepresentation.absoluteString"], DPJobInfoObjectIDsKey,
+                                          NULL];
+                    [[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
+                } @catch (NSException* e) {
+                    NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
+                    if (self.window)
+                        [self performSelectorOnMainThread:@selector(_reportError:) withObject:e.reason waitUntilDone:NO];
+                    break;
+                } @finally {
+                    [NSThread sleepForTimeInterval:0.01];
+                    [pool release];
                 }
-                
-                if (self.isCancelled)
-                    return;
-                
-                if (_options.zip) {
-                    NSMutableArray* args = [NSMutableArray arrayWithObject:@"-r"];
-                    if (_options.zipEncrypt && [NSUserDefaultsController discPublishingIsValidPassword:_options.zipEncryptPassword]) {
-                        [args addObject:@"-eP"];
-                        [args addObject:_options.zipEncryptPassword];
-                        [args addObject:@"encryptedDICOM.zip"];
-                    } else 
-                        [args addObject:@"DICOM.zip"];
-                    
-                    [args addObjectsFromArray:privateFiles];
-                    
-                    NSTask* zipTask = [[NSTask alloc] init];
-                    [zipTask setLaunchPath: @"/usr/bin/zip"];
-                    [zipTask setCurrentDirectoryPath:discBaseDirPath];
-                    [zipTask setArguments:args];
-                    [zipTask launch];
-                    [zipTask waitUntilExit]; 
-                    [zipTask release];
-                    
-                    for (NSString* path in [discBaseDirPath stringsByAppendingPaths:privateFiles])
-                        [[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
-                }
-                
-                // move data to ~/Library/Application Support/OsiriX/DiscPublishing/Discs/<safeDiscName>
-                
-                NSString* discsDir = [DiscPublishing discsDirPath];
-                [[NSFileManager defaultManager] confirmDirectoryAtPath:discsDir];
-                
-                NSString* discDir = [discsDir stringByAppendingPathComponent:safeDiscName];
-                NSUInteger i = 0;
-                while ([[NSFileManager defaultManager] fileExistsAtPath:discDir])
-                    discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, (int)(++i)]];
-                [[NSFileManager defaultManager] moveItemAtPath:discBaseDirPath toPath:discDir error:NULL];
-                
-                // save information dict
-                
-                if (self.isCancelled)
-                    return;
-                
-                NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:
-                                      safeDiscName, DPJobInfoDiscNameKey,
-                                      [NSNumber numberWithBool:_options.deleteOnCompletition], DPJobInfoDeleteWhenCompletedKey,
-                  //				  _options, DiscPublishingJobInfoOptionsKey,
-                                      _options.discCoverTemplatePath, DPJobInfoTemplatePathKey,
-                                      pickedMediaKey, DPJobInfoMediaTypeKey,
-                                      [[NSUserDefaultsController sharedUserDefaultsController] valueForValuesKey:DPBurnSpeedDefaultsKey], DPJobInfoBurnSpeedKey,
-                                      [NSArray arrayWithObjects:
-                                        /* 1 */	PreventNullString(discName),
-                                        /* 2 */ PreventNullString([dateFormatter stringFromDate:[[discSeries objectAtIndex:0] study].dateOfBirth]),
-                                        /* 3 */	PreventNullString(studyNames),
-                                        /* 4 */	PreventNullString(modalities),
-                                        /* 5 */ PreventNullString(studyDates),
-                                        /* 6 */	PreventNullString([dateFormatter stringFromDate:[NSDate date]]),
-                                       NULL], DPJobInfoMergeValuesKey,
-                                      [images valueForKeyPath:@"objectID.URIRepresentation.absoluteString"], DPJobInfoObjectIDsKey,
-                                      NULL];
-                [[DiscPublishingTasksManager defaultManager] spawnDiscWrite:discDir info:info];
-            } @catch (NSException* e) {
-                NSLog(@"[DiscPublishingPatientDisc main] error: %@", e);
-                if (self.window)
-                    [self performSelectorOnMainThread:@selector(_reportError:) withObject:e.reason waitUntilDone:NO];
-                break;
-            } @finally {
-                [NSThread sleepForTimeInterval:0.01];
-                [pool release];
             }
-        }
-    } @catch (NSException* e) {
-        NSLog(@"[DiscPublishingPatientDisc main] exception: %@", e.reason);
-    } @finally {
-        //	NSLog(@"paths: %@", seriesPaths);
-        
-        [seriesPaths release];
-        [seriesSizes release];
-        [series release];
-        [studies release];
+        } @catch (NSException* e) {
+            NSLog(@"[DiscPublishingPatientDisc main] exception: %@", e.reason);
+        } @finally {
+            //	NSLog(@"paths: %@", seriesPaths);
+            
+            [seriesPaths release];
+            [seriesSizes release];
+            [series release];
+            [studies release];
 
-       /*[managedObjectContext release];
-        [persistentStoreCoordinator release];
-        [managedObjectModel release];*/
-        
-        [pool release];
+           /*[managedObjectContext release];
+            [persistentStoreCoordinator release];
+            [managedObjectModel release];*/
+        }
     }
 }
 
