@@ -90,9 +90,9 @@
             
 			NSString *roiName = [ roi name ];
 			
-			float mean = 0, min = 0, max = 0, total = 0, dev = 0;
+			float mean = 0, minv = 0, maxv = 0, total = 0, dev = 0;
 			
-			[pix computeROI:roi :&mean :&total :&dev :&min :&max];
+			[pix computeROI:roi :&mean :&total :&dev :&minv :&maxv];
 			
 			// array of point in pix coordinate
 			NSMutableArray *roiPoints = [ roi points ];
@@ -150,7 +150,7 @@
 			
 			if ( fileType == FT_CSV ) {
 				[ csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%d,%d,%@%c",
-                 (int)i, (int)j, mean, min, max, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF ];
+                 (int)i, (int)j, mean, minv, maxv, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF ];
 			}
 						
 			// roiInfo stands for a ROI
@@ -216,10 +216,6 @@
 	// hide progress
 	[splash close];
 	[splash release];
-}
-
-- (void) initPlugin
-{
 }
 
 - (long) filterImage:(NSString*) menuName
