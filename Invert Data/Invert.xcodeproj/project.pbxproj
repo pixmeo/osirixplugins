@@ -166,6 +166,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9AF208AC844D00D0C1EE /* Build configuration list for PBXProject "Invert" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -279,7 +281,6 @@
 					x86_64,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};
