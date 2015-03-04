@@ -25,6 +25,7 @@
 #import <OsiriXAPI/ROI.h>
 #import <OsiriXAPI/DCMView.h>
 #import <OsiriXAPI/DCMPix.h>
+#import <OsiriXAPI/DicomImage.h>
 #import "RoiEnhancementOptions.h"
 
 @implementation RoiEnhancementChart
@@ -124,9 +125,23 @@
 
 // GRChartView delegate/dataSource
 
--(NSInteger)chart:(GRChartView*)chart numberOfElementsForDataSet:(GRDataSet*)dataSet {
+-(NSInteger)chart:(GRChartView*)chart numberOfElementsForDataSet:(GRDataSet*)dataSet
+{
 	if ([[_interface options] xRangeMode] == XRange4thDimension)
+    {
+        ROISel roiSel;
+        RoiEnhancementROIRec* roiRec = [[_interface roiList] findRecordByDataSet:dataSet sel:&roiSel];
+        
+//        DicomImage *start = [[[_interface viewer] fileList: 0] objectAtIndex: roiRec.roiIndexPixList];
+//        DicomImage *end = [[[_interface viewer] fileList: [[_interface viewer] maxMovieIndex] -1] objectAtIndex: roiRec.roiIndexPixList];
+//        
+//        NSLog( @"start: %@", start.date);
+//        NSLog( @"end: %@", end.date);
+//        NSLog( @"seconds: %f", [end.date timeIntervalSinceReferenceDate] - [start.date timeIntervalSinceReferenceDate]);
+        
+        
 		return [[_interface viewer] maxMovieIndex];
+    }
 	else
 		return [[[_interface viewer] pixList] count];
 }
@@ -135,21 +150,24 @@
 {
 	NSString *keyPix = nil;
     
-    if( [[roiRec roi] type] == tBall) // tBall not supported
+    if( [[roiRec roi] type] == tBall) // tBall not supported, except in 4th Dimension
     {
-        if( mean)
-            *mean = 0;
-        
-        if( min)
-            *min = 0;
-        
-        if( max)
-            *max = 0;
-        
-        return;
+        if( [[_interface options] xRangeMode] != XRange4thDimension)
+        {
+            if( mean)
+                *mean = 0;
+            
+            if( min)
+                *min = 0;
+            
+            if( max)
+                *max = 0;
+            
+            return;
+        }
     }
     
-	if ([[_interface options] xRangeMode] == XRange4thDimension)
+	if( [[_interface options] xRangeMode] == XRange4thDimension)
 		keyPix = [NSString stringWithFormat: @"%lX", (unsigned long) [[_interface viewer] pixList: element]];
 	else
         keyPix = [NSString stringWithFormat: @"%lX", (unsigned long) [[[_interface viewer] pixList] objectAtIndex:element]];
@@ -164,7 +182,20 @@
             
             DCMPix *p = [[[_interface viewer] pixList: element] objectAtIndex: roiRec.roiIndexPixList];
             
+            id backup = nil;
+            if( [[roiRec roi] type] == tBall)
+            {
+                backup = [roiRec.roi.curView.dcmPixList retain];
+                roiRec.roi.curView.dcmPixList = [[_interface viewer] pixList: element];
+            }
+            
 			[p computeROI:[roiRec roi] :mean :NULL :NULL :min :max];
+            
+            if( backup)
+            {
+                roiRec.roi.curView.dcmPixList = backup;
+                [backup release];
+            }
 		}
         else
         {

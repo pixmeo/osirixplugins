@@ -136,9 +136,11 @@
 		[[_interface chart] constrainXRangeFrom:0 to:[[_interface chart] chart:[_interface chart] numberOfElementsForDataSet:NULL]-1];
 	else if (xRangeMode == XRangeFromCurrentToEnd)
 		[[_interface chart] constrainXRangeFrom:[[[_interface viewer] imageView] flippedData]? [[[_interface viewer] pixList] count]-[[[_interface viewer] imageView] curImage]-1 : [[[_interface viewer] imageView] curImage] to:[[[_interface viewer] pixList] count]-1];
-	else if (xRangeMode == XRange4thDimension) {
+	else if (xRangeMode == XRange4thDimension)
+    {
 		[[_interface chart] constrainXRangeFrom:0 to:[[_interface chart] chart:[_interface chart] numberOfElementsForDataSet:NULL]-1];
-	} else if (xRangeMode == XRangeDefinedByUser)
+	}
+    else if (xRangeMode == XRangeDefinedByUser)
 		[[_interface chart] constrainXRangeFrom:[_xRangeMin intValue] to:[_xRangeMax intValue]];
 	[[_interface chart] reloadData];
 	
