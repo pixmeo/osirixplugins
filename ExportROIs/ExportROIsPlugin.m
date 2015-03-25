@@ -66,7 +66,9 @@
 	Wait *splash = [ [ Wait alloc ] initWithString: @"Exporting ROIs..." ];
 	[ splash showWindow:viewerController ];
 	[ [ splash progress] setMaxValue: [ roiSeriesList count ] ];
-
+    
+    int copyIndex = viewerController.imageIndex;
+    
 	// walk through each array of ROI
 	for( i = 0; i < [ roiSeriesList count ]; i++ )
     {
@@ -242,6 +244,8 @@
 	// hide progress
 	[splash close];
 	[splash release];
+    
+    viewerController.imageIndex = copyIndex;
 }
 
 - (long) filterImage:(NSString*) menuName
