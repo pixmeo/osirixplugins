@@ -21,9 +21,9 @@
 #import <objc/runtime.h>
 #include <stdlib.h>
 
-extern "C" {
+/*extern "C" {
     NSString* documentsDirectory();
-}
+}*/
 
 enum {
     DicomUnEnhancerModeDICOM = 0,

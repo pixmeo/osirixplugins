@@ -1,6 +1,4 @@
 
-*.DS_Store
-
 __MACOSX/
 
 *.xcworkspacedata
@@ -9,92 +7,129 @@ __MACOSX/
 
 *.xcbkptlist
 
-DiscPublishing/Libs/*
-
 *.xcuserstate
 
-*/build/*
+#####
+# Specific files
 
 *OsiriX Plugin Generator.app*
 
-PDF to DICOM/PDFToDicom.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist
-
-Reporter/Reporter.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist
-
-HL7toDICOMPDF/HL7toDICOMPDF.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist
-
-HL7toDICOMPDF/HL7toDICOMPDF.xcodeproj/xcuserdata/antoinerosset.xcuserdatad/xcschemes/xcschememanagement.plist
-
-Worklists/Worklists.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist
-
-CalciumScore/CalciumScore.xcodeproj/xcuserdata/admin.xcuserdatad/xcschemes/xcschememanagement.plist
-
-BullsEye/BullsEye.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-CMIV_CTA_TOOLS/CMIV_CTA_TOOLS.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-DefaultDefaults/DefaultDefaults.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-DicomUnEnhancer/DicomUnEnhancer.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-DiscPublishing/DiscPublishing.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
 ExportDatabaseList/*
 
-ExportROIs/ExportROIs.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-Fill the gaps/FillGaps.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-HSS/HSS.xcodeproj/project.xcworkspace/xcshareddata/HSS.xccheckout
-
-HSS/HSS.xcodeproj/project.xcworkspace/xcuserdata/bd.xcuserdatad/WorkspaceSettings.xcsettings
-
-HSS/HSS.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-HelloWorld/HelloWorld.xcodeproj/project.xcworkspace/xcshareddata/HelloWorld.xccheckout
-
-HelloWorld/HelloWorld.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-HipArthroplastyTemplating/HipArthroplastyTemplating.xcodeproj/project.xcworkspace/xcshareddata/HipArthroplastyTemplating.xccheckout
-
-HipArthroplastyTemplating/HipArthroplastyTemplating.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-JPEG to DICOM/JpegToDicom.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-
-KeyObjectSelection/KeyObjectSelection.xcodeproj/project.xcworkspace/xcshareddata/KeyObjectSelection.xccheckout
-
-KeyObjectSelection/KeyObjectSelection.xcodeproj/project.xcworkspace/xcuserdata/bd.xcuserdatad/WorkspaceSettings.xcsettings
-
-KeyObjectSelection/KeyObjectSelection.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+DiscPublishing/Libs/*
 
 KeyObjectSelection/Sources/KeyObjectSelectionFilter-test.mm
 
-Normalize/Normalize.xcodeproj/project.xcworkspace/xcshareddata/Normalize.xccheckout
 
-Normalize/Normalize.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+#####
+# OS X temporary files that should never be committed
+#
+# c.f. http://www.westwind.com/reference/os-x/invisibles.html
 
-Orthogonal Reslice/OrthogonalReslice.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+.DS_Store
 
-PrintingLayout/PrintingLayout.xcodeproj/project.xcworkspace/xcuserdata/bd.xcuserdatad/WorkspaceSettings.xcsettings
+# c.f. http://www.westwind.com/reference/os-x/invisibles.html
 
-PrintingLayout/PrintingLayout.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+.Trashes
 
-ROI Enhancement II/ROI Enhancement II.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+# c.f. http://www.westwind.com/reference/os-x/invisibles.html
 
-Reduce Series/ReduceSeries.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+*.swp
 
-Reporter/Reporter.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+#
+# *.lock - this is used and abused by many editors for many different things.
+#    For the main ones I use (e.g. Eclipse), it should be excluded 
+#    from source-control, but YMMV.
+#   (lock files are usually local-only file-synchronization on the local FS that should NOT go in git)
+# c.f. the "OPTIONAL" section at bottom though, for tool-specific variations!
 
-Resample Data/ResampleData.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+*.lock
 
-Volume Calculator/VolumeCalculator.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
 
-Worklists/Worklists.xcodeproj/project.xcworkspace/xcshareddata/Worklists.xccheckout
+####
+# Xcode temporary files that should never be committed
+# 
+# NB: NIB/XIB files still exist even on Storyboard projects, so we want this...
 
-Worklists/Worklists.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
+*~.nib
 
-Zombies/Zombies.xcodeproj/xcuserdata/bd.xcuserdatad/xcschemes/xcschememanagement.plist
-DiscPublishing.xccheckout
-xcschememanagement.plist
-ExportROIs.xccheckout
-Invert.xccheckout
+
+####
+# Xcode build files -
+#
+# NB: slash on the end, so we only remove the FOLDER, not any files that were badly named "DerivedData"
+
+DerivedData/
+
+# NB: slash on the end, so we only remove the FOLDER, not any files that were badly named "build"
+
+build/
+
+
+#####
+# Xcode private settings (window sizes, bookmarks, breakpoints, custom executables, smart groups)
+#
+# This is complicated:
+#
+# SOMETIMES you need to put this file in version control.
+# Apple designed it poorly - if you use "custom executables", they are
+#  saved in this file.
+# 99% of projects do NOT use those, so they do NOT want to version control this file.
+#  ..but if you're in the 1%, comment out the line "*.pbxuser"
+
+# .pbxuser: http://lists.apple.com/archives/xcode-users/2004/Jan/msg00193.html
+
+*.pbxuser
+
+# .mode1v3: http://lists.apple.com/archives/xcode-users/2007/Oct/msg00465.html
+
+*.mode1v3
+
+# .mode2v3: http://lists.apple.com/archives/xcode-users/2007/Oct/msg00465.html
+
+*.mode2v3
+
+# .perspectivev3: http://stackoverflow.com/questions/5223297/xcode-projects-what-is-a-perspectivev3-file
+
+*.perspectivev3
+
+#    NB: also, whitelist the default ones, some projects need to use these
+!default.pbxuser
+!default.mode1v3
+!default.mode2v3
+!default.perspectivev3
+
+
+####
+# Xcode 4 - semi-personal settings
+#
+#
+# OPTION 1: ---------------------------------
+#     throw away ALL personal settings (including custom schemes!
+#     - unless they are "shared")
+
+xcuserdata
+
+
+####
+# Xcode 4 - Deprecated classes
+#
+# Allegedly, if you manually "deprecate" your classes, they get moved here.
+#
+# We're using source-control, so this is a "feature" that we do not want!
+
+*.moved-aside
+
+
+####
+# UNKNOWN: recommended by others, but I can't discover what these files are
+#
+# Community suggestions (unverified, no evidence available - DISABLED by default)
+#
+# 1. Xcode 5 - VCS file
+#
+# "The data in this file not represent state of your project.
+# If you'll leave this file in git - you will have merge conflicts during 
+# pull your cahnges to other's repo"
+#
+*.xccheckout
