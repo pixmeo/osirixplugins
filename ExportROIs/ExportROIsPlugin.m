@@ -36,8 +36,6 @@
 
 - (void) endSavePanel: (NSSavePanel *) sheet returnCode: (int) retCode contextInfo: (void *) contextInfo
 {
-
-	NSArray					*pixList = [viewerController pixList];
 	long					i, j, k, numCsvPoints, numROIs;
 	EXPORT_FILE_TYPE		fileType = FT_CSV;
 	
@@ -226,6 +224,9 @@
 	[ seriesInfo setObject: imagesInSeries forKey: @"Images" ];
 	
 	NSMutableString *fname = [ NSMutableString stringWithString: [ sheet filename ] ];
+    
+    [[NSFileManager defaultManager] removeItemAtPath: fname error: nil];
+    
 	if ( fileType == FT_CSV ) {
 
 		[fname appendString: @".csv" ];
