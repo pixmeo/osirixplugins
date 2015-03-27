@@ -289,6 +289,8 @@
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				8D5B49B5048680CD000E48DA /* Rez */,
+				711481F21AC5674E00DB7108 /* Version */,
+				711481F31AC5676000DB7108 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -306,7 +308,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0620;
 			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HipArthroplastyTemplating" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -383,6 +385,33 @@
 			shellPath = /usr/bin/perl;
 			shellScript = "#/usr/bin/perl\n\nuse strict;\nuse subs qw(process);\n\nmy $path = \"$ENV{TARGET_BUILD_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}\";\n\nsub process {\n\tmy ($path) = @_;\n\treturn if $path =~ /\\/(?:\\.|\\.\\.)$/;\n\tunlink $path if -f $path && $path !~ /\\.(?:pdf|txt|plist)$/i;\n\tunlink $path if -f $path && $path =~ /readme/i;\n\n\tif (-d $path) {\n\t\topendir(DIR, $path);\n\t\tprocess \"$path/$_\" foreach readdir(DIR);\n\t\tclosedir(DIR);\n\t}\n}\n\nopendir(RESOURCES, $path);\nforeach (readdir(RESOURCES)) {\n\tmy $resource = \"$path/$_\";\n\tnext unless -d $resource && $resource =~ /templates/i;\n\tprocess $resource;\n}\n\nclosedir(RESOURCES);\n\nexit 0;\n";
 		};
+		711481F21AC5674E00DB7108 /* Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Version;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "cd \"$PROJECT_DIR\"\n\noinfo=\"$PROJECT_DIR/$INFOPLIST_FILE\"\npinfo=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Contents/Info.plist\"\n\nversion=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleShortVersionString\" \"$oinfo\")\ndate=$(date +%Y%m%d)\ngitversion=$(/usr/bin/git describe --always --dirty)\nif [ \"$CONFIGURATION\" = \"Debug\" -o \"$CONFIGURATION\" = \"Development\" ]; then\nd='d'\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString '$version$d $date-$gitversion'\" \"$pinfo\"";
+		};
+		711481F31AC5676000DB7108 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/bash;
+			shellScript = "product=\"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\"\npinfo=\"$product/Contents/Info.plist\"\n\nversion=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleShortVersionString\" \"$pinfo\")\nversion=\"${version/ /-}\"\n\nzip=\"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME-$version.zip\"\n\necho \"Zipping $product to $zip\"\n\nrm -Rf \"$zip\"\ncd \"$TARGET_BUILD_DIR\"\nfind \"$FULL_PRODUCT_NAME\" -path '*/.*' -prune -o -type f -print | zip \"$zip\" -@\n\nopen \"$BUILT_PRODUCTS_DIR\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -411,6 +440,63 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		711481F41AC5680100DB7108 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				SDKROOT = macosx10.8;
+			};
+			name = Release;
+		};
+		711481F51AC5680100DB7108 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"\"$(SRCROOT)/../../osirix/build/Development\"",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Accelerate.framework/Versions/A/Frameworks\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Sources/Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
+				);
+				LIBRARY_STYLE = Bundle;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = HipArthroplastyTemplating;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = osirixplugin;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -463,6 +549,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.8;
 			};
 			name = Development;
@@ -474,17 +563,19 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9108AC841300D0C1EE /* Development */,
+				711481F51AC5680100DB7108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Release;
 		};
 		CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HipArthroplastyTemplating" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE6A9A9508AC841300D0C1EE /* Development */,
+				711481F41AC5680100DB7108 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

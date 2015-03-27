@@ -394,7 +394,7 @@
 	[[newLayer points] addObject:[MyPoint point:layerCenter]]; // center, index 4
 
 	[newLayer setROIMode:ROI_selected]; // in order to make the roiMove method possible
-	[newLayer rotate:[templat rotation]/pi*180*([self mustFlipHorizontally:templat]?-1:1) :layerCenter];
+	[newLayer rotate:[templat rotation]/M_PI*180*([self mustFlipHorizontally:templat]?-1:1) :layerCenter];
 
 	[[newLayer points] addObject:[MyPoint point:layerCenter+NSMakePoint(1,0)]]; // rotation reference, index 5
 	

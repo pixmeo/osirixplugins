@@ -36,6 +36,7 @@
 		59F9B32710C95AC5008A6EF1 /* RoiEnhancementUserDefaults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B31910C95AC5008A6EF1 /* RoiEnhancementUserDefaults.mm */; };
 		59F9B32A10C95ACE008A6EF1 /* RoiEnhancementSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9B32810C95ACE008A6EF1 /* RoiEnhancementSplitView.h */; };
 		59F9B32B10C95ACE008A6EF1 /* RoiEnhancementSplitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B32910C95ACE008A6EF1 /* RoiEnhancementSplitView.mm */; };
+		719D02B01AC2BFE8002F76C1 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 719D02AF1AC2BFE8002F76C1 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +74,7 @@
 		59F9B31910C95AC5008A6EF1 /* RoiEnhancementUserDefaults.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RoiEnhancementUserDefaults.mm; path = Sources/RoiEnhancementUserDefaults.mm; sourceTree = "<group>"; };
 		59F9B32810C95ACE008A6EF1 /* RoiEnhancementSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoiEnhancementSplitView.h; sourceTree = "<group>"; };
 		59F9B32910C95ACE008A6EF1 /* RoiEnhancementSplitView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RoiEnhancementSplitView.mm; sourceTree = "<group>"; };
+		719D02AF1AC2BFE8002F76C1 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-dl/OsiriX Lite 6.5.app/Contents/Frameworks/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* ROI-Enhancement.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ROI-Enhancement.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				719D02B01AC2BFE8002F76C1 /* OsiriXAPI.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */,
 			);
@@ -147,6 +150,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				719D02AF1AC2BFE8002F76C1 /* OsiriXAPI.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -334,13 +338,8 @@
 				EXECUTABLE_EXTENSION = osirixplugin;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"\"/Users/ale/Work/osirix-dl/OsiriX Lite 6.5.app/Contents/Frameworks\"",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -385,13 +384,8 @@
 				EXECUTABLE_EXTENSION = osirixplugin;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
+					"\"/Users/ale/Work/osirix-dl/OsiriX Lite 6.5.app/Contents/Frameworks\"",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
