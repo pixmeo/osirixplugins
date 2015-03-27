@@ -204,17 +204,23 @@ const NSString* FileTypeCSV = @"csv";
 
 -(void)dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename
 {
-	NSBitmapImageRep* bitmapImageRep = [[BullsEyeView view] bitmapImageRepForCachingDisplayInRect:[[BullsEyeView view] squareBounds]];
-	[[BullsEyeView view] cacheDisplayInRect:[[BullsEyeView view] squareBounds] toBitmapImageRep:bitmapImageRep];
+    NSRect r = [[BullsEyeView view] bounds];
+    
+    r.size.width /= [[[BullsEyeView view] window] backingScaleFactor];
+    r.size.height /= [[[BullsEyeView view] window] backingScaleFactor];
+    
+    NSBitmapImageRep* bitmapImageRep = [[BullsEyeView view] bitmapImageRepForCachingDisplayInRect: r];
+    [[BullsEyeView view] cacheDisplayInRect: r toBitmapImageRep:bitmapImageRep];
+    
 	NSInteger bytesPerPixel = [bitmapImageRep bitsPerPixel]/8;
 	CGFloat backgroundRGBA[4]; [[backgroundColor colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]] getComponents:backgroundRGBA];
 	
 	// convert RGBA to RGB - alpha values are considered when mixing the background color with the actual pixel color
-	NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep size].width*[bitmapImageRep size].height*3];
-	for (int y = 0; y < [bitmapImageRep size].height; ++y)
+	NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep pixelsWide]*[bitmapImageRep pixelsHigh]*3];
+	for (int y = 0; y < [bitmapImageRep pixelsHigh]; ++y)
 	{
 		unsigned char* rowStart = [bitmapImageRep bitmapData]+[bitmapImageRep bytesPerRow]*y;
-		for (int x = 0; x < [bitmapImageRep size].width; ++x)
+		for (int x = 0; x < [bitmapImageRep pixelsWide]; ++x)
 		{
 			unsigned char rgba[4];
 			memcpy(rgba, rowStart+bytesPerPixel*x, 4);
@@ -237,7 +243,7 @@ const NSString* FileTypeCSV = @"csv";
 		[dicomExport setSourceFile: dicomSourceFile];
 		[dicomExport setSeriesDescription: seriesDescription];
 		[dicomExport setSeriesNumber: 85469];
-		[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
+		[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep pixelsWide] height:[bitmapImageRep pixelsHigh]];
 		NSString *f = [dicomExport writeDCMFile: nil];
 	
 		if( f)
@@ -268,9 +274,14 @@ const NSString* FileTypeCSV = @"csv";
 		}
 		else if (format == FileTypeTIFF)
 		{
-			NSBitmapImageRep* bitmapImageRep = [[BullsEyeView view] bitmapImageRepForCachingDisplayInRect:[[BullsEyeView view] squareBounds]];
-			[[BullsEyeView view] cacheDisplayInRect:[[BullsEyeView view] squareBounds] toBitmapImageRep:bitmapImageRep];
-			NSImage* image = [[NSImage alloc] initWithSize:[bitmapImageRep size]];
+            NSRect r = [[BullsEyeView view] squareBounds];
+            
+            r.size.width /= [[[BullsEyeView view] window] backingScaleFactor];
+            r.size.height /= [[[BullsEyeView view] window] backingScaleFactor];
+            
+			NSBitmapImageRep* bitmapImageRep = [[BullsEyeView view] bitmapImageRepForCachingDisplayInRect:r];
+			[[BullsEyeView view] cacheDisplayInRect:r toBitmapImageRep:bitmapImageRep];
+			NSImage* image = [[NSImage alloc] initWithSize: r.size];
 			[image addRepresentation:bitmapImageRep];
 			[[image TIFFRepresentation] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
 			[image release];
