@@ -289,7 +289,6 @@
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				8D5B49B5048680CD000E48DA /* Rez */,
-				711481F21AC5674E00DB7108 /* Version */,
 				711481F31AC5676000DB7108 /* ShellScript */,
 			);
 			buildRules = (
@@ -384,20 +383,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/perl;
 			shellScript = "#/usr/bin/perl\n\nuse strict;\nuse subs qw(process);\n\nmy $path = \"$ENV{TARGET_BUILD_DIR}/$ENV{UNLOCALIZED_RESOURCES_FOLDER_PATH}\";\n\nsub process {\n\tmy ($path) = @_;\n\treturn if $path =~ /\\/(?:\\.|\\.\\.)$/;\n\tunlink $path if -f $path && $path !~ /\\.(?:pdf|txt|plist)$/i;\n\tunlink $path if -f $path && $path =~ /readme/i;\n\n\tif (-d $path) {\n\t\topendir(DIR, $path);\n\t\tprocess \"$path/$_\" foreach readdir(DIR);\n\t\tclosedir(DIR);\n\t}\n}\n\nopendir(RESOURCES, $path);\nforeach (readdir(RESOURCES)) {\n\tmy $resource = \"$path/$_\";\n\tnext unless -d $resource && $resource =~ /templates/i;\n\tprocess $resource;\n}\n\nclosedir(RESOURCES);\n\nexit 0;\n";
-		};
-		711481F21AC5674E00DB7108 /* Version */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = Version;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "cd \"$PROJECT_DIR\"\n\noinfo=\"$PROJECT_DIR/$INFOPLIST_FILE\"\npinfo=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Contents/Info.plist\"\n\nversion=$(/usr/libexec/PlistBuddy -c \"Print :CFBundleShortVersionString\" \"$oinfo\")\ndate=$(date +%Y%m%d)\ngitversion=$(/usr/bin/git describe --always --dirty)\nif [ \"$CONFIGURATION\" = \"Debug\" -o \"$CONFIGURATION\" = \"Development\" ]; then\nd='d'\nfi\n\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString '$version$d $date-$gitversion'\" \"$pinfo\"";
 		};
 		711481F31AC5676000DB7108 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

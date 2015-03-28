@@ -18,7 +18,6 @@
 		5989607C0F9EFBE200BEFEE4 /* GRLineDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960740F9EFBE200BEFEE4 /* GRLineDataSet.h */; };
 		5989607D0F9EFBE200BEFEE4 /* GRPieDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960750F9EFBE200BEFEE4 /* GRPieDataSet.h */; };
 		5989607E0F9EFBE200BEFEE4 /* GRXYDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */; };
-		598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 598960820F9EFC5E00BEFEE4 /* GraphKit.framework */; };
 		59C72CEF0FCD905300430BD9 /* ROI_Enhancement_II.pch in Headers */ = {isa = PBXBuildFile; fileRef = 59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */; };
 		59F9B31A10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9B30C10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h */; };
 		59F9B31B10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B30D10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm */; };
@@ -36,8 +35,9 @@
 		59F9B32710C95AC5008A6EF1 /* RoiEnhancementUserDefaults.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B31910C95AC5008A6EF1 /* RoiEnhancementUserDefaults.mm */; };
 		59F9B32A10C95ACE008A6EF1 /* RoiEnhancementSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F9B32810C95ACE008A6EF1 /* RoiEnhancementSplitView.h */; };
 		59F9B32B10C95ACE008A6EF1 /* RoiEnhancementSplitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F9B32910C95ACE008A6EF1 /* RoiEnhancementSplitView.mm */; };
-		719D02B01AC2BFE8002F76C1 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 719D02AF1AC2BFE8002F76C1 /* OsiriXAPI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		CE6579A31AC6A08F00E84D44 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6579A21AC6A08F00E84D44 /* OsiriXAPI.framework */; };
+		CE6579A51AC6A0AB00E84D44 /* GraphKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6579A41AC6A0AB00E84D44 /* GraphKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,7 +56,6 @@
 		598960740F9EFBE200BEFEE4 /* GRLineDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRLineDataSet.h; sourceTree = "<group>"; };
 		598960750F9EFBE200BEFEE4 /* GRPieDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRPieDataSet.h; sourceTree = "<group>"; };
 		598960760F9EFBE200BEFEE4 /* GRXYDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRXYDataSet.h; sourceTree = "<group>"; };
-		598960820F9EFC5E00BEFEE4 /* GraphKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GraphKit.framework; path = /System/Library/PrivateFrameworks/GraphKit.framework; sourceTree = "<absolute>"; };
 		59C72CEE0FCD905300430BD9 /* ROI_Enhancement_II.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ROI_Enhancement_II.pch; path = Sources/ROI_Enhancement_II.pch; sourceTree = "<group>"; };
 		59F9B30C10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoiEnhancementAreaDataSet.h; path = Sources/RoiEnhancementAreaDataSet.h; sourceTree = "<group>"; };
 		59F9B30D10C95AC5008A6EF1 /* RoiEnhancementAreaDataSet.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RoiEnhancementAreaDataSet.mm; path = Sources/RoiEnhancementAreaDataSet.mm; sourceTree = "<group>"; };
@@ -74,8 +73,9 @@
 		59F9B31910C95AC5008A6EF1 /* RoiEnhancementUserDefaults.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = RoiEnhancementUserDefaults.mm; path = Sources/RoiEnhancementUserDefaults.mm; sourceTree = "<group>"; };
 		59F9B32810C95ACE008A6EF1 /* RoiEnhancementSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoiEnhancementSplitView.h; sourceTree = "<group>"; };
 		59F9B32910C95ACE008A6EF1 /* RoiEnhancementSplitView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RoiEnhancementSplitView.mm; sourceTree = "<group>"; };
-		719D02AF1AC2BFE8002F76C1 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../osirix-dl/OsiriX Lite 6.5.app/Contents/Frameworks/OsiriXAPI.framework"; sourceTree = "<group>"; };
 		AB5D36050680E57E00F4007A /* ROI-Enhancement.osirixplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ROI-Enhancement.osirixplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE6579A21AC6A08F00E84D44 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
+		CE6579A41AC6A0AB00E84D44 /* GraphKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GraphKit.framework; path = ../../../../System/Library/PrivateFrameworks/GraphKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,9 +83,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				719D02B01AC2BFE8002F76C1 /* OsiriXAPI.framework in Frameworks */,
+				CE6579A51AC6A0AB00E84D44 /* GraphKit.framework in Frameworks */,
+				CE6579A31AC6A08F00E84D44 /* OsiriXAPI.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				598960830F9EFC5E00BEFEE4 /* GraphKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +150,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				719D02AF1AC2BFE8002F76C1 /* OsiriXAPI.framework */,
+				CE6579A21AC6A08F00E84D44 /* OsiriXAPI.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -159,7 +159,7 @@
 		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				598960820F9EFC5E00BEFEE4 /* GraphKit.framework */,
+				CE6579A41AC6A0AB00E84D44 /* GraphKit.framework */,
 				089C1672FE841209C02AAC07 /* Foundation.framework */,
 				089C167FFE841241C02AAC07 /* AppKit.framework */,
 			);
@@ -338,7 +338,8 @@
 				EXECUTABLE_EXTENSION = osirixplugin;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"/Users/ale/Work/osirix-dl/OsiriX Lite 6.5.app/Contents/Frameworks\"",
+					/Users/antoinerosset/osirix/build/Development,
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -384,7 +385,8 @@
 				EXECUTABLE_EXTENSION = osirixplugin;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"/Users/ale/Work/osirix-dl/OsiriX Lite 6.5.app/Contents/Frameworks\"",
+					/Users/antoinerosset/osirix/build/Development,
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
