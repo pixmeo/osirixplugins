@@ -213,7 +213,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	BOOL newAxis = !*axis;
 	if (newAxis) {
-		*axis = [[ROI alloc] initWithType:tMesure :[_horizontalAxis pixelSpacingX] :[_horizontalAxis pixelSpacingY] :[_horizontalAxis imageOrigin]];
+		*axis = [[[ROI alloc] initWithType:tMesure :[_horizontalAxis pixelSpacingX] :[_horizontalAxis pixelSpacingY] :[_horizontalAxis imageOrigin]] autorelease];
 		[*axis setDisplayTextualData:NO];
 		[*axis setThickness:1]; [*axis setOpacity:.5];
 		[*axis setSelectable:NO];
@@ -222,7 +222,6 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[*axis setGroupID:group];
         [[_viewerController imageView] roiSet:*axis]; // [*axis setCurView: _viewerController.imageView];
 		[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:*axis];
-		[*axis release];
 	}
 	
 	NSPoint horizontalAxisD = [[[_horizontalAxis points] objectAtIndex:0] point] - [[[_horizontalAxis points] objectAtIndex:1] point];
@@ -268,12 +267,11 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	
 	if (roiFrom && roiTo) {
 		if (!*axis) {
-			*axis = [[HATROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX :_horizontalAxis.pixelSpacingY :_horizontalAxis.imageOrigin];
+			*axis = [[[HATROI alloc] initWithType:tMesure :_horizontalAxis.pixelSpacingX :_horizontalAxis.pixelSpacingY :_horizontalAxis.imageOrigin] autorelease];
 			[*axis setThickness:1]; [*axis setOpacity:.5];
 			[*axis setSelectable:NO];
             [[_viewerController imageView] roiSet:*axis]; // [*axis setCurView: _viewerController.imageView];
 			[[[_viewerController roiList] objectAtIndex:[[_viewerController imageView] curImage]] addObject:*axis];
-			[*axis release];
 		}
 	} else {
 		if (*axis)
@@ -1088,7 +1086,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
         long m = [_distalStemLayer ROImode];
         [_distalStemLayer setROIMode:ROI_selected];
         [_distalStemLayer roiMove:dp];
-        [_distalStemLayer setROIMode:m];
+        [_distalStemLayer setROIMode:(ROI_mode)m];
     }
     
     --_isMyRoiManupulation;
