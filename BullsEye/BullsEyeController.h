@@ -24,6 +24,8 @@
 - (IBAction) saveDICOM:(id) sender;
 - (IBAction) saveAsPDF:(id) sender;
 - (IBAction) saveAsTIFF:(id) sender;
+- (IBAction) saveAsJPEG:(id) sender;
+- (IBAction) copyToClipboard:(id) sender;
 - (IBAction) saveAsDICOM:(id) sender;
 - (IBAction) saveAsCSV:(id)sender;
 - (void) dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename;

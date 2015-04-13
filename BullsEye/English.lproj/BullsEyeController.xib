@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BullsEyeController">
@@ -14,7 +14,7 @@
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="BullsEye Plugin" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="3" userLabel="BullsEye Window" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -52,7 +52,7 @@
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="14" headerView="284" id="129">
-                                                                <rect key="frame" x="0.0" y="0.0" width="180" height="159"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="169" height="16"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -74,8 +74,8 @@
                                                                         <connections>
                                                                             <binding destination="159" name="value" keyPath="arrangedObjects.state" id="qJt-eK-zbZ">
                                                                                 <dictionary key="options">
-                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
                                                                                     <bool key="NSCreatesSortDescriptor" value="NO"/>
+                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
                                                                                 </dictionary>
                                                                             </binding>
                                                                         </connections>
@@ -95,8 +95,8 @@
                                                                         <connections>
                                                                             <binding destination="159" name="value" keyPath="arrangedObjects.color" id="PSF-6x-hm9">
                                                                                 <dictionary key="options">
-                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
                                                                                     <bool key="NSCreatesSortDescriptor" value="NO"/>
+                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
                                                                                 </dictionary>
                                                                             </binding>
                                                                         </connections>
@@ -108,10 +108,8 @@
                                                                             <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
                                                                         </tableHeaderCell>
                                                                         <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="center" title="Text Cell" id="309">
-                                                                            <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,##0" negativeFormat="#,##0" numberStyle="decimal" roundingMode="ceiling" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="0" groupingSeparator="'" id="326">
-                                                                                <real key="roundingIncrement" value="0.0"/>
+                                                                            <numberFormatter key="formatter" formatterBehavior="custom10_4" positiveFormat="#,##0" negativeFormat="#,##0" numberStyle="decimal" paddingCharacter="*" roundingMode="ceiling" minimumIntegerDigits="1" maximumIntegerDigits="309" decimalSeparator="." groupingSeparator="'" currencyDecimalSeparator="." plusSign="+" minusSign="-" notANumberSymbol="NaN" perMillSymbol="‰" percentSymbol="%" exponentSymbol="E" positivePrefix="" positiveSuffix="" negativePrefix="-" negativeSuffix="" id="326">
                                                                                 <metadata>
-                                                                                    <bool key="localizesFormat" value="YES"/>
                                                                                     <real key="inspectorSampleValue" value="5"/>
                                                                                 </metadata>
                                                                             </numberFormatter>
@@ -123,8 +121,8 @@
                                                                         <connections>
                                                                             <binding destination="159" name="value" keyPath="arrangedObjects.score" id="DEz-FI-oK2">
                                                                                 <dictionary key="options">
-                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
                                                                                     <bool key="NSCreatesSortDescriptor" value="NO"/>
+                                                                                    <bool key="NSValidatesImmediately" value="YES"/>
                                                                                 </dictionary>
                                                                             </binding>
                                                                         </connections>
@@ -139,7 +137,7 @@
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
                                                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="127">
-                                                        <rect key="frame" x="251" y="17" width="15" height="277.75"/>
+                                                        <rect key="frame" x="251" y="16.75" width="15" height="278"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
                                                     <tableHeaderView key="headerView" id="284">
@@ -427,7 +425,7 @@
                         <popUpButton key="view" verticalHuggingPriority="750" id="335">
                             <rect key="frame" x="0.0" y="14" width="100" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="roundTextured" title="Export..." bezelStyle="texturedRounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="8" id="336">
+                            <popUpButtonCell key="cell" type="roundTextured" title="Export..." bezelStyle="texturedRounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="344" id="336">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <menu key="menu" title="OtherViews" id="337">
@@ -445,6 +443,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="344"/>
+                                        <menuItem title="Copy to clipboard..." onStateImage="A8438F64-981B-43F5-ACA5-EEF53302AB7D" mixedStateImage="7BE4B8EA-64B4-4CB0-81CA-646B3C81813F" id="AQe-Wg-fCt">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="copyToClipboard:" target="-2" id="NN1-VW-w3S"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Save as PDF file..." onStateImage="20AD6B8A-0AD6-4590-9C6B-103912AEF6BB" mixedStateImage="DD342D30-F7C3-4F71-ADF3-A79013CF3A35" id="13">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -454,7 +458,13 @@
                                         <menuItem title="Save as TIFF file..." onStateImage="A8438F64-981B-43F5-ACA5-EEF53302AB7D" mixedStateImage="7BE4B8EA-64B4-4CB0-81CA-646B3C81813F" id="11">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
-                                                <action selector="saveAsTIFF:" target="-2" id="271"/>
+                                                <action selector="saveAsTIFF:" target="-2" id="SsY-iH-nGB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save as JPEG file..." onStateImage="A8438F64-981B-43F5-ACA5-EEF53302AB7D" mixedStateImage="7BE4B8EA-64B4-4CB0-81CA-646B3C81813F" id="Q4V-Yy-fvb">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="saveAsJPEG:" target="-2" id="dlV-Xy-HJu"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Save as DICOM file..." onStateImage="CE54B6D0-E146-4A88-91AA-082FE56AF593" mixedStateImage="D519699B-BF1D-4CA7-A35C-EF31363135EA" id="12">

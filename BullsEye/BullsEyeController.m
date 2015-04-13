@@ -18,6 +18,8 @@
 
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";
+const NSString* FileTypeJPEG = @"jpeg";
+const NSString* FileTypeClipboard = @"clip";
 const NSString* FileTypeDICOM = @"dcm";
 const NSString* FileTypeCSV = @"csv";
 
@@ -192,6 +194,16 @@ const NSString* FileTypeCSV = @"csv";
 	[self saveAs: (NSString*) FileTypeTIFF accessoryView: nil];
 }
 
+-(IBAction)saveAsJPEG:(id)sender
+{
+    [self saveAs: (NSString*) FileTypeJPEG accessoryView: nil];
+}
+
+-(IBAction)copyToClipboard:(id)sender
+{
+    [self saveAsPanelDidEnd: nil returnCode: NSOKButton contextInfo: FileTypeClipboard];
+}
+
 -(IBAction)saveAsDICOM:(id)sender
 {
 	[self saveAs: (NSString*) FileTypeDICOM accessoryView: nil];
@@ -263,6 +275,16 @@ const NSString* FileTypeCSV = @"csv";
 	
 	if (code == NSOKButton)
     {
+        NSRect r = [[BullsEyeView view] squareBounds];
+        
+        r.size.width /= [[[BullsEyeView view] window] backingScaleFactor];
+        r.size.height /= [[[BullsEyeView view] window] backingScaleFactor];
+        
+        NSBitmapImageRep* bitmapImageRep = [[BullsEyeView view] bitmapImageRepForCachingDisplayInRect:r];
+        [[BullsEyeView view] cacheDisplayInRect:r toBitmapImageRep:bitmapImageRep];
+        NSImage* image = [[[NSImage alloc] initWithSize: r.size] autorelease];
+        [image addRepresentation:bitmapImageRep];
+        
 		if (format == FileTypePDF)
 		{
 			[[[BullsEyeView view] dataWithPDFInsideRect:[[BullsEyeView view] squareBounds]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
@@ -274,23 +296,24 @@ const NSString* FileTypeCSV = @"csv";
 		}
 		else if (format == FileTypeTIFF)
 		{
-            NSRect r = [[BullsEyeView view] squareBounds];
-            
-            r.size.width /= [[[BullsEyeView view] window] backingScaleFactor];
-            r.size.height /= [[[BullsEyeView view] window] backingScaleFactor];
-            
-			NSBitmapImageRep* bitmapImageRep = [[BullsEyeView view] bitmapImageRepForCachingDisplayInRect:r];
-			[[BullsEyeView view] cacheDisplayInRect:r toBitmapImageRep:bitmapImageRep];
-			NSImage* image = [[NSImage alloc] initWithSize: r.size];
-			[image addRepresentation:bitmapImageRep];
 			[[image TIFFRepresentation] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
-			[image release];
 		}
+        else if (format == FileTypeJPEG)
+        {
+            [[[NSBitmapImageRep imageRepWithData: [image TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.9] forKey:NSImageCompressionFactor]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
+        }
+        else if (format == FileTypeClipboard)
+        {
+            [[NSPasteboard generalPasteboard] declareTypes: [NSArray arrayWithObjects: NSTIFFPboardType, NSPDFPboardType, nil] owner:self];
+            [[NSPasteboard generalPasteboard] setData: [[BullsEyeView view] dataWithPDFInsideRect:[[BullsEyeView view] squareBounds]] forType: NSPDFPboardType];
+            [[NSPasteboard generalPasteboard] setData: [[NSBitmapImageRep imageRepWithData: [image TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.9] forKey:NSImageCompressionFactor]] forType: NSTIFFPboardType];
+        }
 		else
-		{ // dicom
+		{
 			[self dicomSave: [[presetsList selection] valueForKey: @"name"] backgroundColor: [NSColor whiteColor] toFile:[panel filename]];
 		}
 	}
+    
 	if (error)
 		[[NSAlert alertWithError:error] beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
 }
