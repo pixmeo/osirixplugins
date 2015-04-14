@@ -19,6 +19,7 @@
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";
 const NSString* FileTypeJPEG = @"jpeg";
+const NSString* FileTypePNG = @"png";
 const NSString* FileTypeClipboard = @"clip";
 const NSString* FileTypeDICOM = @"dcm";
 const NSString* FileTypeCSV = @"csv";
@@ -199,6 +200,11 @@ const NSString* FileTypeCSV = @"csv";
     [self saveAs: (NSString*) FileTypeJPEG accessoryView: nil];
 }
 
+-(IBAction)saveAsPNG:(id)sender
+{
+    [self saveAs: (NSString*) FileTypePNG accessoryView: nil];
+}
+
 -(IBAction)copyToClipboard:(id)sender
 {
     [self saveAsPanelDidEnd: nil returnCode: NSOKButton contextInfo: FileTypeClipboard];
@@ -301,6 +307,10 @@ const NSString* FileTypeCSV = @"csv";
         else if (format == FileTypeJPEG)
         {
             [[[NSBitmapImageRep imageRepWithData: [image TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.9] forKey:NSImageCompressionFactor]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
+        }
+        else if (format == FileTypePNG)
+        {
+            [[[NSBitmapImageRep imageRepWithData: [image TIFFRepresentation]] representationUsingType:NSPNGFileType properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:0.9] forKey:NSImageCompressionFactor]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
         }
         else if (format == FileTypeClipboard)
         {

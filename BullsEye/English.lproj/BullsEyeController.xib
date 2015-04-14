@@ -425,7 +425,7 @@
                         <popUpButton key="view" verticalHuggingPriority="750" id="335">
                             <rect key="frame" x="0.0" y="14" width="100" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <popUpButtonCell key="cell" type="roundTextured" title="Export..." bezelStyle="texturedRounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" selectedItem="344" id="336">
+                            <popUpButtonCell key="cell" type="roundTextured" title="Export..." bezelStyle="texturedRounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="336">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                 <font key="font" metaFont="smallSystem"/>
                                 <menu key="menu" title="OtherViews" id="337">
@@ -459,6 +459,12 @@
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="saveAsTIFF:" target="-2" id="SsY-iH-nGB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Save as PNG file..." onStateImage="A8438F64-981B-43F5-ACA5-EEF53302AB7D" mixedStateImage="7BE4B8EA-64B4-4CB0-81CA-646B3C81813F" id="AVz-cr-vLU">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="saveAsPNG:" target="-2" id="sF2-2o-6o3"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Save as JPEG file..." onStateImage="A8438F64-981B-43F5-ACA5-EEF53302AB7D" mixedStateImage="7BE4B8EA-64B4-4CB0-81CA-646B3C81813F" id="Q4V-Yy-fvb">
