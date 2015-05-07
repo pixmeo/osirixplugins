@@ -119,7 +119,8 @@ static NSString      *DMGS;
 	[theTask setArguments:theArguments];		
 		
 	[theTask launch];
-	[theTask waitUntilExit];
+    while( [theTask isRunning]) [NSThread sleepForTimeInterval: 0.01];
+    [theTask interrupt];
 	[theTask release];
 
 	NS_HANDLER
@@ -134,7 +135,8 @@ static NSString      *DMGS;
 	[makeImageTask setLaunchPath: @"/bin/sh"];		
 	[makeImageTask setArguments:[NSArray arrayWithObjects: @"-c", [NSString stringWithFormat: @"hdiutil create '%@' -srcfolder '%@'", [object stringByAppendingPathExtension:@"dmg"], object], nil]];
 	[makeImageTask launch];
-	[makeImageTask waitUntilExit];
+    while( [makeImageTask isRunning]) [NSThread sleepForTimeInterval: 0.01];
+    [makeImageTask interrupt];
 	
 	[pool release];
 }

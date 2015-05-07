@@ -205,7 +205,8 @@
             task.arguments = args;
             //  task.standardOutput = [NSPipe pipe];
             [task launch];
-            [task waitUntilExit];
+            while( [task isRunning]) [NSThread sleepForTimeInterval: 0.01];
+            [task interrupt];
             //  NSLog(@"zip output: %@", [[[NSString alloc] initWithData:[[(NSPipe*)task.standardOutput fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
             
             // UPLOAD

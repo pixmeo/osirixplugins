@@ -397,7 +397,8 @@ NSString* DicomUnEnhancerSaveAsNIfTIToolbarItemIdentifier = @"DicomUnEnhancerSav
                     task.launchPath = [[NSBundle bundleForClass:[self class]] pathForAuxiliaryExecutable:@"dcm2nii"];
                     task.arguments = args;
                     [task launch];
-                    [task waitUntilExit];
+                    while( [task isRunning]) [NSThread sleepForTimeInterval: 0.01];
+                    [task interrupt];
                     
                     [NSFileManager.defaultManager removeItemAtPath:tmpDicomDir error:NULL];
                 }

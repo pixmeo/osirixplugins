@@ -144,7 +144,9 @@ static NSString* PreventNullString(NSString* s) {
 	[unzipTask setCurrentDirectoryPath:path];
 	[unzipTask setArguments:[NSArray arrayWithObjects: @"-o", [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"OsiriX Launcher.zip"], NULL]];
 	[unzipTask launch];
-	[unzipTask waitUntilExit];
+    //	[theTask waitUntilExit];	<- The problem with this: it calls the current running loop.... problems with GUI !
+	while( [unzipTask isRunning]) [NSThread sleepForTimeInterval: 0.01];
+    [unzipTask interrupt];
 	[unzipTask release];
 }
 
@@ -185,7 +187,8 @@ static NSString* PreventNullString(NSString* s) {
         [dcmmkdirTask setCurrentDirectoryPath:root];
         [dcmmkdirTask setArguments:[NSArray arrayWithObjects:@"+r", @"-Pfl", @"-W", @"-Nxc", @"+I", @"+m", @"+id", dicomPath, NULL]];		
         [dcmmkdirTask launch];
-        [dcmmkdirTask waitUntilExit];
+        while( [dcmmkdirTask isRunning]) [NSThread sleepForTimeInterval: 0.01];
+        [dcmmkdirTask interrupt];
         [dcmmkdirTask release];
     }
 }
@@ -430,7 +433,8 @@ static NSString* PreventNullString(NSString* s) {
                             [task setLaunchPath:@"/usr/bin/zip"];
                             [task setArguments:[NSArray arrayWithObjects: @"-rq", tmpZipPath, tmpPath, NULL]];
                             [task launch];
-                            [task waitUntilExit];
+                            while( [task isRunning]) [NSThread sleepForTimeInterval: 0.01];
+                            [task interrupt];
                             [task release];
                             
                             size = [[[NSFileManager defaultManager] attributesOfItemAtPath:tmpZipPath error:NULL] fileSize];
@@ -755,7 +759,8 @@ static NSString* PreventNullString(NSString* s) {
                         [zipTask setCurrentDirectoryPath:discBaseDirPath];
                         [zipTask setArguments:args];
                         [zipTask launch];
-                        [zipTask waitUntilExit]; 
+                        while( [zipTask isRunning]) [NSThread sleepForTimeInterval: 0.01];
+                        [zipTask interrupt];
                         [zipTask release];
                         
                         for (NSString* path in [discBaseDirPath stringsByAppendingPaths:privateFiles])

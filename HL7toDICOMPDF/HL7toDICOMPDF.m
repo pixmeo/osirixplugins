@@ -231,7 +231,7 @@
                                         [aTask setLaunchPath: [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/Decompress"]];
                                         [aTask setArguments: [NSArray arrayWithObjects: htmlPath, @"pdfFromURL", nil]];
                                         [aTask launch];
-                                        [aTask waitUntilExit];
+                                        while( [aTask isRunning]) [NSThread sleepForTimeInterval: 0.01];
                                         [aTask interrupt];
                                         
                                         NSString *pdfPath = [htmlPath stringByAppendingPathExtension: @"pdf"];

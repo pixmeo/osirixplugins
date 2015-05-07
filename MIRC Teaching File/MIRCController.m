@@ -216,7 +216,7 @@
 		[task setArguments:args];
 		//NSLog(@"Create archive args: %@ path: %@", [args description], [self folder]);
 		[task  launch];
-		[task waitUntilExit];
+		while( [task isRunning]) [NSThread sleepForTimeInterval: 0.01];
 		[task release];
 	}
 }
