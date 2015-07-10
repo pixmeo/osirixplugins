@@ -14,6 +14,7 @@
 		ABA48A650680BB600089EB4F /* DCMJpegImportFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABA48A640680BB600089EB4F /* DCMJpegImportFilter.h */; };
 		ABA48A670680BB690089EB4F /* DCMJpegImportFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA48A660680BB690089EB4F /* DCMJpegImportFilter.m */; };
 		CE70F3DD1A92536C00984669 /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE70F3DC1A92536C00984669 /* OsiriXAPI.framework */; };
+		CE7F0A501B502571000C8EF3 /* JPEG2DICOM.icns in Resources */ = {isa = PBXBuildFile; fileRef = CE7F0A4F1B502571000C8EF3 /* JPEG2DICOM.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		ABA48A640680BB600089EB4F /* DCMJpegImportFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DCMJpegImportFilter.h; sourceTree = "<group>"; };
 		ABA48A660680BB690089EB4F /* DCMJpegImportFilter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DCMJpegImportFilter.m; sourceTree = "<group>"; };
 		CE70F3DC1A92536C00984669 /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
+		CE7F0A4F1B502571000C8EF3 /* JPEG2DICOM.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = JPEG2DICOM.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				8D5B49B7048680CD000E48DA /* Info.plist */,
+				CE7F0A4F1B502571000C8EF3 /* JPEG2DICOM.icns */,
 				8464FB2914AC5A99005E47E1 /* Options.xib */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 			);
@@ -183,6 +186,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7F0A501B502571000C8EF3 /* JPEG2DICOM.icns in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				8464FB2A14AC5A99005E47E1 /* Options.xib in Resources */,
 			);
