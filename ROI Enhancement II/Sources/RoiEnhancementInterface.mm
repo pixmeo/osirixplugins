@@ -13,7 +13,7 @@
 =========================================================================*/
 
 #import "RoiEnhancementInterface.h"
-#import <OsiriXAPI/ViewerController.h>
+#import "OsiriXAPI/ViewerController.h"
 #import "RoiEnhancementROIList.h"
 #import "RoiEnhancementChart.h"
 #import "RoiEnhancementOptions.h"
@@ -40,7 +40,8 @@ NSString* const FileTypeCSV = @"csv";
 @synthesize floatFormatter = _floatFormatter;
 @synthesize userDefaults = _userDefaults;
 
--(id)initForViewer:(ViewerController*)viewer {
+-(id)initForViewer:(ViewerController*)viewer
+{
 	_viewer = [viewer retain];
 	self = [super initWithWindowNibName:@"Interface"];
 	[self window]; // triggers nib loading
@@ -125,32 +126,43 @@ NSString* const FileTypeCSV = @"csv";
 	[self saveAs: FileTypeCSV accessoryView:_csvSaveOptionsIncludeHeaders];
 }
 
--(void)dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename {
-	NSBitmapImageRep* bitmapImageRep = [_chart bitmapImageRepForCachingDisplayInRect:[_chart bounds]];
-	[_chart cacheDisplayInRect:[_chart bounds] toBitmapImageRep:bitmapImageRep];
-	NSInteger bytesPerPixel = [bitmapImageRep bitsPerPixel]/8;
-	CGFloat backgroundRGBA[4]; [[backgroundColor colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]] getComponents:backgroundRGBA];
-	
-	// convert RGBA to RGB - alpha values are considered when mixing the background color with the actual pixel color
-	NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep size].width*[bitmapImageRep size].height*3];
-	for (int y = 0; y < [bitmapImageRep size].height; ++y) {
-		unsigned char* rowStart = [bitmapImageRep bitmapData]+[bitmapImageRep bytesPerRow]*y;
-		for (int x = 0; x < [bitmapImageRep size].width; ++x) {
-			unsigned char rgba[4]; memcpy(rgba, rowStart+bytesPerPixel*x, 4);
-			float ratio = float(rgba[3])/255;
-			// rgba[0], [1] and [2] are premultiplied by [3]
-			rgba[0] = rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
-			rgba[1] = rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
-			rgba[2] = rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
-			[bitmapRGBData appendBytes:rgba length:3];
-		}
-	}
+-(void)dicomSave:(NSString*)seriesDescription backgroundColor:(NSColor*)backgroundColor toFile:(NSString*)filename
+{
+    NSRect r = [_chart bounds];
+    
+//    r.size.width /= [[_chart window] backingScaleFactor];
+//    r.size.height /= [[_chart window] backingScaleFactor];
+    
+    NSBitmapImageRep* bitmapImageRep = [_chart bitmapImageRepForCachingDisplayInRect: r];
+    [_chart cacheDisplayInRect: r toBitmapImageRep:bitmapImageRep];
+    
+    NSInteger bytesPerPixel = [bitmapImageRep bitsPerPixel]/8;
+    CGFloat backgroundRGBA[4]; [[backgroundColor colorUsingColorSpace:[NSColorSpace genericRGBColorSpace]] getComponents:backgroundRGBA];
+    
+    // convert RGBA to RGB - alpha values are considered when mixing the background color with the actual pixel color
+    NSMutableData* bitmapRGBData = [NSMutableData dataWithCapacity: [bitmapImageRep pixelsWide]*[bitmapImageRep pixelsHigh]*3];
+    for (int y = 0; y < [bitmapImageRep pixelsHigh]; ++y)
+    {
+        unsigned char* rowStart = [bitmapImageRep bitmapData]+[bitmapImageRep bytesPerRow]*y;
+        for (int x = 0; x < [bitmapImageRep pixelsWide]; ++x)
+        {
+            unsigned char rgba[4];
+            memcpy(rgba, rowStart+bytesPerPixel*x, 4);
+            
+            float ratio = (float) rgba[3] /255.;
+            
+            rgba[0] = ratio*rgba[0]+(1-ratio)*backgroundRGBA[0]*255;
+            rgba[1] = ratio*rgba[1]+(1-ratio)*backgroundRGBA[1]*255;
+            rgba[2] = ratio*rgba[2]+(1-ratio)*backgroundRGBA[2]*255;
+            [bitmapRGBData appendBytes:rgba length:3];
+        }
+    }
 	
 	DICOMExport* dicomExport = [[DICOMExport alloc] init];
 	[dicomExport setSourceFile:[[[_viewer pixList] objectAtIndex:0] srcFile]];
 	[dicomExport setSeriesDescription: seriesDescription];
 	[dicomExport setSeriesNumber: 35466];
-	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep size].width height:[bitmapImageRep size].height];
+	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep pixelsWide] height: [bitmapImageRep pixelsHigh]];
 	NSString* f = [dicomExport writeDCMFile: nil];
 	
 	if (f)
@@ -177,17 +189,23 @@ NSString* const FileTypeCSV = @"csv";
 		if (format == FileTypePDF) {
 			[[_chart dataWithPDFInsideRect:[_chart bounds]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
 			
-		} else if (format == FileTypeCSV) {
+		} else if (format == FileTypeCSV)
+        {
 			[_userDefaults setBool:[_csvSaveOptionsIncludeHeaders state] forKey:@"csv.headers.include"];
 			[[_chart csv: [_csvSaveOptionsIncludeHeaders state]] writeToFile:[panel filename] atomically:YES encoding:NSUTF8StringEncoding error:&error];
 			
 		} else if (format == FileTypeTIFF) {
-			NSBitmapImageRep* bitmapImageRep = [_chart bitmapImageRepForCachingDisplayInRect:[_chart bounds]];
-			[_chart cacheDisplayInRect:[_chart bounds] toBitmapImageRep:bitmapImageRep];
-			NSImage* image = [[NSImage alloc] initWithSize:[bitmapImageRep size]];
-			[image addRepresentation:bitmapImageRep];
+            NSRect r = [_chart bounds];
+            
+//            r.size.width /= [[_chart window] backingScaleFactor];
+//            r.size.height /= [[_chart window] backingScaleFactor];
+            
+            NSBitmapImageRep* bitmapImageRep = [_chart bitmapImageRepForCachingDisplayInRect:r];
+            [_chart cacheDisplayInRect:r toBitmapImageRep:bitmapImageRep];
+            NSImage* image = [[[NSImage alloc] initWithSize: r.size] autorelease];
+            [image addRepresentation:bitmapImageRep];
+            
 			[[image TIFFRepresentation] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
-			[image release];
 			
 		} else { // dicom
 			[_userDefaults setColor:[_dicomSaveOptionsBackgroundColor color] forKey:@"dicom.color.background"];
