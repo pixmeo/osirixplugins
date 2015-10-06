@@ -15,7 +15,7 @@
 #import <OsiriXAPI/DiscBurningOptions.h>
 #import "DiscPublishing.h"
 #import <OsiriXAPI/N2Operators.h>
-#import <OsiriXAPI/NSUserDefaultsController+OsiriX.h>
+//#import <OsiriXAPI/NSUserDefaultsController+OsiriX.h>
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/Anonymization.h>
 #import <OsiriXAPI/NSFileManager+N2.h>
