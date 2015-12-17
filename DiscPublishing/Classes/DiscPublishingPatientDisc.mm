@@ -195,213 +195,217 @@ static NSString* PreventNullString(NSString* s) {
 
 -(void)main {
     @autoreleasepool {
-        self.supportsCancel = YES;
-        
-        NSDate* startingDate = [NSDate date];
-        
-        NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-        [dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
+        @try {
+            self.supportsCancel = YES;
+            
+            NSDate* startingDate = [NSDate date];
+            
+            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+            [dateFormatter setDateFormat:[[NSUserDefaultsController sharedUserDefaultsController] stringForKey:@"DBDateOfBirthFormat2"]];
 
-        
-        NSManagedObjectContext *icontext = [[DicomDatabase defaultDatabase] independentContext];
-        NSMutableArray *images = [NSMutableArray array];
-        
-        for( NSManagedObjectID *imageID in _imagesID)
-        {
-            DicomImage *i = [icontext objectWithID: imageID];
             
-            if( i)
-                [images addObject: [icontext objectWithID: imageID]];
-        }
-        
-        DicomImage *image = [images objectAtIndex:0];
-        self.name = [NSString stringWithFormat:@"Preparing disc data for %@", image.series.study.name];
-        
-        self.status = @"Detecting image series and studies...";
-        NSMutableArray* series = [[NSMutableArray alloc] init];
-        NSMutableArray* studies = [[NSMutableArray alloc] init];
-        for (DicomImage* image in images)
-        {
-            if( image.series && ![series containsObject:image.series])
-                [series addObject:image.series];
-            if( image.series.study && ![studies containsObject:image.series.study])
-                [studies addObject:image.series.study];
-        }
-        
-        DicomDatabase* database = [DPPhantomDicomDatabase databaseAtPath:[NSFileManager.defaultManager tmpFilePathInTmp]];
+            NSManagedObjectContext *icontext = [[DicomDatabase defaultDatabase] independentContext];
+            NSMutableArray *images = [NSMutableArray array];
+            
+            for( NSManagedObjectID *imageID in _imagesID)
+            {
+                DicomImage *i = [icontext objectWithID: imageID];
+                
+                if( i)
+                    [images addObject: [icontext objectWithID: imageID]];
+            }
+            
+            DicomImage *image = [images objectAtIndex:0];
+            self.name = [NSString stringWithFormat:@"Preparing disc data for %@", image.series.study.name];
+            
+            self.status = @"Detecting image series and studies...";
+            NSMutableArray* series = [[NSMutableArray alloc] init];
+            NSMutableArray* studies = [[NSMutableArray alloc] init];
+            for (DicomImage* image in images)
+            {
+                if( image.series && ![series containsObject:image.series])
+                    [series addObject:image.series];
+                if( image.series.study && ![studies containsObject:image.series.study])
+                    [studies addObject:image.series.study];
+            }
+            
+            DicomDatabase* database = [DPPhantomDicomDatabase databaseAtPath:[NSFileManager.defaultManager tmpFilePathInTmp]];
 
-    /*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
-        NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-        [persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:NULL URL:NULL options:NULL error:NULL];
-        NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
-        managedObjectContext.undoManager.levelsOfUndo = 1;	
-        [managedObjectContext.undoManager disableUndoRegistration];*/
-        
-        
-        
-        
-        NSMutableDictionary* matchedDataPerStudy = [NSMutableDictionary dictionary];
-        NSString* matchesDirPath = [_tmpPath stringByAppendingPathComponent:@"Matches"];
-        if (_options.fsMatchFlag) {
-            self.status = NSLocalizedString(@"Mounting match share...", nil);
+        /*	NSManagedObjectModel* managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"/OsiriXDB_DataModel.mom"]]];
+            NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
+            [persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:NULL URL:NULL options:NULL error:NULL];
+            NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
+            [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
+            managedObjectContext.undoManager.levelsOfUndo = 1;	
+            [managedObjectContext.undoManager disableUndoRegistration];*/
             
-            [NSFileManager.defaultManager confirmDirectoryAtPath:matchesDirPath];
             
-            NSString* shareMountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
-            [NSFileManager.defaultManager confirmDirectoryAtPath:shareMountPath];
             
-            BOOL ok = YES;
             
-            // mount!
-            @try {
-                NSURL* url = [NSURL URLWithString:_options.fsMatchShareUrl];
-                if (!url)
-                    [NSException raise:NSGenericException format:@"Can't match data: invalid URL: %@", _options.fsMatchShareUrl];
+            NSMutableDictionary* matchedDataPerStudy = [NSMutableDictionary dictionary];
+            NSString* matchesDirPath = [_tmpPath stringByAppendingPathComponent:@"Matches"];
+            if (_options.fsMatchFlag) {
+                self.status = NSLocalizedString(@"Mounting match share...", nil);
                 
-                FSVolumeRefNum volumeRefNum = -1;
-                OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:shareMountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
-                if (err != noErr)
-                    [NSException raise:NSGenericException format:@"Can't match data: FSMountServerVolumeSync error %d, URL was %@", (int)err, url];
+                [NSFileManager.defaultManager confirmDirectoryAtPath:matchesDirPath];
                 
-                NSString* inShareMountPath = shareMountPath;
-                NSArray* pathComponents = [url pathComponents];
-                pathComponents = [pathComponents subarrayWithRange:NSMakeRange(2, pathComponents.count-2)];
-                if (pathComponents.count)
-                    inShareMountPath = [shareMountPath stringByAppendingPathComponent:[pathComponents componentsJoinedByString:@"/"]];
+                NSString* shareMountPath = [NSFileManager.defaultManager tmpFilePathInTmp];
+                [NSFileManager.defaultManager confirmDirectoryAtPath:shareMountPath];
                 
-                // mounted, now look for the data
-                self.status = NSLocalizedString(@"Matching share data...", nil);
+                BOOL ok = YES;
                 
-                for (DicomStudy* study in studies) {
-                    NSString* studyMatchesDirPath = [NSFileManager.defaultManager tmpFilePathInDir:matchesDirPath];
-
-                    DicomImage* image = [[study images] anyObject];
-                    DCMObject* obj = [[[DCMObject alloc] initWithContentsOfFile:[image completePath] decodingPixelData:NO] autorelease];
+                // mount!
+                @try {
+                    NSURL* url = [NSURL URLWithString:_options.fsMatchShareUrl];
+                    if (!url)
+                        [NSException raise:NSGenericException format:@"Can't match data: invalid URL: %@", _options.fsMatchShareUrl];
                     
-                    NSMutableArray* tokens = [[[_options fsMatchTokens] mutableCopy] autorelease];
-                    for (NSInteger i = 0; i < (int)tokens.count; ++i) {
-                        NSString* token = [tokens objectAtIndex:i];
-                        DCMAttributeTag* tag = [DCMAttributeTag tagWithName:token];
-                        if (!tag)
-                            tag = [DCMAttributeTag tagWithTagString:token];
-                        if (!tag)
-                            [NSException raise:NSGenericException format:@"Invalid token %@", token];
-                        
-                        DCMAttribute* attr = [obj attributeForTag:tag];
-                        if (!attr)
-                            [NSException raise:NSGenericException format:@"No value for token %@", token];
-                        
-                        id value = [attr value];
-                        if ([value respondsToSelector:@selector(stringValue)])
-                            value = [value stringValue];
-                        if (![value isKindOfClass:[NSString class]])
-                            [NSException raise:NSGenericException format:@"Invalid token value class %@", [value className]];
-                        
-                        [tokens replaceObjectAtIndex:i withObject:value];
-                    }
+                    FSVolumeRefNum volumeRefNum = -1;
+                    OSErr err = FSMountServerVolumeSync((CFURLRef)url, (CFURLRef)[NSURL URLWithString:shareMountPath], (CFStringRef)url.user, (CFStringRef)url.password, &volumeRefNum, kFSMountServerMarkDoNotDisplay|kFSMountServerMountOnMountDir|kFSMountServerSuppressConnectionUI);
+                    if (err != noErr)
+                        [NSException raise:NSGenericException format:@"Can't match data: FSMountServerVolumeSync error %d, URL was %@", (int)err, url];
                     
-                    NSString* match = [tokens componentsJoinedByString:@""];
+                    NSString* inShareMountPath = shareMountPath;
+                    NSArray* pathComponents = [url pathComponents];
+                    pathComponents = [pathComponents subarrayWithRange:NSMakeRange(2, pathComponents.count-2)];
+                    if (pathComponents.count)
+                        inShareMountPath = [shareMountPath stringByAppendingPathComponent:[pathComponents componentsJoinedByString:@"/"]];
+                    
+                    // mounted, now look for the data
+                    self.status = NSLocalizedString(@"Matching share data...", nil);
+                    
+                    for (DicomStudy* study in studies) {
+                        NSString* studyMatchesDirPath = [NSFileManager.defaultManager tmpFilePathInDir:matchesDirPath];
 
-                    BOOL studyOk = NO;
-                    while (!studyOk && !self.isCancelled) {
-                        NSArray* contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:inShareMountPath error:NULL];
+                        DicomImage* image = [[study images] anyObject];
+                        DCMObject* obj = [[[DCMObject alloc] initWithContentsOfFile:[image completePath] decodingPixelData:NO] autorelease];
                         
-                        if (!contents)
-                            [NSException raise:NSGenericException format:@"Share mount problem, maybe the share is already mounted?"];
-                        
-                        @try {
-                            for (NSString* content in contents)
-                                if ([content hasPrefix:match]) { // a match! a match!
-                                    studyOk = YES;
-                                    // destination folder...
-                                    [NSFileManager.defaultManager confirmDirectoryAtPath:studyMatchesDirPath];
-                                    // copy
-                                    [NSFileManager.defaultManager copyItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] toPath:[studyMatchesDirPath stringByAppendingPathComponent:content] error:NULL];
-                                    if (_options.fsMatchDelete)
-                                        [NSFileManager.defaultManager removeItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] error:NULL];
-                                }
+                        NSMutableArray* tokens = [[[_options fsMatchTokens] mutableCopy] autorelease];
+                        for (NSInteger i = 0; i < (int)tokens.count; ++i) {
+                            NSString* token = [tokens objectAtIndex:i];
+                            DCMAttributeTag* tag = [DCMAttributeTag tagWithName:token];
+                            if (!tag)
+                                tag = [DCMAttributeTag tagWithTagString:token];
+                            if (!tag)
+                                [NSException raise:NSGenericException format:@"Invalid token %@", token];
                             
-                            // if found at least a document/folder, done with this study
-                        }
-                        @catch (NSException* e) {
-                            studyOk = NO;
+                            DCMAttribute* attr = [obj attributeForTag:tag];
+                            if (!attr)
+                                [NSException raise:NSGenericException format:@"No value for token %@", token];
+                            
+                            id value = [attr value];
+                            if ([value respondsToSelector:@selector(stringValue)])
+                                value = [value stringValue];
+                            if (![value isKindOfClass:[NSString class]])
+                                [NSException raise:NSGenericException format:@"Invalid token value class %@", [value className]];
+                            
+                            [tokens replaceObjectAtIndex:i withObject:value];
                         }
                         
-                        if (!studyOk && -[startingDate timeIntervalSinceNow] > _options.fsMatchDelay) { // not ok, delay passed...
-                            if (!_options.fsMatchCondition)
-                                studyOk = YES; // optiopnal, skip to the next study
-                            else // otherwise, a file is NEEDED, and not found... and time is up. stop publishing....
-                                studyOk = ok = NO;
+                        NSString* match = [tokens componentsJoinedByString:@""];
+
+                        BOOL studyOk = NO;
+                        while (!studyOk && !self.isCancelled) {
+                            NSArray* contents = [NSFileManager.defaultManager contentsOfDirectoryAtPath:inShareMountPath error:NULL];
+                            
+                            if (!contents)
+                                [NSException raise:NSGenericException format:@"Share mount problem, maybe the share is already mounted?"];
+                            
+                            @try {
+                                for (NSString* content in contents)
+                                    if ([content hasPrefix:match]) { // a match! a match!
+                                        studyOk = YES;
+                                        // destination folder...
+                                        [NSFileManager.defaultManager confirmDirectoryAtPath:studyMatchesDirPath];
+                                        // copy
+                                        [NSFileManager.defaultManager copyItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] toPath:[studyMatchesDirPath stringByAppendingPathComponent:content] error:NULL];
+                                        if (_options.fsMatchDelete)
+                                            [NSFileManager.defaultManager removeItemAtPath:[inShareMountPath stringByAppendingPathComponent:content] error:NULL];
+                                    }
+                                
+                                // if found at least a document/folder, done with this study
+                            }
+                            @catch (NSException* e) {
+                                studyOk = NO;
+                            }
+                            
+                            if (!studyOk && -[startingDate timeIntervalSinceNow] > _options.fsMatchDelay) { // not ok, delay passed...
+                                if (!_options.fsMatchCondition)
+                                    studyOk = YES; // optiopnal, skip to the next study
+                                else // otherwise, a file is NEEDED, and not found... and time is up. stop publishing....
+                                    studyOk = ok = NO;
+                                break;
+                            }
+                            
+                            if (!studyOk && !self.isCancelled)
+                                [NSThread sleepForTimeInterval:1];
+                        }
+                        
+                        if (!ok)
                             break;
-                        }
                         
-                        if (!studyOk && !self.isCancelled)
-                            [NSThread sleepForTimeInterval:1];
+                        if ([NSFileManager.defaultManager fileExistsAtPath:studyMatchesDirPath])
+                            [matchedDataPerStudy setObject:studyMatchesDirPath forKey:[NSValue valueWithPointer:study]];
+
+                        if (_options.fsMatchToDicom) // make DICOM files from PDFs
+                            for (NSString* filename in [NSFileManager.defaultManager contentsOfDirectoryAtPath:studyMatchesDirPath error:NULL]) {
+                                NSString* path = [studyMatchesDirPath stringByAppendingPathComponent:filename];
+                                if ([[path pathExtension] caseInsensitiveCompare:@"pdf"] == NSOrderedSame) {
+                                    // make dicom...
+                                    NSString* dcmpath = [[DicomDatabase defaultDatabase] uniquePathForNewDataFileWithExtension:nil];
+                                    [study transformPdfAtPath:path toDicomAtPath:dcmpath];
+                                    // add it to the db
+                                    NSArray* reportImageIDs = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
+                                    
+                                    NSMutableArray* reportImages = [NSMutableArray array];
+                                    for( NSManagedObjectID *reportID in reportImageIDs)
+                                    {
+                                        DicomImage *i = [icontext objectWithID: reportID];
+                                        
+                                        if( i)
+                                            [reportImages addObject: [icontext objectWithID: reportID]];
+                                    }
+                                    
+                                    // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
+                                    [images addObjectsFromArray:reportImages];
+                                    for (DicomImage* image in reportImages)
+                                        if( image.series && ![series containsObject:image.series])
+                                            [series addObject:image.series];
+                                }
+                            }
+                        
+                        if (self.isCancelled)
+                            break;
                     }
                     
-                    if (!ok)
-                        break;
+                    // done, unmount
                     
-                    if ([NSFileManager.defaultManager fileExistsAtPath:studyMatchesDirPath])
-                        [matchedDataPerStudy setObject:studyMatchesDirPath forKey:[NSValue valueWithPointer:study]];
-
-                    if (_options.fsMatchToDicom) // make DICOM files from PDFs
-                        for (NSString* filename in [NSFileManager.defaultManager contentsOfDirectoryAtPath:studyMatchesDirPath error:NULL]) {
-                            NSString* path = [studyMatchesDirPath stringByAppendingPathComponent:filename];
-                            if ([[path pathExtension] caseInsensitiveCompare:@"pdf"] == NSOrderedSame) {
-                                // make dicom...
-                                NSString* dcmpath = [[DicomDatabase defaultDatabase] uniquePathForNewDataFileWithExtension:nil];
-                                [study transformPdfAtPath:path toDicomAtPath:dcmpath];
-                                // add it to the db
-                                NSArray* reportImageIDs = [[DicomDatabase defaultDatabase] addFilesAtPaths:[NSArray arrayWithObject:dcmpath] postNotifications:NO];
-                                
-                                NSMutableArray* reportImages = [NSMutableArray array];
-                                for( NSManagedObjectID *reportID in reportImageIDs)
-                                {
-                                    DicomImage *i = [icontext objectWithID: reportID];
-                                    
-                                    if( i)
-                                        [reportImages addObject: [icontext objectWithID: reportID]];
-                                }
-                                
-                                // add the report DicomImage objects and theis DicomSeries to the arrays --- no need to touch the studies
-                                [images addObjectsFromArray:reportImages];
-                                for (DicomImage* image in reportImages)
-                                    if( image.series && ![series containsObject:image.series])
-                                        [series addObject:image.series];
-                            }
-                        }
+                    self.status = NSLocalizedString(@"Unmounting match share...", nil);
                     
-                    if (self.isCancelled)
-                        break;
+                    [NSThread performBlockInBackground:^{ // unmounting is sometimes slow (probably because of spotlight), so we do it in a background thread
+                        pid_t dissenter;
+                        FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
+                        [NSFileManager.defaultManager removeItemAtPath:shareMountPath error:NULL];
+                    }];
+                }
+                @catch (NSException* e) {
+                    ok = NO;
+                    N2LogExceptionWithStackTrace(e);
                 }
                 
-                // done, unmount
-                
-                self.status = NSLocalizedString(@"Unmounting match share...", nil);
-                
-                [NSThread performBlockInBackground:^{ // unmounting is sometimes slow (probably because of spotlight), so we do it in a background thread
-                    pid_t dissenter;
-                    FSUnmountVolumeSync(volumeRefNum, 0, &dissenter);
-                    [NSFileManager.defaultManager removeItemAtPath:shareMountPath error:NULL];
-                }];
-            }
-            @catch (NSException* e) {
-                ok = NO;
-                N2LogExceptionWithStackTrace(e);
-            }
-            
-            if (!ok) { // match failure!
-                self.status = NSLocalizedString(@"Error: no match found, aborting...", nil);
-                NSLog(@"Error: no match found, publishment aborted");
-                NSDate* date = [NSDate date];
-                while (!self.isCancelled && -[date timeIntervalSinceNow] < 60)
-                    [NSThread sleepForTimeInterval:0.05];
-                return;
-            }
+                if (!ok) { // match failure!
+                    self.status = NSLocalizedString(@"Error: no match found, aborting...", nil);
+                    NSLog(@"Error: no match found, publishment aborted");
+                    NSDate* date = [NSDate date];
+                    while (!self.isCancelled && -[date timeIntervalSinceNow] < 60)
+                        [NSThread sleepForTimeInterval:0.05];
+                    return;
+                }
+            }  
         }
-        
+        @catch (NSException *e) {
+            N2LogExceptionWithStackTrace(e);
+        }
         NSMutableDictionary* seriesSizes = [[NSMutableDictionary alloc] initWithCapacity:series.count];
         NSMutableDictionary* seriesPaths = [[NSMutableDictionary alloc] initWithCapacity:series.count];
         NSUInteger processedImagesCount = 0;
