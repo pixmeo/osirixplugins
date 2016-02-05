@@ -6,6 +6,7 @@
 #import "DCMJpegImportFilter.h"
 #import "OsiriXAPI/browserController.h"
 #import "OsiriXAPI/DICOMExport.h"
+#import "OsiriXAPI/DicomDatabase.h"
 
 @implementation DCMJpegImportFilter
 
@@ -22,8 +23,6 @@
 
 - (long) filterImage:(NSString*) menuName
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
     @try
     {
         NSMutableArray *images = [NSMutableArray array];
@@ -32,13 +31,13 @@
         else
             [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
         
-        NSString *source = nil;
+        DicomImage *sourceImage = nil;
         id sourceStudy = nil;
         
         if( [images count])
         {
             self.selectedStudyAvailable = YES;
-            source = [[images objectAtIndex: 0] valueForKey:@"completePath"];
+            sourceImage = [images objectAtIndex: 0];
         }
         else
         {
@@ -89,9 +88,9 @@
         {
             BOOL valid = YES;
             
-            if( supportCustomMetaData && ([[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 0 || (source == nil && [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 1 && sourceStudy != nil)))
+            if( supportCustomMetaData && ([[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 0 || (sourceImage == nil && [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 1 && sourceStudy != nil)))
             {
-                source = nil;
+                sourceImage = nil;
                 
                 NSMutableDictionary *metaData = e.metaDataDict;
                 
@@ -173,10 +172,10 @@
                                 if( [[NSImage imageFileTypes] containsObject: [path pathExtension]] 
                                 || [[NSImage imageFileTypes] containsObject: NSFileTypeForHFSTypeCode( [[[[NSFileManager defaultManager] attributesOfFileSystemForPath: path error: nil] objectForKey: NSFileHFSTypeCode] longValue])])
                                 {
-                                    NSString *f = [self convertImageToDICOM:[fpath stringByAppendingPathComponent:path] source: source];
+                                    DicomImage *f = [self convertImageToDICOM:[fpath stringByAppendingPathComponent:path] source: sourceImage];
                                     
-                                    if( source == nil)
-                                        source = f;
+                                    if( sourceImage == nil)
+                                        sourceImage = f;
                                 }
                         }
                         else
@@ -187,10 +186,10 @@
                                 seriesDescriptionSet = YES;
                             }
                             
-                            NSString *f = [self convertImageToDICOM: fpath source: source];
+                            DicomImage *f = [self convertImageToDICOM: fpath source: sourceImage];
                             
-                            if( source == nil)
-                                source = f;
+                            if( sourceImage == nil)
+                                sourceImage = f;
                         }
                     }
                 }
@@ -203,18 +202,15 @@
     @finally {
         [e release];
         e = nil;
-        [pool release];
 	}
     
 	return 0;
 }
 
-- (NSString*) convertImageToDICOM:(NSString *)path source:(NSString *)src
+- (DicomImage*) convertImageToDICOM:(NSString *)path source:(DicomImage *)src
 {
-    NSString *createdFile = nil;
+    DicomImage *createdDicomImage = nil;
     
-	//create image
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSImage *image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 	
 	//if we have an image  get the info we need from the imageRep.
@@ -224,7 +220,7 @@
 		
 		if ([rep isMemberOfClass: [NSBitmapImageRep class]])
 		{
-			[e setSourceFile: src];
+			[e setSourceDicomImage: src];
 			
 			int bpp = [rep bitsPerPixel]/[rep samplesPerPixel];
 			int spp = [rep samplesPerPixel];
@@ -240,18 +236,26 @@
 			if( [rep isPlanar])
 				NSLog( @"********** DCMJpegImportFilter Planar is not yet supported....");
 			
-            createdFile = [[e writeDCMFile: nil] retain];
+            NSString *createdFile = [e writeDCMFile: nil];
 	
 			if( createdFile)
-                [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject: createdFile]
+            {
+                DicomDatabase *db = [[BrowserController currentBrowser] database];
+                
+                NSArray *objects = [db addFilesAtPaths: [NSArray arrayWithObject: createdFile]
                                                                             postNotifications: YES
                                                                                     dicomOnly: YES
                                                                           rereadExistingItems: YES
                                                                             generatedByOsiriX: YES];
+                
+                NSArray *images = [db objectsWithIDs: objects];
+                
+                if( images.count)
+                    createdDicomImage = [images objectAtIndex: 0];
+            }
 		}
 	}
-	[pool release];
     
-    return [createdFile autorelease];
+    return createdDicomImage;
 }
 @end

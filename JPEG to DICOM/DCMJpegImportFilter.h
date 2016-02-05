@@ -19,6 +19,6 @@
 @property BOOL selectedStudyAvailable;
 
 - (long) filterImage:(NSString*) menuName;
-- (NSString*) convertImageToDICOM:(NSString *)path source:(NSString *)src;
+- (DicomImage*) convertImageToDICOM:(NSString *)path source:(DicomImage *)src;
 
 @end
