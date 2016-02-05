@@ -33,6 +33,7 @@
             [[BrowserController currentBrowser] filesForDatabaseOutlineSelection: images];
         
         NSString *source = nil;
+        id sourceStudy = nil;
         
         if( [images count])
         {
@@ -40,7 +41,17 @@
             source = [[images objectAtIndex: 0] valueForKey:@"completePath"];
         }
         else
-            self.selectedStudyAvailable = NO;
+        {
+            id study = [[BrowserController currentBrowser] selectedStudy];
+            
+            if( study == nil)
+                self.selectedStudyAvailable = NO;
+            else
+            {
+                self.selectedStudyAvailable = YES;
+                sourceStudy = study;
+            }
+        }
         
         if( e == nil)
             e = [[DICOMExport alloc] init];
@@ -78,25 +89,63 @@
         {
             BOOL valid = YES;
             
-            if( supportCustomMetaData && [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 0)
+            if( supportCustomMetaData && ([[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 0 || (source == nil && [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 1 && sourceStudy != nil)))
             {
                 source = nil;
                 
                 NSMutableDictionary *metaData = e.metaDataDict;
-                NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
                 
-                [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsName"] forKey: @"patientsName"];
-                [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsID"] forKey: @"patientID"];
-                [metaData setValue: [d objectForKey: @"JPEGtoDICOMPatientsDOB"] forKey: @"patientsBirthdate"];
-                if( [d integerForKey: @"JPEGtoDICOMPatientsSex"])
-                    [metaData setValue: @"F" forKey: @"patientsSex"];
+                if( [[NSUserDefaults standardUserDefaults] integerForKey: @"JPEGtoDICOMMetaDataTag"] == 1)
+                {
+                    [metaData setValue: [sourceStudy valueForKey: @"name"] forKey: @"patientsName"];
+                    [metaData setValue: [sourceStudy valueForKey: @"name"] forKey: @"patientName"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"patientID"] forKey: @"patientID"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"dateOfBirth"] forKey: @"patientsBirthdate"];
+                    [metaData setValue: [sourceStudy valueForKey: @"dateOfBirth"] forKey: @"patientBirthdate"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"patientSex"] forKey: @"patientsSex"];
+                    [metaData setValue: [sourceStudy valueForKey: @"patientSex"] forKey: @"patientSex"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"date"] forKey: @"studyDate"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"studyName"] forKey: @"studyDescription"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"modality"] forKey: @"modality"];
+                    
+                    [metaData setValue: [sourceStudy valueForKey: @"studyInstanceUID"] forKey: @"studyUID"];
+                    [metaData setValue: [sourceStudy valueForKey: @"studyID"] forKey: @"studyID"];
+                }
                 else
-                    [metaData setValue: @"M" forKey: @"patientsSex"];
-                
-                [metaData setValue: [d objectForKey: @"JPEGtoDICOMStudyDate"] forKey: @"studyDate"];
-                
-                [metaData setValue: [d valueForKey: @"JPEGtoDICOMStudyDescription"] forKey: @"studyDescription"];
-                [metaData setValue: [d valueForKey: @"JPEGtoDICOMModality"] forKey: @"modality"];
+                {
+                    NSUserDefaults *d = [NSUserDefaults standardUserDefaults];
+                    
+                    [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsName"] forKey: @"patientsName"];
+                    [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsName"] forKey: @"patientName"];
+                    
+                    [metaData setValue: [d valueForKey: @"JPEGtoDICOMPatientsID"] forKey: @"patientID"];
+                    
+                    [metaData setValue: [d objectForKey: @"JPEGtoDICOMPatientsDOB"] forKey: @"patientsBirthdate"];
+                    [metaData setValue: [d objectForKey: @"JPEGtoDICOMPatientsDOB"] forKey: @"patientBirthdate"];
+                    
+                    if( [d integerForKey: @"JPEGtoDICOMPatientsSex"])
+                    {
+                        [metaData setValue: @"F" forKey: @"patientsSex"];
+                        [metaData setValue: @"F" forKey: @"patientSex"];
+                    }
+                    else
+                    {
+                        [metaData setValue: @"M" forKey: @"patientsSex"];
+                        [metaData setValue: @"M" forKey: @"patientSex"];
+                    }
+                    
+                    [metaData setValue: [d objectForKey: @"JPEGtoDICOMStudyDate"] forKey: @"studyDate"];
+                    
+                    [metaData setValue: [d valueForKey: @"JPEGtoDICOMStudyDescription"] forKey: @"studyDescription"];
+                    
+                    [metaData setValue: [d valueForKey: @"JPEGtoDICOMModality"] forKey: @"modality"];
+                }
                 
                 [e setModalityAsSource: YES];
             }
