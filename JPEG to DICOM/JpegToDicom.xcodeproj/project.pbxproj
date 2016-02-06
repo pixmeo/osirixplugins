@@ -276,7 +276,7 @@
 					x86_64,
 					i386,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				CLANG_LINK_OBJC_RUNTIME = NO;
 				SDKROOT = macosx10.8;
 			};
 			name = Development;
