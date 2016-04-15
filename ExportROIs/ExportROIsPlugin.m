@@ -9,8 +9,8 @@
 
 #import "ExportROIsPlugin.h"
 #import <OsiriXAPI/Wait.h>
+#import <OsiriXAPI/DCMPix.h>
 #import "FileTypeSelector.h"
-#import "OsiriXAPI/DCMPix.h"
 
 @implementation ExportROIsPlugin
 
@@ -140,8 +140,8 @@
                     NSMutableDictionary	*dataString = [roi dataString];
                     NSMutableArray *dataValues = [roi dataValues];
                     
-                    if( [dataString objectForKey:@"AreaCM2"]) area = [[dataString objectForKey:@"AreaCM2"] floatValue];
                     if( [dataString objectForKey:@"AreaPIX2"]) area = [[dataString objectForKey:@"AreaPIX2"] floatValue];
+                    if( [dataString objectForKey:@"AreaCM2"]) area = [[dataString objectForKey:@"AreaCM2"] floatValue];
                     if( [dataString objectForKey:@"Length"]) length = [[dataString objectForKey:@"Length"] floatValue];
                     
                     // walk through each point in the ROI
