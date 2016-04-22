@@ -208,6 +208,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9B5308AC847E00D0C1EE /* Build configuration list for PBXProject "ResampleData" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -324,10 +326,9 @@
 		CE6A9B5408AC847E00D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx10.10;
 			};
 			name = Development;
 		};

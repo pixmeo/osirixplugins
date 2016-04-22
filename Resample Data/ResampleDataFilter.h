@@ -17,7 +17,7 @@
 	IBOutlet	NSTextField		*oXText, *oYText, *oZText, *MemoryText, *thicknessText;
 	IBOutlet	NSSlider		*xSlider, *ySlider, *zSlider;
 	
-	long	originWidth, originHeight, originZ;
+	unsigned long long	originWidth, originHeight, originZ;
 	float	originRatio;
 }
 
