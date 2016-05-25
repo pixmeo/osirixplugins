@@ -12,6 +12,9 @@
 #import <OsiriXAPI/DCMPix.h>
 #import "FileTypeSelector.h"
 
+#import <OsiriXAPI/DicomStudy.h>
+#import <OsiriXAPI/DicomSeries.h>
+
 @implementation ExportROIsPlugin
 
 #pragma mark -
@@ -19,58 +22,71 @@
 
 - (long) exportROIs
 {
-	FileTypeSelector *ftsel = [ [ FileTypeSelector alloc ] init ];
+	FileTypeSelector *ftsel = [[FileTypeSelector alloc] init];
+    
+    NSBundle *thisBundle = [NSBundle bundleForClass:[self class]];
+    NSNib *nib = [[[NSNib alloc] initWithNibNamed: @"FileTypeSelector" bundle: thisBundle] autorelease];
+    [nib instantiateWithOwner: ftsel topLevelObjects: nil];
+    
+	NSSavePanel *panel = [NSSavePanel savePanel];
+	assert( panel != nil);
 	
-	BOOL ret = [ NSBundle loadNibNamed: @"FileTypeSelector" owner: ftsel ];
-	assert( ret );
-	
-	NSSavePanel *panel = [ NSSavePanel savePanel ];
-	assert( panel != nil );
-	
-	[ panel setRequiredFileType: nil ];
-	[ panel setAccessoryView: [ ftsel addPanel ] ];
-	[ panel beginSheetForDirectory:nil file:nil modalForWindow: [ viewerController window ] modalDelegate:self didEndSelector: @selector(endSavePanel:returnCode:contextInfo:) contextInfo: ftsel ];
+	[panel setAllowedFileTypes: nil];
+	[panel setAccessoryView: ftsel.addPanel];
+    
+    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    DicomSeries *series = viewerController.currentSeries;
+    NSString *filename = [NSString stringWithFormat: @"%@-%@-%@", series.study.name, [dateFormatter stringFromDate: series.study.date], series.name];
+    
+	[panel beginSheetForDirectory:nil file:filename modalForWindow: [viewerController window] modalDelegate:self didEndSelector: @selector(endSavePanel:returnCode:contextInfo:) contextInfo: ftsel];
 	
 	return 0;
 }
 
 - (void) endSavePanel: (NSSavePanel *) sheet returnCode: (int) retCode contextInfo: (void *) contextInfo
 {
-	long					i, j, k, numCsvPoints, numROIs;
-	EXPORT_FILE_TYPE		fileType = FT_CSV;
+	EXPORT_FILE_TYPE fileType = FT_CSV;
 	
-	if ( retCode != NSFileHandlingPanelOKButton ) return;
+	if(retCode != NSFileHandlingPanelOKButton)
+        return;
 	
 	// get selected type
 	FileTypeSelector *ftsel = (FileTypeSelector *) contextInfo;
-	
-	if ( [ [ ftsel csvRadio ] state ] == NSOnState ) {
+    [ftsel autorelease];
+    
+	if([[ftsel csvRadio] state] == NSOnState)
+    {
 		fileType = FT_CSV;
-	} else if ( [ [ ftsel xmlRadio ] state ] == NSOnState ) {
+	}
+    else if ([[ftsel xmlRadio] state] == NSOnState)
+    {
 		fileType = FT_XML;
 	}
     
 	// prepare for final output
-	NSMutableDictionary		*seriesInfo = [ [ NSMutableDictionary alloc ] init ];
-	NSMutableArray			*imagesInSeries = [ NSMutableArray arrayWithCapacity: 0 ];
+	NSMutableDictionary *seriesInfo = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableArray *imagesInSeries = [NSMutableArray arrayWithCapacity: 0];
 
-	NSMutableString	*csvText = [ NSMutableString stringWithCapacity: 100 ];
-	[ csvText appendFormat: @"ImageNo,RoiNo,RoiMean,RoiMin,RoiMax,RoiTotal,RoiDev,RoiName,RoiCenterX,RoiCenterY,RoiCenterZ,Length,Area,RoiType,NumOfPoints,mmX,mmY,mmZ,pxX,pxY,...%c", LF];
+	NSMutableString	*csvText = [NSMutableString stringWithCapacity: 100];
+	[csvText appendFormat: @"ImageNo,RoiNo,RoiMean,RoiMin,RoiMax,RoiTotal,RoiDev,RoiName,RoiCenterX,RoiCenterY,RoiCenterZ,Length,AreaPix2, AreaCm2,RoiType,NumOfPoints,mmX,mmY,mmZ,pxX,pxY,...%c", LF];
 	
 	NSMutableString *csvRoiPoints;
 	
 	// get array of arrray of ROI in current series
-	NSArray *roiSeriesList = [ viewerController roiList ];
+	NSArray *roiSeriesList = viewerController.roiList;
 	
 	// show progress
-	Wait *splash = [ [ Wait alloc ] initWithString: @"Exporting ROIs..." ];
-	[ splash showWindow:viewerController ];
-	[ [ splash progress] setMaxValue: [ roiSeriesList count ] ];
+	Wait *splash = [[[Wait alloc] initWithString: @"Exporting ROIs..."] autorelease];
+	[splash showWindow:viewerController];
+	[[splash progress] setMaxValue: roiSeriesList.count];
     
     int copyIndex = viewerController.imageIndex;
     
 	// walk through each array of ROI
-	for( i = 0; i < [ roiSeriesList count ]; i++ )
+	for( long i = 0; i < roiSeriesList.count; i++ )
     {
         [viewerController setImageIndex: i];
         
@@ -80,12 +96,12 @@
 		// array of ROI in current pix
 		NSArray *roiImageList = viewerController.imageView.curRoiList;
 
-		NSMutableDictionary *imageInfo = [ NSMutableDictionary dictionary ];
-		NSMutableArray		*roisInImage = [ NSMutableArray arrayWithCapacity: 0 ];
+		NSMutableDictionary *imageInfo = [NSMutableDictionary dictionary];
+		NSMutableArray *roisInImage = [NSMutableArray arrayWithCapacity: 0];
 
 		// walk through each ROI in current pix
-		numROIs = [ roiImageList count ];
-		for ( j = 0; j < numROIs; j++ )
+        long numROIs = roiImageList.count;
+		for(long j = 0; j < numROIs; j++ )
         {
             for( int b = 0; b < 2; b++)
             {
@@ -111,69 +127,71 @@
                 
                 if( roi)
                 {
-                    NSString *roiName = [ roi name];
+                    NSString *roiName = [roi name];
                     
-                    float mean = 0, minv = 0, maxv = 0, total = 0, dev = 0;
-                    
-                    [roi.pix computeROI:roi :&mean :&total :&dev :&minv :&maxv];
+                    float mean = [roi mean], minv = [roi min], maxv = [roi max], total = [roi total], dev = [roi dev];
                     
                     // array of point in pix coordinate
-                    NSMutableArray *roiPoints = [ roi points ];
+                    NSMutableArray *roiPoints = [roi points];
                     
-                    NSMutableDictionary *roiInfo = [ [ NSMutableDictionary alloc ] init ];
-                    NSMutableArray *mmXYZ = [ NSMutableArray arrayWithCapacity: 0 ];
-                    NSMutableArray *pixXY = [ NSMutableArray arrayWithCapacity: 0 ];
+                    NSMutableDictionary *roiInfo = [NSMutableDictionary dictionary];
+                    NSMutableArray *mmXYZ = [NSMutableArray array];
+                    NSMutableArray *pixXY = [NSMutableArray array];
                     NSPoint roiCenterPoint;
                     
                     // calc center of the ROI
-                    if ( [ roi type ] == t2DPoint ) {
+                    if([roi type] == t2DPoint)
+                    {
                         // ROI has a bug which causes miss-calculating center of 2DPoint roi
-                        roiCenterPoint = [ [ roiPoints objectAtIndex: 0 ] point ];
+                        roiCenterPoint = [[roiPoints objectAtIndex: 0] point];
                     } else {
-                        roiCenterPoint = [ roi centroid ];
+                        roiCenterPoint = roi.centroid;
                     }
                     float clocs[3], locs[3];
-                    [roi.pix convertPixX: roiCenterPoint.x pixY: roiCenterPoint.y toDICOMCoords: clocs ];
-                    NSString *roiCenter = [ NSString stringWithFormat: @"(%f, %f, %f)", clocs[0], clocs[1], clocs[2] ];
+                    [roi.pix convertPixX: roiCenterPoint.x pixY: roiCenterPoint.y toDICOMCoords: clocs];
+                    NSString *roiCenter = [NSString stringWithFormat: @"(%f, %f, %f)", clocs[0], clocs[1], clocs[2]];
                     
-                    float area = 0, length = 0;
+                    float areaPix2 = 0, areaCm2 = 0, length = 0;
                     NSMutableDictionary	*dataString = [roi dataString];
                     NSMutableArray *dataValues = [roi dataValues];
                     
-                    if( [dataString objectForKey:@"AreaPIX2"]) area = [[dataString objectForKey:@"AreaPIX2"] floatValue];
-                    if( [dataString objectForKey:@"AreaCM2"]) area = [[dataString objectForKey:@"AreaCM2"] floatValue];
+                    if( [dataString objectForKey:@"AreaPIX2"]) areaPix2 = [[dataString objectForKey:@"AreaPIX2"] floatValue];
+                    if( [dataString objectForKey:@"AreaCM2"]) areaCm2 = [[dataString objectForKey:@"AreaCM2"] floatValue];
                     if( [dataString objectForKey:@"Length"]) length = [[dataString objectForKey:@"Length"] floatValue];
                     
+                    long numCsvPoints = 0;
                     // walk through each point in the ROI
-                    if ( fileType == FT_CSV ) {
-                        csvRoiPoints = [ NSMutableString stringWithCapacity: 100 ];
-                        numCsvPoints = 0;
-                    }
-                    for ( k = 0; k < [ roiPoints count ]; k++ ) {
+                    if(fileType == FT_CSV )
+                        csvRoiPoints = [NSMutableString string];
+                    
+                    for(long k = 0; k < [roiPoints count]; k++ )
+                    {
                         
-                        MyPoint *mypt = [ roiPoints objectAtIndex: k ];
-                        NSPoint pt = [ mypt point ];
+                        MyPoint *mypt = [roiPoints objectAtIndex: k];
+                        NSPoint pt = [mypt point];
                         
-                        [roi.pix convertPixX: pt.x pixY: pt.y toDICOMCoords: locs ];
+                        [roi.pix convertPixX: pt.x pixY: pt.y toDICOMCoords: locs];
 
-                        [ mmXYZ addObject: [ NSString stringWithFormat: @"(%f, %f, %f)", locs[0], locs[1], locs[2] ] ];
+                        [mmXYZ addObject: [NSString stringWithFormat: @"(%f, %f, %f)", locs[0], locs[1], locs[2]]];
         //				NSLog( @"ROI %d - %d (%@): %f, %f, %f", (int)i, (int)j, roiName, locs[0], locs[1], locs[2] );
 
-                        //NSArray *pxXY = [ NSArray arrayWithObjects: [ NSNumber numberWithFloat: pt.x ], [ NSNumber numberWithFloat: pt.y ] ];
-                        //[ xyzInRoi addObject: xyz ];
-                        [ pixXY addObject: [ NSString stringWithFormat: @"(%f, %f)", pt.x, pt.y ] ];
-
+                        //NSArray *pxXY = [NSArray arrayWithObjects: [NSNumber numberWithFloat: pt.x], [NSNumber numberWithFloat: pt.y]];
+                        //[xyzInRoi addObject: xyz];
+                        [pixXY addObject: [NSString stringWithFormat: @"(%f, %f)", pt.x, pt.y]];
+                        
                         // add to csv
-                        if ( fileType == FT_CSV ) {
-                            if ( k > 0 ) [ csvRoiPoints appendString: @"," ];
-                            [ csvRoiPoints appendFormat: @"%f,%f,%f,%f,%f", locs[0], locs[1], locs[2], pt.x, pt.y ];
+                        if(fileType == FT_CSV )
+                        {
+                            if(k > 0 ) [csvRoiPoints appendString: @","];
+                            [csvRoiPoints appendFormat: @"%f,%f,%f,%f,%f", locs[0], locs[1], locs[2], pt.x, pt.y];
                             numCsvPoints++;
                         }
                     }
                     
-                    if ( fileType == FT_CSV ) {
-                        [ csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%d,%d,%@%c",
-                         (int)i, (int)j, mean, minv, maxv, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF ];
+                    if(fileType == FT_CSV )
+                    {
+                        [csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%f,%d,%d,%@%c",
+                         (int)i, (int)j, mean, minv, maxv, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, areaPix2, areaCm2, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF];
                     }
                                 
                     // roiInfo stands for a ROI
@@ -185,23 +203,24 @@
                     //   Point_mm		: array of point (x,y,z) in mm unit
                     //   Point_px		: array of point (x,y) in pixel unit
                     //   Point_value	: array of pixel values
-                    [ roiInfo setObject: [ NSNumber numberWithLong: j ] forKey: @"IndexInImage" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: mean ] forKey: @"Mean" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: minv ] forKey: @"Min" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: maxv ] forKey: @"Max" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: total ] forKey: @"Total" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: dev ] forKey: @"Dev" ];
-                    [ roiInfo setObject: roiName forKey: @"Name" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: length ] forKey: @"Length" ];
-                    [ roiInfo setObject: [ NSNumber numberWithFloat: area ] forKey: @"Area" ];
-                    [ roiInfo setObject: [ NSNumber numberWithLong: [ roi type ] ] forKey: @"Type" ];
-                    [ roiInfo setObject: roiCenter forKey: @"Center" ];
-                    [ roiInfo setObject: [ NSNumber numberWithLong: [ roiPoints count ] ] forKey: @"NumberOfPoints" ];
-                    [ roiInfo setObject: mmXYZ forKey: @"Point_mm" ];
-                    [ roiInfo setObject: pixXY forKey: @"Point_px" ];
-                    [ roiInfo setObject: dataValues forKey: @"Point_value" ];
+                    [roiInfo setObject: [NSNumber numberWithLong: j] forKey: @"IndexInImage"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: mean] forKey: @"Mean"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: minv] forKey: @"Min"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: maxv] forKey: @"Max"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: total] forKey: @"Total"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: dev] forKey: @"Dev"];
+                    [roiInfo setObject: roiName forKey: @"Name"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: length] forKey: @"Length"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: areaPix2] forKey: @"AreaPix2"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: areaCm2] forKey: @"AreaCm2"];
+                    [roiInfo setObject: [NSNumber numberWithLong: [roi type]] forKey: @"Type"];
+                    [roiInfo setObject: roiCenter forKey: @"Center"];
+                    [roiInfo setObject: [NSNumber numberWithLong: [roiPoints count]] forKey: @"NumberOfPoints"];
+                    [roiInfo setObject: mmXYZ forKey: @"Point_mm"];
+                    [roiInfo setObject: pixXY forKey: @"Point_px"];
+                    [roiInfo setObject: dataValues forKey: @"Point_value"];
                     
-                    [ roisInImage addObject: roiInfo ];
+                    [roisInImage addObject: roiInfo];
                 }
             }
 		}
@@ -211,11 +230,11 @@
 			//   ImageIndex		: order in the series (start by zero)
 			//   NumberOfROIs	: number of ROIs
 			//   ROIs			: array of ROI
-			[ imageInfo setObject: [ NSNumber numberWithLong: i ] forKey: @"ImageIndex" ];
-			[ imageInfo setObject: [ NSNumber numberWithLong: numROIs ] forKey: @"NumberOfROIs" ]; 
-			[ imageInfo setObject: roisInImage forKey: @"ROIs" ];
+			[imageInfo setObject: [NSNumber numberWithLong: i] forKey: @"ImageIndex"];
+			[imageInfo setObject: [NSNumber numberWithLong: numROIs] forKey: @"NumberOfROIs"];
+			[imageInfo setObject: roisInImage forKey: @"ROIs"];
 		
-			[ imagesInSeries addObject: imageInfo ];
+			[imagesInSeries addObject: imageInfo];
 		}
 		
 		[splash incrementBy: 1];
@@ -223,27 +242,27 @@
 	
 	// seriesInfo stands for a series
 	//   Images	: array of imageInfo, which contains array of ROI
-	[ seriesInfo setObject: imagesInSeries forKey: @"Images" ];
+	[seriesInfo setObject: imagesInSeries forKey: @"Images"];
 	
-	NSMutableString *fname = [ NSMutableString stringWithString: [ sheet filename ] ];
+	NSString *fname = sheet.URL.path;
+    fname = [fname stringByDeletingPathExtension];
     
-    [[NSFileManager defaultManager] removeItemAtPath: fname error: nil];
-    
-	if ( fileType == FT_CSV ) {
-
-		[fname appendString: @".csv" ];
+	if(fileType == FT_CSV)
+    {
+        fname = [fname stringByAppendingPathExtension: @"csv"];
+        [[NSFileManager defaultManager] removeItemAtPath: fname error: nil];
         [csvText writeToFile: fname atomically: YES encoding: NSUTF8StringEncoding error: nil];
 
-	} else {
-	
-		[ fname appendString: @".xml" ];
-		[ seriesInfo writeToFile: fname atomically: TRUE ];
-		[ seriesInfo release ];
+	}
+    else
+    {
+        fname = [fname stringByAppendingPathExtension: @"xml"];
+        [[NSFileManager defaultManager] removeItemAtPath: fname error: nil];
+		[seriesInfo writeToFile: fname atomically: TRUE];
 	}
 
 	// hide progress
 	[splash close];
-	[splash release];
     
     viewerController.imageIndex = copyIndex;
 }
@@ -252,9 +271,9 @@
 {
 	long ret = 0;
 	
-	if ( [ menuName isEqualToString: @"Export ROIs" ] ) {
+	if([menuName isEqualToString: @"Export ROIs"]) {
 
-		ret = [ self exportROIs ];
+		ret = [self exportROIs];
 
 	}
 	
