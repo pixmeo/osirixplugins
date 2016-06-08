@@ -228,9 +228,11 @@
 		if (numROIs > 0) {
 			// imageInfo stands for a DICOM pix
 			//   ImageIndex		: order in the series (start by zero)
+			//   ImageTotalNum      : total num of images in the series (start by 1)
 			//   NumberOfROIs	: number of ROIs
 			//   ROIs			: array of ROI
 			[imageInfo setObject: [NSNumber numberWithLong: i] forKey: @"ImageIndex"];
+			[imageInfo setObject: [NSNumber numberWithLong: roiSeriesList.count] forKey: @"ImageTotalNum"];
 			[imageInfo setObject: [NSNumber numberWithLong: numROIs] forKey: @"NumberOfROIs"];
 			[imageInfo setObject: roisInImage forKey: @"ROIs"];
 		
