@@ -317,23 +317,27 @@
 	[self setNeedsDisplay:YES];
 }
 
--(void)drawTrackingGizmoAtPoint:(NSPoint)point withValue:(float)value {
-	NSGraphicsContext* context = [NSGraphicsContext currentContext];
-	[context saveGraphicsState];
-	
-	static NSDictionary* attributes = [[NSDictionary dictionaryWithObjectsAndKeys: [NSFont systemFontOfSize:[NSFont smallSystemFontSize]-2], NSFontAttributeName, NULL] retain];
-	
-	NSString* string = [[_interface floatFormatter] stringFromNumber:[NSNumber numberWithFloat:value]];
-	NSSize size = [string sizeWithAttributes:attributes];
-	
-	[NSBezierPath strokeLineFromPoint:point toPoint:NSMakePoint(point.x+5, point.y)];
-	[NSBezierPath setDefaultLineWidth: 0];
-	[[[NSColor whiteColor] colorWithAlphaComponent:.5] setFill];
-	NSRect rect = NSMakeRect(point.x+4, point.y+2, size.width, size.height);
-	[[NSBezierPath bezierPathWithRect:NSMakeRect(rect.origin.x-2, rect.origin.y, rect.size.width+3, rect.size.height-1)] fill];
-	[string drawInRect:rect withAttributes:attributes];
-	
-	[context restoreGraphicsState];
+-(void)drawTrackingGizmoAtPoint:(NSPoint)point withValue:(float)value
+{
+    if( point.y == point.y && point.x == point.x && value == value) // test for nan
+    {
+        NSGraphicsContext* context = [NSGraphicsContext currentContext];
+        [context saveGraphicsState];
+        
+        static NSDictionary* attributes = [[NSDictionary dictionaryWithObjectsAndKeys: [NSFont systemFontOfSize:[NSFont smallSystemFontSize]-2], NSFontAttributeName, NULL] retain];
+        
+        NSString* string = [[_interface floatFormatter] stringFromNumber:[NSNumber numberWithFloat:value]];
+        NSSize size = [string sizeWithAttributes:attributes];
+        
+        [NSBezierPath strokeLineFromPoint:point toPoint:NSMakePoint(point.x+5, point.y)];
+        [NSBezierPath setDefaultLineWidth: 0];
+        [[[NSColor whiteColor] colorWithAlphaComponent:.5] setFill];
+        NSRect rect = NSMakeRect(point.x+4, point.y+2, size.width, size.height);
+        [[NSBezierPath bezierPathWithRect:NSMakeRect(rect.origin.x-2, rect.origin.y, rect.size.width+3, rect.size.height-1)] fill];
+        [string drawInRect:rect withAttributes:attributes];
+        
+        [context restoreGraphicsState];
+    }
 }
 
 -(BOOL)computeLayout {
@@ -380,33 +384,40 @@
 -(void)drawValue:(float)value {
 	NSGraphicsContext* context = [NSGraphicsContext currentContext];
 	
-	if (value >= _xMin && value <= _xMax) {
+	if (value >= _xMin && value <= _xMax && _xMin != _xMax) {
+        
 		float pointX = [[self axes] locationForXValue:value yValue:0].x;
-		// line
-		[context saveGraphicsState];
-		[[NSBezierPath bezierPathWithRect:[[self axes] plotRect]] setClip];
-		[[NSColor blackColor] setStroke];
-		[NSBezierPath setDefaultLineWidth: 1];
-		[NSBezierPath strokeLineFromPoint:NSMakePoint(pointX, [[self axes] plotRect].origin.y) toPoint:NSMakePoint(pointX, [[self axes] plotRect].origin.y+[[self axes] plotRect].size.height)];
-		[context restoreGraphicsState];
-		// values
-		[context saveGraphicsState];
-		[[NSColor blackColor] setStroke];
-		[NSBezierPath setDefaultLineWidth: 1];
-		for (unsigned i = 0; i < [[_interface roiList] countOfDisplayedROIs]; ++i) {
-			RoiEnhancementROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
-			
-			float min = 0, mean = 0, max = 0;
-			[self yValueForROIRec:roiRec element:value min:&min mean:&mean max:&max];
-			
-			if ([[_interface options] min])
-				[self drawTrackingGizmoAtPoint:[[self axes] locationForXValue:value yValue:min] withValue:min];
-			if ([[_interface options] mean])
-				[self drawTrackingGizmoAtPoint:[[self axes] locationForXValue:value yValue:mean] withValue:mean];
-			if ([[_interface options] max])
-				[self drawTrackingGizmoAtPoint:[[self axes] locationForXValue:value yValue:max] withValue:max];
-		}
-		[context restoreGraphicsState];
+        
+        if( pointX == pointX) // test for nan
+        {
+            // line
+            [context saveGraphicsState];
+            [[NSBezierPath bezierPathWithRect:[[self axes] plotRect]] setClip];
+            [[NSColor blackColor] setStroke];
+            [NSBezierPath setDefaultLineWidth: 1];
+            
+            [NSBezierPath strokeLineFromPoint:NSMakePoint(pointX, [[self axes] plotRect].origin.y) toPoint:NSMakePoint(pointX, [[self axes] plotRect].origin.y+[[self axes] plotRect].size.height)];
+            [context restoreGraphicsState];
+            // values
+            [context saveGraphicsState];
+            [[NSColor blackColor] setStroke];
+            [NSBezierPath setDefaultLineWidth: 1];
+            for (unsigned i = 0; i < [[_interface roiList] countOfDisplayedROIs]; ++i)
+            {
+                RoiEnhancementROIRec* roiRec = [[_interface roiList] displayedROIRec:i];
+                
+                float min = 0, mean = 0, max = 0;
+                [self yValueForROIRec:roiRec element:value min:&min mean:&mean max:&max];
+                
+                if ([[_interface options] min])
+                    [self drawTrackingGizmoAtPoint:[[self axes] locationForXValue:value yValue:min] withValue:min];
+                if ([[_interface options] mean])
+                    [self drawTrackingGizmoAtPoint:[[self axes] locationForXValue:value yValue:mean] withValue:mean];
+                if ([[_interface options] max])
+                    [self drawTrackingGizmoAtPoint:[[self axes] locationForXValue:value yValue:max] withValue:max];
+            }
+            [context restoreGraphicsState];
+        }
 	}
 }
 

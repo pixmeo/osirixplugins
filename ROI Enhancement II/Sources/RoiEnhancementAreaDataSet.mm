@@ -67,22 +67,34 @@
 		
 		BOOL logscale = [(NSString*)[[_chart axes] propertyForKey:GRAxesYAxisScale] isEqualToString: GRAxesLog10Scale];
 		
-		for (int x = [_chart xMin]; x <= [_chart xMax]; ++x) {
+		for (int x = [_chart xMin]; x <= [_chart xMax]; ++x)
+        {
 			NSPoint p; p.x = [self from:x r0:p0x r1:p1x toR0:r.origin.x toR1:r.origin.x+r.size.width];
 			double y = [[_min dataSource] chart:_chart yValueForDataSet:_min element:x];
 			if (!logscale) p.y = [self from:y r0:p0y r1:p1y toR0:r.origin.y toR1:r.origin.y+r.size.height];
 			else p.y = [[_chart axes] locationForXValue:x yValue:y].y;
-			if ([path isEmpty])
-				[path moveToPoint:p];
-			else [path lineToPoint:p];
+			
+            if( p.y == p.y && p.x == p.x) // test for nan
+            {
+                if ([path isEmpty])
+                    [path moveToPoint:p];
+                else
+                    [path lineToPoint:p];
+            }
 		}
 		
-		for (int x = [_chart xMax]; x >= [_chart xMin]; --x) {
-			NSPoint p; p.x = [self from:x r0:p0x r1:p1x toR0:r.origin.x toR1:r.origin.x+r.size.width];
-			double y = [[_max dataSource] chart:_chart yValueForDataSet:_max element:x];
+		for (int x = [_chart xMax]; x >= [_chart xMin]; --x)
+        {
+			NSPoint p;
+            p.x = [self from:x r0:p0x r1:p1x toR0:r.origin.x toR1:r.origin.x+r.size.width];
+			
+            double y = [[_max dataSource] chart:_chart yValueForDataSet:_max element:x];
+            
 			if (!logscale) p.y = [self from:y r0:p0y r1:p1y toR0:r.origin.y toR1:r.origin.y+r.size.height];
 			else p.y = [[_chart axes] locationForXValue:x yValue:y].y;
-			[path lineToPoint:p];
+            
+            if( p.y == p.y && p.x == p.x) // test for nan
+                [path lineToPoint:p];
 		}
 	
 		[path closePath];

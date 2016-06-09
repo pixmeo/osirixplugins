@@ -14,7 +14,7 @@
      PURPOSE.
 =========================================================================*/
 
-#import "OsiriXAPI/PluginFilter.h"
+#import <OsiriXAPI/PluginFilter.h>
 
 @interface ROI_Enhancement_II : PluginFilter {
 }
