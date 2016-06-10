@@ -84,6 +84,8 @@
 	[[splash progress] setMaxValue: roiSeriesList.count];
     
     int copyIndex = viewerController.imageIndex;
+	long ImageHeight = 0;
+	long ImageWidth = 0;
     
 	// walk through each array of ROI
 	for( long i = 0; i < roiSeriesList.count; i++ )
@@ -92,6 +94,8 @@
         
 		// current DICOM pix
         DCMPix *pix = viewerController.imageView.curDCM;
+		ImageHeight = pix.pheight;
+		ImageWidth = pix.pwidth;
 		
 		// array of ROI in current pix
 		NSArray *roiImageList = viewerController.imageView.curRoiList;
@@ -227,10 +231,17 @@
 
 		if (numROIs > 0) {
 			// imageInfo stands for a DICOM pix
+			//   ImageHeight    : height of the current DICOM Image
+			//   ImageWidth     : width of the current DICOM Image
 			//   ImageIndex		: order in the series (start by zero)
+			//   ImageTotalNum  : total num of images in the series (start by 1)
 			//   NumberOfROIs	: number of ROIs
 			//   ROIs			: array of ROI
+
+			[imageInfo setObject: [NSNumber numberWithLong: ImageHeight] forKey: @"ImageHeight"];
+			[imageInfo setObject: [NSNumber numberWithLong: ImageWidth] forKey: @"ImageWidth"];
 			[imageInfo setObject: [NSNumber numberWithLong: i] forKey: @"ImageIndex"];
+			[imageInfo setObject: [NSNumber numberWithLong: roiSeriesList.count] forKey: @"ImageTotalNum"];
 			[imageInfo setObject: [NSNumber numberWithLong: numROIs] forKey: @"NumberOfROIs"];
 			[imageInfo setObject: roisInImage forKey: @"ROIs"];
 		
