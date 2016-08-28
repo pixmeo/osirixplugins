@@ -71,7 +71,7 @@
 	NSMutableArray *imagesInSeries = [NSMutableArray arrayWithCapacity: 0];
 
 	NSMutableString	*csvText = [NSMutableString stringWithCapacity: 100];
-	[csvText appendFormat: @"ImageNo,RoiNo,RoiMean,RoiMin,RoiMax,RoiTotal,RoiDev,RoiName,RoiCenterX,RoiCenterY,RoiCenterZ,Length,AreaPix2, AreaCm2,RoiType,NumOfPoints,mmX,mmY,mmZ,pxX,pxY,...%c", LF];
+	[csvText appendFormat: @"ImageNo,RoiNo,RoiMean,RoiMin,RoiMax,RoiTotal,RoiDev,RoiName,RoiCenterX,RoiCenterY,RoiCenterZ,LengthCm,LengthPix,AreaPix2, AreaCm2,RoiType,NumOfPoints,mmX,mmY,mmZ,pxX,pxY,...%c", LF];
 	
 	NSMutableString *csvRoiPoints;
 	
@@ -155,14 +155,17 @@
                     [roi.pix convertPixX: roiCenterPoint.x pixY: roiCenterPoint.y toDICOMCoords: clocs];
                     NSString *roiCenter = [NSString stringWithFormat: @"(%f, %f, %f)", clocs[0], clocs[1], clocs[2]];
                     
-                    float areaPix2 = 0, areaCm2 = 0, length = 0;
+                    float areaPix2 = 0, areaCm2 = 0, lengthCm = 0, lengthPix;
                     NSMutableDictionary	*dataString = [roi dataString];
                     NSMutableArray *dataValues = [roi dataValues];
                     
                     if( [dataString objectForKey:@"AreaPIX2"]) areaPix2 = [[dataString objectForKey:@"AreaPIX2"] floatValue];
                     if( [dataString objectForKey:@"AreaCM2"]) areaCm2 = [[dataString objectForKey:@"AreaCM2"] floatValue];
-                    if( [dataString objectForKey:@"Length"]) length = [[dataString objectForKey:@"Length"] floatValue];
-                    
+                    if( [dataString objectForKey:@"LengthCM"])
+                        lengthCm = [[dataString objectForKey:@"LengthCM"] floatValue];
+                    if( [dataString objectForKey:@"LengthPIX"])
+                        lengthPix = [[dataString objectForKey:@"LengthPIX"] floatValue];
+                        
                     long numCsvPoints = 0;
                     // walk through each point in the ROI
                     if(fileType == FT_CSV )
@@ -194,8 +197,8 @@
                     
                     if(fileType == FT_CSV )
                     {
-                        [csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%f,%d,%d,%@%c",
-                         (int)i, (int)j, mean, minv, maxv, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, areaPix2, areaCm2, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF];
+                        [csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%f,%f,%d,%d,%@%c",
+                         (int)i, (int)j, mean, minv, maxv, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], lengthCm, lengthPix, areaPix2, areaCm2, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF];
                     }
                                 
                     // roiInfo stands for a ROI
@@ -214,7 +217,8 @@
                     [roiInfo setObject: [NSNumber numberWithFloat: total] forKey: @"Total"];
                     [roiInfo setObject: [NSNumber numberWithFloat: dev] forKey: @"Dev"];
                     [roiInfo setObject: roiName forKey: @"Name"];
-                    [roiInfo setObject: [NSNumber numberWithFloat: length] forKey: @"Length"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: lengthCm] forKey: @"LengthCm"];
+                    [roiInfo setObject: [NSNumber numberWithFloat: lengthPix] forKey: @"LengthPix"];
                     [roiInfo setObject: [NSNumber numberWithFloat: areaPix2] forKey: @"AreaPix2"];
                     [roiInfo setObject: [NSNumber numberWithFloat: areaCm2] forKey: @"AreaCm2"];
                     [roiInfo setObject: [NSNumber numberWithLong: [roi type]] forKey: @"Type"];
