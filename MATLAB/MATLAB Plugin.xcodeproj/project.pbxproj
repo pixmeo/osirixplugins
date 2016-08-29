@@ -215,6 +215,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "MATLAB Plugin" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
@@ -362,10 +364,6 @@
 		5965127D10DF78F50042E0C7 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = NO;
 				DEBUG = YES;
 				DEBUGGING_SYMBOLS = YES;
@@ -434,7 +432,6 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				DEBUG = YES;
 				DEBUGGING_SYMBOLS = YES;
@@ -504,14 +501,8 @@
 		CE6A9A9508AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					ppc,
-					ppc64,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = macosx10.5;
 			};
 			name = Development;
 		};

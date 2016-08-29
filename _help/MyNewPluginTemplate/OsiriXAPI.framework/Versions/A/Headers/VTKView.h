@@ -1,0 +1,51 @@
+/*=========================================================================
+  Program:   OsiriX
+
+  Copyright (c) Pixmeo
+  All rights reserved.
+=========================================================================*/
+
+
+
+#import <AppKit/AppKit.h>
+
+#ifdef __cplusplus
+#import "vtkCocoaGLView.h"
+#define id Id
+#include "vtkRenderer.h"
+#include "vtkRenderWindow.h"
+#include "vtkRenderWindowInteractor.h"
+#include "vtkCocoaRenderWindowInteractor.h"
+#include "vtkCocoaRenderWindow.h"
+#undef id
+#else
+typedef char* vtkCocoaWindow;
+typedef char* vtkRenderer;
+typedef char* vtkRenderWindow;
+typedef char* vtkRenderWindowInteractor;
+typedef char* vtkCocoaRenderWindowInteractor;
+typedef char* vtkCocoaRenderWindow;
+#endif
+
+
+/** \brief View for using VTK */
+@interface VTKView : vtkCocoaGLView
+{
+    vtkCocoaRenderWindow			*_cocoaRenderWindow;
+    vtkRenderer						*_renderer;
+    vtkCocoaRenderWindowInteractor	*_interactor;
+}
+
++ (long) VRAMSizeForDisplayID: (CGDirectDisplayID) displayID;
+
+-(id)initWithFrame:(NSRect)frame;
+-(void)dealloc;
+
+// Access to VTK instances
+-(vtkRenderer *)renderer;
+-(vtkRenderWindow *)renderWindow;
+-(vtkCocoaRenderWindow *) cocoaWindow;
+-(void)removeAllActors;
+-(void) prepareForRelease;
+
+@end

@@ -162,6 +162,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = BF524BFF088B0F97009A4B6B /* Build configuration list for PBXProject "jp2" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -336,27 +338,21 @@
 		BF524C00088B0F97009A4B6B /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				SDKROOT = "";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Development;
 		};
 		BF524C01088B0F97009A4B6B /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				SDKROOT = "";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Deployment;
 		};
 		BF524C02088B0F97009A4B6B /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
-				SDKROOT = "";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 			};
 			name = Default;
 		};

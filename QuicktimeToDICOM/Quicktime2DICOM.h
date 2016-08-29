@@ -12,7 +12,7 @@
 {
 }
 
-- (void)convertMovieToDICOM:(NSString *)path source:(NSString*) source;
+- (void)convertMovieToDICOM:(NSString *)path source:(DicomImage*) source;
 - (long) filterImage:(NSString*) menuName;
 
 @end

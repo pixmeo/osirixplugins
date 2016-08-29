@@ -218,9 +218,7 @@
 				CONFIGURATION_BUILD_DIR = "/Users/$(INSTALL_OWNER)/Library/Application Support/OsiriX/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx10.7;
 				SYMROOT = "/Users/$(INSTALL_OWNER)/build";
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Plugins;
 		};

@@ -14020,6 +14020,8 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "CMIV_CTA_TOOLS" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -14140,7 +14142,6 @@
 		CE6A9A9108AC841300D0C1EE /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
@@ -14188,10 +14189,6 @@
 		CE6A9A9208AC841300D0C1EE /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					i386,
-					x86_64,
-				);
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -14237,15 +14234,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = (
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Common/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/VNL/src/vxl/core $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/VNL/src/vxl/vcl $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Common $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Mesh/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Segmentation/RegionGrowing/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/CurvatureFlow/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/ImageFunction/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/FiniteDifference/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageFilterBase/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Segmentation/LevelSets/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/FastMarching/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageIntensity/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Bridge/VTK/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/MathematicalMorphology/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Transform/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageGrid/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/BinaryMathematicalMorphology/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/NrrdIO/src/NrrdIO $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/AnisotropicSmoothing/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageFeature/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/Smoothing/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/DistanceMap/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/Thresholding/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/SpatialObjects/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageGradient/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/IO/ImageBase/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/ImageAdaptors/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/IO/ImageBase $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Segmentation/ConnectedComponents/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageStatistics/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Numerics/Statistics/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/VNL/src/vxl/vcl/generic $(SRCROOT)/../../osirix/osirix/ITK180/Utilities/vxl/vcl $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/KWSys/src";
 			};
 			name = Development;
@@ -14254,16 +14247,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = (
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Common/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/VNL/src/vxl/core $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/VNL/src/vxl/vcl $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Common $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Mesh/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Segmentation/RegionGrowing/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/CurvatureFlow/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/ImageFunction/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/FiniteDifference/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageFilterBase/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Segmentation/LevelSets/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/FastMarching/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageIntensity/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Bridge/VTK/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/MathematicalMorphology/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/Transform/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageGrid/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/BinaryMathematicalMorphology/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/NrrdIO/src/NrrdIO $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/AnisotropicSmoothing/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageFeature/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/Smoothing/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/DistanceMap/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/Thresholding/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/SpatialObjects/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageGradient/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/IO/ImageBase/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Core/ImageAdaptors/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/IO/ImageBase $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Segmentation/ConnectedComponents/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Filtering/ImageStatistics/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/Numerics/Statistics/include $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/VNL/src/vxl/vcl/generic $(SRCROOT)/../../osirix/osirix/ITK180/Utilities/vxl/vcl $(SRCROOT)/../../osirix/osirix/ITK180/Modules/ThirdParty/KWSys/src";
 			};
 			name = Deployment;

@@ -127,9 +127,9 @@ const NSString* FileTypeCSV = @"csv";
 	NSSavePanel* panel = [NSSavePanel savePanel];
 	[panel setRequiredFileType:format];
 	
-	if (accessoryView)
-		[panel setAccessoryView:accessoryView];
-	
+    if (accessoryView)
+        [panel setAccessoryView:accessoryView];
+    
 	[panel beginSheetForDirectory:NULL file: [[presetsList selection] valueForKey: @"name"] modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
 }
 
@@ -256,12 +256,12 @@ const NSString* FileTypeCSV = @"csv";
 	{
 		DICOMExport* dicomExport = [[DICOMExport alloc] init];
 		
-		NSString *dicomSourceFile = [[[[[ViewerController getDisplayed2DViewers] objectAtIndex: 0] imageView] curDCM] sourceFile];
-		
-		[dicomExport setSourceFile: dicomSourceFile];
+        ViewerController *firstViewer = [[ViewerController getDisplayed2DViewers] firstObject];
+        
+		[dicomExport setSourceDicomImage: firstViewer.imageView.curDCM.imageObj];
 		[dicomExport setSeriesDescription: seriesDescription];
 		[dicomExport setSeriesNumber: 85469];
-		[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep pixelsWide] height:[bitmapImageRep pixelsHigh]];
+        [dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplesPerPixel:3 bitsPerSample:8 width:[bitmapImageRep pixelsWide] height:[bitmapImageRep pixelsHigh]];
 		NSString *f = [dicomExport writeDCMFile: nil];
 	
 		if( f)

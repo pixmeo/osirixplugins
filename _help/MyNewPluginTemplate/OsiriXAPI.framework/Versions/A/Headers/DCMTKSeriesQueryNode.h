@@ -1,0 +1,34 @@
+/*=========================================================================
+  Program:   OsiriX
+
+  Copyright (c) OsiriX Team
+  All rights reserved.
+  Distributed under GNU - LGPL
+  
+  See http://www.osirix-viewer.com/copyright.html for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.
+=========================================================================*/
+
+
+#import <Cocoa/Cocoa.h>
+#import "DCMTKQueryNode.h"
+#import "DCMTKStudyQueryNode.h"
+
+/** \brief Series level DCMTKQueryNode */
+@interface DCMTKSeriesQueryNode : DCMTKQueryNode <NSCopying>
+{
+	NSString *_studyInstanceUID, *_seriesNumber;
+    DCMTKStudyQueryNode *study;
+}
+
+@property (assign) DCMTKStudyQueryNode *study;
+
+- (NSString*) studyInstanceUID;
+- (NSString*) seriesInstanceUID;
+- (NSString*) seriesDescription;
+- (NSString*) seriesDICOMUID;
+
+@end

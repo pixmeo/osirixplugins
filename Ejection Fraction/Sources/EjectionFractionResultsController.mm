@@ -248,12 +248,35 @@ NSString* const FileTypeDICOM = @"dcm";
 	[[NSPrintOperation printOperationWithView:[[self window] contentView] printInfo:info] runOperation];
 }
 
+-(BOOL) hasOSXElCapitan
+{
+    static int hasOSXElCapitan = -1;
+    
+    if( hasOSXElCapitan != -1)
+        return hasOSXElCapitan;
+    
+    SInt32 osVersion;
+    hasOSXElCapitan = YES;
+    if( Gestalt( gestaltSystemVersionMinor, &osVersion) == noErr)
+    {
+        if( osVersion < 11)
+            hasOSXElCapitan = NO;
+    }
+    
+    return hasOSXElCapitan;
+}
+
 -(void)saveAs:(NSString*)format accessoryView:(NSView*)accessoryView {
 	NSSavePanel* panel = [NSSavePanel savePanel];
 	[panel setRequiredFileType:format];
-	if (accessoryView)
-		[panel setAccessoryView:accessoryView];
-
+    if (accessoryView)
+    {
+        [panel setAccessoryView:accessoryView];
+        
+        if( [self hasOSXElCapitan])
+            panel.accessoryViewDisclosed = YES;
+    }
+    
 	NSManagedObject* infoData = [[[_workflow roiForId:[[[_workflow algorithm] roiIds] objectAtIndex:0]] pix] imageObj];
 	NSString* filename = [NSString stringWithFormat:@"%@ EF %@", [infoData valueForKeyPath:@"series.study.name"], [[_workflow algorithm] description]];
 

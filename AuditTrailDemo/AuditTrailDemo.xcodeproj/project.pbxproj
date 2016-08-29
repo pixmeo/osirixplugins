@@ -189,7 +189,6 @@
 					"-undefined",
 					dynamic_lookup,
 				);
-				SDKROOT = macosx;
 			};
 			name = Development;
 		};
@@ -199,7 +198,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx;
 			};
 			name = "Deployment 32-bit";
 		};
@@ -228,7 +226,6 @@
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = AuditTrailDemo;
-				SDKROOT = macosx10.6;
 				WRAPPER_EXTENSION = osirixplugin;
 			};
 			name = Development;
@@ -256,7 +253,6 @@
 					dynamic_lookup,
 				);
 				PRODUCT_NAME = AuditTrailDemo;
-				SDKROOT = macosx10.6;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = all;
 				WRAPPER_EXTENSION = osirixplugin;

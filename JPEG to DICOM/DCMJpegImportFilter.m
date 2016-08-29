@@ -21,6 +21,24 @@
 	return self;
 }
 
+-(BOOL) hasOSXElCapitan
+{
+    static int hasOSXElCapitan = -1;
+    
+    if( hasOSXElCapitan != -1)
+        return hasOSXElCapitan;
+    
+    SInt32 osVersion;
+    hasOSXElCapitan = YES;
+    if( Gestalt( gestaltSystemVersionMinor, &osVersion) == noErr)
+    {
+        if( osVersion < 11)
+            hasOSXElCapitan = NO;
+    }
+    
+    return hasOSXElCapitan;
+}
+
 - (long) filterImage:(NSString*) menuName
 {
     @try
@@ -82,7 +100,12 @@
         [openPanel setMessage:NSLocalizedString( @"Select image or folder of images to convert to DICOM", nil)];
         
         if( supportCustomMetaData)
+        {
             [openPanel setAccessoryView: accessoryView];
+        
+            if( [self hasOSXElCapitan])
+                openPanel.accessoryViewDisclosed = YES;
+        }
         
         if( [openPanel runModalForTypes:[NSImage imageFileTypes]] == NSOKButton)
         {

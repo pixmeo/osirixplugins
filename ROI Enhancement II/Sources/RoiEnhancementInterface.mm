@@ -90,12 +90,40 @@ NSString* const FileTypeCSV = @"csv";
 		[_userDefaults setBool:YES forKey:@"alert.version.dontshowagain"];
 }
 
--(void)saveAs:(NSString*)format accessoryView:(NSView*)accessoryView {
+-(BOOL) hasOSXElCapitan
+{
+    static int hasOSXElCapitan = -1;
+    
+    if( hasOSXElCapitan != -1)
+        return hasOSXElCapitan;
+    
+    SInt32 osVersion;
+    hasOSXElCapitan = YES;
+    if( Gestalt( gestaltSystemVersionMinor, &osVersion) == noErr)
+    {
+        if( osVersion < 11)
+            hasOSXElCapitan = NO;
+    }
+    
+    return hasOSXElCapitan;
+}
+
+-(void)saveAs:(NSString*)format accessoryView:(NSView*)accessoryView
+{
 	NSSavePanel* panel = [NSSavePanel savePanel];
 	[panel setRequiredFileType:format];
-	if (accessoryView)
+
+    if (accessoryView)
+    {
 		[panel setAccessoryView:accessoryView];
 	
+        if( [self hasOSXElCapitan])
+            panel.accessoryViewDisclosed = YES;
+    }
+    
+    if( [self hasOSXElCapitan])
+        panel.accessoryViewDisclosed = YES;
+    
 	NSManagedObject* infoData = (NSManagedObject*)[[[_viewer imageView] curDCM] imageObj];
 	NSString* filename = [NSString stringWithFormat:@"%@ ROI Enhancement", [infoData valueForKeyPath:@"series.study.name"]];
 	

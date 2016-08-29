@@ -20,12 +20,12 @@
 	if ([currentSelection count] > 0)
 	{
 		id selection = [currentSelection objectAtIndex:0];
-		NSString *source;
+		DicomImage *image;
 		
 		if ([[[selection entity] name] isEqualToString:@"Study"]) 
-			source = [[[[[selection valueForKey:@"series"] anyObject] valueForKey:@"images"] anyObject] valueForKey:@"completePath"];
+			image = [[[[selection valueForKey:@"series"] anyObject] valueForKey:@"images"] anyObject];
 		else
-			source = [[[selection valueForKey:@"images"] anyObject] valueForKey:@"completePath"];
+			image = [[selection valueForKey:@"images"] anyObject];
 		
 		NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 		[openPanel setCanChooseDirectories: NO];
@@ -38,7 +38,7 @@
 			NSString *fpath;
 			while(fpath = [enumerator nextObject])
 			{
-				[self convertMovieToDICOM: fpath source: source];
+				[self convertMovieToDICOM: fpath source: image];
 			}
 		}
 	}
@@ -49,113 +49,123 @@
 
 - (float*) getDataFromNSImage:(NSImage*) otherImage w: (int*) width h: (int*) height rgb: (BOOL*) isRGB
 {
-	int x, y;
-	
-	NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithData: [otherImage TIFFRepresentation]];
-	
-	NSImage *r = [[[NSImage alloc] initWithSize: NSMakeSize( [rep pixelsWide], [rep pixelsHigh])] autorelease];
-	
-	[r lockFocus];
-	[[NSColor whiteColor] set];
-	NSRectFill( NSMakeRect( 0, 0, [r size].width, [r size].height));
-	[otherImage drawInRect: NSMakeRect(0,0,[r size].width, [r size].height) fromRect:NSMakeRect(0,0,[otherImage size].width, [otherImage size].height) operation: NSCompositeSourceOver fraction: 1.0];
-	[r unlockFocus];
-	
-	NSBitmapImageRep *TIFFRep = [[[NSBitmapImageRep alloc] initWithData: [r TIFFRepresentation]] autorelease];
-	
-	*height = [TIFFRep pixelsHigh];
-	*width = [TIFFRep pixelsWide];
-	
-	unsigned char *srcImage = [TIFFRep bitmapData];
-	unsigned char *rgbImage = nil, *srcPtr = nil, *tmpPtr = nil;
-	
-	int totSize = *height * *width * 3;
+    float *fImage = nil;
+    
+    @try
+    {
+        int x, y;
+        
+        NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithData: [otherImage TIFFRepresentation]];
+        
+        NSImage *r = [[[NSImage alloc] initWithSize: NSMakeSize( [rep pixelsWide], [rep pixelsHigh])] autorelease];
+        
+        [r lockFocus];
+        [[NSColor whiteColor] set];
+        NSRectFill( NSMakeRect( 0, 0, [r size].width, [r size].height));
+        [otherImage drawInRect: NSMakeRect(0,0,[r size].width, [r size].height) fromRect:NSMakeRect(0,0,[otherImage size].width, [otherImage size].height) operation: NSCompositeSourceOver fraction: 1.0];
+        [r unlockFocus];
+        
+        NSBitmapImageRep *TIFFRep = [[[NSBitmapImageRep alloc] initWithData: [r TIFFRepresentation]] autorelease];
+        
+        *height = [TIFFRep pixelsHigh];
+        *width = [TIFFRep pixelsWide];
+        
+        unsigned char *srcImage = [TIFFRep bitmapData];
+        unsigned char *rgbImage = nil, *srcPtr = nil, *tmpPtr = nil;
+        
+        int totSize = *height * *width * 3;
 
-	rgbImage = malloc( totSize);
-	if( rgbImage)
-	{
-		switch( [TIFFRep bitsPerPixel])
-		{
-			case 8:
-				tmpPtr = rgbImage;
-				for( y = 0 ; y < *height; y++)
-				{
-					srcPtr = srcImage + y*[TIFFRep bytesPerRow];
-					
-					x = *width;
-					while( x-->0)
-					{
-						*tmpPtr++ = *srcPtr;
-						*tmpPtr++ = *srcPtr;
-						*tmpPtr++ = *srcPtr;
-						srcPtr++;
-					}
-				}
-			break;
-				
-			case 32:
-				tmpPtr = rgbImage;
-				for( y = 0 ; y < *height; y++)
-				{
-					srcPtr = srcImage + y*[TIFFRep bytesPerRow];
-					
-					x = *width;
-					while( x-->0)
-					{
-						*tmpPtr++ = *srcPtr++;
-						*tmpPtr++ = *srcPtr++;
-						*tmpPtr++ = *srcPtr++;
-						srcPtr++;
-					}
-				}
-			break;
-				
-			case 24:
-				tmpPtr = rgbImage;
-				for( y = 0 ; y < *height; y++)
-				{
-					srcPtr = srcImage + y*[TIFFRep bytesPerRow];
-					
-					x = *width;
-					while( x-->0)
-					{
-						*((short*)tmpPtr) = *((short*)srcPtr);
-						tmpPtr+=2;
-						srcPtr+=2;
-						
-						*tmpPtr++ = *srcPtr++;
-					}
-				}
-			break;
-				
-			case 48:
-				tmpPtr = rgbImage;
-				for( y = 0 ; y < *height; y++)
-				{
-					srcPtr = srcImage + y*[TIFFRep bytesPerRow];
-					
-					x = *width;
-					while( x-->0)
-					{
-						*tmpPtr++ = *srcPtr;	srcPtr += 2;
-						*tmpPtr++ = *srcPtr;	srcPtr += 2;
-						*tmpPtr++ = *srcPtr;	srcPtr += 2;
-					}
-				}
-			break;
-				
-			default:
-				NSLog(@"Error - Unknow bitsPerPixel ...");
-			break;
-		}
-	}
-	float *fImage = (float*) rgbImage;
-	*isRGB = YES;
-	
+        rgbImage = malloc( totSize);
+        if( rgbImage)
+        {
+            switch( [TIFFRep bitsPerPixel])
+            {
+                case 8:
+                    tmpPtr = rgbImage;
+                    for( y = 0 ; y < *height; y++)
+                    {
+                        srcPtr = srcImage + y*[TIFFRep bytesPerRow];
+                        
+                        x = *width;
+                        while( x-->0)
+                        {
+                            *tmpPtr++ = *srcPtr;
+                            *tmpPtr++ = *srcPtr;
+                            *tmpPtr++ = *srcPtr;
+                            srcPtr++;
+                        }
+                    }
+                break;
+                    
+                case 32:
+                    tmpPtr = rgbImage;
+                    for( y = 0 ; y < *height; y++)
+                    {
+                        srcPtr = srcImage + y*[TIFFRep bytesPerRow];
+                        
+                        x = *width;
+                        while( x-->0)
+                        {
+                            *tmpPtr++ = *srcPtr++;
+                            *tmpPtr++ = *srcPtr++;
+                            *tmpPtr++ = *srcPtr++;
+                            srcPtr++;
+                        }
+                    }
+                break;
+                    
+                case 24:
+                    tmpPtr = rgbImage;
+                    for( y = 0 ; y < *height; y++)
+                    {
+                        srcPtr = srcImage + y*[TIFFRep bytesPerRow];
+                        
+                        x = *width;
+                        while( x-->0)
+                        {
+                            *((short*)tmpPtr) = *((short*)srcPtr);
+                            tmpPtr+=2;
+                            srcPtr+=2;
+                            
+                            *tmpPtr++ = *srcPtr++;
+                        }
+                    }
+                break;
+                    
+                case 48:
+                    tmpPtr = rgbImage;
+                    for( y = 0 ; y < *height; y++)
+                    {
+                        srcPtr = srcImage + y*[TIFFRep bytesPerRow];
+                        
+                        x = *width;
+                        while( x-->0)
+                        {
+                            *tmpPtr++ = *srcPtr;	srcPtr += 2;
+                            *tmpPtr++ = *srcPtr;	srcPtr += 2;
+                            *tmpPtr++ = *srcPtr;	srcPtr += 2;
+                        }
+                    }
+                break;
+                    
+                default:
+                    NSLog(@"Error - Unknow bitsPerPixel ...");
+                break;
+            }
+        }
+        
+        fImage = (float*) rgbImage;
+        *isRGB = YES;
+    }
+    @catch( NSException *e)
+    {
+        NSLog( @"%@", e);
+    }
+        
 	return fImage;
 }
 
-- (void)convertMovieToDICOM:(NSString *)path source:(NSString*) src
+- (void)convertMovieToDICOM:(NSString *)path source:(DicomImage*) src
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
@@ -179,7 +189,7 @@
 		curFrame = 0;
 		
 		DICOMExport *e = [[[DICOMExport alloc] init] autorelease];
-		[e setSourceFile: src];
+		[e setSourceDicomImage: src];
 		[e setSeriesDescription: [[path lastPathComponent] stringByDeletingPathExtension]];
 		
 		BOOL stop = NO;
