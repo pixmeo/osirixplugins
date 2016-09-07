@@ -34,7 +34,7 @@
 }
 
 @property(readonly) int xMin, xMax;
-@property BOOL drawsBackground, drawsLegend, stopDraw;
+@property(nonatomic) BOOL drawsBackground, drawsLegend, stopDraw;
 
 -(GRLineDataSet*)createOwnedLineDataSet;
 -(RoiEnhancementAreaDataSet*)createOwnedAreaDataSetFrom:(GRLineDataSet*)min to:(GRLineDataSet*)max;

@@ -210,7 +210,7 @@
 		return;
 	
 	// if it doesn't have a surface, then we're not interested in it
-	if (![roi roiArea])
+	if ( [roi areaPix] <= 0)
 		return;
 	
 	RoiEnhancementROIRec* roiRec = [self findRecordByROI:roi];

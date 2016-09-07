@@ -161,7 +161,7 @@ NSString* EjectionFractionWorkflowROIIdInfo = @"EjectionFractionWorkflowROIIdInf
             NSArray* roiTypes = [EjectionFractionWorkflow roiTypesForType:[_algorithm typeForRoiId:roiId]];
             [self setExpectedRoiId:roiId];
             for (ViewerController* viewer in [ViewerController getDisplayed2DViewers]) @try {
-                [viewer setROIToolTag:[[roiTypes objectAtIndex:0] longValue]];
+                [viewer setROIToolTag: (ToolMode)[[roiTypes objectAtIndex:0] longValue]];
             } @catch (NSException* e) { // a fix since version 3.7b8++ solves this exception, but we want to be retro-compatible
             }
             ViewerController* viewer = [[NSApp makeWindowsPerform:@selector(frontmostViewerControllerFinder) inOrder:YES] windowController];

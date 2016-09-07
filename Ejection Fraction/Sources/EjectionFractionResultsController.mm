@@ -270,12 +270,7 @@ NSString* const FileTypeDICOM = @"dcm";
 	NSSavePanel* panel = [NSSavePanel savePanel];
 	[panel setRequiredFileType:format];
     if (accessoryView)
-    {
         [panel setAccessoryView:accessoryView];
-        
-        if( [self hasOSXElCapitan])
-            panel.accessoryViewDisclosed = YES;
-    }
     
 	NSManagedObject* infoData = [[[_workflow roiForId:[[[_workflow algorithm] roiIds] objectAtIndex:0]] pix] imageObj];
 	NSString* filename = [NSString stringWithFormat:@"%@ EF %@", [infoData valueForKeyPath:@"series.study.name"], [[_workflow algorithm] description]];

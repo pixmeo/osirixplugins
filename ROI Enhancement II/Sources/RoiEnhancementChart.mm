@@ -129,8 +129,8 @@
 {
 	if ([[_interface options] xRangeMode] == XRange4thDimension)
     {
-        ROISel roiSel;
-        RoiEnhancementROIRec* roiRec = [[_interface roiList] findRecordByDataSet:dataSet sel:&roiSel];
+//        ROISel roiSel;
+//        RoiEnhancementROIRec* roiRec = [[_interface roiList] findRecordByDataSet:dataSet sel:&roiSel];
         
 //        DicomImage *start = [[[_interface viewer] fileList: 0] objectAtIndex: roiRec.roiIndexPixList];
 //        DicomImage *end = [[[_interface viewer] fileList: [[_interface viewer] maxMovieIndex] -1] objectAtIndex: roiRec.roiIndexPixList];

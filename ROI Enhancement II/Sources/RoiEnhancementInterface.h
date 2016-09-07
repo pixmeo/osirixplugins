@@ -48,7 +48,6 @@
 -(IBAction)saveDICOM:(id)sender;
 -(IBAction)saveAsPDF:(id)sender;
 -(IBAction)saveAsTIFF:(id)sender;
--(IBAction)saveAsDICOM:(id)sender;
 -(IBAction)saveAsCSV:(id)sender;
 
 @end

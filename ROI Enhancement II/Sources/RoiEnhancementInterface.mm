@@ -21,13 +21,13 @@
 #import <OsiriXAPI/DCMPix.h>
 #import <OsiriXAPI/DCMView.h>
 #import <OsiriXAPI/BrowserController.h>
+#import <OsiriXAPI/DicomDatabase.h>
 #import "RoiEnhancementUserDefaults.h"
 #import "RoiEnhancementDicomSaveDialog.h"
 #import "OsiriXAPI/Notifications.h"
 
 NSString* const FileTypePDF = @"pdf";
 NSString* const FileTypeTIFF = @"tiff";
-NSString* const FileTypeDICOM = @"dcm";
 NSString* const FileTypeCSV = @"csv";
 
 
@@ -114,15 +114,7 @@ NSString* const FileTypeCSV = @"csv";
 	[panel setRequiredFileType:format];
 
     if (accessoryView)
-    {
 		[panel setAccessoryView:accessoryView];
-	
-        if( [self hasOSXElCapitan])
-            panel.accessoryViewDisclosed = YES;
-    }
-    
-    if( [self hasOSXElCapitan])
-        panel.accessoryViewDisclosed = YES;
     
 	NSManagedObject* infoData = (NSManagedObject*)[[[_viewer imageView] curDCM] imageObj];
 	NSString* filename = [NSString stringWithFormat:@"%@ ROI Enhancement", [infoData valueForKeyPath:@"series.study.name"]];
@@ -187,10 +179,10 @@ NSString* const FileTypeCSV = @"csv";
     }
 	
 	DICOMExport* dicomExport = [[DICOMExport alloc] init];
-	[dicomExport setSourceFile:[[[_viewer pixList] objectAtIndex:0] srcFile]];
+	[dicomExport setSourceDicomImage: [[_viewer fileList] firstObject]];
 	[dicomExport setSeriesDescription: seriesDescription];
 	[dicomExport setSeriesNumber: 35466];
-	[dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplePerPixel:3 bitsPerPixel:8 width:[bitmapImageRep pixelsWide] height: [bitmapImageRep pixelsHigh]];
+    [dicomExport setPixelData:(unsigned char*)[bitmapRGBData bytes] samplesPerPixel:3 bitsPerSample:8 width:[bitmapImageRep pixelsWide] height:[bitmapImageRep pixelsHigh]];
 	NSString* f = [dicomExport writeDCMFile: nil];
 	
 	if (f)
