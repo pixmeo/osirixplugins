@@ -31,6 +31,12 @@
 
 - (void) OsiriXXMLRPCMessage: (NSNotification*) note
 {
+    if( [NSThread isMainThread] == NO)
+    {
+        [self performSelectorOnMainThread:@selector(OsiriXXMLRPCMessage:) withObject: note waitUntilDone: YES];
+        return;
+    }
+    
 	@try
 	{
 		NSMutableDictionary	*httpServerMessage = [note object];
