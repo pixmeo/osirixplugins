@@ -25,10 +25,10 @@
 #import "RoiEnhancementDicomSaveDialog.h"
 #import "OsiriXAPI/Notifications.h"
 
-const NSString* FileTypePDF = @"pdf";
-const NSString* FileTypeTIFF = @"tiff";
-const NSString* FileTypeDICOM = @"dcm";
-const NSString* FileTypeCSV = @"csv";
+NSString* const FileTypePDF = @"pdf";
+NSString* const FileTypeTIFF = @"tiff";
+NSString* const FileTypeDICOM = @"dcm";
+NSString* const FileTypeCSV = @"csv";
 
 
 @implementation RoiEnhancementInterface
@@ -95,7 +95,7 @@ const NSString* FileTypeCSV = @"csv";
 	if (accessoryView)
 		[panel setAccessoryView:accessoryView];
 	
-	NSManagedObject* infoData = [[[_viewer imageView] curDCM] imageObj];
+	NSManagedObject* infoData = (NSManagedObject*)[[[_viewer imageView] curDCM] imageObj];
 	NSString* filename = [NSString stringWithFormat:@"%@ ROI Enhancement", [infoData valueForKeyPath:@"series.study.name"]];
 	
 	[panel beginSheetForDirectory:NULL file:filename modalForWindow:[self window] modalDelegate:self didEndSelector:@selector(saveAsPanelDidEnd:returnCode:contextInfo:) contextInfo:format];
@@ -154,14 +154,11 @@ const NSString* FileTypeCSV = @"csv";
 	NSString* f = [dicomExport writeDCMFile: nil];
 	
 	if (f)
-		[BrowserController addFiles: [NSArray arrayWithObject: f]
-					 toContext: [[BrowserController currentBrowser] managedObjectContext]
-					toDatabase: [BrowserController currentBrowser]
-					 onlyDICOM: YES 
-			  notifyAddedFiles: YES
-		   parseExistingObject: YES
-					  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
-			 generatedByOsiriX: YES];
+        [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject: f]
+                                                 postNotifications: YES
+                                                         dicomOnly: YES
+                                               rereadExistingItems: YES
+                                                 generatedByOsiriX: YES];
 	
 	[dicomExport release];
 }

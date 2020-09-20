@@ -16,6 +16,7 @@
 		ABB76344067FB2A8000912C1 /* PluginFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633D067FB2A8000912C1 /* PluginFilter.h */; };
 		ABB76345067FB2A8000912C1 /* ROI.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633E067FB2A8000912C1 /* ROI.h */; };
 		ABB76346067FB2A8000912C1 /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = ABB7633F067FB2A8000912C1 /* ViewerController.h */; };
+		CE08865318E7F22A00F5287A /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE08865218E7F22A00F5287A /* OsiriXAPI.framework */; };
 		CE21B4390CC76F3A0007EE08 /* ControllerT1Fit.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE21B4380CC76F3A0007EE08 /* ControllerT1Fit.xib */; };
 		CE6E2B2806CAC1FA00BC7907 /* Atom.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE6E2B2706CAC1FA00BC7907 /* Atom.tif */; };
 		CEC5F1DE06BEACF3008FA1E6 /* T1-T2 Mapping.pch in Resources */ = {isa = PBXBuildFile; fileRef = CEC5F1DD06BEACF3008FA1E6 /* T1-T2 Mapping.pch */; };
@@ -41,6 +42,7 @@
 		ABB7633D067FB2A8000912C1 /* PluginFilter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PluginFilter.h; sourceTree = "<group>"; };
 		ABB7633E067FB2A8000912C1 /* ROI.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ROI.h; sourceTree = "<group>"; };
 		ABB7633F067FB2A8000912C1 /* ViewerController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ViewerController.h; sourceTree = "<group>"; };
+		CE08865218E7F22A00F5287A /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		CE21B4380CC76F3A0007EE08 /* ControllerT1Fit.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControllerT1Fit.xib; sourceTree = "<group>"; };
 		CE6E2B2706CAC1FA00BC7907 /* Atom.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = Atom.tif; sourceTree = "<group>"; };
 		CEC5F1DD06BEACF3008FA1E6 /* T1-T2 Mapping.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "T1-T2 Mapping.pch"; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				CE08865318E7F22A00F5287A /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +82,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				CE08865218E7F22A00F5287A /* OsiriXAPI.framework */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);
@@ -213,9 +217,15 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = CE6A9B7508AC848D00D0C1EE /* Build configuration list for PBXProject "Mapping" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Mapping */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -279,7 +289,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = /Users/antoinerosset/osirix/build/Development;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -317,13 +327,10 @@
 			buildSettings = {
 				ARCHS = (
 					i386,
-					ppc,
-					ppc64,
 					x86_64,
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Development;
 		};

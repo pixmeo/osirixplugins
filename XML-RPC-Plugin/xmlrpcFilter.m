@@ -14,10 +14,11 @@
 //
 
 #import "xmlrpcFilter.h"
-#import "DCMPix.h"
-#import "ViewerController.h"
-#import "DicomFile.h"
-#import "BrowserController.h"
+#import "OsiriXAPI/PluginFilter.h"
+#import "OsiriXAPI/DCMPix.h"
+#import "OsiriXAPI/ViewerController.h"
+#import "OsiriXAPI/DicomFile.h"
+#import "OsiriXAPI/BrowserController.h"
 
 @implementation xmlrpcFilter
 
@@ -34,6 +35,8 @@
 	{
 		NSMutableDictionary	*httpServerMessage = [note object];
 		
+        NSLog( @"%@", httpServerMessage);
+        
         // You will also receive this notification when XMLRPC methods are called through an osirix:// URL
         // In this case, the notification dictionary won't contain an NSXMLDocument and request parameters will be available directly in the dictionary.
         // The following code shows you how to obtain the parameters, no matter if XMLRPC or osirix://

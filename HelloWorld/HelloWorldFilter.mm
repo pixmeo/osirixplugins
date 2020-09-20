@@ -8,6 +8,7 @@
 #import "HelloWorldFilter.h"
 #import <OsiriXAPI/PreferencesWindowController.h>
 #import <OsiriXAPI/N2Operators.h>
+#import <OsiriXAPI/SRController.h>
 
 @implementation HelloWorldFilter
 
@@ -18,6 +19,9 @@
 	// target in this project, named HelloWorldPreferences: as its info.plist file describes, the main
 	// class of the prefPane bunndle is HelloWorldPreferencesController, while the main nib is HelloWorldPreferences.xib
 	[PreferencesWindowController addPluginPaneWithResourceNamed:@"HelloWorldPreferences" inBundle:[NSBundle bundleForClass:[self class]] withTitle:@"Hello World" image:[NSImage imageNamed:@"NSUser"]];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector( windowDidBecomeMain:) name: NSWindowDidBecomeMainNotification object: nil];
 }
 
 - (long) filterImage:(NSString*) menuName
@@ -36,6 +40,86 @@
 	[self loopTroughImages];
 	
 	return 0; // No Errors
+}
+
+// Add a custom icon
+- (NSArray*) toolbarAllowedIdentifiersForViewer: (id) v
+{
+    if( [v isKindOfClass: [ViewerController class]])
+    {
+        return [NSArray arrayWithObject: @"MyImageIdentifier"];
+    }
+    
+    if( [v isKindOfClass: [SRController class]])
+    {
+        return [NSArray arrayWithObject: @"MyImageIdentifier2"];
+    }
+    
+    return [NSArray array];
+}
+
+//
+- (NSToolbarItem *) toolbarItemForItemIdentifier: (NSString *) itemIdent forViewer: (id) v
+{
+	if([itemIdent isEqualToString: @"MyImageIdentifier"] && [v isKindOfClass: [ViewerController class]])
+	{
+        NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+        
+		[toolbarItem setLabel: NSLocalizedString( @"Plugin",nil)];
+		[toolbarItem setImage: [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:HelloWorldFilter.class] pathForResource:@"fatigue" ofType:@"png"]] autorelease]];
+        
+		[toolbarItem setTarget: self];
+		[toolbarItem setAction: @selector(filterImage:)];
+        
+        return toolbarItem;
+    }
+    
+    if([itemIdent isEqualToString: @"MyImageIdentifier2"] && [v isKindOfClass: [SRController class]])
+	{
+        NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier: itemIdent] autorelease];
+        
+		[toolbarItem setLabel: NSLocalizedString( @"Plugin 2",nil)];
+		[toolbarItem setImage: [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:HelloWorldFilter.class] pathForResource:@"fatigue" ofType:@"png"]] autorelease]];
+        
+        return toolbarItem;
+    }
+    
+    return nil;
+}
+
+- (void) windowDidBecomeMain:(NSNotification *)aNotification
+{
+    NSWindow *w = [aNotification object];
+    
+    //We will automatically add our toolbar icon, if it's not here
+    
+    if( [w.windowController isKindOfClass: [ViewerController class]])
+    {
+        ViewerController *vc = w.windowController;
+        
+        NSToolbar *t = [vc toolbar]; // ViewerController toolbar is a SPECIAL case : you CANNOT use window.toolbar, but you HAVE TO use [window.windowcontroller toolbar]
+        
+        for( NSToolbarItem *i in t.items)
+        {
+            if( [i.itemIdentifier isEqualToString: @"MyImageIdentifier"])
+                return;
+        }
+        
+        [t insertItemWithItemIdentifier: @"MyImageIdentifier" atIndex: 0];
+    }
+    
+    if( [w.windowController isKindOfClass: [SRController class]])
+    {
+        NSToolbar *t = [w toolbar];
+        
+        for( NSToolbarItem *i in t.items)
+        {
+            if( [i.itemIdentifier isEqualToString: @"MyImageIdentifier2"])
+                return;
+        }
+        
+        [t insertItemWithItemIdentifier: @"MyImageIdentifier2" atIndex: 0];
+    }
 }
 
 // This method demonstrate how to loop through all the images of the current viewer

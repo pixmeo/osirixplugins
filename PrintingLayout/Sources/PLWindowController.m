@@ -8,6 +8,7 @@
 
 #import "PLLayoutView.h"
 #import "PLWindowController.h"
+#import <OsiriXAPI/Notifications.h>
 #import <OsiriXAPI/N2CustomTitledPopUpButtonCell.h>
 #import <OsiriXAPI/ROI.h>
 
@@ -21,6 +22,7 @@
 @synthesize scrollViewFormat;
 @synthesize currentPage;
 @synthesize fullDocumentView;
+@synthesize annotationRadioButton;
 @synthesize importInterval, importStart, importEnd, importWidth, importHeight;
 @synthesize importWindow;
 
@@ -38,6 +40,8 @@
         self.currentPage         = -1;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentPageUpdated:) name:NSViewBoundsDidChangeNotification object:scrollView.contentView];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(close) name:OsirixCloseViewerNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAnnotation:) name:OsirixUpdateViewNotification object:nil];
     }
     
     return self;
@@ -79,6 +83,31 @@
     [documentSizeIndicator setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d %@", nil), nbPages ? nbPages : 1, nbPages > 1 ? @"pages" : @"page"]];
 }
 
+- (IBAction)updateScaleToFitPreference:(id)sender
+{
+    PLLayoutView *layout;
+    switch ([sender selectedSegment])
+    {
+        case 0:
+            layout = [fullDocumentView.subviews objectAtIndex:currentPage];
+            for (NSUInteger j = 0; j < layout.subviews.count; ++j)
+                [[layout.subviews objectAtIndex:j] scaleToFit];
+            break;
+            
+        case 1:
+            for (NSUInteger i = 0; i < fullDocumentView.subviews.count; ++i)
+            {
+                layout = [fullDocumentView.subviews objectAtIndex:i];
+                for (NSUInteger j = 0; j < layout.subviews.count; ++j)
+                    [[layout.subviews objectAtIndex:j] scaleToFit];
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark-Layout management
 
 - (IBAction)updateViewRatio:(id)sender
@@ -90,12 +119,11 @@
 
 - (IBAction)pageAction:(id)sender
 {
-    NSInteger clickedSegment = [sender selectedSegment];
-    
-    switch (clickedSegment)
+    switch ([sender selectedSegment])
     {
         case 0:
             [self addPage:sender];
+            
             break;
             
         case 1:
@@ -151,26 +179,6 @@
 {
     [fullDocumentView insertPageAtIndex:currentPage];
     [self updateWindowTitle];
-}
-
-- (IBAction)updateGridLayoutFromButton:(id)sender
-{
-//    NSString *name =[layoutChoiceButton selectedItem].title;
-//    NSArray *c = [name componentsSeparatedByString:@"x"];
-//    
-//    NSUInteger newWidth = [[c objectAtIndex:0] integerValue];
-//    NSUInteger newHeight = [[c objectAtIndex:1] integerValue];
-//    
-//    if ([[fullDocumentView.subviews objectAtIndex:currentPage] updateLayoutViewWidth:newWidth height:newHeight])
-//    {
-//        self.widthValue = newWidth;
-//        self.heightValue = newHeight;
-//        [self updateWidth];
-//        [self updateHeight];
-//        
-//        [[fullDocumentView.subviews objectAtIndex:currentPage] reorderLayoutMatrix];
-//        [fullDocumentView resizePLDocumentView];
-//    }
 }
 
 - (IBAction)reshapeLayout:(id)sender

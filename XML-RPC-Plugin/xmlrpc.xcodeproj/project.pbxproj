@@ -22,6 +22,7 @@
 		CE49C7810C8C1DAC004A31FB /* ViewerController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7760C8C1DAC004A31FB /* ViewerController.h */; };
 		CE49C7850C8C1DBE004A31FB /* xmlrpcFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE49C7830C8C1DBE004A31FB /* xmlrpcFilter.m */; };
 		CE49C7860C8C1DBE004A31FB /* xmlrpcFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE49C7840C8C1DBE004A31FB /* xmlrpcFilter.h */; };
+		CEB6E5B8172D119100826F3F /* OsiriXAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEB6E5B7172D119100826F3F /* OsiriXAPI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		CE49C7830C8C1DBE004A31FB /* xmlrpcFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xmlrpcFilter.m; sourceTree = "<group>"; };
 		CE49C7840C8C1DBE004A31FB /* xmlrpcFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrpcFilter.h; sourceTree = "<group>"; };
 		CE49C7930C8C2096004A31FB /* browserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = browserController.h; sourceTree = "<group>"; };
+		CEB6E5B7172D119100826F3F /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				CEB6E5B8172D119100826F3F /* OsiriXAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +105,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEB6E5B7172D119100826F3F /* OsiriXAPI.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -264,7 +268,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../osirix/build/Development\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;

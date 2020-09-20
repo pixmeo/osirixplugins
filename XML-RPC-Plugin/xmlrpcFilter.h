@@ -4,7 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PluginFilter.h"
+#import "OsiriXAPI/PluginFilter.h"
 
 @interface xmlrpcFilter : PluginFilter {
 

@@ -193,14 +193,11 @@
             createdFile = [[e writeDCMFile: nil] retain];
 	
 			if( createdFile)
-				[BrowserController addFiles: [NSArray arrayWithObject: createdFile]
-							 toContext: [[BrowserController currentBrowser] managedObjectContext]
-							toDatabase: [BrowserController currentBrowser]
-							 onlyDICOM: YES 
-					  notifyAddedFiles: YES
-				   parseExistingObject: YES
-							  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
-					 generatedByOsiriX: YES];
+                [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject: createdFile]
+                                                                            postNotifications: YES
+                                                                                    dicomOnly: YES
+                                                                          rereadExistingItems: YES
+                                                                            generatedByOsiriX: YES];
 		}
 	}
 	[pool release];

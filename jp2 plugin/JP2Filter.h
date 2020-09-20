@@ -7,7 +7,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "PluginFileFormatDecoder.h"
+#import "OsiriXAPI/PluginFileFormatDecoder.h"
 
 
 @interface JP2Filter : PluginFileFormatDecoder {

@@ -38,24 +38,11 @@
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		599BEEFB1429C47600B45236 /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		59F3430E14448535004904DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = "../../../osirix-trunk/build/Development/OsiriXAPI.framework"; sourceTree = "<group>"; };
+		59F3430E14448535004904DE /* OsiriXAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OsiriXAPI.framework; path = ../../osirix/build/Development/OsiriXAPI.framework; sourceTree = "<group>"; };
 		7110084314BB489D003F0C67 /* HSSMedcaseCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSMedcaseCreation.h; path = Sources/HSSMedcaseCreation.h; sourceTree = "<group>"; };
 		7110084414BB489D003F0C67 /* HSSMedcaseCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSSMedcaseCreation.m; path = Sources/HSSMedcaseCreation.m; sourceTree = "<group>"; };
 		711FBBA614B5EE6500802A87 /* HSSAPISession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSSAPISession.h; path = Sources/HSSAPISession.h; sourceTree = "<group>"; };
@@ -243,7 +230,6 @@
 			buildPhases = (
 				8D5B49AD048680CD000E48DA /* Headers */,
 				8D5B49AF048680CD000E48DA /* Resources */,
-				599BEEFB1429C47600B45236 /* Copy Frameworks */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				8D5B49B5048680CD000E48DA /* Rez */,
@@ -264,7 +250,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = CE6A9A9408AC841300D0C1EE /* Build configuration list for PBXProject "HSS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -357,10 +343,10 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"../../../osirix-trunk/build/Development",
 					"$(inherited)",
-					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
-					"\"$(SRCROOT)/../../HUG Framework/build/Development\"",
+					"\"$(SRCROOT)\"",
+					../../osirix/build/Development,
+					"\"$(SRCROOT)../../osirix/build/Development\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -374,7 +360,7 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -383,7 +369,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = HSS;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				USER_HEADER_SEARCH_PATHS = "../../../osirix/Binaries/dcmtk-source/dcmimgle ../../../osirix/Binaries/dcmtk-source/config ../../../osirix/Binaries/dcmtk-source/ofstd ../../../osirix/Binaries/dcmtk-source/dcmdata";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -399,10 +385,10 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					"../../../osirix-trunk/build/Development",
 					"$(inherited)",
-					"\"$(SRCROOT)/../../_Frameworks_and_Libraries\"",
-					"\"$(SRCROOT)/../../HUG Framework/build/Development\"",
+					"\"$(SRCROOT)\"",
+					../../osirix/build/Development,
+					"\"$(SRCROOT)../../osirix/build/Development\"",
 				);
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -413,7 +399,7 @@
 				INSTALL_PATH = "@executable_path/../Plug-ins";
 				LIBRARY_SEARCH_PATHS = "";
 				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-undefined",
@@ -422,7 +408,7 @@
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = HSS;
 				SECTORDER_FLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "../../../osirix-trunk/Binaries/dcmtk-source/dcmimgle ../../../osirix-trunk/Binaries/dcmtk-source/config ../../../osirix-trunk/Binaries/dcmtk-source/ofstd ../../../osirix-trunk/Binaries/dcmtk-source/dcmdata";
+				USER_HEADER_SEARCH_PATHS = "../../../osirix/Binaries/dcmtk-source/dcmimgle ../../../osirix/Binaries/dcmtk-source/config ../../../osirix/Binaries/dcmtk-source/ofstd ../../../osirix/Binaries/dcmtk-source/dcmdata";
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -437,7 +423,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				SDKROOT = macosx10.7;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = NO;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = NO;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
 			};
 			name = Development;
 		};
@@ -445,7 +435,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				SDKROOT = macosx10.7;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = NO;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = NO;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = NO;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx10.8;
 			};
 			name = Deployment;
 		};

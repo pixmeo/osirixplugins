@@ -42,7 +42,7 @@
 		717FD96416C4E06B00CE8222 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		717FD96516C4E06B00CE8222 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		717FD96616C4E06B00CE8222 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		717FD96916C4E06B00CE8222 /* ReporterPrefs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ReporterPrefs-Info.plist"; path = "../Resources/ReporterPrefs-Info.plist"; sourceTree = "<group>"; };
+		717FD96916C4E06B00CE8222 /* ReporterPrefs-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "ReporterPrefs-Info.plist"; path = "Resources/ReporterPrefs-Info.plist"; sourceTree = "<group>"; };
 		717FD97316C4E67B00CE8222 /* ReporterPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReporterPrefs.xib; path = Resources/ReporterPrefs.xib; sourceTree = SOURCE_ROOT; };
 		717FD97516C4E69900CE8222 /* ReporterPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReporterPrefsController.h; path = Sources/ReporterPrefsController.h; sourceTree = SOURCE_ROOT; };
 		717FD97616C4E69900CE8222 /* ReporterPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReporterPrefsController.m; path = Sources/ReporterPrefsController.m; sourceTree = SOURCE_ROOT; };
@@ -409,7 +409,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
@@ -442,7 +441,6 @@
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Sources/Reporter_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				HEADER_SEARCH_PATHS = "";
@@ -473,8 +471,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
 			};
 			name = Development;
 		};
@@ -483,8 +479,6 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = ../../osirix/build/Development/;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
 			};
 			name = Deployment;
 		};

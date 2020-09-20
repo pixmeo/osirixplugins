@@ -68,11 +68,19 @@ static NSString* PreventNullString(NSString* s) {
 	self.name = [NSString stringWithFormat:@"Preparing disc data for %@", [[images objectAtIndex:0] valueForKeyPath:@"series.study.name"]];
 	
 	_options = [options retain];
-
-    _icontext = [[NSManagedObjectContext alloc] init];
+    
+    if( [[[images objectAtIndex:0] managedObjectContext] isKindOfClass: [N2ManagedObjectContext class]] && [N2ManagedObjectContext instancesRespondToSelector: @selector( initWithDatabase:)])
+    {
+        N2ManagedDatabase *database = [[[images objectAtIndex:0] managedObjectContext] database];
+        _icontext = [[N2ManagedObjectContext alloc] initWithDatabase: database];
+    }
+    else
+    {
+        _icontext = [[NSManagedObjectContext alloc] init];
+    }
     _icontext.undoManager = nil;
     _icontext.persistentStoreCoordinator = [[[images objectAtIndex:0] managedObjectContext] persistentStoreCoordinator];
-
+    
 	_images = [[NSMutableArray alloc] init];
     for (DicomImage* image in images) {
         DicomImage* iimage = (DicomImage*)[_icontext objectWithID:image.objectID];
@@ -392,7 +400,7 @@ static NSString* PreventNullString(NSString* s) {
             {
                 self.status = [NSString stringWithFormat:@"Preparing data for series %@...", serie.name];
 
-                NSArray* images = [self imagesBelongingToSeries:serie];
+                NSArray* images = serie.images.allObjects;
                 [self enterOperationWithRange:1.*processedImagesCount/_images.count:1.*images.count/_images.count];
                 
     //            images = [DiscPublishingPatientDisc prepareSeriesDataForImages:images inDirectory:_tmpPath options:_options context:managedObjectContext seriesPaths:seriesPaths];
@@ -463,7 +471,7 @@ static NSString* PreventNullString(NSString* s) {
         while (seriesSizes.count && !self.isCancelled) {
             NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
             @try {
-                self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", discNumber];
+                self.status = [NSString stringWithFormat:@"Preparing data for disc %d...", (int) discNumber];
 
                 NSMutableArray* privateFiles = [NSMutableArray array];
 
@@ -603,12 +611,24 @@ static NSString* PreventNullString(NSString* s) {
                 
                 NSUInteger fileNumber = 0;
                 for (DicomSeries* serie in discSeries)
-                    for (DicomImage* image in [serie sortedImages]) {
-                        NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%06d", fileNumber++]];
-                        [[NSFileManager defaultManager] moveItemAtPath:image.pathString toPath:newPath error:NULL];
+                {
+                    for (DicomImage* image in [serie sortedImages])
+                    {
+                        NSString* newPath = [dicomDiscBaseDirPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%06d", (int) (fileNumber++)]];
+                        NSError *error = nil;
+                        if( ![[NSFileManager defaultManager] moveItemAtPath:image.pathString toPath:newPath error: &error])
+                        {
+                            NSLog( @"******* moveItemAtPath failed: %@", error);
+                            
+                            if( [[NSFileManager defaultManager] fileExistsAtPath: image.pathString] == NO)
+                                NSLog( @"image.pathString fileDoesntExist");
+                            
+                            if( [[NSFileManager defaultManager] fileExistsAtPath: dicomDiscBaseDirPath] == NO)
+                                NSLog( @"dicomDiscBaseDirPath fileDoesntExist");
+                        }
                         image.pathString = newPath;
                     }
-                
+                }
                 NSLog(@"disk %d series count is %d", (int)discNumber, (int)discSeries.count);
                 
                 if (self.isCancelled)
@@ -668,7 +688,7 @@ static NSString* PreventNullString(NSString* s) {
                                 NSString* destinationFilenamePre = [destinationFilename substringToIndex:destinationFilename.length-destinationFilenameExt.length-1];
                                 
                                 for (NSUInteger i = 0; ; ++i) {
-                                    destinationFilename = [NSString stringWithFormat:@"%@_%i.%@", destinationFilenamePre, i, destinationFilenameExt];
+                                    destinationFilename = [NSString stringWithFormat:@"%@_%i.%@", destinationFilenamePre, (int)i, destinationFilenameExt];
                                     destinationPath = [destinationDir stringByAppendingPathComponent:destinationFilename];
                                     if (![[NSFileManager defaultManager] fileExistsAtPath:destinationPath])
                                         break;
@@ -738,7 +758,7 @@ static NSString* PreventNullString(NSString* s) {
                 NSString* discDir = [discsDir stringByAppendingPathComponent:safeDiscName];
                 NSUInteger i = 0;
                 while ([[NSFileManager defaultManager] fileExistsAtPath:discDir])
-                    discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, ++i]];
+                    discDir = [discsDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%d", safeDiscName, (int)(++i)]];
                 [[NSFileManager defaultManager] moveItemAtPath:discBaseDirPath toPath:discDir error:NULL];
                 
                 // save information dict
@@ -848,7 +868,7 @@ static NSString* PreventNullString(NSString* s) {
                     goto continueFor;
                 }
                 
-                NSString* filename = [NSString stringWithFormat:@"%08d", i]; // IHE wants DICOM files to be named with 8 chars
+                NSString* filename = [NSString stringWithFormat:@"%08d", (int)i]; // IHE wants DICOM files to be named with 8 chars
                 NSString* toFilePath = [dicomDirPath stringByAppendingPathComponent:filename];
                 
                 if (options.anonymize)
@@ -862,7 +882,13 @@ static NSString* PreventNullString(NSString* s) {
                         NSLog( @"***** exception in %s: %@", __PRETTY_FUNCTION__, e);
                     }
                 }
-                else [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:toFilePath error:NULL]; // TODO: handle copy errors
+                else
+                {
+                    NSError *error = nil;
+                    
+                    if( [[NSFileManager defaultManager] copyItemAtPath:filePath toPath:toFilePath error: &error] == NO)
+                        N2LogError( @"[[NSFileManager defaultManager] copyItemAtPath:filePath toPath:toFilePath error: &error] == NO : %@", error);
+                }
                 
                 [fileNames addObject:filename];
             }
@@ -907,9 +933,27 @@ static NSString* PreventNullString(NSString* s) {
         NSString* oldDirPath = dirPath;
         dirPath = [self dirPathForSeries:[[images objectAtIndex:0] valueForKeyPath:@"series"] inBaseDir:basePath];
         DLog(@"moving %@ to %@", oldDirPath, dirPath);
-        [[NSFileManager defaultManager] moveItemAtPath:oldDirPath toPath:dirPath error:NULL];
-        for (DicomImage* image in images)
-            [image setPathString:[[image pathString] stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath]];
+        
+        NSString *dDICOM = [dirPath stringByAppendingPathComponent: @"DICOM"];
+        
+        NSError *error = nil;
+        if( [[NSFileManager defaultManager] createDirectoryAtPath: dDICOM withIntermediateDirectories: YES attributes: nil error: &error] == NO)
+            N2LogError( @"[[NSFileManager defaultManager] createDirectoryAtPath: dDICOM withIntermediateDirectories: YES attributes: nil error: nil] : %@", error);
+        
+        int fileNumber = 0;
+        for( DicomImage *im in images)
+        {
+            while( [[NSFileManager defaultManager] fileExistsAtPath: [dDICOM stringByAppendingPathComponent: [NSString stringWithFormat:@"%06d", fileNumber]]])
+                fileNumber++;
+            
+            NSString *newPath = [dDICOM stringByAppendingPathComponent: [NSString stringWithFormat:@"%06d", fileNumber]];
+            
+            NSError *error = nil;
+            if( [[NSFileManager defaultManager] moveItemAtPath: im.pathString toPath: newPath error: &error] == NO)
+                N2LogError( @"[[NSFileManager defaultManager] moveItemAtPath: im.pathString toPath: newPath error: &error] : %@", error);
+            [im setPathString: newPath];
+        }
+        
         dicomDirPath = [dicomDirPath stringByReplacingCharactersInRange:NSMakeRange(0, [oldDirPath length]) withString:dirPath];
         
         if (currentThread.isCancelled)
@@ -918,11 +962,17 @@ static NSString* PreventNullString(NSString* s) {
         DLog(@"decompressing");
         
         currentThread.progress = 0.3;
-        if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000)) {
+        if (options.compression == CompressionDecompress || (options.compression == CompressionCompress && options.compressJPEGNotJPEG2000))
+        {
             currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Decompressing files...", NULL)];
             NSString* beforeDicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM_before_decompression"];
-            [[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error:NULL];
+            
+            NSError *error = nil;
+            if( [[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error: &error] == NO)
+                N2LogError( @"[[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error: &error] : %@", error);
+            
             [[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
+            
             [DicomCompressor decompressFiles:[beforeDicomDirPath stringsByAppendingPaths:fileNames] toDirectory:dicomDirPath withOptions:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:@"DecompressMoveIfFail"]];
             [[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
         }
@@ -933,7 +983,8 @@ static NSString* PreventNullString(NSString* s) {
         DLog(@"compressing");
 
         currentThread.progress = 0.4;
-        if (options.compression == CompressionCompress) {
+        if (options.compression == CompressionCompress)
+        {
             currentThread.status = [baseStatus stringByAppendingFormat:@" %@", NSLocalizedString(@"Compressing files...", NULL)];
             NSMutableDictionary* execOptions = [NSMutableDictionary dictionary];
             [execOptions setObject:[NSNumber numberWithBool:options.compressJPEGNotJPEG2000] forKey:@"JPEGinsteadJPEG2000"];
@@ -944,13 +995,17 @@ static NSString* PreventNullString(NSString* s) {
             }
             
             NSString* beforeDicomDirPath = [dirPath stringByAppendingPathComponent:@"DICOM_before_compression"];
-            [[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error:NULL];
+            
+            NSError *error = nil;
+            if( [[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error: &error] == NO)
+                N2LogError( @"[[NSFileManager defaultManager] moveItemAtPath:dicomDirPath toPath:beforeDicomDirPath error: &error] : %@", error);
+            
             [[NSFileManager defaultManager] confirmDirectoryAtPath:dicomDirPath];
             [DicomCompressor compressFiles:[beforeDicomDirPath stringsByAppendingPaths:fileNames] toDirectory:dicomDirPath withOptions:execOptions];
             [[NSFileManager defaultManager] removeItemAtPath:beforeDicomDirPath error:NULL];
         }
         
-        [DiscPublishingPatientDisc generateDICOMDIRAtDirectory:dirPath withDICOMFilesInDirectory:dicomDirPath];
+//        [DiscPublishingPatientDisc generateDICOMDIRAtDirectory:dirPath withDICOMFilesInDirectory:dicomDirPath];
         
         if (currentThread.isCancelled)
             return nil;

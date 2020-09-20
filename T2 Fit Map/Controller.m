@@ -7,8 +7,6 @@
 //
 
 #include "math.h"
-
-#import "PluginFilter.h"
 #import "Mapping.h"
 
 #import "Controller.h"
@@ -493,14 +491,14 @@
 	}
 	
 	for ( DCMPix *p in pixListResult)
-	{
-		[p setEchotime: 0L];
-	}
+        p.echoTime = 0;
 	
 	// Try to find the TEs...
 	for( i = 0; i < [[pixListArrays objectAtIndex: 0] count]; i++)
 	{
-		TEValues[ i] = [[[[pixListArrays objectAtIndex: 0] objectAtIndex: i] echotime] floatValue] / 1000.;
+        DCMPix *p = [[pixListArrays objectAtIndex: 0] objectAtIndex: i];
+        
+		TEValues[ i] = p.echoTime / 1000.;
 	}
 	
 	[TETable reloadData];

@@ -30,6 +30,7 @@
     paperSize               scrollViewFormat;
     NSLayoutConstraint      *ratioConstraint;
     NSInteger               currentPage;
+    IBOutlet NSMatrix       *annotationRadioButton;
     
     // Attributes specific to "whole serie import box"
     IBOutlet NSPanel        *importPanel;
@@ -49,6 +50,7 @@
 @property paperSize                 scrollViewFormat;
 @property NSInteger                 currentPage;
 @property (readonly) PLDocumentView *fullDocumentView;
+@property (readonly) NSMatrix       *annotationRadioButton;
 @property NSUInteger                importInterval, importStart, importEnd, importWidth, importHeight;
 @property (readonly) NSWindow       *importWindow;
 
@@ -57,7 +59,6 @@
 - (IBAction)deletePage:(id)sender;
 - (IBAction)insertPage:(id)sender;
 - (IBAction)updateViewRatio:(id)sender;
-- (IBAction)updateGridLayoutFromButton:(id)sender;
 - (IBAction)reshapeLayout:(id)sender;
 - (IBAction)clearViewsInLayout:(id)sender;
 - (IBAction)exportViewToDicom:(id)sender;
@@ -72,6 +73,7 @@
 - (IBAction)endSliderAction:(id)sender;
 - (IBAction)importLayoutChoice:(id)sender;
 - (IBAction)updateDocSizeIndicator:(id)sender;
+- (IBAction)updateScaleToFitPreference:(id)sender;
 - (void)updateImportPageNumber;
 - (void)updateHeight;
 - (void)updateWidth;

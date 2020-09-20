@@ -200,7 +200,7 @@ static NSMutableArray* HostsAllowedAnyHTTPSCertificate = [[NSMutableArray alloc]
             [request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary] forHTTPHeaderField:@"Content-Type"];
         }
     }
-    
+
     if (_acceptAllCertificates)
         @synchronized (HostsAllowedAnyHTTPSCertificate) {
             [HostsAllowedAnyHTTPSCertificate addObject:url.host];

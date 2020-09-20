@@ -65,14 +65,12 @@
 	NSString *f = [de writeDCMFile:NULL];
 	 
 	 if( f)
-		[BrowserController addFiles: [NSArray arrayWithObject: f]
-					 toContext: [[BrowserController currentBrowser] managedObjectContext]
-					toDatabase: [BrowserController currentBrowser]
-					 onlyDICOM: YES 
-			  notifyAddedFiles: YES
-		   parseExistingObject: YES
-					  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
-			 generatedByOsiriX: YES];
+         [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject: f]
+                                                  postNotifications: YES
+                                                          dicomOnly: YES
+                                                rereadExistingItems: YES
+                                                  generatedByOsiriX: YES];
+    
 	
 	[de release];
 	

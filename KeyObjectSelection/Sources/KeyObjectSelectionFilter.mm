@@ -14,6 +14,7 @@
 //#import <OsiriXAPI/dsrimgtn.h>
 
 #import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/ViewerController.h>
 #import <OsiriXAPI/DCMTKQueryNode.h>
 #import <OsiriXAPI/NSThread+N2.h>
@@ -68,37 +69,56 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
     IMP imp;
     NSString* const ExceptionMessage = @"OsiriX has evolved and this plugin hasn't :(";
     
+    // DicomDatabase
+    
+    Class DicomDatabaseClass = [DicomDatabase class];
+    
+    method = class_getInstanceMethod(DicomDatabaseClass, @selector(allowAutoroutingWithPostNotifications:rereadExistingItems:));
+    if (!method)
+        [NSException raise:NSGenericException format:ExceptionMessage];
+    imp = method_getImplementation(method);
+    class_addMethod(DicomDatabaseClass, @selector(_DicomDatabase_allowAutoroutingWithPostNotifications:rereadExistingItems:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_DicomDatabase_allowAutoroutingWithPostNotifications:rereadExistingItems:)));
+    
+    method = class_getInstanceMethod(DicomDatabaseClass, @selector(alertToApplyRoutingRules:toImages:));
+    if (!method)
+        [NSException raise:NSGenericException format:ExceptionMessage];
+    imp = method_getImplementation(method);
+    class_addMethod(DicomDatabaseClass, @selector(_DicomDatabase_alertToApplyRoutingRules:toImages:), imp, method_getTypeEncoding(method));
+    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_DicomDatabase_alertToApplyRoutingRules:toImages:)));
+
+    
     // ViewerController
     
-    Class ViewerControllerClass = [ViewerController class];
-    
-    method = class_getInstanceMethod(ViewerControllerClass, @selector(changeImageData::::));
-    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
-    imp = method_getImplementation(method);
-    class_addMethod(ViewerControllerClass, @selector(_ViewerController_changeImageData::::), imp, method_getTypeEncoding(method));
-    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_changeImageData::::)));
-    
-    method = class_getInstanceMethod(ViewerControllerClass, @selector(finalizeSeriesViewing));
-    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
-    imp = method_getImplementation(method);
-    class_addMethod(ViewerControllerClass, @selector(_ViewerController_finalizeSeriesViewing), imp, method_getTypeEncoding(method));
-    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_finalizeSeriesViewing)));
-    
-    method = class_getInstanceMethod(ViewerControllerClass, @selector(setKeyImage:));
-    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
-    imp = method_getImplementation(method);
-    class_addMethod(ViewerControllerClass, @selector(_ViewerController_setKeyImage:), imp, method_getTypeEncoding(method));
-    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_setKeyImage:)));
-    
-    // DicomImage
-    
-    Class DicomImageClass = [DicomImage class];
-    
-    method = class_getInstanceMethod(DicomImageClass, @selector(setIsKeyImage:));
-    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
-    imp = method_getImplementation(method);
-    class_addMethod(DicomImageClass, @selector(_DicomImage_setIsKeyImage:), imp, method_getTypeEncoding(method));
-    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_DicomImage_setIsKeyImage:)));
+//    Class ViewerControllerClass = [ViewerController class];
+//
+//    method = class_getInstanceMethod(ViewerControllerClass, @selector(changeImageData::::));
+//    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
+//    imp = method_getImplementation(method);
+//    class_addMethod(ViewerControllerClass, @selector(_ViewerController_changeImageData::::), imp, method_getTypeEncoding(method));
+//    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_changeImageData::::)));
+//
+//    method = class_getInstanceMethod(ViewerControllerClass, @selector(finalizeSeriesViewing));
+//    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
+//    imp = method_getImplementation(method);
+//    class_addMethod(ViewerControllerClass, @selector(_ViewerController_finalizeSeriesViewing), imp, method_getTypeEncoding(method));
+//    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_finalizeSeriesViewing)));
+//
+//    method = class_getInstanceMethod(ViewerControllerClass, @selector(setKeyImage:));
+//    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
+//    imp = method_getImplementation(method);
+//    class_addMethod(ViewerControllerClass, @selector(_ViewerController_setKeyImage:), imp, method_getTypeEncoding(method));
+//    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_ViewerController_setKeyImage:)));
+//    
+//    // DicomImage
+//    
+//    Class DicomImageClass = [DicomImage class];
+//    
+//    method = class_getInstanceMethod(DicomImageClass, @selector(setIsKeyImage:));
+//    if (!method) [NSException raise:NSGenericException format:ExceptionMessage];
+//    imp = method_getImplementation(method);
+//    class_addMethod(DicomImageClass, @selector(_DicomImage_setIsKeyImage:), imp, method_getTypeEncoding(method));
+//    method_setImplementation(method, class_getMethodImplementation([self class], @selector(_DicomImage_setIsKeyImage:)));
 
     /* 3D MPR
     
@@ -443,7 +463,7 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
                                                                   transferSyntax:0
                                                                      compression:1.0
                                                                  extraParameters:nil] autorelease];
-            [storescu run:self];
+            [storescu run:(id)self];
         }];
 }
 
@@ -597,6 +617,26 @@ static NSString* const KOSIsSettingKeyFlagThreadKey = @"KOSIsSettingKeyFlag"; //
 
 #pragma mark Swizzled methods
 
+-(BOOL)_DicomDatabase_allowAutoroutingWithPostNotifications:(BOOL)postNotifications rereadExistingItems:(BOOL)rereadExistingItems
+{
+    return postNotifications && rereadExistingItems; // cases change patient and close serie
+}
+
+-(void)_DicomDatabase_alertToApplyRoutingRules:(NSArray*)routingRules toImages:(NSArray*)images;
+{
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Synchronisation avec le PACS"
+                                     defaultButton:@"Oui"
+                                   alternateButton:@"Non"
+                                       otherButton:nil
+                         informativeTextWithFormat:@"Voulez-vous synchroniser les key images, ROIs et screen captures avec le PACS ?"];
+    NSInteger button = [alert runModal];
+    if (button == NSAlertDefaultReturn)
+    {
+        BrowserController* browser = [BrowserController currentBrowser];
+        [browser.database applyRoutingRules:routingRules toImages:images];
+    }
+}
+
 - (void)_ViewerController_changeImageData:(NSMutableArray*)f :(NSMutableArray*)d :(NSData*)v :(BOOL)newViewerWindow {
     [self _ViewerController_changeImageData:f:d:v:newViewerWindow];
 //    NSLog(@"...changeImageData, react to reload KeyObjectSelectionDocument series");
@@ -683,7 +723,7 @@ static NSString* const KOSReconstructionsSeriesName = NSLocalizedString(@"OsiriX
                                                                       transferSyntax:0
                                                                          compression:1.0
                                                                      extraParameters:nil] autorelease];
-                [storescu run:self];
+                [storescu run:(id)self];
             }];
         
         // set the new images as key images

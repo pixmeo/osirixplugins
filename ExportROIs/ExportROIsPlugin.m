@@ -38,7 +38,7 @@
 
 	NSArray					*pixList = [viewerController pixList];
 	long					i, j, k, numCsvPoints, numROIs;
-	EXPORT_FILE_TYPE		fileType;
+	EXPORT_FILE_TYPE		fileType = FT_CSV;
 	
 	if ( retCode != NSFileHandlingPanelOKButton ) return;
 	
@@ -49,11 +49,8 @@
 		fileType = FT_CSV;
 	} else if ( [ [ ftsel xmlRadio ] state ] == NSOnState ) {
 		fileType = FT_XML;
-	} else {
-		fileType = FT_NONE;
 	}
-	assert( fileType != FT_NONE );
-	
+    
 	// prepare for final output
 	NSMutableDictionary		*seriesInfo = [ [ NSMutableDictionary alloc ] init ];
 	NSMutableArray			*imagesInSeries = [ NSMutableArray arrayWithCapacity: 0 ];
@@ -75,7 +72,7 @@
 	for ( i = 0; i < [ roiSeriesList count ]; i++ ) {
 		
 		// current DICOM pix
-		DCMPix *pix = [ pixList objectAtIndex: i ];
+		DCMPix *pix = [pixList objectAtIndex: i];
 		
 		// array of ROI in current pix
 		NSArray *roiImageList = [ roiSeriesList objectAtIndex: i ];
@@ -85,10 +82,12 @@
 
 		// walk through each ROI in current pix
 		numROIs = [ roiImageList count ];
-		for ( j = 0; j < numROIs; j++ ) {
+		for ( j = 0; j < numROIs; j++ )
+        {
+			ROI *roi = [roiImageList objectAtIndex: j ];
 			
-			ROI *roi = [ roiImageList objectAtIndex: j ];
-			
+            [roi setPix: pix];
+            
 			NSString *roiName = [ roi name ];
 			
 			float mean = 0, min = 0, max = 0, total = 0, dev = 0;
@@ -116,6 +115,7 @@
 			
 			float area = 0, length = 0;
 			NSMutableDictionary	*dataString = [roi dataString];
+			NSMutableArray *dataValues = [roi dataValues];
 			
 			if( [dataString objectForKey:@"AreaCM2"]) area = [[dataString objectForKey:@"AreaCM2"] floatValue];
 			if( [dataString objectForKey:@"AreaPIX2"]) area = [[dataString objectForKey:@"AreaPIX2"] floatValue];
@@ -134,7 +134,7 @@
 				[ pix convertPixX: pt.x pixY: pt.y toDICOMCoords: locs ];
 
 				[ mmXYZ addObject: [ NSString stringWithFormat: @"(%f, %f, %f)", locs[0], locs[1], locs[2] ] ];
-				NSLog( @"ROI %d - %d (%@): %f, %f, %f", (int)i, (int)j, roiName, locs[0], locs[1], locs[2] );
+//				NSLog( @"ROI %d - %d (%@): %f, %f, %f", (int)i, (int)j, roiName, locs[0], locs[1], locs[2] );
 
 				//NSArray *pxXY = [ NSArray arrayWithObjects: [ NSNumber numberWithFloat: pt.x ], [ NSNumber numberWithFloat: pt.y ] ];
 				//[ xyzInRoi addObject: xyz ];
@@ -150,7 +150,7 @@
 			
 			if ( fileType == FT_CSV ) {
 				[ csvText appendFormat: @"%d,%d,%f,%f,%f,%f,%f,%c%@%c,%f,%f,%f,%f,%f,%d,%d,%@%c",
-                 i, j, mean, min, max, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, [ roi type ], numCsvPoints, csvRoiPoints, LF ];
+                 (int)i, (int)j, mean, min, max, total, dev, DQUOTE, roiName, DQUOTE, clocs[0], clocs[1], clocs[2], length, area, (int)[roi type], (int)numCsvPoints, csvRoiPoints, LF ];
 			}
 						
 			// roiInfo stands for a ROI
@@ -161,6 +161,7 @@
 			//   NumberOfPoints	: number of points
 			//   Point_mm		: array of point (x,y,z) in mm unit
 			//   Point_px		: array of point (x,y) in pixel unit
+			//   Point_value	: array of pixel values
 			[ roiInfo setObject: [ NSNumber numberWithLong: j ] forKey: @"IndexInImage" ];
 			[ roiInfo setObject: [ NSNumber numberWithFloat: mean ] forKey: @"Mean" ];
 			[ roiInfo setObject: [ NSNumber numberWithFloat: min ] forKey: @"Min" ];
@@ -175,6 +176,7 @@
 			[ roiInfo setObject: [ NSNumber numberWithLong: [ roiPoints count ] ] forKey: @"NumberOfPoints" ];
 			[ roiInfo setObject: mmXYZ forKey: @"Point_mm" ];
 			[ roiInfo setObject: pixXY forKey: @"Point_px" ];
+			[ roiInfo setObject: dataValues forKey: @"Point_value" ];
 			
 			[ roisInImage addObject: roiInfo ];
 		}
@@ -203,8 +205,11 @@
 
 		[ fname appendString: @".csv" ];
 		const char *str = [ csvText cStringUsingEncoding: NSASCIIStringEncoding ];
-		NSData *data = [ NSData dataWithBytes: str length: strlen( str ) ];
-		[ data writeToFile: fname atomically: YES ];
+        if (str)
+        {
+            NSData *data = [ NSData dataWithBytes: str length: strlen( str ) ];
+            [ data writeToFile: fname atomically: YES ];
+        }
 
 	} else {
 	
@@ -220,12 +225,11 @@
 
 - (void) initPlugin
 {
-	NSLog( @"Init ExportROIsPlugin");
 }
 
 - (long) filterImage:(NSString*) menuName
 {
-	long		ret;
+	long ret = 0;
 	
 	if ( [ menuName isEqualToString: @"Export ROIs" ] ) {
 

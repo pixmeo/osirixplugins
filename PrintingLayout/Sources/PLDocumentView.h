@@ -21,8 +21,8 @@
     CGFloat     bottomMargin;
     
     paperSize   pageFormat;
-    CGFloat     pageWidth;      // keep or not?
-    CGFloat     pageHeight;     // keep or not?
+    CGFloat     pageWidth;
+    CGFloat     pageHeight;
     
     int         currentPageIndex;
 }
@@ -32,6 +32,7 @@
 @property (nonatomic, setter = setPageFormat:) paperSize pageFormat;
 @property int currentPageIndex;
 
+- (BOOL)handleViewerEvent:(NSEvent*)event;
 - (void)resizePLDocumentView:(NSNotification*)notification;
 - (PLLayoutView*)newPage;
 - (void)removeCurrentPage;

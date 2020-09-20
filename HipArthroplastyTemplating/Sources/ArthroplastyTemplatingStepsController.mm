@@ -393,13 +393,13 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			if ([_cupLayer pointAtIndex:4].x < [[[_viewerController imageView] curDCM] pwidth]/2)
 				[_cupLayer rotate:45 :[[[_cupLayer points] objectAtIndex:4] point]];
 			else [_cupLayer rotate:-45 :[_cupLayer pointAtIndex:4]];
-			[_cupLayer rotate:_horizontalAngle/pi*180 :[_cupLayer pointAtIndex:4]];
+			[_cupLayer rotate:_horizontalAngle/M_PI*180 :[_cupLayer pointAtIndex:4]];
 		}
 	
 	if (roi == _stemLayer)
 		if (!_stemRotated && [[_stemLayer points] count] >= 6) {
 			_stemRotated = YES;
-			[_stemLayer rotate:(fabs(_femurAngle)-pi/2)/pi*180 :[[[_stemLayer points] objectAtIndex:4] point]];
+			[_stemLayer rotate:(fabs(_femurAngle)-M_PI/2)/M_PI*180 :[[[_stemLayer points] objectAtIndex:4] point]];
 		}
     
     if (roi == _stemLayer || roi == _distalStemLayer)
@@ -877,17 +877,14 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 		[_viewerController deselectAllROIs];
 		
 		NSDictionary* d = [_viewerController exportDICOMFileInt:YES withName:name];
-		if (d.count) {
-			NSArray* files = [NSArray arrayWithObject:d];
-			[BrowserController addFiles:[files valueForKey:@"file"]
-							  toContext:[[BrowserController currentBrowser] managedObjectContext]
-							 toDatabase:[BrowserController currentBrowser]
-							  onlyDICOM:YES 
-					   notifyAddedFiles:YES
-					parseExistingObject:YES
-							   dbFolder:[[BrowserController currentBrowser] documentsDirectory]
-					  generatedByOsiriX:YES];
-		} else [[BrowserController currentBrowser] checkIncoming:self];
+		if (d.count)
+            [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject:[d valueForKey: @"file"]]
+                                                                        postNotifications: YES
+                                                                                dicomOnly: YES
+                                                                      rereadExistingItems: YES
+                                                                        generatedByOsiriX: YES];
+		else
+            [[DicomDatabase activeLocalDatabase] importFilesFromIncomingDir];
 		
 		// send to PACS
 		if ([_sendToPACSButton state]==NSOnState)
@@ -909,7 +906,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	NSTimeInterval group = [roi groupID];
 	[self removeRoiFromViewer:roi];
 	roi = [[_plugin templatesWindowController] createROIFromTemplate:t inViewer:_viewerController centeredAt:center];
-	[roi rotate:(angle-[self estimateRotationOfROI:roi])/pi*180 :center];
+	[roi rotate:(angle-[self estimateRotationOfROI:roi])/M_PI*180 :center];
 	[roi setGroupID:group];
 }
 
@@ -927,7 +924,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 	if (roi == _stemLayer && [_stemLayer groupID] == [_femurLayer groupID])
 		center = [[[roi points] objectAtIndex:4+_stemNeckSizeIndex] point];
 	CGFloat angle = NSAngle(center, wp2)-NSAngle(center, wp1);
-	[self rotateLayer:roi by:angle/pi*180];
+	[self rotateLayer:roi by:angle/M_PI*180];
 }
 
 -(BOOL)handleViewerEvent:(NSEvent*)event {
@@ -1075,7 +1072,7 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
     CGFloat curr = NSAngle([_distalStemLayer pointAtIndex:4], [_distalStemLayer pointAtIndex:5]);
     CGFloat dr = angle-curr;
     if (dr)
-        [_distalStemLayer rotate:dr/pi*180 :[_distalStemLayer pointAtIndex:4]];
+        [_distalStemLayer rotate:dr/M_PI*180 :[_distalStemLayer pointAtIndex:4]];
     
     NSPoint dp = [_stemLayer pointAtIndex:11]-[_distalStemLayer pointAtIndex:11]; // 11 is A, 13 is B
     if (dp != NSZeroPoint) {
@@ -1142,17 +1139,17 @@ NSString* const PlannersNameUserDefaultKey = @"Planner's Name";
 			NSAngle([_femurAxis pointAtIndex:0], [_femurAxis pointAtIndex:1]) :
 			NSAngle([_femurAxis pointAtIndex:1], [_femurAxis pointAtIndex:0]) ;
 	else if (_horizontalAngle != kInvalidAngle)
-		_femurAngle = _horizontalAngle+pi/2;
+		_femurAngle = _horizontalAngle+M_PI/2;
 	
 	// cup inclination
 	if (_cupLayer && [[_cupLayer points] count] >= 6) {
-		_cupAngle = -([self estimateRotationOfROI:_cupLayer]-_horizontalAngle)/pi*180;
+		_cupAngle = -([self estimateRotationOfROI:_cupLayer]-_horizontalAngle)/M_PI*180;
 		[_cupAngleTextField setStringValue:[NSString stringWithFormat:@"Rotation angle: %.2f°", _cupAngle]];
 	}
 	
 	// stem inclination
 	if (_stemLayer && [[_stemLayer points] count] >= 6) {
-		_stemAngle = -([self estimateRotationOfROI:_stemLayer]+pi/2-_femurAngle)/pi*180;
+		_stemAngle = -([self estimateRotationOfROI:_stemLayer]+M_PI/2-_femurAngle)/M_PI*180;
 		[_stemAngleTextField setStringValue:[NSString stringWithFormat:@"Rotation angle: %.2f°", _stemAngle]];
  	}
 	

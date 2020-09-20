@@ -14,6 +14,7 @@
 #import "OsiriXAPI/ViewerController.h"
 #import "OsiriXAPI/DCMView.h"
 #import "OsiriXAPI/DCMPix.h"
+#import "OsiriXAPI/DicomDatabase.h"
 
 const NSString* FileTypePDF = @"pdf";
 const NSString* FileTypeTIFF = @"tiff";
@@ -240,14 +241,11 @@ const NSString* FileTypeCSV = @"csv";
 		NSString *f = [dicomExport writeDCMFile: nil];
 	
 		if( f)
-			[BrowserController addFiles: [NSArray arrayWithObject: f]
-						 toContext: [[BrowserController currentBrowser] managedObjectContext]
-						toDatabase: [BrowserController currentBrowser]
-						 onlyDICOM: YES 
-				  notifyAddedFiles: YES
-			   parseExistingObject: YES
-						  dbFolder: [[BrowserController currentBrowser] documentsDirectory]
-				 generatedByOsiriX: YES];
+            [BrowserController.currentBrowser.database addFilesAtPaths: [NSArray arrayWithObject: f]
+                                                                        postNotifications: YES
+                                                                                dicomOnly: YES
+                                                                      rereadExistingItems: YES
+                                                                        generatedByOsiriX: YES];
 			 
 		[dicomExport release];
 	}
@@ -258,6 +256,7 @@ const NSString* FileTypeCSV = @"csv";
     NSError* error = 0;
 	
 	if (code == NSOKButton)
+    {
 		if (format == FileTypePDF)
 		{
 			[[[BullsEyeView view] dataWithPDFInsideRect:[[BullsEyeView view] squareBounds]] writeToFile:[panel filename] options:NSAtomicWrite error:&error];
@@ -280,7 +279,7 @@ const NSString* FileTypeCSV = @"csv";
 		{ // dicom
 			[self dicomSave: [[presetsList selection] valueForKey: @"name"] backgroundColor: [NSColor whiteColor] toFile:[panel filename]];
 		}
-	
+	}
 	if (error)
 		[[NSAlert alertWithError:error] beginSheetModalForWindow:[self window] modalDelegate:NULL didEndSelector:NULL contextInfo:NULL];
 }

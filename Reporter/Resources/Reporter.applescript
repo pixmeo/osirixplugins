@@ -1,3 +1,22 @@
+(*
+ 
+ PAGES 5.2 support:
+ 
+ set imagepath to the POSIX path of ("/Users/antoinerosset/Desktop/aa.png")
+ 
+ tell application "Pages"
+ activate
+ tell front document
+ make new section
+ set body text of last section to "HELLO"
+ tell first page of last section
+ make new image with properties {file:imagepath}
+ end tell
+ end tell
+ end tell
+ 
+*)
+
 on run argv
 	-- load the arguments
 	set reportFilePath to (item 1 of argv)
@@ -25,25 +44,14 @@ on run argv
 		
 		-- insert the image as a text box in a paragraph with style Caption
 		tell front document
-            -- is there a replaceable image?
-            set replaceIndex to 0
-            set counter to 0
-            repeat with theImage in images
-                set counter to counter + 1
-                if replaceable of theImage is true then
-                    set replaceIndex to counter
-                    exit repeat
-                end if
-            end repeat
             
-            if replaceIndex is not 0 then -- there is a replaceable image object, replace it
-                
-                set image data of image replaceIndex to imageFilePath
-                set replaceable of image replaceIndex to false
-                
-            else -- there are no replaceable image objects
-                
-                -- make sure the Caption style exists -- yes, in english...
+            make new section
+            set body text of last section to caption
+            tell first page of last section
+                make new image with properties {file:imageFilePath}
+            end tell
+            
+              (*  -- make sure the Caption style exists -- yes, in english...
                 try
                     set sc to paragraph style "Caption"
                     -- the Caption style often has 0 spacing when unused… fix this, or our insertions will be confusing
@@ -54,23 +62,6 @@ on run argv
                     on error errmsg number errnbr
                     make new paragraph style with properties {name:"Caption", alignment:center, space before:5, space after:5, keep lines together:true, keep with next paragraph:false, font name:"Helvetica", font size:11, italic:true}
                 end try
-                
-                (*
-                 -- is there already a text box with the current uid for name?
-                 set tb to 0
-                 if replaceFlag is equal to 1 then
-                 repeat with itb in text boxes
-                 if name of itb as Unicode text is equal to uid as Unicode text then
-                 set tb to itb
-                 exit repeat
-                 end if
-                 end repeat
-                 end if
-                 
-                 if tb is not equal to 0 then
-                 set image data of tb to imageFilePath
-                 else
-                 *)
                 
                 -- append a new paragraph that will represent image's caption
                 set p to make new paragraph at after last paragraph
@@ -108,12 +99,7 @@ on run argv
                 -- because of a bug in Pages, we need to re-enter the text box height, or the text box size won't be properly saved
                 set nheight to height of last text box
                 set height of last text box to 1
-                set height of last text box to nheight
-                
-                (*
-                 end if
-                 *)
-            end if
+                set height of last text box to nheight*)
 		end tell
 	end tell
 end run

@@ -17,12 +17,12 @@
 #import <OsiriXAPI/N2Stuff.h>
 #import <OsiriXAPI/NSUserDefaults+OsiriX.h>
 #import <OsiriXAPI/PreferencesWindowController.h>
+#import <OsiriXAPI/KBPopUpToolbarItem.h>
 
 #import <objc/runtime.h>
 //#import <OsiriXAPI/BrowserController.h>
 #import <OsiriXAPI/ViewerController.h>
 #import <OsiriXAPI/ToolbarPanel.h>
-#import "KBPopUpToolbarItem.h"
 
 @interface ReporterFilter ()
 
@@ -44,7 +44,10 @@
 
 +(NSString*)saveImageInTmp:(NSImage*)image {
     NSBitmapImageRep* rep = [image.representations objectAtIndex:0];
-    NSString* path = [[NSFileManager.defaultManager tmpFilePathInTmp] stringByAppendingPathExtension:@"png"];
+    NSString* path = @"~/Desktop/test.png";
+    
+    path = [path stringByExpandingTildeInPath];
+    
     if ([[rep representationUsingType:NSPNGFileType properties:nil] writeToFile:path atomically:NO])
         return path;
     return nil;
@@ -70,7 +73,8 @@
             NSDictionary* errs = nil;
             [as runWithArguments:[NSArray arrayWithObjects: reportFilePath, [add objectAtIndex:0], [add objectAtIndex:1], [add objectAtIndex:2], /*[NSNumber numberWithInteger:[NSUserDefaults.standardUserDefaults boolForKey:ReporterReplaceDefaultsKey]],*/ nil] error:&errs];
             if (errs.count) NSLog(@"Reporter AppleScript errors: %@", errs);
-            [NSFileManager.defaultManager removeItemAtPath:[add objectAtIndex:0] error:NULL];
+            
+            [NSFileManager.defaultManager removeItemAtPath:[add objectAtIndex:1] error:NULL];
         }
     } @catch (NSException* e) {
         N2LogExceptionWithStackTrace(e);
@@ -234,7 +238,7 @@ NSString* ReporterViewerToolbarItemIdentifier = @"ReporterViewerToolbarItem";
 //    static NSString* ReporterIconFilePath = [[[NSBundle bundleForClass:[ReporterFilter class]] pathForImageResource:@"Reporter"] retain];
     
     if ([itemIdentifier isEqualToString:ReporterViewerToolbarItemIdentifier]) {
-        ReporterKBPopUpToolbarItem* item = [[[ReporterKBPopUpToolbarItem alloc] initWithItemIdentifier:ReporterViewerToolbarItemIdentifier] autorelease];
+        KBPopUpToolbarItem* item = [[[KBPopUpToolbarItem alloc] initWithItemIdentifier:ReporterViewerToolbarItemIdentifier] autorelease];
         item.label = item.paletteLabel = NSLocalizedString(@"Reporter", @"Name of toolbar item");
         item.image = [[[NSImage alloc] initWithContentsOfURL:[[NSBundle bundleForClass:[self class]] URLForResource:@"Reporter" withExtension:@"png"]] autorelease];
         [item.image setSize:NSMakeSize(33,33)];
