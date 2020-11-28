@@ -14,7 +14,8 @@
 #import <OsiriXAPI/NSFileManager+N2.h>
 #import <OsiriXAPI/NSXMLNode+N2.h>
 #import <OsiriXAPI/DicomImage.h>
-#import <OsiriXAPI/DicomCompressor.h>
+#import <OsiriXAPI/DicomDatabase.h>
+#import <OsiriXAPI/DicomDatabase+DCMTK.h>
 #import <OsiriXAPI/ThreadModalForWindowController.h>
 
 @implementation HSSMedcaseCreation
@@ -112,8 +113,9 @@
             }
         }*/
 
+        [DicomDatabase decompressDicomFilesAtPaths: dcmFilePaths];
         
-        [DicomCompressor decompressFiles:dcmFilePaths toDirectory:@"sameAsDestination"];
+//        [DicomCompressor decompressFiles:dcmFilePaths toDirectory:@"sameAsDestination"];
 
         /*{
             NSLog(@"check 3: dcmFilePaths count is %d, decompression done... {", (int)dcmFilePaths.count);

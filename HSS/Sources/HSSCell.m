@@ -7,8 +7,8 @@
 //
 
 #import "HSSCell.h"
-#import <OsiriXAPI/NSString+N2.h>
-#import <OsiriXAPI/NS(Attributed)String+Geometrics.h>
+#import "OsiriXAPI/NSString+N2.h"
+#import "OsiriXAPI/NS(Attributed)String+Geometrics.h"
 
 /*@interface NSCell (Secret)
 

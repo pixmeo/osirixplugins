@@ -8,7 +8,7 @@
 
 #import "HSSFolder.h"
 #import "HSSMedcase.h"
-#import <OsiriXAPI/NSString+N2.h>
+#import "OsiriXAPI/NSString+N2.h"
 
 @interface NSObject (HSS)
 
